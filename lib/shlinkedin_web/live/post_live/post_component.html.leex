@@ -1,0 +1,104 @@
+<div id="post-<%= @post.id %>" class="bg-white max-w-lg mx-auto rounded-lg p-5 my-2 <%= if @deleted, do: "hidden" %>">
+
+    <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
+
+
+
+        <div class="ml-4 mt-4">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <span class="inline-block relative">
+                        <img class="h-10 w-10 rounded-full"
+                            src="https://source.unsplash.com/collection/1340430/256x265?<%= @post.id %>" alt="">
+                        <span
+                            class="absolute bottom-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-green-400"></span>
+                    </span>
+                </div>
+                <div class="ml-4 hover:cursor-pointer">
+                    <a href="#">
+                        <h3 class="text-lg leading-6 font-bold text-gray-900 hover:underline">
+                            Stefan Jobs
+                        </h3>
+                    </a>
+
+                    <p class="text-xs text-gray-500">
+                        Inventor of the Roomba
+                    </p>
+
+                </div>
+            </div>
+        </div>
+        <div class="ml-4 mt-4 flex-shrink-0 flex">
+
+
+            <button type="button"
+                class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <!-- Heroicon name: user-add -->
+                <svg class="-ml-1 mr-2 h-4 w-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z">
+                    </path>
+                </svg>
+                <span>
+                    Shlink
+                </span>
+            </button>
+
+
+
+        </div>
+
+    </div>
+
+
+    <div class="mt-4">
+        <p><%= @post.body %></p>
+    </div>
+
+    <div class="mt-4 flex justify-between">
+        <div>
+            <span class="text-xs"><%= @post.likes_count %></span>
+            <span class="text-xs"><%= @post.reposts_count %></span>
+        </div>
+        <div>
+            <p class="text-xs text-gray-500">
+                <a href="#">
+                    @<%= @post.username %> • 5min ago •
+                    <%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @post.id, data: [confirm: "Are you sure?"], class: "hover:underline"%>
+
+                </a>
+            </p>
+
+        </div>
+
+    </div>
+
+    <div>
+        <hr class="p-2">
+        <button type="button" phx-click="like" phx-target="<%= @myself %>"
+            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <!-- Heroicon name: mail -->
+            <svg class="-ml-1 mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z">
+                </path>
+            </svg>
+            Like
+        </button>
+        <button type="button" phx-click="repost" phx-target="<%= @myself %>"
+            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <svg class="-ml-1 mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
+                    clip-rule="evenodd"></path>
+            </svg>
+            Comment
+        </button>
+
+    </div>
+
+
+
+
+</div>
