@@ -5,85 +5,76 @@
   phx_submit: "save" %>
 
 
-<div class="ml-4 mt-4">
-
-  <div class="mb-6">
-    <h3 class="text-lg leading-6 font-medium text-gray-900">
-      Create a Persona
-    </h3>
-
-
-
-
-
-  </div>
-
-  <div class="mt-6 grid grid-cols-12 gap-y-3 gap-x-2 md:grid-cols-12">
-
-    <div class="col-span-3 md:col-span-2">
-      <label for="photo" class="block text-sm font-medium text-gray-700">
-        Photo
-      </label>
-      <div class="mt-2 flex items-center">
-        <img class="h-10 w-10 rounded-full" src="https://source.unsplash.com/collection/1340430/256x265?<%= @post.id %>"
-          alt="">
-      </div>
-    </div>
-
-
-    <div class="col-span-8 md:col-span-3">
-      <label for="photo" class="block text-sm font-medium text-gray-700">
-        Name
-      </label>
-      <div class="mt-2">
-        <%= text_input f, :post_name, class: "text-sm bg-white py-2 px-3 block w-full border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", placeholder: "Who am I?" %>
-      </div>
-    </div>
-
-
-
-    <div class="col-span-12 md:col-span-3">
-      <label for="photo" class="block text-sm font-medium text-gray-700">
-        Title
-      </label>
-      <div class="mt-2">
-        <%= text_input f, :post_title, class: "text-sm bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", placeholder: "What am I?" %>
-
-      </div>
-      <%= error_tag f, :post_title %>
-    </div>
-
-
-
-  </div>
-
-
-
-  <hr class="my-6">
-  <div class="my-2">
-    <h3 class="text-lg leading-6 font-medium text-gray-900">
-      Post
-    </h3>
-  </div>
-
-  <div>
-    <p class="mt-2 text-sm text-gray-500">What do you want to say?</p>
-    <div class="mt-1">
-      <%= textarea f, :body,  class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-100", rows: 5 %>
-    </div>
-    <%= error_tag f, :body %>
-  </div>
-
+<div class="bg-white px-4 py-4 border-b border-gray-200 sm:px-6 rounded-t-lg">
+  <h3 class="text-lg leading-6 font-medium text-gray-900">
+    Create a post
+  </h3>
 </div>
 
 
 
+<div class="ml-4 mt-1 p-5">
+
+  <div class="flex items-center">
+    <div class="flex-shrink-0">
+      <span class="inline-block relative">
+        <img class="h-10 w-10 rounded-full" src="https://source.unsplash.com/collection/1340430/256x265?<%= @post.id %>"
+          alt="">
+        <span class="absolute bottom-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-green-400"></span>
+      </span>
+    </div>
+    <div class="ml-4 hover:cursor-pointer">
+      <a href="#">
+        <h3 class="text-lg leading-6 font-bold text-gray-900 hover:underline">
+          Stefan Jobs
+        </h3>
+      </a>
+
+      <p class="text-xs text-gray-500">
+        Inventor of the Roomba
+      </p>
+
+    </div>
+  </div>
 
 
-<div class="pt-5">
+  <div class="my-4">
+    <%= textarea f, :body,  class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-100 p-3", rows: 5, placeholder: "What do you want to talk about?" %>
+    <%= error_tag f, :body %>
+  </div>
+
+  <button type="button"
+    class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+    Sponsor post
+  </button>
+  <button type="button"
+    class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+    Celebrate myself
+  </button>
+  <button type="button"
+    class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-red-700 bg-red-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+    Crisis Mode
+  </button>
+
+
+
+
   <div class="flex justify-end">
 
     <%= submit "Post", class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500", phx_disable_with: "Saving..." %>
   </div>
+
+
+
+
 </div>
+
+
+
+
+
+
+
+
+
 </form>
