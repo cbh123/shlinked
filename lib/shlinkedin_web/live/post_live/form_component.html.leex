@@ -5,20 +5,22 @@
   phx_submit: "save" %>
 
 
-
 <div class="ml-4 mt-4">
 
   <div class="mb-6">
     <h3 class="text-lg leading-6 font-medium text-gray-900">
       Create a Persona
     </h3>
-    <p class="mt-1 text-sm text-gray-500">
-      Who (or what) do you want to post as?
-    </p>
+
+
+
+
+
   </div>
 
-  <div class="mt-6 grid grid-cols-2 gap-y-3 gap-x-2 md:grid-cols-12">
-    <div class="md:col-span-2">
+  <div class="mt-6 grid grid-cols-12 gap-y-3 gap-x-2 md:grid-cols-12">
+
+    <div class="col-span-3 md:col-span-2">
       <label for="photo" class="block text-sm font-medium text-gray-700">
         Photo
       </label>
@@ -29,12 +31,10 @@
     </div>
 
 
-    <div class="md:col-span-3">
-
+    <div class="col-span-8 md:col-span-3">
       <label for="photo" class="block text-sm font-medium text-gray-700">
         Name
       </label>
-
       <div class="mt-2">
         <%= text_input f, :post_name, class: "text-sm bg-white py-2 px-3 block w-full border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", placeholder: "Who am I?" %>
       </div>
@@ -42,27 +42,16 @@
 
 
 
-    <div class="md:col-span-3">
+    <div class="col-span-12 md:col-span-3">
       <label for="photo" class="block text-sm font-medium text-gray-700">
         Title
       </label>
-      <div class="mt-2 flex items-center">
+      <div class="mt-2">
         <%= text_input f, :post_title, class: "text-sm bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", placeholder: "What am I?" %>
-        <button type="button"
-          class="ml-2 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-          <svg class="h-4 w-4 text-gray-400 hover:text-gray-500 rounded " fill="currentColor" viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd"
-              d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
-              clip-rule="evenodd"></path>
-          </svg>
-        </button>
+
       </div>
       <%= error_tag f, :post_title %>
-
-
     </div>
-
 
 
 
@@ -71,37 +60,25 @@
 
 
   <hr class="my-6">
-  <div class="my-6">
+  <div class="my-2">
     <h3 class="text-lg leading-6 font-medium text-gray-900">
       Post
     </h3>
   </div>
 
-  <div class="sm:col-span-6">
+  <div>
+    <p class="mt-2 text-sm text-gray-500">What do you want to say?</p>
     <div class="mt-1">
-      <textarea id="about" rows="3"
-        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-100"></textarea>
+      <%= textarea f, :body,  class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-100", rows: 5 %>
     </div>
-    <p class="mt-2 text-sm text-gray-500">Write a few sentences about yourself.</p>
+    <%= error_tag f, :body %>
   </div>
 
-
-
-</div>
-
-<div>
-
-
 </div>
 
 
 
-<br>
 
-
-<%= label f, :body %>
-<%= textarea f, :body %>
-<%= error_tag f, :body %>
 
 <div class="pt-5">
   <div class="flex justify-end">
