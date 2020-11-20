@@ -5,8 +5,18 @@ defmodule ShlinkedinWeb.PostLiveTest do
 
   alias Shlinkedin.Timeline
 
-  @create_attrs %{body: "some body", likes_count: 42, reposts_count: 42, username: "some username"}
-  @update_attrs %{body: "some updated body", likes_count: 43, reposts_count: 43, username: "some updated username"}
+  @create_attrs %{
+    body: "some body",
+    likes_count: 42,
+    reposts_count: 42,
+    username: "some username"
+  }
+  @update_attrs %{
+    body: "some updated body",
+    likes_count: 43,
+    reposts_count: 43,
+    username: "some updated username"
+  }
   @invalid_attrs %{body: nil, likes_count: nil, reposts_count: nil, username: nil}
 
   defp fixture(:post) do
