@@ -1,0 +1,74 @@
+<%= f = form_for @changeset, "#",
+  id: "comment-form",
+  phx_target: @myself,
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+
+<div class="bg-white px-4 py-4 border-b border-gray-200 sm:px-6 rounded-t-lg">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">
+        <%= @title %>
+    </h3>
+</div>
+
+<div class="ml-4 mt-1 p-5">
+    <div class="flex justify-between">
+        <div class="flex items-center">
+            <div class="flex-shrink-0">
+                <span class="inline-block relative">
+                    <img class="h-10 w-10 rounded-full" src="https://source.unsplash.com/collection/1340430/256x265?"
+                        alt="">
+                    <span
+                        class="absolute bottom-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-green-400"></span>
+                </span>
+            </div>
+            <div class="ml-4 hover:cursor-pointer mb-2">
+                <a href="#">
+                    <h3 class="text-lg leading-6 font-bold text-gray-900 hover:underline">
+                        Stefan Jobs
+                    </h3>
+                </a>
+                <p class="text-xs text-gray-500">
+                    Inventor of the Roomba
+                </p>
+            </div>
+        </div>
+        <div class="flex w-48 h-12 bg-gray-100 rounded-lg p-2 hidden " id="sponsorship">
+            <img class="h-8 w-8 rounded" src="https://source.unsplash.com/2PODhmrvLik/256x265" alt="">
+            <p class="text-xs pl-3" id="ad-copy"></p>
+        </div>
+    </div>
+
+
+
+
+    <div class="my-4">
+        <%= textarea f, :body, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-100 p-3", rows: 5, placeholder: "Add a comment..." %>
+    </div>
+    <p class="mt-4 text-xs"><%= error_tag f, :body %></p>
+
+
+    <button type="button" id="sponsor-btn" phx-hook="Sponsor"
+        class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        Auto-complete</button>
+
+
+
+    <div class="flex justify-end">
+        <%= submit "Comment", class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
+    </div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+</form>

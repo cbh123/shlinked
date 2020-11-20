@@ -1,13 +1,14 @@
 defmodule Shlinkedin.Timeline.Post do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Shlinkedin.Timeline.Comment
 
   schema "posts" do
     field :body, :string
     field :likes_count, :integer, default: 0
     field :reposts_count, :integer, default: 0
     field :username, :string, default: "charlie"
-    has_many :comments, Timeline.Comment
+    has_many :comments, Comment
 
     timestamps()
   end

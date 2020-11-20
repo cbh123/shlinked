@@ -79,6 +79,19 @@ defmodule Shlinkedin.Timeline do
     |> broadcast(:post_created)
   end
 
+  def create_comment(%Post{id: post_id}, attrs \\ %{}) do
+    %Comment{post_id: post_id}
+    |> Comment.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def list_comments(%Post{} = post) do
+    Repo.all(
+      from c in Ecto.assoc(post, :comments),
+        order_by: [desc: c.inserted_at]
+    )
+  end
+
   @doc """
   Updates a post.
 
@@ -126,6 +139,10 @@ defmodule Shlinkedin.Timeline do
   """
   def change_post(%Post{} = post, attrs \\ %{}) do
     Post.changeset(post, attrs)
+  end
+
+  def change_comment(%Comment{} = comment, attrs \\ %{}) do
+    Comment.changeset(comment, attrs)
   end
 
   def subscribe do

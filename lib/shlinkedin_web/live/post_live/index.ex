@@ -3,6 +3,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
 
   alias Shlinkedin.Timeline
   alias Shlinkedin.Timeline.Post
+  alias Shlinkedin.Timeline.Comment
 
   @impl true
   def mount(_params, _session, socket) do
@@ -25,6 +26,13 @@ defmodule ShlinkedinWeb.PostLive.Index do
     socket
     |> assign(:page_title, "New Post")
     |> assign(:post, %Post{})
+  end
+
+  defp apply_action(socket, :new_comment, %{"id" => id}) do
+    socket
+    |> assign(:page_title, "Comment")
+    |> assign(:comment, %Comment{})
+    |> assign(:post, Timeline.get_post!(id))
   end
 
   defp apply_action(socket, :index, _params) do

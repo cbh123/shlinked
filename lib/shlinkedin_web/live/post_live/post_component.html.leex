@@ -1,9 +1,6 @@
 <div id="post-<%= @post.id %>" class="bg-white max-w-lg mx-auto rounded-lg p-5 my-2 <%= if @deleted, do: "hidden" %>">
 
     <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
-
-
-
         <div class="ml-4 mt-4">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
@@ -68,6 +65,7 @@
         </div>
     </div>
 
+    <%# Like / Comment Buttons %>
     <div>
         <hr class="p-2">
         <button type="button" phx-click="like" phx-target="<%= @myself %>"
@@ -80,7 +78,10 @@
             </svg>
             Like
         </button>
-        <button type="button" phx-click="repost" phx-target="<%= @myself %>"
+
+        <%= live_patch to: Routes.post_index_path(@socket, :new_comment, @post.id) do %>
+
+        <button type="button" phx-target="<%= @myself %>"
             class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
             <svg class="-ml-1 mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
@@ -89,10 +90,15 @@
             </svg>
             Comment
         </button>
-
+        <% end %>
     </div>
 
+    <div class="mt-2">
+        <label for="comment" class="sr-only">Comment</label>
+        <input type="text" id="email"
+            class="shadow-sm focus:border-indigo-500 block w-full sm:text-sm b-1 bg-gray-100 px-4 py-2 b-2 border-blue-600 rounded-full"
+            placeholder="Add a comment...">
 
 
 
-</div>
+    </div>

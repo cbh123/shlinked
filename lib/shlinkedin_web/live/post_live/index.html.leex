@@ -16,16 +16,9 @@
 
 <div id="posts" class="" phx-update="prepend">
   <%= for post <- @posts do %>
-
   <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent, id: post.id, post: post, deleted: post.__meta__.state == :deleted  %>
-
   <% end %>
 </div>
-
-
-
-
-
 
 
 
@@ -35,5 +28,16 @@
     title: @page_title,
     action: @live_action,
     post: @post,
+    return_to: Routes.post_index_path(@socket, :index) %>
+<% end %>
+
+
+<%= if @live_action in [:new_comment] do %>
+<%= live_modal @socket, ShlinkedinWeb.PostLive.CommentComponent,
+    id: :new_comment,
+    title: @page_title,
+    post: @post,
+    action: @live_action,
+    comment: @comment,
     return_to: Routes.post_index_path(@socket, :index) %>
 <% end %>
