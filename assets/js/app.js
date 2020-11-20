@@ -46,10 +46,10 @@ Hooks.Celebrate = {
       } else if (c.value == 3) {
         post.value = post.value.replace(/ /g, " 👏 ");
         post.value = "I AM YOUR GOD NOW \n\n" + post.value;
-        c.textContent = "nvm";
+        c.textContent = "nevermind";
         c.value = 4;
       } else if (c.value == 4) {
-        c.textContent = "Celebrate myself";
+        c.textContent = "Celebrate";
         post.value = "";
         c.value = 1;
       }
@@ -57,18 +57,27 @@ Hooks.Celebrate = {
   }
 };
 
+const ads = [
+  "I love Jamba Juice! #JamOutWithJamba",
+  "Jamba Juice. There's nothing like it.",
+  "Celebrate the Flavors of Life. Jamba Juice",
+  "I love Jamba! Blend in the Good®"
+];
+
 Hooks.Sponsor = {
   mounted() {
     this.el.addEventListener("click", e => {
       let ad = document.getElementById("sponsorship");
       let btn = document.getElementById("sponsor-btn");
+      let adCopy = document.getElementById("ad-copy");
 
       if (ad.classList.contains("hidden")) {
+        adCopy.textContent = ads[Math.floor(Math.random() * ads.length)];
         ad.classList.remove("hidden");
         btn.textContent = "Unsponsor";
       } else {
         ad.classList.add("hidden");
-        btn.textContent = "Sponsor post";
+        btn.textContent = "Sponsor";
       }
     });
   }

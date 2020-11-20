@@ -17,9 +17,7 @@ defmodule ShlinkedinWeb.Router do
   scope "/", ShlinkedinWeb do
     pipe_through :browser
 
-    live "/", PageLive, :index
-
-    live "/posts", PostLive.Index, :index
+    live "/", PostLive.Index, :index
     live "/posts/new", PostLive.Index, :new
     live "/posts/:id/edit", PostLive.Index, :edit
 

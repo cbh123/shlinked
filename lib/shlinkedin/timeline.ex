@@ -7,6 +7,7 @@ defmodule Shlinkedin.Timeline do
   alias Shlinkedin.Repo
 
   alias Shlinkedin.Timeline.Post
+  alias Shlinkedin.Timeline.Comment
 
   @doc """
   Returns the list of posts.
