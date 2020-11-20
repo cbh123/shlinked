@@ -8,7 +8,7 @@ defmodule Shlinkedin.Timeline.Post do
     field :likes_count, :integer, default: 0
     field :reposts_count, :integer, default: 0
     field :username, :string, default: "charlie"
-    has_many :comments, Comment
+    has_many :comments, Comment, on_delete: :nilify_all
 
     timestamps()
   end

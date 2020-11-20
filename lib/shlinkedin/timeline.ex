@@ -19,7 +19,7 @@ defmodule Shlinkedin.Timeline do
 
   """
   def list_posts do
-    Repo.all(from p in Post, order_by: [desc: p.id])
+    Repo.all(from p in Post, order_by: [desc: p.id], preload: [:comments])
   end
 
   def inc_likes(%Post{id: id}) do

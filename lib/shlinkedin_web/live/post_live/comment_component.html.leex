@@ -5,11 +5,46 @@
   phx_submit: "save" %>
 
 
+
+
 <div class="bg-white px-4 py-4 border-b border-gray-200 sm:px-6 rounded-t-lg">
     <h3 class="text-lg leading-6 font-medium text-gray-900">
         <%= @title %>
     </h3>
+
 </div>
+
+<%= if @action == :show_comments do %>
+<div class="p-5 max-h-96 overflow-y-scroll">
+    <%= for comment <- @comments do %>
+    <div class="my-1">
+        <div class="flex">
+            <span class="inline-block cursor-pointer">
+                <img class="h-6 w-6 mt-1 rounded-full"
+                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    alt="">
+            </span>
+            <div class="bg-gray-100 ml-2 py-2 px-4 rounded-lg w-11/12">
+                <div class="flex justify-between">
+                    <p class="bold text-xs font-semibold hover:underline cursor-pointer"><%= comment.author %> •
+                        <span class="text-gray-500">Inventor of
+                            Roomba</span><span
+                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                            Author
+                        </span>
+                    </p>
+                    <p class="text-xs text-gray-500">5d</p>
+                </div>
+                <p class="text-xs mt-1">
+                    <%= comment.body %>
+                </p>
+            </div>
+        </div>
+    </div>
+    <% end %>
+    <hr class="mt-6">
+</div>
+<% end %>
 
 <div class="ml-4 mt-1 p-5">
     <div class="flex justify-between">
@@ -43,7 +78,7 @@
 
 
     <div class="my-4">
-        <%= textarea f, :body, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-100 p-3", rows: 5, placeholder: "Add a comment..." %>
+        <%= textarea f, :body, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-100 p-3", rows: 2, placeholder: "Add a comment..." %>
     </div>
     <p class="mt-4 text-xs"><%= error_tag f, :body %></p>
 

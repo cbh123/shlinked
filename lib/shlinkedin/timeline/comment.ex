@@ -17,5 +17,6 @@ defmodule Shlinkedin.Timeline.Comment do
     comment
     |> cast(attrs, [:body])
     |> validate_required([:body])
+    |> validate_length(:body, max: 240)
   end
 end

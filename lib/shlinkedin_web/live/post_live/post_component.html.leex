@@ -1,4 +1,5 @@
-<div id="post-<%= @post.id %>" class="bg-white max-w-lg mx-auto rounded-lg p-5 my-2 <%= if @deleted, do: "hidden" %>">
+<div id="post-<%= @post.id %>"
+    class="bg-white max-w-lg mx-auto rounded-lg p-5 my-2 pb-2 <%= if @deleted, do: "hidden" %>">
 
     <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
         <div class="ml-4 mt-4">
@@ -93,11 +94,51 @@
         <% end %>
     </div>
 
+
+
     <div class="mt-2">
-        <label for="comment" class="sr-only">Comment</label>
-        <input type="text" id="email"
-            class="shadow-sm focus:border-indigo-500 block w-full sm:text-sm b-1 bg-gray-100 px-4 py-2 b-2 border-blue-600 rounded-full"
-            placeholder="Add a comment...">
+        <%= for comment <- @post.comments |> Enum.take(1) do %>
+        <div class="my-1">
+            <div class="flex">
+                <span class="inline-block cursor-pointer">
+                    <img class="h-6 w-6 mt-1 rounded-full"
+                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        alt="">
+                </span>
+                <div class="bg-gray-100 ml-2 py-2 px-4 rounded-lg w-11/12">
+                    <div class="flex justify-between">
+                        <p class="bold text-xs font-semibold hover:underline cursor-pointer"><%= comment.author %> •
+                            <span class="text-gray-500">Inventor of
+                                Roomba</span><span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                Author
+                            </span>
+                        </p>
+                        <p class="text-xs text-gray-500">5d</p>
+                    </div>
+                    <p class="text-xs mt-1 truncate">
+                        <%= comment.body %>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <% end %>
+
+        <%= if length(@post.comments) == 0 do %>
+        <%= live_patch to: Routes.post_index_path(@socket, :new_comment, @post.id) do %>
+        <button class="text-gray-600 font-semibold mb-0 text-xs hover:bg-gray-100 px-2 py-1 rounded mt-2">Be the first
+            to comment on this!</button>
+        <% end %>
+        <% end %>
+
+
+        <%= if length(@post.comments) > 1 do %>
+        <%= live_patch to: Routes.post_index_path(@socket, :show_comments, @post.id) do %>
+        <button class="text-gray-600 font-semibold mb-0 text-xs hover:bg-gray-100 px-2 py-1 rounded mt-2">Show
+            <%= length(@post.comments) - 1 %> more
+            comment<%= if length(@post.comments) > 2, do: "s" %></button>
+        <% end %>
+        <% end %>
 
 
 

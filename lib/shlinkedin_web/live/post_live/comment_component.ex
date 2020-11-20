@@ -28,20 +28,7 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
     save_comment(socket, socket.assigns.action, comment_params)
   end
 
-  defp save_comment(socket, :edit, comment_params) do
-    case Timeline.update_comment(socket.assigns.comment, comment_params) do
-      {:ok, _comment} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, "comment updated successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, :changeset, changeset)}
-    end
-  end
-
-  defp save_comment(socket, :new_comment, comment_params) do
+  defp save_comment(socket, _, comment_params) do
     case Timeline.create_comment(socket.assigns.post, comment_params) do
       {:ok, _comment} ->
         {:noreply,

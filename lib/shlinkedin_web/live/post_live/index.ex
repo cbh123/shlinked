@@ -31,8 +31,19 @@ defmodule ShlinkedinWeb.PostLive.Index do
   defp apply_action(socket, :new_comment, %{"id" => id}) do
     socket
     |> assign(:page_title, "Comment")
+    |> assign(:comments, [])
     |> assign(:comment, %Comment{})
     |> assign(:post, Timeline.get_post!(id))
+  end
+
+  defp apply_action(socket, :show_comments, %{"id" => id}) do
+    post = Timeline.get_post!(id)
+
+    socket
+    |> assign(:page_title, "Show Comments")
+    |> assign(:comments, Timeline.list_comments(post))
+    |> assign(:comment, %Comment{})
+    |> assign(:post, post)
   end
 
   defp apply_action(socket, :index, _params) do
