@@ -23,8 +23,7 @@ Hooks.Celebrate = {
   mounted() {
     this.el.addEventListener("click", e => {
       const post = document.getElementById("post-form_body");
-      let c = document.getElementById("celebrate");
-      console.log(c.value);
+      let c = document.getElementById("celebrate-btn");
 
       // If not clicked
       if (c.value == 0) {
@@ -34,12 +33,10 @@ Hooks.Celebrate = {
         post.value = " " + post.value.toUpperCase() + " ";
         c.textContent = "Celebrate even more";
         c.value = 1;
-
         // Clicked once
       } else if (c.value == 1) {
         c.textContent = "EVEN MORE!!!";
         post.value = post.value.replace(/ /g, " 👏 ");
-
         c.value = 2;
         // Clicked twice
       } else if (c.value == 2) {
@@ -49,11 +46,29 @@ Hooks.Celebrate = {
       } else if (c.value == 3) {
         post.value = post.value.replace(/ /g, " 👏 ");
         post.value = "I AM YOUR GOD NOW \n\n" + post.value;
+        c.textContent = "nvm";
         c.value = 4;
       } else if (c.value == 4) {
         c.textContent = "Celebrate myself";
         post.value = "";
         c.value = 1;
+      }
+    });
+  }
+};
+
+Hooks.Sponsor = {
+  mounted() {
+    this.el.addEventListener("click", e => {
+      let ad = document.getElementById("sponsorship");
+      let btn = document.getElementById("sponsor-btn");
+
+      if (ad.classList.contains("hidden")) {
+        ad.classList.remove("hidden");
+        btn.textContent = "Unsponsor";
+      } else {
+        ad.classList.add("hidden");
+        btn.textContent = "Sponsor post";
       }
     });
   }
