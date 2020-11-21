@@ -30,7 +30,7 @@ defmodule Shlinkedin.Timeline do
       )
       |> Repo.update_all(inc: [likes_count: 1])
 
-    broadcast({:ok, post}, :post_updated)
+    broadcast({:ok, post |> Repo.preload(:comments)}, :post_updated)
   end
 
   def repost(%Post{id: id}) do
