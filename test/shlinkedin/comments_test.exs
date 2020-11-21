@@ -1,12 +1,12 @@
 defmodule Shlinkedin.CommentsTest do
   use Shlinkedin.DataCase
 
-  alias Shlinkedin.Comments
+  alias Shlinkedin.Timeline
 
   describe "comments" do
-    alias Shlinkedin.Comments.Comment
+    alias Shlinkedin.Timeline.Comment
 
-    @valid_attrs %{author: "some author", body: "some body", likes: 42}
+    @valid_attrs %{author: "some author", body: "some body"}
     @update_attrs %{author: "some updated author", body: "some updated body", likes: 43}
     @invalid_attrs %{author: nil, body: nil, likes: nil}
 
@@ -38,20 +38,6 @@ defmodule Shlinkedin.CommentsTest do
 
     test "create_comment/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Comments.create_comment(@invalid_attrs)
-    end
-
-    test "update_comment/2 with valid data updates the comment" do
-      comment = comment_fixture()
-      assert {:ok, %Comment{} = comment} = Comments.update_comment(comment, @update_attrs)
-      assert comment.author == "some updated author"
-      assert comment.body == "some updated body"
-      assert comment.likes == 43
-    end
-
-    test "update_comment/2 with invalid data returns error changeset" do
-      comment = comment_fixture()
-      assert {:error, %Ecto.Changeset{}} = Comments.update_comment(comment, @invalid_attrs)
-      assert comment == Comments.get_comment!(comment.id)
     end
 
     test "delete_comment/1 deletes the comment" do
