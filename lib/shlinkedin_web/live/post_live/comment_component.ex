@@ -2,7 +2,6 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
   use ShlinkedinWeb, :live_component
 
   alias Shlinkedin.Timeline
-  alias Shlinkedin.Timeline.Comment
 
   @impl true
   def update(%{comment: comment} = assigns, socket) do

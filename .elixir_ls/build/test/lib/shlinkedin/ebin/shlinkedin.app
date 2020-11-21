@@ -12,7 +12,6 @@
                         'Elixir.Shlinkedin.Timeline.Post',
                         'Elixir.ShlinkedinWeb',
                         'Elixir.ShlinkedinWeb.ChannelCase',
-                        'Elixir.ShlinkedinWeb.CommentLive.Index',
                         'Elixir.ShlinkedinWeb.ConnCase',
                         'Elixir.ShlinkedinWeb.Endpoint',
                         'Elixir.ShlinkedinWeb.ErrorHelpers',
