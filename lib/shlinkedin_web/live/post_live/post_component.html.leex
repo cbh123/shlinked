@@ -1,26 +1,30 @@
 <div id="post-<%= @post.id %>"
-    class="bg-white max-w-lg mx-auto rounded-lg p-5 my-2 pb-2 <%= if @deleted, do: "hidden" %>">
+    class="bg-white w-11/12 md:max-w-lg mx-auto rounded-lg p-5 my-2 pb-2 <%= if @deleted, do: "hidden" %>">
 
     <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
-        <div class="ml-4 mt-4">
+
+        <div class="ml-4 mt-3">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
                     <span class="inline-block relative">
-                        <img class="h-10 w-10 rounded-full"
+                        <img class="h-8 w-8 sm:h-10 sm:w-10 rounded-full"
                             src="https://source.unsplash.com/collection/1340430/256x265?<%= @post.id %>" alt="">
                         <span
                             class="absolute bottom-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-green-400"></span>
                     </span>
                 </div>
-                <div class="ml-4 hover:cursor-pointer">
-                    <a href="#">
-                        <h3 class="text-lg leading-6 font-bold text-gray-900 hover:underline">
-                            Stefan Jobs
-                        </h3>
-                    </a>
+                <div class="ml-3 sm:ml-4 cursor-pointer">
 
+                    <span class="text-sm font-semibold text-gray-900 hover:underline">
+                        Stefan Jobs
+                    </span>
+                    <span class="text-gray-500 text-xs font-normal">• 5th</span>
                     <p class="text-xs text-gray-500">
                         Inventor of the Roomba
+                    </p>
+
+                    <p class="text-xs text-gray-500">
+                        1mo • <a class="hover:underline cursor-pointer">Business Jab</a>
                     </p>
 
                 </div>
@@ -28,8 +32,6 @@
         </div>
 
         <div class="ml-4 mt-4 flex-shrink-0 flex">
-
-
             <button type="button"
                 class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 <!-- Heroicon name: user-add -->
@@ -51,13 +53,29 @@
         <p class="whitespace-pre"><%= @post.body %></p>
     </div>
 
-    <div class="mt-4 flex justify-between">
-        <div>
-            <span class="text-xs"><%= @post.likes_count %></span>
-            <span class="text-xs"><%= @post.reposts_count %></span>
+    <div class="mt-6 flex justify-between pb-1 text-xs text-gray-500">
+        <div class="inline-flex items-center pl-2">
+
+
+            <svg class="-ml-1 mr-1 h-3 w-3 text-blue-500" fill="currentColor" viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z"
+                    clip-rule="evenodd"></path>
+                <path
+                    d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z">
+                </path>
+            </svg>
+
+            <p class="text-xs">
+                <%= @post.likes_count %></p>
+
+            <span class="px-1">•</span>
+            <p class="text-xs">
+                <%= length(@post.comments) %> Comments</p>
         </div>
         <div>
-            <p class="text-xs text-gray-500">
+            <p>
                 <a href="#">
                     @<%= @post.username %> • 5min ago •
                     <%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @post.id, data: [confirm: "Are you sure?"], class: "hover:underline"%>
@@ -68,30 +86,36 @@
 
     <%# Like / Comment Buttons %>
     <div>
-        <hr class="p-2">
-        <button type="button" phx-click="like" phx-target="<%= @myself %>"
-            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-            <!-- Heroicon name: mail -->
-            <svg class="-ml-1 mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z">
-                </path>
-            </svg>
-            Like
-        </button>
+        <hr class="pb-1">
+        <div class="py-1">
+            <button type="button" phx-click="like" phx-target="<%= @myself %>"
+                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <!-- Heroicon name: like -->
+                <svg class="-ml-1 mr-2 h-4 w-4 sm:h-5 sm:w-5" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z"
+                        clip-rule="evenodd"></path>
+                    <path
+                        d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z">
+                    </path>
+                </svg>
+                Deal
+            </button>
 
-        <%= live_patch to: Routes.post_index_path(@socket, :new_comment, @post.id) do %>
-
-        <button type="button" phx-target="<%= @myself %>"
-            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-            <svg class="-ml-1 mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                    d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
-                    clip-rule="evenodd"></path>
-            </svg>
-            Comment
-        </button>
-        <% end %>
+            <%= live_patch to: Routes.post_index_path(@socket, :new_comment, @post.id) do %>
+            <button type="button" phx-target="<%= @myself %>"
+                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <svg class="-ml-1 mr-2  h-4 w-4 sm:h-5 sm:w-5 fill=" currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
+                        clip-rule="evenodd"></path>
+                </svg>
+                Comment
+            </button>
+            <% end %>
+        </div>
     </div>
 
 
