@@ -1,6 +1,6 @@
 <div id="post-<%= @post.id %>"
     class="bg-white w-11/12 shadow-md md:max-w-lg mx-auto rounded-lg p-4 my-2 pb-2 <%= if @deleted, do: "hidden" %>">
-
+    <%= if @deleted != true do %>
     <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
 
         <div class="ml-4 mt-3">
@@ -72,7 +72,7 @@
 
 
 
-            <%= if length(@post.comments) > 0 do %>
+            <%= if  length(@post.comments) > 0 do %>
             <span class="px-1">•</span>
             <%= live_patch to: Routes.post_index_path(@socket, :show_comments, @post.id) do %>
             <p class="text-xs hover:underline">
@@ -172,7 +172,6 @@
             comment<%= if length(@post.comments) > 2, do: "s" %></button>
         <% end %>
         <% end %>
-
-
-
     </div>
+    <%end %>
+</div>
