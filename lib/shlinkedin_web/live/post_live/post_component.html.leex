@@ -1,5 +1,5 @@
 <div id="post-<%= @post.id %>"
-    class="bg-white w-11/12 md:max-w-lg mx-auto rounded-lg p-5 my-2 pb-2 <%= if @deleted, do: "hidden" %>">
+    class="bg-white w-11/12 shadow-md md:max-w-lg mx-auto rounded-lg p-4 my-2 pb-2 <%= if @deleted, do: "hidden" %>">
 
     <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
 
@@ -7,7 +7,7 @@
             <div class="flex items-center">
                 <div class="flex-shrink-0">
                     <span class="inline-block relative">
-                        <img class="h-8 w-8 sm:h-10 sm:w-10 rounded-full"
+                        <img class="h-10 w-10 sm:h-12 sm:w-12 rounded-full"
                             src="https://source.unsplash.com/collection/1340430/256x265?<%= @post.id %>" alt="">
                         <span
                             class="absolute bottom-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-green-400"></span>
@@ -49,7 +49,7 @@
     </div>
 
 
-    <div class="mt-4">
+    <div class="mt-2">
         <p class="whitespace-pre"><%= @post.body %></p>
     </div>
 
@@ -70,9 +70,16 @@
             <p class="text-xs">
                 <%= @post.likes_count %></p>
 
+
+
+            <%= if length(@post.comments) > 0 do %>
             <span class="px-1">•</span>
-            <p class="text-xs">
-                <%= length(@post.comments) %> Comments</p>
+            <%= live_patch to: Routes.post_index_path(@socket, :show_comments, @post.id) do %>
+            <p class="text-xs hover:underline">
+                <%= length(@post.comments) %>
+                Comment<%= if length(@post.comments) > 1, do: "s" %></p>
+            <% end %>
+            <% end %>
         </div>
         <div>
             <p>
@@ -120,7 +127,7 @@
 
 
 
-    <div class="mt-2">
+    <div class="mt-2 hidden sm:block">
         <%= for comment <- @post.comments |> Enum.take(1) do %>
         <div class="my-1">
             <div class="flex">
