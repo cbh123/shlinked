@@ -60,6 +60,8 @@ defmodule Shlinkedin.Timeline do
   """
   def get_post!(id), do: Repo.get!(Post, id)
 
+  def get_comment!(id), do: Repo.get!(Comment, id)
+
   @doc """
   Creates a post.
 
@@ -126,6 +128,10 @@ defmodule Shlinkedin.Timeline do
   def delete_post(%Post{} = post) do
     Repo.delete(post)
     |> broadcast(:post_deleted)
+  end
+
+  def delete_comment(%Comment{} = comment) do
+    Repo.delete(comment)
   end
 
   @doc """
