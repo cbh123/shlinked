@@ -1,6 +1,5 @@
 defmodule ShlinkedinWeb.PostLive.Show do
   use ShlinkedinWeb, :live_view
-
   alias Shlinkedin.Timeline
 
   @impl true

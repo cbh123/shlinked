@@ -2,7 +2,6 @@ defmodule Shlinkedin.Timeline do
   @moduledoc """
   The Timeline context.
   """
-
   import Ecto.Query, warn: false
   alias Shlinkedin.Repo
 
@@ -78,7 +77,6 @@ defmodule Shlinkedin.Timeline do
     %Post{}
     |> Post.changeset(attrs)
     |> Repo.insert()
-    |> broadcast(:post_created)
   end
 
   def create_comment(%Post{id: post_id}, attrs \\ %{}) do
