@@ -5,8 +5,10 @@ defmodule Shlinkedin.CommentsTest do
 
   describe "comments" do
     alias Shlinkedin.Timeline.Comment
+    alias Shlinkedin.Timeline.Post
 
     @valid_attrs %{author: "some author", body: "some body"}
+    @valid_post %{body: "hi!"}
     @update_attrs %{author: "some updated author", body: "some updated body", likes: 43}
     @invalid_attrs %{author: nil, body: nil, likes: nil}
 
@@ -25,8 +27,8 @@ defmodule Shlinkedin.CommentsTest do
     end
 
     test "create_comment/1 with valid data creates a comment" do
-      assert {:ok, %Comment{} = comment} = Timeline.create_comment(@valid_attrs)
-      assert comment.author == "some author"
+      assert {:ok, %Post{} = post} = Timeline.create_post(@valid_post)
+      assert {:ok, %Comment{} = comment} = Timeline.create_comment(post, @valid_attrs)
       assert comment.body == "some body"
       assert comment.likes == 42
     end
