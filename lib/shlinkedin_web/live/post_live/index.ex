@@ -6,9 +6,9 @@ defmodule ShlinkedinWeb.PostLive.Index do
   alias Shlinkedin.Timeline.Comment
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, session, socket) do
     if connected?(socket), do: Timeline.subscribe()
-    {:ok, assign(socket, posts: list_posts()), temporary_assigns: [posts: []]}
+    {:ok, assign(is_user(session, socket), posts: list_posts()), temporary_assigns: [posts: []]}
   end
 
   @impl true
@@ -22,7 +22,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
     |> assign(:post, Timeline.get_post!(id))
   end
 
-  defp apply_action(socket, :new, _params) do
+  defp apply_action(socket, :new, params) do
     socket
     |> assign(:page_title, "New Post")
     |> assign(:post, %Post{})

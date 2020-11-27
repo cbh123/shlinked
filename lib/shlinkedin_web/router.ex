@@ -60,7 +60,10 @@ defmodule ShlinkedinWeb.Router do
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
+    # view and show posts
+    live "/", PostLive.Index, :index
     live "/posts/new", PostLive.Index, :new
+    live "/posts/:id", PostLive.Show, :show
     live "/posts/:id/edit", PostLive.Index, :edit
     live "/posts/:id/new_comment", PostLive.Index, :new_comment
     live "/posts/:id/comments", PostLive.Index, :show_comments
@@ -69,10 +72,6 @@ defmodule ShlinkedinWeb.Router do
 
   scope "/", ShlinkedinWeb do
     pipe_through [:browser]
-
-    # view and show posts
-    live "/", PostLive.Index, :index
-    live "/posts/:id", PostLive.Show, :show
 
     # auth stuff
     delete "/users/log_out", UserSessionController, :delete
