@@ -8,7 +8,8 @@ defmodule Shlinkedin.Accounts.Profile do
     field :persona_name, :string
     field :persona_title, :string
     belongs_to :user, Shlinkedin.Accounts.User
-
+    has_many :posts, Shlinkedin.Timeline.Post
+    has_many :comments, Shlinkedin.Timeline.Comment
     timestamps()
   end
 

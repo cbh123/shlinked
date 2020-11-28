@@ -35,6 +35,7 @@
 
 <%= if @live_action in [:new, :edit] do %>
 <%= live_modal @socket, ShlinkedinWeb.PostLive.FormComponent,
+    profile: @profile,
     id: @post.id || :new,
     title: @page_title,
     action: @live_action,

@@ -14,10 +14,10 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
   end
 
   @impl true
-  def handle_event("validate", %{"post" => post_params}, socket) do
+  def handle_event("validate", params, socket) do
     changeset =
       socket.assigns.post
-      |> Timeline.change_post(post_params)
+      |> Timeline.change_post(params["post"])
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
@@ -28,7 +28,7 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
   end
 
   defp save_post(socket, :edit, post_params) do
-    case Timeline.update_post(socket.assigns.post, post_params) do
+    case Timeline.update_post(socket.assigns.profile, socket.assigns.post, post_params) do
       {:ok, _post} ->
         {:noreply,
          socket
@@ -37,11 +37,17 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
+
+      {:error, message} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, message)
+         |> push_redirect(to: socket.assigns.return_to)}
     end
   end
 
-  defp save_post(socket, :new, post_params) do
-    case Timeline.create_post(post_params) do
+  defp save_post(%{assigns: %{profile: profile}} = socket, :new, post_params) do
+    case Timeline.create_post(profile, post_params) do
       {:ok, _post} ->
         {:noreply,
          socket

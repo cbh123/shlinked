@@ -7,6 +7,7 @@ defmodule Shlinkedin.Timeline do
 
   alias Shlinkedin.Timeline.Post
   alias Shlinkedin.Timeline.Comment
+  alias Shlinkedin.Accounts.Profile
 
   @doc """
   Returns the list of posts.
@@ -73,8 +74,12 @@ defmodule Shlinkedin.Timeline do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_post(attrs \\ %{}) do
-    %Post{}
+  def create_post(%Profile{} = profile, attrs \\ %{}) do
+    %Post{
+      profile_id: profile.id,
+      post_name: profile.persona_name,
+      post_title: profile.persona_title
+    }
     |> Post.changeset(attrs)
     |> Repo.insert()
   end
@@ -104,11 +109,16 @@ defmodule Shlinkedin.Timeline do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_post(%Post{} = post, attrs) do
-    post
-    |> Post.changeset(attrs)
-    |> Repo.update()
-    |> broadcast(:post_updated)
+  def update_post(%Profile{} = profile, %Post{} = post, attrs) do
+    case profile.id == post.profile_id do
+      true ->
+        post
+        |> Post.changeset(attrs)
+        |> Repo.update()
+
+      false ->
+        {:error, "You can only edit your own posts!"}
+    end
   end
 
   @doc """
