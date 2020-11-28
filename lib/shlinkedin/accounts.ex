@@ -59,7 +59,9 @@ defmodule Shlinkedin.Accounts do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
-  def get_profile(id), do: Repo.get(Profile, id)
+  def get_profile(user_id) do
+    from(p in Profile, where: p.user_id == ^user_id, select: p) |> Repo.one()
+  end
 
   ## User registration
 

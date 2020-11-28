@@ -25,7 +25,11 @@ defmodule ShlinkedinWeb.LiveHelpers do
 
   def is_user(%{"user_token" => token}, socket) do
     current_user = Accounts.get_user_by_session_token(token)
-    assign(socket, current_user: current_user, profile: Accounts.get_profile(current_user.id))
+
+    case Accounts.get_profile(current_user.id) do
+      nil -> redirect(socket, to: "/profile/new")
+      profile -> assign(socket, current_user: current_user, profile: profile)
+    end
   end
 
   def is_user(_, socket) do

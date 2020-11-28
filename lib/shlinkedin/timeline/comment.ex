@@ -3,7 +3,6 @@ defmodule Shlinkedin.Timeline.Comment do
   import Ecto.Changeset
 
   schema "comments" do
-    field :author, :string, default: "charlie"
     field :body, :string
     field :likes, :integer, default: 0
     belongs_to :post, Shlinkedin.Timeline.Post

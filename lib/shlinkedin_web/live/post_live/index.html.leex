@@ -17,7 +17,7 @@
 
 <div id="posts" class="" phx-update="prepend">
     <%= for post <- @posts do %>
-    <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent, id: post.id, post: post, deleted: post.__meta__.state == :deleted  %>
+    <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent, id: post.id, profile: @profile, post: post, deleted: post.__meta__.state == :deleted  %>
     <% end %>
 </div>
 
@@ -25,6 +25,7 @@
 <%= if @live_action in [:new_comment, :show_comments] do %>
 <%= live_modal @socket, ShlinkedinWeb.PostLive.CommentComponent,
     id: :new_comment,
+    profile: @profile,
     title: @page_title,
     post: @post,
     action: @live_action,

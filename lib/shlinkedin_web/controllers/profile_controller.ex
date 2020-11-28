@@ -18,6 +18,8 @@ defmodule ShlinkedinWeb.ProfileController do
   end
 
   def create(conn, %{"profile" => profile}) do
+    IO.inspect(profile, label: "profile")
+
     case Accounts.create_profile(conn.assigns.current_user, profile) do
       {:ok, _} ->
         conn
@@ -31,15 +33,22 @@ defmodule ShlinkedinWeb.ProfileController do
 
   def edit(conn, _params) do
     user = conn.assigns.current_user
-    profile = Accounts.get_profile(user.id)
-    changeset = Accounts.change_profile(profile, user)
-    render(conn, "edit.html", changeset: changeset)
+
+    case Accounts.get_profile(user.id) do
+      nil ->
+        conn
+        |> redirect(to: Routes.profile_path(conn, :new))
+
+      profile ->
+        changeset = Accounts.change_profile(profile, user)
+        render(conn, "edit.html", changeset: changeset)
+    end
   end
 
   def update(conn, %{"profile" => profile_params}) do
     user = conn.assigns.current_user
 
-    case Accounts.update_profile(%Profile{id: user.id}, user, profile_params) do
+    case Accounts.update_profile(Accounts.get_profile(user.id), user, profile_params) do
       {:ok, _} ->
         conn
         |> put_flash(:info, "Profile updated successfully")

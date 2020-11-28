@@ -27,8 +27,8 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
     save_comment(socket, socket.assigns.action, comment_params)
   end
 
-  defp save_comment(socket, _, comment_params) do
-    case Timeline.create_comment(socket.assigns.post, comment_params) do
+  defp save_comment(%{assigns: %{profile: profile}} = socket, _, comment_params) do
+    case Timeline.create_comment(profile, socket.assigns.post, comment_params) do
       {:ok, _comment} ->
         {:noreply,
          socket

@@ -26,11 +26,15 @@
             </span>
             <div class="bg-gray-100 ml-2 py-2 px-4 rounded-lg w-11/12">
                 <div class="flex justify-between">
-                    <p class="bold text-xs font-semibold hover:underline cursor-pointer"><%= comment.author %> •
-                        <span class="text-gray-500">Inventor of Roomba</span><span
+                    <p class="bold text-xs font-semibold hover:underline cursor-pointer">
+                        <%= comment.profile.persona_name %> •
+                        <span class="text-gray-500"> <%= comment.profile.persona_title %></span>
+                        <%= if @profile.id== @post.profile.id do %>
+                        <span
                             class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                             Author
                         </span>
+                        <% end %>
                     </p>
                     <p class="text-xs text-gray-500">5d</p>
                 </div>
@@ -63,11 +67,11 @@
             <div class="ml-4 hover:cursor-pointer mb-2">
                 <a href="#">
                     <h3 class="text-lg leading-6 font-bold text-gray-900 hover:underline">
-                        Stefan Jobs
+                        <%= @profile.persona_name %>
                     </h3>
                 </a>
                 <p class="text-xs text-gray-500">
-                    Inventor of the Roomba
+                    <%= @profile.persona_title %>
                 </p>
             </div>
         </div>
@@ -95,9 +99,6 @@
     <div class="flex justify-end">
         <%= submit "Comment", class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
     </div>
-
-
-
 
 </div>
 

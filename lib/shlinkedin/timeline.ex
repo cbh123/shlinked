@@ -19,7 +19,7 @@ defmodule Shlinkedin.Timeline do
 
   """
   def list_posts do
-    Repo.all(from p in Post, order_by: [desc: p.id], preload: [:comments])
+    Repo.all(from p in Post, order_by: [desc: p.id], preload: [:comments, :profile])
   end
 
   def inc_likes(%Post{id: id}) do
@@ -30,7 +30,7 @@ defmodule Shlinkedin.Timeline do
       )
       |> Repo.update_all(inc: [likes_count: 1])
 
-    broadcast({:ok, post |> Repo.preload(:comments)}, :post_updated)
+    broadcast({:ok, post |> Repo.preload([:profile, :comments])}, :post_updated)
   end
 
   def repost(%Post{id: id}) do
@@ -60,6 +60,15 @@ defmodule Shlinkedin.Timeline do
   """
   def get_post!(id), do: Repo.get!(Post, id)
 
+  def get_post_preload_profile(id) do
+    from(p in Post,
+      where: p.id == ^id,
+      select: p,
+      preload: [:profile]
+    )
+    |> Repo.one()
+  end
+
   def get_comment!(id), do: Repo.get!(Comment, id)
 
   @doc """
@@ -76,16 +85,14 @@ defmodule Shlinkedin.Timeline do
   """
   def create_post(%Profile{} = profile, attrs \\ %{}) do
     %Post{
-      profile_id: profile.id,
-      post_name: profile.persona_name,
-      post_title: profile.persona_title
+      profile_id: profile.id
     }
     |> Post.changeset(attrs)
     |> Repo.insert()
   end
 
-  def create_comment(%Post{id: post_id}, attrs \\ %{}) do
-    %Comment{post_id: post_id}
+  def create_comment(%Profile{} = profile, %Post{id: post_id}, attrs \\ %{}) do
+    %Comment{post_id: post_id, profile_id: profile.id}
     |> Comment.changeset(attrs)
     |> Repo.insert()
   end
@@ -93,7 +100,8 @@ defmodule Shlinkedin.Timeline do
   def list_comments(%Post{} = post) do
     Repo.all(
       from c in Ecto.assoc(post, :comments),
-        order_by: [desc: c.inserted_at]
+        order_by: [desc: c.inserted_at],
+        preload: [:profile]
     )
   end
 

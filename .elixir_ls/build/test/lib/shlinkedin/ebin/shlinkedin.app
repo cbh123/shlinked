@@ -1,7 +1,7 @@
 {application,shlinkedin,
              [{applications,[kernel,stdlib,elixir,logger,runtime_tools,
                              gettext,telemetry_metrics,telemetry_poller,jason,
-                             floki,bcrypt_elixir,postgrex,ecto_sql,
+                             floki,bcrypt_elixir,timex,postgrex,ecto_sql,
                              phoenix_html,plug_cowboy,phoenix,
                              phoenix_live_view,phoenix_live_dashboard,
                              phoenix_ecto]},

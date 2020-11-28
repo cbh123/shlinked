@@ -3,6 +3,7 @@
     <%= if @deleted != true do %>
     <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
 
+        <%# Post Header: Image, Name, Title, Time, and Business Jab %>
         <div class="ml-4 mt-3">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
@@ -14,23 +15,24 @@
                     </span>
                 </div>
                 <div class="ml-3 sm:ml-4 cursor-pointer">
-
                     <span class="text-sm font-semibold text-gray-900 hover:underline">
-                        Stefan Jobs
+                        <%= @post.profile.persona_name %>
                     </span>
                     <span class="text-gray-500 text-xs font-normal">• 5th</span>
                     <p class="text-xs text-gray-500">
-                        Inventor of the Roomba
+                        <%= @post.profile.persona_title %>
                     </p>
 
                     <p class="text-xs text-gray-500">
-                        1mo • <a class="hover:underline cursor-pointer">Business Jab</a>
+                        <%= Timex.from_now(@post.inserted_at) %> • <a class="hover:underline cursor-pointer">Business
+                            Jab</a>
                     </p>
 
                 </div>
             </div>
         </div>
 
+        <%# Post Header: Shlink Button %>
         <div class="ml-4 mt-4 flex-shrink-0 flex">
             <button type="button"
                 class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -48,15 +50,18 @@
         </div>
     </div>
 
-
+    <%# Post Text %>
     <div class="mt-2">
         <p class="whitespace-pre"><%= @post.body %></p>
     </div>
 
+    <%# Post Text Bottom: likes, comments, bar %>
     <div class="mt-6 flex justify-between pb-1 text-xs text-gray-500">
+
+        <%# Left side: number of likes and comments %>
         <div class="inline-flex items-center pl-2">
 
-
+            <%# Cash sign %>
             <svg class="-ml-1 mr-1 h-3 w-3 text-green-500" fill="currentColor" viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -70,8 +75,7 @@
             <p class="text-xs">
                 <%= @post.likes_count %></p>
 
-
-
+            <%#  "1 Comment" %>
             <%= if  length(@post.comments) > 0 do %>
             <span class="px-1">•</span>
             <%= live_patch to: Routes.post_index_path(@socket, :show_comments, @post.id) do %>
@@ -82,13 +86,17 @@
             <% end %>
         </div>
 
+        <%# Right side: username, edit, and delete %>
         <div class="">
             <p>
+                @<%= @post.profile.username %>
 
-                @<%= @post.username %> •
+                <%= if @profile != nil and @post.profile_id == @profile.id do %>
+                •
                 <%= live_patch to: Routes.post_index_path(@socket, :edit, @post.id), do: "Edit" %>
                 •
                 <%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @post.id, data: [confirm: "Are you sure?"], class: "hover:underline"%>
+                <% end %>
             </p>
         </div>
     </div>
@@ -128,7 +136,7 @@
     </div>
 
 
-
+    <%# Show first first comments stuff %>
     <div class="mt-2 hidden sm:block">
         <%= for comment <- @post.comments |> Enum.take(1) do %>
         <div class="my-1">
@@ -140,12 +148,17 @@
                 </span>
                 <div class="bg-gray-100 ml-2 py-2 px-4 rounded-lg w-11/12">
                     <div class="flex justify-between">
-                        <p class="bold text-xs font-semibold hover:underline cursor-pointer"><%= comment.author %> •
-                            <span class="text-gray-500">Inventor of
-                                Roomba</span><span
-                                class="inline-flex items-center ml-2 px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        <p class="bold text-xs font-semibold hover:underline cursor-pointer">
+                            <%= @post.profile.persona_name %> •
+                            <span class="text-gray-500">
+                                <%= @post.profile.persona_title %>
+                            </span>
+                            <%= if @profile.id== @post.profile.id do %>
+                            <span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                                 Author
                             </span>
+                            <% end %>
                         </p>
                         <p class="text-xs text-gray-500">5d</p>
                     </div>

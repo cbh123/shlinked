@@ -18,29 +18,31 @@ defmodule ShlinkedinWeb.PostLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Post")
+    |> assign(:page_title, "Edit post")
     |> assign(:post, Timeline.get_post!(id))
   end
 
   defp apply_action(socket, :new, params) do
     socket
-    |> assign(:page_title, "New Post")
+    |> assign(:page_title, "Create a post")
     |> assign(:post, %Post{})
   end
 
   defp apply_action(socket, :new_comment, %{"id" => id}) do
+    post = Timeline.get_post_preload_profile(id)
+
     socket
     |> assign(:page_title, "Comment")
     |> assign(:comments, [])
     |> assign(:comment, %Comment{})
-    |> assign(:post, Timeline.get_post!(id))
+    |> assign(:post, post)
   end
 
   defp apply_action(socket, :show_comments, %{"id" => id}) do
-    post = Timeline.get_post!(id)
+    post = Timeline.get_post_preload_profile(id)
 
     socket
-    |> assign(:page_title, "Show Comments")
+    |> assign(:page_title, "Comment")
     |> assign(:comments, Timeline.list_comments(post))
     |> assign(:comment, %Comment{})
     |> assign(:post, post)
