@@ -6,35 +6,36 @@ defmodule Shlinkedin.CommentsTest do
   describe "comments" do
     alias Shlinkedin.Timeline.Comment
     alias Shlinkedin.Timeline.Post
+    alias Shlinkedin.Accounts.Profile
 
-    @valid_attrs %{author: "some author", body: "some body"}
+    @valid_attrs %{body: "some body"}
+    @profile %Profile{username: "charlie"}
+    @post %Post{body: "hey ther!"}
     @valid_post %{body: "hi!"}
-    @update_attrs %{author: "some updated author", body: "some updated body", likes: 43}
+    @update_attrs %{body: "some updated body"}
     @invalid_attrs %{author: nil, body: nil, likes: nil}
 
     def comment_fixture(attrs \\ %{}) do
       {:ok, comment} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Timeline.create_comment()
+        Timeline.create_comment(
+          @profile,
+          @post,
+          attrs
+          |> Enum.into(@valid_attrs)
+        )
 
       comment
     end
 
-    test "list_comments/0 returns all comments" do
-      comment = comment_fixture()
-      assert Timeline.list_comments() == [comment]
-    end
-
     test "create_comment/1 with valid data creates a comment" do
-      assert {:ok, %Post{} = post} = Timeline.create_post(@valid_post)
-      assert {:ok, %Comment{} = comment} = Timeline.create_comment(post, @valid_attrs)
+      assert {:ok, %Post{} = post} = Timeline.create_post(@profile, @valid_post)
+      assert {:ok, %Comment{} = comment} = Timeline.create_comment(@profile, post, @valid_attrs)
       assert comment.body == "some body"
-      assert comment.likes == 42
     end
 
     test "create_comment/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Timeline.create_comment(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} =
+               Timeline.create_comment(@profile, @post, @invalid_attrs)
     end
 
     test "delete_comment/1 deletes the comment" do

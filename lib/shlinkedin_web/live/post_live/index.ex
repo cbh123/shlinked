@@ -22,7 +22,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
     |> assign(:post, Timeline.get_post!(id))
   end
 
-  defp apply_action(socket, :new, params) do
+  defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "Create a post")
     |> assign(:post, %Post{})

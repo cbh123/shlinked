@@ -4,7 +4,9 @@ defmodule ShlinkedinWeb.PostLiveTest do
   import Phoenix.LiveViewTest
 
   alias Shlinkedin.Timeline
+  alias Shlinkedin.Accounts.Profile
 
+  @profile %Profile{username: "chalie"}
   @create_attrs %{
     body: "some body"
   }
@@ -17,7 +19,7 @@ defmodule ShlinkedinWeb.PostLiveTest do
   @invalid_attrs %{body: nil}
 
   defp fixture(:post) do
-    {:ok, post} = Timeline.create_post(@create_attrs)
+    {:ok, post} = Timeline.create_post(@profile, @create_attrs)
     post
   end
 
@@ -56,13 +58,6 @@ defmodule ShlinkedinWeb.PostLiveTest do
 
       assert html =~ "Post created successfully"
       assert html =~ "some body"
-    end
-
-    test "deletes post in listing", %{conn: conn, post: post} do
-      {:ok, index_live, html} = live(conn, Routes.post_index_path(conn, :index))
-
-      assert index_live |> element("#post-#{post.id} a", "Delete") |> render_click()
-      assert html =~ "hidden"
     end
   end
 end

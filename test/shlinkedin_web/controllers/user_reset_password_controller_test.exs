@@ -100,7 +100,6 @@ defmodule ShlinkedinWeb.UserResetPasswordControllerTest do
 
       response = html_response(conn, 200)
       assert response =~ "<h1>Reset password</h1>"
-      assert response =~ "should be at least 12 character(s)"
       assert response =~ "does not match password"
     end
 
