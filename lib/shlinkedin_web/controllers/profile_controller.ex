@@ -1,0 +1,40 @@
+defmodule ShlinkedinWeb.ProfileController do
+  use ShlinkedinWeb, :controller
+  alias Shlinkedin.Accounts
+  alias Shlinkedin.Accounts.Profile
+
+  def new(conn, _params) do
+    changeset = Accounts.change_profile(%Profile{}, conn.assigns.current_user)
+    render(conn, "new.html", changeset: changeset)
+  end
+
+  def create(conn, %{"profile" => profile}) do
+    case Accounts.create_profile(conn.assigns.current_user, profile) do
+      {:ok, _} ->
+        conn
+        |> put_flash(:info, "Username saved successfully.")
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "new.html", changeset: changeset)
+    end
+  end
+
+  def edit(conn, _params) do
+    changeset = Accounts.change_profile(%Profile{}, conn.assigns.current_user)
+    render(conn, "edit.html", changeset: changeset)
+  end
+
+  def update(conn, %{"profile" => profile_params}) do
+    user = conn.assigns.current_user
+
+    case Accounts.update_profile(%Profile{id: user.id}, user, profile_params) do
+      {:ok, _} ->
+        conn
+        |> put_flash(:info, "Profile updated successfully")
+        |> redirect(to: Routes.post_index_path(conn, :index))
+
+      {:error, changeset} ->
+        render(conn, "edit.html", changeset: changeset)
+    end
+  end
+end

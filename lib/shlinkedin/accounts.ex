@@ -5,7 +5,7 @@ defmodule Shlinkedin.Accounts do
 
   import Ecto.Query, warn: false
   alias Shlinkedin.Repo
-  alias Shlinkedin.Accounts.{User, UserToken, UserNotifier}
+  alias Shlinkedin.Accounts.{User, UserToken, UserNotifier, Profile}
 
   ## Database getters
 
@@ -59,6 +59,8 @@ defmodule Shlinkedin.Accounts do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  def get_profile(id), do: Repo.get(Profile, id)
+
   ## User registration
 
   @doc """
@@ -90,6 +92,10 @@ defmodule Shlinkedin.Accounts do
   """
   def change_user_registration(%User{} = user, attrs \\ %{}) do
     User.registration_changeset(user, attrs, hash_password: false)
+  end
+
+  def change_profile(%Profile{} = profile, %User{id: user_id}, attrs \\ %{}) do
+    Profile.changeset(profile, attrs |> Map.put("user_id", user_id))
   end
 
   ## Settings
@@ -345,5 +351,20 @@ defmodule Shlinkedin.Accounts do
       {:ok, %{user: user}} -> {:ok, user}
       {:error, :user, changeset, _} -> {:error, changeset}
     end
+  end
+
+  def create_profile(%User{id: user_id}, attrs \\ %{}) do
+    %Profile{}
+    |> Profile.changeset(attrs |> Map.put("user_id", user_id))
+    |> Ecto.Changeset.put_change(:slug, attrs["username"])
+    |> Repo.insert()
+  end
+
+  def update_profile(%Profile{} = profile, %User{id: user_id}, attrs) do
+    IO.inspect(binding())
+
+    profile
+    |> Profile.changeset(attrs |> Map.put("user_id", user_id))
+    |> Repo.update()
   end
 end
