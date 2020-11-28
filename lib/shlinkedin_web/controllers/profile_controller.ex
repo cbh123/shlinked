@@ -4,8 +4,17 @@ defmodule ShlinkedinWeb.ProfileController do
   alias Shlinkedin.Accounts.Profile
 
   def new(conn, _params) do
-    changeset = Accounts.change_profile(%Profile{}, conn.assigns.current_user)
-    render(conn, "new.html", changeset: changeset)
+    user = conn.assigns.current_user
+
+    case Accounts.get_profile(user.id) do
+      nil ->
+        changeset = Accounts.change_profile(%Profile{}, user)
+        render(conn, "new.html", changeset: changeset)
+
+      _ ->
+        conn
+        |> redirect(to: Routes.profile_path(conn, :edit))
+    end
   end
 
   def create(conn, %{"profile" => profile}) do
@@ -13,6 +22,7 @@ defmodule ShlinkedinWeb.ProfileController do
       {:ok, _} ->
         conn
         |> put_flash(:info, "Username saved successfully.")
+        |> redirect(to: Routes.profile_path(conn, :edit))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -20,7 +30,9 @@ defmodule ShlinkedinWeb.ProfileController do
   end
 
   def edit(conn, _params) do
-    changeset = Accounts.change_profile(%Profile{}, conn.assigns.current_user)
+    user = conn.assigns.current_user
+    profile = Accounts.get_profile(user.id)
+    changeset = Accounts.change_profile(profile, user)
     render(conn, "edit.html", changeset: changeset)
   end
 

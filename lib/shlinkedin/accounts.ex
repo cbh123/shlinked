@@ -360,6 +360,9 @@ defmodule Shlinkedin.Accounts do
     |> Repo.insert()
   end
 
+  def create_persona(attrs \\ %{}) do
+  end
+
   def update_profile(%Profile{} = profile, %User{id: user_id}, attrs) do
     IO.inspect(binding())
 

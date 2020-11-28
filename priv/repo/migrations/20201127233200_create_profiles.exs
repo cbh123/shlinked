@@ -4,8 +4,8 @@ defmodule Shlinkedin.Repo.Migrations.CreateProfiles do
   def change do
     create table(:profiles) do
       add :user_id, references(:users, on_delete: :nothing)
-      add :slug, :string, null: false
-      add :username, :string, null: false
+      add :slug, :string
+      add :username, :string
       timestamps()
     end
 

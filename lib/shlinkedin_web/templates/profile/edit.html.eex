@@ -9,6 +9,13 @@
 </div>
 <% end %>
 
+<%= label f, :persona_name %>
+<%= text_input f, :persona_name %>
+<%= error_tag f, :persona_name %>
+
+<%= label f, :persona_title %>
+<%= text_input f, :persona_title %>
+<%= error_tag f, :persona_title %>
 
 <%= label f, :username %>
 <%= text_input f, :username %>

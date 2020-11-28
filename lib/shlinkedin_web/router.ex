@@ -73,7 +73,7 @@ defmodule ShlinkedinWeb.Router do
     get "/profile/new", ProfileController, :new
     post "/profile/new", ProfileController, :create
     get "/profile/settings", ProfileController, :edit
-    post "/profile/settings", ProfileController, :update
+    put "/profile/settings", ProfileController, :update
   end
 
   scope "/", ShlinkedinWeb do
