@@ -31,7 +31,7 @@
                         <span class="text-gray-500"> <%= comment.profile.persona_title %></span>
                         <%= if @profile.id== @post.profile.id do %>
                         <span
-                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                             Author
                         </span>
                         <% end %>
@@ -90,7 +90,7 @@
     <p class="mt-4 text-xs"><%= error_tag f, :body %></p>
 
 
-    <button type="button" id="sponsor-btn" phx-hook="Sponsor"
+    <button type="button" id="comment-btn" phx-hook="Comment"
         class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
         Auto-complete</button>
 

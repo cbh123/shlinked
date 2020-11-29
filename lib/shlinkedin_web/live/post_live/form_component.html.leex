@@ -34,9 +34,8 @@
                     <%= @profile.persona_title %> </p>
             </div>
         </div>
-        <div class="flex w-48 h-12 bg-gray-100 rounded-lg p-2 hidden " id="sponsorship">
-            <img class="h-8 w-8 rounded" src="https://source.unsplash.com/2PODhmrvLik/256x265" alt="">
-            <p class="text-xs pl-3" id="ad-copy"></p>
+        <div class="rounded-lg p-2 py-2 hidden" id="sponsorship">
+
         </div>
     </div>
 
@@ -44,21 +43,21 @@
 
 
     <div class="my-4">
-        <%= textarea f, :body, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-100 p-3", rows: 5, placeholder: "What do you want to talk about?" %>
+        <%= textarea f, :body, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-100 p-3", rows: 5, placeholder: "What do you want to talk about?" %>
     </div>
     <p class="mt-4 text-xs"><%= error_tag f, :body %></p>
 
 
-    <button type="button" id="sponsor-btn" phx-hook="Sponsor" id="sponsor" value=0
-        class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+    <button type="button" phx-hook="Sponsor" id="sponsor-btn"
+        class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
         Sponsor</button>
 
-    <button type="button" phx-hook="Celebrate" id="celebrate-btn" value=0
-        class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+    <button type="button" phx-hook="Celebrate" id="celebrate-btn"
+        class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
         Celebrate
     </button>
-    <button type="button" data-confirm="ARE YOU SURE YOU ARE IN CRISIS MODE?"
-        class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+    <button type="button" phx-hook="Crisis" id="crisis-btn"
+        class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
         Crisis
     </button>
 
@@ -67,7 +66,7 @@
 
 
     <div class="flex justify-end">
-        <%= submit (if @action == :new, do: "Post", else: "Save"), class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500", phx_disable_with: "Saving..." %>
+        <%= submit (if @action == :new, do: "Post", else: "Save"), class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
     </div>
 
 
