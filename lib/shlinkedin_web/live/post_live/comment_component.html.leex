@@ -36,7 +36,7 @@
                         </span>
                         <% end %>
                     </p>
-                    <p class="text-xs text-gray-500">5d</p>
+                    <p class="text-xs text-gray-500"><%= Timex.from_now(comment.inserted_at) %></p>
                 </div>
                 <p class="text-xs mt-1">
                     <%= comment.body %>

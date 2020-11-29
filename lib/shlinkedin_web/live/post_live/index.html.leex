@@ -1,21 +1,7 @@
-<div class="mx-auto max-w-lg p-5">
-    <span class="inline-block relative mx-1 border-2 border-blue-400 rounded-full">
-        <img class="h-14 w-14 rounded-full border-2 border-white"
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            alt="">
-    </span>
-
-    <span class="inline-block relative mx-1 border-2 border-blue-400 rounded-full">
-        <img class="h-14 w-14 rounded-full border-2 border-white"
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            alt="">
-    </span>
-</div>
-
-<div class="p-10 mx-auto max-w-lg">
+<div class="mt-4 p-5 pb-2 w-11/12 md:max-w-lg mx-auto bg-white border border-gray-100 rounded-lg">
     <%= live_patch to: Routes.post_index_path(@socket, :new) do %>
     <button type="button"
-        class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        class="w-full inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-full text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
         <svg class="-ml-1 mr-3 h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path>
             <path fill-rule="evenodd"
@@ -23,10 +9,72 @@
                 clip-rule="evenodd">
             </path>
         </svg>
-        New Post
+        Start a post
     </button>
     <% end %>
+    <div class="mt-4 mb-0 flex justify-between">
+        <button type="button"
+            class="inline-flex items-center px-2 py-1 sm:px-3 sm:py-2 border border-transparent text-xs sm:text-sm font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+
+            <svg class="-ml-1 mr-2  h-4 w-4 sm:h-5 sm:w-5 text-blue-300" fill="currentColor" viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+                    clip-rule="evenodd"></path>
+            </svg>
+
+            Shmarket
+        </button>
+        <button type="button"
+            class="inline-flex items-center px-2 py-1 sm:px-3 sm:py-2 border border-transparent text-xs sm:text-sm font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <svg class="-ml-1 mr-2  h-4 w-4 sm:h-5 sm:w-5 text-green-200" fill="currentColor" viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z">
+                </path>
+            </svg>
+
+
+            Shleaders
+        </button>
+
+        <button type="button"
+            class="hidden sm:inline-flex items-center px-2 py-1 sm:px-3 sm:py-2 border border-transparent text-xs sm:text-sm font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <svg class="-ml-1 mr-2  h-4 w-4 sm:h-5 sm:w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd">
+                </path>
+            </svg>
+            Profile
+        </button>
+
+        <button type="button"
+            class="inline-flex items-center px-2 py-1 sm:px-3 sm:py-2 border border-transparent text-xs sm:text-sm font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <svg class="-ml-1 mr-2  h-4 w-4 sm:h-5 sm:w-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 9a2 2 0 114 0 2 2 0 01-4 0z"></path>
+                <path fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a4 4 0 00-3.446 6.032l-2.261 2.26a1 1 0 101.414 1.415l2.261-2.261A4 4 0 1011 5z"
+                    clip-rule="evenodd"></path>
+            </svg>
+            Search
+        </button>
+    </div>
 </div>
+
+<%# <div class="mx-auto max-w-lg p-5 pb-2">
+    <span class="inline-block relative mx-1 border-2 border-blue-400 rounded-full">
+        <img class="h-14 w-14 rounded-full border-2 border-white"
+            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            alt="">
+    </span>
+
+    <span class="inline-block relative mx-1 border-2 border-blue-400 rounded-full">
+        <img class="h-14 w-14 rounded-full border-2 border-white"
+            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            alt="">
+    </span>
+</div> %>
 
 
 <div id="posts" class="" phx-update="prepend">

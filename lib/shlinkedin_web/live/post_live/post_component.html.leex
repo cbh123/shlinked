@@ -9,7 +9,7 @@
                 <div class="flex-shrink-0">
                     <pan class="inline-block relative">
                         <img class="h-10 w-10 sm:h-12 sm:w-12 rounded-full"
-                            src="https://source.unsplash.com/collection/1340430/256x265?<%= @post.id %>" alt="">
+                            src="https://source.unsplash.com/collection/1340430/256x265?<%= @post.profile.id %>" alt="">
                         <span
                             class="absolute bottom-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-green-400"></span>
                         </span>
@@ -160,7 +160,7 @@
                             </span>
                             <% end %>
                         </p>
-                        <p class="text-xs text-gray-500">5d</p>
+                        <p class="text-xs text-gray-500"><%= Timex.from_now(comment.inserted_at) %></p>
                     </div>
                     <p class="text-xs mt-1 truncate">
                         <%= comment.body %>
