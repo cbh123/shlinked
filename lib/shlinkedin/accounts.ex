@@ -63,6 +63,10 @@ defmodule Shlinkedin.Accounts do
     from(p in Profile, where: p.user_id == ^user_id, select: p) |> Repo.one()
   end
 
+  def get_profile_by_slug(slug) do
+    from(p in Profile, where: p.slug == ^slug, select: p, preload: [:posts]) |> Repo.one()
+  end
+
   ## User registration
 
   @doc """

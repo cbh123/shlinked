@@ -69,7 +69,10 @@ defmodule ShlinkedinWeb.Router do
     live "/posts/:id/comments", PostLive.Index, :show_comments
     live "/posts/:id/show/edit", PostLive.Show, :edit
 
-    # profile
+    ### profile
+    # show profile
+    live "/u/:slug", ProfileLive.Show, :show
+    # create profile and settings
     get "/profile/new", ProfileController, :new
     post "/profile/new", ProfileController, :create
     get "/profile/settings", ProfileController, :edit
