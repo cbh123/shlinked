@@ -18,8 +18,6 @@ defmodule ShlinkedinWeb.ProfileController do
   end
 
   def create(conn, %{"profile" => profile}) do
-    IO.inspect(profile, label: "profile")
-
     case Accounts.create_profile(conn.assigns.current_user, profile) do
       {:ok, _} ->
         conn
@@ -41,7 +39,7 @@ defmodule ShlinkedinWeb.ProfileController do
 
       profile ->
         changeset = Accounts.change_profile(profile, user)
-        render(conn, "edit.html", changeset: changeset)
+        render(conn, "edit.html", changeset: changeset, slug: profile.slug)
     end
   end
 

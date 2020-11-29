@@ -9,6 +9,11 @@ defmodule Shlinkedin.Accounts.Profile do
     field :slug, :string
     field :persona_name, :string
     field :persona_title, :string
+    field :summary, :string
+    field :verified, :boolean
+    field :photo_url, :string
+    field :cover_photo_url, :string
+    field :shlinkpoints, :integer, default: 0
     belongs_to :user, Shlinkedin.Accounts.User
     has_many :posts, Shlinkedin.Timeline.Post
     has_many :comments, Shlinkedin.Timeline.Comment
