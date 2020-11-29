@@ -6,11 +6,4 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     profile = Accounts.get_profile_by_slug(slug)
     {:ok, socket |> assign(:profile, profile)}
   end
-
-  def render(assigns) do
-    ~L"""
-    My Profile
-    <%= @profile.username %>
-    """
-  end
 end
