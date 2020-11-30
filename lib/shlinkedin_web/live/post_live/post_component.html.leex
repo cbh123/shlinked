@@ -1,5 +1,5 @@
 <div id="post-<%= @post.id %>"
-    class="bg-white w-11/12 shadow-md md:max-w-lg mx-auto rounded-lg p-4 my-4 pb-2 <%= if @deleted, do: "hidden" %>">
+    class="border border-gray-200 bg-white w-11/12 shadow-md md:max-w-lg mx-auto rounded-lg p-4 my-4 pb-2 <%= if @deleted, do: "hidden" %>">
     <%= if @deleted != true do %>
     <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
 
