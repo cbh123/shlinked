@@ -1,5 +1,7 @@
 <h1>Settings</h1>
 
+<%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete %>
+
 <h3>Change email</h3>
 
 <%= form_for @email_changeset, Routes.user_settings_path(@conn, :update), fn f -> %>

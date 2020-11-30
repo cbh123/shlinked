@@ -28,7 +28,6 @@
                         'Elixir.ShlinkedinWeb.LayoutView',
                         'Elixir.ShlinkedinWeb.LiveHelpers',
                         'Elixir.ShlinkedinWeb.ModalComponent',
-                        'Elixir.ShlinkedinWeb.PageLive',
                         'Elixir.ShlinkedinWeb.PostLive.CommentComponent',
                         'Elixir.ShlinkedinWeb.PostLive.FormComponent',
                         'Elixir.ShlinkedinWeb.PostLive.Index',
