@@ -215,20 +215,9 @@ Hooks.Comment = {
       let btn = document.getElementById("comment-btn");
       const comment = document.getElementById("comment-form_body");
 
-      if (!btn.classList.contains("pressed")) {
         comment.textContent =
           comments[Math.floor(Math.random() * comments.length)];
-        btn.classList.add("pressed");
-        btn.classList.add("bg-blue-100");
-        btn.classList.add("text-blue-700");
-        btn.classList.add("hover:bg-blue-100");
-      } else {
-        btn.classList.remove("pressed");
-        comment.textContent = "";
-        btn.classList.remove("bg-blue-100");
-        btn.classList.remove("text-blue-700");
-        btn.classList.remove("hover:bg-blue-100");
-      }
+
       comment.focus();
     });
   }

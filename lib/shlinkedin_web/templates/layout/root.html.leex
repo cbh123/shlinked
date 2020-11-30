@@ -58,7 +58,8 @@
 
 
                     <div class="ml-4 mr-2 flex items-center">
-                        <%= link to: Routes.profile_path(@conn, :edit) do %>
+                        <%= if @conn.assigns  |> Map.has_key?(:profile) do %>
+                        <%= link to: "/#{@profile.slug}" do %>
                         <button
                             class="flex flex-col bg-white p-1 mr-4 text-gray-400 rounded-full hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             <span class="sr-only">Profile</span>
@@ -70,6 +71,7 @@
                             </svg>
                             <span class="text-xs">Profile</span>
                         </button>
+                        <% end %>
                         <% end %>
 
                         <button

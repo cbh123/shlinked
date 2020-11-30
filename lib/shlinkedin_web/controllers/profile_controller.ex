@@ -11,9 +11,9 @@ defmodule ShlinkedinWeb.ProfileController do
         changeset = Accounts.change_profile(%Profile{}, user)
         render(conn, "new.html", changeset: changeset)
 
-      profile ->
-        changeset = Accounts.change_profile(profile, user)
-        render(conn, "new.html", changeset: changeset)
+      _ ->
+        conn
+        |> redirect(to: Routes.profile_path(conn, :edit))
     end
   end
 

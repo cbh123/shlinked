@@ -23,7 +23,7 @@
                     <%# NAME %>
                     <div class="sm:col-span-3">
                         <p>
-                            <%= label f, "Name", class: "text-sm font-bold text-white" %>
+                            <%= label f, "Who are you?", class: "text-sm font-bold text-white" %>
                         </p>
                         <div class="mt-1">
                             <%= text_input f, :persona_name, class: "shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md", required: true, placeholder: "Stefan Jobs" %>
@@ -36,7 +36,7 @@
                     <%# TITLE %>
                     <div class="sm:col-span-3">
                         <p>
-                            <%= label f, "Title", class: "text-sm font-bold text-white" %>
+                            <%= label f, "What is your title?", class: "text-sm font-bold text-white" %>
                         </p>
 
                         <div class="mt-1">
@@ -50,10 +50,10 @@
                     <%# ABOUT %>
                     <div class="sm:col-span-6">
                         <p>
-                            <%= label f, "Summary", class: "text-sm font-bold text-white" %>
+                            <%= label f, "Tell us about yourself.", class: "text-sm font-bold text-white" %>
                         </p>
                         <div class="mt-1">
-                            <%= textarea f, :summary, rows: 3, class: "shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md", placeholder: "What makes you tick?" %>
+                            <%= textarea f, :summary, rows: 3, class: "shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md", placeholder: "What makes you tick?  Why are you like this?" %>
                         </div>
                         <div class="mt-2">
                             <p class="block py-2"><%= error_tag f, :textarea, "font-semibold text-white" %></p>
