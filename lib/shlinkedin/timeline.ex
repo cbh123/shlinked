@@ -22,10 +22,10 @@ defmodule Shlinkedin.Timeline do
     Repo.all(
       from p in Post,
         limit: 5,
-        left_join: comments in assoc(p, :comments),
         left_join: profile in assoc(p, :profile),
-        preload: [:profile],
-        preload: [comments: {comments, profile: profile}],
+        left_join: comments in assoc(p, :comments),
+        left_join: profs in assoc(comments, :profile),
+        preload: [:profile, comments: {comments, profile: profs}],
         order_by: [desc: p.id]
     )
   end

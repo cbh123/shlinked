@@ -148,18 +148,20 @@
                 </span>
                 <div class="bg-gray-100 ml-2 py-2 px-4 rounded-lg w-11/12">
                     <div class="flex justify-between">
+                        <%= live_patch to: Routes.profile_show_path(@socket, :show, comment.profile.slug), class: "text-sm font-semibold text-gray-900 hover:underline" do  %>
                         <p class="bold text-xs font-semibold hover:underline cursor-pointer">
                             <%= comment.profile.persona_name %> •
                             <span class="text-gray-500">
                                 <%= comment.profile.persona_title %>
                             </span>
-                            <%= if @profile.id== comment.profile.id do %>
+                            <%= if @profile.id == comment.profile.id do %>
                             <span
                                 class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                                 Author
                             </span>
                             <% end %>
                         </p>
+                        <% end %>
                         <p class="text-xs text-gray-500"><%= Timex.from_now(comment.inserted_at) %></p>
                     </div>
                     <p class="text-xs mt-1 truncate">
