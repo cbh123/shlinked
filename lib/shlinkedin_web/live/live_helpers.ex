@@ -27,8 +27,16 @@ defmodule ShlinkedinWeb.LiveHelpers do
     current_user = Accounts.get_user_by_session_token(token)
 
     case Accounts.get_profile(current_user.id) do
-      nil -> redirect(socket, to: "/profile/new")
-      profile -> assign(socket, current_user: current_user, profile: profile)
+      nil ->
+        redirect(socket, to: "/profile/username")
+
+      %{persona_name: nil} = profile ->
+        socket
+        |> put_flash(:info, "First, complete your profile!")
+        |> redirect(to: "/profile/settings")
+
+      profile ->
+        assign(socket, current_user: current_user, profile: profile)
     end
   end
 

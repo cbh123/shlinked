@@ -1,17 +1,38 @@
-<h1>Create New Profile</h1>
+<div class="p-10 bg-gradient-to-r from-blue-500 to-green-500">
+    <div class="max-w-lg">
+        <div class="mb-10">
+            <h3 class="text-4xl tracking-tight font-extrabold text-white">
+                Username
+            </h3>
+            <p class="mt-1 text-sm text-white font-bold">
+                Welcome, young shlinkling. Now's the time to take a coveted username.
+            </p>
+        </div>
 
-<%= form_for @changeset, Routes.profile_path(@conn, :create), fn f -> %>
-<%= if @changeset.action do %>
-<div class="alert alert-danger">
-    <p>Oops, something went wrong! Please check the errors below.</p>
+        <%= form_for @changeset, Routes.profile_path(@conn, :create), fn f -> %>
+        <%= if @changeset.action do %>
+        <div class="alert alert-danger">
+            <p>Oops, something went wrong! Please check the errors below.</p>
+        </div>
+        <% end %>
+
+
+
+        <div>
+            <%= text_input f, :username, required: true, class: "px-6 py-4 text-2xl font-bold shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full border-gray-300 rounded-md", placeholder: "your username" %>
+
+        </div>
+
+        <div class="my-4">
+            <p class=""> <%= error_tag f, :username, "text-white font-semibold" %></p>
+        </div>
+
+
+
+
+        <div class="text-right">
+            <%= submit raw("Next &rarr; "), class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-bold rounded-md text-white bg-blue-900 hover:bg-pink-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:border-pink-500"  %>
+        </div>
+    </div>
+    <% end %>
 </div>
-<% end %>
-
-<%= label f, :username %>
-<%= text_input f, :username, required: true %>
-<%= error_tag f, :username %>
-
-<div>
-    <%= submit "Save" %>
-</div>
-<% end %>

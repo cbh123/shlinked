@@ -29,7 +29,7 @@
                             <%= text_input f, :persona_name, class: "shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md", required: true, placeholder: "Stefan Jobs" %>
                         </div>
                         <div class="mt-2">
-                            <p class="block py-2"><%= error_tag f, :persona_name %></p>
+                            <p class="block py-2"><%= error_tag f, :persona_name, "font-semibold text-white" %></p>
                         </div>
                     </div>
 
@@ -43,7 +43,7 @@
                             <%= text_input f, :persona_title, class: "shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md", required: true, placeholder: "Thought leader, disruptor, magician, etc..." %>
                         </div>
                         <div class="mt-2">
-                            <p class="block py-2"><%= error_tag f, :persona_title %></p>
+                            <p class="block py-2"><%= error_tag f, :persona_title, "font-semibold text-white" %></p>
                         </div>
                     </div>
 
@@ -53,8 +53,10 @@
                             <%= label f, "Summary", class: "text-sm font-bold text-white" %>
                         </p>
                         <div class="mt-1">
-                            <%= textarea f, :summary, rows: 3, class: "shadow-sm focus:border-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md", placeholder: "What makes you tick?" %>
-
+                            <%= textarea f, :summary, rows: 3, class: "shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md", placeholder: "What makes you tick?" %>
+                        </div>
+                        <div class="mt-2">
+                            <p class="block py-2"><%= error_tag f, :textarea, "font-semibold text-white" %></p>
                         </div>
                     </div>
 
@@ -114,7 +116,7 @@
                                 class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
                                 shlinkedin.com/
                             </span>
-                            <%= text_input f, :slug, class: "flex-1 focus:border-pink-500 focus:border-pink-500 block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300" %>
+                            <%= text_input f, :slug, class: "flex-1 focus:border-pink-500 focus:ring-pink-500 block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300" %>
 
                         </div>
                     </div>
@@ -124,10 +126,12 @@
 
         <div class="pt-5 max-w-2xl mt-4">
             <div class="flex justify-end">
-                <%= link "Cancel", to: "/#{@slug}", class: "bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-bold text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:border-pink-500"  %>
-                <div>
-                    <%= submit "Save Profile", class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-bold rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:border-pink-500" %>
-                </div>
+                <%= if @profile.persona_name == nil do %>
+                <%= submit "Enter ShlinkedIn", class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-bold rounded-md text-white bg-blue-900 hover:bg-pink-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:border-pink-500" %>
+                <% else %>
+                <%= link "Cancel", to: "/#{@profile.slug}", class: "bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-bold text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:border-pink-500"  %>
+                <%= submit "Save Profile", class: "ml-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-bold rounded-md text-white bg-blue-900 hover:bg-pink-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:border-pink-500"  %>
+                <% end %>
             </div>
         </div>
     </form>

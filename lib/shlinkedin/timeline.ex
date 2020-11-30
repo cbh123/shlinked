@@ -19,7 +19,15 @@ defmodule Shlinkedin.Timeline do
 
   """
   def list_posts do
-    Repo.all(from p in Post, order_by: [desc: p.id], preload: [:comments, :profile], limit: 5)
+    Repo.all(
+      from p in Post,
+        limit: 5,
+        left_join: comments in assoc(p, :comments),
+        left_join: profile in assoc(p, :profile),
+        preload: [:profile],
+        preload: [comments: {comments, profile: profile}],
+        order_by: [desc: p.id]
+    )
   end
 
   def list_posts_no_preload do
