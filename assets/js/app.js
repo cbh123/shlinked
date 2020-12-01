@@ -215,8 +215,8 @@ Hooks.Comment = {
       let btn = document.getElementById("comment-btn");
       const comment = document.getElementById("comment-form_body");
 
-        comment.textContent =
-          comments[Math.floor(Math.random() * comments.length)];
+      comment.textContent =
+        comments[Math.floor(Math.random() * comments.length)];
 
       comment.focus();
     });

@@ -4663,13 +4663,15 @@ performance-now@^2.1.0:
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
 "phoenix@file:../deps/phoenix":
-  version "1.5.6"
+  version "1.5.7"
 
 "phoenix_html@file:../deps/phoenix_html":
   version "2.14.2"
 
-"phoenix_live_view@file:../deps/phoenix_live_view":
-  version "0.13.0"
+phoenix_live_view@^0.15.0:
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/phoenix_live_view/-/phoenix_live_view-0.15.0.tgz#bcab6a9a78e39712fe23cda6e15b160be3731e80"
+  integrity sha512-v7W9/icYP0MV4q80ffetOpcKgXDnQw0RDgBIrTbEWllNiGdjzWVFIOTvsect+nNP05mo0N9CWB9KnUJX1xGvPw==
 
 picomatch@^2.0.4, picomatch@^2.0.5, picomatch@^2.2.1:
   version "2.2.2"

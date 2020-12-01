@@ -77,9 +77,12 @@
 </div> %>
 
 
-<div id="posts" class="" phx-update="prepend">
+<div id="posts" phx-update="prepemd">
     <%= for post <- @posts do %>
+
     <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent, id: post.id, profile: @profile, post: post, deleted: post.__meta__.state == :deleted  %>
+
+
     <% end %>
 </div>
 

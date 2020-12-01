@@ -9,4 +9,4 @@
                         'Elixir.Telemetry.Metrics.Sum',
                         'Elixir.Telemetry.Metrics.Summary']},
               {registered,[]},
-              {vsn,"0.5.0"}]}.
+              {vsn,"0.6.0"}]}.

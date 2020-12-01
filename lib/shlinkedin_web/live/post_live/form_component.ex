@@ -3,6 +3,11 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
 
   alias Shlinkedin.Timeline
 
+  # @impl true
+  # def mount(socket) do
+  #   {:ok, allow_upload(socket, :photo, accept: ~w(.png .jpeg .jpg), max_entries: 1)}
+  # end
+
   @impl true
   def update(%{post: post} = assigns, socket) do
     changeset = Timeline.change_post(post)

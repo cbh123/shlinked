@@ -3,6 +3,6 @@
               {description,"A MIME type module for Elixir"},
               {modules,['Elixir.MIME','Elixir.MIME.Application']},
               {registered,[]},
-              {vsn,"1.4.0"},
+              {vsn,"1.5.0"},
               {mod,{'Elixir.MIME.Application',[]}},
               {env,[{types,#{}}]}]}.

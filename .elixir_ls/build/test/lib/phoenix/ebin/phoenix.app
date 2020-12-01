@@ -78,7 +78,7 @@
                         'Elixir.Phoenix.View',
                         'Elixir.Plug.Exception.Phoenix.ActionClauseError']},
               {registered,[]},
-              {vsn,"1.5.6"},
+              {vsn,"1.5.7"},
               {mod,{'Elixir.Phoenix',[]}},
               {env,[{logger,true},
                     {stacktrace_depth,nil},

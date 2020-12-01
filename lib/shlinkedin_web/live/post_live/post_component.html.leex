@@ -2,7 +2,6 @@
     class="bg-white w-11/12 shadow-md md:max-w-lg mx-auto rounded-lg p-4 my-4 pb-2 <%= if @deleted, do: "hidden" %>">
     <%= if @deleted != true do %>
     <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
-
         <%# Post Header: Image, Name, Title, Time, and Business Jab %>
         <div class="ml-4 mt-3">
             <div class="flex items-center">
@@ -174,7 +173,8 @@
 
         <%= if length(@post.comments) == 0 do %>
         <%= live_patch to: Routes.post_index_path(@socket, :new_comment, @post.id) do %>
-        <button class="text-gray-600 font-semibold mb-0 text-xs hover:bg-gray-100 px-2 py-1 rounded mt-2">Be the first
+        <button class="text-gray-600 font-semibold mb-0 text-xs hover:bg-gray-100 px-2 py-1 rounded mt-2">Be the
+            first
             to comment on this!</button>
         <% end %>
         <% end %>
