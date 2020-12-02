@@ -1,18 +1,213 @@
-<div class="p-10 bg-blue-100">
-    <div class="flex justify-between">
-        <div class="div">
-            <h3 class="text-4xl tracking-tight font-extrabold text-blue-500">
-                <%= @show_profile.persona_name %>
-            </h3>
-            <p class="mt-1 text-sm text-blue-500 font-bold ">
-                <%= @show_profile.persona_title %>
-            </p>
+<div class="bg-white">
+    <div class="bg-cover bg-top h-40" style="background-image: url(
+        https://source.unsplash.com/collection/1928683/1600x900" )> </div>
+    <div class="flex pt-2 p-5">
+        <div class="inline-block relative bg-cover bg-center w-32 h-32 -mt-16 rounded-full border-4 border-white"
+            style="background-image: url(https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80)">
+            <span class="absolute bottom-1 right-2 block h-4 w-4 rounded-full ring-2 ring-white bg-green-500"></span>
+
         </div>
-        <div>
-            <%= if @profile.id == @show_profile.id do %>
-            <span><%= link "Edit", to: Routes.profile_path(@socket, :edit) %></span>
-            <% end %>
+
+        <div class="ml-3 mt-2">
+
+            <div class="font-bold text-2xl">Saskia Scrandle</div>
+            <div class="flex items-start">
+                <span class="text-gray-700">Chief Climate Officer</span>
+            </div>
+
+
         </div>
     </div>
+    <div class="px-5 mt-2 mb-6">
+    </div>
+    <div class="border-t-2 border-gray-200 p-5">
+        <div class="flex items-start">
+            <span>
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <path class="fill-current text-gray-500"
+                        d="M10 11a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM3 19a1 1 0 0 1-2 0c0-3.84 2.8-7 6.33-7h5.34c3.52 0 6.33 3.16 6.33 7a1 1 0 0 1-2 0c0-2.79-1.97-5-4.33-5H7.33C4.97 14 3 16.21 3 19z" />
+                </svg>
+            </span>
+            <div class="relative">
+                <span class="font-bold text-gray-900 ml-2">2</span>
+                <span class="inline text-gray-700">Shlinkers you know</span>
+            </div>
+        </div>
+        <div class="flex justify-between items-center mt-3">
+            <div class="flex flex-row-reverse justify-end">
+                <div class="bg-cover bg-center w-12 h-12 rounded-full border-4 border-white"
+                    style="background-image: url(https://images.unsplash.com/photo-1458071103673-6a6e4c4a3413?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80)">
+                </div>
+                <div class="bg-cover bg-center w-12 h-12 rounded-full border-4 border-white -mr-3"
+                    style="background-image: url(https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=80)">
+                </div>
+            </div>
+            <div
+                class="w-10 h-10 rounded-full border-2 border-gray-400 text-sm font-bold text-gray-700 flex justify-center items-center">
+                +3</div>
+        </div>
+    </div>
+</div>
 
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div>
+    <h3 class="text-lg leading-6 font-medium text-gray-900">
+        Last 30 days
+    </h3>
+    <dl
+        class="mt-5 grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 md:grid-cols-3 md:divide-y-0 md:divide-x">
+        <div>
+            <div class="px-4 py-5 sm:p-6">
+                <dt class="text-base font-normal text-gray-900">
+                    Total Subscribers
+                </dt>
+                <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+                    <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
+                        71,897
+                        <span class="ml-2 text-sm font-medium text-gray-500">
+                            from 70,946
+                        </span>
+                    </div>
+
+                    <div
+                        class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0">
+                        <svg class="-ml-1 mr-0.5 flex-shrink-0 self-center h-5 w-5 text-green-500" fill="currentColor"
+                            viewBox="0 0 20 20" aria-hidden="true">
+                            <path fill-rule="evenodd"
+                                d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span class="sr-only">
+                            Increased by
+                        </span>
+                        12%
+                    </div>
+                </dd>
+            </div>
+        </div>
+
+        <div>
+            <div class="px-4 py-5 sm:p-6">
+                <dt class="text-base font-normal text-gray-900">
+                    Avg. Open Rate
+                </dt>
+                <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+                    <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
+                        58.16%
+                        <span class="ml-2 text-sm font-medium text-gray-500">
+                            from 56.14%
+                        </span>
+                    </div>
+
+                    <div
+                        class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0">
+                        <svg class="-ml-1 mr-0.5 flex-shrink-0 self-center h-5 w-5 text-green-500" fill="currentColor"
+                            viewBox="0 0 20 20" aria-hidden="true">
+                            <path fill-rule="evenodd"
+                                d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span class="sr-only">
+                            Increased by
+                        </span>
+                        2.02%
+                    </div>
+                </dd>
+            </div>
+        </div>
+
+        <div>
+            <div class="px-4 py-5 sm:p-6">
+                <dt class="text-base font-normal text-gray-900">
+                    Avg. Click Rate
+                </dt>
+                <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+                    <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
+                        24.57%
+                        <span class="ml-2 text-sm font-medium text-gray-500">
+                            from 28.62%
+                        </span>
+                    </div>
+
+                    <div
+                        class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium bg-red-100 text-red-800 md:mt-2 lg:mt-0">
+                        <svg class="-ml-1 mr-0.5 flex-shrink-0 self-center h-5 w-5 text-red-500" fill="currentColor"
+                            viewBox="0 0 20 20" aria-hidden="true">
+                            <path fill-rule="evenodd"
+                                d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span class="sr-only">
+                            Decreased by
+                        </span>
+                        4.05%
+                    </div>
+                </dd>
+            </div>
+        </div>
+    </dl>
+</div>
+
+
+
+<%= if @profile.id == @show_profile.id do %>
+<span><%= link "Edit", to: Routes.profile_path(@socket, :edit) %></span>
+<% end %>
+
+
+<div class="mb-64"></div>
+<div class="bg-gradient-to-r from-blue-800 to-blue-500 text-xs text-white flex py-2">
+    <%= live_patch raw("&larr;"), to: Routes.post_index_path(@socket, :index), class: "font-windows py-1 px-4" %>
+    <p class="font-windows py-1 px-4"><%= @show_profile.persona_name %>'s profile</p>
+    <p class="font-windows py-1 px-4">•</p>
+    <p class="font-windows py-1 px-4">Online</p>
+</div>
+
+<div class="p-10 font-times bg-gray-300">
+    <div class="max-w-lg flex">
+        <img class="h-24 w-24 mb-4 place-self-center border-gray-400 border-4"
+            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            alt="">
+
+        <div class="">
+            <h1 class="font-extrabold text-4xl ml-8"><%= @show_profile.persona_name %></h1>
+            <h5 class="font-medium text-2xl ml-8"><%= @show_profile.persona_title %></h5>
+        </div>
+
+        <div class="ml-16">
+            <div class="border-t border-l border-gray-100 active:border-gray-500">
+                <button
+                    class="bg-gray-300 text-xs py-1 px-2 border-b border-r border-gray-700 active:border-gray-100 w-24">
+                    Business Jab
+                </button>
+            </div>
+            <div class="border-t border-l border-gray-100 active:border-gray-600 mt-2">
+                <button
+                    class="bg-gray-300 text-xs py-1 px-2 border-b border-r border-gray-700 active:border-gray-100 w-24">
+                    Recruit
+                </button>
+            </div>
+            <div class="border-t border-l border-gray-100 active:border-gray-600 mt-2">
+                <button
+                    class="bg-gray-300 text-xs py-1 px-2 border-b border-r border-gray-700 active:border-gray-100 w-24">
+                    Shlink
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <hr>
+    <div class="max-w-lg my-4 border-dotted border-blue-300 border-2 p-3">
+        <h2 class="font-bold text-xl">About</h2>
+        <p class="whitespace-normal text-sm">
+            My career experience and skills have grown from my childhood hobbies: writing, creating brands and
+            developing
+            marketing collateral. I loved to come up with brand names, design logos and put together "catalogs"
+            for my
+            brands in hopes that I could pitch my parents on letting me start my own skate company. That didn't
+            exactly
+            pan
+            out, but I've been able to convert those passions into reality through various roles in my career.
+        </p>
+    </div>
 </div>

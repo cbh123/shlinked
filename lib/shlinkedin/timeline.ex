@@ -186,7 +186,7 @@ defmodule Shlinkedin.Timeline do
     Phoenix.PubSub.subscribe(Shlinkedin.PubSub, "posts")
   end
 
-  defp broadcast({:error, _reason} = error), do: error
+  defp broadcast({:error, _reason} = error, _), do: error
 
   defp broadcast({:ok, post}, event) do
     Phoenix.PubSub.broadcast(Shlinkedin.PubSub, "posts", {event, post})

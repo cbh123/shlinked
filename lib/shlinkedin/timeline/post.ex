@@ -3,11 +3,12 @@ defmodule Shlinkedin.Timeline.Post do
   import Ecto.Changeset
 
   schema "posts" do
-    field(:body, :string)
+    field :body, :string
     field(:likes_count, :integer, default: 0)
     field(:reposts_count, :integer, default: 0)
     has_many(:comments, Shlinkedin.Timeline.Comment, on_delete: :nilify_all)
     belongs_to(:profile, Shlinkedin.Accounts.Profile)
+    field :photo_url, :string
     timestamps()
   end
 

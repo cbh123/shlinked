@@ -11,8 +11,6 @@
     </h3>
 </div>
 
-
-
 <div class="ml-4 mt-1 p-5">
     <div class="flex justify-between">
         <div class="flex items-center">
@@ -45,6 +43,18 @@
     </div>
     <p class="mt-4 text-xs"><%= error_tag f, :body %></p>
 
+    <div class="my-6" phx-change="">
+        <%= for {_ref, msg } <- @uploads.photo.errors do %>
+        <p class="alert alert-danger"><%= Phoenix.Naming.humanize(msg) %></p>
+        <% end %>
+        <%= live_file_input @uploads.photo %>
+
+        <%= for entry <- @uploads.photo.entries do %>
+        <%= live_img_preview entry %>
+        <progress max="100" value="<%= entry.progress %>" />
+        <a href="#" phx-click="cancel-entry" phx-value-ref="<%= entry.ref %>" phx-target="<%= @myself %>">cancel</a>
+        <% end %>
+    </div>
 
     <button type="button" phx-hook="Sponsor" id="sponsor-btn"
         class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">

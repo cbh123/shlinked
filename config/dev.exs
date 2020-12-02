@@ -58,7 +58,7 @@ config :shlinkedin, ShlinkedinWeb.Endpoint,
 config :shlinkedin, ShlinkedinWeb.Endpoint,
   live_reload: [
     patterns: [
-      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/static/(?!uploads).*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/shlinkedin_web/(live|views)/.*(ex)$",
       ~r"lib/shlinkedin_web/templates/.*(eex)$"

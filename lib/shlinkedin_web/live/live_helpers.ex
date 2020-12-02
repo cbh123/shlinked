@@ -30,7 +30,7 @@ defmodule ShlinkedinWeb.LiveHelpers do
       nil ->
         redirect(socket, to: "/profile/username")
 
-      %{persona_name: nil} = profile ->
+      %{persona_name: nil} ->
         socket
         |> put_flash(:info, "First, complete your profile!")
         |> redirect(to: "/profile/settings")
