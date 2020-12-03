@@ -5,8 +5,7 @@ defmodule Shlinkedin.Timeline do
   import Ecto.Query, warn: false
   alias Shlinkedin.Repo
 
-  alias Shlinkedin.Timeline.Post
-  alias Shlinkedin.Timeline.Comment
+  alias Shlinkedin.Timeline.{Post, Comment, Like}
   alias Shlinkedin.Accounts.Profile
 
   @doc """
@@ -110,6 +109,17 @@ defmodule Shlinkedin.Timeline do
     %Comment{post_id: post_id, profile_id: profile.id}
     |> Comment.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def create_like(%Profile{} = profile, %Post{} = post, like_type) do
+    IO.inspect(binding())
+
+    %Like{profile_id: profile.id, post_id: post.id, like_type: like_type}
+    |> Repo.insert()
+  end
+
+  def delete_like(%Like{} = like) do
+    Repo.delete(like)
   end
 
   def list_comments(%Post{} = post) do
