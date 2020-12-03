@@ -1,5 +1,5 @@
 <div id="post-<%= @post.id %>"
-    class="bg-white w-11/12 shadow-md md:max-w-lg mx-auto rounded-lg p-4 my-4 pb-2 <%= if @deleted, do: "hidden" %>">
+    class="bg-white w-11/12 shadow-md sm:max-w-lg mx-auto rounded-lg p-4 my-4 pb-2 <%= if @deleted, do: "hidden" %>">
     <%= if @deleted != true do %>
     <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
         <%# Post Header: Image, Name, Title, Time, and Business Jab %>
@@ -50,9 +50,12 @@
     </div>
 
     <%# Post Text %>
-    <div class="mt-2 max-h-64">
+    <div class="mt-2 max-h-64 <%= if @post.body == "photo", do: "-mx-4 mb-12" %>">
         <p class="whitespace-pre-line"><%= @post.body %></p>
+        <img class="hidden pt-2" src="https://source.unsplash.com/collection/143203/900x600?<%= @post.profile.id %>"
+            alt="">
     </div>
+
 
     <%# Post Text Bottom: likes, comments, bar %>
     <div class="mt-6 flex justify-between pb-1 text-xs text-gray-500">

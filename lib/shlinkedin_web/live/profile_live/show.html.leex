@@ -1,5 +1,6 @@
-<div class="max-w-2xl sm:pt-16 sm:mx-4">
-    <div class="bg-white sm:rounded-lg">
+<div class="max-w-2xl sm:mx-4">
+    <%# Profile and cover photo  %>
+    <div class="bg-white sm:rounded-lg shadow">
         <div class="bg-cover bg-top h-52 rounded-t-lg" style="background-image: url(
         https://source.unsplash.com/collection/1928683/1600x900" )> </div>
         <div class="sm:flex pt-2 p-5">
@@ -10,19 +11,36 @@
 
             </div>
 
-            <div class="ml-3 mt-2">
-
-                <div class="font-bold text-xl sm:text-2xl">Saskia Scrandle</div>
-                <div class="sm:flex items-start text-xs sm:text-base">
-                    <span class="text-gray-700">Chief Officer | Master of Disguise | 30 under 20</span>
+            <div class="flex justify-between">
+                <div class="ml-3 mt-2">
+                    <div class="font-bold text-xl sm:text-2xl">Saskia Scrandle</div>
+                    <div class="sm:flex items-start text-xs sm:text-base max-w-sm">
+                        <span class="text-gray-700">Chief Officer | Master of Disguise | 30 under 20</span>
+                    </div>
                 </div>
-
 
             </div>
         </div>
-        <div class="px-5 mt-2 mb-6 ml-3 max-w-lg text-xs sm:text-sm">
+        <div class="px-5 mt-1 mb-6 ml-3 max-w-lg text-sm">
             Where to even begin? I'm quite possibly the biggest go-getter of all time. I will find you wherever you
             live!
+        </div>
+        <div class="px-5 ml-3 mb-6">
+            <button type="button"
+                class="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-xs font-semibold rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <!-- Heroicon name: mail -->
+                <svg class="-ml-1 mr-2 h-3 w-3" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z">
+                    </path>
+                </svg>
+                Shlink
+            </button>
+            <button type="button"
+                class="bg-white hover:bg-blue-200 inline-flex items-center px-3 py-2 border border-blue-600 shadow-sm text-xs font-semibold rounded-full text-blue-600  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Business Jab
+            </button>
         </div>
         <div class="border-t-2 border-gray-200 p-5">
             <div class="flex items-start">
@@ -55,7 +73,7 @@
     </div>
 
 
-    <!-- This example requires Tailwind CSS v2.0+ -->
+    <!-- Stats-->
     <div class="mt-2">
         <dl class=" grid grid-cols-3 rounded-lg bg-white overflow-hidden shadow divide-gray-200 divide-x">
             <div>
@@ -63,7 +81,7 @@
                     <dt class="text-xs sm:text-base font-semibold text-gray-800">
                         ShlinkPoints
                     </dt>
-                    <dd class="mt-1 flex justify-between items-baseline flex">
+                    <dd class="mt-1 flex justify-between items-baseline">
                         <div class="flex items-baseline text-lg sm:text-2xl font-semibold text-blue-600">
                             71,897
                         </div>
@@ -108,3 +126,4 @@
     <%= if @profile.id == @show_profile.id do %>
     <span><%= link "Edit", to: Routes.profile_path(@socket, :edit) %></span>
     <% end %>
+</div>
