@@ -5,7 +5,6 @@
 
 </div>
 
-<%= if @action == :show_likes do %>
 <div class="p-5 pt-2 max-h-96 overflow-y-scroll">
     <%= for like <- @likes do %>
     <div class="my-1 border-gray-100 border-b">
@@ -30,9 +29,4 @@
         </div>
     </div>
     <% end %>
-</div>
-<% end %>
-
-
-
 </div>

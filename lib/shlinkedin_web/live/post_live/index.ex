@@ -8,7 +8,13 @@ defmodule ShlinkedinWeb.PostLive.Index do
   @impl true
   def mount(_params, session, socket) do
     if connected?(socket), do: Timeline.subscribe()
-    {:ok, assign(is_user(session, socket), posts: list_posts()), temporary_assigns: [posts: []]}
+    socket = is_user(session, socket)
+
+    {:ok,
+     socket
+     |> assign(posts: list_posts())
+     |> assign(liked: false)
+     |> assign(show_like_options: false), temporary_assigns: [posts: []]}
   end
 
   @impl true
