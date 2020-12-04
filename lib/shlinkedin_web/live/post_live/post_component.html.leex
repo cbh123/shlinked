@@ -195,7 +195,7 @@
     <%end %>
     <%= if @show_like_options == true do %>
 
-    <div id="like-options" class="fixed z-10 inset-0 overflow-y-auto">
+    <div id="like-options" class="fixed z-10 inset-0 ">
         <div class="block items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
 
             <!--
@@ -215,7 +215,7 @@
 
             <!-- This element is to trick the browser into centering the modal contents. -->
             <span class="inline-block align-top h-screen" aria-hidden="true">&#8203;</span>
-            <div class="inline-block bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all mt-8 sm:mt-32 align-middle max-w-sm w-full"
+            <div class="inline-block bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all mt-8 sm:mt-32 align-middle max-w-sm sm:w-full"
                 role="dialog" aria-modal="true" aria-labelledby="modal-headline">
 
                 <div class="text-center">
@@ -224,7 +224,7 @@
                     </h5>
                 </div>
                 <!-- This example requires Tailwind CSS v2.0+ -->
-                <ul class="grid grid-cols-2 gap-6">
+                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <button type="button" phx-click="like-selected" phx-value-like-type="Like"
                         phx-target="<%= @myself %>"
                         class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-bold rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
@@ -286,7 +286,6 @@
                 </button>
             </div>
         </div>
-
     </div>
     <% end %>
 
