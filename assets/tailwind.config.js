@@ -10,7 +10,9 @@ module.exports = {
   },
   variants: {
     extend: {
-        borderColor: ['active']
+        borderColor: ['active'],
+        backgroundColor: ['active'],
+        textColor: ['active']
     }
   },
   plugins: [require("@tailwindcss/forms"), require("@tailwindcss/custom-forms")]

@@ -48,6 +48,15 @@ defmodule ShlinkedinWeb.PostLive.Index do
     |> assign(:post, post)
   end
 
+  defp apply_action(socket, :show_likes, %{"id" => id}) do
+    post = Timeline.get_post_preload_profile(id)
+
+    socket
+    |> assign(:page_title, "Reactions")
+    |> assign(:likes, Timeline.list_likes(post))
+    |> assign(:post, post)
+  end
+
   defp apply_action(socket, :index, _params) do
     socket
     |> assign(:page_title, "Home")

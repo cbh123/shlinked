@@ -112,9 +112,13 @@ defmodule Shlinkedin.Timeline do
   end
 
   def create_like(%Profile{} = profile, %Post{} = post, like_type) do
-    IO.inspect(binding())
+    inc_likes(post)
 
-    %Like{profile_id: profile.id, post_id: post.id, like_type: like_type}
+    %Like{
+      profile_id: profile.id,
+      post_id: post.id,
+      like_type: like_type
+    }
     |> Repo.insert()
   end
 
@@ -125,6 +129,14 @@ defmodule Shlinkedin.Timeline do
   def list_comments(%Post{} = post) do
     Repo.all(
       from c in Ecto.assoc(post, :comments),
+        order_by: [desc: c.inserted_at],
+        preload: [:profile]
+    )
+  end
+
+  def list_likes(%Post{} = post) do
+    Repo.all(
+      from c in Ecto.assoc(post, :likes),
         order_by: [desc: c.inserted_at],
         preload: [:profile]
     )
