@@ -122,8 +122,6 @@
                 Like
             </button>
 
-            <%= @liked %>
-
 
             <%= live_patch to: Routes.post_index_path(@socket, :new_comment, @post.id) do %>
             <button type="button" phx-target="<%= @myself %>"
@@ -195,8 +193,7 @@
         <% end %>
     </div>
     <%end %>
-    <%= @show_like_options %>
-    <%= if @show_like_options != true do %>
+    <%= if @show_like_options == true do %>
 
     <div id="like-options" class="fixed z-10 inset-0 overflow-y-auto">
         <div class="block items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
@@ -222,7 +219,7 @@
                 role="dialog" aria-modal="true" aria-labelledby="modal-headline">
 
                 <div class="text-center">
-                    <h5 class="font-semibold text-2xl mb-8 text-blue-700">React to <%= @post.profile.persona_name %>'s
+                    <h5 class="font-semibold text-2xl mb-8">React to <%= @post.profile.persona_name %>'s
                         post
                     </h5>
                 </div>
@@ -230,7 +227,7 @@
                 <ul class="grid grid-cols-2 gap-6">
                     <button type="button" phx-click="like-selected" phx-value-like-type="Like"
                         phx-target="<%= @myself %>"
-                        class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indblueigo-500">
+                        class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-bold rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                         <!-- Heroicon name: mail -->
 
                         <svg class="-ml-1 mr-3 h-4 w-4 sm:h-5 sm:w-5 mx-auto" fill="currentColor" viewBox="0 0 20 20"
@@ -242,15 +239,9 @@
                         Like
                     </button>
 
-                    <button type="button"
-                        class="bg-teal-600 bg-none border-gray-300 rounded-lg border-solid border-0 box-border cursor-pointer font-semibold m-0 py-2 px-4 shadow-xs text-center text-white normal-case"
-                        tabindex="-1"
-                        style="--tw-shadow:0 4px 6px -1px rgba(0,0,0,0.1),0 2px 4px -1px rgba(0,0,0,0.06); --tw-ring-inset:var(--tw-empty, ); --tw-ring-offset-width:0px; --tw-ring-offset-color:#fff; --tw-ring-color:rgba(59,130,246,0.5); --tw-ring-offset-shadow:0 0 transparent; --tw-ring-shadow:0 0 transparent; font-family: inherit; font-size: 100%; line-height: inherit; appearance: button; --tw-bg-opacity:1; --tw-text-opacity:1; quotes: auto;">
-                        Click me
-                    </button>
 
                     <button type="button"
-                        class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-medium rounded-full text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-bold rounded-full text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         <!-- Heroicon name: mail -->
                         <svg class="-ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                             fill="currentColor" aria-hidden="true">
@@ -262,20 +253,34 @@
                         Pity Like
                     </button>
                     </button><button type="button"
-                        class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-bold rounded-full text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
                         <!-- Heroicon name: mail -->
                         <svg class="-ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                             fill="currentColor" aria-hidden="true">
-                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                            <path fill-rule="evenodd"
+                                d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
+                                clip-rule="evenodd"></path>
                         </svg>
-                        Help me
+
+                        Inspired
                     </button>
-                    <button type="button" phx-click="like-cancelled" phx-target="<%= @myself %>"
-                        class="active:bg-blue-100 active:text-blue-500 inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        Cancel
+                    </button><button type="button"
+                        class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-bold rounded-full text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                        <!-- Heroicon name: mail -->
+                        <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                            fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        Um...
                     </button>
+
                 </ul>
+                <button type="button" phx-click="like-cancelled" phx-target="<%= @myself %>"
+                    class="w-full mt-6  inline-block px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-500 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Cancel
+                </button>
             </div>
         </div>
 
