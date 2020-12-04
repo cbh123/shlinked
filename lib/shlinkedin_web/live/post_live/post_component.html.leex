@@ -240,7 +240,8 @@
                     </button>
 
 
-                    <button type="button"
+                    <button type="button" phx-click="like-selected" phx-value-like-type="Pity Like"
+                        phx-target="<%= @myself %>"
                         class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-bold rounded-full text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         <!-- Heroicon name: mail -->
                         <svg class="-ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
@@ -252,7 +253,8 @@
 
                         Pity Like
                     </button>
-                    </button><button type="button"
+                    </button><button type="button" phx-click="like-selected" phx-value-like-type="Inspired"
+                        phx-target="<%= @myself %>"
                         class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-bold rounded-full text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
                         <!-- Heroicon name: mail -->
                         <svg class="-ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
@@ -264,7 +266,8 @@
 
                         Inspired
                     </button>
-                    </button><button type="button"
+                    </button><button type="button" phx-click="like-selected" phx-value-like-type="Um..."
+                        phx-target="<%= @myself %>"
                         class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-bold rounded-full text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                         <!-- Heroicon name: mail -->
                         <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
