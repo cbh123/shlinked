@@ -112,13 +112,12 @@ defmodule Shlinkedin.Timeline do
       from(l in Like,
         where: l.post_id == ^post_id,
         where: l.profile_id == ^profile_id,
-        preload: [:post],
         select: l
       )
       |> Repo.delete_all()
 
     post =
-      like.post
+      Repo.preload(like, :post).post
       |> Repo.preload(:profile)
       |> Repo.preload(:likes)
       |> Repo.preload(comments: [:profile])
