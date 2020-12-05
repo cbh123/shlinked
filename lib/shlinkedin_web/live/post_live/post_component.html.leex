@@ -66,16 +66,20 @@
             <%# like symbol sign and # of like %>
             <%= if @post.likes_count > 0 do %>
             <%= live_patch to: Routes.post_index_path(@socket, :show_likes, @post.id) do %>
-            <div class="inline-flex items-center hover:underline hover:cursor-pointer">
-                <svg class="-ml-1 mr-1 h-3 w-3 text-blue-500 hover:underline hover:cursor-pointer" fill="currentColor"
-                    viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z">
+            <div
+                class="<%= if @spin == true, do: "animate-spin" %> inline-flex items-center hover:underline hover:cursor-pointer">
+                <%= for unique_like <- show_unique_likes(@post) do %>
+                <svg class="-ml-1 mr-1 h-3 w-3 <%= unique_like.color %> hover:underline hover:cursor-pointer"
+                    fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="<%= unique_like.svg_path %>">
                     </path>
                 </svg>
+                <% end %>
+
                 <p class="text-xs">
                     <%= @post.likes_count %>
                 </p>
+
             </div>
             <% end %>
             <% end %>
@@ -225,60 +229,20 @@
                 </div>
                 <!-- This example requires Tailwind CSS v2.0+ -->
                 <ul class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <button type="button" phx-click="like-selected" phx-value-like-type="Like"
+                    <%= for like <- @like_map do %>
+                    <button type="button" phx-click="like-selected" phx-value-like-type="<%=like.like_type%>"
                         phx-target="<%= @myself %>"
-                        class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-bold rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-bold rounded-full text-white <%=like.bg%> hover:<%=like.bg_hover%> focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                         <!-- Heroicon name: mail -->
 
                         <svg class="-ml-1 mr-3 h-4 w-4 sm:h-5 sm:w-5 mx-auto" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z">
+                            <path d="<%=like.svg_path%>">
                             </path>
                         </svg>
-                        Like
+                        <%=like.like_type%>
                     </button>
-
-
-                    <button type="button" phx-click="like-selected" phx-value-like-type="Pity Like"
-                        phx-target="<%= @myself %>"
-                        class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-bold rounded-full text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        <!-- Heroicon name: mail -->
-                        <svg class="-ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                            fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-7.536 5.879a1 1 0 001.415 0 3 3 0 014.242 0 1 1 0 001.415-1.415 5 5 0 00-7.072 0 1 1 0 000 1.415z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-
-                        Pity Like
-                    </button>
-                    </button><button type="button" phx-click="like-selected" phx-value-like-type="Inspired"
-                        phx-target="<%= @myself %>"
-                        class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-bold rounded-full text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
-                        <!-- Heroicon name: mail -->
-                        <svg class="-ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                            fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-
-                        Inspired
-                    </button>
-                    </button><button type="button" phx-click="like-selected" phx-value-like-type="Um..."
-                        phx-target="<%= @myself %>"
-                        class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-bold rounded-full text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                        <!-- Heroicon name: mail -->
-                        <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                            fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                        Um...
-                    </button>
-
+                    <% end %>
                 </ul>
                 <button type="button" phx-click="like-cancelled" phx-target="<%= @myself %>"
                     class="w-full mt-6  inline-block px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-500 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">

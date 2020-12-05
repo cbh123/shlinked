@@ -18,6 +18,6 @@ defmodule Shlinkedin.Timeline.Post do
     post
     |> cast(attrs, [:body])
     |> validate_required([:body])
-    |> validate_length(:body, max: 500)
+    |> validate_length(:body, max: 1000)
   end
 end

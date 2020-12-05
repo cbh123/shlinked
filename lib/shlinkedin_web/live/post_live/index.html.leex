@@ -81,7 +81,15 @@
 <div id="posts" phx-update="prepend">
     <%= for post <- @posts do %>
 
-    <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent, id: post.id, profile: @profile, post: post, deleted: post.__meta__.state == :deleted, show_like_options: @show_like_options, liked: @liked  %>
+    <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
+        id: post.id,
+        profile: @profile,
+        post: post,
+        deleted: post.__meta__.state == :deleted,
+        show_like_options: @show_like_options,
+        liked: @liked,
+        spin: false,
+        ping: false  %>
 
     <% end %>
 </div>

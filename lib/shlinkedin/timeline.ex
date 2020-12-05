@@ -24,7 +24,7 @@ defmodule Shlinkedin.Timeline do
         left_join: profile in assoc(p, :profile),
         left_join: comments in assoc(p, :comments),
         left_join: profs in assoc(comments, :profile),
-        preload: [:profile, comments: {comments, profile: profs}],
+        preload: [:profile, :likes, comments: {comments, profile: profs}],
         order_by: [desc: p.id]
     )
   end
@@ -140,6 +140,10 @@ defmodule Shlinkedin.Timeline do
         order_by: [desc: c.inserted_at],
         preload: [:profile]
     )
+  end
+
+  def list_distinct_likes(%Post{} = post) do
+    Repo.all(from l in Ecto.assoc(post, :likes), select: l.like_type, distinct: true)
   end
 
   @doc """
