@@ -41,8 +41,14 @@ defmodule Shlinkedin.Timeline do
       )
       |> Repo.update_all(inc: [likes_count: 1])
 
+    post =
+      post
+      |> Repo.preload(:profile)
+      |> Repo.preload(:likes)
+      |> Repo.preload(comments: [:profile])
+
     broadcast(
-      {:ok, post |> Repo.preload(:profile) |> Repo.preload(comments: [:profile])},
+      {:ok, post},
       :post_updated
     )
   end
@@ -112,14 +118,14 @@ defmodule Shlinkedin.Timeline do
   end
 
   def create_like(%Profile{} = profile, %Post{} = post, like_type) do
-    inc_likes(post)
-
     %Like{
       profile_id: profile.id,
       post_id: post.id,
       like_type: like_type
     }
     |> Repo.insert()
+
+    inc_likes(post)
   end
 
   def delete_like(%Like{} = like) do

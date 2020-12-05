@@ -69,12 +69,15 @@
             <div
                 class="<%= if @spin == true, do: "animate-spin" %> inline-flex items-center hover:underline hover:cursor-pointer">
                 <%= for unique_like <- show_unique_likes(@post) do %>
-                <svg class="-ml-1 mr-1 h-3 w-3 <%= unique_like.color %> hover:underline hover:cursor-pointer"
+                <%= if like_map[unique_like] != nil do %>
+                <svg class="-ml-1 mr-1 h-3 w-3 <%= like_map[unique_like].color %> hover:underline hover:cursor-pointer"
                     fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path d="<%= unique_like.svg_path %>">
+                    <path fill-rule="<%= like_map[unique_like].fill %>" d="<%= like_map[unique_like].svg_path %>">
                     </path>
                 </svg>
                 <% end %>
+                <% end %>
+
 
                 <p class="text-xs">
                     <%= @post.likes_count %>
@@ -229,7 +232,7 @@
                 </div>
                 <!-- This example requires Tailwind CSS v2.0+ -->
                 <ul class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <%= for like <- @like_map do %>
+                    <%= for like <- like_map_list do %>
                     <button type="button" phx-click="like-selected" phx-value-like-type="<%=like.like_type%>"
                         phx-target="<%= @myself %>"
                         class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-bold rounded-full text-white <%=like.bg%> hover:<%=like.bg_hover%> focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
@@ -237,7 +240,7 @@
 
                         <svg class="-ml-1 mr-3 h-4 w-4 sm:h-5 sm:w-5 mx-auto" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
-                            <path d="<%=like.svg_path%>">
+                            <path d="<%=like.svg_path%>" fill-rule="<%=like.fill%>">
                             </path>
                         </svg>
                         <%=like.like_type%>
