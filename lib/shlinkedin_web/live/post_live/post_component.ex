@@ -11,20 +11,24 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
   def handle_event("like-selected", %{"like-type" => like_type}, socket) do
     Shlinkedin.Timeline.create_like(socket.assigns.profile, socket.assigns.post, like_type)
 
-    send_update(PostComponent, id: socket.assigns.post.id, show_like_options: false, spin: true)
+    send_update(PostComponent,
+      id: socket.assigns.post.id,
+      show_like_options: false,
+      spin: true,
+      liked: true
+    )
 
     send_update_after(
       PostComponent,
-      [id: socket.assigns.post.id, spin: false, ping: true],
+      [id: socket.assigns.post.id, spin: false],
       1000
     )
 
-    send_update_after(
-      PostComponent,
-      [id: socket.assigns.post.id, ping: false],
-      2000
-    )
+    {:noreply, socket}
+  end
 
+  def handle_event("delete-like", _, socket) do
+    Shlinkedin.Timeline.delete_like(socket.assigns.profile, socket.assigns.post)
     {:noreply, socket}
   end
 

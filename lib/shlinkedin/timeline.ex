@@ -33,37 +33,6 @@ defmodule Shlinkedin.Timeline do
     Repo.all(Post)
   end
 
-  def inc_likes(%Post{id: id}) do
-    {1, [post]} =
-      from(p in Post,
-        where: p.id == ^id,
-        select: p
-      )
-      |> Repo.update_all(inc: [likes_count: 1])
-
-    post =
-      post
-      |> Repo.preload(:profile)
-      |> Repo.preload(:likes)
-      |> Repo.preload(comments: [:profile])
-
-    broadcast(
-      {:ok, post},
-      :post_updated
-    )
-  end
-
-  def repost(%Post{id: id}) do
-    {1, [post]} =
-      from(p in Post,
-        where: p.id == ^id,
-        select: p
-      )
-      |> Repo.update_all(inc: [reposts_count: 1])
-
-    broadcast({:ok, post}, :post_updated)
-  end
-
   @doc """
   Gets a single post.
 
@@ -118,18 +87,46 @@ defmodule Shlinkedin.Timeline do
   end
 
   def create_like(%Profile{} = profile, %Post{} = post, like_type) do
-    %Like{
-      profile_id: profile.id,
-      post_id: post.id,
-      like_type: like_type
-    }
-    |> Repo.insert()
+    {:ok, like} =
+      %Like{
+        profile_id: profile.id,
+        post_id: post.id,
+        like_type: like_type
+      }
+      |> Repo.insert()
 
-    inc_likes(post)
+    post =
+      Repo.preload(like, :post).post
+      |> Repo.preload(:profile)
+      |> Repo.preload(:likes)
+      |> Repo.preload(comments: [:profile])
+
+    broadcast(
+      {:ok, post},
+      :post_updated
+    )
   end
 
-  def delete_like(%Like{} = like) do
-    Repo.delete(like)
+  def delete_like(%Profile{id: profile_id}, %Post{id: post_id}) do
+    {1, [like]} =
+      from(l in Like,
+        where: l.post_id == ^post_id,
+        where: l.profile_id == ^profile_id,
+        preload: [:post],
+        select: l
+      )
+      |> Repo.delete_all()
+
+    post =
+      like.post
+      |> Repo.preload(:profile)
+      |> Repo.preload(:likes)
+      |> Repo.preload(comments: [:profile])
+
+    broadcast(
+      {:ok, post},
+      :post_updated
+    )
   end
 
   def list_comments(%Post{} = post) do
