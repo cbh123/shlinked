@@ -87,6 +87,7 @@
         post: post,
         deleted: post.__meta__.state == :deleted,
         show_like_options: @show_like_options,
+        like_map: @like_map,
         liked: @liked,
         spin: false,
         ping: false  %>
@@ -112,6 +113,7 @@
     id: :new_comment,
     profile: @profile,
     title: @page_title,
+    like_map: @like_map,
     post: @post,
     action: @live_action,
     likes:  @likes,

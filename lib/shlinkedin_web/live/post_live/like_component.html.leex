@@ -7,6 +7,7 @@
 
 <div class="p-5 pt-2 max-h-96 overflow-y-scroll">
     <%= for like <- @likes do %>
+    <%= if @like_map[like.like_type] != nil do %>
     <div class="my-1 border-gray-100 border-b">
         <div class="flex">
             <span class="inline-block cursor-pointer place-self-center">
@@ -21,12 +22,22 @@
                         <span class="text-gray-500"> <%= like.profile.persona_title %></span></p>
                     <% end %>
                 </div>
-                <p class="text-xs mt-1 font-bold text-blue-500">
+
+                <p
+                    class="mt-2 inline-flex items-center text-base font-bold <%= @like_map[like.like_type].color %> focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <svg class="-ml-1 mr-3 h-4 w-4 sm:h-5 sm:w-5 mx-auto" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="<%= @like_map[like.like_type].svg_path %>"
+                            fill-rule="<%=@like_map[like.like_type].fill%>">
+                        </path>
+                    </svg>
+
                     <%= like.like_type %>
+
                 </p>
             </div>
-
         </div>
     </div>
+    <% end %>
     <% end %>
 </div>
