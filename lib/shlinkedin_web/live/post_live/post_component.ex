@@ -37,11 +37,7 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     Enum.map(post.likes, fn x -> x.like_type end) |> Enum.uniq()
   end
 
-  def like_map_list do
-    Enum.map(@like_map, fn {_, d} -> d end)
-  end
-
-  def like_map do
-    @like_map
+  def like_map_list(like_map) do
+    Enum.map(like_map, fn {_, d} -> d end)
   end
 end
