@@ -5,6 +5,10 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
 
   def handle_event("show-like-options", _params, socket) do
     send_update(PostComponent, id: socket.assigns.post.id, show_like_options: true)
+
+    Enum.map(socket.assigns.post.likes, fn x -> x.profile_id end)
+    |> Enum.member?(44)
+
     {:noreply, socket}
   end
 
