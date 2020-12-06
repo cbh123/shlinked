@@ -3,20 +3,18 @@ defmodule ShlinkedinWeb.PostLive.Show do
   alias Shlinkedin.Timeline
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, session, socket) do
+    socket = is_user(session, socket)
     {:ok, socket}
   end
 
   @impl true
-  def handle_params(%{"id" => id} = params, _, socket) do
-    IO.inspect(binding())
-
+  def handle_params(%{"id" => id}, _, socket) do
     {:noreply,
      socket
-     |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:post, Timeline.get_post!(id))}
+     |> assign(:page_title, socket.assigns.live_action)
+     |> assign(like_map: Timeline.like_map())
+     |> assign(show_like_options: false)
+     |> assign(:post, Timeline.get_post_preload_all(id))}
   end
-
-  defp page_title(:show), do: "Show Post"
-  defp page_title(:edit), do: "Edit Post"
 end

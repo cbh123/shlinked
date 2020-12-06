@@ -91,7 +91,7 @@
             <%= if  length(@post.comments) > 0 do %>
             <span class="px-1">•</span>
             <%= live_patch to: Routes.post_index_path(@socket, :show_comments, @post.id) do %>
-            <p class="text-xs hover:underline">
+            <p class=" text-xs hover:underline <%= if @comment_spin == true, do: " animate-spin" %>">
                 <%= length(@post.comments) %>
                 Comment<%= if length(@post.comments) > 1, do: "s" %></p>
             <% end %>

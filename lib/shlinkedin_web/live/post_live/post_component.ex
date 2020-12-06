@@ -15,8 +15,7 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     send_update(PostComponent,
       id: socket.assigns.post.id,
       show_like_options: false,
-      spin: true,
-      liked: true
+      spin: true
     )
 
     send_update_after(

@@ -2,6 +2,7 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
   use ShlinkedinWeb, :live_component
 
   alias Shlinkedin.Timeline
+  alias ShlinkedinWeb.PostLive.PostComponent
 
   @impl true
   def update(%{comment: comment} = assigns, socket) do
@@ -30,10 +31,21 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
   defp save_comment(%{assigns: %{profile: profile}} = socket, _, comment_params) do
     case Timeline.create_comment(profile, socket.assigns.post, comment_params) do
       {:ok, _comment} ->
+        send_update(PostComponent,
+          id: socket.assigns.post.id,
+          comment_spin: true
+        )
+
+        send_update_after(
+          PostComponent,
+          [id: socket.assigns.post.id, comment_spin: false],
+          1000
+        )
+
         {:noreply,
          socket
-         |> put_flash(:info, "comment created successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
+         |> put_flash(:info, "you commented! +1 shlink points")
+         |> push_patch(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
