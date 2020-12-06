@@ -63,7 +63,7 @@
         <%# Left side: number of likes and comments %>
         <div class="inline-flex items-center pl-2">
 
-            <%# like symbol sign and # of like %>
+            <%# "3 likes" with symbols %>
             <%= if length(@post.likes) > 0 do %>
             <%= live_patch to: Routes.post_index_path(@socket, :show_likes, @post.id) do %>
             <div
@@ -78,7 +78,6 @@
                 <% end %>
                 <% end %>
 
-
                 <p class="text-xs">
                     <%= length(@post.likes) %>
                 </p>
@@ -87,9 +86,13 @@
             <% end %>
             <% end %>
 
-            <%#  "1 Comment" %>
-            <%= if  length(@post.comments) > 0 do %>
+            <%# Little dot in between 1 likes "•" 3 comments %>
+            <%= if length(@post.likes) > 0 && length(@post.comments) > 0 do %>
             <span class="px-1">•</span>
+            <% end %>
+
+            <%#  "1 Comment" %>
+            <%= if length(@post.comments) > 0 do %>
             <%= live_patch to: Routes.post_index_path(@socket, :show_comments, @post.id) do %>
             <p class=" text-xs hover:underline <%= if @comment_spin == true, do: " animate-spin" %>">
                 <%= length(@post.comments) %>
