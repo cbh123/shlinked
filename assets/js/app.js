@@ -17,8 +17,30 @@ import { Socket } from "phoenix";
 import NProgress from "nprogress";
 import { LiveSocket } from "phoenix_live_view";
 
-
+let Uploaders = {};
 let Hooks = {};
+
+Uploaders.S3 = function (entries, onViewError) {
+  entries.forEach((entry) => {
+    let formData = new FormData();
+    let { url, fields } = entry.meta;
+    Object.entries(fields).forEach(([key, val]) => formData.append(key, val));
+    formData.append("file", entry.file);
+    let xhr = new XMLHttpRequest();
+    onViewError(() => xhr.abort());
+    xhr.onload = () => xhr.status === 204 || entry.error();
+    xhr.onerror = () => entry.error();
+    xhr.upload.addEventListener("progress", (event) => {
+      if (event.lengthComputable) {
+        let percent = Math.round((event.loaded / event.total) * 100);
+        entry.progress(percent);
+      }
+    });
+
+    xhr.open("POST", url, true);
+    xhr.send(formData);
+  });
+};
 
 const celebrate = [
   "Can you believe I’m as tall as I am? Here's why: \n \n",
@@ -27,7 +49,7 @@ const celebrate = [
   "It’s my birthday, I’m 47! That’s 47 years of immense, almost tantric pleasure forged in the fires of corporate america. Here are the main lessons I’ve learned in 47 years of hot profit: \n",
   "I’d like to donate my birthday to Tots for Techinicians, a non-profit that takes children from HR managers, and gives them to IT technicians. My generosity is truly endless. Thank you. Alternatively, here are some other charities you may consider donating to, but I get credit because I suggested so on social media: \n",
   "Picture god. Now picture me hucking a handful of sand in their face. I am your god now. If that hasn’t been made clear by the substance of this post, that’s your fault. \n",
-  "Wow, I’m valuable! Here's why: \n"
+  "Wow, I’m valuable! Here's why: \n",
 ];
 
 const sponsor = [
@@ -38,7 +60,7 @@ const sponsor = [
   "I lost my virginity at Jamba Juice! #JamOutWithJamba #JambaTime #SexualEncounter",
   "So, I’m sorry to report that my time at my company has come to end after an extremely narrow and targeted round of layoffs, with over 1 employee being let go. I’m looking forward to the next chapter. One thing to keep in mind during these tough times: Jamba Juice’s new Coconut Craze™ smoothie is half-off at participating locations, and is jam-packed with vitamins—and flavor!",
   "Drink Jamba Juice and experience true vigor.",
-  "Tired of your job? Quit, and drink Jamba juice."
+  "Tired of your job? Quit, and drink Jamba juice.",
 ];
 
 const crisis = [
@@ -46,7 +68,7 @@ const crisis = [
   "So, the stock prices have dropped and 17 investors are dead. But! Before you judge my decisions as a business thought leader, consider the parable of the Frog and the Twig:",
   "First and foremost, we want to say thank you to essential workers. Second, we would like to address the extensive second degree burns most, if not all, of our employees have recently suffered:",
   "Oopsies! We did something bad! ",
-  "HELLO IF ANYONE KNOWS HOW TO STOP A POTENTIALLY ECONOMY-TOPPLING COMPUTER VIRUS, PLEASE REACH OUT IMMEDIATELY."
+  "HELLO IF ANYONE KNOWS HOW TO STOP A POTENTIALLY ECONOMY-TOPPLING COMPUTER VIRUS, PLEASE REACH OUT IMMEDIATELY.",
 ];
 
 const comments = [
@@ -133,12 +155,12 @@ const comments = [
   "You imp! I’ll undermine you every chance I get.",
   "A bowl of ants? Not today, not ever!",
   "A bowl of aunts? Not today, not ever!",
-  "Let’s talk. Third-floor of the parking structure. Midnight. Come alone. "
+  "Let’s talk. Third-floor of the parking structure. Midnight. Come alone. ",
 ];
 
 Hooks.Celebrate = {
   mounted() {
-    this.el.addEventListener("click", e => {
+    this.el.addEventListener("click", (e) => {
       let btn = document.getElementById("celebrate-btn");
       const post = document.getElementById("post-form_body");
 
@@ -158,12 +180,12 @@ Hooks.Celebrate = {
       }
       post.focus();
     });
-  }
+  },
 };
 
 Hooks.Sponsor = {
   mounted() {
-    this.el.addEventListener("click", e => {
+    this.el.addEventListener("click", (e) => {
       let btn = document.getElementById("sponsor-btn");
       const post = document.getElementById("post-form_body");
 
@@ -183,12 +205,12 @@ Hooks.Sponsor = {
 
       post.focus();
     });
-  }
+  },
 };
 
 Hooks.Crisis = {
   mounted() {
-    this.el.addEventListener("click", e => {
+    this.el.addEventListener("click", (e) => {
       let btn = document.getElementById("crisis-btn");
       const post = document.getElementById("post-form_body");
 
@@ -207,12 +229,12 @@ Hooks.Crisis = {
       }
       post.focus();
     });
-  }
+  },
 };
 
 Hooks.Comment = {
   mounted() {
-    this.el.addEventListener("click", e => {
+    this.el.addEventListener("click", (e) => {
       let btn = document.getElementById("comment-btn");
       const comment = document.getElementById("comment-form_body");
 
@@ -221,7 +243,7 @@ Hooks.Comment = {
 
       comment.focus();
     });
-  }
+  },
 };
 
 let csrfToken = document
@@ -229,16 +251,14 @@ let csrfToken = document
   .getAttribute("content");
 
 let liveSocket = new LiveSocket("/live", Socket, {
+  hooks: Hooks,
+  uploaders: Uploaders,
   params: { _csrf_token: csrfToken },
-  hooks: Hooks
 });
 
 // Show progress bar on live navigation and form submits
-window.addEventListener("phx:page-loading-start", info => NProgress.start());
-window.addEventListener("phx:page-loading-stop", info => NProgress.done());
-
-
-
+window.addEventListener("phx:page-loading-start", (info) => NProgress.start());
+window.addEventListener("phx:page-loading-stop", (info) => NProgress.done());
 
 // connect if there are any LiveViews on the page
 liveSocket.connect();

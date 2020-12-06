@@ -132,6 +132,7 @@ defmodule Shlinkedin.Timeline do
     |> Post.changeset(attrs)
     |> Repo.insert()
     |> after_save(after_save)
+    |> broadcast(:post_created)
   end
 
   defp after_save({:ok, post}, func) do
