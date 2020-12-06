@@ -103,7 +103,7 @@
         <%# Right side: username, edit, and delete %>
         <div class="">
             <p>
-                @<%= @post.profile.username %>
+                <%= live_patch to: Routes.profile_show_path(@socket, :show, @post.profile.slug), do: "@#{@post.profile.username}", class: "hover:underline" %>
 
                 <%= if @profile != nil and @post.profile_id == @profile.id do %>
                 •
