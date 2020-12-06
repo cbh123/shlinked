@@ -14,7 +14,6 @@
                     </span>
                 </div>
                 <div class="ml-3 sm:ml-4 cursor-pointer">
-
                     <%= live_patch @post.profile.persona_name, to: Routes.profile_show_path(@socket, :show, @post.profile.slug), class: "text-sm font-semibold text-gray-900 hover:underline"  %>
                     <span class="text-gray-500 text-xs font-normal">•
                         <%= Ordinal.ordinalize(:rand.uniform(6)) %></span>

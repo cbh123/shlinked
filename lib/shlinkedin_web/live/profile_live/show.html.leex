@@ -13,17 +13,16 @@
 
             <div class="flex justify-between">
                 <div class="ml-3 mt-2">
-                    <div class="font-bold text-xl sm:text-2xl">Saskia Scrandle</div>
+                    <div class="font-bold text-xl sm:text-2xl"><%= @show_profile.persona_name %></div>
                     <div class="sm:flex items-start text-xs sm:text-base max-w-sm">
-                        <span class="text-gray-700">Chief Officer | Master of Disguise | 30 under 20</span>
+                        <span class="text-gray-700"><%= @show_profile.persona_title %></span>
                     </div>
                 </div>
 
             </div>
         </div>
         <div class="px-5 mt-1 mb-6 ml-3 max-w-lg text-sm">
-            Where to even begin? I'm quite possibly the biggest go-getter of all time. I will find you wherever you
-            live!
+            <%= if @show_profile.summary == nil, do: "FILL OUT BIO!", else: @show_profile.summary %>
         </div>
         <div class="px-5 ml-3 mb-6">
             <button type="button"

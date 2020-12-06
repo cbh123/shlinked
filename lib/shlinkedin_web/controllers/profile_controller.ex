@@ -51,7 +51,7 @@ defmodule ShlinkedinWeb.ProfileController do
       {:ok, _} ->
         conn
         |> put_flash(:info, "Profile updated successfully")
-        |> redirect(to: Routes.post_index_path(conn, :index))
+        |> redirect(to: Routes.profile_show_path(conn, :show, profile.slug))
 
       {:error, changeset} ->
         render(conn, "edit.html", changeset: changeset, profile: profile)

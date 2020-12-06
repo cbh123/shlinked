@@ -17,23 +17,7 @@
 
 <body class="bg-gray-200">
     <header>
-        <!--
-  This example requires Tailwind CSS v2.0+
-
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ]
-  }
-  ```
--->
-        <nav class="bg-white shadow border-b fixed w-full z-5">
+        <nav class="bg-white shadow border-b fixed w-full z-10">
             <div class=" mx-auto px-2 sm:px-4 lg:px-8">
                 <div class="flex justify-between h-12">
                     <div class="flex px-2 lg:px-0">
@@ -44,8 +28,6 @@
 
                         </div>
                     </div>
-
-
                     <div class="ml-4 mr-2 flex items-center">
                         <%= render "_user_menu.html", assigns %>
                     </div>

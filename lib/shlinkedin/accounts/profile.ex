@@ -23,11 +23,12 @@ defmodule Shlinkedin.Accounts.Profile do
   @doc false
   def changeset(profile, attrs) do
     profile
-    |> cast(attrs, [:username, :user_id, :slug, :persona_name, :persona_title])
+    |> cast(attrs, [:username, :user_id, :slug, :persona_name, :persona_title, :summary])
     |> validate_required([:user_id])
     |> unique_constraint([:user_id])
     |> validate_length(:persona_name, min: 3, max: 40)
     |> validate_length(:persona_title, min: 3, max: 30)
+    |> validate_length(:summary, max: 300)
     |> validate_username()
     |> validate_slug()
   end
