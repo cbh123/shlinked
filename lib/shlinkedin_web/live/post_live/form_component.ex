@@ -3,7 +3,6 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
 
   alias Shlinkedin.Timeline
   alias Shlinkedin.Timeline.Post
-  alias Shlinkedin.Timeline.Profile
 
   @impl true
   def mount(socket) do
@@ -43,16 +42,27 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
     {:noreply, cancel_upload(socket, :photo, ref)}
   end
 
-  # defp put_photo_urls(socket, %Post{} = post) do
-  #   {completed, []} = uploaded_entries(socket, :photo)
+  defp put_photo_urls(socket, %Post{} = post) do
+    {completed, []} = uploaded_entries(socket, :photo)
 
-  #   url =
-  #     for entry <- completed do
-  #       Routes.static_path(socket, "/uploads/#{entry.uuid}.#{ext(entry)}")
-  #     end
+    urls =
+      for entry <- completed do
+        Routes.static_path(socket, "/uploads/#{entry.uuid}.#{ext(entry)}")
+      end
 
-  #   %Post{post | photo_url: url}
-  # end
+    # if url is just empty list, make it nil. otherwise let's take the first
+
+    %Post{post | photo_urls: urls}
+  end
+
+  def consume_photos(socket, %Post{} = post) do
+    consume_uploaded_entries(socket, :photo, fn meta, entry ->
+      dest = Path.join("priv/static/uploads", "#{entry.uuid}.#{ext(entry)}")
+      File.cp!(meta.path, dest)
+    end)
+
+    {:ok, post}
+  end
 
   def ext(entry) do
     [ext | _] = MIME.extensions(entry.client_type)
@@ -60,12 +70,13 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
   end
 
   defp save_post(socket, :edit, post_params) do
-    # post = put_photo_urls(socket(socket.assigns.post))
+    post = put_photo_urls(socket, socket.assigns.post)
 
     case Timeline.update_post(
            socket.assigns.profile,
-           socket.assigns.post,
-           post_params
+           post,
+           post_params,
+           &consume_photos(socket, &1)
          ) do
       {:ok, _post} ->
         {:noreply,
@@ -85,9 +96,9 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
   end
 
   defp save_post(%{assigns: %{profile: profile}} = socket, :new, post_params) do
-    # post = put_photo_urls(socket, %Profile{})
+    post = put_photo_urls(socket, %Post{})
 
-    case Timeline.create_post(profile, post_params) do
+    case Timeline.create_post(profile, post_params, post, &consume_photos(socket, &1)) do
       {:ok, _post} ->
         {:noreply,
          socket

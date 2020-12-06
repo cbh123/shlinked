@@ -125,13 +125,20 @@ defmodule Shlinkedin.Timeline do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_post(%Profile{} = profile, attrs \\ %{}) do
-    %Post{
-      profile_id: profile.id
-    }
+  def create_post(%Profile{} = profile, attrs \\ %{}, post \\ %Post{}, after_save \\ &{:ok, &1}) do
+    post = %{post | profile_id: profile.id}
+
+    post
     |> Post.changeset(attrs)
     |> Repo.insert()
+    |> after_save(after_save)
   end
+
+  defp after_save({:ok, post}, func) do
+    {:ok, _post} = func.(post)
+  end
+
+  defp after_save(error, _func), do: error
 
   def create_comment(%Profile{} = profile, %Post{id: post_id}, attrs \\ %{}) do
     {:ok, comment} =
@@ -227,7 +234,7 @@ defmodule Shlinkedin.Timeline do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_post(%Profile{} = profile, %Post{} = post, attrs) do
+  def update_post(%Profile{} = profile, %Post{} = post, attrs, after_save \\ &{:ok, &1}) do
     case profile.id == post.profile_id do
       true ->
         post
