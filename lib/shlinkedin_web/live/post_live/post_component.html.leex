@@ -1,4 +1,4 @@
-<div id="post-<%= @post.id %>"
+<div id="post-<%= @post.id %>" phx-click="hide-post-options" phx-target="<%= @myself %>"
     class="bg-white w-11/12 shadow-md sm:max-w-lg mx-auto rounded-lg p-4 my-4 pb-2 <%= if @deleted, do: "hidden" %>">
     <%= if @deleted != true do %>
     <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
@@ -30,22 +30,50 @@
             </div>
         </div>
 
-        <%# Post Header: Shlink Button %>
-        <div class="ml-4 mt-4 flex-shrink-0 flex">
-            <button type="button"
-                class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <!-- Heroicon name: user-add -->
-                <svg class="-ml-1 -mr-1 sm:mr-2 h-4 w-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z">
-                    </path>
-                </svg>
-                <span class="hidden sm:block">
-                    Shlink
-                </span>
-            </button>
+        <div class="text-xs text-gray-500 text-right">
+            <div class="relative inline-block text-left ">
+                <div>
+                    <button type="button" phx-click="toggle-post-options" phx-target="<%= @myself %>"
+                        class=" px-4 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
+                        id="options-menu" aria-haspopup="true" aria-expanded="true">
+
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z">
+                            </path>
+                        </svg>
+
+                    </button>
+                </div>
+
+                <!--
+    Dropdown panel, show/hide based on dropdown state.
+
+    Entering: "transition ease-out duration-100"
+      From: "transform opacity-0 scale-95"
+      To: "transform opacity-100 scale-100"
+    Leaving: "transition ease-in duration-75"
+      From: "transform opacity-100 scale-100"
+      To: "transform opacity-0 scale-95"
+  -->
+                <div
+                    class="<%= if @show_post_options != true, do: "hidden" %> origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                    <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                        <%= live_patch to: Routes.post_show_path(@socket, :show, @post.id), do: raw("View post &rarr;"), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
+                        <%= if @profile != nil and @post.profile_id == @profile.id do %>
+                        <%= live_patch to: Routes.post_index_path(@socket, :edit, @post.id), do: "Edit", class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
+                        <%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @post.id, data: [confirm: "Are you sure?"], class: "block px-4 py-2 text-sm text-red-700 hover:bg-gray-100"%>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+            <p>
+            </p>
+
+
         </div>
+
     </div>
 
     <%# Post Text %>
@@ -108,13 +136,6 @@
         <div class="">
             <p>
                 <%= live_patch to: Routes.profile_show_path(@socket, :show, @post.profile.slug), do: "@#{@post.profile.username}", class: "hover:underline" %>
-
-                <%= if @profile != nil and @post.profile_id == @profile.id do %>
-                •
-                <%= live_patch to: Routes.post_index_path(@socket, :edit, @post.id), do: "Edit" %>
-                •
-                <%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @post.id, data: [confirm: "Are you sure?"], class: "hover:underline"%>
-                <% end %>
             </p>
         </div>
     </div>

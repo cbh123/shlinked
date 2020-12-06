@@ -9,6 +9,24 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     {:noreply, socket}
   end
 
+  def handle_event("toggle-post-options", _, socket) do
+    send_update(PostComponent,
+      id: socket.assigns.post.id,
+      show_post_options: !socket.assigns.show_post_options
+    )
+
+    {:noreply, socket}
+  end
+
+  def handle_event("hide-post-options", _, socket) do
+    send_update(PostComponent,
+      id: socket.assigns.post.id,
+      show_post_options: false
+    )
+
+    {:noreply, socket}
+  end
+
   def handle_event("like-selected", %{"like-type" => like_type}, socket) do
     Shlinkedin.Timeline.create_like(socket.assigns.profile, socket.assigns.post, like_type)
 

@@ -13,8 +13,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
     {:ok,
      socket
      |> assign(posts: list_posts())
-     |> assign(like_map: Timeline.like_map())
-     |> assign(show_like_options: false), temporary_assigns: [posts: []]}
+     |> assign(like_map: Timeline.like_map()), temporary_assigns: [posts: []]}
   end
 
   @impl true
