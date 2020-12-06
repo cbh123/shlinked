@@ -42,13 +42,17 @@ defmodule Shlinkedin.Accounts.User do
     |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "must have the @ sign and no spaces")
     |> validate_length(:email, max: 160)
     |> unsafe_validate_unique(:email, Shlinkedin.Repo)
-    |> unique_constraint(:email)
+    |> unique_constraint(:email, message: "email has already been taken! maybe try logging in?")
   end
 
   defp validate_password(changeset, opts) do
     changeset
     |> validate_required([:password])
-    |> validate_length(:password, min: 5, max: 80)
+    |> validate_length(:password,
+      min: 5,
+      max: 80,
+      message: "password should be at least 5 characters"
+    )
     # |> validate_format(:password, ~r/[a-z]/, message: "at least one lower case character")
     # |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
     # |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/, message: "at least one digit or punctuation character")
