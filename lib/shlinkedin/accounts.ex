@@ -367,8 +367,6 @@ defmodule Shlinkedin.Accounts do
   end
 
   def update_profile(%Profile{} = profile, %User{id: user_id}, attrs) do
-    IO.inspect(binding())
-
     profile
     |> Profile.changeset(attrs |> Map.put("user_id", user_id))
     |> Repo.update()

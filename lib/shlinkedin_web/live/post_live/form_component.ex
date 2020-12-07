@@ -87,12 +87,6 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
-
-      {:error, message} ->
-        {:noreply,
-         socket
-         |> put_flash(:error, message)
-         |> push_redirect(to: socket.assigns.return_to)}
     end
   end
 

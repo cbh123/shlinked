@@ -29,12 +29,37 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
      |> assign(title_placeholder: @title_placeholders |> Enum.random())}
   end
 
-  def handle_event("validate", _params, socket) do
+  def handle_event("save", %{"profile" => profile_params}, socket) do
+    save_profile(socket, socket.assigns.live_action, profile_params)
+  end
+
+  def handle_event("validate", params, socket) do
     changeset =
-      socket.assigns.profile
-      |> Accounts.change_profile(socket.assigns.current_user)
+      Accounts.change_profile(
+        socket.assigns.profile,
+        socket.assigns.current_user,
+        params["profile"]
+      )
       |> Map.put(:action, :validate)
 
+    IO.inspect(changeset, label: "")
     {:noreply, assign(socket, :changeset, changeset)}
+  end
+
+  defp save_profile(socket, :edit, profile_params) do
+    case Accounts.update_profile(
+           socket.assigns.profile,
+           socket.assigns.current_user,
+           profile_params
+         ) do
+      {:ok, profile} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Post updated successfully")
+         |> push_redirect(to: Routes.profile_show_path(socket, :show, profile.slug))}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, :changeset, changeset)}
+    end
   end
 end

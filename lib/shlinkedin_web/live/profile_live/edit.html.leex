@@ -22,8 +22,9 @@
                     <div class="mt-1 relative rounded-md shadow-sm">
                         <%= text_input f, :persona_name, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 sm:text-sm border-gray-300 rounded-md",
                                     placeholder: "Name" %>
-
                     </div>
+                    <p class="mt-4 text-xs"><%= error_tag f, :persona_name %></p>
+
                 </div>
 
                 <%# Title %>
@@ -34,6 +35,8 @@
                                     placeholder:  @title_placeholder  %>
 
                     </div>
+                    <p class="mt-4 text-xs"><%= error_tag f, :persona_title %></p>
+
                 </div>
 
                 <div>
@@ -43,13 +46,14 @@
                                     placeholder: @bio_placeholder, rows: 5 %>
 
                     </div>
+                    <p class="mt-4 text-xs"><%= error_tag f, :summary %></p>
+
                 </div>
-
             </div>
-
+            <div class="flex justify-end">
+                <%= submit "Save", class: "ml-3 mt-6 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
+            </div>
         </div>
-
-
 
     </div>
 
