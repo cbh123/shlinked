@@ -76,7 +76,7 @@
 
     </div>
 
-    <%# Post Text %>
+    <%# Post Text / Image %>
     <div class="mt-2 max-h-64 overflow-hidden <%= if @post.photo_urls != [], do: "-mx-4 mb-12 max-h-96" %>">
         <%= if @post.photo_urls == [] do %>
         <p class="whitespace-pre-line"><%= @post.body %></p>
