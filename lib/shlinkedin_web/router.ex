@@ -73,6 +73,8 @@ defmodule ShlinkedinWeb.Router do
     ### profile
     # show profile
     live "/:slug", ProfileLive.Show, :show
+
+    live "/profile/live_edit", ProfileLive.Edit, :edit
     # create profile and settings
     get "/profile/username", ProfileController, :new
     post "/profile/username", ProfileController, :create

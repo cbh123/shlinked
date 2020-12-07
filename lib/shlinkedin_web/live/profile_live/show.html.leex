@@ -1,4 +1,4 @@
-<div class="max-w-2xl sm:mx-4">
+<div class="max-w-2xl sm:mx-4 sm:mt-4">
     <%# Profile and cover photo  %>
     <div class="bg-white sm:rounded-lg shadow">
         <div class="bg-cover bg-top h-52 rounded-t-lg" style="background-image: url(
@@ -123,6 +123,6 @@
 
 
     <%= if @profile.id == @show_profile.id do %>
-    <span><%= link "Edit", to: Routes.profile_path(@socket, :edit) %></span>
+    <span><%= live_patch "Edit", to: Routes.profile_edit_path(@socket, :edit) %></span>
     <% end %>
 </div>

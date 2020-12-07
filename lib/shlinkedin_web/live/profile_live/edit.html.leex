@@ -1,0 +1,59 @@
+<%= f = form_for @changeset, "#",
+  id: "profile-form",
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+<div class="max-w-2xl sm:mx-4 sm:mt-4">
+    <%# Profile and cover photo  %>
+    <div class="bg-white sm:rounded-lg shadow">
+        <div class="bg-cover bg-top h-52 rounded-t-lg" style="background-image: url(
+        https://source.unsplash.com/collection/1928683/1600x900" )> </div>
+        <div class="pt-2 p-5">
+            <div class="inline-block relative bg-cover bg-center w-24 h-24 sm:w-32 sm:h-32 -mt-16 rounded-full border-4 border-white"
+                style="background-image: url(https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80)">
+                <span
+                    class="absolute bottom-1 right-2 block h-4 w-4 rounded-full ring-2 ring-white bg-green-500"></span>
+            </div>
+
+            <div class="ml-3 mt-2">
+                <%# Name %>
+                <div class="inline-block">
+                    <label for="name" class="block text-sm font-medium text-gray-700 mt-4">Name</label>
+                    <div class="mt-1 relative rounded-md shadow-sm">
+                        <%= text_input f, :persona_name, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 sm:text-sm border-gray-300 rounded-md",
+                                    placeholder: "Name" %>
+
+                    </div>
+                </div>
+
+                <%# Title %>
+                <div class="">
+                    <label for="title" class="block text-sm font-medium text-gray-700 mt-4">Headline</label>
+                    <div class="mt-1 relative rounded-md shadow-sm">
+                        <%= text_input f, :persona_title, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 sm:text-sm border-gray-300 rounded-md",
+                                    placeholder:  @title_placeholder  %>
+
+                    </div>
+                </div>
+
+                <div>
+                    <label for="summary" class="block text-sm font-medium text-gray-700 mt-4">Bio</label>
+                    <div class="mt-1 relative rounded-md shadow-sm">
+                        <%= textarea f, :summary, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 sm:text-sm border-gray-300 rounded-md",
+                                    placeholder: @bio_placeholder, rows: 5 %>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+
+</div>
+
+</form>

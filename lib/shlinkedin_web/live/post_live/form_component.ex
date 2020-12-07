@@ -8,7 +8,7 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
   def mount(socket) do
     {:ok,
      allow_upload(socket, :photo,
-       accept: ~w(.png .jpeg .jpg),
+       accept: ~w(.png .jpeg .jpg .gif),
        max_entries: 1,
        external: &presign_entry/2
      )}
