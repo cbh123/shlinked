@@ -99,7 +99,12 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
   defp save_post(%{assigns: %{profile: profile}} = socket, :new, post_params) do
     post = put_photo_urls(socket, %Post{})
 
-    case Timeline.create_post(profile, post_params, post, &consume_photos(socket, &1)) do
+    case Timeline.create_post(
+           profile,
+           post_params,
+           post,
+           &consume_photos(socket, &1)
+         ) do
       {:ok, _post} ->
         {:noreply,
          socket

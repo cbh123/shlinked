@@ -34,7 +34,7 @@
             <div class="relative inline-block text-left ">
                 <div>
                     <button type="button" phx-click="toggle-post-options" phx-target="<%= @myself %>"
-                        class=" px-4 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
+                        class=" py-2 text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
                         id="options-menu" aria-haspopup="true" aria-expanded="true">
 
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -80,17 +80,21 @@
     <div class="mt-2 max-h-64 overflow-hidden <%= if @post.photo_urls != [], do: "-mx-4 mb-12 max-h-96" %>">
         <%= if @post.photo_urls == [] do %>
         <p class="whitespace-pre-line"><%= @post.body %></p>
-        <%= else %>
+        <% else %>
         <p class="whitespace-pre-line px-5"><%= @post.body %></p>
-        <img class="pt-2 object-cover bg-cover align-middle mx-auto w-full h-full"
-            src="<%= @post.photo_urls |> Enum.take(1) %>" alt="">
+        <div>
+            <img class="object-center pt-2 object-cover bg-cover align-middle mx-auto w-full h-full"
+                src="<%= @post.photo_urls |> Enum.take(1) %>" alt="">
+        </div>
         <% end %>
     </div>
 
 
 
+
+
     <%# Post Text Bottom: likes, comments, bar %>
-    <div class="mt-6 flex justify-between pb-1 text-xs text-gray-500">
+    <div class=" mt-6 flex justify-between pb-1 text-xs text-gray-500">
 
         <%# Left side: number of likes and comments %>
         <div class="inline-flex items-center pl-2">

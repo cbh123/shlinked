@@ -125,14 +125,32 @@ defmodule Shlinkedin.Timeline do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_post(%Profile{} = profile, attrs \\ %{}, post \\ %Post{}, after_save \\ &{:ok, &1}) do
+  def create_post(
+        %Profile{} = profile,
+        attrs \\ %{},
+        post \\ %Post{},
+        after_save \\ &{:ok, &1},
+        add_gif \\ false
+      ) do
     post = %{post | profile_id: profile.id}
+
+    post = add_gif_url(post, attrs["body"], add_gif)
 
     post
     |> Post.changeset(attrs)
     |> Repo.insert()
     |> after_save(after_save)
     |> broadcast(:post_created)
+  end
+
+  defp add_gif_url(post, _text, add_gif) do
+    case add_gif do
+      true ->
+        post
+
+      false ->
+        post
+    end
   end
 
   defp after_save({:ok, post}, func) do
@@ -240,6 +258,7 @@ defmodule Shlinkedin.Timeline do
       true ->
         post
         |> Post.changeset(attrs)
+        |> after_save(after_save)
         |> Repo.update()
 
       false ->
