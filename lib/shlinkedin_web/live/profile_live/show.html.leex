@@ -13,11 +13,12 @@
 
             <div class="flex justify-between">
                 <div class="ml-3 mt-2">
-                    <div class="font-bold text-xl sm:text-2xl"><%= @show_profile.persona_name %></div>
-                    <div class="sm:flex items-start text-xs sm:text-base max-w-sm">
+                    <div class="font-bold text-2xl sm:text-3xl"><%= @show_profile.persona_name %></div>
+                    <div class="sm:flex items-start text-sm">
                         <span class="text-gray-700 italic"><%= @show_profile.persona_title %></span>
                     </div>
                 </div>
+
 
 
                 <%= if @profile.id == @show_profile.id do %>
@@ -40,10 +41,28 @@
 
             </div>
         </div>
+
+
+
+
+
         <div class="px-5 mt-1 mb-6 ml-3 max-w-lg text-sm">
             <%= if @show_profile.summary == nil, do: "FILL OUT BIO!", else: @show_profile.summary %>
         </div>
-        <div class=" px-5 ml-3 pb-6">
+
+        <div class="px-5 ml-3 flex items-start text-xs pb-6">
+            <span>
+                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                    </path>
+                </svg>
+            </span>
+            <span class="text-gray-700 ml-2">Started Shlinkin'
+                <%= Timex.format!(@profile.inserted_at, "{Mshort}. {D}, {YYYY}") %></span></div>
+
+        <div class="px-5 ml-3 pb-6">
             <button type="button"
                 class="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-xs font-semibold rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 <!-- Heroicon name: mail -->
