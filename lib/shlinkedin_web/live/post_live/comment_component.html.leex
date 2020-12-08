@@ -24,16 +24,18 @@
             </span>
             <div class="bg-gray-100 ml-2 py-2 px-4 rounded-lg w-11/12">
                 <div class="flex justify-between">
-                    <%= live_patch to: Routes.profile_show_path(@socket, :show, comment.profile.slug), class: "bold text-xs font-semibold hover:underline cursor-pointer" do  %>
-                    <%= comment.profile.persona_name %> •
-                    <span class="text-gray-500"> <%= comment.profile.persona_title %></span>
-                    <%= if @profile.id== @post.profile.id do %>
-                    <span
-                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                        Author
-                    </span>
-                    <% end %>
-                    <% end %>
+                    <div class="w-48 sm:w-64 truncate">
+                        <%= live_patch to: Routes.profile_show_path(@socket, :show, comment.profile.slug), class: "bold text-xs font-semibold hover:underline cursor-pointer" do  %>
+                        <%= comment.profile.persona_name %> •
+                        <span class="text-gray-500"> <%= comment.profile.persona_title %></span>
+                        <%= if @profile.id== @post.profile.id do %>
+                        <span
+                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            Author
+                        </span>
+                        <% end %>
+                        <% end %>
+                    </div>
                     <p class="text-xs text-gray-500"><%= Timex.from_now(comment.inserted_at) %></p>
                 </div>
                 <p class="text-xs mt-1">
@@ -47,12 +49,13 @@
         </div>
     </div>
     <% end %>
-    <hr class="mt-6">
+    <hr class="mt-6 ">
 </div>
 <% end %>
 
-<div class="ml-4 mt-1 p-5">
-    <div class="flex justify-between">
+<div class="ml-4 mt-1 p-5 <%= if @action == :show_comments, do: "pt-0" %>">
+
+    <div class="<%= if @action == :show_comments, do: "hidden" %> flex justify-between">
         <div class="flex items-center">
             <div class="flex-shrink-0">
                 <span class="inline-block relative">
@@ -78,8 +81,8 @@
 
 
 
-    <div class="my-4">
-        <%= textarea f, :body, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md", rows: 2, placeholder: "Add a comment..." %>
+    <div class="mt-4">
+        <%= textarea f, :body, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md", rows:  2, placeholder: "Add a comment..." %>
     </div>
     <p class="mt-4 text-xs"><%= error_tag f, :body %></p>
 
