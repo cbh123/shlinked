@@ -20,9 +20,7 @@
     <div class="my-1">
         <div class="flex">
             <span class="inline-block cursor-pointer">
-                <img class="h-6 w-6 mt-1 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt="">
+                <img class="h-6 w-6 mt-1 rounded-full" src="<%= comment.profile.photo_url %>" alt="">
             </span>
             <div class="bg-gray-100 ml-2 py-2 px-4 rounded-lg w-11/12">
                 <div class="flex justify-between">
@@ -58,8 +56,7 @@
         <div class="flex items-center">
             <div class="flex-shrink-0">
                 <span class="inline-block relative">
-                    <img class="h-10 w-10 rounded-full" src="https://source.unsplash.com/collection/1340430/256x265?"
-                        alt="">
+                    <img class="h-10 w-10 rounded-full" src="<%= @profile.photo_url %>" alt="">
                     <span
                         class="absolute bottom-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-green-400"></span>
                 </span>

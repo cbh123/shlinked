@@ -4,60 +4,125 @@
   phx_submit: "save" %>
 
 <div class="max-w-2xl sm:mx-4 sm:mt-4">
+
+    <div class=" text-center py-4  bg-gradient-to-r from-green-400 to-blue-500 sm:rounded-t-lg border-b-4 border-white">
+        <h1 class="font-windows italic text-white font-extrabold  text-5xl ">Profile Editor 3000</h1>
+        <p class="text-base text-white font-windows">Edit your profile at your whim, <%= @profile.persona_name %></p>
+    </div>
     <%# Profile and cover photo  %>
-    <div class="bg-white sm:rounded-lg shadow">
-        <div class="bg-cover bg-top h-52 rounded-t-lg" style="background-image: url(
+    <div class="bg-white shadow ">
+        <div class="bg-cover bg-top h-52" style="background-image: url(
         https://source.unsplash.com/collection/1928683/1600x900" )> </div>
         <div class="pt-2 p-5">
-            <div class="inline-block relative bg-cover bg-center w-24 h-24 sm:w-32 sm:h-32 -mt-16 rounded-full border-4 border-white"
-                style="background-image: url(https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80)">
-                <span
-                    class="absolute bottom-1 right-2 block h-4 w-4 rounded-full ring-2 ring-white bg-green-500"></span>
-            </div>
+            <div class="flex justify-start">
 
-            <div class="ml-3 mt-2">
-                <%# Name %>
-                <div class="inline-block">
-                    <label for="name" class="block text-sm font-medium text-gray-700 mt-4">Name</label>
-                    <div class="mt-1 relative rounded-md shadow-sm">
-                        <%= text_input f, :persona_name, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 sm:text-sm border-gray-300 rounded-md",
-                                    placeholder: "Name" %>
-                    </div>
-                    <p class="mt-4 text-xs"><%= error_tag f, :persona_name %></p>
+                <%= if @uploads.photo.entries != [] do %>
+                <%= for entry <- @uploads.photo.entries do %>
+                <%= live_img_preview entry, class: "inline-block relative bg-cover bg-center w-24 h-24 sm:w-32 sm:h-32 -mt-16 rounded-full border-4 border-white" %>
+                <% end %>
+                <% else %>
+                <img class="inline-block relative bg-cover bg-center w-24 h-24 sm:w-32 sm:h-32 -mt-16 rounded-full border-4 border-white"
+                    src="<%= if @profile.photo_url == nil, do: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80)", else: @profile.photo_url%>">
+                <% end  %>
+
+
+                <div class="block">
 
                 </div>
 
-                <%# Title %>
-                <div class="">
-                    <label for="title" class="block text-sm font-medium text-gray-700 mt-4">Headline</label>
-                    <div class="mt-1 relative rounded-md shadow-sm">
-                        <%= text_input f, :persona_title, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 sm:text-sm border-gray-300 rounded-md",
-                                    placeholder:  @title_placeholder  %>
-
-                    </div>
-                    <p class="mt-4 text-xs"><%= error_tag f, :persona_title %></p>
-
-                </div>
-
-                <div>
-                    <label for="summary" class="block text-sm font-medium text-gray-700 mt-4">Bio</label>
-                    <div class="mt-1 relative rounded-md shadow-sm">
-                        <%= textarea f, :summary, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 sm:text-sm border-gray-300 rounded-md",
-                                    placeholder: @bio_placeholder, rows: 5 %>
-
-                    </div>
-                    <p class="mt-4 text-xs"><%= error_tag f, :summary %></p>
-
-                </div>
             </div>
-            <div class="flex justify-end">
-                <%= submit "Save", class: "ml-3 mt-6 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
-            </div>
+
         </div>
 
+
+        <%= if @uploads.photo.entries != [] do %>
+        <button phx-click="cancel-entry" phx-value-ref="<%= (@uploads.photo.entries |> Enum.at(0)).ref %>"
+            class="ml-8 mt-2 items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Remove
+            photo</button>
+        <p class="text-xs italic pt-2 ml-8">BUG ALERT: your new pic may not show up, but click save and it'll work.
+        </p>
+        <% end %>
+
+
+
+
+
+
+        <div class="ml-3 mt-2 px-5">
+
+
+            <div class="inline-block mr-8">
+                <label for="name" class="block text-sm font-medium text-gray-700 mt-4">Profile
+                    photo</label>
+                <label for="file-upload"
+                    class="inline-flex mt-1 items-center px-4 py-2 relative cursor-pointer border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 ">
+                    <svg class="-ml-1 mr-3 h-4 w-4 py-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                        fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd"
+                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+
+                    <span class="text-sm">Change photo</span>
+                    <%= live_file_input @uploads.photo, class: "sr-only", type: "file", id: "file-upload", name: "file-upload" %>
+                </label>
+            </div>
+
+
+            <%# Name %>
+            <div class="inline-block">
+                <label for="name" class="block text-sm font-medium text-gray-700 mt-4">Name</label>
+                <div class="mt-1 relative rounded-md shadow-sm">
+                    <%= text_input f, :persona_name, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 sm:text-sm border-gray-300 rounded-md",
+                                    placeholder: "Name" %>
+                </div>
+                <p class="mt-4 text-xs"><%= error_tag f, :persona_name %></p>
+            </div>
+
+
+
+            <%# Title %>
+            <div class="mb-6">
+                <label for="title" class="block text-sm font-medium text-gray-700 mt-4">Headline</label>
+                <div class="mt-1 relative rounded-md shadow-sm">
+                    <%= text_input f, :persona_title, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 sm:text-sm border-gray-300 rounded-md",
+                                    placeholder:  @title_placeholder  %>
+
+                </div>
+                <p class="mt-4 text-xs"><%= error_tag f, :persona_title %></p>
+
+            </div>
+
+            <div>
+                <label for="summary" class="block text-sm font-medium text-gray-700 mt-4">Bio</label>
+                <div class="mt-1 relative rounded-md shadow-sm">
+                    <%= textarea f, :summary, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 sm:text-sm border-gray-300 rounded-md",
+                                    placeholder: @bio_placeholder, rows: 5 %>
+
+                </div>
+                <p class="mt-4 text-xs"><%= error_tag f, :summary %></p>
+
+            </div>
+        </div>
+        <div class="flex justify-end p-5">
+            <%= live_patch "Cancel", to: Routes.profile_show_path(@socket, :show, @profile.slug), class: "ml-3 mt-6 inline-flex justify-center py-2 px-4 border border-blue-600 shadow-sm text-sm font-medium rounded-full text-blue-600 bg-white hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+            <%= submit "Save", class: "ml-3 mt-6 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
+        </div>
     </div>
 
+</div>
 
+
+
+
+
+
+<%= for entry <- @uploads.photo.entries do %>
+
+
+<progress max="100" class="w-full mt-6" value="<%= entry.progress %>" />
+
+<% end %>
 </div>
 
 </form>

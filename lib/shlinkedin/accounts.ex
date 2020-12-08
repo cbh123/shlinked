@@ -359,16 +359,28 @@ defmodule Shlinkedin.Accounts do
     end
   end
 
-  def create_profile(%User{id: user_id}, attrs \\ %{}) do
+  def create_profile(%User{id: user_id}, attrs \\ %{}, after_save \\ &{:ok, &1}) do
     %Profile{}
     |> Profile.changeset(attrs |> Map.put("user_id", user_id))
     |> Ecto.Changeset.put_change(:slug, attrs["username"])
     |> Repo.insert()
+    |> after_save(after_save)
   end
 
-  def update_profile(%Profile{} = profile, %User{id: user_id}, attrs) do
+  def update_profile(%Profile{} = profile, %User{id: user_id}, attrs, after_save \\ &{:ok, &1}) do
+    IO.inspect(binding())
+
+    profile = %{profile | user_id: user_id}
+
     profile
-    |> Profile.changeset(attrs |> Map.put("user_id", user_id))
+    |> Profile.changeset(attrs)
     |> Repo.update()
+    |> after_save(after_save)
   end
+
+  defp after_save({:ok, profile}, func) do
+    {:ok, _profile} = func.(profile)
+  end
+
+  defp after_save(error, _func), do: error
 end

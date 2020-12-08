@@ -1,15 +1,13 @@
 <div class="max-w-2xl sm:mx-4 sm:mt-4">
     <%# Profile and cover photo  %>
-    <div class="bg-white sm:rounded-lg shadow">
+    <div class="bg-white sm:rounded-lg shadow ">
         <div class="bg-cover bg-top h-52 rounded-t-lg" style="background-image: url(
         https://source.unsplash.com/collection/1928683/1600x900" )> </div>
-        <div class="sm:flex pt-2 p-5">
-            <div class="inline-block relative bg-cover bg-center w-24 h-24 sm:w-32 sm:h-32 -mt-16 rounded-full border-4 border-white"
-                style="background-image: url(https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80)">
-                <span
-                    class="absolute bottom-1 right-2 block h-4 w-4 rounded-full ring-2 ring-white bg-green-500"></span>
+        <div class="sm:flex pt-2 p-5 ">
+            <img class=" inline-block relative bg-cover bg-center w-24 h-24 sm:w-32 sm:h-32 -mt-16 rounded-full border-4 border-white"
+                src="<%= @show_profile.photo_url %>" />
+            <span class="absolute bottom-1 right-2 block h-4 w-4 rounded-full ring-2 ring-white bg-green-500"></span>
 
-            </div>
 
             <div class="flex justify-between">
                 <div class="ml-3 mt-2">
@@ -24,7 +22,7 @@
         <div class="px-5 mt-1 mb-6 ml-3 max-w-lg text-sm">
             <%= if @show_profile.summary == nil, do: "FILL OUT BIO!", else: @show_profile.summary %>
         </div>
-        <div class="px-5 ml-3 mb-6">
+        <div class=" px-5 ml-3 mb-6">
             <button type="button"
                 class="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-xs font-semibold rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 <!-- Heroicon name: mail -->
@@ -41,7 +39,7 @@
                 Business Jab
             </button>
         </div>
-        <div class="border-t-2 border-gray-200 p-5">
+        <div class="bg-white border-t-2 border-gray-200 p-5">
             <div class="flex items-start">
                 <span>
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

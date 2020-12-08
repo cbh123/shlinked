@@ -7,8 +7,7 @@
             <div class="flex items-center">
                 <div class="flex-shrink-0">
                     <span class="inline-block relative">
-                        <img class="h-10 w-10 sm:h-12 sm:w-12 rounded-full"
-                            src="https://source.unsplash.com/collection/1340430/256x265?<%= @post.profile.id %>" alt="">
+                        <img class="h-10 w-10 sm:h-12 sm:w-12 rounded-full" src="<%= @post.profile.photo_url %>" alt="">
                         <span
                             class="absolute bottom-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-green-400"></span>
                     </span>
@@ -198,60 +197,58 @@
         <div class="my-1">
             <div class="flex">
                 <span class="inline-block cursor-pointer">
-                    <img class="h-6 w-6 mt-1 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    <img class="h-6 w-6 mt-1 rounded-full" src="<%= comment.profile.photo_url %>
                         alt="">
                 </span>
-                <div class="bg-gray-100 ml-2 py-2 px-4 rounded-lg w-11/12">
-                    <div class="flex justify-between">
-                        <%= live_patch to: Routes.profile_show_path(@socket, :show, comment.profile.slug), class: "text-sm font-semibold text-gray-900 hover:underline" do  %>
-                        <p class="bold text-xs font-semibold hover:underline cursor-pointer">
-                            <%= comment.profile.persona_name %> •
-                            <span class="text-gray-500">
-                                <%= comment.profile.persona_title %>
-                            </span>
-                            <%= if @profile.id == comment.profile.id do %>
-                            <span
-                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                Author
-                            </span>
-                            <% end %>
-                        </p>
+                <div class=" bg-gray-100 ml-2 py-2 px-4 rounded-lg w-11/12"> <div class="flex justify-between">
+                    <%= live_patch to: Routes.profile_show_path(@socket, :show, comment.profile.slug), class: "text-sm font-semibold text-gray-900 hover:underline" do  %>
+                    <p class="bold text-xs font-semibold hover:underline cursor-pointer">
+                        <%= comment.profile.persona_name %> •
+                        <span class="text-gray-500">
+                            <%= comment.profile.persona_title %>
+                        </span>
+                        <%= if @profile.id == comment.profile.id do %>
+                        <span
+                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            Author
+                        </span>
                         <% end %>
-                        <p class="text-xs text-gray-500"><%= Timex.from_now(comment.inserted_at) %></p>
-                    </div>
-                    <p class="text-xs mt-1 truncate">
-                        <%= comment.body %>
                     </p>
-                </div>
+                    <% end %>
+                    <p class="text-xs text-gray-500"><%= Timex.from_now(comment.inserted_at) %></p>
             </div>
+            <p class="text-xs mt-1 truncate">
+                <%= comment.body %>
+            </p>
         </div>
-        <% end %>
-
-        <%= if length(@post.comments) == 0 do %>
-        <%= live_patch to: Routes.post_index_path(@socket, :new_comment, @post.id) do %>
-        <button class="text-gray-600 font-semibold mb-0 text-xs hover:bg-gray-100 px-2 py-1 rounded mt-2">Be the
-            first
-            to comment on this!</button>
-        <% end %>
-        <% end %>
-
-
-        <%= if length(@post.comments) > 1 do %>
-        <%= live_patch to: Routes.post_index_path(@socket, :show_comments, @post.id) do %>
-        <button class="text-gray-600 font-semibold mb-0 text-xs hover:bg-gray-100 px-2 py-1 rounded mt-2">Show
-            <%= length(@post.comments) - 1 %> more
-            comment<%= if length(@post.comments) > 2, do: "s" %></button>
-        <% end %>
-        <% end %>
     </div>
-    <%end %>
-    <%= if @show_like_options == true do %>
+</div>
+<% end %>
 
-    <div id="like-options" class="fixed z-10 inset-0 ">
-        <div class="block items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+<%= if length(@post.comments) == 0 do %>
+<%= live_patch to: Routes.post_index_path(@socket, :new_comment, @post.id) do %>
+<button class="text-gray-600 font-semibold mb-0 text-xs hover:bg-gray-100 px-2 py-1 rounded mt-2">Be the
+    first
+    to comment on this!</button>
+<% end %>
+<% end %>
 
-            <!--
+
+<%= if length(@post.comments) > 1 do %>
+<%= live_patch to: Routes.post_index_path(@socket, :show_comments, @post.id) do %>
+<button class="text-gray-600 font-semibold mb-0 text-xs hover:bg-gray-100 px-2 py-1 rounded mt-2">Show
+    <%= length(@post.comments) - 1 %> more
+    comment<%= if length(@post.comments) > 2, do: "s" %></button>
+<% end %>
+<% end %>
+</div>
+<%end %>
+<%= if @show_like_options == true do %>
+
+<div id="like-options" class="fixed z-10 inset-0 ">
+    <div class="block items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+
+        <!--
       Background overlay, show/hide based on modal state.
 
       Entering: "ease-out duration-300"
@@ -261,45 +258,45 @@
         From: "opacity-100"
         To: "opacity-0"
     -->
-            <div class="fixed inset-0 transition-opacity" aria-hidden="true" phx-click="like-cancelled"
-                phx-target="<%= @myself %>">
-                <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-green-500 opacity-75"></div>
+        <div class="fixed inset-0 transition-opacity" aria-hidden="true" phx-click="like-cancelled"
+            phx-target="<%= @myself %>">
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-green-500 opacity-75"></div>
+        </div>
+
+        <!-- This element is to trick the browser into centering the modal contents. -->
+        <span class="inline-block align-top h-screen" aria-hidden="true">&#8203;</span>
+        <div class="inline-block bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all mt-8 sm:mt-32 align-middle max-w-sm sm:w-full"
+            role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+
+            <div class="text-center">
+                <h5 class="font-semibold text-2xl mb-8">React to <%= @post.profile.persona_name %>'s
+                    post
+                </h5>
             </div>
+            <!-- This example requires Tailwind CSS v2.0+ -->
+            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <%= for like <- like_map_list(@like_map) do %>
+                <button type="button" phx-click="like-selected" phx-value-like-type="<%=like.like_type%>"
+                    phx-target="<%= @myself %>"
+                    class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-bold rounded-full text-white <%=like.bg%> hover:<%=like.bg_hover%> focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <!-- Heroicon name: mail -->
 
-            <!-- This element is to trick the browser into centering the modal contents. -->
-            <span class="inline-block align-top h-screen" aria-hidden="true">&#8203;</span>
-            <div class="inline-block bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all mt-8 sm:mt-32 align-middle max-w-sm sm:w-full"
-                role="dialog" aria-modal="true" aria-labelledby="modal-headline">
-
-                <div class="text-center">
-                    <h5 class="font-semibold text-2xl mb-8">React to <%= @post.profile.persona_name %>'s
-                        post
-                    </h5>
-                </div>
-                <!-- This example requires Tailwind CSS v2.0+ -->
-                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <%= for like <- like_map_list(@like_map) do %>
-                    <button type="button" phx-click="like-selected" phx-value-like-type="<%=like.like_type%>"
-                        phx-target="<%= @myself %>"
-                        class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-bold rounded-full text-white <%=like.bg%> hover:<%=like.bg_hover%> focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        <!-- Heroicon name: mail -->
-
-                        <svg class="-ml-1 mr-3 h-4 w-4 sm:h-5 sm:w-5 mx-auto" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="<%=like.svg_path%>" fill-rule="<%=like.fill%>">
-                            </path>
-                        </svg>
-                        <%=like.like_type%>
-                    </button>
-                    <% end %>
-                </ul>
-                <button type="button" phx-click="like-cancelled" phx-target="<%= @myself %>"
-                    class="w-full mt-6  inline-block px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-500 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Cancel
+                    <svg class="-ml-1 mr-3 h-4 w-4 sm:h-5 sm:w-5 mx-auto" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="<%=like.svg_path%>" fill-rule="<%=like.fill%>">
+                        </path>
+                    </svg>
+                    <%=like.like_type%>
                 </button>
-            </div>
+                <% end %>
+            </ul>
+            <button type="button" phx-click="like-cancelled" phx-target="<%= @myself %>"
+                class="w-full mt-6  inline-block px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-500 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Cancel
+            </button>
         </div>
     </div>
-    <% end %>
+</div>
+<% end %>
 
 </div>
