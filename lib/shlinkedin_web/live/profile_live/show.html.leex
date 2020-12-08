@@ -3,11 +3,13 @@
     <div class="bg-white sm:rounded-lg shadow ">
         <div class="bg-cover bg-top h-52 rounded-t-lg" style="background-image: url(
         https://source.unsplash.com/collection/1928683/1600x900" )> </div>
-        <div class="sm:flex pt-2 p-5 ">
-            <img class=" inline-block relative bg-cover bg-center w-24 h-24 sm:w-32 sm:h-32 -mt-16 rounded-full border-4 border-white"
-                src="<%= @show_profile.photo_url %>" />
-            <span class="absolute bottom-1 right-2 block h-4 w-4 rounded-full ring-2 ring-white bg-green-500"></span>
-
+        <div class=" pt-2 p-5 ">
+            <div class="inline-block relative">
+                <img class="  bg-cover bg-center w-24 h-24 sm:w-32 sm:h-32 -mt-16 rounded-full border-4 border-white"
+                    src="<%= @show_profile.photo_url %>" />
+                <span
+                    class="absolute bottom-2 right-2 h-3 w-3 sm:bottom-2 sm:right-3 block sm:h-4 sm:w-4 rounded-full ring-2 ring-white bg-green-500"></span>
+            </div>
 
             <div class="flex justify-between">
                 <div class="ml-3 mt-2">
@@ -17,12 +19,31 @@
                     </div>
                 </div>
 
+
+                <%= if @profile.id == @show_profile.id do %>
+                <%= live_patch to: Routes.profile_edit_path(@socket, :edit) do %>
+                <button type="button"
+                    class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+
+                    <svg class="-ml-1 mr-2 h-3 w-3" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path>
+                        <path fill-rule="evenodd"
+                            d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    Edit
+                </button>
+                <% end %>
+                <% end %>
+
+
             </div>
         </div>
         <div class="px-5 mt-1 mb-6 ml-3 max-w-lg text-sm">
             <%= if @show_profile.summary == nil, do: "FILL OUT BIO!", else: @show_profile.summary %>
         </div>
-        <div class=" px-5 ml-3 mb-6">
+        <div class=" px-5 ml-3 pb-6">
             <button type="button"
                 class="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-xs font-semibold rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 <!-- Heroicon name: mail -->
@@ -38,34 +59,6 @@
                 class="bg-white hover:bg-blue-200 inline-flex items-center px-3 py-2 border border-blue-600 shadow-sm text-xs font-semibold rounded-full text-blue-600  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 Business Jab
             </button>
-        </div>
-        <div class="bg-white border-t-2 border-gray-200 p-5">
-            <div class="flex items-start">
-                <span>
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                </span>
-                <div class="relative">
-                    <span class="font-bold text-gray-900 ml-2">2</span>
-                    <span class="inline text-gray-700">Shlinkers you know</span>
-                </div>
-            </div>
-            <div class="flex justify-between items-center mt-3">
-                <div class="flex flex-row-reverse justify-end">
-                    <div class="bg-cover bg-center w-12 h-12 rounded-full border-4 border-white"
-                        style="background-image: url(https://images.unsplash.com/photo-1458071103673-6a6e4c4a3413?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80)">
-                    </div>
-                    <div class="bg-cover bg-center w-12 h-12 rounded-full border-4 border-white -mr-3"
-                        style="background-image: url(https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=80)">
-                    </div>
-                </div>
-                <div
-                    class="w-10 h-10 rounded-full border-2 border-gray-400 text-sm font-bold text-gray-700 flex justify-center items-center">
-                    +3</div>
-            </div>
         </div>
     </div>
 
@@ -120,7 +113,5 @@
 
 
 
-    <%= if @profile.id == @show_profile.id do %>
-    <span><%= live_patch "Edit", to: Routes.profile_edit_path(@socket, :edit) %></span>
-    <% end %>
+
 </div>

@@ -62,7 +62,8 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
     case Accounts.update_profile(
            socket.assigns.profile,
            socket.assigns.current_user,
-           profile_params
+           profile_params,
+           &consume_photos(socket, &1)
          ) do
       {:ok, profile} ->
         {:noreply,
@@ -77,6 +78,8 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
 
   defp put_photo_urls(socket, attrs) do
     {completed, []} = uploaded_entries(socket, :photo)
+
+    IO.inspect(completed, label: "")
 
     urls =
       for entry <- completed do

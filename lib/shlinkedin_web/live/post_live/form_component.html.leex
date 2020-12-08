@@ -58,7 +58,7 @@
     </div>
     <p class="mt-4 text-xs"><%= error_tag f, :body %></p>
 
-    <div class="my-6" phx-change="">
+    <div class="my-6">
         <%= for {_ref, msg } <- @uploads.photo.errors do %>
         <p class="alert alert-danger"><%= Phoenix.Naming.humanize(msg) %></p>
         <% end %>
