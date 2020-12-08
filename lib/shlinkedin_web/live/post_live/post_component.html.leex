@@ -76,14 +76,48 @@
     </div>
 
     <%# Post Text / Image %>
-    <div class="mt-2 max-h-64 overflow-hidden <%= if @post.photo_urls != [], do: "-mx-4 max-h-96" %>">
+    <div class="relative mt-2 overflow-hidden <%= if @post.photo_urls != [], do: "-mx-4" %>">
+
+        <%# if we've got an pure text post %>
         <%= if @post.photo_urls == [] do %>
-        <p class="whitespace-pre-line pb-2"><%= @post.body %></p>
-        <% else %>
-        <p class="whitespace-pre-line px-5"><%= @post.body %></p>
         <div>
-            <img class="object-center pt-2 object-cover bg-cover align-middle mx-auto w-full h-full"
-                src="<%= @post.photo_urls |> Enum.take(1) %>" alt="">
+            <%= if @expand_post do %>
+            <p class="whitespace-pre-line pt-2 pb-4"><%= @post.body %></p>
+            <% else %>
+            <p class="whitespace-pre-line pt-2 pb-4"> <%= String.slice(@post.body, 0..200) %></p>
+            <% end %>
+
+            <%# add a see more button %>
+            <%= if String.length(@post.body) >= 200 && !@expand_post do %>
+            <div class="absolute bottom-2 right-2">
+                <button phx-click="expand-post" phx-target="<%= @myself %>"
+                    class="text-gray-500 text-sm hover:underline">...see more
+                </button>
+            </div>
+            <% end %>
+        </div>
+        <%# if we've got an image post %>
+        <% else %>
+        <div class="">
+            <%# only show first 100 characters as a default %>
+            <%= if @expand_post do %>
+            <p class="whitespace-pre-line pt-2 pb-2 px-3"><%= @post.body %></p>
+            <% else %>
+            <p class="whitespace-pre-line pt-2 pb-2 px-3"> <%= String.slice(@post.body, 0..100) %></p>
+            <% end %>
+
+            <%# add a see more button %>
+            <%= if String.length(@post.body) >= 100 && !@expand_post do %>
+            <div class="absolute top-10 right-2">
+                <button phx-click="expand-post" phx-target="<%= @myself %>"
+                    class="text-gray-500 text-sm hover:underline">...see more
+                </button>
+            </div>
+            <% end %>
+            <div>
+                <img class="object-center pt-2 object-cover bg-cover align-middle mx-auto w-full h-full"
+                    src="<%= @post.photo_urls |> Enum.take(1) %>" alt="">
+            </div>
         </div>
         <% end %>
     </div>

@@ -9,6 +9,12 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     {:noreply, socket}
   end
 
+  def handle_event("expand-post", _, socket) do
+    send_update(PostComponent, id: socket.assigns.post.id, expand_post: true)
+
+    {:noreply, socket}
+  end
+
   def handle_event("toggle-post-options", _, socket) do
     send_update(PostComponent,
       id: socket.assigns.post.id,
