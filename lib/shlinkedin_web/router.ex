@@ -77,10 +77,6 @@ defmodule ShlinkedinWeb.Router do
 
     live "/profile/live_edit", ProfileLive.Edit, :edit
     live "/profile/welcome", ProfileLive.Edit, :new
-
-    # create profile and settings
-    get "/profile/username", ProfileController, :new
-    post "/profile/username", ProfileController, :create
   end
 
   scope "/", ShlinkedinWeb do

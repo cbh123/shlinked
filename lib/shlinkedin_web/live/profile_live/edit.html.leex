@@ -3,7 +3,7 @@
     <%= f = form_for @changeset, "#",
   id: "profile-form",
   phx_change: "validate",
-  phx_submit: "next" %>
+  phx_submit: "save" %>
 
 
     <div class="">
@@ -43,8 +43,21 @@
             <div class="mt-2 px-5 max-w-md mx-auto">
 
 
+                <%# Username %>
+                <div class="">
+                    <label for="name" class="text-lg font-medium text-gray-700 mt-4">Username</label>
 
-                <%= if @step == 0 do %>
+                    <div class="mt-1 relative rounded-md shadow-sm">
+                        <%= text_input f, :username, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
+                                    placeholder: "Username", autofocus: true %>
+                    </div>
+
+                    </span>
+                    <p class="mt-4 text-xs"><%= error_tag f, :username %></p>
+                    <p>
+                    </p>
+                </div>
+
 
                 <%# Name %>
                 <div class="">
@@ -55,7 +68,7 @@
 
                     <div class="mt-1 relative rounded-md shadow-sm">
                         <%= text_input f, :persona_name, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
-                                    placeholder: "Name", autofocus: true %>
+                                    placeholder: "Name" %>
                     </div>
                     <span class="text-xs text-gray-600 mb-2"><%= if @changeset.changes |> Map.has_key?(:persona_name), do: "#{@changeset.changes.persona_name}... sounds like you'd have one hell of a handshake. Welcome to the team.", else: "On ShlinkedIn, you can be yourself, an alter ego, or
                         anything
@@ -66,11 +79,9 @@
                     </p>
                 </div>
 
-                <% end %>
 
 
 
-                <%= if @step == 1 do %>
                 <%# Photo %>
 
                 <div class="">
@@ -101,10 +112,7 @@
                     <% end %>
 
                 </div>
-                <% end %>
 
-
-                <%= if @step == 2 do %>
                 <%# Title %>
                 <div class="mb-6 mt-12">
                     <label for="picture" class=" block text-lg font-medium text-gray-700 mt-12">What's your headline?
@@ -118,9 +126,7 @@
                     <p class="mt-4 text-xs"><%= error_tag f, :persona_title %></p>
 
                 </div>
-                <% end %>
 
-                <%= if @step == 3 do %>
                 <div>
                     <label for="bio" class=" block text-lg font-medium text-gray-700 mt-12">And finally, your bio:
                     </label>
@@ -134,34 +140,18 @@
                     <p class="mt-4 text-xs"><%= error_tag f, :summary %></p>
 
                 </div>
-                <% end %>
+
 
                 <div class="w-full pb-16 pt-8">
-                    <%= case @step do %>
 
-                    <%= 3 -> %>
+
+
                     <%= submit "Create Profile", class: "w-full -mx-2 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
 
-                    <% 0 -> %>
-                    <div class="text-right">
 
-                        <button type="button" phx-click="next"
-                            class="-mx-2 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Next
-                            &rarr;</button></div>
 
-                    <% _ -> %>
 
-                    <div class="flex justify-between">
-                        <button type="button" phx-click="back"
-                            class="inline-block py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-blue-300 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">&larr;</button>
-                        <button type="button" phx-click="next"
-                            class="inline-block py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Next
-                            &rarr;</button>
-                    </div>
-                    <% end %>
-                    <div class="text-center text-gray-200">
-                        <%= @step + 1 %> / 3
-                    </div>
+
                 </div>
 
             </div>

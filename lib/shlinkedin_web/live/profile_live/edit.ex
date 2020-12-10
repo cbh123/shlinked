@@ -32,28 +32,13 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
     {:ok,
      socket
      |> assign(changeset: changeset)
-     |> assign(step: 0)
      |> assign(bio_placeholder: @bio_placeholders |> Enum.random())
      |> assign(title_placeholder: @title_placeholders |> Enum.random())}
   end
 
   def handle_event("save", %{"profile" => profile_params}, socket) do
-    # note --> things are kind of weird here because by the time we're
-    # at this stage, the profile has been created (because the username)
-    # has been created. So we're actually always just editings. When
-    # we move username creation to the liveview, we should change
-    # :edit to socket.live_action.
-    save_profile(socket, :edit, profile_params)
-  end
-
-  def handle_event("next", _, socket) do
-    socket = assign(socket, step: socket.assigns.step + 1)
-    {:noreply, socket}
-  end
-
-  def handle_event("back", _, socket) do
-    socket = assign(socket, step: max(0, socket.assigns.step - 1))
-    {:noreply, socket}
+    IO.inspect(socket.assigns.live_action, label: "live action")
+    save_profile(socket, socket.assigns.live_action, profile_params)
   end
 
   def handle_event("cancel-entry", %{"ref" => ref}, socket) do
@@ -85,6 +70,29 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
         {:noreply,
          socket
          |> put_flash(:info, "Updated successfully")
+         |> push_redirect(to: Routes.profile_show_path(socket, :show, profile.slug))}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, :changeset, changeset)}
+    end
+  end
+
+  defp save_profile(socket, :new, profile_params) do
+    profile_params = put_photo_urls(socket, profile_params)
+
+    case(
+      Accounts.create_profile(
+        socket.assigns.current_user,
+        profile_params,
+        &consume_photos(socket, &1)
+      )
+    ) do
+      {:ok, profile} ->
+        IO.inspect(profile, label: "created profile")
+
+        {:noreply,
+         socket
+         |> put_flash(:info, "Profile created!")
          |> push_redirect(to: Routes.profile_show_path(socket, :show, profile.slug))}
 
       {:error, %Ecto.Changeset{} = changeset} ->

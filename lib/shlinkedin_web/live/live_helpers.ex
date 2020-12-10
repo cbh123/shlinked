@@ -2,6 +2,7 @@ defmodule ShlinkedinWeb.LiveHelpers do
   import Phoenix.LiveView.Helpers
   import Phoenix.LiveView
   alias Shlinkedin.Accounts
+  alias Shlinkedin.Accounts.Profile
 
   @doc """
   Renders a component inside the `ShlinkedinWeb.ModalComponent` component.
@@ -31,14 +32,15 @@ defmodule ShlinkedinWeb.LiveHelpers do
     current_user = Accounts.get_user_by_session_token(token)
 
     case Accounts.get_profile(current_user.id) do
-      nil ->
-        redirect(socket, to: "/profile/username")
-
-      %{persona_name: nil} = profile when not is_profile_view(view) ->
+      nil when not is_profile_view(view) ->
         socket
-        |> assign(current_user: current_user, profile: profile)
-        |> push_redirect(to: "/profile/welcome")
-        |> put_flash(:error, "Please add a name to your profile!")
+        |> assign(current_user: current_user, profile: %Profile{})
+        |> redirect(to: "/profile/welcome")
+        |> put_flash(:error, "Please finish setting up your profile!")
+
+      nil ->
+        socket
+        |> assign(current_user: current_user, profile: %Profile{})
 
       profile ->
         assign(socket, current_user: current_user, profile: profile)

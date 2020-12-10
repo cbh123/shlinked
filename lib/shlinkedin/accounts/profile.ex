@@ -33,7 +33,7 @@ defmodule Shlinkedin.Accounts.Profile do
       :photo_url,
       :cover_photo_url
     ])
-    |> validate_required([:user_id])
+    |> validate_required([:user_id, :persona_name, :username])
     |> unique_constraint([:user_id])
     |> validate_length(:persona_name, min: 1, max: 40)
     |> validate_length(:persona_title, min: 3, max: 100)

@@ -5,8 +5,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   def mount(%{"slug" => slug}, session, socket) do
     show_profile = Accounts.get_profile_by_slug(slug)
 
-    IO.inspect(slug, label: "slug")
-    IO.inspect(show_profile, label: "show_profile")
+    # KNOWN BUG: RIGHT WHEN YOU CREATE AN ACCOUNT, THIS BUTTON DOESN"T WORK! PROBLABLY NOT LOADED INTO SOCKET!
 
     {:ok, assign(is_user(session, socket), show_profile: show_profile)}
   end
