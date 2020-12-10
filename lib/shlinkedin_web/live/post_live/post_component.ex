@@ -9,6 +9,12 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     {:noreply, socket}
   end
 
+  def handle_event("show-potion-options", _params, socket) do
+    send_update(PostComponent, id: socket.assigns.post.id, show_potion_options: true)
+
+    {:noreply, socket}
+  end
+
   def handle_event("expand-post", _, socket) do
     send_update(PostComponent, id: socket.assigns.post.id, expand_post: true)
 
@@ -58,6 +64,11 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
 
   def handle_event("like-cancelled", _params, socket) do
     send_update(PostComponent, id: socket.assigns.post.id, show_like_options: false)
+    {:noreply, socket}
+  end
+
+  def handle_event("potion-cancelled", _params, socket) do
+    send_update(PostComponent, id: socket.assigns.post.id, show_potion_options: false)
     {:noreply, socket}
   end
 

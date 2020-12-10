@@ -176,15 +176,23 @@
 
             <% nil -> %> <button type="button" phx-click="show-like-options" phx-value-like-type="Like"
                 phx-target="<%= @myself %>"
-                class="active:bg-blue-100 active:text-blue-500 inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                class="bg-gradient-to-r from-white to-white
+                  active:white inline-flex items-center
+                 px-3 py-2 text-sm font-medium rounded-md text-gray-500
+                 hover:text-white
+                  hover:from-green-400 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 <!-- Heroicon name: like -->
                 <svg class="-ml-1 mr-2 h-4 w-4 sm:h-5 sm:w-5" fill="currentColor" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z">
-                    </path>
+                    <path fill-rule="evenodd"
+                        d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z"
+                        clip-rule="evenodd"></path>
                 </svg>
-                Like
+
+
+
+
+                React
             </button>
 
             <% like -> %>
@@ -204,8 +212,10 @@
 
 
             <%= live_patch to: Routes.post_index_path(@socket, :new_comment, @post.id) do %>
-            <button type=" button" phx-target="<%= @myself %>"
-                class="active:bg-yellow-100 active:text-yellow-600 inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <button type="button" phx-target="<%= @myself %>"
+                class="bg-gradient-to-r from-white to-white
+                 inline-flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-500
+                  hover:from-yellow-400 hover:to-pink-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 <svg class="-ml-1 mr-2  h-4 w-4 sm:h-5 sm:w-5" fill="currentColor" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd"
@@ -215,6 +225,20 @@
                 Comment
             </button>
             <% end %>
+
+            <button type="button" phx-target="<%= @myself %>" phx-click="show-potion-options"
+                class="bg-gradient-to-r from-white to-white
+                 inline-flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-500
+                  hover:from-indigo-400 hover:to-blue-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <svg class="-ml-1 mr-2  h-4 w-4 sm:h-5 sm:w-5" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M7 2a1 1 0 00-.707 1.707L7 4.414v3.758a1 1 0 01-.293.707l-4 4C.817 14.769 2.156 18 4.828 18h10.343c2.673 0 4.012-3.231 2.122-5.121l-4-4A1 1 0 0113 8.172V4.414l.707-.707A1 1 0 0013 2H7zm2 6.172V4h2v4.172a3 3 0 00.879 2.12l1.027 1.028a4 4 0 00-2.171.102l-.47.156a4 4 0 01-2.53 0l-.563-.187a1.993 1.993 0 00-.114-.035l1.063-1.063A3 3 0 009 8.172z"
+                        clip-rule="evenodd"></path>
+                </svg>
+
+                Potion
+            </button>
         </div>
     </div>
 
@@ -226,108 +250,141 @@
             <%# Top of comment: image, name, title, and time on right %>
             <div class="flex">
                 <span class="inline-block cursor-pointer">
-                    <img class="h-6 w-6 mt-1 rounded-full" src="<%= comment.profile.photo_url %>
-                        alt="">
+                    <img class="h-6 w-6 mt-1 rounded-full" src="<%= comment.profile.photo_url %>" alt="">
                 </span>
-                <div class=" bg-gray-100 ml-2 py-2 px-4 rounded-lg w-11/12"> <div class="flex justify-between">
-                    <%= live_patch to: Routes.profile_show_path(@socket, :show, comment.profile.slug), class: "text-sm font-semibold text-gray-900 hover:underline" do  %>
-                    <p class="bold text-xs font-semibold hover:underline cursor-pointer w-64 truncate">
-                        <%= comment.profile.persona_name %>
+                <div class=" bg-gray-100 ml-2 py-2 px-4 rounded-lg w-11/12">
+                    <div class="flex justify-between">
+                        <%= live_patch to: Routes.profile_show_path(@socket, :show, comment.profile.slug), class: "text-sm font-semibold text-gray-900 hover:underline" do  %>
+                        <p class="bold text-xs font-semibold hover:underline cursor-pointer w-64 truncate">
+                            <%= comment.profile.persona_name %>
 
-                        <span
-                            class="inline-flex items-center px-2.5 mx-1 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 ">
-                            Author
-                        </span>
+                            <span
+                                class="inline-flex items-center px-2.5 mx-1 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 ">
+                                Author
+                            </span>
 
-                        <%= if @profile.id == comment.profile.id do %>
+                            <%= if @profile.id == comment.profile.id do %>
 
+                            <% end %>
+
+                        </p>
                         <% end %>
-
+                        <p class="text-xs text-gray-500"><%= Timex.from_now(comment.inserted_at) %></p>
+                    </div>
+                    <%# Comment text %>
+                    <p class="text-xs mt-1 truncate">
+                        <%= comment.body %>
                     </p>
+                </div>
+            </div>
+        </div>
+        <% end %>
+
+        <%= if length(@post.comments) == 0 do %>
+        <%= live_patch to: Routes.post_index_path(@socket, :new_comment, @post.id) do %>
+        <button class="text-gray-600 font-semibold mb-0 text-xs hover:bg-gray-100 px-2 py-1 rounded mt-2">Be the
+            first
+            to comment on this!</button>
+        <% end %>
+        <% end %>
+
+
+        <%= if length(@post.comments) > 1 do %>
+        <%= live_patch to: Routes.post_index_path(@socket, :show_comments, @post.id) do %>
+        <button class="text-gray-600 font-semibold mb-0 text-xs hover:bg-gray-100 px-2 py-1 rounded mt-2">Show
+            <%= length(@post.comments) - 1 %> more
+            comment<%= if length(@post.comments) > 2, do: "s" %></button>
+        <% end %>
+        <% end %>
+    </div>
+    <%end %>
+    <%= if @show_like_options == true do %>
+
+    <div id="like-options" class="fixed z-10 inset-0 ">
+        <div class="block items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true" phx-click="like-cancelled"
+                phx-target="<%= @myself %>">
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-green-500 opacity-75"></div>
+            </div>
+
+            <!-- This element is to trick the browser into centering the modal contents. -->
+            <span class="inline-block align-top h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all mt-8 sm:mt-32 align-middle max-w-sm sm:w-full"
+                role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+
+                <div class="text-center">
+                    <h5 class="font-semibold text-2xl mb-8">React to <%= @post.profile.persona_name %>'s
+                        post
+                    </h5>
+                </div>
+                <!-- This example requires Tailwind CSS v2.0+ -->
+                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <%= for like <- like_map_list(@like_map) do %>
+                    <button type="button" phx-click="like-selected" phx-value-like-type="<%=like.like_type%>"
+                        phx-target="<%= @myself %>"
+                        class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-bold rounded-full text-white <%=like.bg%> hover:<%=like.bg_hover%> focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <!-- Heroicon name: mail -->
+
+                        <svg class="-ml-1 mr-3 h-4 w-4 sm:h-5 sm:w-5 mx-auto" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="<%=like.svg_path%>" fill-rule="<%=like.fill%>">
+                            </path>
+                        </svg>
+                        <%=like.like_type%>
+                    </button>
                     <% end %>
-                    <p class="text-xs text-gray-500"><%= Timex.from_now(comment.inserted_at) %></p>
-            </div>
-            <%# Comment text %>
-            <p class="text-xs mt-1 truncate">
-                <%= comment.body %>
-            </p>
-        </div>
-    </div>
-</div>
-<% end %>
-
-<%= if length(@post.comments) == 0 do %>
-<%= live_patch to: Routes.post_index_path(@socket, :new_comment, @post.id) do %>
-<button class="text-gray-600 font-semibold mb-0 text-xs hover:bg-gray-100 px-2 py-1 rounded mt-2">Be the
-    first
-    to comment on this!</button>
-<% end %>
-<% end %>
-
-
-<%= if length(@post.comments) > 1 do %>
-<%= live_patch to: Routes.post_index_path(@socket, :show_comments, @post.id) do %>
-<button class="text-gray-600 font-semibold mb-0 text-xs hover:bg-gray-100 px-2 py-1 rounded mt-2">Show
-    <%= length(@post.comments) - 1 %> more
-    comment<%= if length(@post.comments) > 2, do: "s" %></button>
-<% end %>
-<% end %>
-</div>
-<%end %>
-<%= if @show_like_options == true do %>
-
-<div id="like-options" class="fixed z-10 inset-0 ">
-    <div class="block items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
-
-        <!--
-      Background overlay, show/hide based on modal state.
-
-      Entering: "ease-out duration-300"
-        From: "opacity-0"
-        To: "opacity-100"
-      Leaving: "ease-in duration-200"
-        From: "opacity-100"
-        To: "opacity-0"
-    -->
-        <div class="fixed inset-0 transition-opacity" aria-hidden="true" phx-click="like-cancelled"
-            phx-target="<%= @myself %>">
-            <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-green-500 opacity-75"></div>
-        </div>
-
-        <!-- This element is to trick the browser into centering the modal contents. -->
-        <span class="inline-block align-top h-screen" aria-hidden="true">&#8203;</span>
-        <div class="inline-block bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all mt-8 sm:mt-32 align-middle max-w-sm sm:w-full"
-            role="dialog" aria-modal="true" aria-labelledby="modal-headline">
-
-            <div class="text-center">
-                <h5 class="font-semibold text-2xl mb-8">React to <%= @post.profile.persona_name %>'s
-                    post
-                </h5>
-            </div>
-            <!-- This example requires Tailwind CSS v2.0+ -->
-            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <%= for like <- like_map_list(@like_map) do %>
-                <button type="button" phx-click="like-selected" phx-value-like-type="<%=like.like_type%>"
-                    phx-target="<%= @myself %>"
-                    class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-bold rounded-full text-white <%=like.bg%> hover:<%=like.bg_hover%> focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    <!-- Heroicon name: mail -->
-
-                    <svg class="-ml-1 mr-3 h-4 w-4 sm:h-5 sm:w-5 mx-auto" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path d="<%=like.svg_path%>" fill-rule="<%=like.fill%>">
-                        </path>
-                    </svg>
-                    <%=like.like_type%>
+                </ul>
+                <button type="button" phx-click="like-cancelled" phx-target="<%= @myself %>"
+                    class="w-full mt-6  inline-block px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-500 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Cancel
                 </button>
-                <% end %>
-            </ul>
-            <button type="button" phx-click="like-cancelled" phx-target="<%= @myself %>"
-                class="w-full mt-6  inline-block px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-500 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Cancel
-            </button>
+            </div>
         </div>
     </div>
-</div>
-<% end %>
+
+    <% end %>
+    <%= if @show_potion_options == true do %>
+
+    <div id="potion-options" class="fixed z-10 inset-0 ">
+        <div class="block items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true" phx-click="potion-cancelled"
+                phx-target="<%= @myself %>">
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-green-500 opacity-75"></div>
+            </div>
+
+            <!-- This element is to trick the browser into centering the modal contents. -->
+            <span class="inline-block align-top h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all mt-8 sm:mt-32 align-middle max-w-sm sm:w-full"
+                role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+
+                <div class="text-center">
+                    <h5 class="font-semibold text-2xl mb-8">Potions are not yet avaliable. Come back soon!.
+                    </h5>
+                </div>
+                <!-- This example requires Tailwind CSS v2.0+ -->
+                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <%= for potion <- like_map_list(@potion_map) do %>
+                    <button type="button" phx-target="<%= @myself %>"
+                        class="cursor-not-allowed inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-bold rounded-full text-gray-300 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <!-- Heroicon name: mail -->
+
+                        <svg class="-ml-1 mr-3 h-4 w-4 sm:h-5 sm:w-5 mx-auto" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="<%=potion.svg_path%>" fill-rule="<%=potion.fill%>">
+                            </path>
+                        </svg>
+                        <%=potion.potion_type%>
+                    </button>
+                    <% end %>
+                </ul>
+                <button type="button" phx-click="potion-cancelled" phx-target="<%= @myself %>"
+                    class="w-full mt-6  inline-block px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-500 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    &larr; Back
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <% end %>
 
 </div>
