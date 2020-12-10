@@ -2,32 +2,20 @@
 <%= if @changeset.action do %>
 
 <% end %>
-<div
-    class="pb-32 bg-gradient-to-r from-green-400 to-blue-500  flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+<div class="pb-32 bg-gray-50 items-center flex flex-col justify-start py-12 px-4 sm:px-6 lg:px-8 min-h-screen">
     <div class="max-w-md w-full space-y-8">
         <div>
-            <svg class="mx-auto w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z">
-                </path>
-                <path fill-rule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z"
-                    clip-rule="evenodd"></path>
-            </svg>
-            <h2 class="mt-6 text-center text-3xl font-extrabold text-white">
-                Join ShlinkedIn
+            <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
+                Create an account
             </h2>
-            <p class="mt-2 text-center text-sm text-white font-semibold">
+            <p class="mt-2 text-sm text-gray-600">
                 Already have an account?
-                <%= link "Log in", to: Routes.user_session_path(@conn, :new), class: "font-semibold text-white underline hover:text-blue-200"%>
+                <%= link "Log in", to: Routes.user_session_path(@conn, :new), class: "font-medium text-blue-700 hover:text-blue-800"%>
             </p>
-        </div>
-        <p class=" mt-4 italic mx-auto font-semibold text-white max-w-prose">
 
-            Here, you can be whoever you want. A salesperson, a sales manager, even a
-            managing sales director. Join us and live out your wildest
-            corporately sponsored dreams.</p>
+
+        </div>
+
         <form class="mt-8 space-y-6" action="#" method="POST">
             <input type="hidden" name="remember" value="true">
             <div class="rounded-md shadow-sm -space-y-px">
@@ -44,8 +32,8 @@
             </div>
 
             <div>
-                <%= error_tag f, :email, "text-white font-semibold" %>
-                <%= error_tag f, :password, "text-white font-semibold" %>
+                <%= error_tag f, :email, "text-gray-700 font-semibold" %>
+                <%= error_tag f, :password, "text-gray-700 font-semibold" %>
             </div>
             <div>
 
@@ -59,7 +47,7 @@
                             clip-rule="evenodd" />
                     </svg>
                 </span>
-                Let me in
+                Done &rarr;
                 </button>
                 <% end %>
             </div>
