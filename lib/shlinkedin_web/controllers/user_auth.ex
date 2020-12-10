@@ -91,7 +91,11 @@ defmodule ShlinkedinWeb.UserAuth do
   def fetch_current_user(conn, _opts) do
     {user_token, conn} = ensure_user_token(conn)
     user = user_token && Accounts.get_user_by_session_token(user_token)
-    assign(conn, :current_user, user)
+
+    # added the profile if statement because user can be logged out
+    conn
+    |> assign(:current_user, user)
+    |> assign(:profile, if(user != nil, do: Accounts.get_profile(user.id), else: nil))
   end
 
   defp ensure_user_token(conn) do

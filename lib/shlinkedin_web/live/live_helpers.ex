@@ -36,7 +36,6 @@ defmodule ShlinkedinWeb.LiveHelpers do
         socket
         |> assign(current_user: current_user, profile: %Profile{})
         |> redirect(to: "/profile/welcome")
-        |> put_flash(:error, "Please finish setting up your profile!")
 
       nil ->
         socket

@@ -1,8 +1,10 @@
-  <%= if @current_user do %>
+  <%= if @current_user != nil do %>
+
+  <%# User settings stuff -- settings %>
   <%= link to: Routes.user_settings_path(@conn, :edit) do  %>
   <button
       class="flex flex-col p-1 mr-4 text-gray-600 rounded-full hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-      <span class="sr-only">Search</span>
+      <span class="sr-only">Settings</span>
       <!-- Heroicon name: Profile -->
       <svg class="w-5 h-5 place-self-center" fill="none" stroke="currentColor" viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg">
@@ -16,26 +18,31 @@
   <% end %>
 
 
-  <button
-      class="flex flex-col p-1 mr-4 text-gray-600 rounded-full hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-      <span class="sr-only">Search</span>
-      <!-- Heroicon name: Profile -->
-      <svg class="w-5 h-5 place-self-center" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd"
-              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-              clip-rule="evenodd"></path>
-      </svg>
-  </button>
+  <%# Profile Created Stuff -- search, profile button%>
+  <%= if @profile != nil and @profile.username != nil do  %>
+  <div class="flex">
+      <button
+          class="flex flex-col p-1 mr-4 text-gray-600 rounded-full hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <span class="sr-only">Search</span>
+          <!-- Heroicon name: Profile -->
+          <svg class="w-5 h-5 place-self-center" fill="currentColor" viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                  clip-rule="evenodd"></path>
+          </svg>
+      </button>
 
-  <%= if @conn.assigns  |> Map.has_key?(:profile) do %>
-  <%= link to: "/sup/#{@profile.slug}" do %>
-  <button
-      class="flex flex-col p-1 mr-4 text-gray-600 rounded-full hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-      <span class="sr-only">Profile</span>
-      <!-- Heroicon name: Profile -->
 
-      <img class="inline-block h-6 w-6 rounded-full border border-white" src="<%= @profile.photo_url %>" alt="">
-  </button>
+      <%= link to: "/sup/#{@profile.slug}" do %>
+      <button
+          class="flex flex-col p-1 mr-4 text-gray-600 rounded-full hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <span class="sr-only">Profile</span>
+          <!-- Heroicon name: Profile -->
+
+          <img class="inline-block h-6 w-6 rounded-full border border-white" src="<%= @profile.photo_url %>" alt="">
+      </button>
+  </div>
   <% end %>
   <% end %>
   <% end %>

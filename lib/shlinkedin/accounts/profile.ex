@@ -11,7 +11,11 @@ defmodule Shlinkedin.Accounts.Profile do
     field :persona_title, :string
     field :summary, :string
     field :verified, :boolean
-    field :photo_url, :string
+
+    field :photo_url, :string,
+      default:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/George_Washington%2C_1776.jpg/1200px-George_Washington%2C_1776.jpg"
+
     field :cover_photo_url, :string
     field :shlinkpoints, :integer, default: 0
     belongs_to :user, Shlinkedin.Accounts.User
