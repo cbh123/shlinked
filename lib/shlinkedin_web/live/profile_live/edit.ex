@@ -87,12 +87,10 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
       )
     ) do
       {:ok, profile} ->
-        IO.inspect(profile, label: "created profile")
-
         {:noreply,
          socket
-         |> put_flash(:info, "Profile created!")
-         |> push_redirect(to: Routes.profile_show_path(socket, :show, profile.slug))}
+         |> put_flash(:info, "Welcome to ShlinkedIn, #{profile.persona_name}!")
+         |> push_redirect(to: Routes.post_index_path(socket, :index))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
