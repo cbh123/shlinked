@@ -3,7 +3,7 @@
 
 <% end %>
 <div
-    class=" bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    class="pb-32 bg-gradient-to-r from-green-400 to-blue-500  flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-8">
         <div>
             <svg class="mx-auto w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20"
@@ -18,11 +18,16 @@
             <h2 class="mt-6 text-center text-3xl font-extrabold text-white">
                 Join ShlinkedIn
             </h2>
-            <p class="mt-2 text-center text-sm text-pink-200 font-semibold">
+            <p class="mt-2 text-center text-sm text-white font-semibold">
                 Already have an account?
-                <%= link "Log in", to: Routes.user_session_path(@conn, :new), class: "font-semibold text-white underline hover:text-pink-200"%>
+                <%= link "Log in", to: Routes.user_session_path(@conn, :new), class: "font-semibold text-white underline hover:text-blue-200"%>
             </p>
         </div>
+        <p class=" mt-4 italic mx-auto font-semibold text-white max-w-prose">
+
+            Here, you can be whoever you want. A salesperson, a sales manager, even a
+            managing sales director. Join us and live out your wildest
+            corporately sponsored dreams.</p>
         <form class="mt-8 space-y-6" action="#" method="POST">
             <input type="hidden" name="remember" value="true">
             <div class="rounded-md shadow-sm -space-y-px">

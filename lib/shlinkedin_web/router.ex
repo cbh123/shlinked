@@ -44,6 +44,7 @@ defmodule ShlinkedinWeb.Router do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
     get "/register", UserRegistrationController, :new
+    get "/join", UserRegistrationController, :join
     post "/register", UserRegistrationController, :create
     get "/log_in", UserSessionController, :new
     post "/log_in", UserSessionController, :create
@@ -72,15 +73,14 @@ defmodule ShlinkedinWeb.Router do
 
     ### profile
     # show profile
-    live "/:slug", ProfileLive.Show, :show
+    live "/sup/:slug", ProfileLive.Show, :show
 
     live "/profile/live_edit", ProfileLive.Edit, :edit
+    live "/profile/welcome", ProfileLive.Edit, :new
+
     # create profile and settings
     get "/profile/username", ProfileController, :new
     post "/profile/username", ProfileController, :create
-    get "/profile/settings", ProfileController, :edit
-    put "/profile/settings", ProfileController, :update
-    post "/profile/settings", ProfileController, :update
   end
 
   scope "/", ShlinkedinWeb do

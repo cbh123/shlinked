@@ -44,6 +44,7 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
   end
 
   def handle_event("cancel-entry", %{"ref" => ref}, socket) do
+    IO.inspect(ref, label: "ref")
     {:noreply, cancel_upload(socket, :photo, ref)}
   end
 

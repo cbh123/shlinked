@@ -368,8 +368,6 @@ defmodule Shlinkedin.Accounts do
   end
 
   def update_profile(%Profile{} = profile, %User{id: user_id}, attrs, after_save \\ &{:ok, &1}) do
-    IO.inspect(binding())
-
     profile = %{profile | user_id: user_id}
 
     profile

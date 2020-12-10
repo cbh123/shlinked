@@ -1,0 +1,29 @@
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="relative bg-gray-50 min-h-screen">
+    <main class="lg:relative">
+        <div class="mx-auto max-w-7xl w-full pt-16 pb-20 text-center lg:py-48 lg:text-left">
+            <div class="px-4 lg:w-1/2 sm:px-8 xl:pr-16">
+                <h1 class="text-5xl tracking-tight font-extrabold text-gray-900 lg:text-5xl xl:text-6xl">
+                    <span class="block xl:inline">Welcome to</span>
+                    <span class="block text-blue-600 xl:inline">ShlinkedIn.</span>
+                </h1>
+                <p class="mt-6 max-w-sm mx-auto text-lg text-gray-500 lg:ml-0 sm:text-xl md:mt-5">
+                    Here, you can be whoever you want. A salesperson, a sales manager, even a <span
+                        class="italic">managing sales
+                        director</span>. Join us and live out your wildest corporate-sanctioned dreams.
+                </p>
+                <div class="mt-10 flex justify-center lg:justify-start">
+                    <div class="rounded-md">
+                        <%= link raw("Enter &rarr;"), to: Routes.user_registration_path(@conn, :new), class: "flex items-center justify-center border border-transparent font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 py-4 text-lg px-10"%>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="hidden relative w-full h-64 sm:h-72 md:h-96 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 lg:h-full">
+            <img class="absolute inset-0 w-full h-full object-cover"
+                src="https://images.unsplash.com/photo-1520333789090-1afc82db536a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2102&q=80"
+                alt="">
+        </div>
+    </main>
+</div>

@@ -32,12 +32,28 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
     {:ok,
      socket
      |> assign(changeset: changeset)
+     |> assign(step: 0)
      |> assign(bio_placeholder: @bio_placeholders |> Enum.random())
      |> assign(title_placeholder: @title_placeholders |> Enum.random())}
   end
 
   def handle_event("save", %{"profile" => profile_params}, socket) do
-    save_profile(socket, socket.assigns.live_action, profile_params)
+    # note --> things are kind of weird here because by the time we're
+    # at this stage, the profile has been created (because the username)
+    # has been created. So we're actually always just editings. When
+    # we move username creation to the liveview, we should change
+    # :edit to socket.live_action.
+    save_profile(socket, :edit, profile_params)
+  end
+
+  def handle_event("next", _, socket) do
+    socket = assign(socket, step: socket.assigns.step + 1)
+    {:noreply, socket}
+  end
+
+  def handle_event("back", _, socket) do
+    socket = assign(socket, step: max(0, socket.assigns.step - 1))
+    {:noreply, socket}
   end
 
   def handle_event("cancel-entry", %{"ref" => ref}, socket) do
@@ -78,8 +94,6 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
 
   defp put_photo_urls(socket, attrs) do
     {completed, []} = uploaded_entries(socket, :photo)
-
-    IO.inspect(completed, label: "")
 
     urls =
       for entry <- completed do

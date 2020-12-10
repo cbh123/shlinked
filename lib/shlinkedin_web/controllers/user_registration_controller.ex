@@ -5,6 +5,10 @@ defmodule ShlinkedinWeb.UserRegistrationController do
   alias Shlinkedin.Accounts.User
   alias ShlinkedinWeb.UserAuth
 
+  def join(conn, _params) do
+    render(conn, "join.html")
+  end
+
   def new(conn, _params) do
     changeset = Accounts.change_user_registration(%User{})
     render(conn, "new.html", changeset: changeset)

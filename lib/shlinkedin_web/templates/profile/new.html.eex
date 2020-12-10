@@ -1,27 +1,23 @@
-<div class="p-10 bg-gradient-to-r from-blue-500 to-green-500">
-    <div class="max-w-lg">
+<div class="min-h-screen p-10 bg-gradient-to-r from-blue-500 to-green-500">
+    <div class="max-w-lg mx-auto pt-20">
         <div class="mb-10">
             <h3 class="text-4xl tracking-tight font-extrabold text-white">
                 Username
             </h3>
             <p class="mt-1 text-sm text-white font-bold">
-                Welcome, young shlinkling. Now's the time to take a coveted username.
+                Welcome. Now's the time to take a coveted username. You
+                can always change this later.
             </p>
         </div>
 
         <%= form_for @changeset, Routes.profile_path(@conn, :create), fn f -> %>
-        <%= if @changeset.action do %>
-        <div class="alert alert-danger">
-            <p>Oops, something went wrong! Please check the errors below.</p>
-        </div>
-        <% end %>
 
 
 
         <div>
-            <%= text_input f, :username, required: true, class: "px-6 py-4 text-2xl font-bold shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full border-gray-300 rounded-md", placeholder: "your username" %>
-
+            <%= text_input f, :username, required: true, autocapitalize: "none", autocorrect: "off", class: "px-6 py-4 text-2xl font-bold shadow-sm focus:ring-indigo-300 focus:border-indigo-300 block w-full border-gray-300 rounded-md", placeholder: "your username" %>
         </div>
+
 
         <div class="my-4">
             <p class=""> <%= error_tag f, :username, "text-white font-semibold" %></p>
@@ -30,9 +26,45 @@
 
 
 
+
         <div class="text-right">
             <%= submit raw("Next &rarr; "), class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-bold rounded-md text-white bg-blue-900 hover:bg-pink-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:border-pink-500"  %>
         </div>
+
     </div>
+
     <% end %>
+
+
+    <nav class="flex items-center justify-center mt-16" aria-label="Progress">
+        <p class="text-sm font-medium text-blue-100">Step 2 of 3</p>
+        <ol class="ml-8 flex items-center space-x-5">
+            <li>
+                <!-- Completed Step -->
+                <div class="block w-2.5 h-2.5 bg-blue-600 rounded-full hover:bg-blue-900">
+                    <span class="sr-only">Step 1</span>
+                </div>
+            </li>
+
+            <li>
+                <!-- Current Step -->
+                <div href="#" class="relative flex items-center justify-center" aria-current="step">
+                    <span class="absolute w-5 h-5 p-px flex" aria-hidden="true">
+                        <span class="w-full h-full rounded-full bg-blue-200"></span>
+                    </span>
+                    <span class="relative block w-2.5 h-2.5 bg-blue-600 rounded-full" aria-hidden="true"></span>
+                    <span class="sr-only">Step 2</span>
+                </div>
+            </li>
+
+            <li>
+                <!-- Upcoming Step -->
+                <div href="#" class="block w-2.5 h-2.5 bg-gray-200 rounded-full hover:bg-blue-100">
+                    <span class="sr-only">Step 3</span>
+                </div>
+            </li>
+
+        </ol>
+    </nav>
+
 </div>
