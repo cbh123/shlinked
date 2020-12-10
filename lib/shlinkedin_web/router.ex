@@ -44,7 +44,7 @@ defmodule ShlinkedinWeb.Router do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
     get "/register", UserRegistrationController, :new
-    get "/join", UserRegistrationController, :join
+
     post "/register", UserRegistrationController, :create
     get "/log_in", UserSessionController, :new
     post "/log_in", UserSessionController, :create
@@ -81,6 +81,8 @@ defmodule ShlinkedinWeb.Router do
 
   scope "/", ShlinkedinWeb do
     pipe_through [:browser]
+
+    get "/join", UserRegistrationController, :join
 
     # auth stuff
     delete "/users/log_out", UserSessionController, :delete
