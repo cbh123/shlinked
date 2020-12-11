@@ -172,45 +172,28 @@
     <div>
         <hr class="pb-1">
         <div class="py-1 pb-0">
-            <%= case Enum.find(@post.likes, fn like -> like.profile_id == @profile.id end) do %>
 
-            <% nil -> %> <button type="button" phx-click="show-like-options" phx-value-like-type="Like"
-                phx-target="<%= @myself %>"
-                class="active:bg-blue-100 active:text-blue-500 inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
 
-                <!-- Heroicon name: like -->
-                <svg class="-ml-1 mr-2 h-4 w-4 sm:h-5 sm:w-5" fill="currentColor" viewBox="0 0 20 20"
+            <%= for like <- like_map_list(@like_map) do %>
+
+            <button type="button" phx-target="<%= @myself %>" phx-click="like-selected"
+                phx-value-like-type="<%=like.like_type%>"
+                class="active:text-white active:<%=like.bg %> inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <svg class="-ml-1 mr-3 h-4 w-4 sm:h-5 sm:w-5 mx-auto" fill="currentColor" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                        d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z"
-                        clip-rule="evenodd"></path>
-                </svg>
-
-
-
-
-                React
-            </button>
-
-            <% like -> %>
-            <button type="button" phx-click="delete-like" phx-target="<%= @myself %>"
-                class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md  <%= @like_map[like.like_type].color %>   hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                <!-- Heroicon name: like -->
-                <svg class="-ml-1 mr-2 h-4 w-4 sm:h-5 sm:w-5" fill="currentColor" viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path d="<%= @like_map[like.like_type].svg_path %>"
-                        fill-rule="<%= @like_map[like.like_type].fill %>">
+                    <path d="<%=like.svg_path%>" fill-rule="<%=like.fill%>">
                     </path>
                 </svg>
-                <%= like.like_type %>
+                <%=like.like_type%>
             </button>
-
             <% end %>
+
+
 
 
             <%= live_patch to: Routes.post_index_path(@socket, :new_comment, @post.id) do %>
             <button type="button" phx-target="<%= @myself %>"
-                class="active:bg-yellow-100 active:text-yellow-600 inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                class="active:bg-yellow-100 active:text-yellow-600 inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 <svg class="-ml-1 mr-2  h-4 w-4 sm:h-5 sm:w-5" fill="currentColor" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd"
@@ -220,20 +203,6 @@
                 Comment
             </button>
             <% end %>
-
-            <button type="button" phx-target="<%= @myself %>" phx-click="show-potion-options"
-                class="bg-gradient-to-r from-white to-white
-                 inline-flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-500
-                  hover:from-indigo-400 hover:to-blue-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                <svg class="-ml-1 mr-2  h-4 w-4 sm:h-5 sm:w-5" fill="currentColor" viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                        d="M7 2a1 1 0 00-.707 1.707L7 4.414v3.758a1 1 0 01-.293.707l-4 4C.817 14.769 2.156 18 4.828 18h10.343c2.673 0 4.012-3.231 2.122-5.121l-4-4A1 1 0 0113 8.172V4.414l.707-.707A1 1 0 0013 2H7zm2 6.172V4h2v4.172a3 3 0 00.879 2.12l1.027 1.028a4 4 0 00-2.171.102l-.47.156a4 4 0 01-2.53 0l-.563-.187a1.993 1.993 0 00-.114-.035l1.063-1.063A3 3 0 009 8.172z"
-                        clip-rule="evenodd"></path>
-                </svg>
-
-                Potion
-            </button>
         </div>
     </div>
 
