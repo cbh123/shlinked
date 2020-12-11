@@ -82,10 +82,12 @@
         <div class="">
             <p class="whitespace-pre-line pt-2 pb-2 <%= if @post.photo_urls != [], do: "px-4" %>"><%= @post.body %></p>
 
+            <%= if @post.photo_urls != [] do %>
             <div>
                 <img class="object-center pt-2 object-cover bg-cover align-middle mx-auto w-full h-full"
                     src="<%= @post.photo_urls |> Enum.take(1) %>" alt="">
             </div>
+            <% end %>
         </div>
 
     </div>
