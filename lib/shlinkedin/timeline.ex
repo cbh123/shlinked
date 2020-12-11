@@ -10,8 +10,8 @@ defmodule Shlinkedin.Timeline do
 
   def like_map do
     %{
-      "Pity Like" => %{
-        like_type: "Pity Like",
+      "Pity" => %{
+        like_type: "Pity",
         bg: "bg-indigo-600",
         color: "text-indigo-600",
         bg_hover: "bg-indigo-700",
@@ -19,8 +19,8 @@ defmodule Shlinkedin.Timeline do
         svg_path:
           "M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-7.536 5.879a1 1 0 001.415 0 3 3 0 014.242 0 1 1 0 001.415-1.415 5 5 0 00-7.072 0 1 1 0 000 1.415z"
       },
-      "Inspired" => %{
-        like_type: "Inspired",
+      "Zoop" => %{
+        like_type: "Zoop",
         bg: "bg-yellow-500",
         color: "text-yellow-500",
         bg_hover: "bg-yellow-600",

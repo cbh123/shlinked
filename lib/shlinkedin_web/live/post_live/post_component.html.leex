@@ -57,7 +57,7 @@
       To: "transform opacity-0 scale-95"
   -->
                 <div
-                    class="<%= if @show_post_options != true, do: "hidden" %> origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                    class="<%= if @show_post_options != true, do: "hidden" %> origin-top-right z-10 absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                     <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                         <%= live_patch to: Routes.post_show_path(@socket, :show, @post.id), do: raw("View post &rarr;"), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
                         <%= if @profile != nil and @post.profile_id == @profile.id do %>
@@ -148,7 +148,7 @@
                 <% end %>
 
                 <p class="text-xs">
-                    <%= (length_unique_user_likes(@post)) %> person
+                    <%= length(@post.likes)%> • <%= (length_unique_user_likes(@post)) %>
                 </p>
 
             </div>
@@ -174,9 +174,14 @@
         <div class="py-1 pb-0">
 
 
+
+
             <%= for like <- like_map_list(@like_map) do %>
 
-            <button type="button" phx-target="<%= @myself %>" phx-click="like-selected"
+
+            <%= case Enum.filter(@post.likes, fn l -> l.profile_id == @profile.id && l.like_type == like.like_type end) |> length() do %>
+
+            <% 0 -> %><button type="button" phx-target="<%= @myself %>" phx-click="like-selected"
                 phx-value-like-type="<%=like.like_type%>"
                 class="active:text-white active:<%=like.bg %> inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 <svg class="-ml-1 mr-3 h-4 w-4 sm:h-5 sm:w-5 mx-auto" fill="currentColor" viewBox="0 0 20 20"
@@ -184,8 +189,25 @@
                     <path d="<%=like.svg_path%>" fill-rule="<%=like.fill%>">
                     </path>
                 </svg>
-                <%=like.like_type%>
+                <span><%=like.like_type%></span>
             </button>
+
+            <% num -> %>
+            <button type="button" phx-target="<%= @myself %>" phx-click="like-selected"
+                phx-value-like-type="<%=like.like_type%>"
+                class="active:text-white active:<%=like.bg %> inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded-md <%= like.color %> bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+
+                <svg class="-ml-1 h-4 w-4 sm:h-5 sm:w-5 mx-auto" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path d="<%=like.svg_path%>" fill-rule="<%=like.fill%>">
+                    </path>
+                </svg>
+                <span class="pl-1 mr-2 text-xs"><%= num %></span>
+                <span><%=like.like_type%></span>
+
+            </button>
+
+            <% end %>
             <% end %>
 
 
@@ -208,39 +230,14 @@
 
 
     <%# Show first first comments stuff %>
-    <div class="mt-2 hidden sm:block">
-        <%= for comment <- @post.comments |> Enum.take(1) do %>
+    <div class="mt-2 block">
+        <%= for comment <- @post.comments |> Enum.take(-1) do %>
         <div class="my-1">
-            <%# Top of comment: image, name, title, and time on right %>
-            <div class="flex">
-                <span class="inline-block cursor-pointer">
-                    <img class="h-6 w-6 mt-1 rounded-full" src="<%= comment.profile.photo_url %>" alt="">
-                </span>
-                <div class=" bg-gray-100 ml-2 py-2 px-4 rounded-lg w-11/12">
-                    <div class="flex justify-between">
-                        <%= live_patch to: Routes.profile_show_path(@socket, :show, comment.profile.slug), class: "text-sm font-semibold text-gray-900 hover:underline" do  %>
-                        <p class="bold text-xs font-semibold hover:underline cursor-pointer w-64 truncate">
-                            <%= comment.profile.persona_name %>
-
-                            <span
-                                class="inline-flex items-center px-2.5 mx-1 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 ">
-                                Author
-                            </span>
-
-                            <%= if @profile.id == comment.profile.id do %>
-
-                            <% end %>
-
-                        </p>
-                        <% end %>
-                        <p class="text-xs text-gray-500"><%= Timex.from_now(comment.inserted_at) %></p>
-                    </div>
-                    <%# Comment text %>
-                    <p class="text-xs mt-1 truncate">
-                        <%= comment.body %>
-                    </p>
-                </div>
-            </div>
+            <%= live_component @socket, ShlinkedinWeb.PostLive.CommentBubbleComponent,
+                id: comment.id,
+                profile: @profile,
+                expand_comment: false,
+                comment: comment %>
         </div>
         <% end %>
 
@@ -262,53 +259,6 @@
         <% end %>
     </div>
     <%end %>
-    <%= if @show_like_options == true do %>
 
-    <div id="like-options" class="fixed z-10 inset-0 ">
-        <div class="block items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
-            <div class="fixed inset-0 transition-opacity" aria-hidden="true" phx-click="like-cancelled"
-                phx-target="<%= @myself %>">
-                <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-green-500 opacity-75"></div>
-            </div>
-
-            <!-- This element is to trick the browser into centering the modal contents. -->
-            <span class="inline-block align-top h-screen" aria-hidden="true">&#8203;</span>
-            <div class="inline-block bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all mt-8 sm:mt-32 align-middle max-w-sm sm:w-full"
-                role="dialog" aria-modal="true" aria-labelledby="modal-headline">
-
-                <div class="text-center">
-                    <h5 class="font-semibold text-2xl mb-8">React to <%= @post.profile.persona_name %>'s
-                        post
-                    </h5>
-                </div>
-                <!-- This example requires Tailwind CSS v2.0+ -->
-                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <%= for like <- like_map_list(@like_map) do %>
-                    <button type="button" phx-click="like-selected" phx-value-like-type="<%=like.like_type%>"
-                        phx-target="<%= @myself %>"
-                        class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-bold rounded-full text-white <%=like.bg%> hover:<%=like.bg_hover%> focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        <!-- Heroicon name: mail -->
-
-                        <svg class="-ml-1 mr-3 h-4 w-4 sm:h-5 sm:w-5 mx-auto" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="<%=like.svg_path%>" fill-rule="<%=like.fill%>">
-                            </path>
-                        </svg>
-                        <%=like.like_type%>
-                    </button>
-                    <% end %>
-                </ul>
-                <button type="button" phx-click="like-cancelled" phx-target="<%= @myself %>"
-                    class="w-full mt-6  inline-block px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-500 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Cancel
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <% end %>
-    <%= if @show_potion_options == true do %>
-
-    <% end %>
 
 </div>

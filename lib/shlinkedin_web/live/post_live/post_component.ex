@@ -33,7 +33,6 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
 
     send_update(PostComponent,
       id: socket.assigns.post.id,
-      show_like_options: false,
       spin: true
     )
 
@@ -56,7 +55,12 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
   end
 
   def length_unique_user_likes(%Post{} = post) do
-    Enum.map(post.likes, fn x -> x.profile end) |> Enum.uniq() |> length
+    uniq = Enum.map(post.likes, fn x -> x.profile_id end) |> Enum.uniq() |> length
+
+    case uniq do
+      1 -> "1 person"
+      uniq -> "#{uniq} people"
+    end
   end
 
   def like_map_list(like_map) do
