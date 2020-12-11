@@ -38,12 +38,17 @@ defmodule Shlinkedin.Accounts.Profile do
       :cover_photo_url
     ])
     |> validate_required([:user_id, :persona_name, :username])
+    |> downcase_username()
     |> unique_constraint([:user_id])
     |> validate_length(:persona_name, min: 1, max: 40)
     |> validate_length(:persona_title, min: 3, max: 100)
     |> validate_length(:summary, max: 500)
     |> validate_username()
     |> validate_slug()
+  end
+
+  defp downcase_username(changeset) do
+    update_change(changeset, :username, &String.downcase/1)
   end
 
   defp validate_username(changeset) do
