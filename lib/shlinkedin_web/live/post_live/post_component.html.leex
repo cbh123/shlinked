@@ -199,6 +199,7 @@
         <div class="my-1">
             <%= live_component @socket, ShlinkedinWeb.PostLive.CommentBubbleComponent,
                 id: comment.id,
+                post: @post,
                 profile: @profile,
                 expand_comment: false,
                 comment: comment %>

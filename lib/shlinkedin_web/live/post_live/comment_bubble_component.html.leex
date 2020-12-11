@@ -9,14 +9,15 @@
             <p class="bold text-xs font-semibold hover:underline cursor-pointer w-64 truncate">
                 <%= @comment.profile.persona_name %>
 
+
+                <%= if @comment.profile.id == @post.profile.id do  %>
                 <span
                     class="inline-flex items-center px-2.5 mx-1 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 ">
                     Author
                 </span>
-
-                <%= if @profile.id == @comment.profile.id do %>
-
                 <% end %>
+
+
 
             </p>
             <% end %>
