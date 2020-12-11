@@ -93,12 +93,12 @@ defmodule Shlinkedin.Timeline do
   def list_posts do
     Repo.all(
       from p in Post,
-        limit: 20,
         left_join: profile in assoc(p, :profile),
         left_join: comments in assoc(p, :comments),
         left_join: profs in assoc(comments, :profile),
         preload: [:profile, :likes, comments: {comments, profile: profs}],
-        order_by: [desc: p.id]
+        order_by: [desc: p.id],
+        limit: 10
     )
   end
 

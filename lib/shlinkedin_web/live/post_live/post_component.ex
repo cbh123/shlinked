@@ -3,7 +3,6 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
   alias ShlinkedinWeb.PostLive.PostComponent
   alias Shlinkedin.Timeline.Post
 
-
   def handle_event("expand-post", _, socket) do
     send_update(PostComponent, id: socket.assigns.post.id, expand_post: true)
 
@@ -23,6 +22,15 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     send_update(PostComponent,
       id: socket.assigns.post.id,
       show_post_options: false
+    )
+
+    {:noreply, socket}
+  end
+
+  def handle_event("expand-comments", _, socket) do
+    send_update(PostComponent,
+      id: socket.assigns.post.id,
+      num_show_comments: socket.assigns.num_show_comments + 5
     )
 
     {:noreply, socket}

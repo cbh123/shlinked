@@ -84,14 +84,15 @@
             <%= if @expand_post do %>
             <p class="whitespace-pre-line pt-2 pb-4"><%= @post.body %></p>
             <% else %>
-            <p class="whitespace-pre-line pt-2 pb-4"> <%= String.slice(@post.body, 0..200) %></p>
+            <p class="whitespace-pre-line pt-2 pb-4">
+                <%= String.slice(@post.body, 0..200) %></p>
             <% end %>
 
             <%# add a see more button %>
             <%= if String.length(@post.body) >= 200 && !@expand_post do %>
             <div class="absolute bottom-2 right-2">
                 <button phx-click="expand-post" phx-target="<%= @myself %>"
-                    class="text-gray-500 text-sm hover:underline">...see more
+                    class="text-gray-500 text-sm hover:underline hover:text-blue-500">...see more
                 </button>
             </div>
             <% end %>
@@ -110,7 +111,7 @@
             <%= if String.length(@post.body) >= 100 && !@expand_post do %>
             <div class="absolute top-10 right-2">
                 <button phx-click="expand-post" phx-target="<%= @myself %>"
-                    class="text-gray-500 text-sm hover:underline">...see more
+                    class="text-gray-500 text-sm hover:underline hover:text-blue-500">...see more
                 </button>
             </div>
             <% end %>
@@ -136,7 +137,7 @@
             <%= if length(@post.likes) > 0 do %>
             <%= live_patch to: Routes.post_index_path(@socket, :show_likes, @post.id) do %>
             <div
-                class="<%= if @spin == true, do: "animate-spin" %> inline-flex items-center hover:underline hover:cursor-pointer py-2 my-2">
+                class="<%= if @spin == true, do: "animate-spin" %> inline-flex items-center hover:text-blue-500 hover:underline hover:cursor-pointer py-2 my-2">
                 <%= for unique_like <- show_unique_likes(@post) do %>
                 <%= if @like_map[unique_like] != nil do %>
                 <svg class="-ml-1 mr-1 h-3 w-3 <%= @like_map[unique_like].color %> hover:underline hover:cursor-pointer"
@@ -160,7 +161,8 @@
         <%#  "1 Comment" %>
         <%= if length(@post.comments) > 0 do %>
         <%= live_patch to: Routes.post_index_path(@socket, :show_comments, @post.id) do %>
-        <p class=" text-xs hover:underline <%= if @comment_spin == true, do: " animate-spin" %> py-2  my-2">
+        <p
+            class=" text-xs hover:underline hover:text-blue-500 <%= if @comment_spin == true, do: " animate-spin" %> py-2  my-2">
             <%= length(@post.comments) %>
             Comment<%= if length(@post.comments) > 1, do: "s" %></p>
         <% end %>
@@ -172,9 +174,6 @@
     <div>
         <hr class="pb-1">
         <div class="py-1 pb-0">
-
-
-
 
             <%= for like <- like_map_list(@like_map) do %>
 
@@ -231,7 +230,7 @@
 
     <%# Show first first comments stuff %>
     <div class="mt-2 block">
-        <%= for comment <- @post.comments |> Enum.take(-1) do %>
+        <%= for comment <- @post.comments |> Enum.slice(0, @num_show_comments) do %>
         <div class="my-1">
             <%= live_component @socket, ShlinkedinWeb.PostLive.CommentBubbleComponent,
                 id: comment.id,
@@ -249,13 +248,10 @@
         <% end %>
         <% end %>
 
-
-        <%= if length(@post.comments) > 1 do %>
-        <%= live_patch to: Routes.post_index_path(@socket, :show_comments, @post.id) do %>
-        <button class="text-gray-600 font-semibold mb-0 text-xs hover:bg-gray-100 px-2 py-1 rounded mt-2">Show
-            <%= length(@post.comments) - 1 %> more
-            comment<%= if length(@post.comments) > 2, do: "s" %></button>
-        <% end %>
+        <%= if @num_show_comments < length(@post.comments) do %>
+        <button class="text-gray-600 font-semibold mb-0 text-xs hover:bg-gray-100 px-2 py-1 rounded mt-2"
+            phx-click="expand-comments" phx-target="<%= @myself %>">
+            Load more comments</button>
         <% end %>
     </div>
     <%end %>
