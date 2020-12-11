@@ -132,7 +132,7 @@
         <%# Left side: number of likes and comments %>
         <div class="inline-flex items-center pl-2">
 
-            <%# "3 likes" with symbols %>
+            <%# "x likes" with symbols %>
             <%= if length(@post.likes) > 0 do %>
             <%= live_patch to: Routes.post_index_path(@socket, :show_likes, @post.id) do %>
             <div
@@ -148,7 +148,7 @@
                 <% end %>
 
                 <p class="text-xs">
-                    <%= length(@post.likes) %>
+                    <%= (length_unique_user_likes(@post)) %> person
                 </p>
 
             </div>

@@ -3,17 +3,6 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
   alias ShlinkedinWeb.PostLive.PostComponent
   alias Shlinkedin.Timeline.Post
 
-  def handle_event("show-like-options", _params, socket) do
-    send_update(PostComponent, id: socket.assigns.post.id, show_like_options: true)
-
-    {:noreply, socket}
-  end
-
-  def handle_event("show-potion-options", _params, socket) do
-    send_update(PostComponent, id: socket.assigns.post.id, show_potion_options: true)
-
-    {:noreply, socket}
-  end
 
   def handle_event("expand-post", _, socket) do
     send_update(PostComponent, id: socket.assigns.post.id, expand_post: true)
@@ -62,18 +51,12 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     {:noreply, socket}
   end
 
-  def handle_event("like-cancelled", _params, socket) do
-    send_update(PostComponent, id: socket.assigns.post.id, show_like_options: false)
-    {:noreply, socket}
-  end
-
-  def handle_event("potion-cancelled", _params, socket) do
-    send_update(PostComponent, id: socket.assigns.post.id, show_potion_options: false)
-    {:noreply, socket}
-  end
-
   def show_unique_likes(%Post{} = post) do
     Enum.map(post.likes, fn x -> x.like_type end) |> Enum.uniq()
+  end
+
+  def length_unique_user_likes(%Post{} = post) do
+    Enum.map(post.likes, fn x -> x.profile end) |> Enum.uniq() |> length
   end
 
   def like_map_list(like_map) do
