@@ -138,8 +138,7 @@ defmodule Shlinkedin.Timeline do
         left_join: profile in assoc(p, :profile),
         left_join: comments in assoc(p, :comments),
         left_join: profs in assoc(comments, :profile),
-        preload: [:profile, :likes, comments: {comments, profile: profs}],
-        order_by: [desc: p.id]
+        preload: [:profile, :likes, comments: {comments, profile: profs}]
     )
   end
 
@@ -192,17 +191,13 @@ defmodule Shlinkedin.Timeline do
   defp after_save(error, _func), do: error
 
   def create_comment(%Profile{} = profile, %Post{id: post_id}, attrs \\ %{}) do
-    {:ok, comment} =
+    {:ok, _} =
       %Comment{post_id: post_id, profile_id: profile.id}
       |> Comment.changeset(attrs)
       |> Repo.insert()
 
-    # simplify this shit
-    post =
-      Repo.preload(comment, :post).post
-      |> Repo.preload(:profile)
-      |> Repo.preload(:likes)
-      |> Repo.preload(comments: [:profile])
+    # could be optimized
+    post = get_post_preload_all(post_id)
 
     broadcast(
       {:ok, post},
@@ -211,7 +206,7 @@ defmodule Shlinkedin.Timeline do
   end
 
   def create_like(%Profile{} = profile, %Post{} = post, like_type) do
-    {:ok, like} =
+    {:ok, _} =
       %Like{
         profile_id: profile.id,
         post_id: post.id,
@@ -219,38 +214,10 @@ defmodule Shlinkedin.Timeline do
       }
       |> Repo.insert()
 
-    # simplify this shit
-    post =
-      Repo.preload(like, :post).post
-      |> Repo.preload(:profile)
-      |> Repo.preload(:likes)
-      |> Repo.preload(comments: [:profile])
+    # could be optimized
+    post = get_post_preload_all(post.id)
 
-    broadcast(
-      {:ok, post},
-      :post_updated
-    )
-  end
-
-  def delete_like(%Profile{id: profile_id}, %Post{id: post_id}) do
-    {1, [like]} =
-      from(l in Like,
-        where: l.post_id == ^post_id,
-        where: l.profile_id == ^profile_id,
-        select: l
-      )
-      |> Repo.delete_all()
-
-    post =
-      Repo.preload(like, :post).post
-      |> Repo.preload(:profile)
-      |> Repo.preload(:likes)
-      |> Repo.preload(comments: [:profile])
-
-    broadcast(
-      {:ok, post},
-      :post_updated
-    )
+    broadcast({:ok, post}, :post_updated)
   end
 
   def list_comments(%Post{} = post) do
