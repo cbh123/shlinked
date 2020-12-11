@@ -98,7 +98,7 @@ defmodule Shlinkedin.Timeline do
         left_join: profs in assoc(comments, :profile),
         preload: [:profile, :likes, comments: {comments, profile: profs}],
         order_by: [desc: p.id],
-        limit: 10
+        limit: 20
     )
   end
 

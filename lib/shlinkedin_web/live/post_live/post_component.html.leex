@@ -160,12 +160,10 @@
 
         <%#  "1 Comment" %>
         <%= if length(@post.comments) > 0 do %>
-        <%= live_patch to: Routes.post_index_path(@socket, :show_comments, @post.id) do %>
-        <p
+        <button phx-click="expand-comments" phx-target="<%= @myself %>"
             class=" text-xs hover:underline hover:text-blue-500 <%= if @comment_spin == true, do: " animate-spin" %> py-2  my-2">
             <%= length(@post.comments) %>
-            Comment<%= if length(@post.comments) > 1, do: "s" %></p>
-        <% end %>
+            Comment<%= if length(@post.comments) > 1, do: "s" %></button>
         <% end %>
 
     </div>
@@ -251,7 +249,7 @@
         <%= if @num_show_comments < length(@post.comments) do %>
         <button class="text-gray-600 font-semibold mb-0 text-xs hover:bg-gray-100 px-2 py-1 rounded mt-2"
             phx-click="expand-comments" phx-target="<%= @myself %>">
-            Load more comments</button>
+            Load more comments (<%= length(@post.comments) - @num_show_comments %>)</button>
         <% end %>
     </div>
     <%end %>

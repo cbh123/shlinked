@@ -95,14 +95,13 @@
 </div>
 
 
-<%= if @live_action in [:new_comment, :show_comments] do %>
+<%= if @live_action in [:new_comment] do %>
 <%= live_modal @socket, ShlinkedinWeb.PostLive.CommentComponent,
     id: :new_comment,
     profile: @profile,
     title: @page_title,
     post: @post,
     action: @live_action,
-    comments:  @comments || :new_comment,
     comment: @comment,
     return_to: Routes.post_index_path(@socket, :index) %>
 <% end %>
