@@ -51,7 +51,8 @@ defmodule Shlinkedin.MixProject do
       {:phx_gen_auth, "~> 0.6", only: [:dev], runtime: false},
       {:timex, "~> 3.5"},
       {:ordinal, "~> 0.1.0"},
-      {:httpoison, "~> 1.7"}
+      {:httpoison, "~> 1.7"},
+      {:bamboo, "~> 1.6"}
     ]
   end
 

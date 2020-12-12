@@ -5,17 +5,12 @@ defmodule Shlinkedin.Accounts.UserNotifier do
   #   * Swoosh - https://hexdocs.pm/swoosh
   #   * Bamboo - https://hexdocs.pm/bamboo
   #
-  defp deliver(to, body) do
-    require Logger
-    Logger.debug(body)
-    {:ok, %{to: to, body: body}}
-  end
 
   @doc """
   Deliver instructions to confirm account.
   """
   def deliver_confirmation_instructions(user, url) do
-    deliver(user.email, """
+    Shlinkedin.Email.user_email(user.email, "Confirm Account", """
 
     ==============================
 
@@ -29,13 +24,14 @@ defmodule Shlinkedin.Accounts.UserNotifier do
 
     ==============================
     """)
+    |> Shlinkedin.Mailer.deliver_later()
   end
 
   @doc """
   Deliver instructions to reset a user password.
   """
   def deliver_reset_password_instructions(user, url) do
-    deliver(user.email, """
+    Shlinkedin.Email.user_email(user.email, "Reset Password", """
 
     ==============================
 
@@ -49,13 +45,14 @@ defmodule Shlinkedin.Accounts.UserNotifier do
 
     ==============================
     """)
+    |> Shlinkedin.Mailer.deliver_later()
   end
 
   @doc """
   Deliver instructions to update a user email.
   """
   def deliver_update_email_instructions(user, url) do
-    deliver(user.email, """
+    Shlinkedin.Email.user_email(user.email, "Update Email", """
 
     ==============================
 
@@ -69,5 +66,6 @@ defmodule Shlinkedin.Accounts.UserNotifier do
 
     ==============================
     """)
+    |> Shlinkedin.Mailer.deliver_later()
   end
 end

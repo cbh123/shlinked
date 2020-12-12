@@ -214,6 +214,11 @@ defmodule Shlinkedin.Timeline do
       }
       |> Repo.insert()
 
+    # Create your email
+    Shlinkedin.Email.new_like_email(profile)
+    # Send your email
+    |> Shlinkedin.Mailer.deliver_later()
+
     # could be optimized
     post = get_post_preload_all(post.id)
 

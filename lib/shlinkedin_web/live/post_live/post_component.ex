@@ -53,11 +53,6 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     {:noreply, socket}
   end
 
-  def handle_event("delete-like", _, socket) do
-    Shlinkedin.Timeline.delete_like(socket.assigns.profile, socket.assigns.post)
-    {:noreply, socket}
-  end
-
   def show_unique_likes(%Post{} = post) do
     Enum.map(post.likes, fn x -> x.like_type end) |> Enum.uniq()
   end

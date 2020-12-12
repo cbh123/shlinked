@@ -10,6 +10,11 @@ use Mix.Config
 config :shlinkedin,
   ecto_repos: [Shlinkedin.Repo]
 
+# config/config.exs
+config :shlinkedin, Shlinkedin.Mailer,
+  adapter: Bamboo.SendGridAdapter,
+  api_key: System.get_env("SENDGRID_API_KEY")
+
 # Configures the endpoint
 config :shlinkedin, ShlinkedinWeb.Endpoint,
   url: [host: "localhost"],
