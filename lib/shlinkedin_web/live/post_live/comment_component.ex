@@ -46,7 +46,7 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
 
     send_update_after(
       ShlinkedinWeb.PostLive.CommentComponent,
-      [id: :new_comment, loading_text: Timeline.comment_loading(), progress: 100],
+      [id: :new_comment, loading_text: Timeline.comment_loading(), progress: 99],
       1250
     )
 
