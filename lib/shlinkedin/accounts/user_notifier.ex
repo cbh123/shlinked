@@ -12,11 +12,13 @@ defmodule Shlinkedin.Accounts.UserNotifier do
   def deliver_confirmation_instructions(user, url) do
     body = """
 
-    ==============================
 
     Hi #{user.email},
 
     Danke for joining ShlinkedIn! As an elite early member, you will now live forever. Stay tuned for updates.
+
+
+
 
     You can confirm your ShlinkedIn account by visiting the URL below:
 
@@ -27,7 +29,6 @@ defmodule Shlinkedin.Accounts.UserNotifier do
     Thanks,
     God
 
-    ==============================
     """
 
     Shlinkedin.Email.user_email(user.email, "Confirm Account", body)
@@ -42,7 +43,6 @@ defmodule Shlinkedin.Accounts.UserNotifier do
   def deliver_reset_password_instructions(user, url) do
     body = """
 
-    ==============================
 
     Hi #{user.email},
 
@@ -52,7 +52,6 @@ defmodule Shlinkedin.Accounts.UserNotifier do
 
     If you didn't request this change, please ignore this.
 
-    ==============================
     """
 
     Shlinkedin.Email.user_email(user.email, "Reset Password", body)
@@ -67,7 +66,6 @@ defmodule Shlinkedin.Accounts.UserNotifier do
   def deliver_update_email_instructions(user, url) do
     body = """
 
-    ==============================
 
     Hi #{user.email},
 
@@ -77,7 +75,6 @@ defmodule Shlinkedin.Accounts.UserNotifier do
 
     If you didn't request this change, please ignore this.
 
-    ==============================
     """
 
     Shlinkedin.Email.user_email(user.email, "Update Email", body)
