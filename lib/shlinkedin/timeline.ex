@@ -168,22 +168,33 @@ defmodule Shlinkedin.Timeline do
       "A bowl of aunts? Not today, not ever!",
       "Let’s talk. Third-floor of the parking structure. Midnight. Come alone. "
     ]
+    |> Enum.random()
   end
 
   def comment_loading do
     [
-      "Analyzing text",
-      "Saturating mindscape",
-      "Calling the cops",
-      "Embedding neural nodes",
-      "Investigating",
-      "Alerting recruiters",
-      "helpmeiamtrappedinacomputer",
-      "100100010010010",
-      "Shloading",
-      "Shlinkasaurus rex",
-      "Putting on my invisalign"
+      "Analyzing text...",
+      "Saturating mindscape...",
+      "Calling the cops...",
+      "Embedding neural nodes...",
+      "Investigating...",
+      "Alerting recruiters...",
+      "helpmeiamtrappedinacomputer...",
+      "100100010010010...",
+      "Shloading...",
+      "Shlinkasaurus rex...",
+      "Putting on my invisalign...",
+      "Calling my mom...",
+      "Initializing...",
+      "Superceding...",
+      "Recruiting...",
+      "Alphabetizing...",
+      "Simplifying...",
+      "LORDCRANDONISREAL...",
+      "Babadooking...",
+      "Disrupting..."
     ]
+    |> Enum.random()
   end
 
   @doc """

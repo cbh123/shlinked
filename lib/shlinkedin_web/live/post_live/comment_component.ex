@@ -14,6 +14,13 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
      |> assign(:changeset, changeset)}
   end
 
+  def update(info, socket) do
+    {:ok,
+     socket
+     |> assign(:progress, info.progress)
+     |> assign(:loading_text, info.loading_text)}
+  end
+
   @impl true
   def handle_event("validate", %{"comment" => comment_params}, socket) do
     changeset =
@@ -22,6 +29,44 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
+  end
+
+  def handle_event("comment-ai", _, socket) do
+    send_update_after(
+      ShlinkedinWeb.PostLive.CommentComponent,
+      [id: :new_comment, loading_text: Timeline.comment_loading(), progress: 33],
+      500
+    )
+
+    send_update_after(
+      ShlinkedinWeb.PostLive.CommentComponent,
+      [id: :new_comment, loading_text: Timeline.comment_loading(), progress: 66],
+      800
+    )
+
+    send_update_after(
+      ShlinkedinWeb.PostLive.CommentComponent,
+      [id: :new_comment, loading_text: Timeline.comment_loading(), progress: 100],
+      1250
+    )
+
+    send_update_after(
+      ShlinkedinWeb.PostLive.CommentComponent,
+      [id: :new_comment, loading_text: "Comment generated", progress: 100, ai_loading: false],
+      1750
+    )
+
+    send_update_after(
+      ShlinkedinWeb.PostLive.CommentComponent,
+      [id: :new_comment, comment: %Timeline.Comment{body: Timeline.comment_ai()}],
+      1800
+    )
+
+    {:noreply,
+     socket
+     |> assign(:progress, 5)
+     |> assign(:ai_loading, !socket.assigns.ai_loading)
+     |> assign(:loading_text, Timeline.comment_loading())}
   end
 
   def handle_event("save", %{"comment" => comment_params}, socket) do
