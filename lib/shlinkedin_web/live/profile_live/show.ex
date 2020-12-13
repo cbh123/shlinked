@@ -37,7 +37,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
 
   defp apply_action(socket, :new_endorsement, %{"slug" => slug}) do
     socket
-    |> assign(:page_title, "New Endorsement")
+    |> assign(:page_title, "Endorse #{socket.assigns.show_profile.persona_name}")
     |> assign(:from_profile, socket.assigns.profile)
     |> assign(:to_user, Profiles.get_profile_by_slug(slug))
     |> assign(:endorsement, %Endorsement{})

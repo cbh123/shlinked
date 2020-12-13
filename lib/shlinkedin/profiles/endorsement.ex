@@ -17,5 +17,6 @@ defmodule Shlinkedin.Profiles.Endorsement do
     endorsement
     |> cast(attrs, [:emoji, :body, :gif_url])
     |> validate_required([:body])
+    |> validate_length(:body, min: 1, max: 50)
   end
 end
