@@ -50,8 +50,7 @@ defmodule Shlinkedin.Accounts.User do
     |> validate_required([:password])
     |> validate_length(:password,
       min: 5,
-      max: 80,
-      message: "password should be at least 5 characters"
+      max: 80
     )
     # |> validate_format(:password, ~r/[a-z]/, message: "at least one lower case character")
     # |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
