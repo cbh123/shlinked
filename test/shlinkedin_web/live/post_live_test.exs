@@ -5,6 +5,10 @@ defmodule ShlinkedinWeb.PostLiveTest do
 
   alias Shlinkedin.Timeline
   alias Shlinkedin.Accounts.Profile
+  alias Shlinkedin.Accounts
+
+  import Shlinkedin.AccountsFixtures
+  alias ShlinkedinWeb.UserAuth
 
   @profile %Profile{username: "chalie"}
   @create_attrs %{
@@ -23,6 +27,15 @@ defmodule ShlinkedinWeb.PostLiveTest do
     post
   end
 
+  setup %{conn: conn} do
+    conn =
+      conn
+      |> Map.replace!(:secret_key_base, ShlinkedinWeb.Endpoint.config(:secret_key_base))
+      |> init_test_session(%{})
+
+    %{user: user_fixture(), conn: conn}
+  end
+
   defp create_post(_) do
     post = fixture(:post)
     %{post: post}
@@ -31,18 +44,20 @@ defmodule ShlinkedinWeb.PostLiveTest do
   describe "Index" do
     setup [:create_post]
 
-    test "lists all posts", %{conn: conn, post: post} do
+    test "lists all posts", %{conn: conn, post: post, user: user} do
+      user_token = Accounts.generate_user_session_token(user)
+      conn = conn |> put_session(:user_token, user_token)
+
       {:ok, _index_live, html} = live(conn, Routes.post_index_path(conn, :index))
 
-      assert html =~ "Listing Posts"
       assert html =~ post.body
     end
 
     test "saves new post", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, Routes.post_index_path(conn, :index))
 
-      assert index_live |> element("a", "New Post") |> render_click() =~
-               "New Post"
+      assert index_live |> element("a", "Start a post") |> render_click() =~
+               "Create Post Post"
 
       assert_patch(index_live, Routes.post_index_path(conn, :new))
 
