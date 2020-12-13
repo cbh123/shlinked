@@ -7,6 +7,16 @@ defmodule Shlinkedin.Accounts do
   alias Shlinkedin.Repo
   alias Shlinkedin.Accounts.{User, UserToken, UserNotifier, Profile}
 
+  def get_random_profiles(count) do
+    Repo.all(
+      from p in Profile,
+        select: %{name: p.persona_name, slug: p.slug, photo: p.photo_url, title: p.persona_title},
+        order_by: fragment("RANDOM()"),
+        limit: ^count,
+        where: not ilike(p.persona_name, "%test%")
+    )
+  end
+
   ## Database getters
 
   @doc """

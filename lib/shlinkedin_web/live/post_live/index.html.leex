@@ -1,4 +1,4 @@
-<div class="mt-2 p-5 pb-2 sm:max-w-lg mx-auto bg-white border border-gray-100 rounded-lg">
+<div class="p-5 pb-2 sm:max-w-lg mx-auto bg-white rounded-b-lg">
     <%= live_patch to: Routes.post_index_path(@socket, :new) do %>
     <button type="button"
         class="w-full inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-full text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
@@ -50,19 +50,27 @@
     </div>
 </div>
 
-<%# <div class="mx-auto max-w-lg p-5 pb-2">
-    <span class="inline-block relative mx-1 border-2 border-blue-400 rounded-full">
-        <img class="h-14 w-14 rounded-full border-2 border-white"
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            alt="">
-    </span>
+<div class="mx-auto sm:max-w-lg p-5 pb-2 bg-white rounded-lg mt-2">
+    <p class="pb-4 font-bold">Shlinkers you'll love</p>
 
-    <span class="inline-block relative mx-1 border-2 border-blue-400 rounded-full">
-        <img class="h-14 w-14 rounded-full border-2 border-white"
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            alt="">
-    </span>
-</div> %>
+    <div class="flex justify-between">
+        <%= for profile <- @random_profiles do %>
+        <%= live_patch to: Routes.profile_show_path(@socket, :show, profile.slug) do  %>
+
+        <div class="overflow-hidden">
+            <span class="flex mx-1 border-2 border-blue-400 rounded-full">
+                <img class="h-14 w-14 rounded-full border-2 border-white" src="<%= profile.photo %>" alt="">
+
+            </span>
+            <p class="text-center text-xs w-16 mx-auto"><%= profile.name %></p>
+        </div>
+        <% end %>
+        <% end %>
+    </div>
+
+
+
+</div>
 
 
 <div id="posts" phx-update="prepend">
@@ -73,7 +81,6 @@
         post: post,
         deleted: post.__meta__.state == :deleted,
         like_map: @like_map,
-        potion_map: @potion_map,
         comment_spin: false,
         show_post_options: false,
         expand_post: false,

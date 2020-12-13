@@ -13,7 +13,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
     {:ok,
      socket
      |> assign(posts: list_posts())
-     |> assign(potion_map: Timeline.potion_map())
+     |> assign(random_profiles: Shlinkedin.Accounts.get_random_profiles(5))
      |> assign(like_map: Timeline.like_map()), temporary_assigns: [posts: []]}
   end
 
