@@ -307,18 +307,24 @@ defmodule Shlinkedin.Timeline do
   defp after_save(error, _func), do: error
 
   def create_comment(%Profile{} = profile, %Post{id: post_id}, attrs \\ %{}) do
-    {:ok, _} =
+    new_comment =
       %Comment{post_id: post_id, profile_id: profile.id}
       |> Comment.changeset(attrs)
       |> Repo.insert()
 
-    # could be optimized
-    post = get_post_preload_all(post_id)
+    case new_comment do
+      {:ok, _} ->
+        # could be optimized
+        post = get_post_preload_all(post_id)
 
-    broadcast(
-      {:ok, post},
-      :post_updated
-    )
+        broadcast(
+          {:ok, post},
+          :post_updated
+        )
+
+      {:error, changeset} ->
+        {:error, changeset}
+    end
   end
 
   def create_like(%Profile{} = profile, %Post{} = post, like_type) do
