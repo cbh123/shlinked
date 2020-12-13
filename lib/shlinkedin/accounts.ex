@@ -13,7 +13,7 @@ defmodule Shlinkedin.Accounts do
         select: %{name: p.persona_name, slug: p.slug, photo: p.photo_url, title: p.persona_title},
         order_by: fragment("RANDOM()"),
         limit: ^count,
-        where: not ilike(p.persona_name, "%test%")
+        where: not ilike(p.persona_name, "%test%") and not like(p.persona_name, "")
     )
   end
 

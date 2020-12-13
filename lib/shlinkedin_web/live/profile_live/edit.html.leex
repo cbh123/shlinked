@@ -25,7 +25,7 @@
                     <%= live_img_preview entry, class: "inline-block relative bg-cover bg-center w-24 h-24 sm:w-32 sm:h-32 -mt-16 rounded-full border-4 border-white" %>
                     <% end %>
                     <% else %>
-                    <img class="inline-block relative bg-cover bg-center w-24 h-24 sm:w-32 sm:h-32 -mt-16 rounded-full border-4 border-white"
+                    <img class="inline-block relative bg-cover bg-center w-24 h-24 sm:w-32 sm:h-32 -mt-16 rounded-full border-4 border-white object-cover"
                         src="<%= if @profile.photo_url == nil, do: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/George_Washington%2C_1776.jpg/1200px-George_Washington%2C_1776.jpg", else: @profile.photo_url%>">
                     <% end  %>
 
@@ -195,7 +195,7 @@
                     <%= live_img_preview entry, class: "inline-block relative bg-cover bg-center w-24 h-24 sm:w-32 sm:h-32 -mt-16 rounded-full border-4 border-white" %>
                     <% end %>
                     <% else %>
-                    <img class="inline-block relative bg-cover bg-center w-24 h-24 sm:w-32 sm:h-32 -mt-16 rounded-full border-4 border-white"
+                    <img class="inline-block relative bg-cover bg-center w-24 h-24 sm:w-32 sm:h-32 -mt-16 rounded-full border-4 border-white object-cover"
                         src="<%= if @profile.photo_url == nil, do: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80)", else: @profile.photo_url%>">
                     <% end  %>
 

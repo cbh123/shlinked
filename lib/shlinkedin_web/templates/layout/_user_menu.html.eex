@@ -40,7 +40,8 @@
           <span class="sr-only">Profile</span>
           <!-- Heroicon name: Profile -->
 
-          <img class="inline-block h-6 w-6 rounded-full border border-white" src="<%= @profile.photo_url %>" alt="">
+          <img class="inline-block h-6 w-6 object-cover rounded-full border border-white"
+              src="<%= @profile.photo_url %>" alt="">
       </button>
   </div>
   <% end %>

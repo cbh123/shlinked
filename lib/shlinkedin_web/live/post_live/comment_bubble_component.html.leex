@@ -1,7 +1,7 @@
 <%# Top of comment: image, name, title, and time on right %>
 <div class="flex">
     <span class="inline-block cursor-pointer">
-        <img class="h-6 w-6 mt-1 rounded-full" src="<%= @comment.profile.photo_url %>" alt="">
+        <img class="h-6 w-6 mt-1 object-cover rounded-full" src="<%= @comment.profile.photo_url %>" alt="">
     </span>
     <div class=" bg-gray-100 ml-2 py-2 px-4 rounded-lg w-11/12 relative">
         <div class="flex justify-between">
