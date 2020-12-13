@@ -1,6 +1,6 @@
 defmodule Shlinkedin.Email do
   import Bamboo.Email
-  alias Shlinkedin.Accounts.Profile
+  alias Shlinkedin.Profiles.Profile
 
   def welcome_email do
     new_email(

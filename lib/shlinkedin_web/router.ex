@@ -75,11 +75,13 @@ defmodule ShlinkedinWeb.Router do
     live "/posts/:id/likes", PostLive.Index, :show_likes
 
     ### profile
-    # show profile
-    live "/sup/:slug", ProfileLive.Show, :show
+    live "/sh/:slug", ProfileLive.Show, :show
+    live "/sh/:slug/endorsements/new", ProfileLive.Show, :new_endorsement
+    live "/sh/:slug/endorsement/:id/edit", ProfileLive.Show, :edit_endorsement
 
     live "/profile/live_edit", ProfileLive.Edit, :edit
     live "/profile/welcome", ProfileLive.Edit, :new
+
   end
 
   scope "/", ShlinkedinWeb do

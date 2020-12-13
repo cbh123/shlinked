@@ -4,7 +4,7 @@ defmodule ShlinkedinWeb.PostLiveTest do
   import Phoenix.LiveViewTest
 
   alias Shlinkedin.Timeline
-  alias Shlinkedin.Accounts.Profile
+  alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Accounts
 
   import Shlinkedin.AccountsFixtures

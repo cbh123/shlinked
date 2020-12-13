@@ -6,7 +6,7 @@ defmodule Shlinkedin.Timeline.Comment do
     field :body, :string
     field :likes, :integer, default: 0
     belongs_to :post, Shlinkedin.Timeline.Post
-    belongs_to :profile, Shlinkedin.Accounts.Profile
+    belongs_to :profile, Shlinkedin.Profiles.Profile
     timestamps()
   end
 

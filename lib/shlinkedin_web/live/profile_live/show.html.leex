@@ -134,6 +134,47 @@
         </dl>
     </div>
 
+    <%= if @live_action in [:new_endorsement, :edit_endorsement] do %>
+    <%= live_modal @socket, ShlinkedinWeb.EndorsementLive.FormComponent,
+    id: @endorsement.id || :new_endorsement,
+    from_profile: @from_profile,
+    to_profile: @to_profile,
+    title: @page_title,
+    action: @live_action,
+    endorsement: @endorsement,
+    return_to: Routes.profile_show_path(@socket, :show, @to_profile.slug) %>
+    <% end %>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Emoji</th>
+                <th>Body</th>
+                <th>Gif url</th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="endorsements">
+            <%= for endorsement <- @endorsements do %>
+            <tr id="endorsement-<%= endorsement.id %>">
+                <td><%= endorsement.from_profile_id %></td>
+                <td><%= endorsement.body %></td>
+
+                <td>
+                    <%= if @from_profile.id == endorsement.from_profile_id do %>
+                    <span><%= live_patch "Edit", to: Routes.profile_show_path(@socket, :edit_endorsement, @to_profile.slug, endorsement) %></span>
+                    <span><%= link "Delete", to: "#", phx_click: "delete-endorsement", phx_value_id: endorsement.id, data: [confirm: "Are you sure?"] %></span>
+                    <% end %>
+                </td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+
+    <span><%= live_patch "New Endorsement", to: Routes.profile_show_path(@socket, :new_endorsement, @to_profile.slug) %></span>
+
+
 
 
 

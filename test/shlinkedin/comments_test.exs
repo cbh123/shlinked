@@ -5,7 +5,7 @@ defmodule Shlinkedin.CommentsTest do
 
   describe "comments" do
     alias Shlinkedin.Timeline.Post
-    alias Shlinkedin.Accounts.Profile
+    alias Shlinkedin.Profiles.Profile
 
     @valid_attrs %{body: "some body"}
     @profile %Profile{username: "charlie"}

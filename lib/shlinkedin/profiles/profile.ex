@@ -1,4 +1,4 @@
-defmodule Shlinkedin.Accounts.Profile do
+defmodule Shlinkedin.Profiles.Profile do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -21,6 +21,7 @@ defmodule Shlinkedin.Accounts.Profile do
     belongs_to :user, Shlinkedin.Accounts.User
     has_many :posts, Shlinkedin.Timeline.Post
     has_many :comments, Shlinkedin.Timeline.Comment
+    has_many :endorsements, Shlinkedin.Profiles.Endorsement
     timestamps()
   end
 

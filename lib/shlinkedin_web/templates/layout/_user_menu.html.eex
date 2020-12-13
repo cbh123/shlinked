@@ -34,7 +34,7 @@
       </button>
 
 
-      <%= link to: "/sup/#{@profile.slug}" do %>
+      <%= link to: "/sh/#{@profile.slug}" do %>
       <button
           class="flex flex-col p-1 mr-4 text-gray-600 rounded-full hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
           <span class="sr-only">Profile</span>

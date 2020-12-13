@@ -7,7 +7,7 @@ defmodule Shlinkedin.Timeline.Post do
     field(:likes_count, :integer, default: 0)
     has_many(:comments, Shlinkedin.Timeline.Comment, on_delete: :nilify_all)
     has_many(:likes, Shlinkedin.Timeline.Like, on_delete: :nilify_all)
-    belongs_to(:profile, Shlinkedin.Accounts.Profile)
+    belongs_to(:profile, Shlinkedin.Profiles.Profile)
     field :photo_urls, {:array, :string}, default: []
     field :gif_url, :string
     field :add_gif, :boolean, virtual: true

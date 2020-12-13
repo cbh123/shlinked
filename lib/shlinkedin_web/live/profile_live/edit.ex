@@ -1,7 +1,7 @@
 defmodule ShlinkedinWeb.ProfileLive.Edit do
   use ShlinkedinWeb, :live_view
   alias Shlinkedin.Accounts
-  alias Shlinkedin.Accounts.Profile
+  alias Shlinkedin.Profiles.Profile
 
   @bio_placeholders [
     "My approach to business is simple: work hard at something everyday of your life and when you die you will have worked very hard and are a good boy! Then you get to eat all the marzipan your precious little heart could ever desire. Also, my cousin was on a flight next to Richard Branson once.",

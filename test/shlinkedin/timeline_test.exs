@@ -5,7 +5,7 @@ defmodule Shlinkedin.TimelineTest do
 
   describe "posts" do
     alias Shlinkedin.Timeline.Post
-    alias Shlinkedin.Accounts.Profile
+    alias Shlinkedin.Profiles.Profile
 
     @valid_attrs %{
       body: "some body",

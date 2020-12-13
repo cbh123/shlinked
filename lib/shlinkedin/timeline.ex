@@ -6,7 +6,7 @@ defmodule Shlinkedin.Timeline do
   alias Shlinkedin.Repo
 
   alias Shlinkedin.Timeline.{Post, Comment, Like}
-  alias Shlinkedin.Accounts.Profile
+  alias Shlinkedin.Profiles.Profile
 
   def like_map do
     %{

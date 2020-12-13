@@ -5,17 +5,7 @@ defmodule Shlinkedin.Accounts do
 
   import Ecto.Query, warn: false
   alias Shlinkedin.Repo
-  alias Shlinkedin.Accounts.{User, UserToken, UserNotifier, Profile}
-
-  def get_random_profiles(count) do
-    Repo.all(
-      from p in Profile,
-        select: %{name: p.persona_name, slug: p.slug, photo: p.photo_url, title: p.persona_title},
-        order_by: fragment("RANDOM()"),
-        limit: ^count,
-        where: not ilike(p.persona_name, "%test%") and not like(p.persona_name, "")
-    )
-  end
+  alias Shlinkedin.Accounts.{User, UserToken, UserNotifier}
 
   ## Database getters
 
@@ -69,14 +59,6 @@ defmodule Shlinkedin.Accounts do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
-  def get_profile(user_id) do
-    from(p in Profile, where: p.user_id == ^user_id, select: p) |> Repo.one()
-  end
-
-  def get_profile_by_slug(slug) do
-    from(p in Profile, where: p.slug == ^slug, select: p, preload: [:posts]) |> Repo.one()
-  end
-
   ## User registration
 
   @doc """
@@ -108,10 +90,6 @@ defmodule Shlinkedin.Accounts do
   """
   def change_user_registration(%User{} = user, attrs \\ %{}) do
     User.registration_changeset(user, attrs, hash_password: false)
-  end
-
-  def change_profile(%Profile{} = profile, %User{id: user_id}, attrs \\ %{}) do
-    Profile.changeset(profile, attrs |> Map.put("user_id", user_id))
   end
 
   ## Settings
@@ -368,27 +346,4 @@ defmodule Shlinkedin.Accounts do
       {:error, :user, changeset, _} -> {:error, changeset}
     end
   end
-
-  def create_profile(%User{id: user_id}, attrs \\ %{}, after_save \\ &{:ok, &1}) do
-    %Profile{}
-    |> Profile.changeset(attrs |> Map.put("user_id", user_id))
-    |> Ecto.Changeset.put_change(:slug, attrs["username"])
-    |> Repo.insert()
-    |> after_save(after_save)
-  end
-
-  def update_profile(%Profile{} = profile, %User{id: user_id}, attrs, after_save \\ &{:ok, &1}) do
-    profile = %{profile | user_id: user_id}
-
-    profile
-    |> Profile.changeset(attrs)
-    |> Repo.update()
-    |> after_save(after_save)
-  end
-
-  defp after_save({:ok, profile}, func) do
-    {:ok, _profile} = func.(profile)
-  end
-
-  defp after_save(error, _func), do: error
 end

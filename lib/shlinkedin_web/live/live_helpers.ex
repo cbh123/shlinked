@@ -2,7 +2,8 @@ defmodule ShlinkedinWeb.LiveHelpers do
   import Phoenix.LiveView.Helpers
   import Phoenix.LiveView
   alias Shlinkedin.Accounts
-  alias Shlinkedin.Accounts.Profile
+  alias Shlinkedin.Profiles
+  alias Shlinkedin.Profiles.Profile
 
   @doc """
   Renders a component inside the `ShlinkedinWeb.ModalComponent` component.
@@ -31,7 +32,7 @@ defmodule ShlinkedinWeb.LiveHelpers do
   def is_user(%{"user_token" => token}, %{view: view} = socket) do
     current_user = Accounts.get_user_by_session_token(token)
 
-    case Accounts.get_profile(current_user.id) do
+    case Profiles.get_profile(current_user.id) do
       nil when not is_profile_view(view) ->
         socket
         |> assign(current_user: current_user, profile: %Profile{})

@@ -4,7 +4,7 @@ defmodule Shlinkedin.Timeline.Like do
   schema "likes" do
     field :like_type, :string
     belongs_to :post, Shlinkedin.Timeline.Post
-    belongs_to :profile, Shlinkedin.Accounts.Profile
+    belongs_to :profile, Shlinkedin.Profiles.Profile
 
     timestamps()
   end

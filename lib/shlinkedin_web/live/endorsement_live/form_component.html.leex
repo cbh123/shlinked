@@ -1,0 +1,14 @@
+<h2><%= @title %></h2>
+
+<%= f = form_for @changeset, "#",
+  id: "endorsement-form",
+  phx_target: @myself,
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+<%= label f, :body %>
+<%= text_input f, :body %>
+<%= error_tag f, :body %>
+
+<%= submit "Save", phx_disable_with: "Saving..." %>
+</form>
