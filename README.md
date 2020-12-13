@@ -4,14 +4,14 @@ To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
   * Create and migrate your database with `mix ecto.setup`
-  * Install Node.js dependencies with `npm install` inside the `assets` directory
+  * `cd/assets` and install Node.js dependencies with `npm install` or `yarn install`
   * Start Phoenix endpoint with `mix phx.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+Note: in order for posts to successfully upload, I'll need to send you the `.env` file with the AWS secret keys. But everything else should work without that.
 
-# Charlie's Guide to Learning Elixir / Phoenix Liveview
+# Charlie's Guide to Learning What's Going On Here
 
 Hi Dice. I am putting all my thoughts here on how to introduce you to ShlinkedIn code + Elixir / Phoenix. There's a lot of stuff here but do not be discouraged, you will figure it out in no time.
 
