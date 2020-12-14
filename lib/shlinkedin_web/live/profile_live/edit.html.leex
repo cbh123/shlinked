@@ -22,7 +22,7 @@
 
                     <%= if @uploads.photo.entries != [] do %>
                     <%= for entry <- @uploads.photo.entries do %>
-                    <%= live_img_preview entry, class: "inline-block relative bg-cover bg-center w-24 h-24 sm:w-32 sm:h-32 -mt-16 rounded-full border-4 border-white" %>
+                    <%= live_img_preview entry, class: "inline-block relative object-cover bg-cover bg-center w-24 h-24 sm:w-32 sm:h-32 -mt-16 rounded-full border-4 border-white" %>
                     <% end %>
                     <% else %>
                     <img class="inline-block relative bg-cover bg-center w-24 h-24 sm:w-32 sm:h-32 -mt-16 rounded-full border-4 border-white object-cover"
