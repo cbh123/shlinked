@@ -12,8 +12,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
     <a href="shlinked.herokuapp.com/sh/#{from_profile.slug}">#{from_profile.persona_name}</a> has endorsed you for "#{
       endorsement
-    }".
-    That's so nice of them. What a treat.
+    }"!
 
     <br/>
     <br/>
