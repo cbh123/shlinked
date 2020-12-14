@@ -154,8 +154,8 @@
             <div id="endorsement-<%= endorsement.id %>"
                 class="<%= "bg-#{color}-100" %> text-white inline-block py-2 px-4 shadow-xs rounded-lg my-1">
                 <p class="font-bold font-lg <%= "text-#{color}-700" %> "><%= endorsement.body %></p>
-                <p class="italic text-xs <%= "text-#{color}-700" %>">-
-                    <%= get_profile(endorsement.from_profile_id).persona_name %></p>
+                <p class="italic text-xs <%= "text-#{color}-700" %>">
+                    <%=  %></p>
 
                 <%= if @from_profile.id == endorsement.from_profile_id do %>
                 <div class="">
