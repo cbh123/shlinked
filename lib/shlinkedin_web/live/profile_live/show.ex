@@ -53,4 +53,8 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   defp list_endorsements(id) do
     Profiles.list_endorsements(id)
   end
+
+  def get_profile(id) do
+    Profiles.get_profile(id)
+  end
 end
