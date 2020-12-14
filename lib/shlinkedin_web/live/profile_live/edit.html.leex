@@ -276,6 +276,17 @@
                     <p class="mt-4 text-xs"><%= error_tag f, :summary %></p>
 
                 </div>
+
+                <div>
+                    <label for="life_score" class="text-sm font-medium text-gray-700 mt-4">How would you grade your life
+                        so far?</label>
+                    <div class="mt-1">
+                        <%= text_input f, :life_score, placeholder: "B+", class: "focus:ring-indigo-500 focus:border-indigo-500 pr-10 sm:text-sm border-gray-300 rounded-md" %>
+
+                    </div>
+                    <p class=" mt-4 text-xs"><%= error_tag f, :life_score %></p>
+
+                </div>
             </div>
             <div class="flex justify-end p-5">
                 <%= live_patch "Cancel", to: Routes.profile_show_path(@socket, :show, @profile.slug), class: "ml-3 mt-6 inline-flex justify-center py-2 px-4 border border-blue-600 shadow-sm text-sm font-medium rounded-full text-blue-600 bg-white hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>

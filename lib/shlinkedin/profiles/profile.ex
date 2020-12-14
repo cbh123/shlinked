@@ -22,6 +22,10 @@ defmodule Shlinkedin.Profiles.Profile do
     has_many :posts, Shlinkedin.Timeline.Post
     has_many :comments, Shlinkedin.Timeline.Comment
     has_many :endorsements, Shlinkedin.Profiles.Endorsement
+
+    field :life_score, :string, default: "B+"
+    field :points, :integer, default: 100
+
     timestamps()
   end
 
@@ -36,7 +40,8 @@ defmodule Shlinkedin.Profiles.Profile do
       :persona_title,
       :summary,
       :photo_url,
-      :cover_photo_url
+      :cover_photo_url,
+      :life_score
     ])
     |> validate_required([:user_id, :persona_name, :username])
     |> downcase_username()
@@ -44,6 +49,7 @@ defmodule Shlinkedin.Profiles.Profile do
     |> validate_length(:persona_name, min: 1, max: 40)
     |> validate_length(:persona_title, min: 3, max: 100)
     |> validate_length(:summary, max: 500)
+    |> validate_length(:life_score, max: 10)
     |> validate_username()
     |> validate_slug()
   end
