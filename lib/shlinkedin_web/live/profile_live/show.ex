@@ -1,6 +1,5 @@
 defmodule ShlinkedinWeb.ProfileLive.Show do
   use ShlinkedinWeb, :live_view
-  alias Shlinkedin.Accounts
   alias Shlinkedin.Profiles
   alias Shlinkedin.Profiles.Endorsement
 
