@@ -10,9 +10,10 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
 
-    #{from_profile.persona_name} has endorsed you for "#{endorsement}".
-
-    Perhaps <a href="shlinked.herokuapp.com/sh/#{from_profile.slug}">#{from_profile.persona_name}</a> for something in return?
+    <a href="shlinked.herokuapp.com/sh/#{from_profile.slug}">#{from_profile.persona_name}</a> has endorsed you for "#{
+      endorsement
+    }".
+    That's so nice of them. What a treat.
 
     <br/>
     <br/>
