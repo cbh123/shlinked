@@ -1,6 +1,6 @@
 defmodule ShlinkedinWeb.ProfileLive.Edit do
   use ShlinkedinWeb, :live_view
-  alias Shlinkedin.Accounts
+  alias Shlinkedin.Profiles
   alias Shlinkedin.Profiles.Profile
 
   @bio_placeholders [
@@ -27,7 +27,7 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
         external: &presign_entry/2
       )
 
-    changeset = Accounts.change_profile(socket.assigns.profile, socket.assigns.current_user)
+    changeset = Profiles.change_profile(socket.assigns.profile, socket.assigns.current_user)
 
     {:ok,
      socket
@@ -46,7 +46,7 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
 
   def handle_event("validate", params, socket) do
     changeset =
-      Accounts.change_profile(
+      Profiles.change_profile(
         socket.assigns.profile,
         socket.assigns.current_user,
         params["profile"]
@@ -59,7 +59,7 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
   defp save_profile(socket, :edit, profile_params) do
     profile_params = put_photo_urls(socket, profile_params)
 
-    case Accounts.update_profile(
+    case Profiles.update_profile(
            socket.assigns.profile,
            socket.assigns.current_user,
            profile_params,
@@ -80,7 +80,7 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
     profile_params = put_photo_urls(socket, profile_params)
 
     case(
-      Accounts.create_profile(
+      Profiles.create_profile(
         socket.assigns.current_user,
         profile_params,
         &consume_photos(socket, &1)
