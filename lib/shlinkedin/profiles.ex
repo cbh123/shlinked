@@ -8,6 +8,7 @@ defmodule Shlinkedin.Profiles do
 
   alias Shlinkedin.Profiles.Endorsement
   alias Shlinkedin.Profiles.Profile
+  alias Shlinkedin.Profiles.ProfileNotifier
   alias Shlinkedin.Accounts.User
 
   @doc """
@@ -57,8 +58,18 @@ defmodule Shlinkedin.Profiles do
       |> Endorsement.changeset(attrs)
       |> Repo.insert()
 
-    IO.inspect(res, label: "res")
-    res
+    to =
+      from(p in Profile, where: p.user_id == ^to.user_id, select: p, preload: [:user])
+      |> Repo.one()
+
+    case res do
+      {:ok, endorsement} ->
+        ProfileNotifier.notify_endorsement(from, to, endorsement.body)
+        res
+
+      other ->
+        other
+    end
   end
 
   @doc """
