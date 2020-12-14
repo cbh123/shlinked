@@ -150,7 +150,7 @@
         <% else %>
         <div class="">
             <%= for endorsement <- @endorsements do %>
-            <% color = Enum.random(["blue", "green", "red", "yellow", "indigo", "teal"]) %>
+            <% color = Enum.random(["blue", "green", "red", "yellow", "indigo"]) %>
             <div id="endorsement-<%= endorsement.id %>"
                 class="<%= "bg-#{color}-100" %> text-white inline-block py-2 px-4 shadow-xs rounded-lg my-1">
                 <p class="font-bold font-lg <%= "text-#{color}-700" %> "><%= endorsement.body %></p>
