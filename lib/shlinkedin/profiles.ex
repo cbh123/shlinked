@@ -52,9 +52,10 @@ defmodule Shlinkedin.Profiles do
 
   """
   def create_endorsement(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
-    res = %Endorsement{from_profile_id: from.id, to_profile_id: to.id}
-    |> Endorsement.changeset(attrs)
-    |> Repo.insert()
+    res =
+      %Endorsement{from_profile_id: from.id, to_profile_id: to.id}
+      |> Endorsement.changeset(attrs)
+      |> Repo.insert()
 
     IO.inspect(res, label: "res")
     res
