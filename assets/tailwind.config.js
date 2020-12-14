@@ -1,3 +1,5 @@
+const colors = require("tailwindcss/colors");
+
 module.exports = {
   purge: [],
   darkMode: false, // or 'media' or 'class'
@@ -7,7 +9,12 @@ module.exports = {
       windows: ["VT323"],
       mono: ["ui-monospace", "SFMono-Regular"],
     },
-    extend: {},
+    extend: {
+      colors: {
+        teal: colors.teal,
+        gray: colors.blueGray,
+      },
+    },
   },
   variants: {
     extend: {
