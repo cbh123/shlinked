@@ -95,7 +95,10 @@ defmodule ShlinkedinWeb.UserAuth do
     # added the profile if statement because user can be logged out
     conn
     |> assign(:current_user, user)
-    |> assign(:profile, if(user != nil, do: Shlinkedin.Profiles.get_profile(user.id), else: nil))
+    |> assign(
+      :profile,
+      if(user != nil, do: Shlinkedin.Profiles.get_profile_by_user_id(user.id), else: nil)
+    )
   end
 
   defp ensure_user_token(conn) do

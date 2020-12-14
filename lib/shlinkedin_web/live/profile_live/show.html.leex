@@ -155,10 +155,7 @@
                 class="<%= "bg-#{color}-100" %> text-white inline-block py-2 px-4 shadow-xs rounded-lg my-1">
                 <p class="font-bold font-lg <%= "text-#{color}-700" %> "><%= endorsement.body %></p>
                 <p class="italic text-xs <%= "text-#{color}-700" %>">
-                    <%= case Profiles.get_profile(endorsement.from_profile_id) do %>
-                    <% nil ->  %><%= %>
-                    <% profile -> %><%= profile.persona_name  %>
-                    <% end %>
+                    <%=  Profiles.get_profile_by_profile_id(endorsement.from_profile_id).persona_name %>
                 </p>
 
                 <%= if @from_profile.id == endorsement.from_profile_id do %>

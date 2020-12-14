@@ -129,8 +129,12 @@ defmodule Shlinkedin.Profiles do
     )
   end
 
-  def get_profile(user_id) do
+  def get_profile_by_user_id(user_id) do
     from(p in Profile, where: p.user_id == ^user_id, select: p) |> Repo.one()
+  end
+
+  def get_profile_by_profile_id(profile_id) do
+    from(p in Profile, where: p.id == ^profile_id, select: p) |> Repo.one()
   end
 
   def get_profile_by_slug(slug) do
