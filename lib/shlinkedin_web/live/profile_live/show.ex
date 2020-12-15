@@ -4,6 +4,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   alias Shlinkedin.Profiles.Endorsement
   alias Shlinkedin.Profiles.Testimonial
 
+  @impl true
   def mount(%{"slug" => slug}, session, socket) do
     show_profile = Shlinkedin.Profiles.get_profile_by_slug(slug)
 

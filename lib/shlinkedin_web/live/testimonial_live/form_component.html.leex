@@ -13,14 +13,18 @@
 
 
 <div class="mb-4">
-    <%= textarea f, :body, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-3", rows: 2, placeholder: "Testimonial for #{@to_profile.persona_name}..." %>
+    <label for="testimonial" class="font-bold">Testimonial</label>
+    <%= textarea f, :body, class: "mt-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-3", rows: 2, placeholder: "#{@to_profile.persona_name} is..." %>
 </div>
 <p class="mt-4 text-xs"><%= error_tag f, :body %></p>
 
 <div class="mb-4">
-    <%= number_input f, :rating, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-3", rows: 2, placeholder: "Testimonial for #{@to_profile.persona_name}..." %>
+    <label for="testimonial" class="font-bold block">Stars (1 to 5)</label>
+    <%= number_input f, :rating, class: "mt-2 shadow-sm w-20 focus:ring-blue-500 focus:border-blue-500 inline-block sm:text-sm border-gray-300 rounded-md p-3", placeholder: "3" %>
+
+    ⭐
 </div>
-<p class="mt-4 text-xs"><%= error_tag f, :body %></p>
+<p class="mt-4 text-xs"><%= error_tag f, :rating %></p>
 
 
 
