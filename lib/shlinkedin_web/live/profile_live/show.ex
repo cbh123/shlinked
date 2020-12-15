@@ -2,6 +2,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   use ShlinkedinWeb, :live_view
   alias Shlinkedin.Profiles
   alias Shlinkedin.Profiles.Endorsement
+  alias Shlinkedin.Profiles.Testimonial
 
   def mount(%{"slug" => slug}, session, socket) do
     show_profile = Shlinkedin.Profiles.get_profile_by_slug(slug)
@@ -15,7 +16,8 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(show_profile: show_profile)
      |> assign(from_profile: socket.assigns.profile)
      |> assign(to_profile: show_profile)
-     |> assign(endorsements: list_endorsements(show_profile.id))}
+     |> assign(endorsements: list_endorsements(show_profile.id))
+     |> assign(testimonials: list_testimonials(show_profile.id))}
   end
 
   @impl true
@@ -33,12 +35,26 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     |> assign(:endorsement, Profiles.get_endorsement!(id))
   end
 
+  defp apply_action(socket, :edit_testimonial, %{"id" => id}) do
+    socket
+    |> assign(:page_title, "Edit Testimonial")
+    |> assign(:endorsement, Profiles.get_testimonial!(id))
+  end
+
   defp apply_action(socket, :new_endorsement, %{"slug" => slug}) do
     socket
     |> assign(:page_title, "Endorse #{socket.assigns.show_profile.persona_name}")
     |> assign(:from_profile, socket.assigns.profile)
     |> assign(:to_profile, Profiles.get_profile_by_slug(slug))
     |> assign(:endorsement, %Endorsement{})
+  end
+
+  defp apply_action(socket, :new_testimonial, %{"slug" => slug}) do
+    socket
+    |> assign(:page_title, "Write a testimonial for #{socket.assigns.show_profile.persona_name}")
+    |> assign(:from_profile, socket.assigns.profile)
+    |> assign(:to_profile, Profiles.get_profile_by_slug(slug))
+    |> assign(:testimonial, %Testimonial{})
   end
 
   @impl true
@@ -49,7 +65,19 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     {:noreply, assign(socket, :endorsements, list_endorsements(socket.assigns.to_profile.id))}
   end
 
+  @impl true
+  def handle_event("delete-testimonial", %{"id" => id}, socket) do
+    testimonial = Profiles.get_testimonial!(id)
+    {:ok, _} = Profiles.delete_testimonial(testimonial)
+
+    {:noreply, assign(socket, :testimonials, list_testimonials(socket.assigns.to_profile.id))}
+  end
+
   defp list_endorsements(id) do
     Profiles.list_endorsements(id)
+  end
+
+  defp list_testimonials(id) do
+    Profiles.list_testimonials(id)
   end
 end

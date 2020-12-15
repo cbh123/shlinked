@@ -7,6 +7,7 @@ defmodule Shlinkedin.Profiles do
   alias Shlinkedin.Repo
 
   alias Shlinkedin.Profiles.Endorsement
+  alias Shlinkedin.Profiles.Testimonial
   alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Profiles.ProfileNotifier
   alias Shlinkedin.Accounts.User
@@ -24,6 +25,10 @@ defmodule Shlinkedin.Profiles do
     Repo.all(from e in Endorsement, where: e.to_profile_id == ^id)
   end
 
+  def list_testimonials(id) do
+    Repo.all(from e in Shlinkedin.Profiles.Testimonial, where: e.to_profile_id == ^id)
+  end
+
   @doc """
   Gets a single endorsement.
 
@@ -39,6 +44,8 @@ defmodule Shlinkedin.Profiles do
 
   """
   def get_endorsement!(id), do: Repo.get!(Endorsement, id)
+
+  def get_testimonial!(id), do: Repo.get!(Testimonial, id)
 
   @doc """
   Creates a endorsement.
@@ -72,6 +79,12 @@ defmodule Shlinkedin.Profiles do
     end
   end
 
+  def create_testimonial(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
+    %Testimonial{from_profile_id: from.id, to_profile_id: to.id}
+    |> Testimonial.changeset(attrs)
+    |> Repo.insert()
+  end
+
   @doc """
   Updates a endorsement.
 
@@ -87,6 +100,12 @@ defmodule Shlinkedin.Profiles do
   def update_endorsement(%Endorsement{} = endorsement, attrs) do
     endorsement
     |> Endorsement.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def update_testimonial(%Testimonial{} = testimonial, attrs) do
+    testimonial
+    |> Testimonial.changeset(attrs)
     |> Repo.update()
   end
 
@@ -106,6 +125,10 @@ defmodule Shlinkedin.Profiles do
     Repo.delete(endorsement)
   end
 
+  def delete_testimonial(%Testimonial{} = testimonial) do
+    Repo.delete(testimonial)
+  end
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking endorsement changes.
 
@@ -117,6 +140,10 @@ defmodule Shlinkedin.Profiles do
   """
   def change_endorsement(%Endorsement{} = endorsement, attrs \\ %{}) do
     Endorsement.changeset(endorsement, attrs)
+  end
+
+  def change_testimonial(%Testimonial{} = testimonial, attrs \\ %{}) do
+    Testimonial.changeset(testimonial, attrs)
   end
 
   def get_random_profiles(count) do

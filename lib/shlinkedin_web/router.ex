@@ -83,6 +83,8 @@ defmodule ShlinkedinWeb.Router do
     live "/sh/:slug", ProfileLive.Show, :show
     live "/sh/:slug/endorsements/new", ProfileLive.Show, :new_endorsement
     live "/sh/:slug/endorsement/:id/edit", ProfileLive.Show, :edit_endorsement
+    live "/sh/:slug/testimonials/new", ProfileLive.Show, :new_testimonial
+    live "/sh/:slug/testimonial/:id/edit", ProfileLive.Show, :edit_testimonial
 
     live "/profile/live_edit", ProfileLive.Edit, :edit
     live "/profile/welcome", ProfileLive.Edit, :new

@@ -1,0 +1,33 @@
+<div class="bg-white px-4 py-4 border-b border-gray-200 sm:px-6 rounded-t-lg">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">
+        <%= @title %>
+    </h3>
+</div>
+
+<%= f = form_for @changeset, "#",
+  id: "testimonial-form",
+  phx_target: @myself,
+  class: "p-5",
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+
+<div class="mb-4">
+    <%= textarea f, :body, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-3", rows: 2, placeholder: "Testimonial for #{@to_profile.persona_name}..." %>
+</div>
+<p class="mt-4 text-xs"><%= error_tag f, :body %></p>
+
+<div class="mb-4">
+    <%= number_input f, :rating, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-3", rows: 2, placeholder: "Testimonial for #{@to_profile.persona_name}..." %>
+</div>
+<p class="mt-4 text-xs"><%= error_tag f, :body %></p>
+
+
+
+
+<div class="flex justify-end">
+    <%= submit "Save", class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
+</div>
+
+
+</form>

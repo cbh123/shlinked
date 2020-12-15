@@ -1,0 +1,21 @@
+defmodule Shlinkedin.Profiles.Testimonial do
+  use Ecto.Schema
+  import Ecto.Changeset
+
+  schema "testimonials" do
+    field :body, :string
+    field :rating, :integer
+    field :from_profile_id, :id
+    field :to_profile_id, :id
+
+    timestamps()
+  end
+
+  @doc false
+  def changeset(testimonials, attrs) do
+    testimonials
+    |> cast(attrs, [:body, :rating])
+    |> validate_number(:rating, greater_than_or_equal_to: 1, less_than_or_equal_to: 5)
+    |> validate_required([:body, :rating])
+  end
+end
