@@ -139,46 +139,7 @@
         </dl>
     </div>
 
-
-    <!-- Endorsements -->
-    <div class="mt-2 rounded-lg overflow-hidden shadow p-5 bg-white">
-
-        <div class="flex justify-between">
-            <h5 class="text-gray-900 font-bold text-xl pb-3">Endorsements</h5>
-            <span><%= live_patch "+ Endorse", to: Routes.profile_show_path(@socket, :new_endorsement, @to_profile.slug), class: "px-4 py-2 bg-green-500 text-white shadow-xs rounded-full font-bold" %></span>
-        </div>
-
-        <%= if @endorsements == [] do %>
-        <p class="font-semibold text-gray-600 text-center my-4">No endorsements yet 😔</p>
-        <% else %>
-        <div class="">
-            <%= for endorsement <- @endorsements do %>
-            <% color = Enum.random(["blue", "green", "red", "yellow", "indigo"]) %>
-            <div id="endorsement-<%= endorsement.id %>"
-                class="<%= "bg-#{color}-100" %> text-white inline-block py-2 px-4 shadow-xs rounded-lg my-1">
-                <p class="font-bold font-lg <%= "text-#{color}-700" %> "><%= endorsement.body %></p>
-
-                <% e_profile = Profiles.get_profile_by_profile_id(endorsement.from_profile_id) %>
-
-                <div class="flex justify-between text-xs">
-                    <%= live_redirect e_profile.persona_name, to: Routes.profile_show_path(@socket, :show, e_profile.slug), class: "italic  #{"text-#{color}-700"} hover:underline"  %>
-
-
-                    <%= if @from_profile.id == endorsement.from_profile_id do %>
-                    <div class="ml-4">
-                        <span><%= live_patch "Edit", to: Routes.profile_show_path(@socket, :edit_endorsement, @to_profile.slug, endorsement), class: "text-#{color}-700" %></span>
-                        •
-                        <span><%= link "Delete", to: "#", phx_click: "delete-endorsement", phx_value_id: endorsement.id, data: [confirm: "Are you sure?"], class: " text-#{color}-700" %></span>
-                    </div>
-                    <% end %>
-                </div>
-            </div>
-            <% end %>
-
-        </div>
-        <% end %>
-    </div>
-
+    <%# Testimonials %>
     <div class=" mt-2 rounded-lg overflow-hidden shadow p-5 bg-white">
 
         <div class="flex justify-between">
@@ -269,6 +230,48 @@
         <% end %>
 
     </div>
+
+
+    <!-- Endorsements -->
+    <div class="mt-2 rounded-lg overflow-hidden shadow p-5 bg-white">
+
+        <div class="flex justify-between">
+            <h5 class="text-gray-900 font-bold text-xl pb-3">Endorsements</h5>
+            <span><%= live_patch "+ Endorse", to: Routes.profile_show_path(@socket, :new_endorsement, @to_profile.slug), class: "px-4 py-2 bg-green-500 text-white shadow-xs rounded-full font-bold" %></span>
+        </div>
+
+        <%= if @endorsements == [] do %>
+        <p class="font-semibold text-gray-600 text-center my-4">No endorsements yet 😔</p>
+        <% else %>
+        <div class="">
+            <%= for endorsement <- @endorsements do %>
+            <% color = Enum.random(["blue", "green", "red", "yellow", "indigo"]) %>
+            <div id="endorsement-<%= endorsement.id %>"
+                class="<%= "bg-#{color}-100" %> text-white inline-block py-2 px-4 shadow-xs rounded-lg my-1">
+                <p class="font-bold font-lg <%= "text-#{color}-700" %> "><%= endorsement.body %></p>
+
+                <% e_profile = Profiles.get_profile_by_profile_id(endorsement.from_profile_id) %>
+
+                <div class="flex justify-between text-xs">
+                    <%= live_redirect e_profile.persona_name, to: Routes.profile_show_path(@socket, :show, e_profile.slug), class: "italic  #{"text-#{color}-700"} hover:underline"  %>
+
+
+                    <%= if @from_profile.id == endorsement.from_profile_id do %>
+                    <div class="ml-4">
+                        <span><%= live_patch "Edit", to: Routes.profile_show_path(@socket, :edit_endorsement, @to_profile.slug, endorsement), class: "text-#{color}-700" %></span>
+                        •
+                        <span><%= link "Delete", to: "#", phx_click: "delete-endorsement", phx_value_id: endorsement.id, data: [confirm: "Are you sure?"], class: " text-#{color}-700" %></span>
+                    </div>
+                    <% end %>
+                </div>
+            </div>
+            <% end %>
+
+        </div>
+        <% end %>
+    </div>
+
+
 
 
 
