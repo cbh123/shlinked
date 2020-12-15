@@ -52,7 +52,8 @@ defmodule Shlinkedin.MixProject do
       {:timex, "~> 3.5"},
       {:ordinal, "~> 0.1.0"},
       {:httpoison, "~> 1.7"},
-      {:bamboo, "~> 1.6"}
+      {:bamboo, "~> 1.6"},
+      {:ecto_psql_extras, "~> 0.2"}
     ]
   end
 

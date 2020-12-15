@@ -44,7 +44,7 @@ defmodule ShlinkedinWeb.Router do
 
   scope "/" do
     pipe_through [:browser, :admins_only]
-    live_dashboard "/dashboard", metrics: ShlinkedinWeb.Telemetry
+    live_dashboard "/dashboard", metrics: ShlinkedinWeb.Telemetry, ecto_repos: [Shlinkedin.Repo]
   end
 
   ## Authentication routes
