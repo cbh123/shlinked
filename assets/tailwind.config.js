@@ -14,12 +14,7 @@ module.exports = {
       windows: ["VT323"],
       mono: ["ui-monospace", "SFMono-Regular"],
     },
-    extend: {
-      colors: {
-        teal: colors.teal,
-        gray: colors.blueGray,
-      },
-    },
+    extend: {},
   },
   variants: {
     extend: {
