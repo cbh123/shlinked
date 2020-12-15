@@ -86,9 +86,10 @@
     </div>
 
 
+
     <!-- Stats-->
     <div class="mt-2">
-        <dl class=" grid grid-cols-3 rounded-lg bg-white overflow-hidden shadow divide-gray-200 divide-x">
+        <dl class="grid grid-cols-3 rounded-lg bg-white overflow-hidden shadow divide-gray-200 divide-x">
             <div>
                 <div class="px-4 py-5 sm:p-6">
                     <dt class="text-xs sm:text-base font-semibold text-gray-800">
@@ -138,11 +139,9 @@
     <!-- Endorsements -->
     <div class="mt-2 rounded-lg overflow-hidden shadow p-5 bg-white">
 
-
         <div class="flex justify-between">
             <h5 class="text-gray-900 font-bold text-xl pb-3">Endorsements</h5>
             <span><%= live_patch "+ Endorse", to: Routes.profile_show_path(@socket, :new_endorsement, @to_profile.slug), class: "px-4 py-2 bg-green-500 text-white shadow-xs rounded-full font-bold" %></span>
-
         </div>
 
         <%= if @endorsements == [] do %>

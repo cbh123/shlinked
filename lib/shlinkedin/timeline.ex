@@ -341,10 +341,16 @@ defmodule Shlinkedin.Timeline do
     )
   end
 
+  @doc """
+
+  select  profile_id, (like_type), count(like_type) from likes
+  where post_id = 109
+  group by profile_id, like_type
+  """
   def list_likes(%Post{} = post) do
     Repo.all(
-      from c in Ecto.assoc(post, :likes),
-        order_by: [desc: c.inserted_at],
+      from l in Ecto.assoc(post, :likes),
+        order_by: [desc: l.inserted_at],
         preload: [:profile]
     )
   end
