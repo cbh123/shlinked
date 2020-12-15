@@ -181,8 +181,8 @@
 
                 <div class="relative lg:flex lg:items-center">
                     <div class="hidden lg:block lg:flex-shrink-0">
-                        <img class="h-64 w-64 rounded-full xl:h-80 xl:w-80" src="<%= t_profile.photo_url %>"
-                            alt="<%= t_profile.persona_name %>">
+                        <img class="h-64 w-64 rounded-full xl:h-80 xl:w-80 object-cover"
+                            src="<%= t_profile.photo_url %>" alt="<%= t_profile.persona_name %>">
                     </div>
 
                     <div class="relative lg:ml-10">
@@ -202,7 +202,8 @@
                             <footer class="mt-8">
                                 <div class="flex">
                                     <div class="flex-shrink-0 lg:hidden">
-                                        <img class="h-12 w-12 rounded-full" src="<%= t_profile.photo_url %>" alt="">
+                                        <img class="h-12 w-12 rounded-full object-cover"
+                                            src="<%= t_profile.photo_url %>" alt="">
                                     </div>
                                     <div class="ml-4 lg:ml-0">
                                         <div class="text-base font-medium text-gray-900"><%= t_profile.persona_name %>
