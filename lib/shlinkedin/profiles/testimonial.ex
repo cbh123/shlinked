@@ -15,6 +15,7 @@ defmodule Shlinkedin.Profiles.Testimonial do
   def changeset(testimonials, attrs) do
     testimonials
     |> cast(attrs, [:body, :rating])
+    |> validate_length(:body, min: 1, max: 300)
     |> validate_number(:rating, greater_than_or_equal_to: 1, less_than_or_equal_to: 5)
     |> validate_required([:body, :rating])
   end
