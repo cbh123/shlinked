@@ -24,6 +24,13 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
       |> allow_upload(:photo,
         accept: ~w(.png .jpeg .jpg .gif),
         max_entries: 1,
+        max_file_size: 12_000_000,
+        external: &presign_entry/2
+      )
+      |> allow_upload(:cover_photo,
+        accept: ~w(.png .jpeg .jpg .gif),
+        max_file_size: 12_000_000,
+        max_entries: 1,
         external: &presign_entry/2
       )
 
@@ -40,8 +47,11 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
     save_profile(socket, socket.assigns.live_action, profile_params)
   end
 
-  def handle_event("cancel-entry", %{"ref" => ref}, socket) do
-    {:noreply, cancel_upload(socket, :photo, ref)}
+  def handle_event("cancel-entry", %{"ref" => ref, "category" => category}, socket) do
+    case category do
+      "profile" -> {:noreply, cancel_upload(socket, :photo, ref)}
+      "cover" -> {:noreply, cancel_upload(socket, :cover_photo, ref)}
+    end
   end
 
   def handle_event("validate", params, socket) do
@@ -58,6 +68,7 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
 
   defp save_profile(socket, :edit, profile_params) do
     profile_params = put_photo_urls(socket, profile_params)
+    profile_params = put_photo_urls(socket, profile_params, :cover_photo, "cover_photo_url")
 
     case Profiles.update_profile(
            socket.assigns.profile,
@@ -98,8 +109,8 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
     end
   end
 
-  defp put_photo_urls(socket, attrs) do
-    {completed, []} = uploaded_entries(socket, :photo)
+  defp put_photo_urls(socket, attrs, photo_category \\ :photo, photo_name \\ "photo_url") do
+    {completed, []} = uploaded_entries(socket, photo_category)
 
     urls =
       for entry <- completed do
@@ -111,7 +122,7 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
         attrs
 
       [url | _] ->
-        Map.put(attrs, "photo_url", url)
+        Map.put(attrs, photo_name, url)
     end
   end
 
