@@ -2,7 +2,7 @@
     <%# Profile and cover photo  %>
     <div class="bg-white sm:rounded-lg shadow">
 
-        <img src="<%= if @profile.cover_photo_url == nil, do: "https://source.unsplash.com/collection/1928683/1600x900", else: @profile.cover_photo_url %>"
+        <img src="<%= if @show_profile.cover_photo_url == nil, do: "https://source.unsplash.com/collection/1928683/1600x900", else: @show_profile.cover_photo_url %>"
             alt="" class="object-cover w-full h-52 overflow-hidden rounded-t-lg">
 
 
