@@ -60,29 +60,17 @@ defmodule Shlinkedin.Profiles do
 
   """
   def create_endorsement(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
-    res =
-      %Endorsement{from_profile_id: from.id, to_profile_id: to.id}
-      |> Endorsement.changeset(attrs)
-      |> Repo.insert()
-
-    to =
-      from(p in Profile, where: p.user_id == ^to.user_id, select: p, preload: [:user])
-      |> Repo.one()
-
-    case res do
-      {:ok, endorsement} ->
-        ProfileNotifier.notify_endorsement(from, to, endorsement.body)
-        res
-
-      other ->
-        other
-    end
+    %Endorsement{from_profile_id: from.id, to_profile_id: to.id}
+    |> Endorsement.changeset(attrs)
+    |> Repo.insert()
+    |> ProfileNotifier.observer(from, to, :endorsement)
   end
 
   def create_testimonial(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
     %Testimonial{from_profile_id: from.id, to_profile_id: to.id}
     |> Testimonial.changeset(attrs)
     |> Repo.insert()
+    |> ProfileNotifier.observer(from, to, :testimonial)
   end
 
   @doc """
@@ -162,6 +150,10 @@ defmodule Shlinkedin.Profiles do
 
   def get_profile_by_profile_id(profile_id) do
     from(p in Profile, where: p.id == ^profile_id, select: p) |> Repo.one()
+  end
+
+  def get_profile_by_profile_id_preload_user(profile_id) do
+    from(p in Profile, where: p.id == ^profile_id, select: p, preload: [:user]) |> Repo.one()
   end
 
   def get_profile_by_slug(slug) do

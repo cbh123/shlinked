@@ -187,6 +187,10 @@
         </div>
 
 
+        <%= if @testimonials == [] do %>
+        <p class="font-semibold text-gray-600 text-center my-4">No testimonials yet 😔</p>
+        <% else %>
+
 
         <%= for testimonial <- @testimonials do %>
         <% t_profile = Profiles.get_profile_by_profile_id(testimonial.from_profile_id) %>
@@ -245,6 +249,13 @@
                                         <div class="text-base font-medium text-indigo-600">
                                             <%= t_profile.persona_title %></div>
                                     </div>
+                                    <%= if @from_profile.id == testimonial.from_profile_id do %>
+                                    <div class="ml-4">
+                                        <span><%= live_patch "Edit", to: Routes.profile_show_path(@socket, :edit_testimonial, @to_profile.slug, testimonial), class: "text-gray-700" %></span>
+                                        •
+                                        <span><%= link "Delete", to: "#", phx_click: "delete-testimonial", phx_value_id: testimonial.id, data: [confirm: "Are you sure?"], class: " text-gray-700" %></span>
+                                    </div>
+                                    <% end %>
                                 </div>
                             </footer>
                         </blockquote>
@@ -255,6 +266,7 @@
 
         <% end %>
 
+        <% end %>
 
     </div>
 

@@ -39,7 +39,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   defp apply_action(socket, :edit_testimonial, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit Testimonial")
-    |> assign(:endorsement, Profiles.get_testimonial!(id))
+    |> assign(:testimonial, Profiles.get_testimonial!(id))
   end
 
   defp apply_action(socket, :new_endorsement, %{"slug" => slug}) do
