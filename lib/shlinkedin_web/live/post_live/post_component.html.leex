@@ -129,10 +129,14 @@
                                                 src="<%= @post.profile.photo_url %>" alt="">
                                         </div>
                                         <div class="ml-4 lg:ml-0">
-                                            <div class="text-base font-medium text-gray-900">
+                                            <%= live_redirect to: Routes.profile_show_path(@socket, :show, @post.profile.slug) do %>
+
+                                            <div class="text-base font-medium text-gray-900 hover:underline">
                                                 <%= @post.profile.persona_name %></div>
-                                            <div class="text-base font-medium text-indigo-600">
+                                            <div class="text-base font-medium text-indigo-600 hover:underline">
                                                 <%= @post.profile.persona_title %></div>
+
+                                            <% end %>
                                         </div>
                                     </div>
                                 </footer>
