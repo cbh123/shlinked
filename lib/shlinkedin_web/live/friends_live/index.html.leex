@@ -2,15 +2,27 @@
 <div class="w-full h-screen shadow p-5 bg-gradient-to-r from-green-400 to-blue-500">
 
     <%#  Shlink Requests %>
-    <div class="max-w-prose mx-auto my-4">
+    <div class="max-w-prose mx-auto my-4 mb-16">
+
+
         <h5 class="font-extrabold leading-tight text-4xl  text-white mb-2">Shlink Requests</h5>
-        <p class="mt-2 mb-8 text-white font-medium">Here you can accept or destroy incoming connection requests. If
+
+        <%= if @requests == [] do %>
+        <p class="mt-2 mb-8 text-white font-medium">
+            You have no new Shlink Requests.</p>
+        <% else %>
+        <p class="mt-2 mb-8 text-white font-medium">
+            Here you can accept or destroy incoming connection requests. If
             you
             destroy,
             they
             will
             not be notified. You
             can always unshlink later.</p>
+        <% end %>
+
+
+
 
 
         <!-- This example requires Tailwind CSS v2.0+ -->
@@ -68,7 +80,7 @@
     </div>
 
     <%#  Connections %>
-    <div class="max-w-prose mx-auto my-16">
+    <div class="max-w-prose mx-auto">
         <h5 class="font-extrabold leading-tight text-4xl  text-white mb-2">My Shlinkers</h5>
         <p class="mt-2 mb-8 text-white font-medium">People you are shlinked with.</p>
 
