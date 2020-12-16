@@ -1,0 +1,119 @@
+<%# Shlink Requests %>
+<div class="w-full h-screen shadow p-5 bg-gradient-to-r from-green-400 to-blue-500">
+
+    <%#  Shlink Requests %>
+    <div class="max-w-prose mx-auto my-4">
+        <h5 class="font-extrabold leading-tight text-4xl  text-white mb-2">Shlink Requests</h5>
+        <p class="mt-2 mb-8 text-white font-medium">Here you can accept or destroy incoming connection requests. If
+            you
+            destroy,
+            they
+            will
+            not be notified. You
+            can always unshlink later.</p>
+
+
+        <!-- This example requires Tailwind CSS v2.0+ -->
+        <ul class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+
+            <%= for request <- @requests do %>
+            <li class="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
+                <div class="w-full flex items-center justify-between p-6 space-x-6">
+                    <div class="flex-1 truncate">
+                        <%= live_redirect to: Routes.profile_show_path(@socket, :show, request.profile.slug) do %>
+                        <div class="flex items-center space-x-3">
+                            <h3 class="text-gray-900 text-sm font-medium truncate"><%= request.profile.persona_name %>
+                            </h3>
+                        </div>
+                        <p class="mt-1 text-gray-500 text-sm truncate"><%= request.profile.persona_title %></p>
+                        <p class="mt-2 text-indigo-500 text-xs truncate hover:underline">See Profile &rarr;</p>
+                        <% end %>
+                    </div>
+                    <img class="w-16 h-16 bg-gray-300 rounded-full flex-shrink-0" src="<%= request.profile.photo_url %>"
+                        alt="">
+                </div>
+                <div>
+                    <div class="-mt-px flex divide-x divide-gray-200">
+                        <div class="w-0 flex-1 flex">
+                            <button phx-click="accept-request" phx-value-from-profile-id="<%= request.profile.id %>"
+                                class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
+                                <!-- Heroicon name: mail -->
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="ml-3">Accept</span>
+                            </button>
+                        </div>
+                        <div class="-ml-px w-0 flex-1 flex">
+                            <button phx-click="reject-request" phx-value-from-profile-id="<%= request.profile.id %>"
+                                class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
+
+                                <svg class="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="ml-3">Destroy</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <% end %>
+        </ul>
+    </div>
+
+    <%#  Connections %>
+    <div class="max-w-prose mx-auto my-4 mt-16">
+        <h5 class="font-extrabold leading-tight text-4xl  text-white mb-2">My Shlinkers</h5>
+        <p class="mt-2 mb-8 text-white font-medium">People you are shlinked with.</p>
+
+
+        <!-- This example requires Tailwind CSS v2.0+ -->
+        <ul class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+
+            <%= for profile <- @connections do %>
+            <li class="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
+                <div class="w-full flex items-center justify-between p-6 space-x-6">
+                    <div class="flex-1 truncate">
+                        <%= live_redirect to: Routes.profile_show_path(@socket, :show, profile.slug) do %>
+                        <div class="flex items-center space-x-3">
+                            <h3 class="text-gray-900 text-sm font-medium truncate"><%= profile.persona_name %>
+                            </h3>
+                        </div>
+                        <p class="mt-1 text-gray-500 text-sm truncate"><%= profile.persona_title %></p>
+                        <p class="mt-2 text-indigo-500 text-xs truncate hover:underline">See Profile &rarr;</p>
+                        <% end %>
+                    </div>
+                    <img class="w-16 h-16 bg-gray-300 rounded-full flex-shrink-0" src="<%= profile.photo_url %>" alt="">
+                </div>
+                <div>
+                    <div class="-mt-px flex divide-x divide-gray-200">
+                        <div class="-ml-px w-0 flex-1 flex">
+                            <button phx-click="reject-request" phx-value-from-profile-id="<%= profile.id %>"
+                                data-confirm="Are you sure you want to unshlink?"
+                                class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
+
+                                <svg class="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="ml-3">Unfriend</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <% end %>
+        </ul>
+    </div>
+
+
+
+</div>

@@ -88,6 +88,8 @@ defmodule ShlinkedinWeb.Router do
 
     live "/profile/live_edit", ProfileLive.Edit, :edit
     live "/profile/welcome", ProfileLive.Edit, :new
+
+    live "/shlinks", FriendLive.Index, :index
   end
 
   scope "/", ShlinkedinWeb do

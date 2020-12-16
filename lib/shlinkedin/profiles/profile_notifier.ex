@@ -16,12 +16,78 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
       :testimonial ->
         notify_testimonial(from_profile, to_profile, res)
+
+      :sent_friend_request ->
+        notify_sent_friend_request(from_profile, to_profile)
+
+      :accepted_friend_request ->
+        notify_accepted_friend_request(from_profile, to_profile)
     end
 
     {:ok, res}
   end
 
   def observer({:error, error}, _from, _to, _type), do: error
+
+  def notify_sent_friend_request(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile
+      ) do
+    body = """
+
+    Hi #{to_profile.persona_name},
+
+    <br/>
+    <br/>
+
+    #{from_profile.persona_name} has sent you a shlink request. You can
+    respond to it on your <a href="shlinked.herokuapp.com/shlinks">my shlinks</a> page.
+
+
+    <br/>
+    <br/>
+    Thanks, <br/>
+    God
+
+    """
+
+    Shlinkedin.Email.new_email(
+      to_profile.user.email,
+      "#{from_profile.persona_name} has sent you a Shlink request!",
+      body
+    )
+    |> Shlinkedin.Mailer.deliver_later()
+  end
+
+  def notify_accepted_friend_request(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile
+      ) do
+    body = """
+
+    Hi #{from_profile.persona_name},
+
+    <br/>
+    <br/>
+
+    Congratulations! #{to_profile.persona_name} has accepted your Shlink request. Why not <a href="shlinked.herokuapp.com/sh/#{
+      from_profile.slug
+    }">business jab them in return?</a>
+
+    <br/>
+    <br/>
+    Thanks, <br/>
+    God
+
+    """
+
+    Shlinkedin.Email.new_email(
+      from_profile.user.email,
+      "#{to_profile.persona_name} has accepted your Shlink request! Shlinkpoints +1",
+      body
+    )
+    |> Shlinkedin.Mailer.deliver_later()
+  end
 
   def notify_endorsement(
         %Profile{} = from_profile,

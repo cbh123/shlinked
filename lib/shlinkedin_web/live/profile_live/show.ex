@@ -17,6 +17,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(show_profile: show_profile)
      |> assign(from_profile: socket.assigns.profile)
      |> assign(to_profile: show_profile)
+     |> assign(friend_status: check_friend_status(socket.assigns.profile, show_profile))
      |> assign(endorsements: list_endorsements(show_profile.id))
      |> assign(testimonials: list_testimonials(show_profile.id))}
   end
@@ -74,8 +75,30 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     {:noreply, assign(socket, :testimonials, list_testimonials(socket.assigns.to_profile.id))}
   end
 
+  def handle_event("send-friend-request", _, socket) do
+    Profiles.send_friend_request(socket.assigns.from_profile, socket.assigns.to_profile)
+    status = check_friend_status(socket.assigns.profile, socket.assigns.to_profile)
+
+    {:noreply,
+     socket
+     |> assign(friend_status: status)}
+  end
+
+  def handle_event("unfriend", _, socket) do
+    Profiles.cancel_friend_request(socket.assigns.from_profile, socket.assigns.to_profile)
+    status = check_friend_status(socket.assigns.profile, socket.assigns.to_profile)
+
+    {:noreply,
+     socket
+     |> assign(friend_status: status)}
+  end
+
   defp list_endorsements(id) do
     Profiles.list_endorsements(id)
+  end
+
+  def check_friend_status(from, to) do
+    Profiles.check_friend_status(from, to)
   end
 
   defp list_testimonials(id) do

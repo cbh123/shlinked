@@ -9,6 +9,7 @@ defmodule Shlinkedin.Profiles do
   alias Shlinkedin.Profiles.Endorsement
   alias Shlinkedin.Profiles.Testimonial
   alias Shlinkedin.Profiles.Profile
+  alias Shlinkedin.Profiles.Friend
   alias Shlinkedin.Profiles.ProfileNotifier
   alias Shlinkedin.Accounts.User
 
@@ -47,6 +48,18 @@ defmodule Shlinkedin.Profiles do
 
   def get_testimonial!(id), do: Repo.get!(Testimonial, id)
 
+  def get_friend_request!(%Profile{} = from, %Profile{} = to) do
+    case Repo.one(
+           from f in Friend,
+             where:
+               (f.from_profile_id == ^from.id and f.to_profile_id == ^to.id) or
+                 (f.from_profile_id == ^to.id and f.to_profile_id == ^from.id)
+         ) do
+      nil -> %Friend{from_profile_id: from.id, to_profile_id: to.id}
+      friend -> friend
+    end
+  end
+
   @doc """
   Creates a endorsement.
 
@@ -71,6 +84,77 @@ defmodule Shlinkedin.Profiles do
     |> Testimonial.changeset(attrs)
     |> Repo.insert()
     |> ProfileNotifier.observer(from, to, :testimonial)
+  end
+
+  def send_friend_request(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
+    friend = get_friend_request!(from, to)
+
+    friend
+    |> Friend.changeset(%{status: "pending"})
+    |> Friend.changeset(attrs)
+    |> Repo.insert_or_update()
+    |> ProfileNotifier.observer(from, to, :sent_friend_request)
+  end
+
+  def cancel_friend_request(%Profile{} = from, %Profile{} = to) do
+    request = get_friend_request!(from, to)
+
+    request
+    |> Friend.changeset(%{status: nil})
+    |> Repo.update()
+  end
+
+  def accept_friend_request(%Profile{} = from, %Profile{} = to) do
+    request = get_friend_request!(from, to)
+
+    request
+    |> Friend.changeset(%{status: "accepted"})
+    |> Repo.update()
+    |> ProfileNotifier.observer(from, to, :accepted_friend_request)
+  end
+
+  def check_friend_status(%Profile{} = from, %Profile{} = to) do
+    Repo.one(
+      from f in Friend,
+        select: f.status,
+        where: f.from_profile_id == ^from.id and f.to_profile_id == ^to.id
+    )
+  end
+
+  def get_pending_requests(%Profile{} = to) do
+    Repo.all(
+      from f in Friend,
+        where: f.to_profile_id == ^to.id and f.status == "pending",
+        preload: [:profile]
+    )
+  end
+
+  def get_connections(%Profile{} = profile) do
+    Repo.all(
+      from f in Friend,
+        where:
+          (f.to_profile_id == ^profile.id or f.from_profile_id == ^profile.id) and
+            f.status == "accepted",
+        join: p in Profile,
+        as: :profile,
+        on: f.from_profile_id == p.id,
+        join: p2 in Profile,
+        as: :to_profile,
+        on: f.to_profile_id == p2.id,
+        select: [p, p2]
+    )
+    |> List.flatten()
+    |> Enum.reject(fn p -> p.id == profile.id end)
+  end
+
+  def check_between_friend_status(%Profile{} = from, %Profile{} = to) do
+    Repo.all(
+      from f in Friend,
+        select: f.status,
+        where:
+          f.from_profile_id == ^from.id or f.to_profile_id == ^to.id or
+            (f.from_profile_id == ^to.id or f.to_profile_id == ^from.id)
+    )
   end
 
   @doc """
