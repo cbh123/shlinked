@@ -22,8 +22,7 @@
 
 
                     <p class="text-xs text-gray-500">
-                        <%= Timex.from_now(@post.inserted_at) %> • <a class="hover:underline cursor-pointer">Business
-                            Jab</a>
+                        @<%= @post.profile.username %> • <%= Timex.from_now(@post.inserted_at) %>
                     </p>
 
                 </div>
