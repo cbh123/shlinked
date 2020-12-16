@@ -71,7 +71,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
 
     Congratulations! #{to_profile.persona_name} has accepted your Shlink request. Why not <a href="shlinked.herokuapp.com/sh/#{
-      from_profile.slug
+      to_profile.slug
     }">business jab them in return?</a>
 
     <br/>
