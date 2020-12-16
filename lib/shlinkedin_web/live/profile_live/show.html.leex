@@ -201,21 +201,26 @@
                             </div>
                             <footer class="mt-8">
                                 <div class="flex">
+
                                     <div class="flex-shrink-0 lg:hidden">
                                         <img class="h-12 w-12 rounded-full object-cover"
                                             src="<%= t_profile.photo_url %>" alt="">
                                     </div>
                                     <div class="ml-4 lg:ml-0">
+                                        <%= live_redirect to: Routes.profile_show_path(@socket, :show, t_profile.slug) do %>
+
                                         <div class="text-base font-medium text-gray-900"><%= t_profile.persona_name %>
                                         </div>
                                         <div class="text-base font-medium text-indigo-600">
                                             <%= t_profile.persona_title %></div>
+                                        <% end %>
                                     </div>
+
                                     <%= if @from_profile.id == testimonial.from_profile_id do %>
                                     <div class="ml-4">
-                                        <span><%= live_patch "Edit", to: Routes.profile_show_path(@socket, :edit_testimonial, @to_profile.slug, testimonial), class: "text-gray-700" %></span>
+                                        <span><%= live_patch "Edit", to: Routes.profile_show_path(@socket, :edit_testimonial, @to_profile.slug, testimonial), class: "text-xs text-gray-700" %></span>
                                         •
-                                        <span><%= link "Delete", to: "#", phx_click: "delete-testimonial", phx_value_id: testimonial.id, data: [confirm: "Are you sure?"], class: " text-gray-700" %></span>
+                                        <span><%= link "Delete", to: "#", phx_click: "delete-testimonial", phx_value_id: testimonial.id, data: [confirm: "Are you sure?"], class: "text-xs text-gray-700" %></span>
                                     </div>
                                     <% end %>
                                 </div>
