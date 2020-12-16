@@ -70,6 +70,13 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
     profile_params = put_photo_urls(socket, profile_params)
     profile_params = put_photo_urls(socket, profile_params, :cover_photo, "cover_photo_url")
 
+    if profile_params["publish"] == "true" do
+      Shlinkedin.Timeline.create_post(
+        socket.assigns.profile,
+        %{body: profile_params["summary"], profile_update: true, update_type: "bio"}
+      )
+    end
+
     case Profiles.update_profile(
            socket.assigns.profile,
            socket.assigns.current_user,

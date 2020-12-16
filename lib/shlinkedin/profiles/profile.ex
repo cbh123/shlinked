@@ -26,6 +26,8 @@ defmodule Shlinkedin.Profiles.Profile do
     field :life_score, :string, default: "B+"
     field :points, :integer, default: 100
 
+    field :publish, :boolean, virtual: true
+
     timestamps()
   end
 

@@ -7,8 +7,6 @@
 
 
     <div class="">
-
-
         <div class=" text-center pt-12 pb-24 px-8  bg-gradient-to-r from-green-400 to-blue-500 border-b-4 border-white">
             <h1 class="font-windows italic text-white font-extrabold  text-5xl ">Welcome to ShlinkedIn!</h1>
             <p class="text-base text-white font-windows">Now it's time to create your profile!
@@ -300,6 +298,7 @@
 
                 </div>
 
+                <%# Bio %>
                 <div>
                     <label for="summary" class="block text-sm font-medium text-gray-700 mt-4">Bio</label>
                     <div class="mt-1 relative rounded-md shadow-sm">
@@ -310,6 +309,20 @@
                     <p class="mt-4 text-xs"><%= error_tag f, :summary %></p>
 
                 </div>
+
+                <div>
+                    <label for="summary" class="block text-sm font-medium text-gray-700 mt-4">Publish Bio
+                        Changes?</label>
+                    <div class="mt-1 relative">
+                        <%= checkbox f, :publish%>
+
+                    </div>
+                    <p class="mt-4 text-xs"><%= error_tag f, :publish %></p>
+
+                </div>
+
+
+
 
                 <div>
                     <label for="life_score" class="text-sm font-medium text-gray-700 mt-4">How would you grade your life

@@ -11,13 +11,15 @@ defmodule Shlinkedin.Timeline.Post do
     field :photo_urls, {:array, :string}, default: []
     field :gif_url, :string
     field :add_gif, :boolean, virtual: true
+    field :update_type, :string
+    field :profile_update, :boolean
     timestamps()
   end
 
   @doc false
   def changeset(post, attrs) do
     post
-    |> cast(attrs, [:body])
+    |> cast(attrs, [:body, :update_type, :profile_update])
     |> validate_required([:body])
     |> validate_length(:body, max: 1000)
   end
