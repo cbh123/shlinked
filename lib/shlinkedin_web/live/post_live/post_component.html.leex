@@ -1,5 +1,5 @@
 <div id="post-<%= @post.id %>" phx-click="hide-post-options" phx-target="<%= @myself %>"
-    class="relative bg-white shadow-md sm:max-w-lg mx-auto sm:rounded-lg p-4 my-2 pb-2 <%= if @post.featured, do: "border-2 border-blue-500" %> <%= if @deleted, do: "hidden" %>">
+    class="relative bg-white shadow-md sm:max-w-lg mx-auto sm:rounded-lg p-4 my-2 pb-2 <%= if @deleted, do: "hidden" %>">
     <%= if @deleted != true do %>
 
 
@@ -47,7 +47,7 @@
             </div>
         </div>
 
-        <div class="text-xs text-gray-500 text-right">
+        <div class="hidden sm:block text-xs text-gray-500 text-right">
             <div class="relative inline-block text-left ">
                 <div>
                     <button type="button" phx-click="toggle-post-options" phx-target="<%= @myself %>"
@@ -150,8 +150,9 @@
 
                                             <div class="text-base font-medium text-gray-900 hover:underline">
                                                 <%= @post.profile.persona_name %></div>
-                                            <div class="text-base font-medium text-indigo-600 hover:underline">
-                                                <%= @post.profile.persona_title %></div>
+                                            <div class="text-base font-medium text-indigo-600 hover:underline truncate">
+                                                <%= @post.profile.persona_title %>
+                                            </div>
 
                                             <% end %>
                                         </div>
