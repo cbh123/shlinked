@@ -1,75 +1,105 @@
-  <%= if @current_user != nil do %>
+<%= if @current_user != nil do %>
 
-  <%# User settings stuff -- settings %>
-  <%= link to: Routes.user_settings_path(@conn, :edit) do  %>
-  <button
-      class="hidden flex flex-col p-1 mr-4 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-      <span class="sr-only">Settings</span>
-      <!-- Heroicon name: Profile -->
-      <svg class="w-5 h-5 place-self-center" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
-          </path>
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z">
-          </path>
-      </svg>
-  </button>
-  <% end %>
 
-  <button
-      class="flex flex-col p-1 mr-4 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-      <span class="sr-only">Search</span>
-      <!-- Heroicon name: Profile -->
-      <svg class="w-5 h-5 place-self-center" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd"
-              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-              clip-rule="evenodd"></path>
-      </svg>
-  </button>
+<%# User settings stuff -- settings %>
+<%= link to: Routes.user_settings_path(@conn, :edit) do  %>
+<button
+    class="hidden sm:flex p-1 mr-4 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+    <span class="sr-only">Settings</span>
+    <!-- Heroicon name: Profile -->
+    <svg class="w-5 h-5 place-self-center" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+        </path>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z">
+        </path>
+    </svg>
+</button>
+<% end %>
 
 
 
-  <%# Profile Created Stuff -- search, profile button%>
-  <%= if @profile != nil and @profile.username != nil do  %>
-  <div class="hidden sm:flex">
+<%# Profile Created Stuff -- search, profile button%>
+<%= if @profile != nil and @profile.username != nil do %>
 
-      <%= link to: "/shlinks" do %>
-      <button
-          class="relative flex flex-col p-1 mr-4  rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-          <span class="sr-only">Shlinks</span>
-          <!-- Heroicon name: Profile -->
+<%= link to: "/" do %>
+<button class="hidden sm:flex mr-4 p-1 <%= if @conn.request_path == "/", do: "text-blue-500"%>"">
+       <span class=" sr-only">Home</span>
 
 
-          <%= if length(Shlinkedin.Profiles.get_pending_requests(@profile)) > 0 do %>
 
-          <span class="text-xs absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white bg-green-400">
-          </span>
+    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <path
+            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+        </path>
+    </svg>
+</button>
+<% end %>
 
-          <% end %>
-
-          <svg class="w-5 h-5 place-self-center" fill="currentColor" viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg">
-              <path
-                  d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z">
-              </path>
-          </svg>
-      </button>
-      <% end %>
+<%= link to: "/shlinks" do %>
+<button class="hidden sm:flex mr-4 p-1 relative">
+    <span class="sr-only">Shlinks</span>
 
 
-      <%= link to: "/sh/#{@profile.slug}" do %>
-      <button
-          class="flex flex-col p-1 mr-4  rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-          <span class="sr-only">Profile</span>
+    <%= if length(Shlinkedin.Profiles.get_pending_requests(@profile)) > 0 do %>
 
-          <!-- Heroicon name: Profile -->
+    <span class="text-xs absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white bg-green-400">
+    </span>
 
-          <img class="inline-block h-6 w-6 object-cover rounded-full border border-gray-700"
-              src="<%= @profile.photo_url %>" alt="">
-      </button>
-      <% end %>
-  </div>
+    <% end %>
 
-  <% end %>
-  <% end %>
+    <svg class="h-5 w-5 place-self-center" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <path
+            d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z">
+        </path>
+    </svg>
+</button>
+<% end %>
+
+
+<%= link to: "/posts/new" do %>
+<button class="hidden sm:flex mr-4 p-1 <%= if @conn.request_path == "/posts/new", do: "text-blue-500"%>"">
+       <span class=" sr-only">Post</span>
+
+    <!-- Heroicon name: Profile -->
+
+    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path>
+        <path fill-rule="evenodd"
+            d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+            clip-rule="evenodd"></path>
+    </svg>
+</button>
+<% end %>
+
+
+
+<%= link to: "/updates" do %>
+<button class="hidden sm:flex mr-4 p-1 <%= if @conn.request_path == "/updates", do: "text-blue-500"%>"">
+       <span class=" sr-only">Updates</span>
+
+    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <path
+            d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z">
+        </path>
+    </svg>
+</button>
+<% end %>
+
+<%= link to: "/sh/#{@profile.slug}" do %>
+<button class="flex p-1">
+
+    <span class=" sr-only">Profile</span>
+
+    <!-- Heroicon name: Profile -->
+
+    <img class="place-self-center h-5 w-5 object-cover rounded-full <%= if @conn.request_path == "/sh/#{@profile.slug}", do: "border-2 border-blue-500"%>""
+           src=" <%= @profile.photo_url %>" alt="">
+</button>
+<% end %>
+
+<%# End of profile created stuff %>
+<% end %>
+
+<% end %>

@@ -17,7 +17,7 @@
 
 <body class="bg-gray-100">
     <header>
-        <nav class="bg-gray-100 border-b  fixed w-full z-10">
+        <nav class="bg-white border-b  fixed w-full z-10">
             <div class=" mx-auto px-2 sm:px-4 lg:px-8">
                 <div class="flex justify-between h-12">
                     <div class="flex px-2 items-center">
@@ -40,10 +40,13 @@
     </div>
 
     <header>
-        <nav class="sm:hidden bg-gray-100 border-t bottom-0 fixed w-full z-10">
 
-            <div class="flex justify-around h-16 items-center text-gray-500">
+        <nav class="sm:hidden bg-white border-t bottom-0 fixed w-full z-10">
+
+            <div class="flex justify-around h-16 items-top text-gray-500">
+                <%= if @profile != nil and @profile != %Shlinkedin.Profiles.Profile{} do %>
                 <%= render "_footer_nav.html", assigns %>
+                <% end %>
             </div>
         </nav>
 
