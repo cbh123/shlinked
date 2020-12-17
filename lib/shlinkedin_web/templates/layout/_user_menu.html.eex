@@ -3,7 +3,7 @@
   <%# User settings stuff -- settings %>
   <%= link to: Routes.user_settings_path(@conn, :edit) do  %>
   <button
-      class="flex flex-col p-1 mr-4 rounded-full hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+      class="flex flex-col p-1 mr-4 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
       <span class="sr-only">Settings</span>
       <!-- Heroicon name: Profile -->
       <svg class="w-5 h-5 place-self-center" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -22,7 +22,7 @@
   <%= if @profile != nil and @profile.username != nil do  %>
   <div class="flex">
       <button
-          class="flex flex-col p-1 mr-4 rounded-full hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          class="flex flex-col p-1 mr-4 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
           <span class="sr-only">Search</span>
           <!-- Heroicon name: Profile -->
           <svg class="w-5 h-5 place-self-center" fill="currentColor" viewBox="0 0 20 20"
@@ -36,7 +36,7 @@
       <%= link to: "/shlinks" do %>
 
       <button
-          class="relative flex flex-col p-1 mr-4  rounded-full hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          class="relative flex flex-col p-1 mr-4  rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
           <span class="sr-only">Shlinks</span>
           <!-- Heroicon name: Profile -->
 
@@ -60,7 +60,7 @@
 
       <%= link to: "/sh/#{@profile.slug}" do %>
       <button
-          class="flex flex-col p-1 mr-4  rounded-full hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          class="flex flex-col p-1 mr-4  rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
           <span class="sr-only">Profile</span>
 
           <!-- Heroicon name: Profile -->
