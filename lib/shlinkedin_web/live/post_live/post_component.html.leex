@@ -1,10 +1,19 @@
 <div id="post-<%= @post.id %>" phx-click="hide-post-options" phx-target="<%= @myself %>"
-    class="bg-white shadow-md sm:max-w-lg mx-auto sm:rounded-lg p-4 my-2 pb-2 <%= if @deleted, do: "hidden" %>">
+    class="relative bg-white shadow-md sm:max-w-lg mx-auto sm:rounded-lg p-4 my-2 pb-2 <%= if @post.featured, do: "border-2 border-blue-500" %> <%= if @deleted, do: "hidden" %>">
     <%= if @deleted != true do %>
 
 
 
-    <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
+    <%= if @post.featured do %>
+
+    <span
+        class="absolute rounded-sm r top-0 right-0 inline-flex items-center px-2 py-0.5 text-xs font-medium bg-blue-500 text-white">
+        ⭐ Featured Post
+    </span>
+
+    <% end %>
+
+    <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap ">
 
         <%# Post Header: Image, Name, Title, Time, and Business Jab %>
         <div class="ml-2 sm:ml-4 mt-2 sm:mt-3">
@@ -30,10 +39,7 @@
                     <p class="text-xs text-gray-500">
                         @<%= @post.profile.username %> • <%= Timex.from_now(@post.inserted_at) %>
 
-                        <span
-                            class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white">
-                            Featured Post ⭐
-                        </span></p>
+                    </p>
 
 
 
@@ -48,7 +54,7 @@
                         class=" py-2 text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
                         id="options-menu" aria-haspopup="true" aria-expanded="true">
 
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z">
