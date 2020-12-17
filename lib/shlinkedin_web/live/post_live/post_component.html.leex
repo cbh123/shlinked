@@ -169,7 +169,20 @@
             </section>
             <% else %>
 
-            <p class="whitespace-pre-line pt-2 pb-2 <%= if @post.photo_urls != [], do: "px-4" %>"><%= @post.body %></p>
+            <div class="relative">
+                <p class="whitespace-pre-line pt-2
+                 pb-2 overflow-hidden <%= if !@expand_post, do: "max-h-32" %>
+                   <%= if @post.photo_urls != [], do: "px-4" %>"><%= @post.body %></p>
+
+                <%# add a see more button %>
+                <%= if String.length(@post.body) >= 100 && !@expand_post do %>
+                <div class="absolute bottom-0 right-4 bg-white">
+                    <button phx-click="expand-post" phx-target="<%= @myself %>"
+                        class="text-gray-500 hover:underline">...see more
+                    </button>
+                </div>
+                <% end %>
+            </div>
 
             <%= if @post.photo_urls != [] do %>
             <div>
