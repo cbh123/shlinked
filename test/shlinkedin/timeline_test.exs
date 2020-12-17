@@ -30,7 +30,7 @@ defmodule Shlinkedin.TimelineTest do
 
     test "list_posts/0 returns all posts" do
       post = post_fixture()
-      assert Timeline.list_posts_no_preload() == [post]
+      assert Shlinkedin.Repo.all(Shlinkedin.Timeline.Post) == [post]
     end
 
     test "get_post!/1 returns the post with given id" do

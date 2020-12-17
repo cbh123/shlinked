@@ -12,7 +12,7 @@ defmodule Shlinkedin.Timeline.Post do
     field :gif_url, :string
     field :add_gif, :boolean, virtual: true
     field :update_type, :string
-    field :profile_update, :boolean
+    field :profile_update, :boolean, default: false
     field :featured, :boolean, default: false
     timestamps()
   end

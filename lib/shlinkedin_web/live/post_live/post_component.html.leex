@@ -36,7 +36,7 @@
 
                     <span
                         class="text-gray-500 <%= if @post.profile_update, do: "text-sm", else: "text-xs"%> font-normal">
-                        <%= if @post.profile_update, do: "updated their #{@post.update_type}", else: " • " <> @post.profile.persona_title  %>
+                        <%= if @post.profile_update == true, do: "updated their #{@post.update_type}", else: @post.profile.persona_title  %>
                     </span>
 
 

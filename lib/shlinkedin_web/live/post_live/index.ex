@@ -12,13 +12,33 @@ defmodule ShlinkedinWeb.PostLive.Index do
 
     {:ok,
      socket
-     |> assign(posts: list_posts())
-     |> assign(random_profiles: Shlinkedin.Profiles.get_random_profiles(5))
-     |> assign(like_map: Timeline.like_map()), temporary_assigns: [posts: []]}
+     |> assign(
+       page: 1,
+       per_page: 5,
+       random_profiles: Shlinkedin.Profiles.get_random_profiles(5),
+       like_map: Timeline.like_map()
+     )
+     |> fetch_posts(), temporary_assigns: [posts: []]}
+  end
+
+  defp fetch_posts(%{assigns: %{page: page, per_page: per}} = socket) do
+    assign(socket, posts: Timeline.list_posts(paginate: %{page: page, per_page: per}))
+  end
+
+  def handle_event("load-more", _, %{assigns: assigns} = socket) do
+    {:noreply, socket |> assign(page: assigns.page + 1) |> fetch_posts()}
   end
 
   @impl true
   def handle_params(params, _url, socket) do
+    # page = String.to_integer(params["page"] || "1")
+    # per_page = String.to_integer(params["per_page"] || "3")
+
+    # paginate_options = %{page: page, per_page: per_page}
+    # posts = Timeline.list_posts(paginate: paginate_options)
+
+    # socket = socket |> assign(posts: posts, options: paginate_options)
+
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
@@ -74,7 +94,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
     post = Timeline.get_post!(id)
     {:ok, _} = Timeline.delete_post(post)
 
-    {:noreply, assign(socket, :posts, list_posts())}
+    {:noreply, assign(socket, :posts, Timeline.list_posts(socket.assigns.paginate_options))}
   end
 
   @impl true
@@ -101,9 +121,5 @@ defmodule ShlinkedinWeb.PostLive.Index do
   @impl true
   def handle_info({:post_deleted, post}, socket) do
     {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
-  end
-
-  defp list_posts do
-    Timeline.list_posts()
   end
 end

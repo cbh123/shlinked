@@ -196,21 +196,24 @@ defmodule Shlinkedin.Timeline do
       iex> list_posts()
       [%Post{}, ...]
 
+      [paginate: %{page: 1, per_page: 5}]
+
   """
-  def list_posts do
-    Repo.all(
-      from p in Post,
-        left_join: profile in assoc(p, :profile),
-        left_join: comments in assoc(p, :comments),
-        left_join: profs in assoc(comments, :profile),
-        preload: [:profile, :likes, comments: {comments, profile: profs}],
-        order_by: [desc: p.featured, desc: p.inserted_at],
-        limit: 30
+  def list_posts(criteria) when is_list(criteria) do
+    query = from(p in Post, order_by: [desc: p.featured, desc: p.inserted_at])
+
+    paged_query = paginate(query, criteria)
+
+    from(p in paged_query,
+      preload: [:profile, :likes, comments: :profile]
     )
+    |> Repo.all()
   end
 
-  def list_posts_no_preload do
-    Repo.all(Post)
+  def paginate(query, criteria) do
+    Enum.reduce(criteria, query, fn {:paginate, %{page: page, per_page: per_page}}, query ->
+      from q in query, offset: ^((page - 1) * per_page), limit: ^per_page
+    end)
   end
 
   @doc """
