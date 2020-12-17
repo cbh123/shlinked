@@ -13,6 +13,7 @@ defmodule Shlinkedin.Timeline.Post do
     field :add_gif, :boolean, virtual: true
     field :update_type, :string
     field :profile_update, :boolean
+    field :featured, :boolean, default: false
     timestamps()
   end
 

@@ -1,7 +1,11 @@
 <div id="post-<%= @post.id %>" phx-click="hide-post-options" phx-target="<%= @myself %>"
     class="bg-white shadow-md sm:max-w-lg mx-auto sm:rounded-lg p-4 my-2 pb-2 <%= if @deleted, do: "hidden" %>">
     <%= if @deleted != true do %>
+
+
+
     <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
+
         <%# Post Header: Image, Name, Title, Time, and Business Jab %>
         <div class="ml-2 sm:ml-4 mt-2 sm:mt-3">
             <div class="flex items-center">
@@ -14,7 +18,9 @@
                     </span>
                 </div>
                 <div class="ml-3 sm:ml-4 cursor-pointer">
+
                     <%= live_redirect @post.profile.persona_name, to: Routes.profile_show_path(@socket, :show, @post.profile.slug), class: "text-sm font-semibold text-gray-900 hover:underline"  %>
+
                     <span
                         class="text-gray-500 <%= if @post.profile_update, do: "text-sm", else: "text-xs"%> font-normal">
                         <%= if @post.profile_update, do: "updated their #{@post.update_type}", else: " • " <> @post.profile.persona_title  %>
@@ -23,7 +29,13 @@
 
                     <p class="text-xs text-gray-500">
                         @<%= @post.profile.username %> • <%= Timex.from_now(@post.inserted_at) %>
-                    </p>
+
+                        <span
+                            class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white">
+                            Featured Post ⭐
+                        </span></p>
+
+
 
                 </div>
             </div>
@@ -78,6 +90,8 @@
     <%# Post Text / Image %>
     <div class="relative mt-2 overflow-hidden <%= if @post.photo_urls != [], do: "-mx-4" %>">
         <div class="">
+
+            </p>
 
             <%= if @post.profile_update == true and @post.update_type == "bio" do %>
             <section class="bg-white overflow-hidden">
