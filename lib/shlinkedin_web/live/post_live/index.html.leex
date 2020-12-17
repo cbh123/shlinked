@@ -71,6 +71,10 @@
 
 </div>
 
+<div class="my-4 sm:max-w-lg mx-auto">
+    <hr class="">
+</div>
+
 <div id="posts" phx-update="append" phx-hook="InfiniteScroll" data-page="<%= @page %>">
     <%= for post <- @posts do %>
     <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
