@@ -71,7 +71,7 @@
 
 </div>
 
-<div id="posts" phx-update="append">
+<div id="posts" phx-update="append" phx-hook="InfiniteScroll" data-page="<%= @page %>">
     <%= for post <- @posts do %>
     <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
         id: post.id,
@@ -112,8 +112,6 @@
     return_to: Routes.post_index_path(@socket, :index) %>
 <% end %>
 
-
-
 <%= if @live_action in [:new, :edit] do %>
 <%= live_modal @socket, ShlinkedinWeb.PostLive.FormComponent,
     profile: @profile,
@@ -123,13 +121,3 @@
     post: @post,
     return_to: Routes.post_index_path(@socket, :index) %>
 <% end %>
-
-
-<div class="text-center">
-
-
-    <button phx-click="load-more" type="button"
-        class="my-6 items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-        MORE CONTENT
-    </button>
-</div>

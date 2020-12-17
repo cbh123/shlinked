@@ -71,93 +71,6 @@ const crisis = [
   "HELLO IF ANYONE KNOWS HOW TO STOP A POTENTIALLY ECONOMY-TOPPLING COMPUTER VIRUS, PLEASE REACH OUT IMMEDIATELY.",
 ];
 
-const comments = [
-  "That’s business for ya!",
-  "Who is the man? You are the man.",
-  "Grandma?",
-  "When the time is right, you’ll know.",
-  "How far were you able to throw the child?",
-  "If it’s KPIs you’re after, then that’s the way to go.",
-  "Sounds like a sticky situation!",
-  "Uh-oh, looks like a sticky situation.",
-  "That’s a sticky situation if I’ve ever seen one.",
-  "I wish you could hear my applause right now.",
-  "Maybe… just maybe…",
-  "I dig that, my crispy dove!",
-  "Slap me some skin, brotha-man!",
-  "Well butter me up and call me a biscuit, that’s some thought leadership!",
-  "This changes everything.",
-  "No thanks, I had a big breakfast.",
-  "We should use the wok.",
-  "It’s all in the sauce!",
-  "You’ve got the sauce, my man!",
-  "I need you to search my clothing.",
-  "You’re mouth is the spout, and your words are the water.",
-  "How exotic!",
-  "Life’s a potluck—and you’re servin’ up the main dish!",
-  "I’m a star, but you’re an icon.",
-  "You walk the walk, AND talk the talk.",
-  "You’re my god now!",
-  "Forget beef—you’re what’s for dinner!",
-  "A trip to the cosmos, perhaps?",
-  "You’re the shuttle—I’ll be the fuel. ",
-  "You’ve lit a fire under me.",
-  "Congratulations, please hire me.",
-  "Congrats! Congrats always! Always.",
-  "Congratulations you did that thing and are happy now forever!",
-  "Uh-oh, sounds like a widdle oopsie-poopsie.",
-  "Hah! You daring maverick, you’ve done it again!",
-  "I know it may not be “PC” or whatever, but I think that… nevermind.",
-  "Let’s talk about gerrymandering now.",
-  "I recently listened to a podcast on this very subject. Well done!",
-  "I am a podcast now. I am all-seeing.",
-  "The real value of business is all the free grains.",
-  "Have you met my cousin, Anthony? He is “italian.”",
-  "It’s strange… This post gives me such a wistful longing for the summers of my youth. In the orchards, filling my time with nothing but sticks and stones. Before all this, before Dartmouth, the MBA,  before the tie, the corner office… I think I was happy, then. Thanks for sharing!",
-  "Zip, zap, zop! You’re not a cop!",
-  "Legally, this can’t be held against in court, I think.",
-  "If I’m a bug then this post is a can of Raid Max Concentrated Roach and Ant Killer!",
-  "Pestilent twerp, you’ll pay for this!",
-  "Before starting a career or job, it is good to learn about it. Thank you.",
-  "First, they’ll come with knives. Of that much I am certain.",
-  "No, no, no!",
-  "First of all—the difference between ‘crawfish,’ ‘crawdaddy,’ and ‘crayfish’ is entirely semantic.",
-  "Hold MY horses!",
-  "Spoons, forks, chopsticks, middle management, tongs. In that order.",
-  "I mainly disagree with this because I don’t like you as an individual.",
-  "Prove it.",
-  "Can you explain it to me as if I were a poorly acclimated foreign exchange student?",
-  "Nope. Try again.",
-  "Please send help, the ShlinkedIn C-suite has trapped me in their basement offices and I’m running out of food.",
-  "Teach me! Teach me more, papa!",
-  "I didn’t know Steve Jobs personally, but it’s unlikely you two would get along.",
-  "If I may play devil’s advocate for a moment, I actually found The Grand Budapest ",
-  "Hotel’s plotting to be trite.",
-  "Grocery stores near me.",
-  "Platitude, or platypus?",
-  "This made my eczema flare up. ",
-  "Teach me how to skateboard!",
-  "Do you know how to skateboard?",
-  "I can almost do a kickflip (on my skateboard).",
-  "I like to skateboard!",
-  "If you replaced every noun in this with a different one, what would it look like?",
-  "In your mind, how do you see this scaling?",
-  "For the record, I still can’t find Antigua on a map. And this post didn’t help.",
-  "Please answer my calls. ",
-  "I’m hungry for BUSINESS!",
-  "Don’t dip the pen in the company ink—unless you want stained slacks!",
-  "3 lemons, 1 ½  cups sugar, ¼  pounds unsalted butter (room temperature), 4 extra-large eggs, .5 cups lemon juice (3-4 lemons), ⅛ tsp kosher salt",
-  "Ugh, you’ve curdled my milk.",
-  "Say that to my face, you limp-wristed draft dodger! ",
-  "Curses, foiled again!",
-  "Hoisted by my own petard!",
-  "It’s funny, most people say “chomping at the bit” but the idiom is actually “champing at the bit.” Champing is a normally horse-specific verb meaning to bite upon, or grind with teeth.",
-  "You imp! I’ll undermine you every chance I get.",
-  "A bowl of ants? Not today, not ever!",
-  "A bowl of aunts? Not today, not ever!",
-  "Let’s talk. Third-floor of the parking structure. Midnight. Come alone. ",
-];
-
 Hooks.Celebrate = {
   mounted() {
     this.el.addEventListener("click", (e) => {
@@ -232,17 +145,30 @@ Hooks.Crisis = {
   },
 };
 
-Hooks.Comment = {
+let scrollAt = () => {
+  let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+  let scrollHeight =
+    document.documentElement.scrollHeight || document.body.scrollHeight;
+  let clientHeight = document.documentElement.clientHeight;
+
+  return (scrollTop / (scrollHeight - clientHeight)) * 100;
+};
+
+Hooks.InfiniteScroll = {
+  page() {
+    return this.el.dataset.page;
+  },
   mounted() {
-    this.el.addEventListener("click", (e) => {
-      let btn = document.getElementById("comment-btn");
-      const comment = document.getElementById("comment-form_body");
-
-      comment.textContent =
-        comments[Math.floor(Math.random() * comments.length)];
-
-      comment.focus();
+    this.pending = this.page();
+    window.addEventListener("scroll", (e) => {
+      if (this.pending == this.page() && scrollAt() > 90) {
+        this.pending = this.page() + 1;
+        this.pushEvent("load-more", {});
+      }
     });
+  },
+  updated() {
+    this.pending = this.page();
   },
 };
 
