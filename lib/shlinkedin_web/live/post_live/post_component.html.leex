@@ -1,5 +1,5 @@
 <div id="post-<%= @post.id %>" phx-click="hide-post-options" phx-target="<%= @myself %>"
-    class="relative bg-white shadow-lg sm:max-w-lg mx-auto sm:rounded-lg p-4 mb-12 pb-2 <%= if @deleted, do: "hidden" %>">
+    class="relative bg-white shadow-lg sm:max-w-lg mx-auto sm:rounded-lg p-4 mb-2 pb-2 <%= if @deleted, do: "hidden" %>">
     <%= if @deleted != true do %>
 
 
