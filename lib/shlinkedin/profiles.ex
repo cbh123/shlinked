@@ -46,6 +46,11 @@ defmodule Shlinkedin.Profiles do
     |> Repo.update()
   end
 
+  def mark_all_notifications_read(%Profile{} = profile) do
+    from(n in Notification, where: n.to_profile_id == ^profile.id)
+    |> Repo.update_all(set: [read: true])
+  end
+
   def get_unread_notification_count(%Profile{} = profile) do
     Repo.one(
       from n in Notification,
@@ -98,7 +103,10 @@ defmodule Shlinkedin.Profiles do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_notification(%Notification{} = notification, attrs \\ %{}) do
+  def create_notification(
+        %Notification{} = notification,
+        attrs \\ %{}
+      ) do
     notification
     |> Notification.changeset(attrs)
     |> Repo.insert()
