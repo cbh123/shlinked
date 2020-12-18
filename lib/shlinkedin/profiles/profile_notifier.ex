@@ -2,6 +2,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Profiles.Endorsement
   alias Shlinkedin.Profiles.Testimonial
+  alias Shlinkedin.Profiles.Notification
 
   @doc """
   Deliver instructions to confirm account.
@@ -111,6 +112,14 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     God
 
     """
+
+    Shlinkedin.Profiles.create_notification(%Notification{
+      from_profile_id: from_profile.id,
+      to_profile_id: to_profile.id,
+      type: "endorsement",
+      action: "endorsed you for",
+      body: "#{endorsement.body}"
+    })
 
     Shlinkedin.Email.new_email(to_profile.user.email, "You've been endorsed!", body)
     |> Shlinkedin.Mailer.deliver_later()

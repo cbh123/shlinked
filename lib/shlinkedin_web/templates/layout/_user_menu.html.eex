@@ -38,8 +38,8 @@
 <% end %>
 
 <%= link to: "/shlinks" do %>
-<button class="hidden sm:flex mr-4 p-1 relative">
-    <span class="sr-only">Shlinks</span>
+<button class="hidden sm:flex mr-4 p-1 relative <%= if @conn.request_path == "/shlinks", do: "text-blue-500"%>"">
+    <span class=" sr-only">Shlinks</span>
 
 
     <%= if length(Shlinkedin.Profiles.get_pending_requests(@profile)) > 0 do %>

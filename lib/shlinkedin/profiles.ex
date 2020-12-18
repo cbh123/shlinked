@@ -9,6 +9,7 @@ defmodule Shlinkedin.Profiles do
   alias Shlinkedin.Profiles.Endorsement
   alias Shlinkedin.Profiles.Testimonial
   alias Shlinkedin.Profiles.Profile
+  alias Shlinkedin.Profiles.Notification
   alias Shlinkedin.Profiles.Friend
   alias Shlinkedin.Profiles.ProfileNotifier
   alias Shlinkedin.Accounts.User
@@ -30,6 +31,29 @@ defmodule Shlinkedin.Profiles do
     Repo.all(from e in Shlinkedin.Profiles.Testimonial, where: e.to_profile_id == ^id)
   end
 
+  def list_notifications(id) do
+    Repo.all(
+      from n in Shlinkedin.Profiles.Notification,
+        where: n.to_profile_id == ^id,
+        preload: [:profile],
+        order_by: [desc: n.inserted_at]
+    )
+  end
+
+  def change_notification_to_read(id) do
+    %Notification{id: id}
+    |> Ecto.Changeset.change(read: true)
+    |> Repo.update()
+  end
+
+  def get_unread_notification_count(%Profile{} = profile) do
+    Repo.one(
+      from n in Notification,
+        where: n.to_profile_id == ^profile.id and n.read == false,
+        select: count("*")
+    )
+  end
+
   @doc """
   Gets a single endorsement.
 
@@ -47,6 +71,8 @@ defmodule Shlinkedin.Profiles do
   def get_endorsement!(id), do: Repo.get!(Endorsement, id)
 
   def get_testimonial!(id), do: Repo.get!(Testimonial, id)
+
+  def get_notification!(id), do: Repo.get!(Notification, id)
 
   def get_friend_request!(%Profile{} = from, %Profile{} = to) do
     case Repo.one(
@@ -72,6 +98,12 @@ defmodule Shlinkedin.Profiles do
       {:error, %Ecto.Changeset{}}
 
   """
+  def create_notification(%Notification{} = notification, attrs \\ %{}) do
+    notification
+    |> Notification.changeset(attrs)
+    |> Repo.insert()
+  end
+
   def create_endorsement(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
     %Endorsement{from_profile_id: from.id, to_profile_id: to.id}
     |> Endorsement.changeset(attrs)

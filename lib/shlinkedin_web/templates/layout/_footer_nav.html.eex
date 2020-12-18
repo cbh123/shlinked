@@ -50,7 +50,7 @@
 </button>
 <% end %>
 <%= link to: "/updates" do %>
-<button class="mt-2<%= if @conn.request_path == "/updates", do: "text-blue-500"%>"">
+<button class="mt-2 <%= if @conn.request_path == "/updates", do: "text-blue-500"%>"">
        <span class=" sr-only">Updates</span>
 
     <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

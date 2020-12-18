@@ -1,0 +1,38 @@
+<div class=" font-windows">
+
+    <div class="flex justify-between text-center py-2 px-5">
+        <h1 class="font-extrabold text-lg font-windows">Recent Dinks </h1>
+        <div>
+            <%= if @unread_count == 0 do %>
+            <p class="inline-block text-green-500"> All caught up! </p>
+
+            <% else %>
+            <p class="inline-block"> <%= @unread_count %> unread </p>
+            <button class="inline-block hover:bg-gray-800 hover:text-green-400 px-2">Mark all as read </button>
+            <% end %>
+        </div>
+    </div>
+
+
+    <ul class="divide-y divide-gray-300 ">
+        <%= for n <- @notifications do %>
+
+        <li phx-click="notification-click" phx-value-id="<%= n.id %>" phx-value-slug="<%= n.profile.slug %>"
+            class="<%= if n.read == false, do: "bg-blue-100 hover:bg-blue-200", else: "bg-gray-100 hover:bg-gray-100" %>  cursor-pointer">
+            <button class="w-full flex justify-between p-4">
+                <div class="flex text-left">
+                    <img class="h-10 w-10 rounded-full object-cover" src="<%= n.profile.photo_url %>" alt="">
+                    <div class="ml-3">
+                        <p class="text-sm text-gray-900 inline-block">
+
+                            <span><%= n.profile.persona_name %></span> <span class="font-bold"><%= n.action %></span>
+                            <span><%= n.body %></span>
+
+                    </div>
+                </div>
+                <span class="flex text-right ml-2 text-xs text-gray-500"><%= Timex.from_now(n.inserted_at) %></span>
+            </button>
+        </li>
+        <% end %>
+    </ul>
+</div>

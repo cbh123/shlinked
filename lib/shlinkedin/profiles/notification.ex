@@ -3,11 +3,13 @@ defmodule Shlinkedin.Profiles.Notification do
   import Ecto.Changeset
 
   schema "notifications" do
-    field :last_read, :naive_datetime
-    field :from_profile_id, :id
+    field :read, :boolean, default: false
+    belongs_to :profile, Shlinkedin.Profiles.Profile, foreign_key: :from_profile_id
     field :to_profile_id, :id
     field :post_id, :id
     field :type, :string
+    field :body, :string
+    field :action, :string
 
     timestamps()
   end
@@ -15,7 +17,6 @@ defmodule Shlinkedin.Profiles.Notification do
   @doc false
   def changeset(notification, attrs) do
     notification
-    |> cast(attrs, [:last_read])
-    |> validate_required([:last_read])
+    |> cast(attrs, [:from_profile_id, :to_profile_id, :post_id, :type, :body, :read])
   end
 end
