@@ -133,16 +133,18 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
     """
 
-    Shlinkedin.Profiles.create_notification(%Notification{
-      from_profile_id: from_profile.id,
-      to_profile_id: to_profile.id,
-      type: "endorsement",
-      action: "endorsed you for",
-      body: "#{endorsement.body}"
-    })
+    if from_profile.id != to_profile.id do
+      Shlinkedin.Profiles.create_notification(%Notification{
+        from_profile_id: from_profile.id,
+        to_profile_id: to_profile.id,
+        type: "endorsement",
+        action: "endorsed you for",
+        body: "#{endorsement.body}"
+      })
 
-    Shlinkedin.Email.new_email(to_profile.user.email, "You've been endorsed!", body)
-    |> Shlinkedin.Mailer.deliver_later()
+      Shlinkedin.Email.new_email(to_profile.user.email, "You've been endorsed!", body)
+      |> Shlinkedin.Mailer.deliver_later()
+    end
   end
 
   def notify_testimonial(
@@ -169,20 +171,22 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
     """
 
-    Shlinkedin.Profiles.create_notification(%Notification{
-      from_profile_id: from_profile.id,
-      to_profile_id: to_profile.id,
-      type: "testimonial",
-      action: "wrote you a testimonial: ",
-      body: "#{testimonial.body}"
-    })
+    if from_profile.id != to_profile.id do
+      Shlinkedin.Profiles.create_notification(%Notification{
+        from_profile_id: from_profile.id,
+        to_profile_id: to_profile.id,
+        type: "testimonial",
+        action: "wrote you a testimonial: ",
+        body: "#{testimonial.body}"
+      })
 
-    Shlinkedin.Email.new_email(
-      to_profile.user.email,
-      "#{from_profile.persona_name} has given you #{testimonial.rating}/5 stars!",
-      body
-    )
-    |> Shlinkedin.Mailer.deliver_later()
+      Shlinkedin.Email.new_email(
+        to_profile.user.email,
+        "#{from_profile.persona_name} has given you #{testimonial.rating}/5 stars!",
+        body
+      )
+      |> Shlinkedin.Mailer.deliver_later()
+    end
   end
 
   def notify_comment(
@@ -207,20 +211,22 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
     """
 
-    Shlinkedin.Profiles.create_notification(%Notification{
-      from_profile_id: from_profile.id,
-      to_profile_id: to_profile.id,
-      type: "comment",
-      post_id: comment.post_id,
-      action: "commented on your post: ",
-      body: "#{comment.body}"
-    })
+    if from_profile.id != to_profile.id do
+      Shlinkedin.Profiles.create_notification(%Notification{
+        from_profile_id: from_profile.id,
+        to_profile_id: to_profile.id,
+        type: "comment",
+        post_id: comment.post_id,
+        action: "commented on your post: ",
+        body: "#{comment.body}"
+      })
 
-    Shlinkedin.Email.new_email(
-      to_profile.user.email,
-      "Your post is getting traction!",
-      body
-    )
-    |> Shlinkedin.Mailer.deliver_later()
+      Shlinkedin.Email.new_email(
+        to_profile.user.email,
+        "Your post is getting traction!",
+        body
+      )
+      |> Shlinkedin.Mailer.deliver_later()
+    end
   end
 end
