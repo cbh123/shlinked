@@ -1,3 +1,13 @@
+<%= if @from_notifications do %>
+<div class=" max-w-2xl mx-auto font-windows">
+
+    <%= live_redirect raw("&larr; Back to Dinks"), to: Routes.notification_index_path(@socket, :index),
+        class: " bg-opacity-50 inline-flex mx-auto hover:text-green-400  px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-900 "
+     %>
+
+</div>
+<% end %>
+
 <%# Shlink Requests %>
 <div class="w-full min-h-screen shadow p-5 bg-gradient-to-r from-green-400 to-blue-500">
 

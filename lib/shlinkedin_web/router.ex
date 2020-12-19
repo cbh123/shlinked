@@ -86,12 +86,13 @@ defmodule ShlinkedinWeb.Router do
     live "/sh/:slug/endorsement/:id/edit", ProfileLive.Show, :edit_endorsement
     live "/sh/:slug/testimonials/new", ProfileLive.Show, :new_testimonial
     live "/sh/:slug/testimonial/:id/edit", ProfileLive.Show, :edit_testimonial
-    live "/sh/:slug/:notifications", ProfileLive.Show, :show
+    live "/sh/:slug/notifications", ProfileLive.Show, :from_notifications
 
     live "/profile/live_edit", ProfileLive.Edit, :edit
     live "/profile/welcome", ProfileLive.Edit, :new
 
     live "/shlinks", FriendLive.Index, :index
+    live "/shlinks/:notifications", FriendLive.Index, :index
     live "/updates", NotificationLive.Index, :index
   end
 

@@ -1,340 +1,343 @@
-<div class=" max-w-2xl mx-auto font-windows">
-    <%= if @from_notifications do %>
-    <%= live_redirect raw("&larr; Back to Dinks"), to: Routes.notification_index_path(@socket, :index),
+ <%= if @from_notifications do %>
+ <div class=" max-w-2xl mx-auto font-windows">
+
+     <%= live_redirect raw("&larr; Back to Dinks"), to: Routes.notification_index_path(@socket, :index),
         class: " bg-opacity-50 inline-flex mx-auto hover:text-green-400  px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-900 "
      %>
-    <% end %>
-</div>
-<div class="max-w-2xl sm:mt-4 mx-auto mb-4">
-    <%# Profile and cover photo  %>
-    <div class="bg-white sm:rounded-lg shadow">
-
-        <img src="<%= if @show_profile.cover_photo_url == nil, do: "https://source.unsplash.com/collection/1928683/1600x900", else: @show_profile.cover_photo_url %>"
-            alt="" class="object-cover w-full h-52 overflow-hidden sm:rounded-t-lg">
-
-
-
-        <div class=" pt-2 p-5 ">
-            <div class="flex justify-center sm:block relative">
-                <div class="inline-block relative">
-                    <img class="object-cover bg-center w-32 h-32 sm:w-42 sm:h-42 -mt-16 rounded-full border-4 border-white"
-                        src="<%= @show_profile.photo_url %>" />
-                    <span
-                        class="absolute bottom-2 right-2 h-3 w-3 sm:bottom-2 sm:right-3 block sm:h-4 sm:w-4 rounded-full ring-2 ring-white bg-green-500"></span>
-                </div>
-
-
-                <%= if @profile.id == @show_profile.id do %>
-                <%= live_patch to: Routes.profile_edit_path(@socket, :edit) do %>
-                <button type="button"
-                    class="absolute top-2 right-0 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-
-                    <svg class="-ml-1 mr-2 h-3 w-3" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z">
-                        </path>
-                        <path fill-rule="evenodd"
-                            d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                    Edit
-                </button>
-                <% end %>
-                <% end %>
-            </div>
-
-            <div class="flex justify-center sm:justify-start">
-                <div class="ml-3 mt-2">
-                    <div class="font-bold sm:text-left text-center text-2xl sm:text-3xl">
-                        <%= @show_profile.persona_name %></div>
-                    <div class="sm:flex items-start sm:text-left text-center text-sm">
-                        <span class="text-gray-700 italic"><%= @show_profile.persona_title %></span>
-                    </div>
-
-                </div>
-
-
-            </div>
-        </div>
-
-
-
-
-
-        <div class="px-5 mt-1 mb-6 ml-3 max-w-lg text-xs sm:text-sm">
-            <%= if @show_profile.summary == nil, do: "FILL OUT BIO!", else: @show_profile.summary %>
-        </div>
-
-        <div class="px-5 ml-3 flex items-start text-xs pb-6">
-            <span>
-                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                    </path>
-                </svg>
-            </span>
-            <span class="text-gray-700 ml-2">Started Shlinkin'
-                <%= Timex.format!(@show_profile.inserted_at, "{Mshort}. {D}, {YYYY}") %></span></div>
-
-        <%= if @profile.id != @show_profile.id do %>
-        <div class="px-5 ml-3 pb-6">
-            <%= case @friend_status do %>
-            <% nil -> %>
-            <button type="button" phx-click="send-friend-request"
-                class="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-xs font-semibold rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                <!-- Heroicon name: mail -->
-                <svg class="-ml-1 mr-2 h-3 w-3" fill="currentColor" viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z">
-                    </path>
-                </svg>
-                Shlink
-            </button>
-
-
-            <% "pending" ->  %>
-
-            <button type="button" phx-click="unfriend" data-confirm="Are you sure you want to unshlink?"
-                class="inline-flex items-center px-3 py-2 border border-gray-600 shadow-sm text-xs font-semibold rounded-full text-gray-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                <!-- Heroicon name: mail -->
-                <svg class="-ml-1 mr-2 h-3 w-3 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                Pending
-            </button>
-
-            <% "accepted" ->  %>
-
-            <button type="button" phx-click="unfriend" data-confirm="Are you sure you want to unshlink?"
-                class="inline-flex items-center px-3 py-2 border border-green-600 shadow-sm text-xs font-semibold rounded-full text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                <!-- Heroicon name: mail -->
-
-                <svg class="-ml-1 mr-2 h-3 w-3" fill="currentColor" viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clip-rule="evenodd"></path>
-                </svg>
-                Shlinked
-            </button>
-
-
-            <% end %>
-            <button type="button"
-                class="bg-white hover:bg-blue-200 inline-flex items-center px-3 py-2 border border-blue-600 shadow-sm text-xs font-semibold rounded-full text-blue-600  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                Business Jab
-            </button>
-
-        </div>
-        <% end %>
-
-    </div>
-
-
-
-    <!-- Stats-->
-    <div class="mt-2">
-        <dl class="grid grid-cols-3 rounded-lg bg-white overflow-hidden shadow divide-gray-200 divide-x">
-            <div>
-                <div class="px-4 py-5 sm:p-6">
-                    <dt class="text-xs sm:text-base font-semibold text-gray-800">
-                        ShlinkPoints
-                    </dt>
-                    <dd class="mt-1 flex justify-between items-baseline">
-                        <div class="flex items-baseline text-lg sm:text-2xl font-semibold text-blue-600">
-                            <%= @show_profile.points %>
-                        </div>
-                        <span class="ml-2 text-xs sm:text-sm font-medium text-gray-500">
-                            #1
-                        </span>
-                    </dd>
-                </div>
-            </div>
-
-            <div>
-                <div class="px-4 py-5 sm:p-6">
-                    <dt class="text-xs sm:text-base font-semibold text-gray-800">
-                        Followers
-                    </dt>
-                    <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
-                        <div class="flex items-baseline text-lg sm:text-2xl font-semibold text-indigo-600">
-                            0
-                        </div>
-                    </dd>
-                </div>
-            </div>
-
-            <div>
-                <div class="px-4 py-5 sm:p-6">
-                    <dt class="text-xs sm:text-base font-semibold text-gray-900 trunacte">
-                        Life
-                    </dt>
-                    <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
-                        <div class="flex items-baseline text-lg sm:text-2xl font-semibold text-yellow-600">
-                            <%= @show_profile.life_score %>
-                        </div>
-
-                    </dd>
-                </div>
-            </div>
-        </dl>
-    </div>
-
-    <%# Testimonials %>
-    <div class=" mt-2 rounded-lg overflow-hidden shadow p-5 bg-white">
-
-        <div class="flex justify-between">
-            <h5 class="text-gray-900 font-bold text-xl pb-3">Testimonials</h5>
-            <span><%= live_patch "+ Testimonial", to: Routes.profile_show_path(@socket, :new_testimonial, @to_profile.slug), class: "px-4 py-2 bg-green-500 text-white shadow-xs rounded-full font-bold" %></span>
-        </div>
-
-
-        <%= if @testimonials == [] do %>
-        <p class="font-semibold text-gray-600 text-center my-4">No testimonials yet 😔</p>
-        <% else %>
-
-
-        <%= for testimonial <- @testimonials do %>
-        <% t_profile = Profiles.get_profile_by_profile_id(testimonial.from_profile_id) %>
-        <section class="bg-white overflow-hidden -mx-4">
-            <div class="relative max-w-7xl mx-auto pt-20 pb-12 px-4 sm:px-6 lg:px-8 lg:py-20">
-                <svg class="absolute top-full left-0 transform translate-x-80 -translate-y-24 lg:hidden" width="784"
-                    height="404" fill="none" viewBox="0 0 784 404" aria-hidden="true">
-                    <defs>
-                        <pattern id="e56e3f81-d9c1-4b83-a3ba-0d0ac8c32f32" x="0" y="0" width="20" height="20"
-                            patternUnits="userSpaceOnUse">
-                            <rect x="0" y="0" width="4" height="4" class="text-gray-200" fill="currentColor" />
-                        </pattern>
-                    </defs>
-                    <rect width="784" height="404" fill="url(#e56e3f81-d9c1-4b83-a3ba-0d0ac8c32f32)" />
-                </svg>
-
-                <svg class="hidden lg:block absolute right-full top-1/2 transform translate-x-1/2 -translate-y-1/2"
-                    width="404" height="784" fill="none" viewBox="0 0 404 784" aria-hidden="true">
-                    <defs>
-                        <pattern id="56409614-3d62-4985-9a10-7ca758a8f4f0" x="0" y="0" width="20" height="20"
-                            patternUnits="userSpaceOnUse">
-                            <rect x="0" y="0" width="4" height="4" class="text-gray-200" fill="currentColor" />
-                        </pattern>
-                    </defs>
-                    <rect width="404" height="784" fill="url(#56409614-3d62-4985-9a10-7ca758a8f4f0)" />
-                </svg>
-
-                <div class="relative lg:flex lg:items-center">
-                    <div class="hidden lg:block lg:flex-shrink-0">
-                        <img class="h-64 w-64 rounded-full xl:h-80 xl:w-80 object-cover"
-                            src="<%= t_profile.photo_url %>" alt="<%= t_profile.persona_name %>">
-                    </div>
-
-                    <div class="relative lg:ml-10">
-                        <svg class="absolute top-0 left-0 transform -translate-x-8 -translate-y-24 h-36 w-36 text-indigo-200 opacity-50"
-                            stroke="currentColor" fill="none" viewBox="0 0 144 144" aria-hidden="true">
-                            <path stroke-width="2"
-                                d="M41.485 15C17.753 31.753 1 59.208 1 89.455c0 24.664 14.891 39.09 32.109 39.09 16.287 0 28.386-13.03 28.386-28.387 0-15.356-10.703-26.524-24.663-26.524-2.792 0-6.515.465-7.446.93 2.327-15.821 17.218-34.435 32.11-43.742L41.485 15zm80.04 0c-23.268 16.753-40.02 44.208-40.02 74.455 0 24.664 14.891 39.09 32.109 39.09 15.822 0 28.386-13.03 28.386-28.387 0-15.356-11.168-26.524-25.129-26.524-2.792 0-6.049.465-6.98.93 2.327-15.821 16.753-34.435 31.644-43.742L121.525 15z" />
-                        </svg>
-                        <blockquote class="relative">
-                            <div class="text-2xl leading-9 font-medium text-gray-900">
-                                <p>
-                                    <%= testimonial.body %>
-                                </p>
-                                <p class="text-lg font-semibold text-gray-500"><%= testimonial.rating %> / 5
-                                    ⭐</p>
-                            </div>
-                            <footer class="mt-8">
-                                <div class="flex">
-
-                                    <div class="flex-shrink-0 lg:hidden">
-                                        <img class="h-12 w-12 rounded-full object-cover"
-                                            src="<%= t_profile.photo_url %>" alt="">
-                                    </div>
-                                    <div class="ml-4 lg:ml-0">
-                                        <%= live_redirect to: Routes.profile_show_path(@socket, :show, t_profile.slug) do %>
-
-                                        <div class="text-base font-medium text-gray-900"><%= t_profile.persona_name %>
-                                        </div>
-                                        <div class="text-base font-medium text-indigo-600">
-                                            <%= t_profile.persona_title %></div>
-                                        <% end %>
-                                    </div>
-
-                                    <%= if @from_profile.id == testimonial.from_profile_id do %>
-                                    <div class="ml-4">
-                                        <span><%= live_patch "Edit", to: Routes.profile_show_path(@socket, :edit_testimonial, @to_profile.slug, testimonial), class: "text-xs text-gray-700" %></span>
-                                        •
-                                        <span><%= link "Delete", to: "#", phx_click: "delete-testimonial", phx_value_id: testimonial.id, data: [confirm: "Are you sure?"], class: "text-xs text-gray-700" %></span>
-                                    </div>
-                                    <% end %>
-                                </div>
-                            </footer>
-                        </blockquote>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <% end %>
-
-        <% end %>
-
-    </div>
-
-
-    <!-- Endorsements -->
-    <div class="mt-2 rounded-lg overflow-hidden shadow p-5 bg-white">
-
-        <div class="flex justify-between">
-            <h5 class="text-gray-900 font-bold text-xl pb-3">Endorsements</h5>
-            <span><%= live_patch "+ Endorse", to: Routes.profile_show_path(@socket, :new_endorsement, @to_profile.slug), class: "px-4 py-2 bg-green-500 text-white shadow-xs rounded-full font-bold" %></span>
-        </div>
-
-        <%= if @endorsements == [] do %>
-        <p class="font-semibold text-gray-600 text-center my-4">No endorsements yet 😔</p>
-        <% else %>
-        <div class="">
-            <%= for endorsement <- @endorsements do %>
-            <% color = Enum.random(["blue", "green", "red", "yellow", "indigo"]) %>
-            <div id="endorsement-<%= endorsement.id %>"
-                class="<%= "bg-#{color}-100" %> text-white inline-block py-2 px-4 shadow-xs rounded-lg my-1">
-                <p class="font-bold font-lg <%= "text-#{color}-700" %> "><%= endorsement.body %></p>
-
-                <% e_profile = Profiles.get_profile_by_profile_id(endorsement.from_profile_id) %>
-
-                <div class="flex justify-between text-xs">
-                    <%= live_redirect e_profile.persona_name, to: Routes.profile_show_path(@socket, :show, e_profile.slug), class: "italic  #{"text-#{color}-700"} hover:underline"  %>
-
-
-                    <%= if @from_profile.id == endorsement.from_profile_id do %>
-                    <div class="ml-4">
-                        <span><%= live_patch "Edit", to: Routes.profile_show_path(@socket, :edit_endorsement, @to_profile.slug, endorsement), class: "text-#{color}-700" %></span>
-                        •
-                        <span><%= link "Delete", to: "#", phx_click: "delete-endorsement", phx_value_id: endorsement.id, data: [confirm: "Are you sure?"], class: " text-#{color}-700" %></span>
-                    </div>
-                    <% end %>
-                </div>
-            </div>
-            <% end %>
-
-        </div>
-        <% end %>
-    </div>
-
-
-
-
-
-
-
-
-
-
-</div>
-
-<%= if @live_action in [:new_endorsement, :edit_endorsement] do %>
-<%= live_modal @socket, ShlinkedinWeb.EndorsementLive.FormComponent,
+
+ </div>
+ <% end %>
+
+ <div class="max-w-2xl sm:mt-4 mx-auto mb-4">
+     <%# Profile and cover photo  %>
+     <div class="bg-white sm:rounded-lg shadow">
+
+         <img src="<%= if @show_profile.cover_photo_url == nil, do: "https://source.unsplash.com/collection/1928683/1600x900", else: @show_profile.cover_photo_url %>"
+             alt="" class="object-cover w-full h-52 overflow-hidden sm:rounded-t-lg">
+
+
+
+         <div class=" pt-2 p-5 ">
+             <div class="flex justify-center sm:block relative">
+                 <div class="inline-block relative">
+                     <img class="object-cover bg-center w-32 h-32 sm:w-42 sm:h-42 -mt-16 rounded-full border-4 border-white"
+                         src="<%= @show_profile.photo_url %>" />
+                     <span
+                         class="absolute bottom-2 right-2 h-3 w-3 sm:bottom-2 sm:right-3 block sm:h-4 sm:w-4 rounded-full ring-2 ring-white bg-green-500"></span>
+                 </div>
+
+
+                 <%= if @profile.id == @show_profile.id do %>
+                 <%= live_patch to: Routes.profile_edit_path(@socket, :edit) do %>
+                 <button type="button"
+                     class="absolute top-2 right-0 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+
+                     <svg class="-ml-1 mr-2 h-3 w-3" fill="currentColor" viewBox="0 0 20 20"
+                         xmlns="http://www.w3.org/2000/svg">
+                         <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z">
+                         </path>
+                         <path fill-rule="evenodd"
+                             d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+                             clip-rule="evenodd"></path>
+                     </svg>
+                     Edit
+                 </button>
+                 <% end %>
+                 <% end %>
+             </div>
+
+             <div class="flex justify-center sm:justify-start">
+                 <div class="ml-3 mt-2">
+                     <div class="font-bold sm:text-left text-center text-2xl sm:text-3xl">
+                         <%= @show_profile.persona_name %></div>
+                     <div class="sm:flex items-start sm:text-left text-center text-sm">
+                         <span class="text-gray-700 italic"><%= @show_profile.persona_title %></span>
+                     </div>
+
+                 </div>
+
+
+             </div>
+         </div>
+
+
+
+
+
+         <div class="px-5 mt-1 mb-6 ml-3 max-w-lg text-xs sm:text-sm">
+             <%= if @show_profile.summary == nil, do: "FILL OUT BIO!", else: @show_profile.summary %>
+         </div>
+
+         <div class="px-5 ml-3 flex items-start text-xs pb-6">
+             <span>
+                 <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg">
+                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                         d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                     </path>
+                 </svg>
+             </span>
+             <span class="text-gray-700 ml-2">Started Shlinkin'
+                 <%= Timex.format!(@show_profile.inserted_at, "{Mshort}. {D}, {YYYY}") %></span></div>
+
+         <%= if @profile.id != @show_profile.id do %>
+         <div class="px-5 ml-3 pb-6">
+             <%= case @friend_status do %>
+             <% nil -> %>
+             <button type="button" phx-click="send-friend-request"
+                 class="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-xs font-semibold rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                 <!-- Heroicon name: mail -->
+                 <svg class="-ml-1 mr-2 h-3 w-3" fill="currentColor" viewBox="0 0 20 20"
+                     xmlns="http://www.w3.org/2000/svg">
+                     <path
+                         d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z">
+                     </path>
+                 </svg>
+                 Shlink
+             </button>
+
+
+             <% "pending" ->  %>
+
+             <button type="button" phx-click="unfriend" data-confirm="Are you sure you want to destroy your request?"
+                 class="inline-flex items-center px-3 py-2 border border-gray-600 shadow-sm text-xs font-semibold rounded-full text-gray-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                 <!-- Heroicon name: mail -->
+                 <svg class="-ml-1 mr-2 h-3 w-3 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg">
+                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                 </svg>
+                 Pending
+             </button>
+
+             <% "accepted" ->  %>
+
+             <button type="button" phx-click="unfriend" data-confirm="Are you sure you want to unshlink?"
+                 class="inline-flex items-center px-3 py-2 border border-green-600 shadow-sm text-xs font-semibold rounded-full text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                 <!-- Heroicon name: mail -->
+
+                 <svg class="-ml-1 mr-2 h-3 w-3" fill="currentColor" viewBox="0 0 20 20"
+                     xmlns="http://www.w3.org/2000/svg">
+                     <path fill-rule="evenodd"
+                         d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                         clip-rule="evenodd"></path>
+                 </svg>
+                 Shlinked
+             </button>
+
+
+             <% end %>
+             <button type="button"
+                 class="bg-white hover:bg-blue-200 inline-flex items-center px-3 py-2 border border-blue-600 shadow-sm text-xs font-semibold rounded-full text-blue-600  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                 Business Jab
+             </button>
+
+         </div>
+         <% end %>
+
+     </div>
+
+
+
+     <!-- Stats-->
+     <div class="mt-2">
+         <dl class="grid grid-cols-3 rounded-lg bg-white overflow-hidden shadow divide-gray-200 divide-x">
+             <div>
+                 <div class="px-4 py-5 sm:p-6">
+                     <dt class="text-xs sm:text-base font-semibold text-gray-800">
+                         ShlinkPoints
+                     </dt>
+                     <dd class="mt-1 flex justify-between items-baseline">
+                         <div class="flex items-baseline text-lg sm:text-2xl font-semibold text-blue-600">
+                             <%= @show_profile.points %>
+                         </div>
+                         <span class="ml-2 text-xs sm:text-sm font-medium text-gray-500">
+                             #1
+                         </span>
+                     </dd>
+                 </div>
+             </div>
+
+             <div>
+                 <div class="px-4 py-5 sm:p-6">
+                     <dt class="text-xs sm:text-base font-semibold text-gray-800">
+                         Followers
+                     </dt>
+                     <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+                         <div class="flex items-baseline text-lg sm:text-2xl font-semibold text-indigo-600">
+                             0
+                         </div>
+                     </dd>
+                 </div>
+             </div>
+
+             <div>
+                 <div class="px-4 py-5 sm:p-6">
+                     <dt class="text-xs sm:text-base font-semibold text-gray-900 trunacte">
+                         Life
+                     </dt>
+                     <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+                         <div class="flex items-baseline text-lg sm:text-2xl font-semibold text-yellow-600">
+                             <%= @show_profile.life_score %>
+                         </div>
+
+                     </dd>
+                 </div>
+             </div>
+         </dl>
+     </div>
+
+     <%# Testimonials %>
+     <div class=" mt-2 rounded-lg overflow-hidden shadow p-5 bg-white">
+
+         <div class="flex justify-between">
+             <h5 class="text-gray-900 font-bold text-xl pb-3">Testimonials</h5>
+             <span><%= live_patch "+ Testimonial", to: Routes.profile_show_path(@socket, :new_testimonial, @to_profile.slug), class: "px-4 py-2 bg-green-500 text-white shadow-xs rounded-full font-bold" %></span>
+         </div>
+
+
+         <%= if @testimonials == [] do %>
+         <p class="font-semibold text-gray-600 text-center my-4">No testimonials yet 😔</p>
+         <% else %>
+
+
+         <%= for testimonial <- @testimonials do %>
+         <% t_profile = Profiles.get_profile_by_profile_id(testimonial.from_profile_id) %>
+         <section class="bg-white overflow-hidden -mx-4">
+             <div class="relative max-w-7xl mx-auto pt-20 pb-12 px-4 sm:px-6 lg:px-8 lg:py-20">
+                 <svg class="absolute top-full left-0 transform translate-x-80 -translate-y-24 lg:hidden" width="784"
+                     height="404" fill="none" viewBox="0 0 784 404" aria-hidden="true">
+                     <defs>
+                         <pattern id="e56e3f81-d9c1-4b83-a3ba-0d0ac8c32f32" x="0" y="0" width="20" height="20"
+                             patternUnits="userSpaceOnUse">
+                             <rect x="0" y="0" width="4" height="4" class="text-gray-200" fill="currentColor" />
+                         </pattern>
+                     </defs>
+                     <rect width="784" height="404" fill="url(#e56e3f81-d9c1-4b83-a3ba-0d0ac8c32f32)" />
+                 </svg>
+
+                 <svg class="hidden lg:block absolute right-full top-1/2 transform translate-x-1/2 -translate-y-1/2"
+                     width="404" height="784" fill="none" viewBox="0 0 404 784" aria-hidden="true">
+                     <defs>
+                         <pattern id="56409614-3d62-4985-9a10-7ca758a8f4f0" x="0" y="0" width="20" height="20"
+                             patternUnits="userSpaceOnUse">
+                             <rect x="0" y="0" width="4" height="4" class="text-gray-200" fill="currentColor" />
+                         </pattern>
+                     </defs>
+                     <rect width="404" height="784" fill="url(#56409614-3d62-4985-9a10-7ca758a8f4f0)" />
+                 </svg>
+
+                 <div class="relative lg:flex lg:items-center">
+                     <div class="hidden lg:block lg:flex-shrink-0">
+                         <img class="h-64 w-64 rounded-full xl:h-80 xl:w-80 object-cover"
+                             src="<%= t_profile.photo_url %>" alt="<%= t_profile.persona_name %>">
+                     </div>
+
+                     <div class="relative lg:ml-10">
+                         <svg class="absolute top-0 left-0 transform -translate-x-8 -translate-y-24 h-36 w-36 text-indigo-200 opacity-50"
+                             stroke="currentColor" fill="none" viewBox="0 0 144 144" aria-hidden="true">
+                             <path stroke-width="2"
+                                 d="M41.485 15C17.753 31.753 1 59.208 1 89.455c0 24.664 14.891 39.09 32.109 39.09 16.287 0 28.386-13.03 28.386-28.387 0-15.356-10.703-26.524-24.663-26.524-2.792 0-6.515.465-7.446.93 2.327-15.821 17.218-34.435 32.11-43.742L41.485 15zm80.04 0c-23.268 16.753-40.02 44.208-40.02 74.455 0 24.664 14.891 39.09 32.109 39.09 15.822 0 28.386-13.03 28.386-28.387 0-15.356-11.168-26.524-25.129-26.524-2.792 0-6.049.465-6.98.93 2.327-15.821 16.753-34.435 31.644-43.742L121.525 15z" />
+                         </svg>
+                         <blockquote class="relative">
+                             <div class="text-2xl leading-9 font-medium text-gray-900">
+                                 <p>
+                                     <%= testimonial.body %>
+                                 </p>
+                                 <p class="text-lg font-semibold text-gray-500"><%= testimonial.rating %> / 5
+                                     ⭐</p>
+                             </div>
+                             <footer class="mt-8">
+                                 <div class="flex">
+
+                                     <div class="flex-shrink-0 lg:hidden">
+                                         <img class="h-12 w-12 rounded-full object-cover"
+                                             src="<%= t_profile.photo_url %>" alt="">
+                                     </div>
+                                     <div class="ml-4 lg:ml-0">
+                                         <%= live_redirect to: Routes.profile_show_path(@socket, :show, t_profile.slug) do %>
+
+                                         <div class="text-base font-medium text-gray-900"><%= t_profile.persona_name %>
+                                         </div>
+                                         <div class="text-base font-medium text-indigo-600">
+                                             <%= t_profile.persona_title %></div>
+                                         <% end %>
+                                     </div>
+
+                                     <%= if @from_profile.id == testimonial.from_profile_id do %>
+                                     <div class="ml-4">
+                                         <span><%= live_patch "Edit", to: Routes.profile_show_path(@socket, :edit_testimonial, @to_profile.slug, testimonial), class: "text-xs text-gray-700" %></span>
+                                         •
+                                         <span><%= link "Delete", to: "#", phx_click: "delete-testimonial", phx_value_id: testimonial.id, data: [confirm: "Are you sure?"], class: "text-xs text-gray-700" %></span>
+                                     </div>
+                                     <% end %>
+                                 </div>
+                             </footer>
+                         </blockquote>
+                     </div>
+                 </div>
+             </div>
+         </section>
+
+         <% end %>
+
+         <% end %>
+
+     </div>
+
+
+     <!-- Endorsements -->
+     <div class="mt-2 rounded-lg overflow-hidden shadow p-5 bg-white">
+
+         <div class="flex justify-between">
+             <h5 class="text-gray-900 font-bold text-xl pb-3">Endorsements</h5>
+             <span><%= live_patch "+ Endorse", to: Routes.profile_show_path(@socket, :new_endorsement, @to_profile.slug), class: "px-4 py-2 bg-green-500 text-white shadow-xs rounded-full font-bold" %></span>
+         </div>
+
+         <%= if @endorsements == [] do %>
+         <p class="font-semibold text-gray-600 text-center my-4">No endorsements yet 😔</p>
+         <% else %>
+         <div class="">
+             <%= for endorsement <- @endorsements do %>
+             <% color = Enum.random(["blue", "green", "red", "yellow", "indigo"]) %>
+             <div id="endorsement-<%= endorsement.id %>"
+                 class="<%= "bg-#{color}-100" %> text-white inline-block py-2 px-4 shadow-xs rounded-lg my-1">
+                 <p class="font-bold font-lg <%= "text-#{color}-700" %> "><%= endorsement.body %></p>
+
+                 <% e_profile = Profiles.get_profile_by_profile_id(endorsement.from_profile_id) %>
+
+                 <div class="flex justify-between text-xs">
+                     <%= live_redirect e_profile.persona_name, to: Routes.profile_show_path(@socket, :show, e_profile.slug), class: "italic  #{"text-#{color}-700"} hover:underline"  %>
+
+
+                     <%= if @from_profile.id == endorsement.from_profile_id do %>
+                     <div class="ml-4">
+                         <span><%= live_patch "Edit", to: Routes.profile_show_path(@socket, :edit_endorsement, @to_profile.slug, endorsement), class: "text-#{color}-700" %></span>
+                         •
+                         <span><%= link "Delete", to: "#", phx_click: "delete-endorsement", phx_value_id: endorsement.id, data: [confirm: "Are you sure?"], class: " text-#{color}-700" %></span>
+                     </div>
+                     <% end %>
+                 </div>
+             </div>
+             <% end %>
+
+         </div>
+         <% end %>
+     </div>
+
+
+
+
+
+
+
+
+
+
+ </div>
+
+ <%= if @live_action in [:new_endorsement, :edit_endorsement] do %>
+ <%= live_modal @socket, ShlinkedinWeb.EndorsementLive.FormComponent,
     id: @endorsement.id || :new_endorsement,
     from_profile: @from_profile,
     to_profile: @to_profile,
@@ -342,10 +345,10 @@
     action: @live_action,
     endorsement: @endorsement,
     return_to: Routes.profile_show_path(@socket, :show, @to_profile.slug) %>
-<% end %>
+ <% end %>
 
-<%= if @live_action in [:new_testimonial, :edit_testimonial] do %>
-<%= live_modal @socket, ShlinkedinWeb.TestimonialLive.FormComponent,
+ <%= if @live_action in [:new_testimonial, :edit_testimonial] do %>
+ <%= live_modal @socket, ShlinkedinWeb.TestimonialLive.FormComponent,
     id: @testimonial.id || :new_testimonial,
     from_profile: @from_profile,
     to_profile: @to_profile,
@@ -353,4 +356,4 @@
     action: @live_action,
     testimonial: @testimonial,
     return_to: Routes.profile_show_path(@socket, :show, @to_profile.slug) %>
-<% end %>
+ <% end %>

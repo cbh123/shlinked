@@ -5,7 +5,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   alias Shlinkedin.Profiles.Testimonial
 
   @impl true
-  def mount(%{"slug" => slug} = params, session, socket) do
+  def mount(%{"slug" => slug}, session, socket) do
     show_profile = Shlinkedin.Profiles.get_profile_by_slug(slug)
 
     # KNOWN BUG: RIGHT WHEN YOU CREATE AN ACCOUNT, THIS BUTTON DOESN"T WORK! PROBLABLY NOT LOADED INTO SOCKET!
@@ -13,8 +13,8 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
 
     {:ok,
      socket
-     |> assign(:from_notifications, Map.has_key?(params, "notifications"))
-     |> assign(live_action: :show)
+     |> assign(live_action: socket.assigns.live_action || :show)
+     |> assign(from_notifications: false)
      |> assign(show_profile: show_profile)
      |> assign(from_profile: socket.assigns.profile)
      |> assign(to_profile: show_profile)
@@ -30,6 +30,11 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
 
   defp apply_action(socket, :show, _params) do
     socket
+  end
+
+  defp apply_action(socket, :from_notifications, _params) do
+    socket
+    |> assign(:from_notifications, true)
   end
 
   defp apply_action(socket, :edit_endorsement, %{"id" => id}) do

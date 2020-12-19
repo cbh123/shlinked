@@ -29,7 +29,7 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
       "endorsement" -> {:noreply, push_redirect(socket, to: "/sh/#{slug}/notifications")}
       "testimonial" -> {:noreply, push_redirect(socket, to: "/sh/#{slug}/notifications")}
       "accepted_shlink" -> {:noreply, push_redirect(socket, to: "/sh/#{slug}/notifications")}
-      "pending_shlink" -> {:noreply, push_redirect(socket, to: "/shlinks")}
+      "pending_shlink" -> {:noreply, push_redirect(socket, to: "/shlinks/notifications")}
       "comment" -> {:noreply, push_redirect(socket, to: "/posts/#{post_id}/notifications")}
     end
   end
