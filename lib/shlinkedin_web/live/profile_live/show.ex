@@ -18,7 +18,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(show_profile: show_profile)
      |> assign(from_profile: socket.assigns.profile)
      |> assign(to_profile: show_profile)
-     |> assign(connections: Profiles.get_connections(socket.assigns.profile))
+     |> assign(connections: Profiles.get_connections(show_profile))
      |> assign(friend_status: check_between_friend_status(socket.assigns.profile, show_profile))
      |> assign(endorsements: list_endorsements(show_profile.id))
      |> assign(testimonials: list_testimonials(show_profile.id))}
