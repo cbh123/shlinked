@@ -8,7 +8,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   @doc """
   Deliver instructions to confirm account.
   """
-  def observer({:ok, res}, %Profile{} = from, %Profile{} = to, type) do
+  def observer({:ok, res}, type, %Profile{} = from \\ %Profile{}, %Profile{} = to \\ %Profile{}) do
     from_profile = Shlinkedin.Profiles.get_profile_by_profile_id_preload_user(from.id)
     to_profile = Shlinkedin.Profiles.get_profile_by_profile_id_preload_user(to.id)
 

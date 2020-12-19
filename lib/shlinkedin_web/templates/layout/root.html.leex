@@ -13,6 +13,7 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
 </head>
 
 <body class="bg-gray-100">
@@ -41,9 +42,9 @@
 
     <header>
 
-        <nav class="sm:hidden bg-white border-t bottom-0 fixed w-full z-10">
+        <nav class="sm:hidden bg-white border-t text-gray-500 font-windows text-base bottom-0 fixed w-full z-10">
 
-            <div class="flex justify-around h-16 items-top text-gray-500">
+            <div class="flex justify-around h-16 items-top   ">
                 <%= if @profile != nil and @profile != %Shlinkedin.Profiles.Profile{} do %>
                 <%= render "_footer_nav.html", assigns %>
                 <% end %>

@@ -1,3 +1,10 @@
+<div class=" max-w-2xl mx-auto font-windows">
+    <%= if @from_notifications do %>
+    <%= live_redirect raw("&larr; Back to Dinks"), to: Routes.notification_index_path(@socket, :index),
+        class: " bg-opacity-50 inline-flex mx-auto hover:text-green-400  px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-900 "
+     %>
+    <% end %>
+</div>
 <div class="max-w-2xl sm:mt-4 mx-auto mb-4">
     <%# Profile and cover photo  %>
     <div class="bg-white sm:rounded-lg shadow">

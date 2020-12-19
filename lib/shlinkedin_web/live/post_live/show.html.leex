@@ -1,12 +1,12 @@
 <div class="mt-4 max-w-lg mx-auto font-windows">
     <%= if @from_notifications do %>
     <%= live_redirect raw("&larr; Back to Dinks"), to: Routes.notification_index_path(@socket, :index),
-        class: "inline-flex mx-auto  px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+        class: "inline-flex mx-auto hover:text-green-400  px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-900 "
      %>
 
     <% else %>
     <%= live_redirect raw("&larr; Home"), to: Routes.post_index_path(@socket, :index),
-        class: "inline-flex mx-auto px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+        class: "inline-flex mx-auto px-6 py-3 hover:text-green-400 border border-transparent text-base font-medium rounded-md text-gray-900 "
      %>
     <% end %>
 </div>

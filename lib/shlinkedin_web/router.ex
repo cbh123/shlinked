@@ -76,9 +76,9 @@ defmodule ShlinkedinWeb.Router do
     live "/posts/:id/", PostLive.Show, :show
     live "/posts/:id/edit", PostLive.Index, :edit
     live "/posts/:id/new_comment", PostLive.Index, :new_comment
-    live "/posts/:id/:notifications", PostLive.Show, :show
     live "/posts/:id/show/edit", PostLive.Show, :edit
     live "/posts/:id/likes", PostLive.Index, :show_likes
+    live "/posts/:id/:notifications", PostLive.Show, :show
 
     ### profile
     live "/sh/:slug", ProfileLive.Show, :show
@@ -86,6 +86,7 @@ defmodule ShlinkedinWeb.Router do
     live "/sh/:slug/endorsement/:id/edit", ProfileLive.Show, :edit_endorsement
     live "/sh/:slug/testimonials/new", ProfileLive.Show, :new_testimonial
     live "/sh/:slug/testimonial/:id/edit", ProfileLive.Show, :edit_testimonial
+    live "/sh/:slug/:notifications", ProfileLive.Show, :show
 
     live "/profile/live_edit", ProfileLive.Edit, :edit
     live "/profile/welcome", ProfileLive.Edit, :new

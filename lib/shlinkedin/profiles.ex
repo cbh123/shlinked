@@ -116,14 +116,14 @@ defmodule Shlinkedin.Profiles do
     %Endorsement{from_profile_id: from.id, to_profile_id: to.id}
     |> Endorsement.changeset(attrs)
     |> Repo.insert()
-    |> ProfileNotifier.observer(from, to, :endorsement)
+    |> ProfileNotifier.observer(:endorsement, from, to)
   end
 
   def create_testimonial(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
     %Testimonial{from_profile_id: from.id, to_profile_id: to.id}
     |> Testimonial.changeset(attrs)
     |> Repo.insert()
-    |> ProfileNotifier.observer(from, to, :testimonial)
+    |> ProfileNotifier.observer(:testimonial, from, to)
   end
 
   def send_friend_request(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
@@ -133,7 +133,7 @@ defmodule Shlinkedin.Profiles do
     |> Friend.changeset(%{status: "pending"})
     |> Friend.changeset(attrs)
     |> Repo.insert_or_update()
-    |> ProfileNotifier.observer(from, to, :sent_friend_request)
+    |> ProfileNotifier.observer(:sent_friend_request, from, to)
   end
 
   def cancel_friend_request(%Profile{} = from, %Profile{} = to) do
@@ -150,7 +150,7 @@ defmodule Shlinkedin.Profiles do
     request
     |> Friend.changeset(%{status: "accepted"})
     |> Repo.update()
-    |> ProfileNotifier.observer(from, to, :accepted_friend_request)
+    |> ProfileNotifier.observer(:accepted_friend_request, from, to)
   end
 
   def check_friend_status(%Profile{} = from, %Profile{} = to) do
