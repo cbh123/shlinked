@@ -1,5 +1,5 @@
 <%= if @live_action == :new do %>
-<div class="bg-white">
+<div class="bg-white mb-8">
     <%= f = form_for @changeset, "#",
   id: "profile-form",
   phx_change: "validate",
@@ -171,7 +171,7 @@
   phx_change: "validate",
   phx_submit: "save" %>
 
-    <div class="max-w-2xl mx-auto sm:mt-4">
+    <div class="max-w-2xl mx-auto sm:mt-4 mb-8">
 
         <div
             class=" text-center py-4  bg-gradient-to-r from-green-400 to-blue-500 sm:rounded-t-lg border-b-4 border-white">

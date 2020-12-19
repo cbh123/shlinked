@@ -149,6 +149,14 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
     """
 
+    Shlinkedin.Profiles.create_notification(%Notification{
+      from_profile_id: from_profile.id,
+      to_profile_id: to_profile.id,
+      type: "testimonial",
+      action: "wrote you a testimonial: ",
+      body: "#{testimonial.body}"
+    })
+
     Shlinkedin.Email.new_email(
       to_profile.user.email,
       "#{from_profile.persona_name} has given you #{testimonial.rating}/5 stars!",
