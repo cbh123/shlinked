@@ -26,11 +26,20 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
     Profiles.change_notification_to_read(id |> String.to_integer())
 
     case type do
-      "endorsement" -> {:noreply, push_redirect(socket, to: "/sh/#{slug}/notifications")}
-      "testimonial" -> {:noreply, push_redirect(socket, to: "/sh/#{slug}/notifications")}
-      "accepted_shlink" -> {:noreply, push_redirect(socket, to: "/sh/#{slug}/notifications")}
-      "pending_shlink" -> {:noreply, push_redirect(socket, to: "/shlinks/notifications")}
-      "comment" -> {:noreply, push_redirect(socket, to: "/posts/#{post_id}/notifications")}
+      "endorsement" ->
+        {:noreply, push_redirect(socket, to: "/sh/#{socket.assigns.profile.slug}/notifications")}
+
+      "testimonial" ->
+        {:noreply, push_redirect(socket, to: "/sh/#{socket.assigns.profile.slug}/notifications")}
+
+      "accepted_shlink" ->
+        {:noreply, push_redirect(socket, to: "/sh/#{slug}/notifications")}
+
+      "pending_shlink" ->
+        {:noreply, push_redirect(socket, to: "/shlinks/notifications")}
+
+      "comment" ->
+        {:noreply, push_redirect(socket, to: "/posts/#{post_id}/notifications")}
     end
   end
 
