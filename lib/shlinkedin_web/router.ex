@@ -73,7 +73,8 @@ defmodule ShlinkedinWeb.Router do
     # view and show posts
     live "/", PostLive.Index, :index
     live "/posts/new", PostLive.Index, :new
-    live "/posts/:id", PostLive.Show, :show
+    live "/posts/:id/", PostLive.Show, :show
+    live "/posts/:id/:notifications", PostLive.Show, :show
     live "/posts/:id/edit", PostLive.Index, :edit
     live "/posts/:id/new_comment", PostLive.Index, :new_comment
     live "/posts/:id/show/edit", PostLive.Show, :edit

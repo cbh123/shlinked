@@ -18,9 +18,19 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
   end
 
   @impl true
-  def handle_event("notification-click", %{"id" => id, "slug" => slug}, socket) do
+  def handle_event(
+        "notification-click",
+        %{"id" => id, "slug" => slug, "type" => type, "post-id" => post_id},
+        socket
+      ) do
     Profiles.change_notification_to_read(id |> String.to_integer())
-    {:noreply, push_redirect(socket, to: "/sh/#{slug}")}
+
+    case type do
+      "endorsement" -> {:noreply, push_redirect(socket, to: "/sh/#{slug}")}
+      "comment" -> {:noreply, push_redirect(socket, to: "/posts/#{post_id}/notifications")}
+      "accepted_shlink" -> {:noreply, push_redirect(socket, to: "/sh/#{slug}")}
+      "pending_shlink" -> {:noreply, push_redirect(socket, to: "/shlinks")}
+    end
   end
 
   def handle_event("mark-all-read", _, socket) do

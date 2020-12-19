@@ -7,6 +7,7 @@ defmodule Shlinkedin.Timeline do
 
   alias Shlinkedin.Timeline.{Post, Comment, Like}
   alias Shlinkedin.Profiles.Profile
+  alias Shlinkedin.Profiles.ProfileNotifier
 
   def like_map do
     %{
@@ -310,6 +311,9 @@ defmodule Shlinkedin.Timeline do
       {:ok, _} ->
         # could be optimized
         post = get_post_preload_all(post_id)
+
+        # notify person
+        ProfileNotifier.observer(new_comment, profile, post.profile, :comment)
 
         broadcast(
           {:ok, post},

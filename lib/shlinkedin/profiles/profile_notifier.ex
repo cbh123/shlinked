@@ -1,6 +1,7 @@
 defmodule Shlinkedin.Profiles.ProfileNotifier do
   alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Profiles.Endorsement
+  alias Shlinkedin.Timeline.Comment
   alias Shlinkedin.Profiles.Testimonial
   alias Shlinkedin.Profiles.Notification
 
@@ -12,6 +13,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     to_profile = Shlinkedin.Profiles.get_profile_by_profile_id_preload_user(to.id)
 
     case type do
+      :comment ->
+        notify_comment(from_profile, to_profile, res)
+
       :endorsement ->
         notify_endorsement(from_profile, to_profile, res)
 
@@ -52,6 +56,14 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
     """
 
+    Shlinkedin.Profiles.create_notification(%Notification{
+      from_profile_id: from_profile.id,
+      to_profile_id: to_profile.id,
+      type: "pending_shlink",
+      action: "has sent you a Shlink request!",
+      body: ""
+    })
+
     Shlinkedin.Email.new_email(
       to_profile.user.email,
       "#{from_profile.persona_name} has sent you a Shlink request!",
@@ -81,6 +93,14 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     God
 
     """
+
+    Shlinkedin.Profiles.create_notification(%Notification{
+      from_profile_id: to_profile.id,
+      to_profile_id: from_profile.id,
+      type: "accepted_shlink",
+      action: "has accepted your Shlink request!",
+      body: ""
+    })
 
     Shlinkedin.Email.new_email(
       from_profile.user.email,
@@ -160,6 +180,45 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     Shlinkedin.Email.new_email(
       to_profile.user.email,
       "#{from_profile.persona_name} has given you #{testimonial.rating}/5 stars!",
+      body
+    )
+    |> Shlinkedin.Mailer.deliver_later()
+  end
+
+  def notify_comment(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile,
+        %Comment{} = comment
+      ) do
+    body = """
+
+    Hi #{to_profile.persona_name},
+
+    <br/>
+    <br/>
+
+    Great news: #{from_profile.persona_name} has commented on your
+     <a href="shlinked.herokuapp.com/posts/#{comment.post_id}">post.</a>
+
+    <br/>
+    <br/>
+    Thanks, <br/>
+    God
+
+    """
+
+    Shlinkedin.Profiles.create_notification(%Notification{
+      from_profile_id: from_profile.id,
+      to_profile_id: to_profile.id,
+      type: "comment",
+      post_id: comment.post_id,
+      action: "commented on your post: ",
+      body: "#{comment.body}"
+    })
+
+    Shlinkedin.Email.new_email(
+      to_profile.user.email,
+      "Your post is getting traction!",
       body
     )
     |> Shlinkedin.Mailer.deliver_later()

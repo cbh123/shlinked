@@ -5,13 +5,15 @@ defmodule ShlinkedinWeb.PostLive.Show do
   @impl true
   def mount(_params, session, socket) do
     socket = is_user(session, socket)
+
     {:ok, socket}
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
+  def handle_params(%{"id" => id} = params, _, socket) do
     {:noreply,
      socket
+     |> assign(:from_notifications, Map.has_key?(params, "notifications"))
      |> assign(:page_title, socket.assigns.live_action)
      |> assign(like_map: Timeline.like_map())
      |> assign(show_like_options: false)

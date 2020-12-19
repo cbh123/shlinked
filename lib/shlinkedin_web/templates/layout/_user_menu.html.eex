@@ -76,8 +76,14 @@
 
 
 <%= link to: "/updates" do %>
-<button class="hidden sm:flex mr-4 p-1 <%= if @conn.request_path == "/updates", do: "text-blue-500"%>"">
+<button class="hidden sm:flex mr-4 p-1 relative <%= if @conn.request_path == "/updates", do: "text-blue-500"%>"">
        <span class=" sr-only">Updates</span>
+
+    <%= if Shlinkedin.Profiles.get_unread_notification_count(@profile) > 0 do %>
+    <span class="text-xs absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white bg-green-400">
+    </span>
+    <% end %>
+
 
     <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
         <path

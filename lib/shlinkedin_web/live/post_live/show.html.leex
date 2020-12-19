@@ -1,4 +1,16 @@
-<div class="mt-8">
+<div class="mt-4 max-w-lg mx-auto font-windows">
+    <%= if @from_notifications do %>
+    <%= live_redirect raw("&larr; Back to Dinks"), to: Routes.notification_index_path(@socket, :index),
+        class: "inline-flex mx-auto  px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+     %>
+
+    <% else %>
+    <%= live_redirect raw("&larr; Home"), to: Routes.post_index_path(@socket, :index),
+        class: "inline-flex mx-auto px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+     %>
+    <% end %>
+</div>
+<div class="mt-4">
     <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
         id: @post.id,
         profile: @profile,
@@ -12,10 +24,4 @@
         spin: false  %>
 
 
-</div>
-
-<div class="mt-4 text-center">
-    <%= live_redirect raw("&larr; Home"), to: Routes.post_index_path(@socket, :index),
-        class: "inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-     %>
 </div>
