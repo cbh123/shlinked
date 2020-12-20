@@ -4,7 +4,7 @@
         <img class="h-6 w-6 mt-1 object-cover rounded-full" src="<%= @comment.profile.photo_url %>" alt="">
     </span>
     <div class=" bg-gray-100 ml-2 py-2 px-4 rounded-lg w-11/12 relative">
-        <div class="flex justify-between">
+        <div class="flex justify-between relative">
             <%= live_patch to: Routes.profile_show_path(@socket, :show, @comment.profile.slug), class: "text-sm font-semibold text-gray-900 hover:underline" do  %>
             <p class="bold text-xs font-semibold hover:underline cursor-pointer w-64 truncate">
                 <%= @comment.profile.persona_name %>
@@ -21,7 +21,7 @@
 
             </p>
             <% end %>
-            <p class="text-xs text-gray-500"><%= Timex.from_now(@comment.inserted_at) %></p>
+            <p class="right-0 absolute text-xs text-gray-500 max-w-8"><%= Timex.from_now(@comment.inserted_at) %></p>
         </div>
         <%# Comment text %>
         <p class="relative text-xs mt-1 overflow-hidden <%= if !@expand_comment, do: "max-h-8" %>">
