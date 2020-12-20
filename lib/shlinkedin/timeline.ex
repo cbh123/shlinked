@@ -313,7 +313,7 @@ defmodule Shlinkedin.Timeline do
         post = get_post_preload_all(post_id)
 
         # notify person
-        ProfileNotifier.observer(new_comment, profile, post.profile, :comment)
+        ProfileNotifier.observer(new_comment, :comment, profile, post.profile)
 
         broadcast(
           {:ok, post},

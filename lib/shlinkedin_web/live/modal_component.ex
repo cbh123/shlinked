@@ -4,14 +4,14 @@ defmodule ShlinkedinWeb.ModalComponent do
   @impl true
   def render(assigns) do
     ~L"""
-    <div id="<%= @id %>" class="phx-modal z-10"
+    <div id="<%= @id %>" class="phx-modal z-50"
       phx-capture-click="close"
       phx-window-keydown="close"
       phx-key="escape"
       phx-target="#<%= @id %>"
       phx-page-loading>
 
-      <div class="phx-modal-content bg-white max-w-xl m-5 mx-2 mt-16 sm:mx-auto rounded-lg">
+      <div class="phx-modal-content bg-white max-w-xl m-5 mx-2 mt-8 sm:mx-auto rounded-lg">
         <%= live_patch raw("&times;"), to: @return_to, class: "phx-modal-close pr-3" %>
         <%= live_component @socket, @component, @opts %>
       </div>

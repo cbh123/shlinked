@@ -21,12 +21,13 @@
                         class="absolute bottom-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-green-400"></span>
                 </span>
             </div>
-            <div class="ml-4 hover:cursor-pointer mb-2">
+            <div class="ml-4 hover:cursor-pointer mb-2 flex">
 
                 <%= live_patch @profile.persona_name, to: Routes.profile_show_path(@socket, :show, @profile.slug), class: "text-lg leading-6 font-bold text-gray-900 hover:underline"  %>
 
                 <p class="text-xs text-gray-500">
                     <%= @profile.persona_title %> </p>
+
             </div>
         </div>
         <div class="rounded-lg p-2 py-2 hidden" id="sponsorship">
@@ -99,11 +100,6 @@
         <% end %>
 
     </div>
-
-
-
-
-
 
 
 
