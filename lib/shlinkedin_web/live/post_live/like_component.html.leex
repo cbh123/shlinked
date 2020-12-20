@@ -6,34 +6,42 @@
 </div>
 
 <div class="p-5 pt-2 max-h-96 overflow-y-scroll">
-    <%= for like <- @likes do %>
-    <%= if @like_map[like.like_type] != nil do %>
+    <%= for user <- @likes |> Map.keys() do %>
+
+
     <div class="my-1 border-gray-100 border-b">
         <div class="flex">
             <span class="inline-block cursor-pointer place-self-center">
-                <img class="h-8 w-8 rounded-full object-cover" src="<%= like.photo_url %>" alt="">
+                <img class="h-8 w-8 rounded-full object-cover" src="<%= user.photo_url %>" alt="">
             </span>
             <div class="ml-2 py-2 px-4 rounded-lg">
                 <div class="flex justify-between">
-                    <%= live_patch to: Routes.profile_show_path(@socket, :show, like.slug), class: "bold text-xs font-semibold hover:underline cursor-pointer" do  %>
-                    <p><%= like.name %>
-                        <span class="text-gray-500 pl-1">@<%= like.username %></span></p>
+                    <%= live_patch to: Routes.profile_show_path(@socket, :show, user.slug), class: "bold text-xs font-semibold hover:underline cursor-pointer" do  %>
+                    <p><%= user.name %>
+                        <span class="text-gray-500 font-light">@<%= user.username %></span></p>
                     <% end %>
                 </div>
 
-                <p
-                    class="mt-2 inline-flex items-center text-base font-bold <%= @like_map[like.like_type].color %> focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    <svg class="-ml-1 mr-3 h-4 w-4 sm:h-5 sm:w-5 mx-auto" fill="currentColor" viewBox="0 0 20 20"
+                <%= for like <- @likes[user] do%>
+                <%= if @like_map[like.like_type] != nil do %>
+
+                <span
+                    class="pr-1 mt-2 mr-2 inline-flex items-center text-sm <%= @like_map[like.like_type].color %> focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <svg class="-ml-1 mr-1 h-4 w-4 sm:h-5 sm:w-5 mx-auto" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
                         <path d="<%= @like_map[like.like_type].svg_path %>"
                             fill-rule="<%=@like_map[like.like_type].fill%>">
                         </path>
                     </svg>
-                    <%= like.like_type %> <span class="text-gray-500 pl-3 font-normal"><%= like.count %>x</span>
-                </p>
+
+
+                    <%= like.like_type %> <span class="pl-1 text-gray-500 font-normal"><%= like.count %>x</span>
+                </span>
+                <% end %>
+                <% end %>
             </div>
         </div>
     </div>
-    <% end %>
+
     <% end %>
 </div>
