@@ -17,7 +17,7 @@
                 <div class="flex justify-between">
                     <%= live_patch to: Routes.profile_show_path(@socket, :show, like.slug), class: "bold text-xs font-semibold hover:underline cursor-pointer" do  %>
                     <p><%= like.name %>
-                        <span class="text-gray-500 pl-3"><%= like.title %></span></p>
+                        <span class="text-gray-500 pl-1">@<%= like.username %></span></p>
                     <% end %>
                 </div>
 

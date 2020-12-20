@@ -364,11 +364,12 @@ defmodule Shlinkedin.Timeline do
       from l in Like,
         join: p in assoc(l, :profile),
         where: l.post_id == ^post.id,
-        group_by: [p.persona_name, p.photo_url, p.persona_title, p.slug, l.like_type],
+        group_by: [p.persona_name, p.photo_url, p.username, p.slug, l.like_type],
         select: %{
           name: p.persona_name,
-          title: p.persona_title,
+          username: p.username,
           photo_url: p.photo_url,
+          like_type: l.like_type,
           like_type: l.like_type,
           count: count(l.like_type),
           slug: p.slug
