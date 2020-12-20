@@ -6,12 +6,15 @@ defmodule Shlinkedin.Profiles do
   import Ecto.Query, warn: false
   alias Shlinkedin.Repo
 
-  alias Shlinkedin.Profiles.Endorsement
-  alias Shlinkedin.Profiles.Testimonial
-  alias Shlinkedin.Profiles.Profile
-  alias Shlinkedin.Profiles.Notification
-  alias Shlinkedin.Profiles.Friend
-  alias Shlinkedin.Profiles.ProfileNotifier
+  alias Shlinkedin.Profiles.{
+    Endorsement,
+    Testimonial,
+    ProfileNotifier,
+    Profile,
+    Notification,
+    Friend
+  }
+
   alias Shlinkedin.Accounts.User
 
   @doc """

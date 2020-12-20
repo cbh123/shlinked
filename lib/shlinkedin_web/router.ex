@@ -94,6 +94,7 @@ defmodule ShlinkedinWeb.Router do
     live "/shlinks", FriendLive.Index, :index
     live "/shlinks/:notifications", FriendLive.Index, :index
     live "/updates", NotificationLive.Index, :index
+    live "/menu", MenuLive.Index, :index
   end
 
   scope "/", ShlinkedinWeb do
