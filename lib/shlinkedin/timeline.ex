@@ -373,7 +373,8 @@ defmodule Shlinkedin.Timeline do
           like_type: l.like_type,
           count: count(l.like_type),
           slug: p.slug
-        }
+        },
+        order_by: p.persona_name
     )
   end
 
