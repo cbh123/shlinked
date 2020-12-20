@@ -5,7 +5,8 @@
 
         <div class="space-y-8  ">
             <div class="">
-                <a href="#" class="text-lg  hover:underline">Admin</a>
+                <span><%= live_patch "+ Notification", to: Routes.admin_index_path(@socket, :new_notification), class: "px-4 py-2 bg-green-500 text-white shadow-xs rounded-full font-bold" %></span>
+
             </div>
 
 
@@ -13,3 +14,12 @@
         </div>
     </div>
 </div>
+
+<%= if @live_action in [:new_notification] do %>
+<%= live_modal @socket, ShlinkedinWeb.AdminLive.NotificationFormComponent,
+    id: :new_notification,
+    title: @page_title,
+    action: @live_action,
+    notification: @notification,
+    return_to: Routes.admin_index_path(@socket, :index) %>
+<% end %>

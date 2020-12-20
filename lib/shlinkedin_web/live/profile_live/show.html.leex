@@ -49,7 +49,9 @@
              <div class="flex justify-center sm:justify-start">
                  <div class="ml-3 mt-2">
                      <div class="font-bold sm:text-left text-center text-2xl sm:text-3xl">
-                         <%= @show_profile.persona_name %></div>
+                         <%= @show_profile.persona_name %> <span
+                             class="text-gray-500 text-sm font-normal">@<%= @show_profile.username %></span></div>
+
                      <div class="sm:flex items-start sm:text-left text-center text-sm">
                          <span class="text-gray-700 italic"><%= @show_profile.persona_title %></span>
                      </div>

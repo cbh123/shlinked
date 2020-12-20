@@ -37,17 +37,24 @@ defmodule ShlinkedinWeb.EndorsementLive.FormComponent do
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
-
-
     end
   end
 
   defp save_endorsement(socket, :new_endorsement, endorsement_params) do
-    case Profiles.create_endorsement(socket.assigns.from_profile, socket.assigns.to_profile, endorsement_params) do
+    case Profiles.create_endorsement(
+           socket.assigns.from_profile,
+           socket.assigns.to_profile,
+           endorsement_params
+         ) do
       {:ok, _endorsement} ->
         {:noreply,
          socket
-         |> put_flash(:info, "You endorsed #{socket.assigns.to_profile.persona_name} for #{endorsement_params["body"]}")
+         |> put_flash(
+           :info,
+           "You endorsed #{socket.assigns.to_profile.persona_name} for #{
+             endorsement_params["body"]
+           }"
+         )
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

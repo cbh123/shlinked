@@ -10,6 +10,7 @@ defmodule Shlinkedin.Profiles.Notification do
     field :type, :string
     field :body, :string
     field :action, :string
+    field :notify_all, :boolean, default: false
 
     timestamps()
   end

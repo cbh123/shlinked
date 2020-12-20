@@ -263,6 +263,10 @@ defmodule Shlinkedin.Profiles do
     Testimonial.changeset(testimonial, attrs)
   end
 
+  def change_notification(%Notification{} = notification, attrs \\ %{}) do
+    Notification.changeset(notification, attrs)
+  end
+
   def get_random_profiles(count) do
     Repo.all(
       from p in Profile,
