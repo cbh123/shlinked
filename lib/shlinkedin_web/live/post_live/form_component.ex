@@ -8,7 +8,7 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
   def mount(socket) do
     {:ok,
      allow_upload(socket, :photo,
-       accept: ~w(.png .jpeg .jpg .gif),
+       accept: ~w(.png .jpeg .jpg .gif .mp4 .mov),
        max_entries: 1,
        external: &presign_entry/2
      )}
@@ -44,7 +44,6 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
   end
 
   def handle_event("cancel-entry", %{"ref" => ref}, socket) do
-    IO.inspect(ref, label: "ref")
     {:noreply, cancel_upload(socket, :photo, ref)}
   end
 
