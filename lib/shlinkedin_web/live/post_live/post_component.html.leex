@@ -184,10 +184,27 @@
                 <% end %>
             </div>
 
+            <%# If we got a photo! %>
             <%= if @post.photo_urls != [] do %>
+
+            <% [media | _] = @post.photo_urls  %>
+            <% ext =  media |> String.split(".") |> List.last()%>
+
+            <%= if ext == "mov" or ext == "mp4" do %>
+            <video class="w-full" autoplay controls>
+                <source src="<%= media %>">
+                Your browser does not support the video tag.
+            </video>
+            <% else %>
+            <img class="object-center pt-2 object-cover bg-cover align-middle mx-auto w-full h-full" src="<%= media %>"
+                alt="">
+
+            <% end %>
             <div>
-                <img class="object-center pt-2 object-cover bg-cover align-middle mx-auto w-full h-full"
-                    src="<%= @post.photo_urls |> Enum.take(1) %>" alt="">
+
+
+
+
             </div>
             <% end %>
             <% end %>

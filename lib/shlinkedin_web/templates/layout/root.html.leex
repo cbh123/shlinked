@@ -22,6 +22,19 @@
             <div class=" mx-auto px-2 sm:px-4 lg:px-8">
                 <div class="flex justify-between h-12">
                     <div class="flex px-2 items-center">
+
+                        <%= if @current_user do %>
+                        <%= link to: "/" do %>
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <% end %>
+                        <% end %>
+
+
                         <%= link "ShlinkedIn", to: (if @current_user, do: "/", else: "/join"), class: "font-windows italic text-blue-700 font-semibold" %>
                     </div>
                     <div class="ml-4 mr-2 flex items-center text-gray-500">
