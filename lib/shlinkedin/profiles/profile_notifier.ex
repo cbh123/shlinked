@@ -1,9 +1,6 @@
 defmodule Shlinkedin.Profiles.ProfileNotifier do
-  alias Shlinkedin.Profiles.Profile
-  alias Shlinkedin.Profiles.Endorsement
-  alias Shlinkedin.Timeline.Comment
-  alias Shlinkedin.Profiles.Testimonial
-  alias Shlinkedin.Profiles.Notification
+  alias Shlinkedin.Profiles.{Profile, Endorsement, Testimonial, Notification}
+  alias Shlinkedin.Timeline.{Like, Comment, Post}
 
   @doc """
   Deliver instructions to confirm account.
@@ -15,6 +12,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     case type do
       :comment ->
         notify_comment(from_profile, to_profile, res)
+
+      :like ->
+        notify_like(from_profile, to_profile, res)
 
       :endorsement ->
         notify_endorsement(from_profile, to_profile, res)
@@ -186,6 +186,25 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         body
       )
       |> Shlinkedin.Mailer.deliver_later()
+    end
+  end
+
+  def notify_like(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile,
+        %Like{} = like
+      ) do
+    # get notification where to_profile is same and post id is same,
+    # and then update action to "and [] also did."
+    if from_profile.id != to_profile.id and
+         Shlinkedin.Timeline.is_first_like_on_post?(from_profile, %Post{id: like.post_id}) do
+      Shlinkedin.Profiles.create_notification(%Notification{
+        from_profile_id: from_profile.id,
+        to_profile_id: to_profile.id,
+        type: "like",
+        post_id: like.post_id,
+        action: "reacted \"#{like.like_type}\" to your post."
+      })
     end
   end
 

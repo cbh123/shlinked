@@ -326,18 +326,33 @@ defmodule Shlinkedin.Timeline do
   end
 
   def create_like(%Profile{} = profile, %Post{} = post, like_type) do
-    {:ok, _} =
+    {:ok, _like} =
       %Like{
         profile_id: profile.id,
         post_id: post.id,
         like_type: like_type
       }
       |> Repo.insert()
+      |> ProfileNotifier.observer(:like, profile, post.profile)
 
     # could be optimized
     post = get_post_preload_all(post.id)
 
     broadcast({:ok, post}, :post_updated)
+  end
+
+  @doc """
+  Tells us whether profile has liked that post
+  before. This is important for notifications,
+  because we only want to create a notification if
+  that person hasn't reacted to the post before.
+  """
+  def is_first_like_on_post?(%Profile{} = profile, %Post{} = post) do
+    Repo.one(
+      from l in Like,
+        where: l.post_id == ^post.id and l.profile_id == ^profile.id,
+        select: count(l.profile_id)
+    ) == 1
   end
 
   def list_comments(%Post{} = post) do
