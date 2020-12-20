@@ -43,6 +43,10 @@ defmodule Shlinkedin.Profiles do
     )
   end
 
+  def is_admin?(%Profile{} = profile) do
+    Repo.one(from p in Profile, where: p.id == ^profile.id, select: p.admin)
+  end
+
   def change_notification_to_read(id) do
     %Notification{id: id}
     |> Ecto.Changeset.change(read: true)

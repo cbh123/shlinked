@@ -4,9 +4,12 @@
 
 
         <div class="space-y-8  ">
+
+            <%= if @admin do %>
             <div class="text-white">
                 <%= link "[a] Admin", to: Routes.admin_index_path(@socket, :index), class: "text-lg text-white hover:underline" %>
             </div>
+            <% end %>
             <div class="text-white">
                 <%= link "[e] Change Email/Password", to: Routes.user_settings_path(@socket, :edit), class: "text-lg text-white hover:underline" %>
             </div>

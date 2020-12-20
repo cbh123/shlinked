@@ -19,6 +19,7 @@
 <%= live_modal @socket, ShlinkedinWeb.AdminLive.NotificationFormComponent,
     id: :new_notification,
     title: @page_title,
+    profile: @profile,
     action: @live_action,
     notification: @notification,
     return_to: Routes.admin_index_path(@socket, :index) %>
