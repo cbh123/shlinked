@@ -1,7 +1,20 @@
-<div class="p-5 font-windows bg-gray-900 text-green-400 h-screen">
-    <h1 class="text-4xl">Menu</h1>
+<div phx-window-keyup="select-page" class="p-5 font-windows bg-gray-900 text-green-400 h-screen">
+    <div class="max-w-prose">
+        <h1 class="text-4xl mb-4">Menu</h1>
 
-    <ul>
-        <li> <%= link "Settings", to: Routes.user_settings_path(@socket, :edit), class: "text-white" %></li>
-    </ul>
+
+        <div class="space-y-8  ">
+            <div class="text-white">
+                <%= link "[a] Admin", to: Routes.admin_index_path(@socket, :index), class: "text-lg text-white hover:underline" %>
+            </div>
+            <div class="text-white">
+                <%= link "[e] Change Email/Password", to: Routes.user_settings_path(@socket, :edit), class: "text-lg text-white hover:underline" %>
+            </div>
+            <div class="text-white">
+                <a href="#" class="text-lg text-white hover:underline">[w] What is ShlinkedIn?</a>
+            </div>
+
+
+        </div>
+    </div>
 </div>

@@ -1,9 +1,10 @@
 <div class="p-5 font-windows text-center">
 
-    <%= link raw("&larr; Back to Menu"), to: "/menu", class: "inline-block" %>
-    <h1 class="text-4xl">User Settings</h1>
+    <div class="text-left">
+        <%= link raw("&larr; Back to Menu"), to: "/menu", class: "inline-block hover:underline" %>
+        <h1 class="text-4xl">User Settings</h1>
 
-
+    </div>
 
 
     <div class="mt-8 border border-dashed border-gray-800 p-5">
