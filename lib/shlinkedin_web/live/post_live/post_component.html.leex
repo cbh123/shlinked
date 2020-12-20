@@ -191,7 +191,7 @@
             <% ext =  media |> String.split(".") |> List.last()%>
 
             <%= if ext == "mov" or ext == "mp4" do %>
-            <video class="w-full" autoplay controls>
+            <video class="w-full" autoplay controls playsinline mute loop>
                 <source src="<%= media %>">
                 Your browser does not support the video tag.
             </video>

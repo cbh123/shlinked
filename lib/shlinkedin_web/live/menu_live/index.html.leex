@@ -1,5 +1,7 @@
 <div class="p-5 font-windows bg-gray-900 text-green-400 h-screen">
     <h1 class="text-4xl">Menu</h1>
 
-    <%= link "Settings", to: Routes.user_settings_path(@socket, :edit) %>
+    <ul>
+        <%= link "Settings", to: Routes.user_settings_path(@socket, :edit), class: "text-white" %>
+    </ul>
 </div>
