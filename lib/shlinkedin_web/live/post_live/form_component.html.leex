@@ -21,7 +21,7 @@
                         class="absolute bottom-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-green-400"></span>
                 </span>
             </div>
-            <div class="ml-4 hover:cursor-pointer mb-2 flex">
+            <div class="ml-4 hover:cursor-pointer mb-2">
 
                 <%= live_patch @profile.persona_name, to: Routes.profile_show_path(@socket, :show, @profile.slug), class: "text-lg leading-6 font-bold text-gray-900 hover:underline"  %>
 

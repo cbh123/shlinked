@@ -9,6 +9,8 @@ defmodule Shlinkedin.Profiles.Notification do
     field :post_id, :id
     field :type, :string
     field :body, :string
+    field :subject, :string
+    field :link, :string
     field :action, :string
     field :notify_all, :boolean, default: false
 
@@ -18,6 +20,17 @@ defmodule Shlinkedin.Profiles.Notification do
   @doc false
   def changeset(notification, attrs) do
     notification
-    |> cast(attrs, [:from_profile_id, :to_profile_id, :post_id, :type, :body, :read])
+    |> cast(attrs, [
+      :from_profile_id,
+      :to_profile_id,
+      :post_id,
+      :type,
+      :action,
+      :subject,
+      :body,
+      :link,
+      :read,
+      :notify_all
+    ])
   end
 end

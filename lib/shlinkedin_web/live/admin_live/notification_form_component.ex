@@ -2,6 +2,7 @@ defmodule ShlinkedinWeb.AdminLive.NotificationFormComponent do
   use ShlinkedinWeb, :live_component
 
   alias Shlinkedin.Profiles
+  alias Shlinkedin.Profiles.Notification
 
   @impl true
   def update(%{notification: notification} = assigns, socket) do
@@ -24,12 +25,15 @@ defmodule ShlinkedinWeb.AdminLive.NotificationFormComponent do
   end
 
   def handle_event("save", %{"notification" => notification_params}, socket) do
-    save_endorsement(socket, socket.assigns.action, notification_params)
+    save_notification(socket, socket.assigns.action, notification_params)
   end
 
-  defp save_endorsement(socket, :new_notification, notification_params) do
-    case Profiles.create_notification(notification_params) do
-      {:ok, _endorsement} ->
+  defp save_notification(socket, :new_notification, notification_params) do
+    case Profiles.create_notification(
+           %Notification{from_profile_id: 2, type: "admin_message"},
+           notification_params
+         ) do
+      {:ok, _notification} ->
         {:noreply,
          socket
          |> put_flash(:info, "Notification successful")

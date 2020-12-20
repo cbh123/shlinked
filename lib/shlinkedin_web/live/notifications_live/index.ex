@@ -20,7 +20,7 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
   @impl true
   def handle_event(
         "notification-click",
-        %{"id" => id, "slug" => slug, "type" => type, "post-id" => post_id},
+        %{"id" => id, "slug" => slug, "type" => type, "post-id" => post_id, "link" => link},
         socket
       ) do
     Profiles.change_notification_to_read(id |> String.to_integer())
@@ -43,6 +43,9 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
 
       "like" ->
         {:noreply, push_redirect(socket, to: "/posts/#{post_id}/notifications")}
+
+      "admin_message" ->
+        {:noreply, push_redirect(socket, to: if(link == "", do: "/", else: link))}
     end
   end
 

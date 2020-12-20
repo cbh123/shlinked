@@ -37,7 +37,7 @@ defmodule Shlinkedin.Profiles do
   def list_notifications(id) do
     Repo.all(
       from n in Shlinkedin.Profiles.Notification,
-        where: n.to_profile_id == ^id,
+        where: n.to_profile_id == ^id or n.notify_all == true,
         preload: [:profile],
         order_by: [desc: n.inserted_at]
     )
