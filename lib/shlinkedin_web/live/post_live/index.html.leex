@@ -106,7 +106,6 @@
 
 <%= if @live_action in [:show_likes] do %>
 <%= live_modal @socket, ShlinkedinWeb.PostLive.LikeComponent,
-    id: :new_comment,
     profile: @profile,
     title: @page_title,
     like_map: @like_map,

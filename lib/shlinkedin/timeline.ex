@@ -350,20 +350,30 @@ defmodule Shlinkedin.Timeline do
 
   @doc """
 
-  select  profile_id, (like_type), count(like_type) from likes
-  where post_id = 109
-  group by profile_id, like_type
+  Returns:
+
+  [
+    %{count: 12, likes: "Pity", name: "DUbncan"},
+    %{count: 1, likes: "Pity", name: "charless"},
+    %{count: 5, likes: "Um...", name: "charless"},
+    %{count: 1, likes: "Zoop", name: "charless"}
+  ]
   """
   def list_likes(%Post{} = post) do
     Repo.all(
-      from l in Ecto.assoc(post, :likes),
-        order_by: [desc: l.inserted_at],
-        preload: [:profile]
+      from l in Like,
+        join: p in assoc(l, :profile),
+        where: l.post_id == ^post.id,
+        group_by: [p.persona_name, p.photo_url, p.persona_title, p.slug, l.like_type],
+        select: %{
+          name: p.persona_name,
+          title: p.persona_title,
+          photo_url: p.photo_url,
+          like_type: l.like_type,
+          count: count(l.like_type),
+          slug: p.slug
+        }
     )
-  end
-
-  def list_distinct_likes(%Post{} = post) do
-    Repo.all(from l in Ecto.assoc(post, :likes), select: l.like_type, distinct: true)
   end
 
   @doc """

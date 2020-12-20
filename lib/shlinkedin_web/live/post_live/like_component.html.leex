@@ -11,13 +11,13 @@
     <div class="my-1 border-gray-100 border-b">
         <div class="flex">
             <span class="inline-block cursor-pointer place-self-center">
-                <img class="h-8 w-8 rounded-full object-cover" src="<%= like.profile.photo_url %>" alt="">
+                <img class="h-8 w-8 rounded-full object-cover" src="<%= like.photo_url %>" alt="">
             </span>
             <div class="ml-2 py-2 px-4 rounded-lg">
                 <div class="flex justify-between">
-                    <%= live_patch to: Routes.profile_show_path(@socket, :show, like.profile.slug), class: "bold text-xs font-semibold hover:underline cursor-pointer" do  %>
-                    <p><%= like.profile.persona_name %> •
-                        <span class="text-gray-500"> <%= like.profile.persona_title %></span></p>
+                    <%= live_patch to: Routes.profile_show_path(@socket, :show, like.slug), class: "bold text-xs font-semibold hover:underline cursor-pointer" do  %>
+                    <p><%= like.name %>
+                        <span class="text-gray-500 pl-3"><%= like.title %></span></p>
                     <% end %>
                 </div>
 
@@ -29,9 +29,7 @@
                             fill-rule="<%=@like_map[like.like_type].fill%>">
                         </path>
                     </svg>
-
-                    <%= like.like_type %>
-
+                    <%= like.like_type %> <span class="text-gray-500 pl-3 font-normal"><%= like.count %>x</span>
                 </p>
             </div>
         </div>
