@@ -3,9 +3,17 @@ defmodule ShlinkedinWeb.AdminLive.Index do
 
   @impl true
   def mount(_params, session, socket) do
-    # KNOWN BUG: RIGHT WHEN YOU CREATE AN ACCOUNT, THIS BUTTON DOESN"T WORK! PROBLABLY NOT LOADED INTO SOCKET!
     socket = is_user(session, socket)
 
-    {:ok, socket}
+    case socket.assigns.profile.admin do
+      false ->
+        {:ok,
+         socket
+         |> put_flash(:danger, "ACCESS DENIED")
+         |> push_redirect(to: "/")}
+
+      true ->
+        {:ok, socket}
+    end
   end
 end

@@ -11,6 +11,7 @@ defmodule Shlinkedin.Profiles.Profile do
     field :persona_title, :string
     field :summary, :string
     field :verified, :boolean
+    field :admin, :boolean
 
     field :photo_url, :string,
       default:
