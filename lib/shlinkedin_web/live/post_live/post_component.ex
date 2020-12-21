@@ -3,6 +3,7 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
   alias ShlinkedinWeb.PostLive.PostComponent
   alias Shlinkedin.Timeline.Post
   alias Shlinkedin.Timeline
+  alias Shlinkedin.Profiles.Profile
 
   def handle_event("expand-post", _, socket) do
     send_update(PostComponent, id: socket.assigns.post.id, expand_post: true)
@@ -21,12 +22,14 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
 
   def handle_event("feature-post", _params, socket) do
     post = Timeline.get_post!(socket.assigns.post.id)
+    poster = Shlinkedin.Profiles.get_profile_by_profile_id(socket.assigns.post.profile_id)
 
     {:ok, _post} =
       Timeline.update_post(socket.assigns.profile, post, %{
         featured: true,
         featured_date: NaiveDateTime.utc_now()
       })
+      |> Shlinkedin.Profiles.ProfileNotifier.observer(:featured_post, %Profile{id: 3}, poster)
 
     socket =
       socket

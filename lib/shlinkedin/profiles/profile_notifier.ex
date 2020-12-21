@@ -27,6 +27,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
       :accepted_friend_request ->
         notify_accepted_friend_request(from_profile, to_profile)
+
+      :featured_post ->
+        notify_post_featured(to_profile, res)
     end
 
     {:ok, res}
@@ -206,6 +209,41 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         action: "reacted \"#{like.like_type}\" to your post."
       })
     end
+  end
+
+  def notify_post_featured(%Profile{} = to_profile, %Post{} = post) do
+    body = """
+
+    Hi #{to_profile.persona_name},
+
+    <br/>
+    <br/>
+
+    We are excited to inform you that your post has been awarded
+     <a href="shlinked.herokuapp.com/posts/#{post.id}">post of the day!</a>!!!
+     +100 ShlinkPoints.
+
+    <br/>
+    <br/>
+    Thanks, <br/>
+    God
+
+    """
+
+    Shlinkedin.Profiles.create_notification(%Notification{
+      from_profile_id: 3,
+      to_profile_id: to_profile.id,
+      type: "featured",
+      post_id: post.id,
+      action: "has decided to award you post of the day!"
+    })
+
+    Shlinkedin.Email.new_email(
+      to_profile.user.email,
+      "You've been awarded post of the day!",
+      body
+    )
+    |> Shlinkedin.Mailer.deliver_later()
   end
 
   def notify_comment(
