@@ -406,7 +406,7 @@ defmodule Shlinkedin.Timeline do
 
   """
   def update_post(%Profile{} = profile, %Post{} = post, attrs, after_save \\ &{:ok, &1}) do
-    case profile.id == post.profile_id do
+    case profile.id == post.profile_id or profile.admin do
       true ->
         post
         |> Post.changeset(attrs)

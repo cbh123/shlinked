@@ -6,8 +6,15 @@
 
     <%= if @post.featured do %>
 
+
     <span
-        class="absolute rounded-full r top-1 right-1 inline-flex items-center px-1 py-0.5 text-xs font-medium text-yellow-500">
+        class="bg-white absolute rounded-full r top-1 right-1 inline-flex items-center px-1 py-0.5 text-xs font-medium text-yellow-500">
+
+
+        <%= if Timex.diff(@post.featured_date, Timex.now(), :days) == 0 do %>
+        <span class="italic pr-1">Post of the Day</span>
+        <%= end %>
+
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd"
                 d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z"
@@ -87,6 +94,12 @@
                         <%= if @profile != nil and @post.profile_id == @profile.id do %>
                         <%= live_patch to: Routes.post_index_path(@socket, :edit, @post.id), do: "Edit", class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
                         <%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @post.id, data: [confirm: "Are you sure?"], class: "block px-4 py-2 text-sm text-red-700 hover:bg-gray-100"%>
+                        <% end %>
+                        <%= if @profile != nil and @profile.admin do %>
+                        <button class="block px-4 py-2 text-sm text-green-700 hover:bg-gray-100"
+                            data-confirm="Are you sure you want to feature post? Writer will be notified."
+                            phx-click="feature-post" phx-target="<%= @myself %>">Make post of the
+                            day</button>
                         <% end %>
                     </div>
                 </div>

@@ -2,6 +2,7 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
   use ShlinkedinWeb, :live_component
   alias ShlinkedinWeb.PostLive.PostComponent
   alias Shlinkedin.Timeline.Post
+  alias Shlinkedin.Timeline
 
   def handle_event("expand-post", _, socket) do
     send_update(PostComponent, id: socket.assigns.post.id, expand_post: true)
@@ -14,6 +15,23 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
       id: socket.assigns.post.id,
       show_post_options: !socket.assigns.show_post_options
     )
+
+    {:noreply, socket}
+  end
+
+  def handle_event("feature-post", _params, socket) do
+    post = Timeline.get_post!(socket.assigns.post.id)
+
+    {:ok, _post} =
+      Timeline.update_post(socket.assigns.profile, post, %{
+        featured: true,
+        featured_date: NaiveDateTime.utc_now()
+      })
+
+    socket =
+      socket
+      |> put_flash(:info, "Post featured!")
+      |> push_redirect(to: "/")
 
     {:noreply, socket}
   end
