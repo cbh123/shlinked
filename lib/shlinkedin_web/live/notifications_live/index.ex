@@ -44,6 +44,9 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
       "like" ->
         {:noreply, push_redirect(socket, to: "/posts/#{post_id}/notifications")}
 
+      "featured" ->
+        {:noreply, push_redirect(socket, to: "/posts/#{post_id}/notifications")}
+
       "admin_message" ->
         {:noreply, push_redirect(socket, to: if(link == "", do: "/", else: link))}
     end
