@@ -9,16 +9,16 @@
 <% end %>
 
 <%# Shlink Requests %>
-<div class="w-full min-h-screen shadow p-5 bg-gradient-to-r from-green-400 to-blue-500">
+<div class="w-full min-h-screen shadow p-5 font-windows ">
 
     <%#  Shlink Requests %>
-    <div class="max-w-prose mx-auto my-4 mb-16">
+    <div class="max-w-prose mx-auto mb-16">
 
 
-        <h5 class="font-extrabold leading-tight text-4xl  text-white mb-2">Shlink Requests</h5>
+        <h5 class="font-extrabold leading-tight text-4xl mb-2">Shlink Requests</h5>
 
         <%= if @requests == [] do %>
-        <p class="mt-2 mb-8 text-white font-medium">
+        <p class="mt-2 mb-8 font-medium italic">
             You have no new Shlink Requests.</p>
         <% else %>
         <p class="mt-2 mb-8 text-white font-medium">
@@ -91,8 +91,8 @@
 
     <%#  Connections %>
     <div class="max-w-prose mx-auto">
-        <h5 class="font-extrabold leading-tight text-4xl  text-white mb-2">My Shlinkers</h5>
-        <p class="mt-2 mb-8 text-white font-medium">People you are shlinked with.</p>
+        <h5 class="font-extrabold leading-tight text-4xl mb-2">My Shlinks</h5>
+        <p class="mt-2 mb-8 font-medium italic">People you are shlinked with.</p>
 
 
         <!-- This example requires Tailwind CSS v2.0+ -->
