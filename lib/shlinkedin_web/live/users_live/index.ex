@@ -6,13 +6,9 @@ defmodule ShlinkedinWeb.UsersLive.Index do
   def mount(params, session, socket) do
     # KNOWN BUG: RIGHT WHEN YOU CREATE AN ACCOUNT, THIS BUTTON DOESN"T WORK! PROBLABLY NOT LOADED INTO SOCKET!
     socket = is_user(session, socket)
-    my_connections = get_connections(socket.assigns.profile)
-
-    IO.inspect(my_connections, label: "my_connections")
 
     {:ok,
      socket
-     |> assign(my_connections: my_connections)
      |> assign(profiles: Profiles.list_non_test_profiles())}
   end
 
@@ -20,8 +16,8 @@ defmodule ShlinkedinWeb.UsersLive.Index do
     Profiles.check_between_friend_status(from, to)
   end
 
-  def get_connections(profile) do
-    Profiles.get_unique_connection_ids(profile)
+  def get_mutual_friends(from, to) do
+    Profiles.get_mutual_friends(from, to)
   end
 
   @impl true

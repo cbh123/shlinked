@@ -2,58 +2,117 @@
 <div class="w-full min-h-screen p-5 font-windows ">
     <h1 class="text-4xl">> Explore Profiles</h1>
 
-    my connections: <%= for c <- @my_connections do %> <%= c %> <% end %>
-    i am: <%= @profile.id %>
-
     <div class="grid gap-4 grid-cols-3 mt-4">
         <%= for profile <- @profiles do %>
         <div id="<%= profile.id %>">
 
 
             <li class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200">
-                <div class="flex-1 flex flex-col p-8">
+                <div class="flex-1 flex flex-col py-2 px-8">
+                    <%= if Timex.diff(DateTime.utc_now(), profile.inserted_at, :days) < 5 do %>
+                    <dd class="my-2">
+                        <span
+                            class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full mb-2 ">Recently
+                            Joined</span>
+                    </dd>
+                    <% end %>
                     <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="<%= profile.photo_url %>"
                         alt="">
                     <h3 class="mt-6 text-gray-900 text-sm font-medium"><%= profile.id %></h3>
-                    mutual friends:
-                    <%= for m <- Shlinkedin.Profiles.get_mutual_friends(@profile, profile) do %><%= m %><% end %>
-                    connections: <%= for co <- get_connections(profile) do %> <%= co %> <% end %>
+
+
                     <dl class="mt-1 flex-grow flex flex-col justify-between">
                         <dt class="sr-only">Title</dt>
                         <dd class="text-gray-500 text-sm"><%= profile.persona_title%></dd>
                         <dt class="sr-only">Role</dt>
 
 
+                        <% mutual_friends = get_mutual_friends(@profile, profile)  %>
+                        <%= if length(mutual_friends) > 0  do %>
+                        Mutual friends:
+                        <div class="flex -space-x-1 relative z-0 overflow-hidden">
+                            <%= for m <- mutual_friends do %>
 
-                        <%= if Timex.diff(DateTime.utc_now(), profile.inserted_at, :days) < 5 do %>
-                        <dd class="mt-3">
-                            <span
-                                class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">Recently
-                                Joined</span>
-                        </dd>
+                            <%= live_redirect to: Routes.profile_show_path(@socket, :show, profile.slug) do %>
+
+
+                            <img class="relative z-30 inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                                src="<%= m.photo_url %>" alt="">
+                            <% end %>
+
+                            <% end %>
+
+                        </div>
                         <% end %>
+
+
+
+
+                        <%= if profile.id != @profile.id do %>
+                        <div class="mt-4">
+                            <%= case check_between_friend_status(@profile, profile) do %>
+                            <% nil -> %>
+                            <button type="button" phx-click="send-friend-request"
+                                class="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-xs font-semibold rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                <!-- Heroicon name: mail -->
+                                <svg class="-ml-1 mr-2 h-3 w-3" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z">
+                                    </path>
+                                </svg>
+                                Shlink
+                            </button>
+
+
+                            <% "pending" ->  %>
+
+                            <button type="button" phx-click="unfriend"
+                                data-confirm="Are you sure you want to destroy your request?"
+                                class="inline-flex items-center px-3 py-2 border border-gray-600 shadow-sm text-xs font-semibold rounded-full text-gray-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                <!-- Heroicon name: mail -->
+                                <svg class="-ml-1 mr-2 h-3 w-3 animate-spin" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                Pending
+                            </button>
+
+                            <% "accepted" ->  %>
+
+                            <button type="button" phx-click="unfriend" data-confirm="Are you sure you want to unshlink?"
+                                class="inline-flex items-center px-3 py-2 border border-green-600 shadow-sm text-xs font-semibold rounded-full text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                <!-- Heroicon name: mail -->
+
+                                <svg class="-ml-1 mr-2 h-3 w-3" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                Shlinked
+                            </button>
+
+
+                            <% end %>
+                        </div>
+                        <% end %>
+
                     </dl>
                 </div>
                 <div>
                     <div class="-mt-px flex divide-x divide-gray-200">
                         <div class="w-0 flex-1 flex">
-                            <a href="#"
-                                class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
-                                <!-- Heroicon name: mail -->
-                                <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                                </svg>
-                                <span class="ml-3">Email</span>
-                            </a>
-                        </div>
-                        <div class="-ml-px w-0 flex-1 flex">
-                            <%= live_redirect raw("See Profile &rarr;"), to: Routes.profile_show_path(@socket, :show, profile.slug), class: "relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500" %>
 
+
+
+                            <div class="-ml-px w-0 flex-1 flex">
+                                <%= live_redirect raw("See Profile &rarr;"), to: Routes.profile_show_path(@socket, :show, profile.slug), class: "relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500" %>
+
+                            </div>
                         </div>
                     </div>
-                </div>
             </li>
         </div>
         <% end %>

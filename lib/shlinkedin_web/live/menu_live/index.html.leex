@@ -11,6 +11,9 @@
             </div>
             <% end %>
             <div class="text-white">
+                <%= link "[p] Explote Profiles", to: Routes.users_index_path(@socket, :index), class: "text-lg text-white hover:underline" %>
+            </div>
+            <div class="text-white">
                 <%= link "[e] Change Email/Password", to: Routes.user_settings_path(@socket, :edit), class: "text-lg text-white hover:underline" %>
             </div>
             <div class="text-white">

@@ -241,7 +241,9 @@ defmodule Shlinkedin.Profiles do
       MapSet.intersection(MapSet.new(friends_1), MapSet.new(friends_2))
       |> MapSet.to_list()
 
-    intersection -- [from.id, to.id]
+    mutual_ids = intersection -- [from.id, to.id]
+
+    Repo.all(from p in Profile, where: p.id in ^mutual_ids, select: p)
   end
 
   def check_between_friend_status(%Profile{} = from, %Profile{} = to) do
