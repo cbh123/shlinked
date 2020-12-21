@@ -98,6 +98,8 @@ defmodule ShlinkedinWeb.Router do
 
     live "/admin", AdminLive.Index, :index
     live "/admin/notification/new", AdminLive.Index, :new_notification
+
+    live "/profiles", UsersLive.Index, :index
   end
 
   scope "/", ShlinkedinWeb do

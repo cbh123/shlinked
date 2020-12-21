@@ -47,6 +47,10 @@ defmodule Shlinkedin.Profiles do
     Repo.all(from(p in Profile))
   end
 
+  def list_non_test_profiles() do
+    Repo.all(from p in Profile, where: p.persona_name != "test")
+  end
+
   def is_admin?(%Profile{} = profile) do
     Repo.one(from p in Profile, where: p.id == ^profile.id, select: p.admin)
   end
@@ -185,14 +189,6 @@ defmodule Shlinkedin.Profiles do
     |> ProfileNotifier.observer(:accepted_friend_request, from, to)
   end
 
-  def check_friend_status(%Profile{} = from, %Profile{} = to) do
-    Repo.one(
-      from f in Friend,
-        select: f.status,
-        where: f.from_profile_id == ^from.id and f.to_profile_id == ^to.id
-    )
-  end
-
   def get_pending_requests(%Profile{} = to) do
     Repo.all(
       from f in Friend,
@@ -217,6 +213,35 @@ defmodule Shlinkedin.Profiles do
     )
     |> List.flatten()
     |> Enum.reject(fn p -> p.id == profile.id end)
+  end
+
+  def get_unique_connection_ids(%Profile{} = profile) do
+    Repo.all(
+      from f in Friend,
+        where:
+          (f.to_profile_id == ^profile.id or f.from_profile_id == ^profile.id) and
+            f.status == "accepted",
+        join: p in Profile,
+        as: :profile,
+        on: f.from_profile_id == p.id,
+        join: p2 in Profile,
+        as: :to_profile,
+        on: f.to_profile_id == p2.id,
+        select: [p.id, p2.id]
+    )
+    |> List.flatten()
+    |> Enum.uniq()
+  end
+
+  def get_mutual_friends(%Profile{} = from, %Profile{} = to) do
+    friends_1 = get_unique_connection_ids(from)
+    friends_2 = get_unique_connection_ids(to)
+
+    intersection =
+      MapSet.intersection(MapSet.new(friends_1), MapSet.new(friends_2))
+      |> MapSet.to_list()
+
+    intersection -- [from.id, to.id]
   end
 
   def check_between_friend_status(%Profile{} = from, %Profile{} = to) do

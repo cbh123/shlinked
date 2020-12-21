@@ -1,4 +1,4 @@
-<div class="p-5 pb-2 sm:max-w-lg mx-auto bg-white rounded-lg sm:mt-2">
+<div class="p-5 sm:max-w-lg mx-auto bg-white rounded-lg sm:mt-2">
     <%= live_patch to: Routes.post_index_path(@socket, :new) do %>
     <button type="button"
         class="w-full inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-full text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
@@ -12,42 +12,7 @@
         Start a post
     </button>
     <% end %>
-    <div class="mt-4 mb-0 flex justify-between">
-        <button type="button"
-            class="inline-flex items-center px-2 py-1 sm:px-3 sm:py-2 border border-transparent text-xs sm:text-sm font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
 
-            <svg class="-ml-1 mr-2  h-4 w-4 sm:h-5 sm:w-5 text-blue-300" fill="currentColor" viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                    d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
-                    clip-rule="evenodd"></path>
-            </svg>
-
-            Shmarket
-        </button>
-        <button type="button"
-            class="inline-flex items-center px-2 py-1 sm:px-3 sm:py-2 border border-transparent text-xs sm:text-sm font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-            <svg class="-ml-1 mr-2  h-4 w-4 sm:h-5 sm:w-5 text-green-200" fill="currentColor" viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z">
-                </path>
-            </svg>
-            Shleaders
-        </button>
-
-        <%= live_patch to: Routes.profile_show_path(@socket, :show, @profile.slug) do  %>
-        <button type="button"
-            class="inline-flex items-center px-2 py-1 sm:px-3 sm:py-2 border border-transparent text-xs sm:text-sm font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-            <svg class="-ml-1 mr-2  h-4 w-4 sm:h-5 sm:w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd">
-                </path>
-            </svg>
-            Profile
-        </button>
-        <% end %>
-    </div>
 </div>
 
 <div class="mx-auto sm:max-w-lg p-5 pb-2 bg-white sm:rounded-lg mt-2">
