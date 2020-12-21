@@ -67,7 +67,7 @@ defmodule ShlinkedinWeb.UsersLive.ProfileComponent do
             <div class="flex -space-x-1 relative z-0 overflow-hidden">
                 <%= for m <- mutual_friends do %>
 
-                <%= live_redirect to: Routes.profile_show_path(@socket, :show, @show_profile.slug) do %>
+                <%= live_redirect to: Routes.profile_show_path(@socket, :show, m.slug) do %>
 
 
                 <img class="relative z-30 inline-block h-6 w-6 rounded-full ring-2 ring-white"
