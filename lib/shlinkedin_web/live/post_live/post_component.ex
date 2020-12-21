@@ -39,6 +39,22 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     {:noreply, socket}
   end
 
+  def handle_event("unfeature-post", _, socket) do
+    post = Timeline.get_post!(socket.assigns.post.id)
+
+    {:ok, _post} =
+      Timeline.update_post(socket.assigns.profile, post, %{
+        featured: false
+      })
+
+    socket =
+      socket
+      |> put_flash(:info, "Post un-featured!")
+      |> push_redirect(to: "/")
+
+    {:noreply, socket}
+  end
+
   def handle_event("hide-post-options", _, socket) do
     send_update(PostComponent,
       id: socket.assigns.post.id,

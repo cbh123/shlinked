@@ -96,10 +96,16 @@
                         <%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @post.id, data: [confirm: "Are you sure?"], class: "block px-4 py-2 text-sm text-red-700 hover:bg-gray-100"%>
                         <% end %>
                         <%= if @profile != nil and @profile.admin do %>
+                        <%= if @post.featured do %>
                         <button class="block px-4 py-2 text-sm text-green-700 hover:bg-gray-100"
                             data-confirm="Are you sure you want to feature post? Writer will be notified."
                             phx-click="feature-post" phx-target="<%= @myself %>">Make post of the
                             day</button>
+                        <% else %>
+                        <button class="block px-4 py-2 text-sm text-red-700 hover:bg-gray-100"
+                            data-confirm="Are you sure you want to unfeature post? " phx-click="unfeature-post"
+                            phx-target="<%= @myself %>">Unfeature post </button>
+                        <% end %>
                         <% end %>
                     </div>
                 </div>
