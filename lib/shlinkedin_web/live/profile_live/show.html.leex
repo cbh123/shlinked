@@ -87,8 +87,8 @@
                  <div class="flex flex-row-reverse justify-end mr-2">
                      <%= for m <- @mutual_friends do %>
 
-                     <%= live_redirect to: Routes.profile_show_path(@socket, :show, @show_profile.slug) do %>
-                     <img class="relative z-30 inline-block h-8 w-8 rounded-full ring-2 ring-white"
+                     <%= live_redirect to: Routes.profile_show_path(@socket, :show, m.slug) do %>
+                     <img class="relative z-30 inline-block h-8 w-8 rounded-full ring-2 ring-white object-fit"
                          src="<%= m.photo_url %>" alt="">
                      <% end %>
                      <% end %>
