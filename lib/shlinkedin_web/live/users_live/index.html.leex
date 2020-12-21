@@ -9,14 +9,18 @@
         <li id="<%= profile.id %>"
             class="col-span-1 row-span-1 flex flex-1 flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200">
             <div class="flex-1 py-2 px-8">
-                <%= if Timex.diff(DateTime.utc_now(), profile.inserted_at, :days) < 5 do %>
                 <dd class="my-2">
+                    <%= if Timex.diff(DateTime.utc_now(), profile.inserted_at, :days) < 5 do %>
+
                     <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full mb-2 ">Recently
                         Joined</span>
+                    <% else %>
+                    <span class="px-2 py-1 text-green-800 text-xs font-medium rounded-full mb-2 "></span>
+                    <% end %>
                 </dd>
-                <% end %>
-                <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full object-cover"
-                    src="<%= profile.photo_url %>" alt="">
+
+
+                <img class="w-32 h-32 mx-auto bg-black rounded-full object-cover" src="<%= profile.photo_url %>" alt="">
                 <h3 class="mt-6 text-gray-900 text-sm font-medium"><%= profile.persona_name %></h3>
 
 
