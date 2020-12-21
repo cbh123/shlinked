@@ -65,11 +65,41 @@
 
 
 
-
+         <%# summary %>
          <div class="px-5 mt-1 mb-6 ml-3 max-w-lg text-xs sm:text-sm">
              <%= if @show_profile.summary == nil, do: "FILL OUT BIO!", else: @show_profile.summary %>
          </div>
 
+
+
+         <%# mutual shlinks %>
+         <%= if @show_profile.id != @profile.id do %>
+         <div class="px-5 mt-1 mb-6 ml-3 max-w-lg text-xs sm:text-sm">
+             <div class="flex items-center text-grey-darker mb-2">
+                 <svg class="h-6 w-6 text-grey mr-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 24 24" width="24" height="24">
+                     <path class="heroicon-ui"
+                         d="M12 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm9 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v2z" />
+                 </svg>
+                 <span><strong class="text-black"><%= length(@mutual_friends) %></strong> Shlinkers you know</span>
+             </div>
+             <div class="flex max-w-96">
+                 <div class="flex flex-row-reverse justify-end mr-2">
+                     <%= for m <- @mutual_friends do %>
+
+                     <%= live_redirect to: Routes.profile_show_path(@socket, :show, @show_profile.slug) do %>
+                     <img class="relative z-30 inline-block h-8 w-8 rounded-full ring-2 ring-white"
+                         src="<%= m.photo_url %>" alt="">
+                     <% end %>
+                     <% end %>
+
+                 </div>
+
+             </div>
+         </div>
+         <% end %>
+
+         <%# Started shlinking and buttons %>
          <div class="px-5 ml-3 flex items-start text-xs pb-6">
              <span>
                  <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -259,7 +289,8 @@
                                      <div class="ml-4 lg:ml-0">
                                          <%= live_redirect to: Routes.profile_show_path(@socket, :show, t_profile.slug) do %>
 
-                                         <div class="text-base font-medium text-gray-900"><%= t_profile.persona_name %>
+                                         <div class="text-base font-medium text-gray-900">
+                                             <%= t_profile.persona_name %>
                                          </div>
                                          <div class="text-base font-medium text-indigo-600">
                                              <%= t_profile.persona_title %></div>
