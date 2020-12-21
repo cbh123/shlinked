@@ -35,7 +35,7 @@ defmodule ShlinkedinWeb.AdminLive.NotificationFormComponent do
        ) do
     case Profiles.admin_create_notification(
            %Notification{
-             from_profile_id: 2,
+             from_profile_id: 3,
              type: "admin_message",
              to_profile_id: socket.assigns.profile.id
            },
