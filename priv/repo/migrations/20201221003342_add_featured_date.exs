@@ -6,4 +6,4 @@ defmodule Shlinkedin.Repo.Migrations.AddFeaturedDate do
       add :featured_date, :naive_datetime
     end
   end
-endmi
+end
