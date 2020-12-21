@@ -9,19 +9,19 @@
 <% end %>
 
 <%# Shlink Requests %>
-<div class="w-full min-h-screen shadow p-5 font-windows ">
+<div class="w-full min-h-screen p-5 font-windows ">
 
     <%#  Shlink Requests %>
     <div class="max-w-prose mx-auto mb-16">
 
 
-        <h5 class="font-extrabold leading-tight text-4xl mb-2">Shlink Requests</h5>
+        <h5 class="font-extrabold leading-tight text-4xl">Shlink Requests</h5>
 
         <%= if @requests == [] do %>
-        <p class="mt-2 mb-8 font-medium italic">
+        <p class=" mt-2 mb-8 font-medium italic">
             You have no new Shlink Requests.</p>
         <% else %>
-        <p class="mt-2 mb-8 text-white font-medium">
+        <p class="mt-2 mb-8 font-medium">
             Here you can accept or destroy incoming connection requests. If
             you
             destroy,
@@ -44,10 +44,11 @@
                     <div class="flex-1 truncate">
                         <%= live_redirect to: Routes.profile_show_path(@socket, :show, request.profile.slug) do %>
                         <div class="flex items-center space-x-3">
-                            <h3 class="text-gray-900 text-sm font-medium truncate"><%= request.profile.persona_name %>
+                            <h3 class="text-gray-900 text-sm font-medium truncate">
+                                <%= request.profile.persona_name %>
                             </h3>
                         </div>
-                        <p class="mt-1 text-gray-500 text-sm truncate"><%= request.profile.persona_title %></p>
+                        <p class="mt-1 text-gray-600 text-sm truncate"><%= request.profile.persona_title %></p>
                         <p class="mt-2 text-indigo-500 text-xs truncate hover:underline">See Profile &rarr;</p>
                         <% end %>
                     </div>
@@ -91,23 +92,45 @@
 
     <%#  Connections %>
     <div class="max-w-prose mx-auto">
-        <h5 class="font-extrabold leading-tight text-4xl mb-2">My Shlinks</h5>
-        <p class="mt-2 mb-8 font-medium italic">People you are shlinked with.</p>
+        <h5 class="font-extrabold leading-tight text-4xl">My Shlinks</h5>
+        <p class="mt-1 mb-8 font-medium italic">People you are shlinked with.</p>
 
         <ul class="divide-y divide-gray-300 " phx-update="append">
             <%= for profile <- @connections do %>
 
-            <li id="<%=profile.id%>" class="bg-gray-100 hover:bg-gray-200 cursor-pointer">
-                <button class="w-full flex justify-between p-4">
+            <li id="<%=profile.id%>" class=" cursor-pointer">
+                <div class="w-full flex justify-between p-4">
+                    <%= live_redirect to: Routes.profile_show_path(@socket, :show, profile.slug) do %>
                     <div class="flex text-left">
                         <img class="h-10 w-10 rounded-full object-cover" src="<%= profile.photo_url %>" alt="">
                         <div class="ml-3">
-                            <p class="text-sm text-gray-900 inline-block">
-                                <span><%= profile.persona_name %></span>
+                            <p class="text-sm text-gray-900 inline-block hover:underline">
+                                <span><%= profile.persona_name %></span></p>
+                            </p>
+                            <p class="text-sm text-gray-900 block hover:underline">
+                                <span>@<%= profile.username %></span></p>
+                            </p>
                         </div>
                     </div>
-                </button>
+                    <% end %>
+                    <div class="flex">
+                        <button phx-click="reject-request" phx-value-from-profile-id="<%= profile.id %>"
+                            data-confirm="Are you sure you want to Unshlink?"
+                            class="relative flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
+
+                            <svg class="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="ml-3">Unshlink</span>
+                        </button>
+                    </div>
+                </div>
+
             </li>
+
             <% end %>
         </ul>
 
