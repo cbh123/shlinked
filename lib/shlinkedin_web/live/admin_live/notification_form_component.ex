@@ -28,14 +28,19 @@ defmodule ShlinkedinWeb.AdminLive.NotificationFormComponent do
     save_notification(socket, socket.assigns.action, notification_params)
   end
 
-  defp save_notification(socket, :new_notification, notification_params) do
-    case Profiles.create_notification(
+  defp save_notification(
+         socket,
+         :new_notification,
+         %{"notify_all" => notify_all} = notification_params
+       ) do
+    case Profiles.admin_create_notification(
            %Notification{
              from_profile_id: 2,
              type: "admin_message",
              to_profile_id: socket.assigns.profile.id
            },
-           notification_params
+           notification_params,
+           notify_all: notify_all
          ) do
       {:ok, _notification} ->
         {:noreply,

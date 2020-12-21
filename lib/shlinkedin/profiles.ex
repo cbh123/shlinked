@@ -37,10 +37,14 @@ defmodule Shlinkedin.Profiles do
   def list_notifications(id) do
     Repo.all(
       from n in Shlinkedin.Profiles.Notification,
-        where: n.to_profile_id == ^id or n.notify_all == true,
+        where: n.to_profile_id == ^id,
         preload: [:profile],
         order_by: [desc: n.inserted_at]
     )
+  end
+
+  def list_profiles() do
+    Repo.all(from(p in Profile))
   end
 
   def is_admin?(%Profile{} = profile) do
@@ -117,6 +121,27 @@ defmodule Shlinkedin.Profiles do
     notification
     |> Notification.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def admin_create_notification(
+        %Notification{} = notification,
+        attrs \\ %{},
+        notify_all
+      ) do
+    case notify_all[:notify_all] do
+      "false" ->
+        create_notification(notification, attrs)
+
+      "true" ->
+        for p <- list_profiles() do
+          create_notification(notification, attrs |> Map.put("to_profile_id", p.id))
+        end
+
+        {:ok, "Sent to everyone"}
+
+      other ->
+        IO.inspect(other, label: "other!")
+    end
   end
 
   def create_endorsement(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
