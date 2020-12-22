@@ -80,6 +80,10 @@ defmodule ShlinkedinWeb.Router do
     live "/posts/:id/likes", PostLive.Index, :show_likes
     live "/posts/:id/:notifications", PostLive.Show, :show
 
+    live "/stories/new", PostLive.Index, :new_story
+    live "/stories/:profile_id/:story_id", StoryLive.Show, :show
+    live "/stories/:profile_id", StoryLive.Show, :show
+
     ### profile
     live "/sh/:slug", ProfileLive.Show, :show
     live "/sh/:slug/endorsements/new", ProfileLive.Show, :new_endorsement

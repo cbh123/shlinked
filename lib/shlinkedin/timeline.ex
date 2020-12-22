@@ -5,7 +5,7 @@ defmodule Shlinkedin.Timeline do
   import Ecto.Query, warn: false
   alias Shlinkedin.Repo
 
-  alias Shlinkedin.Timeline.{Post, Comment, Like}
+  alias Shlinkedin.Timeline.{Post, Comment, Like, Story}
   alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Profiles.ProfileNotifier
 
@@ -255,6 +255,58 @@ defmodule Shlinkedin.Timeline do
 
   def get_comment!(id), do: Repo.get!(Comment, id)
 
+  def get_story!(id) do
+    Repo.one(
+      from s in Story,
+        where: s.inserted_at >= datetime_add(s.inserted_at, -1, "day") and s.id == ^id,
+        preload: :profile
+    )
+  end
+
+  def get_next_story(profile_id, story_id) do
+    Repo.one(
+      from s in Story,
+        where:
+          s.inserted_at >= datetime_add(s.inserted_at, -1, "day") and s.profile_id == ^profile_id and
+            s.id > ^story_id,
+        order_by: [asc: s.id],
+        limit: 1,
+        select: s.id
+    )
+  end
+
+  def get_prev_story(profile_id, story_id) do
+    Repo.one(
+      from s in Story,
+        where:
+          s.inserted_at >= datetime_add(s.inserted_at, -1, "day") and s.profile_id == ^profile_id and
+            s.id < ^story_id,
+        order_by: [asc: s.id],
+        limit: 1,
+        select: s.id
+    )
+  end
+
+  def get_profile_story(profile_id) do
+    Repo.one(
+      from s in Story,
+        where:
+          s.inserted_at >= datetime_add(s.inserted_at, -1, "day") and s.profile_id == ^profile_id,
+        order_by: [asc: s.id],
+        preload: :profile,
+        limit: 1
+    )
+  end
+
+  def get_story_ids(profile_id) do
+    Repo.all(
+      from s in Story,
+        where:
+          s.inserted_at >= datetime_add(s.inserted_at, -1, "day") and s.profile_id == ^profile_id,
+        select: s.id
+    )
+  end
+
   @doc """
   Creates a post.
 
@@ -283,6 +335,24 @@ defmodule Shlinkedin.Timeline do
     |> Repo.insert()
     |> after_save(after_save)
     |> broadcast(:post_created)
+  end
+
+  def create_story(%Profile{} = profile, %Story{} = story, attrs \\ %{}, after_save \\ &{:ok, &1}) do
+    story = %{story | profile_id: profile.id}
+
+    story
+    |> Story.changeset(attrs)
+    |> Repo.insert()
+    |> after_save(after_save)
+  end
+
+  def list_stories() do
+    Repo.all(
+      from s in Story,
+        where: s.inserted_at >= datetime_add(s.inserted_at, -1, "day"),
+        preload: [:profile],
+        distinct: s.profile_id
+    )
   end
 
   defp add_gif_url(post, _text, add_gif) do
@@ -418,6 +488,19 @@ defmodule Shlinkedin.Timeline do
     end
   end
 
+  def update_story(%Profile{} = profile, %Story{} = story, attrs, after_save \\ &{:ok, &1}) do
+    case profile.id == story.profile_id or profile.admin do
+      true ->
+        story
+        |> Story.changeset(attrs)
+        |> after_save(after_save)
+        |> Repo.update()
+
+      false ->
+        {:error, "You can only edit your own stories!"}
+    end
+  end
+
   @doc """
   Deletes a post.
 
@@ -450,6 +533,10 @@ defmodule Shlinkedin.Timeline do
   """
   def change_post(%Post{} = post, attrs \\ %{}) do
     Post.changeset(post, attrs)
+  end
+
+  def change_story(%Story{} = story, attrs \\ %{}) do
+    Story.changeset(story, attrs)
   end
 
   def change_comment(%Comment{} = comment, attrs \\ %{}) do

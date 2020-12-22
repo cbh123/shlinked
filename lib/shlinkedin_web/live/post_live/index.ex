@@ -4,6 +4,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
   alias Shlinkedin.Timeline
   alias Shlinkedin.Timeline.Post
   alias Shlinkedin.Timeline.Comment
+  alias Shlinkedin.Timeline.Story
 
   @impl true
   def mount(_params, session, socket) do
@@ -15,7 +16,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
      |> assign(
        page: 1,
        per_page: 5,
-       random_profiles: Shlinkedin.Profiles.get_random_profiles(5),
+       stories: Timeline.list_stories(),
        like_map: Timeline.like_map()
      )
      |> fetch_posts(), temporary_assigns: [posts: []]}
@@ -31,14 +32,6 @@ defmodule ShlinkedinWeb.PostLive.Index do
 
   @impl true
   def handle_params(params, _url, socket) do
-    # page = String.to_integer(params["page"] || "1")
-    # per_page = String.to_integer(params["per_page"] || "3")
-
-    # paginate_options = %{page: page, per_page: per_page}
-    # posts = Timeline.list_posts(paginate: paginate_options)
-
-    # socket = socket |> assign(posts: posts, options: paginate_options)
-
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
@@ -52,6 +45,12 @@ defmodule ShlinkedinWeb.PostLive.Index do
     socket
     |> assign(:page_title, "Create a post")
     |> assign(:post, %Post{})
+  end
+
+  defp apply_action(socket, :new_story, _params) do
+    socket
+    |> assign(:page_title, "Add to Story")
+    |> assign(:story, %Story{})
   end
 
   defp apply_action(socket, :new_comment, %{"id" => id}) do

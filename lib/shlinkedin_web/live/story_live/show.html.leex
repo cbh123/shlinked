@@ -1,0 +1,20 @@
+    <div class="relative z-30 -top-12 text-red-500  h-screen">
+
+        <button phx-click="exit-story" class="absolute top-0 h-16 w-16 right-0 z-40 hover:bg-green-100">Exit</button>
+
+
+        <div class="absolute">
+            <%= @curr %> / <%= @total %>
+        </div>
+
+        <h1><%= @story.profile.persona_name %></h1>
+        <img src="<%= @story.media_url %>" class="absolute top-0 h-screen w-screen object-cover">
+
+
+        <div class="grid grid-cols-2">
+            <button phx-click="prev-story"
+                class="absolute top-16 left-0 z-40 hover:bg-red-100 h-screen w-1/2">Prev</button>
+            <button phx-click="next-story"
+                class="absolute top-16 right-0 z-40 hover:bg-red-100 h-screen w-1/2">Next</button>
+        </div>
+    </div>
