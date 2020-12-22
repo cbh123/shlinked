@@ -35,7 +35,7 @@
                         <% end %>
 
 
-                        <%= link "ShlinkedIn", to: (if @current_user, do: "/menu", else: "/join"), class: "font-windows italic text-blue-700 font-semibold" %>
+                        <%= link "ShlinkedIn", to: (if @current_user, do: "/", else: "/join"), class: "font-windows italic text-blue-700 font-semibold" %>
                     </div>
                     <div class="ml-4 mr-2 flex items-center text-gray-500">
                         <%= render "_user_menu.html", assigns %>
