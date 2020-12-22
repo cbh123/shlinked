@@ -1,6 +1,9 @@
 <%# ShlinkBlasts %>
-<div class="mx-auto sm:max-w-lg p-5 pb-3 bg-white sm:rounded-lg border-b">
-    <p class="pb-4 font-bold">ShlinkBlasts</p>
+<div class="mx-auto sm:max-w-lg p-5 pb-3 bg-white sm:rounded-lg border-b font-windows">
+    <p class="pb-4 font-bold"><span
+            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+            New!
+        </span> ShlinkBlasts</p>
 
     <div class="flex justify-start overflow-hidden">
         <div>
@@ -59,7 +62,7 @@
 
 </div>
 
-<div class="mx-auto text-center pt-2 sm:max-w-lg">
+<div class="mx-auto text-center py-4 sm:max-w-lg">
     <%= link to: Routes.users_index_path(@socket, :index) do %>
     <p class="font-windows italic hover:underline">
         <p class="font-windows italic hover:underline">
@@ -75,9 +78,6 @@
 
 
 
-<div class="my-4 sm:max-w-lg mx-auto">
-    <hr class="">
-</div>
 
 <div id="posts" phx-update="append" phx-hook="InfiniteScroll" data-page="<%= @page %>">
     <%= for post <- @posts do %>

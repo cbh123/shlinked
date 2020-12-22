@@ -8,7 +8,7 @@
                     clip-rule="evenodd"></path>
             </svg></button>
 
-        <button phx-click="exit-story" class="absolute top-0 h-16 left-0  z-40 hover:bg-green-100">
+        <button phx-click="exit-story" class="absolute top-0 h-16 left-0 w-3/5  z-40 hover:bg-green-100">
 
             <%# Post Header: Image, Name, Title, Time, and Business Jab %>
             <div class="ml-2 mt-2">
@@ -27,9 +27,7 @@
                         <span class="text-gray-900">
                             <%= live_redirect @story.profile.persona_name, to: Routes.profile_show_path(@socket, :show, @story.profile.slug), class: "text-sm font-semibold text-gray-900 hover:underline"  %>
                         </span>
-                        <span class="text-gray-500 text-xs font-normal">
-                            <%=  @story.profile.persona_title  %>
-                        </span>
+
 
 
                         <p class="text-xs text-gray-500">
@@ -56,9 +54,8 @@
 
 
         <div class="grid grid-cols-2">
-            <button phx-click="prev-story"
-                class="absolute top-16 left-0 z-40 hover:bg-red-100 h-screen w-1/2">Prev</button>
-            <button phx-click="next-story"
-                class="absolute top-16 right-0 z-40 hover:bg-red-100 h-screen w-1/2">Next</button>
+            <button phx-click="prev-story" class="absolute top-16 left-0 z-40 h-screen w-1/2"></button>
+            <button phx-click="next-story" class="absolute top-16 right-0 z-40 h-screen w-1/2"></button>
         </div>
     </div>
+    `
