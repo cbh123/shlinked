@@ -45,6 +45,16 @@ defmodule ShlinkedinWeb.StoryLive.Show do
     {:noreply, socket |> push_redirect(to: Routes.post_index_path(socket, :index))}
   end
 
+  def handle_event("delete", %{"id" => id}, socket) do
+    story = Timeline.get_story!(id)
+    {:ok, _} = Timeline.delete_story(story)
+
+    {:noreply,
+     socket
+     |> put_flash(:info, "ShlinkBlast slide deleted successfully")
+     |> push_redirect(to: Routes.post_index_path(socket, :index))}
+  end
+
   defp handle_story(socket, id) do
     case id do
       nil ->
@@ -89,7 +99,7 @@ defmodule ShlinkedinWeb.StoryLive.Show do
   end
 
   defp get_story_views(socket, story) do
-    case story.profile_id == socket.assigns.profile.id do
+    case story.profile_id == socket.assigns.profile.id or socket.assigns.profile.admin do
       true -> Timeline.list_story_views(story)
       false -> []
     end

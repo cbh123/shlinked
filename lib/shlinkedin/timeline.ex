@@ -354,6 +354,10 @@ defmodule Shlinkedin.Timeline do
     |> broadcast(:post_deleted)
   end
 
+  def delete_story(%Story{} = story) do
+    Repo.delete(story)
+  end
+
   def delete_comment(%Comment{} = comment) do
     Repo.delete(comment)
   end

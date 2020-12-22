@@ -4,7 +4,7 @@ defmodule Shlinkedin.Timeline.Story do
 
   schema "stories" do
     belongs_to(:profile, Shlinkedin.Profiles.Profile)
-    has_many(:story_views, Shlinkedin.Timeline.StoryView)
+    has_many(:story_views, Shlinkedin.Timeline.StoryView, on_delete: :nilify_all)
     field :media_url, :string
     field :body, :string
     field :sponsored, :boolean, default: false
