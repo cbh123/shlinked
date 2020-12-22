@@ -37,6 +37,9 @@ defmodule ShlinkedinWeb.UsersLive.ProfileComponent do
   def render(assigns) do
     ~L"""
 
+
+
+
     <li id="<%= @id %>"
     class="col-span-1 row-span-1 flex flex-1 flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200">
     <div class="flex-1 py-2 px-8">
@@ -51,9 +54,12 @@ defmodule ShlinkedinWeb.UsersLive.ProfileComponent do
         </dd>
 
 
+        <%= live_redirect to: Routes.profile_show_path(@socket, :show, @show_profile.slug) do %>
+
         <img class="w-32 h-32 mx-auto bg-black rounded-full object-cover" src="<%= @show_profile.photo_url %>" alt="">
         <h3 class="mt-6 text-gray-900 text-sm font-medium"><%= @show_profile.persona_name %></h3>
 
+        <% end %>
 
         <dl class="mt-1 flex-grow flex flex-col justify-between">
             <dt class="sr-only">Title</dt>
@@ -148,7 +154,9 @@ defmodule ShlinkedinWeb.UsersLive.ProfileComponent do
                 </div>
             </div>
         </div>
+
     </li>
+
     """
   end
 end
