@@ -68,22 +68,10 @@ defmodule ShlinkedinWeb.UsersLive.ProfileComponent do
 
 
             <% mutual_friends = get_mutual_friends(@profile, @show_profile)  %>
-            <%= if length(mutual_friends) > 0  do %>
-            Mutual friends:
-            <div class="flex -space-x-1 relative z-0 overflow-hidden">
-                <%= for m <- mutual_friends do %>
+            <p class="font-sm text-gray-500 font-semibold">
+            <%= length(mutual_friends) %> Mutual Shlinks
+            </p>
 
-                <%= live_redirect to: Routes.profile_show_path(@socket, :show, m.slug) do %>
-
-
-                <img class="relative z-30 inline-block h-6 w-6 rounded-full ring-2 ring-white"
-                    src="<%= m.photo_url %>" alt="">
-                <% end %>
-
-                <% end %>
-
-            </div>
-            <% end %>
 
 
 
