@@ -64,13 +64,16 @@ defmodule ShlinkedinWeb.StoryLive.Show do
     list = Timeline.get_story_ids(story.profile_id)
     filter = Enum.filter(list, &(&1 <= story_id |> String.to_integer()))
 
+    Timeline.create_story_view(story, socket.assigns.profile)
+
     {:noreply,
      socket
      |> assign(
        story: story,
        show_profile_id: story.profile_id,
        total: list |> length,
-       curr: filter |> length
+       curr: filter |> length,
+       story_views: get_story_views(socket, story)
      )}
   end
 
@@ -83,5 +86,12 @@ defmodule ShlinkedinWeb.StoryLive.Show do
       )
 
     {:noreply, socket}
+  end
+
+  defp get_story_views(socket, story) do
+    case story.profile_id == socket.assigns.profile.id do
+      true -> Timeline.list_story_views(story)
+      false -> []
+    end
   end
 end

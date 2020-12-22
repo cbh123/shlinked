@@ -12,6 +12,7 @@ defmodule Shlinkedin.Profiles.Profile do
     field :summary, :string
     field :verified, :boolean
     field :admin, :boolean
+    field :unsubscribed, :boolean, default: false
 
     field :photo_url, :string,
       default:
