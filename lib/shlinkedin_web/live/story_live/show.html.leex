@@ -32,12 +32,12 @@
         </div>
         <% end %>
 
-        <div class="fixed text-red-600 z-50 bottom-0 left-0 w-32 max-h-52 overflow-scroll">
-            <span class="bg-gray-900 text-green-100 font-windows px-4 py-2 text-sm">Views</span>
+        <div class="fixed text-red-600 z-50 bottom-0 left-0 w-32 max-h-52 overflow-scroll truncate rounded-tr-xl">
+            <span class="bg-gray-900 text-green-100 font-windows px-4 py-2 text-sm block">Views</span>
 
             <%= for view <- @story_views do %>
 
-            <%= live_redirect view.profile.persona_name, to: Routes.profile_show_path(@socket, :show, view.profile.slug), class: "bg-gray-900 text-gray-100 font-windows px-4 py-2 text-lg hover:text-green-400"   %>
+            <%= live_redirect view.profile.persona_name, to: Routes.profile_show_path(@socket, :show, view.profile.slug), class: "bg-gray-900 text-gray-100 font-windows px-4 py-1 text-lg hover:text-green-400 text-xs block"   %>
 
             <% end %>
         </div>
@@ -62,7 +62,8 @@
             </svg></button>
 
         <%= live_redirect to: Routes.profile_show_path(@socket, :show, @story.profile.slug) do %>
-        <div class="fixed mt-2 top-0 h-16 left-0 w-3/5  z-40">
+        <div
+            class="fixed top-0 h-16 left-0 pr-6 rounded-br-lg bg-opacity-30 cursor-pointer  z-40 bg-gray-900 text-gray-100">
 
             <%# Post Header: Image, Name, Title, Time, and Business Jab %>
             <div class="ml-2 mt-2">
@@ -74,16 +75,16 @@
 
                         </span>
                     </div>
-                    <div class="ml-3  cursor-pointer text-gray-500 truncate overflow-hidden">
+                    <div class="ml-3  cursor-pointer truncate overflow-hidden">
 
 
-                        <span class="text-gray-900">
-                            <%= live_redirect @story.profile.persona_name, to: Routes.profile_show_path(@socket, :show, @story.profile.slug), class: "text-sm font-semibold text-gray-900 hover:underline"  %>
+                        <span class="">
+                            <%= live_redirect @story.profile.persona_name, to: Routes.profile_show_path(@socket, :show, @story.profile.slug), class: "text-sm font-semibold hover:underline"  %>
                         </span>
 
 
 
-                        <p class="text-xs text-gray-500">
+                        <p class="text-xs">
                             @<%= @story.profile.username %> • <%= Timex.from_now(@story.inserted_at) %>
 
                         </p>
