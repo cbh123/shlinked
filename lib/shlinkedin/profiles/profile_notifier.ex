@@ -67,12 +67,14 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       body: ""
     })
 
-    Shlinkedin.Email.new_email(
-      to_profile.user.email,
-      "#{from_profile.persona_name} has sent you a Shlink request!",
-      body
-    )
-    |> Shlinkedin.Mailer.deliver_later()
+    if to_profile.unsubscribed == false do
+      Shlinkedin.Email.new_email(
+        to_profile.user.email,
+        "#{from_profile.persona_name} has sent you a Shlink request!",
+        body
+      )
+      |> Shlinkedin.Mailer.deliver_later()
+    end
   end
 
   def notify_accepted_friend_request(
@@ -105,12 +107,14 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       body: ""
     })
 
-    Shlinkedin.Email.new_email(
-      from_profile.user.email,
-      "#{to_profile.persona_name} has accepted your Shlink request! Shlinkpoints +1",
-      body
-    )
-    |> Shlinkedin.Mailer.deliver_later()
+    if to_profile.unsubscribed == false do
+      Shlinkedin.Email.new_email(
+        from_profile.user.email,
+        "#{to_profile.persona_name} has accepted your Shlink request! Shlinkpoints +1",
+        body
+      )
+      |> Shlinkedin.Mailer.deliver_later()
+    end
   end
 
   def notify_endorsement(
@@ -145,8 +149,10 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         body: "#{endorsement.body}"
       })
 
-      Shlinkedin.Email.new_email(to_profile.user.email, "You've been endorsed!", body)
-      |> Shlinkedin.Mailer.deliver_later()
+      if to_profile.unsubscribed == false do
+        Shlinkedin.Email.new_email(to_profile.user.email, "You've been endorsed!", body)
+        |> Shlinkedin.Mailer.deliver_later()
+      end
     end
   end
 
@@ -183,12 +189,14 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         body: "#{testimonial.body}"
       })
 
-      Shlinkedin.Email.new_email(
-        to_profile.user.email,
-        "#{from_profile.persona_name} has given you #{testimonial.rating}/5 stars!",
-        body
-      )
-      |> Shlinkedin.Mailer.deliver_later()
+      if to_profile.unsubscribed == false do
+        Shlinkedin.Email.new_email(
+          to_profile.user.email,
+          "#{from_profile.persona_name} has given you #{testimonial.rating}/5 stars!",
+          body
+        )
+        |> Shlinkedin.Mailer.deliver_later()
+      end
     end
   end
 
@@ -238,12 +246,14 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       action: "has decided to award you post of the day!"
     })
 
-    Shlinkedin.Email.new_email(
-      to_profile.user.email,
-      "You've been awarded post of the day!",
-      body
-    )
-    |> Shlinkedin.Mailer.deliver_later()
+    if to_profile.unsubscribed == false do
+      Shlinkedin.Email.new_email(
+        to_profile.user.email,
+        "You've been awarded post of the day!",
+        body
+      )
+      |> Shlinkedin.Mailer.deliver_later()
+    end
   end
 
   def notify_comment(
@@ -278,12 +288,14 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         body: "#{comment.body}"
       })
 
+      if to_profile.unsubscribed == false do
       Shlinkedin.Email.new_email(
         to_profile.user.email,
         "Your post is getting traction!",
         body
       )
       |> Shlinkedin.Mailer.deliver_later()
+      end
     end
   end
 end
