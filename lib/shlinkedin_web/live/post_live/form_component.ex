@@ -6,6 +6,8 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
 
   @impl true
   def mount(socket) do
+    socket = socket |> assign(gif_url: nil, gif_error: nil)
+
     {:ok,
      allow_upload(socket, :photo,
        accept: ~w(.png .jpeg .jpg .gif .mp4 .mov),
@@ -47,6 +49,21 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
     {:noreply, cancel_upload(socket, :photo, ref)}
   end
 
+  def handle_event("cancel-gif", _, socket) do
+    {:noreply, assign(socket, :gif_url, nil)}
+  end
+
+  def handle_event("add-gif", _params, socket) do
+    case socket.assigns.changeset.changes[:body] do
+      nil ->
+        {:noreply, assign(socket, gif_error: "Pls enter text first!")}
+
+      body ->
+        gif_url = Timeline.get_gif_from_text(body)
+        {:noreply, socket |> assign(gif_url: gif_url, gif_error: nil)}
+    end
+  end
+
   defp put_photo_urls(socket, %Post{} = post) do
     {completed, []} = uploaded_entries(socket, :photo)
 
@@ -72,6 +89,7 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
 
   defp save_post(socket, :edit, post_params) do
     post = put_photo_urls(socket, socket.assigns.post)
+    post = %Post{post | gif_url: socket.assigns.gif_url}
 
     case Timeline.update_post(
            socket.assigns.profile,
@@ -92,6 +110,7 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
 
   defp save_post(%{assigns: %{profile: profile}} = socket, :new, post_params) do
     post = put_photo_urls(socket, %Post{})
+    post = %Post{post | gif_url: socket.assigns.gif_url}
 
     case Timeline.create_post(
            profile,

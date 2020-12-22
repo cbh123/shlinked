@@ -120,7 +120,7 @@
     </div>
 
     <%# Post Text / Image %>
-    <div class="relative mt-2 overflow-hidden <%= if @post.photo_urls != [], do: "-mx-4" %>">
+    <div class="relative mt-2 overflow-hidden <%= if @post.photo_urls != [] or @post.gif_url, do: "-mx-4" %>">
         <div class="">
 
             </p>
@@ -194,7 +194,7 @@
             <div class="relative">
                 <p class="whitespace-pre-line pt-2
                  pb-2 overflow-hidden <%= if !@expand_post, do: "max-h-32" %>
-                   <%= if @post.photo_urls != [], do: "px-4" %>"><%= @post.body %></p>
+                   <%= if @post.photo_urls != [] or @post.gif_url != nil, do: "px-4" %>"><%= @post.body %></p>
 
                 <%# add a see more button %>
                 <%= if String.length(@post.body) >= 270 && !@expand_post do %>
@@ -206,6 +206,11 @@
                 <% end %>
             </div>
 
+            <%# If we got a gif, it takes precendence over photo! %>
+            <%= if @post.gif_url != nil do %>
+            <img class="object-center pt-2 object-cover bg-cover align-middle mx-auto w-full h-full"
+                src="<%= @post.gif_url %>" alt="">
+            <% else %>
             <%# If we got a photo! %>
             <%= if @post.photo_urls != [] do %>
 
@@ -221,6 +226,7 @@
             <img class="object-center pt-2 object-cover bg-cover align-middle mx-auto w-full h-full" src="<%= media %>"
                 alt="">
 
+            <% end %>
             <% end %>
             <div>
 

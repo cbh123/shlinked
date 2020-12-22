@@ -35,21 +35,6 @@
         </div>
     </div>
 
-    <div class="mt-4">
-        <button type="button" phx-hook="Sponsor" id="sponsor-btn"
-            class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-            💰 Sponsor</button>
-
-        <button type="button" phx-hook="Celebrate" id="celebrate-btn"
-            class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-
-            🙌 Celebrate
-        </button>
-        <button type="button" phx-hook="Crisis" id="crisis-btn"
-            class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-            🚨 Crisis
-        </button>
-    </div>
 
 
 
@@ -58,13 +43,39 @@
     </div>
     <p class="mt-4 text-xs"><%= error_tag f, :body %></p>
 
+
+
+    <%= if @uploads.photo.entries == []  do %>
+    <span class="text-red-500"><%= @gif_error %></span>
+
+    <button type="button" phx-click="add-gif" phx-target="<%=@myself %>" phx-disable-with="Loading..."
+        class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+        🖼️ <%= if @gif_url == nil, do: "Add Gif", else: "Choose new Gif" %></button>
+
+    <%= if @gif_url != nil do %>
+    <button type="button" phx-click="cancel-gif" phx-target="<%=@myself %>" phx-disable-with="Loading..."
+        class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+        ❌ Remove Gif</button>
+    <% end %>
+
+
+    <img src="<%= @gif_url %>"
+        class="max-h-96 w-full h-full mt-6 overflow-hidden object-cover align-middle object-center " />
+
+    <% end %>
+
+
+
+
     <div class="my-6">
+        <%= if @gif_url == nil do %>
         <%= for {_ref, msg } <- @uploads.photo.errors do %>
         <p class="alert alert-danger"><%= Phoenix.Naming.humanize(msg) %></p>
         <% end %>
 
+        <label for="" class="block text-gray-500 font-semibold">OR, Add Image</label>
 
-        <div class="border-2 border-gray-300 border-dashed rounded-md inline-flex pl-4 py-2 w-full">
+        <div class="border-2 border-gray-300 border-dashed rounded-md inline-flex pl-4 py-2">
 
             <svg class=" h-6 w-6 text-blue-400 mr-4" stroke="currentColor" fill="none" viewBox="0 0 48 48"
                 aria-hidden="true">
@@ -75,8 +86,6 @@
 
             <%= live_file_input @uploads.photo, class: "", type: "file" %>
         </div>
-
-
 
 
 
@@ -98,6 +107,8 @@
         <progress max="100" class="w-full mt-6" value="<%= entry.progress %>" />
 
         <% end %>
+        <% end %>
+
 
     </div>
 

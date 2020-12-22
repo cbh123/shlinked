@@ -159,12 +159,9 @@ defmodule Shlinkedin.Timeline do
         %Profile{} = profile,
         attrs \\ %{},
         post \\ %Post{},
-        after_save \\ &{:ok, &1},
-        add_gif \\ false
+        after_save \\ &{:ok, &1}
       ) do
     post = %{post | profile_id: profile.id}
-
-    post = add_gif_url(post, attrs["body"], add_gif)
 
     post
     |> Post.changeset(attrs)
@@ -191,14 +188,17 @@ defmodule Shlinkedin.Timeline do
     )
   end
 
-  defp add_gif_url(post, _text, add_gif) do
-    case add_gif do
-      true ->
-        post
+  def get_gif_from_text(text) do
+    text = String.replace(text, ~r/\s+/, "_")
 
-      false ->
-        post
-    end
+    api =
+      "https://api.giphy.com/v1/gifs/translate?api_key=#{System.get_env("GIPHY_API_KEY")}&s=#{
+        text
+      }"
+
+    gif_response = HTTPoison.get!(api)
+
+    Jason.decode!(gif_response.body)["data"]["images"]["original"]["url"]
   end
 
   defp after_save({:ok, post}, func) do
