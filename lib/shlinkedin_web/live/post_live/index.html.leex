@@ -1,6 +1,17 @@
 <%# ShlinkBlasts %>
 <div class="mx-auto sm:max-w-lg p-5 pb-3 bg-white sm:rounded-lg border-b">
-    <p class="pb-4 font-bold"> ShlinkBlasts</p>
+    <div class="flex justify-between">
+        <p class="pb-4 font-bold"> ShlinkBlasts</p>
+
+        <%= link to: Routes.users_index_path(@socket, :index) do %>
+
+        <p class="font-semibold text-gray-500 hover:underline">
+
+            Explore Profiles &rarr;
+        </p>
+
+        <% end %>
+    </div>
 
     <div class="flex overflow-x-auto w-full">
         <div>
@@ -44,18 +55,8 @@
 
 
 
-<div class="mx-auto text-center py-4 sm:max-w-lg">
-    <%= link to: Routes.users_index_path(@socket, :index) do %>
-    <p class="italic hover:underline">
-        <p class=" italic hover:underline">
-            <span
-                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                New!
-            </span>
-            Explore Profiles
-        </p>
-        <% end %>
-</div>
+<div class="py-1"></div>
+
 
 
 
