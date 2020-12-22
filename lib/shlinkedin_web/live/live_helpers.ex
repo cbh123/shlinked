@@ -46,4 +46,8 @@ defmodule ShlinkedinWeb.LiveHelpers do
         assign(socket, current_user: current_user, profile: profile)
     end
   end
+
+  def is_user(_params, socket) do
+    assign(socket, current_user: nil, profile: %Profile{})
+  end
 end
