@@ -223,13 +223,13 @@
      <div class=" mt-2 rounded-lg overflow-hidden shadow p-5 bg-white">
 
          <div class="flex justify-between">
-             <h5 class="text-gray-900 font-bold text-xl pb-3">Testimonials</h5>
-             <span><%= live_patch "+ Testimonial", to: Routes.profile_show_path(@socket, :new_testimonial, @to_profile.slug), class: "px-4 py-2 bg-green-500 text-white shadow-xs rounded-full font-bold" %></span>
+             <h5 class="text-gray-900 font-bold text-xl pb-3">Reviews</h5>
+             <span><%= live_patch "+ Review", to: Routes.profile_show_path(@socket, :new_testimonial, @to_profile.slug), class: "px-4 py-2 bg-green-500 text-white shadow-xs rounded-full font-bold" %></span>
          </div>
 
 
          <%= if @testimonials == [] do %>
-         <p class="font-semibold text-gray-600 text-center my-4">No testimonials yet 😔</p>
+         <p class="font-semibold text-gray-600 text-center my-4">No reviews yet 😔</p>
          <% else %>
 
 

@@ -170,7 +170,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
     <a href="shlinked.herokuapp.com/sh/#{from_profile.slug}">#{from_profile.persona_name}</a> has written a #{
       testimonial.rating
-    }/5 star testimony for you. Check it out
+    }/5 star review for you. Check it out
     <a href="shlinked.herokuapp.com/sh/#{to_profile.slug}">on your profile.</a>
 
     <br/>
@@ -185,7 +185,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         from_profile_id: from_profile.id,
         to_profile_id: to_profile.id,
         type: "testimonial",
-        action: "wrote you a testimonial: ",
+        action: "wrote you a review: ",
         body: "#{testimonial.body}"
       })
 
@@ -289,12 +289,12 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       })
 
       if to_profile.unsubscribed == false do
-      Shlinkedin.Email.new_email(
-        to_profile.user.email,
-        "Your post is getting traction!",
-        body
-      )
-      |> Shlinkedin.Mailer.deliver_later()
+        Shlinkedin.Email.new_email(
+          to_profile.user.email,
+          "Your post is getting traction!",
+          body
+        )
+        |> Shlinkedin.Mailer.deliver_later()
       end
     end
   end
