@@ -5,7 +5,7 @@
             New!
         </span> ShlinkBlasts</p>
 
-    <div class="flex justify-start overflow-hidden">
+    <div class="flex overflow-x-auto w-full">
         <div>
             <%= live_patch to: Routes.post_index_path(@socket, :new_story) do %>
             <span class="flex mx-1 place-self-center hover:text-blue-400 text-gray-500 cursor-pointer rounded-full">
@@ -21,7 +21,7 @@
 
         <%= for story <- @stories do %>
 
-        <div class="overflow-hidden">
+        <div class="">
 
             <%= live_patch to: Routes.story_show_path(@socket, :show, story.profile_id) do %>
 
