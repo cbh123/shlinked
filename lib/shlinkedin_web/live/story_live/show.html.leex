@@ -104,9 +104,11 @@
         <% end %>
 
 
+        <div class="fixed top-0 h-screen w-full bg-gray-900 z-10"></div>
 
-        <img src="<%= @story.media_url %>" class="fixed top-0 h-screen w-screen object-cover">
-
+        <div class="max-w-lg mx-auto">
+            <img src="<%= @story.media_url %>" class="fixed top-0 z-20 h-full object-contain max-w-lg mx-auto">
+        </div>
 
         <div class="grid grid-cols-2">
             <button phx-click="prev-story" class="fixed top-16 left-0 z-40 h-screen w-1/2"></button>
