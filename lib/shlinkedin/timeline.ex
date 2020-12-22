@@ -394,6 +394,19 @@ defmodule Shlinkedin.Timeline do
     {:ok, post}
   end
 
+  def sponsor do
+    [
+      "Jamba juice is BETTER than my marriage!",
+      "With Jamba Juice, you can harness the power of fruits. #JamOutWithJamba",
+      "Uh-oh, it’s #JambaTime! Put down that water and buy a juice!",
+      "I love #JambaJuice. Their fresh ingredients and inventive flavor blends are a gateway to lasting happiness! Try the new Manic Mango Mud Slide!",
+      "I lost my virginity at Jamba Juice! #JamOutWithJamba #JambaTime #SexualEncounter",
+      "Drink Jamba Juice and experience true vigor.",
+      "Tired of your job? Quit, and drink Jamba juice."
+    ]
+    |> Enum.random()
+  end
+
   def like_map do
     %{
       "Pity" => %{

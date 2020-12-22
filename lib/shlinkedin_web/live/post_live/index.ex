@@ -49,7 +49,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
 
   defp apply_action(socket, :new_story, _params) do
     socket
-    |> assign(:page_title, "Add to Story")
+    |> assign(:page_title, "💥 ShlinkBlast Mission Control")
     |> assign(:story, %Story{})
   end
 
