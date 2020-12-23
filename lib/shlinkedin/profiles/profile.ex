@@ -29,7 +29,9 @@ defmodule Shlinkedin.Profiles.Profile do
     field :life_score, :string, default: "B+"
     field :points, :integer, default: 100
 
-    field :publish, :boolean, virtual: true
+    field :publish_bio, :boolean, virtual: true
+    field :publish_profile_picture, :boolean, virtual: true
+
     field :last_checked_notifications, :naive_datetime
 
     timestamps()

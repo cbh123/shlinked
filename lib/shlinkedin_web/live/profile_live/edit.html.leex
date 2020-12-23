@@ -229,6 +229,20 @@
                 phx-value-category="profile" type="button"
                 class="ml-8 mt-6 inline-block items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Remove
                 photo</button>
+
+            <div class="ml-8">
+                <label for="summary" class="ml-8 block text-sm font-medium text-gray-700 mt-4">Publish Prof Pic
+                    Change?</label>
+                <div class="mt-1 relative">
+                    <%= checkbox f, :publish_profile_picture%>
+
+                </div>
+                <p class="mt-4 text-xs"><%= error_tag f, :publish_profile_picture %></p>
+
+            </div>
+
+
+
             <% end %>
 
             <%= if @uploads.cover_photo.entries != [] do %>
@@ -314,10 +328,10 @@
                     <label for="summary" class="block text-sm font-medium text-gray-700 mt-4">Publish Bio
                         Changes?</label>
                     <div class="mt-1 relative">
-                        <%= checkbox f, :publish%>
+                        <%= checkbox f, :publish_bio%>
 
                     </div>
-                    <p class="mt-4 text-xs"><%= error_tag f, :publish %></p>
+                    <p class="mt-4 text-xs"><%= error_tag f, :publish_bio %></p>
 
                 </div>
 

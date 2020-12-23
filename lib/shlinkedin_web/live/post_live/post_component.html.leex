@@ -4,9 +4,8 @@
 
 
 
+    <%# Post of Day tag %>
     <%= if @post.featured do %>
-
-
     <span
         class="bg-white absolute rounded-full r top-1 right-1 inline-flex items-center px-1 py-0.5 text-xs font-medium text-yellow-500">
 
@@ -21,9 +20,9 @@
                 clip-rule="evenodd"></path>
         </svg>
     </span>
-
     <% end %>
 
+    <%# Post Header and Options %>
     <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap ">
 
         <%# Post Header: Image, Name, Title, Time, and Business Jab %>
@@ -60,6 +59,7 @@
             </div>
         </div>
 
+        <%# Post Options %>
         <div class="sm:block text-xs text-gray-500 text-right">
             <div class="relative inline-block text-left ">
                 <div>
@@ -77,16 +77,8 @@
                     </button>
                 </div>
 
-                <!--
-    Dropdown panel, show/hide based on dropdown state.
 
-    Entering: "transition ease-out duration-100"
-      From: "transform opacity-0 scale-95"
-      To: "transform opacity-100 scale-100"
-    Leaving: "transition ease-in duration-75"
-      From: "transform opacity-100 scale-100"
-      To: "transform opacity-0 scale-95"
-  -->
+                <%# Options Menu %>
                 <div
                     class="<%= if @show_post_options != true, do: "hidden" %> origin-top-right z-10 absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                     <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
@@ -111,21 +103,14 @@
                     </div>
                 </div>
             </div>
-            <p>
-            </p>
-
-
         </div>
-
     </div>
 
     <%# Post Text / Image %>
-    <div class="relative mt-2 overflow-hidden <%= if @post.photo_urls != [] or @post.gif_url, do: "-mx-4" %>">
+    <div class="relative mt-2 overflow-hidden <%= if @post.photo_urls != [] or @post.gif_url != nil, do: "-mx-4" %>">
         <div class="">
 
-            </p>
-
-            <%= if @post.profile_update == true and @post.update_type == "bio" do %>
+            <%= if @post.update_type == "bio" do %>
             <section class="bg-white overflow-hidden">
                 <div class="relative max-w-7xl mx-auto pt-20 pb-12 px-4 sm:px-6 lg:px-8 lg:py-20">
                     <svg class="absolute top-full left-0 transform translate-x-80 -translate-y-24 lg:hidden" width="784"
@@ -191,10 +176,13 @@
             </section>
             <% else %>
 
+            <%# Actual Post Text %>
+            <%= if @post.update_type != "ShlinkPic" do %>
             <div class="relative">
                 <p class="whitespace-pre-line pt-2
                  pb-2 overflow-hidden <%= if !@expand_post, do: "max-h-32" %>
-                   <%= if @post.photo_urls != [] or @post.gif_url != nil, do: "px-4" %>"><%= @post.body %></p>
+                   <%= if @post.photo_urls != [] or @post.gif_url != nil, do: "px-4" %>">
+                    <%= @post.body %></p>
 
                 <%# add a see more button %>
                 <%= if String.length(@post.body) >= 100 && !@expand_post do %>
@@ -205,13 +193,20 @@
                 </div>
                 <% end %>
             </div>
+            <% end %>
+
+
+            <%= if @post.update_type == "ShlinkPic" do %>
+            <img class=" pt-2 mb-4 object-cover mx-auto h-64 w-64 rounded-full" src="<%= @post.profile.photo_url %>"
+                alt="" width="256">
+            <% end %>
 
             <%# If we got a gif, it takes precendence over photo! %>
             <%= if @post.gif_url != nil do %>
             <img class="object-center pt-2 object-cover bg-cover align-middle mx-auto w-full h-full"
                 src="<%= @post.gif_url %>" alt="">
             <% else %>
-            <%# If we got a photo! %>
+            <%# If we got a photo or video! %>
             <%= if @post.photo_urls != [] do %>
 
             <% [media | _] = @post.photo_urls  %>
@@ -225,24 +220,12 @@
             <% else %>
             <img class="object-center pt-2 object-cover bg-cover align-middle mx-auto w-full h-full" src="<%= media %>"
                 alt="">
-
             <% end %>
             <% end %>
-            <div>
-
-
-
-
-            </div>
             <% end %>
             <% end %>
         </div>
-
     </div>
-
-
-
-
 
     <%# Post Text Bottom: likes, comments, bar %>
     <div class="flex justify-between text-xs text-gray-500">
