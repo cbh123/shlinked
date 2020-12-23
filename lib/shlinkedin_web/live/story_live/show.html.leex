@@ -33,7 +33,7 @@
         <% end %>
 
         <%= if @story.profile_id == @profile.id or @profile.admin do %>
-        <div class="fixed text-red-600 z-50 bottom-0 left-0 w-32 max-h-96 overflow-scroll truncate rounded-tr-xl">
+        <div class="fixed text-red-600 z-50 bottom-0 left-0 w-32 max-h-96 overflow-y-auto truncate rounded-tr-xl">
             <span class="bg-gray-900 text-green-100 font-windows px-4 py-2 text-sm block">Views</span>
 
             <%= for view <- @story_views do %>
