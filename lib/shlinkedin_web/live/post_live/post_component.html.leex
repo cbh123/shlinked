@@ -13,7 +13,7 @@
 
         <%= if @post.featured_date != nil and Timex.diff(@post.featured_date, Timex.now(), :days) == 0 do %>
         <span class="italic pr-1">Post of the Day</span>
-        <%= end %>
+        <% end %>
 
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd"

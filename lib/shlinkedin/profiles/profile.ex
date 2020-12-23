@@ -24,7 +24,7 @@ defmodule Shlinkedin.Profiles.Profile do
     has_many :posts, Shlinkedin.Timeline.Post
     has_many :comments, Shlinkedin.Timeline.Comment
     has_many :endorsements, Shlinkedin.Profiles.Endorsement
-    has_many :friends, Shlinkedin.Profiles.Friend
+    has_many :friends, Shlinkedin.Profiles.Friend, foreign_key: :from_profile_id
 
     field :life_score, :string, default: "B+"
     field :points, :integer, default: 100

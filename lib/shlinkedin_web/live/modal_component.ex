@@ -11,11 +11,12 @@ defmodule ShlinkedinWeb.ModalComponent do
       phx-target="#<%= @id %>"
       phx-page-loading>
 
-      <div class="phx-modal-content bg-white max-w-xl m-5 mx-2 mt-8 sm:mx-auto rounded-lg">
+      <div class="phx-modal-content bg-white max-w-xl m-5 mx-2 mt-8 sm:mx-auto rounded-lg overflow-x-hidden overflow-y-hidden ">
         <%= live_patch raw("&times;"), to: @return_to, class: "phx-modal-close pr-3" %>
         <%= live_component @socket, @component, @opts %>
       </div>
     </div>
+
     """
   end
 
