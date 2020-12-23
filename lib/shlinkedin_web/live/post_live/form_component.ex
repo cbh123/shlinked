@@ -28,6 +28,7 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
 
   def update(%{uploads: uploads}, socket) do
     socket = assign(socket, :uploads, uploads)
+    IO.inspect(uploads, label: "uploads")
     {:ok, socket}
   end
 
