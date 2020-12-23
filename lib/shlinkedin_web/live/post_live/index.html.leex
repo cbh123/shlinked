@@ -64,11 +64,13 @@
 
         <%= for story <- @stories do %>
 
+
         <div class="">
 
             <%= live_patch to: Routes.story_show_path(@socket, :show, story.profile_id) do %>
 
-            <span class="flex mx-1 border-2 border-blue-400 rounded-full">
+            <span
+                class="flex mx-1 border-2 <%= if Shlinkedin.Timeline.seen_all_stories?(@profile, story.profile), do: "border-gray-300", else: "border-blue-400" %> rounded-full">
 
                 <img class="h-14 w-14 rounded-full border-2 border-white object-cover"
                     src="<%= story.profile.photo_url %>" alt="">

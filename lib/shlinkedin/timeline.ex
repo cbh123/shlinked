@@ -204,7 +204,32 @@ defmodule Shlinkedin.Timeline do
       from s in Story,
         where: s.inserted_at >= datetime_add(s.inserted_at, -1, "day"),
         preload: [:profile],
-        distinct: s.profile_id
+        distinct: s.profile_id,
+        order_by: [desc: s.inserted_at]
+    )
+  end
+
+  def seen_all_stories?(%Profile{} = watcher, %Profile{} = storyteller) do
+    stories = list_stories_given_profile(storyteller)
+    watched = list_story_views_for_profile(watcher)
+
+    IO.inspect(watcher.id, label: "watcher id")
+    IO.inspect(stories, label: "stories")
+    IO.inspect(watched, label: "watched")
+    IO.inspect(stories -- watched, label: "minus")
+    IO.inspect(stories -- watched == [], label: "equation")
+    stories -- watched == []
+  end
+
+  def list_stories_given_profile(%Profile{} = profile) do
+    Repo.all(from s in Story, where: s.profile_id == ^profile.id, select: s.id)
+  end
+
+  def list_story_views_for_profile(%Profile{} = profile) do
+    Repo.all(
+      from v in StoryView,
+        where: v.from_profile_id == ^profile.id,
+        select: v.story_id
     )
   end
 
