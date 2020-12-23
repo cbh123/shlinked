@@ -52,10 +52,19 @@
 
 </div>
 
+<div class="mx-auto sm:max-w-lg pl-2 text-gray-500 p-2 text-xs ">
 
 
+    <button phx-click="public_feed" phx-disable-with="loading..."
+        class="px-2 py-1 bg-gray-100 rounded-lg  <%= if @public_feed, do: "bg-blue-100 text-blue-500 font-semibold"%>">Public
+        Feed</button>
+    <button phx-click="friend_feed" phx-disable-with="loading..."
+        class="px-2 py-1 rounded-lg <%= if !@public_feed, do: "bg-blue-100 text-blue-500 font-semibold"%>">Friends
+        Only</button>
 
-<div class="py-1"></div>
+
+</div>
+
 
 
 

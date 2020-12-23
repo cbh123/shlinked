@@ -16,6 +16,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
      |> assign(
        page: 1,
        per_page: 5,
+       public_feed: true,
        stories: Timeline.list_stories(),
        like_map: Timeline.like_map()
      )
@@ -24,9 +25,24 @@ defmodule ShlinkedinWeb.PostLive.Index do
 
   defp fetch_posts(%{assigns: %{page: page, per_page: per}} = socket) do
     assign(socket,
-      posts:
-        Timeline.list_friend_posts(socket.assigns.profile, paginate: %{page: page, per_page: per})
+      posts: Timeline.list_posts(paginate: %{page: page, per_page: per}),
+      public_feed: true
     )
+  end
+
+  def handle_event("public_feed", _, socket) do
+    {:noreply, socket |> fetch_posts()}
+  end
+
+  def handle_event("friend_feed", _, %{assigns: %{page: page, per_page: per}} = socket) do
+    {:noreply,
+     assign(socket,
+       posts:
+         Timeline.list_friend_posts(socket.assigns.profile,
+           paginate: %{page: page, per_page: per}
+         ),
+       public_feed: false
+     )}
   end
 
   def handle_event("load-more", _, %{assigns: assigns} = socket) do
