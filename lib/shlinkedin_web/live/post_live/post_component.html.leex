@@ -83,7 +83,7 @@
                     class="<%= if @show_post_options != true, do: "hidden" %> origin-top-right z-10 absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                     <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                         <%= live_patch to: Routes.post_show_path(@socket, :show, @post.id), do: raw("View post &rarr;"), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
-                        <%= if @profile != nil and @post.profile_id == @profile.id do %>
+                        <%= if @profile != nil and @post.profile_id == @profile.id or @profile.admin do %>
                         <%= live_patch to: Routes.post_index_path(@socket, :edit, @post.id), do: "Edit", class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
                         <%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @post.id, data: [confirm: "Are you sure?"], class: "block px-4 py-2 text-sm text-red-700 hover:bg-gray-100"%>
                         <% end %>
