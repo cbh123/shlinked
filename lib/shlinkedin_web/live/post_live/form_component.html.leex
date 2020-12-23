@@ -67,7 +67,7 @@
 
 
 
-    <div class="my-6">
+    <div class="mb-2 ">
         <%= if @gif_url == nil do %>
         <%= for {_ref, msg } <- @uploads.photo.errors do %>
         <p class="alert alert-danger"><%= Phoenix.Naming.humanize(msg) %></p>
@@ -75,7 +75,7 @@
 
         <label for="" class="block text-gray-500 font-semibold">OR, Add Image</label>
 
-        <div class="border-2 border-gray-300 border-dashed rounded-md inline-flex pl-4 py-2">
+        <div class=" rounded-md inline-flex py-2">
 
             <svg class=" h-6 w-6 text-blue-400 mr-4" stroke="currentColor" fill="none" viewBox="0 0 48 48"
                 aria-hidden="true">
@@ -115,7 +115,7 @@
 
 
 
-    <div class="flex justify-end">
+    <div class="flex justify-end mt-2">
         <%= submit (if @action == :new, do: "Post", else: "Save"), class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
     </div>
 
