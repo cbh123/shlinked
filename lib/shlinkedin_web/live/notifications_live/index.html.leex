@@ -1,10 +1,10 @@
-<div class=" font-windows">
+<div class=" ">
 
     <div class="flex justify-between text-center py-2 px-5">
-        <h1 class="font-extrabold text-lg font-windows">Recent Dinks </h1>
+        <h1 class="font-extrabold text-lg">Recent Dinks </h1>
         <div>
             <%= if @unread_count == 0 do %>
-            <p class="inline-block text-green-500"> All caught up! </p>
+            <p class="inline-block text-green-500 font-sm"> All caught up! </p>
 
             <% else %>
             <p class="inline-block"> <%= @unread_count %> unread </p>

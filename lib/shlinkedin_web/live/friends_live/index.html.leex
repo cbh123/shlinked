@@ -1,5 +1,5 @@
 <%= if @from_notifications do %>
-<div class=" max-w-2xl mx-auto font-windows">
+<div class=" max-w-2xl mx-auto ">
 
     <%= live_redirect raw("&larr; Back to Dinks"), to: Routes.notification_index_path(@socket, :index),
         class: " bg-opacity-50 inline-flex mx-auto hover:text-green-400  px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-900 "
@@ -9,19 +9,19 @@
 <% end %>
 
 <%# Shlink Requests %>
-<div class="w-full min-h-screen p-5 font-windows ">
+<div class="w-full min-h-screen p-5  ">
 
     <%#  Shlink Requests %>
     <div class="max-w-prose mx-auto mb-16">
 
 
-        <h5 class="font-extrabold leading-tight text-4xl">Shlink Requests</h5>
+        <h5 class="font-extrabold leading-tight text-2xl">Shlink Requests</h5>
 
         <%= if @requests == [] do %>
-        <p class=" mt-2 mb-8 font-medium italic">
+        <p class=" mt-2 mb-8 text-gray-500 italic">
             You have no new Shlink Requests.</p>
         <% else %>
-        <p class="mt-2 mb-8 font-medium">
+        <p class="mt-2 text-gray-500 mb-8">
             Here you can accept or destroy incoming connection requests. If
             you
             destroy,
@@ -92,8 +92,8 @@
 
     <%#  Connections %>
     <div class="max-w-prose mx-auto">
-        <h5 class="font-extrabold leading-tight text-4xl">My Shlinks</h5>
-        <p class="mt-1 mb-8 font-medium italic">People you are shlinked with.</p>
+        <h5 class="font-extrabold leading-tight text-2xl">My Shlinks</h5>
+        <p class="mt-1 mb-8 text-gray-500 italic">People you are shlinked with.</p>
 
         <ul class="divide-y divide-gray-300 " phx-update="append">
             <%= for profile <- @connections do %>

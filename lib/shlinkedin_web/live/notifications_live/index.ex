@@ -7,13 +7,16 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
     # KNOWN BUG: RIGHT WHEN YOU CREATE AN ACCOUNT, THIS BUTTON DOESN"T WORK! PROBLABLY NOT LOADED INTO SOCKET!
     socket = is_user(session, socket)
 
-    notifications = Profiles.list_notifications(socket.assigns.profile.id)
+    profile = socket.assigns.profile
+
+    notifications = Profiles.list_notifications(profile.id)
+    Profiles.update_last_read_notification(profile.id)
 
     {:ok,
      socket
      |> assign(
        notifications: notifications,
-       unread_count: Profiles.get_unread_notification_count(socket.assigns.profile)
+       unread_count: Profiles.get_unread_notification_count(profile)
      ), temporary_assigns: [notifications: []]}
   end
 

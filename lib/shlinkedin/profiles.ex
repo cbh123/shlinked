@@ -61,6 +61,14 @@ defmodule Shlinkedin.Profiles do
     |> Repo.update()
   end
 
+  def update_last_read_notification(profile_id) do
+    %Profile{id: profile_id}
+    |> Ecto.Changeset.change(
+      last_checked_notifications: NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
+    )
+    |> Repo.update()
+  end
+
   def mark_all_notifications_read(%Profile{} = profile) do
     from(n in Notification, where: n.to_profile_id == ^profile.id)
     |> Repo.update_all(set: [read: true])
@@ -71,6 +79,16 @@ defmodule Shlinkedin.Profiles do
       from n in Notification,
         where: n.to_profile_id == ^profile.id and n.read == false,
         select: count("*")
+    )
+  end
+
+  def get_last_read_notification_time(%Profile{} = profile) do
+    Repo.one(
+      from n in Notification,
+        where: n.to_profile_id == ^profile.id and n.read == false,
+        order_by: [desc: n.inserted_at],
+        limit: 1,
+        select: n.inserted_at
     )
   end
 

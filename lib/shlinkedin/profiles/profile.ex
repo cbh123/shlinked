@@ -30,6 +30,7 @@ defmodule Shlinkedin.Profiles.Profile do
     field :points, :integer, default: 100
 
     field :publish, :boolean, virtual: true
+    field :last_checked_notifications, :naive_datetime
 
     timestamps()
   end
