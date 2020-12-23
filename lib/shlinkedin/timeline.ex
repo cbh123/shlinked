@@ -35,6 +35,8 @@ defmodule Shlinkedin.Timeline do
   def list_friend_posts(%Profile{} = profile, criteria) do
     friend_ids = Shlinkedin.Profiles.get_unique_connection_ids(profile)
 
+    IO.inspect(friend_ids, label: "")
+
     query =
       from(p in Post,
         order_by: [desc: p.featured, desc: p.inserted_at],

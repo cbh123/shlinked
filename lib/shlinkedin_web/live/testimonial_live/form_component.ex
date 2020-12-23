@@ -32,7 +32,7 @@ defmodule ShlinkedinWeb.TestimonialLive.FormComponent do
       {:ok, _testimonial} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Testimonial updated successfully")
+         |> put_flash(:info, "Review updated successfully")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -49,7 +49,7 @@ defmodule ShlinkedinWeb.TestimonialLive.FormComponent do
       {:ok, _testimonial} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Testimony created!")
+         |> put_flash(:info, "Review created!")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

@@ -35,7 +35,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     {:ok, res}
   end
 
-  def observer({:error, error}, _from, _to, _type), do: error
+  def observer({:error, error}, _from, _to, _type), do: {:error, error}
 
   def notify_sent_friend_request(
         %Profile{} = from_profile,

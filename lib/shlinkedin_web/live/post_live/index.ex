@@ -11,42 +11,50 @@ defmodule ShlinkedinWeb.PostLive.Index do
     if connected?(socket), do: Timeline.subscribe()
     socket = is_user(session, socket)
 
+    # need to pull from params here? or somethign else. how do you refresh child component
+    public = true
+
     {:ok,
      socket
      |> assign(
        page: 1,
        per_page: 5,
-       public_feed: true,
+       public_feed: public,
        stories: Timeline.list_stories(),
        like_map: Timeline.like_map()
      )
-     |> fetch_posts(), temporary_assigns: [posts: []]}
+     |> fetch_posts(public), temporary_assigns: [posts: []]}
   end
 
-  defp fetch_posts(%{assigns: %{page: page, per_page: per}} = socket) do
-    assign(socket,
-      posts: Timeline.list_posts(paginate: %{page: page, per_page: per}),
-      public_feed: true
-    )
+  defp fetch_posts(%{assigns: %{page: page, per_page: per}} = socket, public) do
+    case public do
+      true ->
+        assign(socket,
+          posts: Timeline.list_posts(paginate: %{page: page, per_page: per}),
+          public: true
+        )
+
+      false ->
+        assign(socket,
+          posts:
+            Timeline.list_friend_posts(socket.assigns.profile,
+              paginate: %{page: page, per_page: per}
+            ),
+          public: false
+        )
+    end
   end
 
-  def handle_event("public_feed", _, socket) do
-    {:noreply, socket |> fetch_posts()}
+  def handle_event("public", _, socket) do
+    {:noreply, socket |> fetch_posts(true)}
   end
 
-  def handle_event("friend_feed", _, %{assigns: %{page: page, per_page: per}} = socket) do
-    {:noreply,
-     assign(socket,
-       posts:
-         Timeline.list_friend_posts(socket.assigns.profile,
-           paginate: %{page: page, per_page: per}
-         ),
-       public_feed: false
-     )}
+  def handle_event("friend", _, socket) do
+    {:noreply, socket |> fetch_posts(false)}
   end
 
   def handle_event("load-more", _, %{assigns: assigns} = socket) do
-    {:noreply, socket |> assign(page: assigns.page + 1) |> fetch_posts()}
+    {:noreply, socket |> assign(page: assigns.page + 1) |> fetch_posts(socket.assigns.public)}
   end
 
   @impl true
