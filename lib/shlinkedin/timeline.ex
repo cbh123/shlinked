@@ -233,7 +233,7 @@ defmodule Shlinkedin.Timeline do
     api =
       "https://api.giphy.com/v1/gifs/translate?api_key=#{System.get_env("GIPHY_API_KEY")}&s=#{
         text
-      }"
+      }&weirdness=10"
 
     gif_response = HTTPoison.get!(api)
 
