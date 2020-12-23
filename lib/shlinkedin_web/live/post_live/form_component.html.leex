@@ -53,7 +53,7 @@
             🖼️ <%= if @gif_url == nil, do: "Add Gif", else: "Choose new Gif" %></button>
 
         <%# Error for gif %>
-        <span class="text-red-500 inline-block font-semibold italic text-xs"><%= @gif_error %></span>
+        <span class="text-red-500 font-semibold italic text-xs"><%= @gif_error %></span>
 
 
         <%# If there's a gif, show option to remove it %>
@@ -83,16 +83,23 @@
         <p class="alert alert-danger"><%= Phoenix.Naming.humanize(msg) %></p>
         <% end %>
 
-        <div class="flex text-sm text-gray-600">
+        <%# If there's a gif, show option to remove it %>
+        <%= case @uploads.photo.entries do %>
+        <%= [] ->  %> <div class="flex text-sm text-gray-600">
             <label for="<%= @uploads.photo.ref %>"
                 class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                <span>Upload Photo / Video</span>
-                <%= live_file_input @uploads.photo, class: "sr-only hidden", type: "file"  %>
+                <span>📷 Upload Photo / Video</span>
+                <%= live_file_input @uploads.photo, class: "hidden", type: "file"  %>
+
             </label>
         </div>
 
 
-
+        <%= [entry | _] -> %>
+        <button phx-click="cancel-entry" phx-value-ref="<%= entry.ref %>" type="button" phx-target="<%= @myself %>"
+            class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            Remove photo</button>
+        <% end %>
 
 
         <%= for entry <- @uploads.photo.entries do %>
