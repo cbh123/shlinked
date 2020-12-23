@@ -23,7 +23,10 @@ defmodule ShlinkedinWeb.PostLive.Index do
   end
 
   defp fetch_posts(%{assigns: %{page: page, per_page: per}} = socket) do
-    assign(socket, posts: Timeline.list_posts(paginate: %{page: page, per_page: per}))
+    assign(socket,
+      posts:
+        Timeline.list_friend_posts(socket.assigns.profile, paginate: %{page: page, per_page: per})
+    )
   end
 
   def handle_event("load-more", _, %{assigns: assigns} = socket) do

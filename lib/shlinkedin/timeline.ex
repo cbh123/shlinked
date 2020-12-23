@@ -20,8 +20,26 @@ defmodule Shlinkedin.Timeline do
       [paginate: %{page: 1, per_page: 5}]
 
   """
+
   def list_posts(criteria) when is_list(criteria) do
     query = from(p in Post, order_by: [desc: p.featured, desc: p.inserted_at])
+
+    paged_query = paginate(query, criteria)
+
+    from(p in paged_query,
+      preload: [:profile, :likes, comments: :profile]
+    )
+    |> Repo.all()
+  end
+
+  def list_friend_posts(%Profile{} = profile, criteria) do
+    friend_ids = Shlinkedin.Profiles.get_unique_connection_ids(profile)
+
+    query =
+      from(p in Post,
+        order_by: [desc: p.featured, desc: p.inserted_at],
+        where: p.profile_id in ^friend_ids
+      )
 
     paged_query = paginate(query, criteria)
 
