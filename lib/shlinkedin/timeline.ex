@@ -212,12 +212,6 @@ defmodule Shlinkedin.Timeline do
   def seen_all_stories?(%Profile{} = watcher, %Profile{} = storyteller) do
     stories = list_stories_given_profile(storyteller)
     watched = list_story_views_for_profile(watcher)
-
-    IO.inspect(watcher.id, label: "watcher id")
-    IO.inspect(stories, label: "stories")
-    IO.inspect(watched, label: "watched")
-    IO.inspect(stories -- watched, label: "minus")
-    IO.inspect(stories -- watched == [], label: "equation")
     stories -- watched == []
   end
 
