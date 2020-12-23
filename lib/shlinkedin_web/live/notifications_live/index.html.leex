@@ -1,4 +1,4 @@
-<div class=" ">
+<div class="max-w-lg mx-auto border-gray-300 border bg-white">
 
     <div class="flex justify-between text-center py-2 px-5">
         <h1 class="font-extrabold text-lg">Recent Dinks </h1>
@@ -8,20 +8,23 @@
 
             <% else %>
             <p class="inline-block"> <%= @unread_count %> unread </p>
-            <button phx-click="mark-all-read" class="inline-block hover:bg-gray-800 hover:text-green-400 px-2">Mark all
+            <button phx-click="mark-all-read"
+                class="inline-block text-sm rounded-lg py-2 bg-gray-100 hover:bg-gray-200 px-4">Mark
+                all
                 as read </button>
             <% end %>
+
         </div>
     </div>
 
 
-    <ul class="divide-y divide-gray-300 " phx-update="append">
+    <ul class="divide-y divide-gray-200 " phx-update="append">
         <%= for n <- @notifications do %>
 
         <li id="<%= n.id %>" phx-click="notification-click" phx-value-id="<%= n.id %>"
             phx-value-slug="<%= n.profile.slug %>" phx-value-type="<%= n.type %>" phx-value-link="<%= n.link %>"
             phx-value-post-id="<%= n.post_id %>"
-            class="<%= if n.read == false, do: "bg-blue-100 hover:bg-blue-200", else: "bg-gray-100 hover:bg-gray-200" %>  cursor-pointer">
+            class="<%= if n.read == false, do: "bg-blue-100 hover:bg-blue-200", else: "bg-white hover:bg-gray-100" %>  cursor-pointer">
             <button class="w-full flex justify-between p-4">
                 <div class="flex text-left">
                     <img class="h-10 w-10 rounded-full object-cover" src="<%= n.profile.photo_url %>" alt="">
@@ -42,4 +45,6 @@
         </li>
         <% end %>
     </ul>
+
+
 </div>
