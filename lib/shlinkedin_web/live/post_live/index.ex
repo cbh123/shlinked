@@ -5,6 +5,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
   alias Shlinkedin.Timeline.Post
   alias Shlinkedin.Timeline.Comment
   alias Shlinkedin.Timeline.Story
+  alias Shlinkedin.News
 
   @impl true
   def mount(_params, session, socket) do
@@ -20,6 +21,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
        page: 1,
        per_page: 5,
        public_feed: public,
+       articles: News.list_top_articles(),
        stories: Timeline.list_stories(),
        like_map: Timeline.like_map()
      )

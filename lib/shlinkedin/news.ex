@@ -22,6 +22,10 @@ defmodule Shlinkedin.News do
     Repo.all(Article)
   end
 
+  def list_top_articles do
+    Repo.all(from h in Article, order_by: h.inserted_at, limit: 5)
+  end
+
   @doc """
   Gets a single article.
 
