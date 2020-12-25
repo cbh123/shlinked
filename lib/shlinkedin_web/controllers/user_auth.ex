@@ -139,7 +139,6 @@ defmodule ShlinkedinWeb.UserAuth do
       conn
     else
       conn
-      |> put_flash(:info, "You must log in to access this page.")
       |> maybe_store_return_to()
       |> redirect(to: Routes.user_registration_path(conn, :join))
       |> halt()

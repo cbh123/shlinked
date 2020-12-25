@@ -64,7 +64,7 @@ defmodule ShlinkedinWeb.ArticleLive.FormComponent do
     end
   end
 
-  defp save_article(socket, :edit_article, article_params) do
+  defp save_article(socket, :edit, article_params) do
     article = put_photo_urls(socket, socket.assigns.article)
 
     case News.update_article(
@@ -84,7 +84,7 @@ defmodule ShlinkedinWeb.ArticleLive.FormComponent do
     end
   end
 
-  defp save_article(%{assigns: %{profile: profile}} = socket, :new_article, article_params) do
+  defp save_article(%{assigns: %{profile: profile}} = socket, :new, article_params) do
     article = put_photo_urls(socket, %Article{})
 
     case News.create_article(

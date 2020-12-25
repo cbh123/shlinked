@@ -14,7 +14,7 @@ defmodule Shlinkedin.News.Article do
   @doc false
   def changeset(article, attrs) do
     article
-    |> cast(attrs, [:headline, :slug, :media_url])
-    |> validate_required([:headline, :slug, :media_url])
+    |> cast(attrs, [:headline, :media_url])
+    |> validate_required([:headline])
   end
 end

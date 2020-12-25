@@ -1,5 +1,3 @@
-<h1>Listing Articles</h1>
-
 <%= if @live_action in [:new, :edit] do %>
 <%= live_modal @socket, ShlinkedinWeb.ArticleLive.FormComponent,
     id: @article.id || :new,
@@ -10,6 +8,7 @@
     return_to: Routes.article_index_path(@socket, :index) %>
 <% end %>
 
+<h1>ShlinkNews</h1>
 <table>
     <thead>
         <tr>
