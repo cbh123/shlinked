@@ -42,7 +42,7 @@
         <%# ShlinkBlasts %>
         <div class="mx-auto sm:max-w-lg p-5 pb-3 bg-white sm:rounded-t-lg border-b">
 
-            <p class="pb-4 font-bold"> ShlinkBlasts</p>
+            <p class="pb-4 font-bold">🚀 ShlinkBlasts</p>
 
 
 
@@ -133,9 +133,9 @@
         </div>
     </div>
 
-    <!-- Activity feed -->
-    <div class="flex-grow p-5 pb-3 bg-white border max-h-96 mt-10 rounded-lg border-gray-100 ">
-        <p class="pb-4 font-bold"> ShlinkNews</p>
+    <!-- News  -->
+    <div class="hidden sm:flex sm:flex-grow p-5 pt-3 bg-white border max-h-96 mt-10 rounded-lg border-gray-100 ">
+        <%= live_redirect "ShlinkNews", to: Routes.article_index_path(@socket, :index), class: "pb-4 font-bold" %>
     </div>
 
 

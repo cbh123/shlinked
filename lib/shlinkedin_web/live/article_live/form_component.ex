@@ -1,15 +1,15 @@
-defmodule ShlinkedinWeb.PostLive.FormComponent do
+defmodule ShlinkedinWeb.ArticleLive.FormComponent do
   use ShlinkedinWeb, :live_component
 
-  alias Shlinkedin.Timeline
-  alias Shlinkedin.Timeline.Post
+  alias Shlinkedin.News
+  alias Shlinkedin.News.Article
 
   @impl true
   def mount(socket) do
     socket = socket |> assign(gif_url: nil, gif_error: nil)
 
     {:ok,
-     allow_upload(socket, :photo,
+     allow_upload(socket, :media,
        accept: ~w(.png .jpeg .jpg .gif .mp4 .mov),
        max_entries: 1,
        external: &presign_entry/2
@@ -17,8 +17,8 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
   end
 
   @impl true
-  def update(%{post: post} = assigns, socket) do
-    changeset = Timeline.change_post(post)
+  def update(%{article: article} = assigns, socket) do
+    changeset = News.change_article(article)
 
     {:ok,
      socket
@@ -32,21 +32,21 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
   end
 
   @impl true
-  def handle_event("validate", params, socket) do
+  def handle_event("validate", %{"article" => article_params}, socket) do
     changeset =
-      socket.assigns.post
-      |> Timeline.change_post(params["post"])
+      socket.assigns.article
+      |> News.change_article(article_params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
-  def handle_event("save", %{"post" => post_params}, socket) do
-    save_post(socket, socket.assigns.action, post_params)
+  def handle_event("save", %{"article" => article_params}, socket) do
+    save_article(socket, socket.assigns.action, article_params)
   end
 
   def handle_event("cancel-entry", %{"ref" => ref}, socket) do
-    {:noreply, cancel_upload(socket, :photo, ref)}
+    {:noreply, cancel_upload(socket, :media, ref)}
   end
 
   def handle_event("cancel-gif", _, socket) do
@@ -54,53 +54,29 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
   end
 
   def handle_event("add-gif", _params, socket) do
-    case socket.assigns.changeset.changes[:body] do
+    case socket.assigns.changeset.changes[:headline] do
       nil ->
         {:noreply, assign(socket, gif_error: "Pls enter text first!")}
 
       body ->
-        gif_url = Timeline.get_gif_from_text(body)
+        gif_url = News.get_gif_from_text(body)
         {:noreply, socket |> assign(gif_url: gif_url, gif_error: nil)}
     end
   end
 
-  defp put_photo_urls(socket, %Post{} = post) do
-    {completed, []} = uploaded_entries(socket, :photo)
+  defp save_article(socket, :edit_article, article_params) do
+    article = put_photo_urls(socket, socket.assigns.article)
 
-    urls =
-      for entry <- completed do
-        # Routes.static_path(socket, "/uploads/#{entry.uuid}.#{ext(entry)}") # local path
-        Path.join(s3_host(), s3_key(entry))
-      end
-
-    %Post{post | photo_urls: urls}
-  end
-
-  def consume_photos(socket, %Post{} = post) do
-    consume_uploaded_entries(socket, :photo, fn _meta, _entry -> :ok end)
-
-    {:ok, post}
-  end
-
-  def ext(entry) do
-    [ext | _] = MIME.extensions(entry.client_type)
-    ext
-  end
-
-  defp save_post(socket, :edit, post_params) do
-    post = put_photo_urls(socket, socket.assigns.post)
-    post = %Post{post | gif_url: socket.assigns.gif_url}
-
-    case Timeline.update_post(
+    case News.update_article(
            socket.assigns.profile,
-           post,
-           post_params,
+           article,
+           article_params,
            &consume_photos(socket, &1)
          ) do
-      {:ok, _post} ->
+      {:ok, _article} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Post updated successfully")
+         |> put_flash(:info, "Article updated successfully")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -108,25 +84,47 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
     end
   end
 
-  defp save_post(%{assigns: %{profile: profile}} = socket, :new, post_params) do
-    post = put_photo_urls(socket, %Post{})
-    post = %Post{post | gif_url: socket.assigns.gif_url}
+  defp save_article(%{assigns: %{profile: profile}} = socket, :new_article, article_params) do
+    article = put_photo_urls(socket, %Article{})
 
-    case Timeline.create_post(
+    case News.create_article(
            profile,
-           post_params,
-           post,
+           article,
+           article_params,
            &consume_photos(socket, &1)
          ) do
-      {:ok, _post} ->
+      {:ok, _article} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Post created successfully")
+         |> put_flash(:info, "Article created successfully")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
     end
+  end
+
+  defp put_photo_urls(socket, %Article{} = article) do
+    {completed, []} = uploaded_entries(socket, :media)
+
+    urls =
+      for entry <- completed do
+        # Routes.static_path(socket, "/uploads/#{entry.uuid}.#{ext(entry)}") # local path
+        Path.join(s3_host(), s3_key(entry))
+      end
+
+    %Article{article | media_url: urls |> Enum.at(0)}
+  end
+
+  def consume_photos(socket, %News.Article{} = article) do
+    consume_uploaded_entries(socket, :media, fn _meta, _entry -> :ok end)
+
+    {:ok, article}
+  end
+
+  def ext(entry) do
+    [ext | _] = MIME.extensions(entry.client_type)
+    ext
   end
 
   @bucket "shlinked"
@@ -149,7 +147,7 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
       Shlinkedin.SimpleS3Upload.sign_form_upload(config, @bucket,
         key: key,
         content_type: entry.client_type,
-        max_file_size: uploads.photo.max_file_size,
+        max_file_size: uploads.media.max_file_size,
         expires_in: :timer.minutes(2)
       )
 

@@ -66,6 +66,7 @@ defmodule ShlinkedinWeb.Router do
   scope "/", ShlinkedinWeb do
     pipe_through [:browser, :require_authenticated_user]
 
+    # user settings
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
@@ -80,6 +81,7 @@ defmodule ShlinkedinWeb.Router do
     live "/posts/:id/likes", PostLive.Index, :show_likes
     live "/posts/:id/:notifications", PostLive.Show, :show
 
+    # stories
     live "/stories/new", PostLive.Index, :new_story
     live "/stories/:profile_id/:story_id", StoryLive.Show, :show
     live "/stories/:profile_id", StoryLive.Show, :show
@@ -92,18 +94,34 @@ defmodule ShlinkedinWeb.Router do
     live "/sh/:slug/testimonial/:id/edit", ProfileLive.Show, :edit_testimonial
     live "/sh/:slug/notifications", ProfileLive.Show, :from_notifications
 
+    # edit profile
     live "/profile/live_edit", ProfileLive.Edit, :edit
     live "/profile/welcome", ProfileLive.Edit, :new
 
+    # friends
     live "/shlinks", FriendLive.Index, :index
     live "/shlinks/:notifications", FriendLive.Index, :index
+
+    # notifications
     live "/updates", NotificationLive.Index, :index
+
+    # menu
     live "/menu", MenuLive.Index, :index
 
+    # admin
     live "/admin", AdminLive.Index, :index
     live "/admin/notification/new", AdminLive.Index, :new_notification
 
+    # show all profiles
     live "/profiles", UsersLive.Index, :index
+
+    # news
+    live "/news", ArticleLive.Index, :index
+    live "/news/new", ArticleLive.Index, :new
+    live "/news/:id/edit", ArticleLive.Index, :edit
+
+    live "/news/:id", ArticleLive.Show, :show
+    live "/news/:id/show/edit", ArticleLive.Show, :edit
   end
 
   scope "/", ShlinkedinWeb do

@@ -1,0 +1,149 @@
+<%= f = form_for @changeset, "#",
+  id: "article-form",
+  phx_target: @myself,
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+
+<div class="bg-white px-4 py-4 border-b border-gray-200 sm:px-6 rounded-t-lg">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">
+        <%= @title %>
+    </h3>
+</div>
+
+<div class="mt-1 p-5">
+
+
+    <%# Name and title %>
+    <div class="flex items-center">
+        <div class="flex-shrink-0">
+            <span class="inline-block relative">
+                <img class="h-10 w-10 rounded-full object-cover" src="<%= @profile.photo_url %>" alt="">
+                <span
+                    class="absolute bottom-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-green-400"></span>
+            </span>
+        </div>
+        <div class="ml-4 hover:cursor-pointer mb-2">
+
+            <%= live_patch @profile.persona_name, to: Routes.profile_show_path(@socket, :show, @profile.slug), class: "text-lg leading-6 font-bold text-gray-900 hover:underline"  %>
+
+            <p class="text-xs text-gray-500">
+                @<%= @profile.username %> </p>
+        </div>
+    </div>
+
+    <%# Enter Headline Text %>
+    <div class="my-4">
+        <%= text_input f, :body, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-3", placeholder: "Headline" %>
+        <p class="mt-4 text-xs"><%= error_tag f, :body %></p>
+        <%# Error for gif %>
+        <span class="text-red-500 font-semibold italic text-xs"><%= @gif_error %></span>
+
+    </div>
+
+
+
+
+
+    <%# GIF STUFF!! If there isn't a media upload, show gif stuff %>
+    <%= if @uploads.media.entries == []  do %>
+    <div class="inline-block">
+
+
+        <%# Show add gif button, but if there's a gif then option to choose a new one %>
+        <button type="button" phx-click="add-gif" phx-target="<%=@myself %>" phx-disable-with="Loading..."
+            class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            🖼️ <%= if @gif_url == nil, do: "Add Gif", else: "Choose new Gif" %></button>
+
+
+
+        <%# If there's a gif, show option to remove it %>
+        <%= if @gif_url != nil do %>
+        <button type="button" phx-click="cancel-gif" phx-target="<%=@myself %>" phx-disable-with="Loading..."
+            class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            ❌ Remove Gif</button>
+        <% end %>
+
+        <%# If there's a gif, show it %>
+        <%= if @gif_url != nil do %>
+        <img src="<%= @gif_url %>"
+            class="max-h-96 w-full h-full mt-6 overflow-hidden object-cover align-middle object-center " />
+        <% end %>
+    </div>
+    <% end %>
+
+
+
+    <%# IMAGE STUFF!!  %>
+    <%= if @gif_url == nil do %>
+    <div class="inline-block">
+
+
+        <%# Show image upload errors %>
+        <%= for {_ref, msg } <- @uploads.media.errors do %>
+        <p class="alert alert-danger"><%= Phoenix.Naming.humanize(msg) %></p>
+        <% end %>
+
+        <%# If there's a gif, show option to remove it %>
+        <%= case @uploads.media.entries do %>
+        <%= [] ->  %> <label for="<%= @uploads.media.ref %>"
+            class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <span>📷 Upload Photo / Video</span>
+        </label>
+        <%= [entry | _] -> %>
+        <button phx-click="cancel-entry" phx-value-ref="<%= entry.ref %>" type="button" phx-target="<%= @myself %>"
+            class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            Remove photo</button>
+
+
+        <%= live_img_preview entry, class: "mx-auto w-full mt-2 object-cover w-64 self-auto" %>
+
+
+        <% end %>
+
+
+
+        <%= live_file_input @uploads.media, class: "sr-only", type: "file"  %>
+
+
+        <%= for entry <- @uploads.media.entries do %>
+        <div class="mx-auto text-center mt-6">
+
+
+
+
+
+        </div>
+        <progress max="100" class="w-full mt-6" value="<%= entry.progress %>" />
+
+        <% end %>
+
+
+
+    </div>
+    <% end %>
+
+    <%# Enter Body Text %>
+    <div class="my-4">
+        <%= textarea f, :body, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-3", rows: 5, placeholder: "What do you want to talk about?" %>
+        <p class="mt-4 text-xs"><%= error_tag f, :body %></p>
+        <%# Error for gif %>
+        <span class="text-red-500 font-semibold italic text-xs"><%= @gif_error %></span>
+
+    </div>
+
+
+
+
+
+    <div class="flex justify-end mt-8 bg-gray-100 -m-5 p-5">
+
+        <%= live_patch "Cancel", to: "/news", class: "ml-3 inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-full text-gray-600  bg-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"%>
+        <%= submit (if @action == :new, do: "Post", else: "Save"), class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
+    </div>
+
+
+
+
+</div>
+</form>

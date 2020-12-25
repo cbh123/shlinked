@@ -1,0 +1,40 @@
+<h1>Listing Articles</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+<%= live_modal @socket, ShlinkedinWeb.ArticleLive.FormComponent,
+    id: @article.id || :new,
+    title: @page_title,
+    action: @live_action,
+    profile: @profile,
+    article: @article,
+    return_to: Routes.article_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+    <thead>
+        <tr>
+            <th>Headline</th>
+            <th>Slug</th>
+            <th>Media url</th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="articles">
+        <%= for article <- @articles do %>
+        <tr id="article-<%= article.id %>">
+            <td><%= article.headline %></td>
+            <td><%= article.slug %></td>
+            <td><%= article.media_url %></td>
+
+            <td>
+                <span><%= live_redirect "Show", to: Routes.article_show_path(@socket, :show, article) %></span>
+                <span><%= live_patch "Edit", to: Routes.article_index_path(@socket, :edit, article) %></span>
+                <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: article.id, data: [confirm: "Are you sure?"] %></span>
+            </td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>
+
+<span><%= live_patch "New Article", to: Routes.article_index_path(@socket, :new) %></span>
