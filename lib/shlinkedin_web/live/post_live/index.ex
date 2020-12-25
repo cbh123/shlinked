@@ -2,14 +2,17 @@ defmodule ShlinkedinWeb.PostLive.Index do
   use ShlinkedinWeb, :live_view
 
   alias Shlinkedin.Timeline
-  alias Shlinkedin.Timeline.Post
-  alias Shlinkedin.Timeline.Comment
-  alias Shlinkedin.Timeline.Story
+  alias Shlinkedin.Timeline.{Post, Comment, Story}
   alias Shlinkedin.News
+  alias Shlinkedin.News.Article
 
   @impl true
   def mount(_params, session, socket) do
-    if connected?(socket), do: Timeline.subscribe()
+    if connected?(socket) do
+      Timeline.subscribe()
+      News.subscribe()
+    end
+
     socket = is_user(session, socket)
 
     # need to pull from params here? or somethign else. how do you refresh child component
@@ -25,7 +28,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
        stories: Timeline.list_stories(),
        like_map: Timeline.like_map()
      )
-     |> fetch_posts(public), temporary_assigns: [posts: []]}
+     |> fetch_posts(public), temporary_assigns: [posts: [], articles: []]}
   end
 
   defp fetch_posts(%{assigns: %{page: page, per_page: per}} = socket, public) do
@@ -92,14 +95,10 @@ defmodule ShlinkedinWeb.PostLive.Index do
     |> assign(:post, post)
   end
 
-  defp apply_action(socket, :show_comments, %{"id" => id}) do
-    post = Timeline.get_post_preload_profile(id)
-
+  defp apply_action(socket, :new_article, _params) do
     socket
-    |> assign(:page_title, "Comment")
-    |> assign(:comments, Timeline.list_comments(post))
-    |> assign(:comment, %Comment{})
-    |> assign(:post, post)
+    |> assign(:page_title, "New Headline")
+    |> assign(:article, %Article{})
   end
 
   defp apply_action(socket, :show_likes, %{"id" => id}) do
@@ -150,6 +149,11 @@ defmodule ShlinkedinWeb.PostLive.Index do
   @impl true
   def handle_info({:post_updated, post}, socket) do
     {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
+  end
+
+  @impl true
+  def handle_info({:article_updated, article}, socket) do
+    {:noreply, update(socket, :articles, fn articles -> [article | articles] end)}
   end
 
   @impl true

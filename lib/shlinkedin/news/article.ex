@@ -7,6 +7,7 @@ defmodule Shlinkedin.News.Article do
     field :media_url, :string
     field :slug, :string
     field :profile_id, :id
+    has_many :votes, Shlinkedin.News.Vote
 
     timestamps()
   end

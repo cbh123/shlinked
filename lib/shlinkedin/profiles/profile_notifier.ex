@@ -1,6 +1,8 @@
 defmodule Shlinkedin.Profiles.ProfileNotifier do
   alias Shlinkedin.Profiles.{Profile, Endorsement, Testimonial, Notification}
   alias Shlinkedin.Timeline.{Like, Comment, Post}
+  alias Shlinkedin.News.Vote
+  alias Shlinkedin.News.Article
 
   @doc """
   Deliver instructions to confirm account.
@@ -15,6 +17,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
       :like ->
         notify_like(from_profile, to_profile, res)
+
+      :vote ->
+        notify_vote(from_profile, to_profile, res)
 
       :endorsement ->
         notify_endorsement(from_profile, to_profile, res)
@@ -215,6 +220,25 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         type: "like",
         post_id: like.post_id,
         action: "reacted \"#{like.like_type}\" to your post."
+      })
+    end
+  end
+
+  def notify_vote(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile,
+        %Vote{} = vote
+      ) do
+    # get notification where to_profile is same and post id is same,
+    # and then update action to "and [] also did."
+    if from_profile.id != to_profile.id and
+         Shlinkedin.News.is_first_vote_on_article?(from_profile, %Article{id: vote.article_id}) do
+      Shlinkedin.Profiles.create_notification(%Notification{
+        from_profile_id: from_profile.id,
+        to_profile_id: to_profile.id,
+        type: "vote",
+        article_id: vote.article_id,
+        action: "clapped your headline!"
       })
     end
   end

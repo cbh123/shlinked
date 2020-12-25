@@ -7,7 +7,9 @@ defmodule Shlinkedin.News do
   alias Shlinkedin.Repo
 
   alias Shlinkedin.News.Article
+  alias Shlinkedin.News.Vote
   alias Shlinkedin.Profiles.Profile
+  alias Shlinkedin.Profiles.ProfileNotifier
 
   @doc """
   Returns the list of articles.
@@ -23,7 +25,32 @@ defmodule Shlinkedin.News do
   end
 
   def list_top_articles do
-    Repo.all(from h in Article, order_by: h.inserted_at, limit: 5)
+    Repo.all(from h in Article, order_by: h.inserted_at, limit: 5, preload: :votes)
+  end
+
+  def create_vote(%Profile{} = profile, %Article{} = article) do
+    article_writer = Shlinkedin.Profiles.get_profile_by_profile_id(article.profile_id)
+
+    {:ok, _vote} =
+      %Vote{
+        profile_id: profile.id,
+        article_id: article.id
+      }
+      |> Repo.insert()
+      |> ProfileNotifier.observer(:vote, profile, article_writer)
+
+    # could be optimized
+    article = get_article_preload_votes!(article.id)
+
+    broadcast({:ok, article}, :article_updated)
+  end
+
+  def is_first_vote_on_article?(%Profile{} = profile, %Article{} = article) do
+    Repo.one(
+      from v in Vote,
+        where: v.article_id == ^article.id and v.profile_id == ^profile.id,
+        select: count(v.profile_id)
+    ) == 1
   end
 
   @doc """
@@ -41,6 +68,9 @@ defmodule Shlinkedin.News do
 
   """
   def get_article!(id), do: Repo.get!(Article, id)
+
+  def get_article_preload_votes!(id),
+    do: Repo.one(from a in Article, where: a.id == ^id, preload: :votes)
 
   @doc """
   Creates a article.
@@ -120,4 +150,15 @@ defmodule Shlinkedin.News do
   end
 
   defp after_save(error, _func), do: error
+
+  def subscribe do
+    Phoenix.PubSub.subscribe(Shlinkedin.PubSub, "articles")
+  end
+
+  defp broadcast({:error, _reason} = error, _), do: error
+
+  defp broadcast({:ok, article}, event) do
+    Phoenix.PubSub.broadcast(Shlinkedin.PubSub, "articles", {event, article})
+    {:ok, article}
+  end
 end

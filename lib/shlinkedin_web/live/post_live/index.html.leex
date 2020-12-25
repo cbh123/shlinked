@@ -134,36 +134,28 @@
     </div>
 
     <!-- News  -->
-    <div class="hidden sm:flex sm:flex-grow pt-3 bg-white border max-h-96 mt-10 rounded-lg border-gray-100 ml-4 ">
+    <div class="hidden sm:flex sm:flex-grow bg-white border max-h-96 mt-10 rounded-lg border-gray-100 ml-4 ">
         <div class="block w-full">
-            <%= live_redirect "ShlinkNews", to: Routes.article_index_path(@socket, :index), class: "font-bold p-5" %>
+            <div class="flex justify-between  px-5 pt-5">
+                <%= live_redirect "ShlinkNews", to: Routes.article_index_path(@socket, :index), class: "font-bold" %>
 
-            <div class="space-y-4 mt-4">
-                <div class="px-5">
-                    <div class="flex justify-between">
-                        <div>
-                            <span
-                                class="inline-flex place-self-center h-2 w-2 rounded-full ring-2 ring-white bg-blue-400 mr-2"></span>
-                            <p class="inline-flex font-semibold text-sm">12 tips for better salami</p>
-                        </div>
-                        <div>
-                            <span class="w-5 h-5 cursor-pointer hover:bg-gray-100 rounded-full px-1.5 py-1"> 👏</span>
-                        </div>
-                    </div>
-                    <div class="inline-flex ml-4">
-                        <p class="text-gray-500 text-xs">10h ago • 12 upvotes </p>
-                    </div>
-                </div>
+                <%= live_patch "+ Add Headline", to: Routes.post_index_path(@socket, :new_article), class: "text-xs text-green-800 font-semibold bg-green-100 px-2 py-1 rounded-lg hover:bg-green-200"  %>
+
             </div>
-
-
-            <div class="hidden">
+            <p class="text-xs text-gray-500 px-5 pb-4 pt-1">Clap for your favorite!</p>
+            <div class="space-y-3" phx-update="append">
                 <%= for a <- @articles do %>
                 <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
                 id: a.id,
                 profile: @profile,
                 article: a %>
                 <% end %>
+
+            </div>
+
+
+            <div class="hidden">
+
             </div>
         </div>
     </div>
@@ -212,5 +204,15 @@
     title: @page_title,
     action: @live_action,
     story: @story,
+    return_to: Routes.post_index_path(@socket, :index) %>
+<% end %>
+
+<%= if @live_action in [:new_article, :edit_article] do %>
+<%= live_modal @socket, ShlinkedinWeb.ArticleLive.FormComponent,
+    id: @article.id || :new,
+    title: @page_title,
+    action: @live_action,
+    profile: @profile,
+    article: @article,
     return_to: Routes.post_index_path(@socket, :index) %>
 <% end %>

@@ -117,6 +117,7 @@ defmodule ShlinkedinWeb.Router do
 
     # news
     live "/news", ArticleLive.Index, :index
+    live "/new_article", PostLive.Index, :new_article
     live "/news/new", ArticleLive.Index, :new
     live "/news/:id/edit", ArticleLive.Index, :edit
 

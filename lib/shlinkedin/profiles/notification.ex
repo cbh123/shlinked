@@ -7,6 +7,7 @@ defmodule Shlinkedin.Profiles.Notification do
     belongs_to :profile, Shlinkedin.Profiles.Profile, foreign_key: :from_profile_id
     field :to_profile_id, :id
     field :post_id, :id, on_delete: :nilify_all
+    field :article_id, :id, on_delete: :nilify_all
     field :type, :string
     field :body, :string
     field :subject, :string
