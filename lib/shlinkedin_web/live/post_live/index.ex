@@ -128,7 +128,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
     post = Timeline.get_post!(id)
     {:ok, _} = Timeline.delete_post(post)
 
-    {:noreply, assign(socket, :posts, Timeline.list_posts(socket.assigns.paginate_options))}
+    {:noreply, assign(socket, :posts, Timeline.list_posts(paginate: %{page: 1, per_page: 5}))}
   end
 
   @impl true
