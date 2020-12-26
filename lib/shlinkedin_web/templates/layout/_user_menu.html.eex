@@ -29,7 +29,7 @@
 
     <%= if length(Shlinkedin.Profiles.get_pending_requests(@profile)) > 0 do %>
 
-    <span class="text-xs absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white bg-green-400">
+    <span class="text-xs absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white bg-red-400">
     </span>
 
     <% end %>
@@ -65,7 +65,7 @@
        <span class=" sr-only">Updates</span>
 
     <%= if Shlinkedin.Profiles.get_unread_notification_count(@profile) > 0 do %>
-    <span class="text-xs absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white bg-green-400">
+    <span class="text-xs absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white bg-red-400">
     </span>
     <% end %>
 

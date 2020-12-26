@@ -19,7 +19,7 @@
     <%= if length(Shlinkedin.Profiles.get_pending_requests(@profile)) > 0 do %>
 
     <span
-        class="absolute top-0 right-0 block h-4 w-4 transform -translate-y-1/2 translate-x-1/2 rounded-full ring-2 ring-white bg-green-400"></span>
+        class="absolute top-0 right-0 block h-4 w-4 transform -translate-y-1/2 translate-x-1/2 rounded-full ring-2 ring-white bg-red-400"></span>
 
     <% end %>
 
@@ -56,7 +56,7 @@
 
     <%= if Shlinkedin.Profiles.get_last_read_notification_time(@profile) > @profile.last_checked_notifications do %>
     <span
-        class=" absolute top-0 right-0 block  h-4 w-4 transform -translate-y-1/2 translate-x-1/2 rounded-full ring-2 ring-white bg-green-400">
+        class=" absolute top-0 right-0 block  h-4 w-4 transform -translate-y-1/2 translate-x-1/2 rounded-full ring-2 ring-white bg-red-400">
     </span>
 
     <% end %>
