@@ -15,7 +15,7 @@ defmodule Shlinkedin.Email do
   def new_email(to, subject, body) do
     new_email(
       to: to,
-      from: "god@shlinkedin.com",
+      from: "charlie@shlinkedin.com",
       subject: subject,
       html_body: body
     )
@@ -24,7 +24,7 @@ defmodule Shlinkedin.Email do
   def user_email(to, subject, body) do
     new_email(
       to: to,
-      from: "god@shlinkedin.com",
+      from: "charlie@shlinkedin.com",
       subject: "ShlinkedIn -- #{subject}",
       text_body: body
     )
