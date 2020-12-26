@@ -16,6 +16,7 @@ defmodule Shlinkedin.News.Article do
   def changeset(article, attrs) do
     article
     |> cast(attrs, [:headline, :media_url])
+    |> validate_length(:headline, min: 0, max: 140)
     |> validate_required([:headline])
   end
 end

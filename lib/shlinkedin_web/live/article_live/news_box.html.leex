@@ -1,19 +1,20 @@
- <div id="article-<%= @article.id %>" class="px-5 leading-none">
+ <div id="article-<%= @article.id %>" class="px-5 leading-none relative">
+     <span class="absolute left-2 top-1.5 h-1.5 w-1.5 rounded-full ring-2 ring-white bg-blue-400 mr-1.5"></span>
      <%# Top row: headline and clap and dot %>
      <div class="flex justify-between">
          <div>
-             <span
-                 class="inline-flex place-self-center h-2 w-2 rounded-full ring-2 ring-white bg-blue-400 mr-1.5"></span>
-             <p class="inline-flex font-semibold text-sm"><%= @article.headline %></p>
+             <p class=" font-semibold text-xs">
+                 <%= @article.headline %>
+             </p>
          </div>
-         <div class="relative">
+         <div class="">
              <button phx-click="clap" phx-target="<%= @myself %>" type="button" phx-value-id="<%= @article.id %>"
                  class="  cursor-pointer ">
                  <span class="h-5 w-5 hover:bg-gray-100 rounded-full px-1.5 py-1">👏</span></button>
          </div>
      </div>
      <%# second row: time and upvotes %>
-     <div class=" inline-flex ml-4 -mt-4 text-gray-500 text-xs">
+     <div class=" inline-flex -mt-4 text-gray-500 text-xs">
          <span>
              <%= Timex.from_now(@article.inserted_at)%> • </span>
 
