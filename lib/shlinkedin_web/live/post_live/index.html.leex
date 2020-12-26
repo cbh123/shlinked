@@ -137,7 +137,7 @@
     <div class="hidden sm:flex sm:flex-grow bg-white border max-h-96 mt-10 rounded-lg border-gray-100 ml-4 ">
         <div class="block w-full">
             <div class="flex justify-between  px-5 pt-5">
-                <%= live_redirect "ShlinkNews", to: Routes.article_index_path(@socket, :index), class: "font-bold" %>
+                <h5 class="font-bold">ShlinkNews</h5>
 
                 <%= live_patch "+ Add Headline", to: Routes.post_index_path(@socket, :new_article), class: "text-xs text-green-800 font-semibold bg-green-100 px-2 py-1 rounded-lg hover:bg-green-200"  %>
 

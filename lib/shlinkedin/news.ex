@@ -151,6 +151,7 @@ defmodule Shlinkedin.News do
   """
   def delete_article(%Article{} = article) do
     Repo.delete(article)
+    |> broadcast(:article_deleted)
   end
 
   @doc """

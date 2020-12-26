@@ -149,13 +149,24 @@ defmodule ShlinkedinWeb.PostLive.Index do
   end
 
   @impl true
-  def handle_event("delete_comment", %{"id" => id}, socket) do
+  def handle_event("delete-comment", %{"id" => id}, socket) do
     comment = Timeline.get_comment!(id)
     {:ok, _} = Timeline.delete_comment(comment)
 
     {:noreply,
      socket
      |> put_flash(:info, "Comment deleted")
+     |> push_redirect(to: Routes.post_index_path(socket, :index))}
+  end
+
+  @impl true
+  def handle_event("delete-article", %{"id" => id}, socket) do
+    article = News.get_article!(id)
+    {:ok, _} = News.delete_article(article)
+
+    {:noreply,
+     socket
+     |> put_flash(:info, "Headline deleted")
      |> push_redirect(to: Routes.post_index_path(socket, :index))}
   end
 
@@ -177,5 +188,10 @@ defmodule ShlinkedinWeb.PostLive.Index do
   @impl true
   def handle_info({:post_deleted, post}, socket) do
     {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
+  end
+
+  @impl true
+  def handle_info({:article_deleted, article}, socket) do
+    {:noreply, update(socket, :articles, fn articles -> [article | articles] end)}
   end
 end

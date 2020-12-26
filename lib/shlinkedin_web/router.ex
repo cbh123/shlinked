@@ -116,15 +116,15 @@ defmodule ShlinkedinWeb.Router do
     live "/profiles", UsersLive.Index, :index
 
     # news
-    live "/news", ArticleLive.Index, :index
+    # live "/news", ArticleLive.Index, :index
     live "/new_article", PostLive.Index, :new_article
     live "/news/:id/votes/", PostLive.Index, :show_votes
 
-    live "/news/new", ArticleLive.Index, :new
-    live "/news/:id/edit", ArticleLive.Index, :edit
+    # live "/news/new", ArticleLive.Index, :new
+    # live "/news/:id/edit", ArticleLive.Index, :edit
 
-    live "/news/:id", ArticleLive.Show, :show
-    live "/news/:id/show/edit", ArticleLive.Show, :edit
+    # live "/news/:id", ArticleLive.Show, :show
+    # live "/news/:id/show/edit", ArticleLive.Show, :edit
   end
 
   scope "/", ShlinkedinWeb do
