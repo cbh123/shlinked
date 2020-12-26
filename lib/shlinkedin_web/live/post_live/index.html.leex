@@ -1,4 +1,7 @@
-<div class="flex w-full max-w-3xl mx-auto">
+<div class="sm:flex w-full max-w-3xl mx-auto">
+
+
+
 
 
 
@@ -158,6 +161,8 @@
         </div>
 
 
+
+
         <div class="py-1"></div>
 
 
@@ -179,28 +184,31 @@
         </div>
     </div>
 
+
+
     <!-- News  -->
-    <div class="flex bg-white border h-full mt-10 rounded-lg border-gray-100 ml-4 ">
-        <div class="block w-64">
+    <div class="hidden sm:flex bg-white border h-full sm:mt-10 rounded-lg border-gray-100 sm:m-4">
+        <div class="block sm:w-72 w-full">
             <div class="flex justify-between px-5 py-5">
-                <h5 class="font-bold">ShlinkNews</h5>
+                <%= live_redirect "ShlinkNews", to: Routes.article_index_path(@socket, :index), class: "font-bold"  %>
+
 
                 <%= live_patch "+ Add Headline", to: Routes.post_index_path(@socket, :new_article), class: "text-xs text-green-800 font-semibold bg-green-100 px-2 py-1 rounded-lg hover:bg-green-200"  %>
 
             </div>
-            <div class="space-y-3" phx-update="append">
+            <div class="space-y-3 px-2" phx-update="append">
                 <%= for a <- @articles do %>
                 <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
-                id: a.id,
-                profile: @profile,
-                spin: false,
-                article: a %>
+                    id: a.id,
+                    profile: @profile,
+                    spin: false,
+                    article: a %>
                 <% end %>
 
             </div>
-            <div class="p-5">
+            <div class="p-5 justify-center">
                 <button phx-click="more-headlines"
-                    class="text-xs text-gray-800 font-semibold bg-gray-100 px-2 py-1 rounded-lg hover:bg-gray-200 flex">
+                    class="mx-auto text-xs text-gray-800 font-semibold bg-gray-100 px-2 py-1 rounded-lg hover:bg-gray-200 flex">
 
                     <svg class="w-3 h-3 place-self-center mr-2" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
@@ -212,6 +220,8 @@
             </div>
         </div>
     </div>
+
+
 
 
 

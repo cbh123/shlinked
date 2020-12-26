@@ -108,8 +108,6 @@ defmodule ShlinkedinWeb.PostLive.Index do
   defp apply_action(socket, :show_votes, %{"id" => id}) do
     article = News.get_article_preload_votes!(id)
 
-    votes = News.list_votes(article)
-
     socket
     |> assign(:page_title, "Claps")
     |> assign(
