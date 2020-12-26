@@ -24,7 +24,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
        page: 1,
        per_page: 5,
        public_feed: public,
-       articles: News.list_top_articles(),
+       articles: News.list_top_articles(5),
        stories: Timeline.list_stories(),
        like_map: Timeline.like_map()
      )
@@ -60,6 +60,10 @@ defmodule ShlinkedinWeb.PostLive.Index do
 
   def handle_event("load-more", _, %{assigns: assigns} = socket) do
     {:noreply, socket |> assign(page: assigns.page + 1) |> fetch_posts(socket.assigns.public)}
+  end
+
+  def handle_event("more-headlines", _, socket) do
+    {:noreply, socket |> assign(articles: News.random_articles(5))}
   end
 
   @impl true
@@ -99,6 +103,20 @@ defmodule ShlinkedinWeb.PostLive.Index do
     socket
     |> assign(:page_title, "New Headline")
     |> assign(:article, %Article{})
+  end
+
+  defp apply_action(socket, :show_votes, %{"id" => id}) do
+    article = News.get_article_preload_votes!(id)
+
+    votes = News.list_votes(article)
+
+    socket
+    |> assign(:page_title, "Claps")
+    |> assign(
+      :votes,
+      News.list_votes(article)
+    )
+    |> assign(:article, article)
   end
 
   defp apply_action(socket, :show_likes, %{"id" => id}) do

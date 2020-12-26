@@ -148,14 +148,22 @@
                 <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
                 id: a.id,
                 profile: @profile,
+                spin: false,
                 article: a %>
                 <% end %>
 
             </div>
+            <div class="p-5">
+                <button phx-click="more-headlines"
+                    class="text-xs text-gray-800 font-semibold bg-gray-100 px-2 py-1 rounded-lg hover:bg-gray-200 flex">
 
-
-            <div class="hidden">
-
+                    <svg class="w-3 h-3 place-self-center mr-2" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    More Headlines </button>
             </div>
         </div>
     </div>
@@ -214,5 +222,14 @@
     action: @live_action,
     profile: @profile,
     article: @article,
+    return_to: Routes.post_index_path(@socket, :index) %>
+<% end %>
+
+<%= if @live_action in [:show_votes] do %>
+<%= live_modal @socket, ShlinkedinWeb.ArticleLive.VoteComponent,
+    profile: @profile,
+    title: @page_title,
+    article: @article,
+    votes:  @votes,
     return_to: Routes.post_index_path(@socket, :index) %>
 <% end %>

@@ -6,15 +6,23 @@
                  class="inline-flex place-self-center h-2 w-2 rounded-full ring-2 ring-white bg-blue-400 mr-1.5"></span>
              <p class="inline-flex font-semibold text-sm"><%= @article.headline %></p>
          </div>
-         <div class="">
+         <div class="relative">
              <button phx-click="clap" phx-target="<%= @myself %>" type="button" phx-value-id="<%= @article.id %>"
-                 class="w-5 h-5 cursor-pointer hover:bg-gray-100 rounded-full px-1.5 py-1">
-                 👏</button>
+                 class="  cursor-pointer ">
+                 <span class="h-5 w-5 hover:bg-gray-100 rounded-full px-1.5 py-1">👏</span></button>
          </div>
      </div>
      <%# second row: time and upvotes %>
-     <div class="inline-flex ml-4 -mt-4">
-         <p class="text-gray-500 text-xs"><%= Timex.from_now(@article.inserted_at)%> • <%= length(@article.votes)%>
-             claps </p>
+     <div class=" inline-flex ml-4 -mt-4 text-gray-500 text-xs">
+         <span>
+             <%= Timex.from_now(@article.inserted_at)%> • </span>
+
+
+         <%= live_patch to: Routes.post_index_path(@socket, :show_votes, @article.id) do %>
+
+         <span class="pl-1 <%= if @spin == true, do: "animate-spin" %> "> <%= length(@article.votes)%>
+             claps </span></p>
+
+         <% end %>
      </div>
  </div>

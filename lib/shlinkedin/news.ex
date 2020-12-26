@@ -20,12 +20,16 @@ defmodule Shlinkedin.News do
       [%Article{}, ...]
 
   """
-  def list_articles do
-    Repo.all(Article)
+  def list_articles() do
+    Repo.all(from h in Article, order_by: h.inserted_at, preload: :votes)
   end
 
-  def list_top_articles do
-    Repo.all(from h in Article, order_by: h.inserted_at, limit: 5, preload: :votes)
+  def list_top_articles(count) do
+    Repo.all(from h in Article, order_by: h.inserted_at, limit: ^count, preload: :votes)
+  end
+
+  def random_articles(count) do
+    Repo.all(from h in Article, order_by: fragment("RANDOM()"), limit: ^count, preload: :votes)
   end
 
   def create_vote(%Profile{} = profile, %Article{} = article) do
@@ -96,6 +100,23 @@ defmodule Shlinkedin.News do
     |> Article.changeset(attrs)
     |> Repo.insert()
     |> after_save(after_save)
+  end
+
+  def list_votes(%Article{} = article) do
+    Repo.all(
+      from v in Vote,
+        join: p in assoc(v, :profile),
+        where: v.article_id == ^article.id,
+        group_by: [p.persona_name, p.photo_url, p.username, p.slug],
+        select: %{
+          name: p.persona_name,
+          username: p.username,
+          photo_url: p.photo_url,
+          count: count(v.id),
+          slug: p.slug
+        },
+        order_by: p.persona_name
+    )
   end
 
   @doc """

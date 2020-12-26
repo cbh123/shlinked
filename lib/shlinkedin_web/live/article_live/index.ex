@@ -6,6 +6,10 @@ defmodule ShlinkedinWeb.ArticleLive.Index do
 
   @impl true
   def mount(_params, session, socket) do
+    if connected?(socket) do
+      News.subscribe()
+    end
+
     socket = is_user(session, socket)
     {:ok, assign(socket, :articles, list_articles())}
   end
@@ -39,6 +43,11 @@ defmodule ShlinkedinWeb.ArticleLive.Index do
     {:ok, _} = News.delete_article(article)
 
     {:noreply, assign(socket, :articles, list_articles())}
+  end
+
+  @impl true
+  def handle_info({:article_updated, article}, socket) do
+    {:noreply, update(socket, :articles, fn articles -> [article | articles] end)}
   end
 
   defp list_articles do

@@ -3,8 +3,8 @@ defmodule Shlinkedin.News.Vote do
   import Ecto.Changeset
 
   schema "article_votes" do
-    field :article_id, :id
-    field :profile_id, :id
+    belongs_to :article, Shlinkedin.News.Article
+    belongs_to :profile, Shlinkedin.Profiles.Profile
 
     timestamps()
   end

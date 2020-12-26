@@ -1,0 +1,35 @@
+<div class="bg-white px-4 py-4 border-b border-gray-200 sm:px-6 rounded-t-lg">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">
+        <%= @title %>
+    </h3>
+
+</div>
+
+<div class="p-5 pt-2 max-h-96 overflow-y-scroll">
+    <%= for user <- @votes  do %>
+
+    <div class="my-1 border-gray-100 border-b">
+        <div class="flex">
+            <span class="inline-block cursor-pointer place-self-center">
+                <img class="h-8 w-8 rounded-full object-cover" src="<%= user.photo_url %>" alt="">
+            </span>
+            <div class="ml-2 py-2 px-4 rounded-lg">
+                <div class="flex justify-between">
+                    <%= live_patch to: Routes.profile_show_path(@socket, :show, user.slug), class: "bold text-xs font-semibold hover:underline cursor-pointer" do  %>
+                    <p><%= user.name %>
+                        <span class="text-gray-500 font-light">@<%= user.username %></span></p>
+                    <% end %>
+                </div>
+                <span
+                    class="pr-1 mt-2 mr-2 inline-flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+
+
+                    👏 <span class="pl-1 text-gray-500 font-normal"><%= user.count %>x</span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+
+    <% end %>
+</div>
