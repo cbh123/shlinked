@@ -111,8 +111,7 @@
         <div class="py-1"></div>
 
         <%# Mobile News %>
-        <div class="mx-auto w-screen sm:max-w-lg bg-white sm:rounded-lg border-b">
-
+        <div class="sm:hidden mx-auto w-screen sm:max-w-lg bg-white sm:rounded-lg border-b">
 
             <div class="block sm:w-72 w-full">
                 <div class="flex justify-between px-5 py-5">
@@ -133,20 +132,11 @@
 
                 </div>
                 <div class="p-5 justify-center">
-                    <button phx-click="more-headlines"
-                        class="mx-auto text-xs text-gray-800 font-semibold bg-gray-100 px-2 py-1 rounded-lg hover:bg-gray-200 flex">
 
-                        <svg class="w-3 h-3 place-self-center mr-2" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                        More Headlines </button>
+                    <%= live_redirect raw("More Headlines &rarr;"), to: Routes.article_index_path(@socket, :index), class: "mx-auto text-xs text-gray-800 font-semibold bg-gray-100 px-2 py-1 rounded-lg hover:bg-gray-200 inline-flex" %>
+
                 </div>
-
             </div>
-
         </div>
 
 
