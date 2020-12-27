@@ -111,6 +111,7 @@ defmodule ShlinkedinWeb.Router do
     # admin
     live "/admin", AdminLive.Index, :index
     live "/admin/notification/new", AdminLive.Index, :new_notification
+    live "/admin/email/new", AdminLive.Index, :new_email
 
     # show all profiles
     live "/profiles", UsersLive.Index, :index

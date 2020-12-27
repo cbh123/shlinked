@@ -47,6 +47,10 @@ defmodule Shlinkedin.Profiles do
     Repo.all(from(p in Profile))
   end
 
+  def list_profiles_preload_users() do
+    Repo.all(from p in Profile, preload: :user)
+  end
+
   def list_non_test_profiles() do
     Repo.all(from p in Profile, where: p.persona_name != "test")
   end
@@ -163,6 +167,30 @@ defmodule Shlinkedin.Profiles do
 
       other ->
         IO.inspect(other, label: "other!")
+    end
+  end
+
+  def admin_email_all(subject, body, notify_all, profile \\ %Profile{}) do
+    case notify_all do
+      "false" ->
+        Shlinkedin.Email.new_email(
+          profile.user.email,
+          subject,
+          body
+        )
+        |> Shlinkedin.Mailer.deliver_later()
+
+      "true" ->
+        for p <- list_profiles_preload_users() do
+          if p.unsubscribed == false do
+            Shlinkedin.Email.new_email(
+              p.user.email,
+              subject,
+              body
+            )
+            |> Shlinkedin.Mailer.deliver_later()
+          end
+        end
     end
   end
 

@@ -24,6 +24,12 @@ defmodule ShlinkedinWeb.AdminLive.Index do
     |> assign(:notification, %Notification{})
   end
 
+  defp apply_action(socket, :new_email, _params) do
+    socket
+    |> assign(:page_title, "Create Email to EVERYONE!")
+    |> assign(:notification, %Notification{})
+  end
+
   defp check_access(socket) do
     case socket.assigns.profile.admin do
       false ->

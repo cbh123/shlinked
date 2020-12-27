@@ -30,6 +30,20 @@ defmodule ShlinkedinWeb.AdminLive.NotificationFormComponent do
 
   defp save_notification(
          socket,
+         :new_email,
+         %{"notify_all" => notify_all, "action" => subject, "body" => body}
+       ) do
+    profile = Profiles.get_profile_by_profile_id_preload_user(socket.assigns.profile.id)
+    Profiles.admin_email_all(subject, body, notify_all, profile)
+
+    {:noreply,
+     socket
+     |> put_flash(:info, "Email successful")
+     |> push_redirect(to: socket.assigns.return_to)}
+  end
+
+  defp save_notification(
+         socket,
          :new_notification,
          %{"notify_all" => notify_all} = notification_params
        ) do
