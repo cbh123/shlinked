@@ -63,7 +63,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
   end
 
   def handle_event("more-headlines", _, socket) do
-    {:noreply, socket |> assign(articles: News.random_articles(5))}
+    {:noreply, socket |> assign(articles: News.list_random_articles(5))}
   end
 
   @impl true
