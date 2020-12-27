@@ -21,11 +21,11 @@ defmodule Shlinkedin.News do
 
   """
   def list_articles() do
-    Repo.all(from h in Article, order_by: h.inserted_at, preload: :votes)
+    Repo.all(from h in Article, order_by: [desc: h.inserted_at], preload: :votes)
   end
 
   def list_top_articles(count) do
-    Repo.all(from h in Article, order_by: h.inserted_at, limit: ^count, preload: :votes)
+    Repo.all(from h in Article, order_by: h.inserted_at, limit: ^count, preload: :votes, preload: )
   end
 
   def random_articles(count) do
