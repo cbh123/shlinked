@@ -154,8 +154,7 @@ defmodule Shlinkedin.Timeline do
   def list_story_views(%Story{} = story) do
     Repo.all(
       from v in StoryView,
-        where:
-          v.inserted_at >= datetime_add(v.inserted_at, -1, "day") and v.story_id == ^story.id,
+        where: v.story_id == ^story.id,
         distinct: v.from_profile_id,
         preload: :profile
     )

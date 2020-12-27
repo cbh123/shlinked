@@ -3,7 +3,7 @@ defmodule ShlinkedinWeb.UsersLive.Index do
   alias Shlinkedin.Profiles
 
   @impl true
-  def mount(params, session, socket) do
+  def mount(_params, session, socket) do
     # KNOWN BUG: RIGHT WHEN YOU CREATE AN ACCOUNT, THIS BUTTON DOESN"T WORK! PROBLABLY NOT LOADED INTO SOCKET!
     socket = is_user(session, socket)
 

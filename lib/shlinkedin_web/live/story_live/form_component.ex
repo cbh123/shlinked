@@ -1,8 +1,8 @@
 defmodule ShlinkedinWeb.StoryLive.FormComponent do
   use ShlinkedinWeb, :live_component
 
-  alias Shlinkedin.Timeline
   alias Shlinkedin.Timeline.Story
+  alias Shlinkedin.Timeline
 
   @impl true
   def mount(socket) do
@@ -47,7 +47,7 @@ defmodule ShlinkedinWeb.StoryLive.FormComponent do
     {:noreply, cancel_upload(socket, :media, ref)}
   end
 
-  defp put_photo_urls(socket, %Story{} = story) do
+  defp put_photo_urls(socket, %Shlinkedin.Timeline.Story{} = story) do
     {completed, []} = uploaded_entries(socket, :media)
 
     urls =
