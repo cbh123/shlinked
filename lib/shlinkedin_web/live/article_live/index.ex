@@ -11,7 +11,7 @@ defmodule ShlinkedinWeb.ArticleLive.Index do
     end
 
     socket = is_user(session, socket)
-    {:ok, assign(socket, :articles, list_articles())}
+    {:ok, assign(socket, :articles, list_articles()), temporary_assigns: [articles: []]}
   end
 
   @impl true
