@@ -202,7 +202,7 @@ defmodule Shlinkedin.Timeline do
         where: s.inserted_at >= datetime_add(s.inserted_at, -1, "day"),
         preload: [:profile],
         distinct: s.profile_id,
-        order_by: [asc: s.inserted_at]
+        order_by: [desc: s.inserted_at]
     )
   end
 
