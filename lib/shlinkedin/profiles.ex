@@ -149,6 +149,20 @@ defmodule Shlinkedin.Profiles do
     |> Repo.insert()
   end
 
+  def notify_everyone(%Notification{} = notification, attrs \\ %{}) do
+    for p <- list_profiles() do
+      create_notification(notification, attrs |> Map.put("to_profile_id", p.id))
+    end
+  end
+
+  def notify_everyone_except(%Profile{} = except, %Notification{} = notification, attrs \\ %{}) do
+    for p <- list_profiles() do
+      if except.id != p.id do
+        create_notification(notification, attrs |> Map.put("to_profile_id", p.id))
+      end
+    end
+  end
+
   def admin_create_notification(
         %Notification{} = notification,
         attrs \\ %{},
@@ -164,9 +178,6 @@ defmodule Shlinkedin.Profiles do
         end
 
         {:ok, "Sent to everyone"}
-
-      other ->
-        IO.inspect(other, label: "other!")
     end
   end
 
@@ -405,7 +416,24 @@ defmodule Shlinkedin.Profiles do
     |> Ecto.Changeset.put_change(:slug, attrs["username"])
     |> Repo.insert()
     |> after_save(after_save)
+    |> new_profile_notification()
   end
+
+  defp new_profile_notification({:ok, profile}) do
+    notify_everyone_except(
+      profile,
+      %Notification{
+        from_profile_id: profile.id,
+        type: "new_profile",
+        body: "Shlink with them?",
+        action: "just joined ShlinkedIn!"
+      }
+    )
+
+    {:ok, profile}
+  end
+
+  defp new_profile_notification({:error, message}), do: {:error, message}
 
   def update_profile(%Profile{} = profile, %User{id: user_id}, attrs, after_save \\ &{:ok, &1}) do
     profile = %{profile | user_id: user_id}

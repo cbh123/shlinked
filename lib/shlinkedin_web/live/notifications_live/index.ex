@@ -23,7 +23,14 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
   @impl true
   def handle_event(
         "notification-click",
-        %{"id" => id, "slug" => slug, "type" => type, "post-id" => post_id, "link" => link},
+        %{
+          "id" => id,
+          "slug" => slug,
+          "type" => type,
+          "post-id" => post_id,
+          "link" => link,
+          "article-id" => article_id
+        },
         socket
       ) do
     Profiles.change_notification_to_read(id |> String.to_integer())
@@ -36,6 +43,9 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
         {:noreply, push_redirect(socket, to: "/sh/#{socket.assigns.profile.slug}/notifications")}
 
       "accepted_shlink" ->
+        {:noreply, push_redirect(socket, to: "/sh/#{slug}/notifications")}
+
+      "new_profile" ->
         {:noreply, push_redirect(socket, to: "/sh/#{slug}/notifications")}
 
       "pending_shlink" ->
@@ -52,6 +62,9 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
 
       "admin_message" ->
         {:noreply, push_redirect(socket, to: if(link == "", do: "/", else: link))}
+
+      "vote" ->
+        {:noreply, push_redirect(socket, to: "/news/#{article_id}/votes")}
     end
   end
 
