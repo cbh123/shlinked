@@ -78,7 +78,8 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
 
     send_update(PostComponent,
       id: socket.assigns.post.id,
-      spin: true
+      spin: true,
+      expand_post: true
     )
 
     send_update_after(

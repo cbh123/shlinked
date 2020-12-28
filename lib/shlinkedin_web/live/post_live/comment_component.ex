@@ -78,7 +78,9 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
       {:ok, _comment} ->
         send_update(PostComponent,
           id: socket.assigns.post.id,
-          comment_spin: true
+          comment_spin: true,
+          # hardcoded
+          num_show_comments: 100
         )
 
         send_update_after(

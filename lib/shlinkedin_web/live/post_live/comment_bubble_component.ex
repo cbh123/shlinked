@@ -1,6 +1,7 @@
 defmodule ShlinkedinWeb.PostLive.CommentBubbleComponent do
   use ShlinkedinWeb, :live_component
   alias ShlinkedinWeb.PostLive.CommentBubbleComponent
+  alias ShlinkedinWeb.PostLive.PostComponent
   alias Shlinkedin.Timeline.Comment
 
   def handle_event("expand-comment", _, socket) do
@@ -14,6 +15,11 @@ defmodule ShlinkedinWeb.PostLive.CommentBubbleComponent do
       socket.assigns.profile,
       socket.assigns.comment,
       like_type
+    )
+
+    send_update(PostComponent,
+      id: socket.assigns.post.id,
+      num_show_comments: socket.assigns.num_show_comments
     )
 
     {:noreply, socket}

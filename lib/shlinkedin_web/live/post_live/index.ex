@@ -27,7 +27,8 @@ defmodule ShlinkedinWeb.PostLive.Index do
        articles: News.list_top_articles(5),
        stories: Timeline.list_stories(),
        like_map: Timeline.like_map(),
-       comment_like_map: Timeline.comment_like_map()
+       comment_like_map: Timeline.comment_like_map(),
+       num_show_comments: 1
      )
      |> fetch_posts(public), temporary_assigns: [posts: [], articles: []]}
   end
