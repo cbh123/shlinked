@@ -226,7 +226,7 @@ defmodule Shlinkedin.Timeline do
   end
 
   def get_gif_from_text(text) do
-    text = String.replace(text, ~r/\s+/, "_")
+    text = String.replace(text, ~r/\s+/, "_") |> String.slice(0..5)
 
     api =
       "https://api.giphy.com/v1/gifs/translate?api_key=#{System.get_env("GIPHY_API_KEY")}&s=#{
