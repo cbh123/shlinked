@@ -322,14 +322,6 @@ defmodule Shlinkedin.Timeline do
     ) == 1
   end
 
-  def list_comments(%Post{} = post) do
-    Repo.all(
-      from c in Ecto.assoc(post, :comments),
-        order_by: [desc: c.inserted_at],
-        preload: [:profile]
-    )
-  end
-
   @doc """
 
   Returns:
