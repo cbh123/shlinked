@@ -26,7 +26,8 @@ defmodule ShlinkedinWeb.PostLive.Index do
        public_feed: public,
        articles: News.list_top_articles(5),
        stories: Timeline.list_stories(),
-       like_map: Timeline.like_map()
+       like_map: Timeline.like_map(),
+       comment_like_map: Timeline.comment_like_map()
      )
      |> fetch_posts(public), temporary_assigns: [posts: [], articles: []]}
   end
@@ -48,22 +49,6 @@ defmodule ShlinkedinWeb.PostLive.Index do
           public: false
         )
     end
-  end
-
-  def handle_event("public", _, socket) do
-    {:noreply, socket |> fetch_posts(true)}
-  end
-
-  def handle_event("friend", _, socket) do
-    {:noreply, socket |> fetch_posts(false)}
-  end
-
-  def handle_event("load-more", _, %{assigns: assigns} = socket) do
-    {:noreply, socket |> assign(page: assigns.page + 1) |> fetch_posts(socket.assigns.public)}
-  end
-
-  def handle_event("more-headlines", _, socket) do
-    {:noreply, socket |> assign(articles: News.list_random_articles(5))}
   end
 
   @impl true
@@ -132,10 +117,41 @@ defmodule ShlinkedinWeb.PostLive.Index do
     |> assign(:post, post)
   end
 
+  defp apply_action(socket, :show_comment_likes, %{"comment_id" => comment_id}) do
+    comment = Timeline.get_comment!(comment_id)
+
+    socket
+    |> assign(:page_title, "Comment Reactions")
+    |> assign(
+      :likes,
+      Timeline.list_comment_likes(comment)
+      |> Enum.group_by(
+        &%{name: &1.name, username: &1.username, photo_url: &1.photo_url, slug: &1.slug}
+      )
+    )
+    |> assign(:comment, comment)
+  end
+
   defp apply_action(socket, :index, _params) do
     socket
     |> assign(:page_title, "Home")
     |> assign(:post, nil)
+  end
+
+  def handle_event("public", _, socket) do
+    {:noreply, socket |> fetch_posts(true)}
+  end
+
+  def handle_event("friend", _, socket) do
+    {:noreply, socket |> fetch_posts(false)}
+  end
+
+  def handle_event("load-more", _, %{assigns: assigns} = socket) do
+    {:noreply, socket |> assign(page: assigns.page + 1) |> fetch_posts(socket.assigns.public)}
+  end
+
+  def handle_event("more-headlines", _, socket) do
+    {:noreply, socket |> assign(articles: News.list_random_articles(5))}
   end
 
   @impl true

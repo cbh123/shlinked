@@ -274,10 +274,7 @@
         <div class="py-1 pb-0">
 
             <%= for like <- like_map_list(@like_map) do %>
-
-
             <%= case Enum.filter(@post.likes, fn l -> l.profile_id == @profile.id && l.like_type == like.like_type end) |> length() do %>
-
             <% 0 -> %><button type="button" phx-target="<%= @myself %>" phx-click="like-selected"
                 phx-value-like-type="<%=like.like_type%>"
                 class="active:text-white active:<%=like.bg %> inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
@@ -335,6 +332,7 @@
                 post: @post,
                 profile: @profile,
                 expand_comment: false,
+                 like_map: @comment_like_map,
                 comment: comment %>
         </div>
         <% end %>

@@ -4,7 +4,7 @@ defmodule Shlinkedin.Timeline.Comment do
 
   schema "comments" do
     field :body, :string
-    field :likes, :integer, default: 0
+    has_many(:likes, Shlinkedin.Timeline.CommentLike, on_delete: :nilify_all)
     belongs_to :post, Shlinkedin.Timeline.Post
     belongs_to :profile, Shlinkedin.Profiles.Profile
     timestamps()

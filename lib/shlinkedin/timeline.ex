@@ -5,7 +5,7 @@ defmodule Shlinkedin.Timeline do
   import Ecto.Query, warn: false
   alias Shlinkedin.Repo
 
-  alias Shlinkedin.Timeline.{Post, Comment, Like, Story, StoryView}
+  alias Shlinkedin.Timeline.{Post, Comment, Like, CommentLike, Story, StoryView}
   alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Profiles.ProfileNotifier
 
@@ -27,7 +27,7 @@ defmodule Shlinkedin.Timeline do
     paged_query = paginate(query, criteria)
 
     from(p in paged_query,
-      preload: [:profile, :likes, comments: :profile]
+      preload: [:profile, :likes, comments: [:profile, :likes]]
     )
     |> Repo.all()
   end
@@ -87,7 +87,8 @@ defmodule Shlinkedin.Timeline do
         left_join: profile in assoc(p, :profile),
         left_join: comments in assoc(p, :comments),
         left_join: profs in assoc(comments, :profile),
-        preload: [:profile, :likes, comments: {comments, profile: profs}]
+        left_join: likes in assoc(comments, :likes),
+        preload: [:profile, :likes, comments: {comments, profile: profs, likes: likes}]
     )
   end
 
@@ -283,6 +284,22 @@ defmodule Shlinkedin.Timeline do
     broadcast({:ok, post}, :post_updated)
   end
 
+  def create_comment_like(%Profile{} = profile, %Comment{} = comment, like_type) do
+    {:ok, _comment} =
+      %CommentLike{
+        profile_id: profile.id,
+        comment_id: comment.id,
+        like_type: like_type
+      }
+      |> Repo.insert()
+      |> ProfileNotifier.observer(:comment_like, profile, comment.profile)
+
+    # could be optimized
+    post = get_post_preload_all(comment.post_id)
+
+    broadcast({:ok, post}, :post_updated)
+  end
+
   @doc """
   Tells us whether profile has liked that post
   before. This is important for notifications,
@@ -293,6 +310,14 @@ defmodule Shlinkedin.Timeline do
     Repo.one(
       from l in Like,
         where: l.post_id == ^post.id and l.profile_id == ^profile.id,
+        select: count(l.profile_id)
+    ) == 1
+  end
+
+  def is_first_like_on_comment?(%Profile{} = profile, %Comment{} = comment) do
+    Repo.one(
+      from l in Like,
+        where: l.comment_id == ^comment.id and l.profile_id == ^profile.id,
         select: count(l.profile_id)
     ) == 1
   end
@@ -321,6 +346,25 @@ defmodule Shlinkedin.Timeline do
       from l in Like,
         join: p in assoc(l, :profile),
         where: l.post_id == ^post.id,
+        group_by: [p.persona_name, p.photo_url, p.username, p.slug, l.like_type],
+        select: %{
+          name: p.persona_name,
+          username: p.username,
+          photo_url: p.photo_url,
+          like_type: l.like_type,
+          like_type: l.like_type,
+          count: count(l.like_type),
+          slug: p.slug
+        },
+        order_by: p.persona_name
+    )
+  end
+
+  def list_comment_likes(%Comment{} = comment) do
+    Repo.all(
+      from l in CommentLike,
+        join: p in assoc(l, :profile),
+        where: l.comment_id == ^comment.id,
         group_by: [p.persona_name, p.photo_url, p.username, p.slug, l.like_type],
         select: %{
           name: p.persona_name,
@@ -471,6 +515,38 @@ defmodule Shlinkedin.Timeline do
         fill: "evenodd",
         svg_path:
           "M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z"
+      }
+    }
+  end
+
+  def comment_like_map do
+    %{
+      "Zap" => %{
+        like_type: "Zap",
+        bg: "bg-yellow-500",
+        color: "text-yellow-500",
+        bg_hover: "bg-yellow-600",
+        fill: "",
+        svg_path:
+          "M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
+      },
+      "Slap" => %{
+        like_type: "Slap",
+        bg: "bg-indigo-500",
+        color: "text-indigo-500",
+        bg_hover: "bg-indigo-600",
+        fill: "even-odd",
+        svg_path:
+          "M9 3a1 1 0 012 0v5.5a.5.5 0 001 0V4a1 1 0 112 0v4.5a.5.5 0 001 0V6a1 1 0 112 0v5a7 7 0 11-14 0V9a1 1 0 012 0v2.5a.5.5 0 001 0V4a1 1 0 012 0v4.5a.5.5 0 001 0V3z"
+      },
+      "Warm" => %{
+        like_type: "Warm",
+        bg: "bg-red-500",
+        color: "text-red-500",
+        bg_hover: "bg-red-600",
+        fill: "even-odd",
+        svg_path:
+          "M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
       }
     }
   end

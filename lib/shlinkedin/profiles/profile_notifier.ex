@@ -1,6 +1,7 @@
 defmodule Shlinkedin.Profiles.ProfileNotifier do
   alias Shlinkedin.Profiles.{Profile, Endorsement, Testimonial, Notification}
-  alias Shlinkedin.Timeline.{Like, Comment, Post}
+  alias Shlinkedin.Timeline.{Like, Comment, Post, CommentLike}
+  alias Shlinkedin.Timeline
   alias Shlinkedin.News.Vote
   alias Shlinkedin.News.Article
 
@@ -17,6 +18,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
       :like ->
         notify_like(from_profile, to_profile, res)
+
+      :comment_like ->
+        notify_comment_like(from_profile, to_profile, res)
 
       :vote ->
         notify_vote(from_profile, to_profile, res)
@@ -220,6 +224,29 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         type: "like",
         post_id: like.post_id,
         action: "reacted \"#{like.like_type}\" to your post."
+      })
+    end
+  end
+
+  def notify_comment_like(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile,
+        %CommentLike{} = like
+      ) do
+    # get notification where to_profile is same and post id is same,
+    # and then update action to "and [] also did."
+    # could be optimized by one query
+    comment = Timeline.get_comment!(like.comment_id)
+    post = Timeline.get_post!(comment.post_id)
+
+    if from_profile.id != to_profile.id and
+         Shlinkedin.Timeline.is_first_like_on_comment?(from_profile, %Comment{id: like.comment_id}) do
+      Shlinkedin.Profiles.create_notification(%Notification{
+        from_profile_id: from_profile.id,
+        to_profile_id: to_profile.id,
+        type: "like",
+        post_id: post.id,
+        action: "reacted \"#{like.like_type}\" to your comment."
       })
     end
   end

@@ -163,10 +163,11 @@
         post: post,
         deleted: post.__meta__.state == :deleted,
         like_map: @like_map,
+        comment_like_map: @comment_like_map,
         comment_spin: false,
         show_post_options: false,
         expand_post: false,
-        num_show_comments: 1,
+        num_show_comments: 5,
         spin: false  %>
             <% end %>
         </div>
@@ -232,7 +233,16 @@
     profile: @profile,
     title: @page_title,
     like_map: @like_map,
-    post: @post,
+    action: @live_action,
+    likes:  @likes,
+    return_to: Routes.post_index_path(@socket, :index) %>
+<% end %>
+
+<%= if @live_action in [:show_comment_likes] do %>
+<%= live_modal @socket, ShlinkedinWeb.PostLive.LikeComponent,
+    profile: @profile,
+    title: @page_title,
+    like_map: @comment_like_map,
     action: @live_action,
     likes:  @likes,
     return_to: Routes.post_index_path(@socket, :index) %>
