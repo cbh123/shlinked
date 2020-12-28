@@ -316,7 +316,7 @@ defmodule Shlinkedin.Timeline do
 
   def is_first_like_on_comment?(%Profile{} = profile, %Comment{} = comment) do
     Repo.one(
-      from l in Like,
+      from l in CommentLike,
         where: l.comment_id == ^comment.id and l.profile_id == ^profile.id,
         select: count(l.profile_id)
     ) == 1
