@@ -121,7 +121,7 @@
                     <%= live_patch "+ Add Headline", to: Routes.post_index_path(@socket, :new_article), class: "text-xs text-green-800 font-semibold bg-green-100 px-2 py-1 rounded-lg hover:bg-green-200"  %>
 
                 </div>
-                <div class="space-y-3 px-2" phx-update="append">
+                <div class="space-y-3 px-2" phx-update="replace">
                     <%= for a <- @articles do %>
                     <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
                     id: "mobile:#{a.id}",
