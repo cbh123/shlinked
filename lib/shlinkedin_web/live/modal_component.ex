@@ -4,7 +4,7 @@ defmodule ShlinkedinWeb.ModalComponent do
   @impl true
   def render(assigns) do
     ~L"""
-    <div id="<%= @id %>" class="phx-modal z-50"
+    <div id="<%= @id %>" class="phx-modal z-30"
       phx-capture-click="close"
       phx-window-keydown="close"
       phx-key="escape"

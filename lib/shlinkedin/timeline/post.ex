@@ -15,6 +15,7 @@ defmodule Shlinkedin.Timeline.Post do
     field :profile_update, :boolean, default: false
     field :featured, :boolean, default: false
     field :featured_date, :naive_datetime
+    field :profile_tags, {:array, :string}, default: []
     timestamps()
   end
 

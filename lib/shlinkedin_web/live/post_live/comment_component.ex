@@ -5,6 +5,17 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
   alias ShlinkedinWeb.PostLive.PostComponent
 
   @impl true
+  def mount(socket) do
+    assigns = [
+      tags: [],
+      search_results: [],
+      current_focus: -1
+    ]
+
+    {:ok, assign(socket, assigns)}
+  end
+
+  @impl true
   def update(%{comment: comment} = assigns, socket) do
     changeset = Timeline.change_comment(comment)
 
@@ -23,12 +34,25 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
 
   @impl true
   def handle_event("validate", %{"comment" => comment_params}, socket) do
+    body = comment_params["body"]
+
     changeset =
       socket.assigns.comment
       |> Timeline.change_comment(comment_params)
       |> Map.put(:action, :validate)
 
-    {:noreply, assign(socket, :changeset, changeset)}
+    {:noreply, assign(socket, changeset: changeset, search_results: get_search_results(body))}
+  end
+
+  def handle_event("pick", %{"name" => name}, socket) do
+    current_body = socket.assigns.changeset.changes.body
+    body = String.replace(current_body, ~r/\@([^\s]*)/, "@#{name}")
+
+    changeset =
+      socket.assigns.changeset
+      |> Ecto.Changeset.put_change(:body, body)
+
+    {:noreply, assign(socket, changeset: changeset, search_results: [])}
   end
 
   def handle_event("comment-ai", _, socket) do
@@ -71,6 +95,17 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
 
   def handle_event("save", %{"comment" => comment_params}, socket) do
     save_comment(socket, socket.assigns.action, comment_params)
+  end
+
+  defp get_search_results(body) do
+    case String.contains?(body, "@") do
+      true ->
+        query = Regex.run(~r/\@([^\s]*)/, body, capture: :all_but_first)
+        Shlinkedin.Profiles.search_profiles(query)
+
+      false ->
+        []
+    end
   end
 
   defp save_comment(%{assigns: %{profile: profile}} = socket, _, comment_params) do
