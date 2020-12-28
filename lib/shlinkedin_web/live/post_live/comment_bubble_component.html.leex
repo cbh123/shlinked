@@ -5,7 +5,7 @@
     </span>
     <div class=" bg-gray-100 ml-2 py-2 px-4 rounded-lg w-11/12 relative">
         <div class="flex justify-between relative">
-            <%= live_patch to: Routes.profile_show_path(@socket, :show, @comment.profile.slug), class: "text-sm font-semibold text-gray-900 hover:underline" do  %>
+            <%= live_redirect to: Routes.profile_show_path(@socket, :show, @comment.profile.slug), class: "text-sm font-semibold text-gray-900 hover:underline" do  %>
             <p class="bold text-xs font-semibold hover:underline cursor-pointer w-64 truncate">
                 <%= @comment.profile.persona_name %>
 
