@@ -404,6 +404,10 @@ defmodule Shlinkedin.Profiles do
     from(p in Profile, where: p.user_id == ^user_id, select: p) |> Repo.one()
   end
 
+  def get_profile_by_username(username) do
+    from(p in Profile, where: p.username == ^username, select: p) |> Repo.one()
+  end
+
   def get_profile_by_profile_id(profile_id) do
     from(p in Profile, where: p.id == ^profile_id, select: p) |> Repo.one()
   end

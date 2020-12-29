@@ -329,6 +329,28 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
     """
 
+    for username <- comment.profile_tags do
+      Shlinkedin.Profiles.get_profile_by_username(username)
+
+      Shlinkedin.Profiles.create_notification(%Notification{
+        from_profile_id: from_profile.id,
+        to_profile_id: to_profile.id,
+        type: "comment",
+        post_id: comment.post_id,
+        action: "tagged you in their comment: ",
+        body: "#{comment.body}"
+      })
+
+      if to_profile.unsubscribed == false do
+        Shlinkedin.Email.new_email(
+          to_profile.user.email,
+          "Your post is getting traction!",
+          body
+        )
+        |> Shlinkedin.Mailer.deliver_later()
+      end
+    end
+
     if from_profile.id != to_profile.id do
       Shlinkedin.Profiles.create_notification(%Notification{
         from_profile_id: from_profile.id,

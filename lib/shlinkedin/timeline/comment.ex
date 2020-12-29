@@ -15,7 +15,7 @@ defmodule Shlinkedin.Timeline.Comment do
   @doc false
   def changeset(comment, attrs) do
     comment
-    |> cast(attrs, [:body])
+    |> cast(attrs, [:body, :profile_tags])
     |> validate_required([:body])
     |> validate_length(:body, max: 240)
   end

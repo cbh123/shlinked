@@ -54,10 +54,10 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
      )}
   end
 
-  def handle_event("pick", %{"name" => name}, socket) do
+  def handle_event("pick", %{"name" => username}, socket) do
     current_body = socket.assigns.changeset.changes.body
 
-    new_body = current_body <> name
+    new_body = current_body <> username
 
     changeset =
       socket.assigns.changeset
@@ -66,8 +66,22 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
     {:noreply,
      assign(socket,
        changeset: changeset,
-       search_results: []
+       search_results: [],
+       tags: socket.assigns.tags ++ [username]
      )}
+  end
+
+  def handle_event("remove-tag", %{"name" => username}, %{assigns: %{tags: tags}} = socket) do
+    current_body = socket.assigns.changeset.changes.body
+
+    new_body = String.replace(current_body, "@#{username}", "")
+
+    changeset =
+      socket.assigns.changeset
+      |> Ecto.Changeset.put_change(:body, new_body)
+
+    socket = assign(socket, tags: List.delete(tags, username), changeset: changeset)
+    {:noreply, socket}
   end
 
   def handle_event("comment-ai", _, socket) do
@@ -134,7 +148,9 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
     if current_mode == true, do: Shlinkedin.Profiles.search_profiles(query), else: []
   end
 
-  defp save_comment(%{assigns: %{profile: profile}} = socket, _, comment_params) do
+  defp save_comment(%{assigns: %{profile: profile, tags: tags}} = socket, _, comment_params) do
+    comment_params = Map.put(comment_params, "profile_tags", tags)
+
     case Timeline.create_comment(profile, socket.assigns.post, comment_params) do
       {:ok, _comment} ->
         send_update(PostComponent,
