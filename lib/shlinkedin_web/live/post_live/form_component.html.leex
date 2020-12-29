@@ -37,7 +37,23 @@
     <%# Enter Body Text %>
     <div class="my-4">
         <%= textarea f, :body, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-3", rows: 5, placeholder: "What do you want to talk about?" %>
+        <%= if @search_results != [] do %>
+        <div class="relative" id="matches">
+            <div class="absolute text-xs w-64 z-50 left-0 right-0 rounded border border-gray-100 shadow py-1 bg-white">
+                <%= for {search_result, idx} <- Enum.with_index(@search_results) do %>
+                <div id="comment-pick-<%= idx %>"
+                    class="cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200 <%= if idx == @current_focus, do: "bg-gray-200" %>"
+                    phx-click="pick" phx-hook="Pick" phx-value-name="<%= search_result.username %>"
+                    phx-target="<%= @myself %>">
+                    <%= search_result.name %> <span class="text-gray-500">@<%= search_result.username %></span>
+                </div>
+                <% end %>
+            </div>
+        </div>
+        <% end %>
+
         <p class="mt-4 text-xs"><%= error_tag f, :body %></p>
+
         <%# Error for gif %>
         <span class="text-red-500 font-semibold italic text-xs"><%= @gif_error %></span>
 
@@ -120,6 +136,26 @@
 
 
 
+    </div>
+    <% end %>
+
+    <%= if @tags != [] do%>
+    <div class="mt-4 w-64 flex-wrap">
+        <h5 class="font-semibold text-xs text-gray-500 ">Tags</h5>
+        <%= for tag <- @tags |> Enum.uniq() do %>
+        <span
+            class="inline-flex rounded-full items-center py-0.5 pl-2.5 pr-1 text-xs font-medium bg-indigo-100 text-indigo-700">
+
+            <%= tag %>
+            <button type="button" phx-click="remove-tag" phx-target="<%= @myself %>" phx-value-name="<%= tag %>"
+                class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 focus:outline-none focus:bg-indigo-500 focus:text-white">
+                <span class="sr-only">Remove large option</span>
+                <svg class="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
+                    <path stroke-linecap="round" stroke-width="1.5" d="M1 1l6 6m0-6L1 7" />
+                </svg>
+            </button>
+        </span>
+        <% end %>
     </div>
     <% end %>
 

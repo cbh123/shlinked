@@ -2,6 +2,7 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
   use ShlinkedinWeb, :live_component
 
   alias Shlinkedin.Timeline
+  alias Shlinkedin.Tagging
   alias ShlinkedinWeb.PostLive.PostComponent
 
   @impl true
@@ -43,14 +44,14 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
       |> Timeline.change_comment(comment_params)
       |> Map.put(:action, :validate)
 
-    new_tagging_mode = check_tagging_mode(body, socket.assigns.tagging_mode)
+    new_tagging_mode = Tagging.check_tagging_mode(body, socket.assigns.tagging_mode)
 
     {:noreply,
      assign(socket,
        changeset: changeset,
        tagging_mode: new_tagging_mode,
-       query: add_to_query(new_tagging_mode, body),
-       search_results: get_search_results(new_tagging_mode, socket.assigns.query)
+       query: Tagging.add_to_query(new_tagging_mode, body),
+       search_results: Tagging.get_search_results(new_tagging_mode, socket.assigns.query)
      )}
   end
 
@@ -124,28 +125,6 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
 
   def handle_event("save", %{"comment" => comment_params}, socket) do
     save_comment(socket, socket.assigns.action, comment_params)
-  end
-
-  defp check_tagging_mode(body, current_mode) do
-    case body |> String.last() do
-      "@" -> true
-      " " -> false
-      _ -> current_mode
-    end
-  end
-
-  defp add_to_query(current_mode, body) do
-    case current_mode do
-      true ->
-        String.split(body, "@") |> List.last()
-
-      false ->
-        ""
-    end
-  end
-
-  defp get_search_results(current_mode, query) do
-    if current_mode == true, do: Shlinkedin.Profiles.search_profiles(query), else: []
   end
 
   defp save_comment(%{assigns: %{profile: profile, tags: tags}} = socket, _, comment_params) do

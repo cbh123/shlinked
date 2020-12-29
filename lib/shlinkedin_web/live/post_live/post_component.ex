@@ -3,6 +3,7 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
   alias ShlinkedinWeb.PostLive.PostComponent
   alias Shlinkedin.Timeline.Post
   alias Shlinkedin.Timeline
+  alias Shlinkedin.Tagging
   alias Shlinkedin.Profiles.Profile
 
   def handle_event("expand-post", _, socket) do
@@ -91,11 +92,19 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     {:noreply, socket}
   end
 
-  def show_unique_likes(%Post{} = post) do
+  defp format_tags(body, []) do
+    Tagging.format_tags(body, [])
+  end
+
+  defp format_tags(body, tags) do
+    Tagging.format_tags(body, tags)
+  end
+
+  defp show_unique_likes(%Post{} = post) do
     Enum.map(post.likes, fn x -> x.like_type end) |> Enum.uniq()
   end
 
-  def length_unique_user_likes(%Post{} = post) do
+  defp length_unique_user_likes(%Post{} = post) do
     uniq = Enum.map(post.likes, fn x -> x.profile_id end) |> Enum.uniq() |> length
 
     case uniq do
@@ -104,7 +113,7 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     end
   end
 
-  def like_map_list(like_map) do
+  defp like_map_list(like_map) do
     Enum.map(like_map, fn {_, d} -> d end)
   end
 end

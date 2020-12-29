@@ -147,7 +147,7 @@
                             <blockquote class="relative">
                                 <div class="text-2xl leading-9 font-medium text-gray-900">
                                     <p>
-                                        <%= @post.body %>
+                                        <%= raw(format_tags(@post.body, @post.profile_tags)) %>
                                     </p>
                                 </div>
                                 <footer class="mt-8">
@@ -182,7 +182,7 @@
                 <p class="whitespace-pre-line pt-2
                  mb-4 -mt-5 overflow-hidden <%= if !@expand_post, do: "max-h-32" %>
                    <%= if @post.photo_urls != [] or @post.gif_url != nil, do: "px-4" %>">
-                    <%= @post.body %></p>
+                    <%= raw(format_tags(@post.body, @post.profile_tags)) %></p>
 
                 <%# add a see more button %>
                 <%= if String.length(@post.body) >= 100 && !@expand_post do %>

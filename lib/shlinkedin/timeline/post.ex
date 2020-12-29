@@ -22,7 +22,15 @@ defmodule Shlinkedin.Timeline.Post do
   @doc false
   def changeset(post, attrs) do
     post
-    |> cast(attrs, [:body, :update_type, :profile_update, :featured, :featured_date, :gif_url])
+    |> cast(attrs, [
+      :body,
+      :update_type,
+      :profile_update,
+      :featured,
+      :featured_date,
+      :gif_url,
+      :profile_tags
+    ])
     |> validate_required([:body])
     |> validate_length(:body, max: 1000)
   end
