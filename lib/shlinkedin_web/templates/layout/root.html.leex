@@ -60,7 +60,9 @@
 
 
                     <div class="flex  items-center ">
+                        <%= if @current_user != nil and @profile != %Shlinkedin.Profiles.Profile{} do %>
                         <%= live_render(@conn, ShlinkedinWeb.SearchLive.SearchBox, id: :search) %>
+                        <% end %>
                     </div>
 
 
