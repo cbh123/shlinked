@@ -154,6 +154,8 @@ Hooks.Pick = {
 
       textarea.value = textarea.value + name + " ";
       textarea.focus();
+
+      textarea.setSelectionRange(textarea.value.length, textarea.value.length);
     });
   },
 };
