@@ -21,10 +21,13 @@ defmodule Shlinkedin.Profiles.Profile do
     field :cover_photo_url, :string
     field :shlinkpoints, :integer, default: 0
     belongs_to :user, Shlinkedin.Accounts.User
-    has_many :posts, Shlinkedin.Timeline.Post
-    has_many :comments, Shlinkedin.Timeline.Comment
-    has_many :endorsements, Shlinkedin.Profiles.Endorsement
-    has_many :friends, Shlinkedin.Profiles.Friend, foreign_key: :from_profile_id
+    has_many :posts, Shlinkedin.Timeline.Post, on_delete: :delete_all
+    has_many :comments, Shlinkedin.Timeline.Comment, on_delete: :delete_all
+    has_many :endorsements, Shlinkedin.Profiles.Endorsement, on_delete: :delete_all
+
+    has_many :friends, Shlinkedin.Profiles.Friend,
+      foreign_key: :from_profile_id,
+      on_delete: :delete_all
 
     field :life_score, :string, default: "B+"
     field :points, :integer, default: 100

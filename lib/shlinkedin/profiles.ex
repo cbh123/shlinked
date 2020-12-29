@@ -50,12 +50,14 @@ defmodule Shlinkedin.Profiles do
   def search_profiles(username_or_name) do
     sql = "%#{username_or_name}%"
 
-    Repo.all(
-      from p in Profile,
-        where: ilike(p.username, ^sql) or ilike(p.persona_name, ^sql),
-        limit: 10,
-        select: %{username: p.username, name: p.persona_name}
-    )
+    if sql != "%%" do
+      Repo.all(
+        from p in Profile,
+          where: ilike(p.username, ^sql) or ilike(p.persona_name, ^sql),
+          limit: 10,
+          select: %{username: p.username, name: p.persona_name}
+      )
+    end
   end
 
   def list_profiles_preload_users() do
