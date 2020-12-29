@@ -198,9 +198,11 @@ defmodule Shlinkedin.Timeline do
   end
 
   def list_stories() do
+    now = NaiveDateTime.utc_now()
+
     Repo.all(
       from s in Story,
-        where: s.inserted_at >= datetime_add(s.inserted_at, -1, "day"),
+        where: s.inserted_at >= datetime_add(^now, -1, "day"),
         preload: [:profile],
         distinct: s.profile_id,
         order_by: [desc: s.inserted_at]
