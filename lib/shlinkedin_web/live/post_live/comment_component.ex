@@ -55,9 +55,10 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
   end
 
   def handle_event("pick", %{"name" => username}, socket) do
-    current_body = socket.assigns.changeset.changes.body
+    body = socket.assigns.changeset.changes.body
 
-    new_body = current_body <> username
+    sliced_body = String.replace(body, String.split(body, "@") |> List.last(), "")
+    new_body = sliced_body <> username <> " "
 
     changeset =
       socket.assigns.changeset

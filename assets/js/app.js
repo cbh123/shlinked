@@ -151,6 +151,7 @@ Hooks.Pick = {
       const textarea = document.getElementById("comment-form_body");
 
       const name = this.el.getAttribute("phx-value-name");
+
       textarea.value = textarea.value + name;
       textarea.focus();
     });

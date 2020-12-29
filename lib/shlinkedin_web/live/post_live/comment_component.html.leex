@@ -100,7 +100,7 @@
         <%= if @tags != [] do%>
         <div class="mt-4 w-64 flex-wrap">
             <h5 class="font-semibold text-xs text-gray-500 ">Tags</h5>
-            <%= for tag <- @tags do %>
+            <%= for tag <- @tags |> Enum.uniq() do %>
             <span
                 class="inline-flex rounded-full items-center py-0.5 pl-2.5 pr-1 text-xs font-medium bg-indigo-100 text-indigo-700">
                 <%= tag %>
