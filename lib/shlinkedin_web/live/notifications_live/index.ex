@@ -54,6 +54,9 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
       "comment" ->
         {:noreply, push_redirect(socket, to: "/posts/#{post_id}/notifications")}
 
+      "post_tag" ->
+        {:noreply, push_redirect(socket, to: "/posts/#{post_id}/notifications")}
+
       "like" ->
         {:noreply, push_redirect(socket, to: "/posts/#{post_id}/notifications")}
 

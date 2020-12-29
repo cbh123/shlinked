@@ -13,6 +13,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     to_profile = Shlinkedin.Profiles.get_profile_by_profile_id_preload_user(to.id)
 
     case type do
+      :post ->
+        notify_comment(from_profile, to_profile, res)
+
       :comment ->
         notify_comment(from_profile, to_profile, res)
 
@@ -64,7 +67,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
     Thanks, <br/>
-    God
+    ShlinkTeam
 
     """
 
@@ -104,7 +107,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
     Thanks, <br/>
-    God
+    ShlinkTeam
 
     """
 
@@ -145,7 +148,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
     Thanks, <br/>
-    God
+    ShlinkTeam
 
     """
 
@@ -185,7 +188,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
     Thanks, <br/>
-    God
+    ShlinkTeam
 
     """
 
@@ -285,7 +288,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
     Thanks, <br/>
-    God
+    ShlinkTeam
 
     """
 
@@ -322,9 +325,42 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
     Thanks, <br/>
-    God
+    ShlinkTeam
 
     """
+  end
+
+  def notify_post(
+        %Profile{} = from_profile,
+        %Profile{} = _to_profile,
+        %Post{} = post
+      ) do
+    for username <- post.profile_tags do
+      to_profile = Shlinkedin.Profiles.get_profile_by_username(username)
+
+      Shlinkedin.Profiles.create_notification(%Notification{
+        from_profile_id: from_profile.id,
+        to_profile_id: to_profile.id,
+        type: "post_tag",
+        post_id: post.id,
+        action: "tagged you in a post: ",
+        body: "#{post.body}"
+      })
+
+      if to_profile.unsubscribed == false do
+        Shlinkedin.Email.new_email(
+          to_profile.user.email,
+          "You got tagged in a comment!",
+          tag_email_body(
+            to_profile.persona_name,
+            from_profile.persona_name,
+            post.id,
+            "post"
+          )
+        )
+        |> Shlinkedin.Mailer.deliver_later()
+      end
+    end
   end
 
   def notify_comment(
@@ -345,7 +381,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
     Thanks, <br/>
-    God
+    ShlinkTeam
 
     """
 
