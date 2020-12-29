@@ -53,6 +53,7 @@ defmodule Shlinkedin.Profiles do
     Repo.all(
       from p in Profile,
         where: ilike(p.username, ^sql) or ilike(p.persona_name, ^sql),
+        limit: 10,
         select: %{username: p.username, name: p.persona_name}
     )
   end
@@ -405,7 +406,7 @@ defmodule Shlinkedin.Profiles do
   end
 
   def get_profile_by_username(username) do
-    from(p in Profile, where: p.username == ^username, select: p) |> Repo.one()
+    from(p in Profile, where: p.username == ^username, select: p, preload: :user) |> Repo.one()
   end
 
   def get_profile_by_profile_id(profile_id) do

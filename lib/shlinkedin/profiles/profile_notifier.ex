@@ -307,6 +307,26 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     end
   end
 
+  defp tag_email_body(to_name, from_name, id, tag_parent) do
+    """
+
+    Hi #{to_name},
+
+    <br/>
+    <br/>
+
+    #{from_name} has tagged you in a
+     <a href="shlinked.herokuapp.com/posts/#{id}">#{tag_parent}.</a>
+     Check it out, and keep our engagement metrics high!
+
+    <br/>
+    <br/>
+    Thanks, <br/>
+    God
+
+    """
+  end
+
   def notify_comment(
         %Profile{} = from_profile,
         %Profile{} = to_profile,
@@ -330,22 +350,27 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     """
 
     for username <- comment.profile_tags do
-      Shlinkedin.Profiles.get_profile_by_username(username)
+      to_profile = Shlinkedin.Profiles.get_profile_by_username(username)
 
       Shlinkedin.Profiles.create_notification(%Notification{
         from_profile_id: from_profile.id,
         to_profile_id: to_profile.id,
         type: "comment",
         post_id: comment.post_id,
-        action: "tagged you in their comment: ",
+        action: "tagged you in a comment: ",
         body: "#{comment.body}"
       })
 
       if to_profile.unsubscribed == false do
         Shlinkedin.Email.new_email(
           to_profile.user.email,
-          "Your post is getting traction!",
-          body
+          "You got tagged in a comment!",
+          tag_email_body(
+            to_profile.persona_name,
+            from_profile.persona_name,
+            comment.post_id,
+            "comment"
+          )
         )
         |> Shlinkedin.Mailer.deliver_later()
       end
