@@ -152,7 +152,7 @@ Hooks.Pick = {
 
       const name = this.el.getAttribute("phx-value-name");
 
-      textarea.value = textarea.value + name;
+      textarea.value = textarea.value + name + " ";
       textarea.focus();
     });
   },
