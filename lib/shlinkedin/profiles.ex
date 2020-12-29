@@ -53,7 +53,7 @@ defmodule Shlinkedin.Profiles do
     Repo.all(
       from p in Profile,
         where:
-          ilike(p.username, ^sql) or (ilike(p.persona_name, ^sql) and p.persona_name != "test"),
+          (ilike(p.username, ^sql) or ilike(p.persona_name, ^sql)) and p.persona_name != "test",
         limit: 10,
         select: %{username: p.username, name: p.persona_name}
     )
