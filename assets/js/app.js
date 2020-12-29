@@ -145,6 +145,18 @@ Hooks.Crisis = {
   },
 };
 
+Hooks.Pick = {
+  mounted() {
+    this.el.addEventListener("click", (e) => {
+      const textarea = document.getElementById("comment-form_body");
+
+      const name = this.el.getAttribute("phx-value-name");
+      textarea.value = textarea.value + name;
+      textarea.focus();
+    });
+  },
+};
+
 let scrollAt = () => {
   let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
   let scrollHeight =

@@ -40,7 +40,7 @@
 
 
     <div class="mt-4">
-        <%= textarea f, :body, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md", rows:  2, placeholder: "Add a comment..." %>
+        <%= textarea f, :body, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md", rows:  2, placeholder: "Add a comment...", autofocus: "true" %>
 
     </div>
     <p class="mt-4 text-xs"><%= error_tag f, :body %></p>
@@ -49,10 +49,11 @@
     <p> tagging mode: <%= @tagging_mode %></p>
     <%= if @search_results != [] do %>
     <div class="relative" id="matches">
-        <div class="fixed w-64 z-50 left-1/4 right-0 rounded border border-gray-100 shadow py-1 bg-white">
+        <div class="fixed w-64 z-50 left-1/4 top-0 right-0 rounded border border-gray-100 shadow py-1 bg-white">
             <%= for {search_result, idx} <- Enum.with_index(@search_results) do %>
-            <div class="cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200 <%= if idx == @current_focus, do: "bg-gray-200" %>"
-                phx-click="pick" phx-value-name="<%= search_result.name %>" phx-target="<%= @myself %>">
+            <div id="comment-pick-<%= idx %>"
+                class="cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200 <%= if idx == @current_focus, do: "bg-gray-200" %>"
+                phx-click="pick" phx-hook="Pick" phx-value-name="<%= search_result.name %>" phx-target="<%= @myself %>">
                 <%= search_result.name %> <span class="text-gray-500">@<%= search_result.username %></span>
             </div>
             <% end %>

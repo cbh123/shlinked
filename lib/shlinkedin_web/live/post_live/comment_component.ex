@@ -57,11 +57,11 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
   def handle_event("pick", %{"name" => name}, socket) do
     current_body = socket.assigns.changeset.changes.body
 
-    body = String.replace(current_body, ~r/\@([^\s]*)/, "@#{name}")
+    new_body = current_body <> name
 
     changeset =
       socket.assigns.changeset
-      |> Ecto.Changeset.put_change(:body, body)
+      |> Ecto.Changeset.put_change(:body, new_body)
 
     {:noreply,
      assign(socket,
