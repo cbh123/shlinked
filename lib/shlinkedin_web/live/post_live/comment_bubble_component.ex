@@ -25,6 +25,29 @@ defmodule ShlinkedinWeb.PostLive.CommentBubbleComponent do
     {:noreply, socket}
   end
 
+  defp format_tags(body, []) do
+    body
+  end
+
+  defp format_tags(body, tags) do
+    String.replace(body, tags, fn prof ->
+      profile = Shlinkedin.Profiles.get_profile_by_username(prof)
+
+      case profile do
+        nil ->
+          body
+
+        profile ->
+          safe_to_string(
+            link("#{prof}",
+              to: "/sh/#{profile.slug}",
+              class: "text-indigo-600 font-semibold hover:underline cursor-pointer"
+            )
+          )
+      end
+    end)
+  end
+
   def show_unique_likes(%Comment{} = comment) do
     Enum.map(comment.likes, fn x -> x.like_type end) |> Enum.uniq()
   end

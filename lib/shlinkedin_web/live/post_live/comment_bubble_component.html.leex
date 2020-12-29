@@ -26,7 +26,8 @@
         <%# Comment text %>
         <p class="relative text-xs mt-1 overflow-hidden <%= if !@expand_comment, do: "max-h-8" %>">
 
-            <%= @comment.body %>
+            <%= raw(format_tags(@comment.body, @comment.profile_tags)) %>
+
 
             <%# add a see more button %>
             <%= if String.length(@comment.body) >= 100 && !@expand_comment do %>

@@ -56,7 +56,7 @@ defmodule Shlinkedin.Profiles do
           (ilike(p.username, ^sql) or ilike(p.persona_name, ^sql)) and p.persona_name != "test",
         limit: 10,
         order_by: fragment("RANDOM()"),
-        select: %{username: p.username, name: p.persona_name}
+        select: %{username: p.username, name: p.persona_name, photo: p.photo_url}
     )
   end
 
