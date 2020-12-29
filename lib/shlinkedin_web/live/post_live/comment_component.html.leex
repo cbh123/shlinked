@@ -45,6 +45,8 @@
     </div>
     <p class="mt-4 text-xs"><%= error_tag f, :body %></p>
 
+    query: <%= @query %>
+    <p> tagging mode: <%= @tagging_mode %></p>
     <%= if @search_results != [] do %>
     <div class="relative" id="matches">
         <div class="fixed w-64 z-50 left-1/4 right-0 rounded border border-gray-100 shadow py-1 bg-white">

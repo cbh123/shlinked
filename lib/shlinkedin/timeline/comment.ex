@@ -7,6 +7,8 @@ defmodule Shlinkedin.Timeline.Comment do
     has_many(:likes, Shlinkedin.Timeline.CommentLike, on_delete: :nilify_all)
     belongs_to :post, Shlinkedin.Timeline.Post
     belongs_to :profile, Shlinkedin.Profiles.Profile
+    field :profile_tags, {:array, :string}, default: []
+
     timestamps()
   end
 

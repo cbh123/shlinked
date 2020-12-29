@@ -14,6 +14,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     {:ok,
      socket
      |> assign(live_action: socket.assigns.live_action || :show)
+     |> assign(page_title: "Shlinked - " <> show_profile.persona_name)
      |> assign(from_notifications: false)
      |> assign(show_profile: show_profile)
      |> assign(from_profile: socket.assigns.profile)
