@@ -122,10 +122,12 @@ defmodule ShlinkedinWeb.Router do
     live "/new_article", PostLive.Index, :new_article
     live "/news/:id/votes/", PostLive.Index, :show_votes
     live "/news/:id/show_votes/", ArticleLive.Index, :show_votes
-
     live "/news/new", ArticleLive.Index, :new_article
-
     live "/news/:id", ArticleLive.Show, :show
+
+    # search
+    live "/search", SearchLive.Index, :index
+    live "/search/:query", SearchLive.Index, :index
   end
 
   scope "/", ShlinkedinWeb do

@@ -53,9 +53,16 @@
                         <% end %>
 
 
-                        <%= link "Shlinked", to: (if @current_user, do: "/", else: "/join"), class: "text-xs text-blue-700 font-semibold" %>
+                        <%= link "Shlinked", to: (if @current_user, do: "/", else: "/join"), class: "text-xs text-blue-700 font-semibold hidden sm:inline-flex" %>
+
+                        <%= live_render(@conn, ShlinkedinWeb.SearchLive.SearchBox, id: :search) %>
+
                     </div>
-                    <div class="ml-4 mr-2 flex items-center text-gray-500">
+
+
+
+
+                    <div class="ml-4 mr-2 flex items-center text-gray-500 justify-self-end">
                         <%= render "_user_menu.html", assigns %>
                     </div>
                 </div>
