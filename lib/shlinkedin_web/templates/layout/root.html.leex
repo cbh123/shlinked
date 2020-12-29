@@ -38,8 +38,8 @@
     <header>
         <nav class="bg-white border-b  fixed w-full z-10">
             <div class=" mx-auto px-2 sm:px-4 lg:px-8">
-                <div class="flex justify-between h-12">
-                    <div class="flex px-2 items-center">
+                <div class="flex justify-between sm:justify-around h-12">
+                    <div class="flex px-2 items-center ">
 
                         <%= if @current_user do %>
                         <%= link to: "/menu" do %>
@@ -55,14 +55,17 @@
 
                         <%= link "Shlinked", to: (if @current_user, do: "/", else: "/join"), class: "text-xs text-blue-700 font-semibold hidden sm:inline-flex" %>
 
-                        <%= live_render(@conn, ShlinkedinWeb.SearchLive.SearchBox, id: :search) %>
 
                     </div>
 
 
+                    <div class="flex  items-center ">
+                        <%= live_render(@conn, ShlinkedinWeb.SearchLive.SearchBox, id: :search) %>
+                    </div>
 
 
-                    <div class="ml-4 mr-2 flex items-center text-gray-500 justify-self-end">
+
+                    <div class="ml-4 mr-2 flex items-center text-gray-500">
                         <%= render "_user_menu.html", assigns %>
                     </div>
                 </div>

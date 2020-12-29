@@ -1,6 +1,5 @@
 defmodule ShlinkedinWeb.SearchLive.SearchBox do
   use ShlinkedinWeb, :live_view
-  alias Shlinkedin.Profiles
 
   def mount(_params, session, socket) do
     socket = is_user(session, socket)
