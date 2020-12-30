@@ -11,20 +11,21 @@
     </div>
 
     <form phx-change="suggest" phx-submit="search">
-        <input phx-blur="hide-search" phx-focus="show-search" type="text" name="q" value="<%= @query %>" list="matches"
-            class=" block w-full pl-10 pr-3
+        <input phx-focus="show-search" type="text" name="q" value="<%= @query %>" list="matches" class=" block w-full pl-10 pr-3
                     py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none
                     focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
             placeholder="Search" autocomplete="off" />
 
 
+
         <%= if @matches != [] do %>
         <div class="relative" id="matches">
-            <div class="absolute bg-white z-50 left-0 right-0 rounded-lg border border-gray-100 shadow-lg py-1 ">
+            <div class="absolute bg-white z-50 left-0 right-0 rounded-lg border border-gray-100 shadow-lg py-1">
                 <%= for {match, idx} <- Enum.with_index(@matches) do %>
 
                 <%= live_redirect to: Routes.profile_show_path(@socket, :show, match.slug) do %>
-                <button id="search-pick-<%= idx %>" phx-value-slug="<%= match.slug %>" phx-click="pick"
+
+                <div phx-click="pick" id="search-pick-<%= idx %>" phx-value-slug="<%= match.slug %>"
                     class="flex w-full cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200">
 
                     <img class="h-10 w-10 rounded-full" src="<%= match.photo %>" alt="">
@@ -33,8 +34,9 @@
                         </span>
                     </p>
 
-                </button>
+                </div>
                 <% end %>
+
 
                 <% end %>
             </div>
