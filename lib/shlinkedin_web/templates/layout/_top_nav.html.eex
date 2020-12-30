@@ -13,13 +13,19 @@
                             clip-rule="evenodd"></path>
                     </svg>
                     <% end %>
+                    <%= link "Shlinked", to: (if @current_user, do: "/", else: "/join"), class: "text-xs text-blue-700 font-bold hidden sm:inline-flex" %>
+
+                    <% else %>
+                    <%= link "Shlinked", to: "/join", class: "text-xs text-blue-700 font-bold inline-flex" %>
+
                     <% end %>
 
-                    <%= link "Shlinked", to: (if @current_user, do: "/", else: "/join"), class: "text-xs text-blue-700 font-bold hidden sm:inline-flex" %>
 
                 </div>
 
             </div>
+
+            <%= if @current_user != nil and @profile != nil and @profile.username != nil do %>
 
             <div class="flex-1 flex items-center px-2 sm:ml-6 sm:justify-end" style="justify-content:left">
                 <div class="max-w-lg w-full md:max-w-md lg:max-w-xs">
@@ -87,10 +93,6 @@
                 </button>
                 <% end %>
 
-
-
-
-
             </div>
 
 
@@ -114,12 +116,13 @@
                         </button>
                         <% end %>
 
-
                     </div>
                 </div>
             </div>
+            <% end %>
         </div>
     </div>
+
 
     <!--
     Mobile menu, toggle classes based on menu state.
