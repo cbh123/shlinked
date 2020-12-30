@@ -13,7 +13,7 @@ Note: in order for posts to successfully upload, I'll need to send you the `.env
 
 # Charlie's Guide to Learning What's Going On Here
 
-Hi Dice. I am putting all my thoughts here on how to introduce you to ShlinkedIn code + Elixir / Phoenix. There's a lot of stuff here but do not be discouraged, you will figure it out in no time.
+I am putting all my thoughts here on how to introduce you to ShlinkedIn code + Elixir / Phoenix. There's a lot of stuff here but do not be discouraged!
 
 ### Terminology
 - **Elixir**: self explanatory, elixir language. [Docs](https://elixir-lang.org/getting-started/introduction.html)
