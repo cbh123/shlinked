@@ -1,10 +1,5 @@
 <%= if @current_user != nil do %>
 
-
-
-
-
-
 <%# Profile Created Stuff -- search, profile button%>
 <%= if @profile != nil and @profile.username != nil do %>
 

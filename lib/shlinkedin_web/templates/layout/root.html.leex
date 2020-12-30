@@ -36,7 +36,9 @@
 
 <body class="bg-gray-100">
     <header>
-        <nav class="bg-white border-b  fixed w-full z-10">
+        <%= render "_top_nav.html", assigns %>
+
+        <nav class="hidden bg-white border-b  fixed w-full z-10">
             <div class=" mx-auto px-2 sm:px-4 lg:px-8">
                 <div class="flex justify-between sm:justify-around h-12">
                     <div class="flex px-2 items-center ">
@@ -78,7 +80,7 @@
 
 
 
-    <div class="pt-12 pb-6">
+    <div class="pt-16 pb-6">
         <%= @inner_content %>
 
     </div>

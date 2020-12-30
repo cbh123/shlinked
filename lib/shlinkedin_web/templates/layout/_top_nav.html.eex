@@ -1,0 +1,175 @@
+<nav class="bg-white shadow z-10 fixed w-full">
+    <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex px-2 lg:px-0">
+                <div class="flex-shrink-0 flex items-center">
+
+                    <%= if @current_user do %>
+                    <%= link to: "/menu" do %>
+                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <% end %>
+                    <% end %>
+
+                    <%= link "Shlinked", to: (if @current_user, do: "/", else: "/join"), class: "text-xs text-blue-700 font-bold hidden sm:inline-flex" %>
+
+                </div>
+
+            </div>
+
+            <div class="flex-1 flex items-center px-2 sm:ml-6 sm:justify-end" style="justify-content:left">
+                <div class="max-w-lg w-full md:max-w-md lg:max-w-xs">
+                    <%= live_render(@conn, ShlinkedinWeb.SearchLive.SearchBox, id: :search) %>
+                </div>
+            </div>
+
+            <div class="hidden sm:ml-6 sm:flex text-xs md:text-sm text-gray-500">
+
+                <%= link to: "/" do %>
+                <button
+                    class="hover:bg-gray-100 px-2 mx-1 h-full  <%= if @conn.request_path == "/", do: "border-gray-700 text-gray-700 "%>border-b-2 border-white  px-1 pt-1 basent-light">
+                    <svg class="mx-auto w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+                        </path>
+                    </svg>
+                    <p class=" pt-0.5 text-xs hidden md:inline-block">Home</p>
+                </button>
+                <% end %>
+                <%= link to: "/shlinks" do %>
+                <button
+                    class="hover:bg-gray-100 px-2 mx-1 h-full relative <%= if @conn.request_path == "/shlinks", do: "border-gray-700 text-gray-700 "%>border-b-2 border-white  px-1 pt-1 font-base">
+                    <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z">
+                        </path>
+                    </svg>
+
+
+
+                    <%= if length(Shlinkedin.Profiles.get_pending_requests(@profile)) > 0 do %>
+
+                    <span
+                        class="text-xs absolute top-3 right-2 block h-4 w-4 rounded-full ring-2 ring-white bg-red-600 text-white">
+                        <%= length(Shlinkedin.Profiles.get_pending_requests(@profile)) %>
+                    </span>
+
+                    <% end %>
+                    <p class=" pt-0.5 text-xs hidden md:inline-block">Shlinks</p>
+                </button>
+                <% end %>
+                <%= link to: "/updates" do %>
+                <button
+                    class="hover:bg-gray-100 px-2 mx-1 h-full relative <%= if @conn.request_path == "/dinks", do: "border-gray-700 text-gray-700 "%>border-b-2 border-white  px-1 pt-1 font-base">
+
+                    <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z">
+                        </path>
+                    </svg>
+
+
+                    <%= if Shlinkedin.Profiles.get_last_read_notification_time(@profile) > @profile.last_checked_notifications do %>
+                    <span
+                        class="text-xs absolute top-3 right-2 block h-4 w-4 rounded-full ring-2 ring-white bg-red-600 text-white">
+                        <%= Shlinkedin.Profiles.get_unread_notification_count(@profile) %>
+                    </span>
+
+                    <% end %>
+                    <p class=" pt-0.5 text-xs hidden md:inline-block">Dinks</p>
+                </button>
+                <% end %>
+
+
+
+
+
+            </div>
+
+
+
+            <div class=" lg:ml-4 flex items-center">
+
+
+                <!-- Profile dropdown -->
+                <div class="ml-4 relative flex-shrink-0">
+                    <div>
+
+                        <%= link to: "/sh/#{@profile.slug}" do %>
+                        <button class="mt-2">
+
+                            <span class=" sr-only">Profile</span>
+
+                            <!-- Heroicon name: Profile -->
+
+                            <img class="mx-auto h-8 w-8 object-cover rounded-full <%= if @conn.request_path == "/sh/#{@profile.slug}", do: "border-2 border-blue-500"%>""
+           src=" <%= @profile.photo_url %>" alt="">
+                        </button>
+                        <% end %>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--
+    Mobile menu, toggle classes based on menu state.
+
+    Menu open: "block", Menu closed: "hidden"
+  -->
+    <div class="hidden lg:hidden">
+        <div class="pt-2 pb-3 space-y-1">
+            <!-- Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800" -->
+            <a href="#"
+                class="bg-indigo-50 border-indigo-500 text-indigo-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Dashboard</a>
+            <a href="#"
+                class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Team</a>
+            <a href="#"
+                class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Projects</a>
+            <a href="#"
+                class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Calendar</a>
+        </div>
+        <div class="pt-4 pb-3 border-t border-gray-200">
+            <div class="flex items-center px-4">
+                <div class="flex-shrink-0">
+                    <img class="h-10 w-10 rounded-full"
+                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        alt="">
+                </div>
+                <div class="ml-3">
+                    <div class="text-base font-medium text-gray-800">Tom Cook</div>
+                    <div class="text-sm font-medium text-gray-500">tom@example.com</div>
+                </div>
+                <button
+                    class="ml-auto flex-shrink-0 bg-white p-1 text-gray-400 rounded-full hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <span class="sr-only">View notifications</span>
+                    <!-- Heroicon name: bell -->
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    </svg>
+                </button>
+            </div>
+            <div class="mt-3 space-y-1">
+                <a href="#"
+                    class="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100">Your
+                    Profile</a>
+                <a href="#"
+                    class="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100">Settings</a>
+                <a href="#"
+                    class="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100">Sign
+                    out</a>
+            </div>
+        </div>
+    </div>
+</nav>
