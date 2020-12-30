@@ -20,21 +20,16 @@ defmodule ShlinkedinWeb.SearchLive.SearchBox do
     {:noreply, socket}
   end
 
+  def handle_event("all-profiles", _params, socket) do
+    socket = redirect(socket, to: Routes.users_index_path(socket, :index))
+    {:noreply, socket}
+  end
+
   def handle_event("hide-search", _params, socket) do
     {:noreply, assign(socket, show_search: false)}
   end
 
   def handle_event("show-search", _params, socket) do
     {:noreply, assign(socket, show_search: true)}
-  end
-
-  def handle_event("search", %{"q" => q}, socket) do
-    send(self(), {:search, q})
-    {:noreply, assign(socket, query: q, loading: true, matches: [])}
-  end
-
-  def handle_info({:search, query}, socket) do
-    result = Shlinkedin.Profiles.search_profiles(query)
-    {:noreply, assign(socket, loading: false, result: result, matches: [])}
   end
 end

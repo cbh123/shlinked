@@ -126,8 +126,8 @@ defmodule ShlinkedinWeb.Router do
     live "/news/:id", ArticleLive.Show, :show
 
     # search
-    live "/search", SearchLive.Index, :index
-    live "/search/:query", SearchLive.Index, :index
+    # live "/search", SearchLive.Index, :index
+    # live "/search/:query", SearchLive.Index, :index
   end
 
   scope "/", ShlinkedinWeb do
