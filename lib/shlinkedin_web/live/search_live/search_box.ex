@@ -17,7 +17,7 @@ defmodule ShlinkedinWeb.SearchLive.SearchBox do
 
   def handle_event("pick", %{"slug" => slug}, socket) do
     socket = push_redirect(socket, to: Routes.profile_show_path(socket, :show, slug))
-    {:noreply, socket}
+    {:noreply, assign(socket, query: nil, matches: [])}
   end
 
   def handle_event("show-search", _params, socket) do

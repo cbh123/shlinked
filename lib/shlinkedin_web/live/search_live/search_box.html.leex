@@ -23,6 +23,7 @@
             <div class="absolute bg-white z-50 left-0 right-0 rounded-lg border border-gray-100 shadow-lg py-1 ">
                 <%= for {match, idx} <- Enum.with_index(@matches) do %>
 
+                <%= live_redirect to: Routes.profile_show_path(@socket, :show, match.slug) do %>
                 <button id="search-pick-<%= idx %>" phx-value-slug="<%= match.slug %>" phx-click="pick"
                     class="flex w-full cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200">
 
@@ -33,6 +34,7 @@
                     </p>
 
                 </button>
+                <% end %>
 
                 <% end %>
             </div>
