@@ -54,7 +54,7 @@ defmodule Shlinkedin.Profiles do
       from p in Profile,
         where:
           (ilike(p.username, ^sql) or ilike(p.persona_name, ^sql)) and p.persona_name != "test",
-        limit: 10,
+        limit: 7,
         order_by: fragment("RANDOM()"),
         select: %{username: p.username, name: p.persona_name, photo: p.photo_url, slug: p.slug}
     )
