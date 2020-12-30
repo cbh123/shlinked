@@ -43,7 +43,7 @@
                 <%= for {search_result, idx} <- Enum.with_index(@search_results) do %>
                 <div id="comment-pick-<%= idx %>"
                     class="cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200 <%= if idx == @current_focus, do: "bg-gray-200" %>"
-                    phx-click="pick" phx-hook="Pick" phx-value-name="<%= search_result.username %>"
+                    phx-click="pick" phx-hook="PostPick" phx-value-name="<%= search_result.username %>"
                     phx-target="<%= @myself %>">
                     <%= search_result.name %> <span class="text-gray-500">@<%= search_result.username %></span>
                 </div>

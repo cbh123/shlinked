@@ -4,7 +4,7 @@ defmodule ShlinkedinWeb.SearchLive.SearchBox do
   def mount(_params, session, socket) do
     socket = is_user(session, socket)
 
-    {:ok, assign(socket, query: nil, loading: false, matches: [], show_search: false)}
+    {:ok, assign(socket, query: nil, loading: false, matches: [], search_focus: false)}
   end
 
   def handle_event("suggest", %{"q" => q}, socket) do

@@ -160,6 +160,21 @@ Hooks.Pick = {
   },
 };
 
+Hooks.PostPick = {
+  mounted() {
+    this.el.addEventListener("click", (e) => {
+      const textarea = document.getElementById("post-form_body");
+
+      const name = this.el.getAttribute("phx-value-name");
+
+      textarea.value = textarea.value + name + " ";
+      textarea.focus();
+
+      textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+    });
+  },
+};
+
 let scrollAt = () => {
   let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
   let scrollHeight =
