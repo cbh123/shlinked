@@ -335,7 +335,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       from_profile_id: 3,
       to_profile_id: to_profile.id,
       type: "new_badge",
-      action: "has awarded you the #{badge} award!"
+      action: "has awarded you the #{badge} badge!"
     })
 
     if to_profile.unsubscribed == false do

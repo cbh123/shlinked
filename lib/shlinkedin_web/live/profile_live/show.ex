@@ -127,6 +127,22 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     {:noreply, socket}
   end
 
+  def handle_event("unfeature-profile", _, socket) do
+    {:ok, _post} =
+      Profiles.update_profile(socket.assigns.show_profile, %{
+        featured: false
+      })
+
+    socket =
+      socket
+      |> put_flash(:info, "Profile un-featured!")
+      |> push_redirect(
+        to: Routes.profile_show_path(socket, :show, socket.assigns.show_profile.slug)
+      )
+
+    {:noreply, socket}
+  end
+
   def handle_event("verify-profile", _params, socket) do
     {:ok, _post} =
       Profiles.update_profile(socket.assigns.show_profile, %{

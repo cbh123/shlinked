@@ -63,7 +63,7 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
       "featured" ->
         {:noreply, push_redirect(socket, to: "/posts/#{post_id}/notifications")}
 
-      "badge" ->
+      "new_badge" ->
         # ultimately should go to a badge page?
         {:noreply, push_redirect(socket, to: "/sh/#{socket.assigns.profile.slug}/notifications")}
 
