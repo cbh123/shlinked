@@ -491,8 +491,9 @@ defmodule Shlinkedin.Timeline do
 
   def like_map do
     %{
-      "Pity" => %{
-        like_type: "Pity",
+      "Happy" => %{
+        active: false,
+        like_type: "Happy",
         bg: "bg-indigo-600",
         color: "text-indigo-600",
         bg_hover: "bg-indigo-700",
@@ -501,6 +502,7 @@ defmodule Shlinkedin.Timeline do
           "M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-7.536 5.879a1 1 0 001.415 0 3 3 0 014.242 0 1 1 0 001.415-1.415 5 5 0 00-7.072 0 1 1 0 000 1.415z"
       },
       "Zoop" => %{
+        active: false,
         like_type: "Zoop",
         bg: "bg-yellow-500",
         color: "text-yellow-500",
@@ -509,8 +511,9 @@ defmodule Shlinkedin.Timeline do
         svg_path:
           "M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
       },
-      "Um..." => %{
-        like_type: "Um...",
+      "NewYear" => %{
+        active: false,
+        like_type: "NewYear",
         bg: "bg-red-500",
         color: "text-red-500",
         bg_hover: "bg-red-600",
