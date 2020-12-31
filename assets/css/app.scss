@@ -9,6 +9,17 @@
 @import "../node_modules/nprogress/nprogress.css";
 
 
+@layer components {
+    .tooltip .tooltip-text {
+        @apply invisible px-3 py-2 absolute z-50 text-xs rounded-lg bg-gray-700 shadow text-white;
+      }
+
+      .tooltip:hover .tooltip-text {
+        @apply visible;
+      }
+
+  }
+
 /* LiveView specific classes for your customizations */
 .phx-no-feedback.invalid-feedback,
 .phx-no-feedback .invalid-feedback {
