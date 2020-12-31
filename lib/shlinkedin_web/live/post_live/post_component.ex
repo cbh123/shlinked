@@ -114,6 +114,6 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
   end
 
   defp like_map_list(like_map) do
-    Enum.map(like_map, fn {_, d} -> d end)
+    Enum.filter(like_map, fn {_, d} -> d.active end) |> Enum.map(fn {_, d} -> d end)
   end
 end
