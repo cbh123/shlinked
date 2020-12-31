@@ -1,14 +1,25 @@
-@tailwind base;
+@import "tailwindcss/base";
 
-@tailwind components;
+@import "tailwindcss/components";
 
-@tailwind utilities;
+@import "./components/tooltip.css"; /* added */
 
+@import "tailwindcss/utilities";
 /* This file is for your main application css. */
 
 @import "../node_modules/nprogress/nprogress.css";
 
+.tooltip .tooltip-text {
+    @apply invisible p-4 absolute z-50 inline-block ml-4 text-sm w-1/2 rounded-lg bg-gray-700 text-white;
+}
 
+.tooltip:hover .tooltip-text {
+    @apply visible;
+}
+
+.test {
+    @apply bg-red-500;
+}
 
 
 /* LiveView specific classes for your customizations */

@@ -29,6 +29,7 @@
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss": "^8.1.7",
     "postcss-cli": "^8.3.0",
+    "postcss-import": "^14.0.0",
     "sass-loader": "^8.0.2",
     "terser-webpack-plugin": "^2.3.2",
     "webpack": "4.41.5",
