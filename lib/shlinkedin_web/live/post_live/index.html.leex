@@ -77,7 +77,13 @@
                         <img class="h-14 w-14 rounded-full border-2 border-white object-cover"
                             src="<%= story.profile.photo_url %>" alt="">
                     </span>
-                    <p class="text-center text-xs w-16 mx-auto"><%= story.profile.persona_name%></p>
+                    <div class="text-center text-xs w-16 mx-auto">
+
+                        <span><%= story.profile.persona_name%></span>
+                        <%= Shlinkedin.Badges.profile_badges(@socket, story.profile, 3) %>
+
+
+                    </div>
                     <% end %>
                 </div>
                 <% end %>

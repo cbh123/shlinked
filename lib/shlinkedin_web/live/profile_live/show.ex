@@ -1,6 +1,7 @@
 defmodule ShlinkedinWeb.ProfileLive.Show do
   use ShlinkedinWeb, :live_view
   alias Shlinkedin.Profiles
+  alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Profiles.Endorsement
   alias Shlinkedin.Profiles.Testimonial
 
@@ -102,6 +103,44 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(friend_status: status)}
   end
 
+  def handle_event("feature-profile", _params, socket) do
+    {:ok, _post} =
+      Profiles.update_profile(socket.assigns.show_profile, %{
+        featured: true,
+        featured_date: NaiveDateTime.utc_now()
+      })
+      |> Shlinkedin.Profiles.ProfileNotifier.observer(
+        :featured_profile,
+        %Profile{id: 3},
+        socket.assigns.show_profile
+      )
+
+    socket =
+      socket
+      |> put_flash(:info, "Profile featured!")
+      |> push_redirect(
+        to: Routes.profile_show_path(socket, :show, socket.assigns.show_profile.slug)
+      )
+
+    {:noreply, socket}
+  end
+
+  def handle_event("unfeature-profile", _, socket) do
+    {:ok, _post} =
+      Profiles.update_profile(socket.assigns.show_profile, %{
+        featured: false
+      })
+
+    socket =
+      socket
+      |> put_flash(:info, "Profile un-featured!")
+      |> push_redirect(
+        to: Routes.profile_show_path(socket, :show, socket.assigns.show_profile.slug)
+      )
+
+    {:noreply, socket}
+  end
+
   defp list_endorsements(id) do
     Profiles.list_endorsements(id)
   end
@@ -116,5 +155,19 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
 
   defp get_mutual_friends(from, to) do
     Profiles.get_mutual_friends(from, to)
+  end
+
+  defp is_featured(assigns) do
+    ~L"""
+    <div class="inline-flex tooltip">
+        <svg class="w-4 h-4 inline-flex text-yellow-500 " fill="currentColor" viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+                d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z"
+                clip-rule="evenodd"></path>
+        </svg>
+        <span class="tooltip-text -mt-8">Featured Profile</span>
+    </div>
+    """
   end
 end

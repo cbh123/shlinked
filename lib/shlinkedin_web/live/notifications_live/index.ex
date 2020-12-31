@@ -63,6 +63,9 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
       "featured" ->
         {:noreply, push_redirect(socket, to: "/posts/#{post_id}/notifications")}
 
+      "featured_profile" ->
+        {:noreply, push_redirect(socket, to: "/sh/#{socket.assigns.profile.slug}/notifications")}
+
       "admin_message" ->
         {:noreply, push_redirect(socket, to: if(link == "", do: "/", else: link))}
 

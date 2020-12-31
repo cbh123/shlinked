@@ -34,7 +34,10 @@
                             <span class="font-bold"><%= n.action %></span>
                             <span><%= n.body %></span>
                             <% else  %>
-                            <span><%= n.profile.persona_name %></span> <span class="font-bold"><%= n.action %></span>
+                            <span><%= n.profile.persona_name %>
+                                <span class="ml-1">
+                                    <%= Shlinkedin.Badges.profile_badges(@socket, n.profile, 3) %></span>
+                            </span> <span class="font-bold"><%= n.action %></span>
                             <span><%= n.body %></span>
                             <% end %>
 

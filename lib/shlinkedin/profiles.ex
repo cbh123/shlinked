@@ -461,6 +461,12 @@ defmodule Shlinkedin.Profiles do
     |> after_save(after_save)
   end
 
+  def update_profile(%Profile{} = profile, attrs) do
+    profile
+    |> Profile.changeset(attrs)
+    |> Repo.update()
+  end
+
   defp after_save({:ok, profile}, func) do
     {:ok, _profile} = func.(profile)
   end

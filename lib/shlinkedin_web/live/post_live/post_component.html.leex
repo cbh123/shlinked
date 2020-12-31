@@ -41,6 +41,8 @@
 
                     <span class="text-gray-900">
                         <%= live_redirect @post.profile.persona_name, to: Routes.profile_show_path(@socket, :show, @post.profile.slug), class: "text-sm font-semibold text-gray-900 hover:underline"  %>
+                        <%= Shlinkedin.Badges.profile_badges(@socket, @post.profile, 3) %>
+
                     </span>
                     <span
                         class="text-gray-500 <%= if @post.profile_update, do: "text-sm", else: "text-xs"%> font-normal">
@@ -160,7 +162,10 @@
                                             <%= live_redirect to: Routes.profile_show_path(@socket, :show, @post.profile.slug) do %>
 
                                             <div class="text-base font-medium text-gray-900 hover:underline">
-                                                <%= @post.profile.persona_name %></div>
+                                                <%= @post.profile.persona_name %>
+                                                <%= Shlinkedin.Badges.profile_badges(@socket, @post.profile, 3) %>
+
+                                            </div>
                                             <div class="text-base font-medium text-indigo-600 hover:underline truncate">
                                                 <%= @post.profile.persona_title %>
                                             </div>

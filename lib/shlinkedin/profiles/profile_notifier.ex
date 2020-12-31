@@ -42,6 +42,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
       :featured_post ->
         notify_post_featured(to_profile, res)
+
+      :featured_profile ->
+        notify_profile_featured(to_profile)
     end
 
     {:ok, res}
@@ -304,6 +307,41 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       Shlinkedin.Email.new_email(
         to_profile.user.email,
         "You've been awarded post of the day!",
+        body
+      )
+      |> Shlinkedin.Mailer.deliver_later()
+    end
+  end
+
+  def notify_profile_featured(%Profile{} = to_profile) do
+    body = """
+
+    Hi #{to_profile.persona_name},
+
+    <br/>
+    <br/>
+
+    We are excited to inform you that your profile is now a featured profile!!!
+    +100 ShlinkPoints.
+
+    <br/>
+    <br/>
+    Thanks, <br/>
+    ShlinkTeam
+
+    """
+
+    Shlinkedin.Profiles.create_notification(%Notification{
+      from_profile_id: 3,
+      to_profile_id: to_profile.id,
+      type: "featured_profile",
+      action: "has featured your profile!"
+    })
+
+    if to_profile.unsubscribed == false do
+      Shlinkedin.Email.new_email(
+        to_profile.user.email,
+        "You are now a featured profile!",
         body
       )
       |> Shlinkedin.Mailer.deliver_later()

@@ -5,7 +5,7 @@
   phx_submit: "save" %>
 
 
-<div class="bg-white px-4 py-4 border-b border-gray-200 sm:px-6 rounded-t-lg">
+<div class="bg-white px-4 py-4 border-b border-gray-200 sm:px-6 rounded-lg">
     <h3 class="text-lg leading-6 font-medium text-gray-900">
         <%= @title %>
     </h3>
@@ -26,6 +26,8 @@
         <div class="ml-4 hover:cursor-pointer mb-2">
 
             <%= live_patch @profile.persona_name, to: Routes.profile_show_path(@socket, :show, @profile.slug), class: "text-lg leading-6 font-bold text-gray-900 hover:underline"  %>
+            <%= Shlinkedin.Badges.profile_badges(@socket, @profile, 3) %>
+
 
             <p class="text-xs text-gray-500">
                 @<%= @profile.username %> </p>
@@ -161,7 +163,7 @@
 
 
 
-    <div class="flex justify-end mt-8 bg-gray-100 -m-5 p-5">
+    <div class="flex justify-end mt-8 bg-gray-100 -m-5 p-5 rounded-lg">
 
         <%= live_patch "Cancel", to: "/", class: "ml-3 inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-full text-gray-600  bg-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"%>
         <%= submit (if @action == :new, do: "Post", else: "Save"), class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
