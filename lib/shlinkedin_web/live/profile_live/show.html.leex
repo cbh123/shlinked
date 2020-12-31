@@ -62,6 +62,21 @@
                      Feature
                  </button>
                  <% end %>
+
+                 <%= if @show_profile.verified do %>
+                 <button phx-click="unverify-profile" type="button"
+                     data-confirm="are you sure you want to unverify profile?"
+                     class="absolute top-20 right-0 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                     Unverify
+                 </button>
+                 <% else %>
+                 <button phx-click="verify-profile" type="button"
+                     data-confirm="are you sure you want to verify profile?"
+                     class="absolute top-20 right-0 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                     Verify
+                 </button>
+                 <% end %>
+
                  <% end %>
 
 

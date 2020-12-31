@@ -43,8 +43,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       :featured_post ->
         notify_post_featured(to_profile, res)
 
-      :featured_profile ->
-        notify_profile_featured(to_profile)
+      :new_badge ->
+        notify_profile_badge(to_profile, res)
     end
 
     {:ok, res}
@@ -313,7 +313,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     end
   end
 
-  def notify_profile_featured(%Profile{} = to_profile) do
+  def notify_profile_badge(%Profile{} = to_profile, badge) do
     body = """
 
     Hi #{to_profile.persona_name},
@@ -321,7 +321,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
 
-    We are excited to inform you that your profile is now a featured profile!!!
+    You have been awarded the #{badge} badge!!!
     +100 ShlinkPoints.
 
     <br/>
@@ -334,14 +334,14 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     Shlinkedin.Profiles.create_notification(%Notification{
       from_profile_id: 3,
       to_profile_id: to_profile.id,
-      type: "featured_profile",
-      action: "has featured your profile!"
+      type: "new_badge",
+      action: "has awarded you the #{badge} award!"
     })
 
     if to_profile.unsubscribed == false do
       Shlinkedin.Email.new_email(
         to_profile.user.email,
-        "You are now a featured profile!",
+        "You got an award!",
         body
       )
       |> Shlinkedin.Mailer.deliver_later()

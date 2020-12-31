@@ -10,7 +10,7 @@ defmodule Shlinkedin.Profiles.Profile do
     field :persona_name, :string
     field :persona_title, :string
     field :summary, :string
-    field :verified, :boolean
+
     field :admin, :boolean
     field :unsubscribed, :boolean, default: false
 
@@ -39,6 +39,8 @@ defmodule Shlinkedin.Profiles.Profile do
     field :featured, :boolean, default: false
     field :featured_date, :naive_datetime
 
+    field :verified, :boolean, default: false
+    field :verified_date, :naive_datetime
     timestamps()
   end
 
@@ -55,6 +57,8 @@ defmodule Shlinkedin.Profiles.Profile do
       :photo_url,
       :cover_photo_url,
       :life_score,
+      :verified,
+      :verified_date,
       :featured,
       :featured_date
     ])

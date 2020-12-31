@@ -109,11 +109,13 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
         featured: true,
         featured_date: NaiveDateTime.utc_now()
       })
-      |> Shlinkedin.Profiles.ProfileNotifier.observer(
-        :featured_profile,
-        %Profile{id: 3},
-        socket.assigns.show_profile
-      )
+
+    Shlinkedin.Profiles.ProfileNotifier.observer(
+      {:ok, "featured"},
+      :new_badge,
+      %Profile{id: 3},
+      socket.assigns.show_profile
+    )
 
     socket =
       socket
@@ -125,15 +127,39 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     {:noreply, socket}
   end
 
-  def handle_event("unfeature-profile", _, socket) do
+  def handle_event("verify-profile", _params, socket) do
     {:ok, _post} =
       Profiles.update_profile(socket.assigns.show_profile, %{
-        featured: false
+        verified: true,
+        verified_date: NaiveDateTime.utc_now()
+      })
+
+    Shlinkedin.Profiles.ProfileNotifier.observer(
+      {:ok, "verified"},
+      :new_badge,
+      %Profile{id: 3},
+      socket.assigns.show_profile
+    )
+
+    socket =
+      socket
+      |> put_flash(:info, "Profile verified!")
+      |> push_redirect(
+        to: Routes.profile_show_path(socket, :show, socket.assigns.show_profile.slug)
+      )
+
+    {:noreply, socket}
+  end
+
+  def handle_event("unverify-profile", _, socket) do
+    {:ok, _post} =
+      Profiles.update_profile(socket.assigns.show_profile, %{
+        verified: false
       })
 
     socket =
       socket
-      |> put_flash(:info, "Profile un-featured!")
+      |> put_flash(:info, "Profile un-verified!")
       |> push_redirect(
         to: Routes.profile_show_path(socket, :show, socket.assigns.show_profile.slug)
       )
