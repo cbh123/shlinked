@@ -95,18 +95,22 @@ defmodule Shlinkedin.Timeline do
   def get_comment!(id), do: Repo.get!(Comment, id)
 
   def get_story!(id) do
+    now = NaiveDateTime.utc_now()
+
     Repo.one(
       from s in Story,
-        where: s.inserted_at >= datetime_add(s.inserted_at, -1, "day") and s.id == ^id,
+        where: s.inserted_at >= datetime_add(^now, -1, "day") and s.id == ^id,
         preload: :profile
     )
   end
 
   def get_next_story(profile_id, story_id) do
+    now = NaiveDateTime.utc_now()
+
     Repo.one(
       from s in Story,
         where:
-          s.inserted_at >= datetime_add(s.inserted_at, -1, "day") and s.profile_id == ^profile_id and
+          s.inserted_at >= datetime_add(^now, -1, "day") and s.profile_id == ^profile_id and
             s.id > ^story_id,
         order_by: [asc: s.id],
         limit: 1,
@@ -115,10 +119,12 @@ defmodule Shlinkedin.Timeline do
   end
 
   def get_prev_story(profile_id, story_id) do
+    now = NaiveDateTime.utc_now()
+
     Repo.one(
       from s in Story,
         where:
-          s.inserted_at >= datetime_add(s.inserted_at, -1, "day") and s.profile_id == ^profile_id and
+          s.inserted_at >= datetime_add(^now, -1, "day") and s.profile_id == ^profile_id and
             s.id < ^story_id,
         order_by: [asc: s.id],
         limit: 1,
@@ -127,10 +133,11 @@ defmodule Shlinkedin.Timeline do
   end
 
   def get_profile_story(profile_id) do
+    now = NaiveDateTime.utc_now()
+
     Repo.one(
       from s in Story,
-        where:
-          s.inserted_at >= datetime_add(s.inserted_at, -1, "day") and s.profile_id == ^profile_id,
+        where: s.inserted_at >= datetime_add(^now, -1, "day") and s.profile_id == ^profile_id,
         order_by: [asc: s.id],
         preload: :profile,
         limit: 1
@@ -138,10 +145,11 @@ defmodule Shlinkedin.Timeline do
   end
 
   def get_story_ids(profile_id) do
+    now = NaiveDateTime.utc_now()
+
     Repo.all(
       from s in Story,
-        where:
-          s.inserted_at >= datetime_add(s.inserted_at, -1, "day") and s.profile_id == ^profile_id,
+        where: s.inserted_at >= datetime_add(^now, -1, "day") and s.profile_id == ^profile_id,
         select: s.id
     )
   end
