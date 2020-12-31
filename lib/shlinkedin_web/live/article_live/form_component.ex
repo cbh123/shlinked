@@ -49,41 +49,6 @@ defmodule ShlinkedinWeb.ArticleLive.FormComponent do
     {:noreply, cancel_upload(socket, :media, ref)}
   end
 
-  def handle_event("cancel-gif", _, socket) do
-    {:noreply, assign(socket, :gif_url, nil)}
-  end
-
-  def handle_event("add-gif", _params, socket) do
-    case socket.assigns.changeset.changes[:headline] do
-      nil ->
-        {:noreply, assign(socket, gif_error: "Pls enter text first!")}
-
-      body ->
-        gif_url = News.get_gif_from_text(body)
-        {:noreply, socket |> assign(gif_url: gif_url, gif_error: nil)}
-    end
-  end
-
-  defp save_article(socket, :edit_article, article_params) do
-    article = put_photo_urls(socket, socket.assigns.article)
-
-    case News.update_article(
-           socket.assigns.profile,
-           article,
-           article_params,
-           &consume_photos(socket, &1)
-         ) do
-      {:ok, _article} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, "Article updated successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, :changeset, changeset)}
-    end
-  end
-
   defp save_article(%{assigns: %{profile: profile}} = socket, :new_article, article_params) do
     article = put_photo_urls(socket, %Article{})
 

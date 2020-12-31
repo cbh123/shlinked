@@ -23,7 +23,6 @@ defmodule Shlinkedin.Profiles.Profile do
     belongs_to :user, Shlinkedin.Accounts.User
     has_many :posts, Shlinkedin.Timeline.Post, on_delete: :delete_all
     has_many :comments, Shlinkedin.Timeline.Comment, on_delete: :delete_all
-    has_many :endorsements, Shlinkedin.Profiles.Endorsement, on_delete: :delete_all
 
     has_many :friends, Shlinkedin.Profiles.Friend,
       foreign_key: :from_profile_id,
@@ -36,6 +35,9 @@ defmodule Shlinkedin.Profiles.Profile do
     field :publish_profile_picture, :boolean, virtual: true
 
     field :last_checked_notifications, :naive_datetime
+
+    field :featured, :boolean, default: false
+    field :featured_date, :naive_datetime
 
     timestamps()
   end
@@ -52,7 +54,9 @@ defmodule Shlinkedin.Profiles.Profile do
       :summary,
       :photo_url,
       :cover_photo_url,
-      :life_score
+      :life_score,
+      :featured,
+      :featured_date
     ])
     |> validate_required([:user_id, :persona_name, :username])
     |> downcase_username()
