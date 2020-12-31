@@ -68,9 +68,9 @@ defmodule Shlinkedin.Profiles do
     Repo.all(from p in Profile, where: p.persona_name != "test")
   end
 
-  def list_featured_profiles(count) do
-    Repo.all(from p in Profile, where: p.featured == true, limit: ^count)
-  end
+  # def list_featured_profiles(count) do
+  #   Repo.all(from p in Profile, where: p.featured == true, limit: ^count)
+  # end
 
   def is_admin?(%Profile{} = profile) do
     Repo.one(from p in Profile, where: p.id == ^profile.id, select: p.admin)
