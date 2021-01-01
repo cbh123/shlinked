@@ -25,7 +25,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
        page: 1,
        per_page: 5,
        public_feed: public,
-       articles: News.list_random_articles(5),
+       articles: News.list_top_articles(5),
        featured_profiles: Profiles.list_featured_profiles(3),
        stories: Timeline.list_stories(),
        like_map: Timeline.like_map(),
