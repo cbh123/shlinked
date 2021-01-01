@@ -2,7 +2,7 @@
 
 
 
-     <img src="<%= if @show_profile.cover_photo_url == nil, do: Routes.static_path(@socket, "/images/default_cover.png"), else: @show_profile.cover_photo_url %>"
+     <img src="<%= if @show_profile.cover_photo_url == nil, do: "https://source.unsplash.com/collection/1928683/1600x900", else: @show_profile.cover_photo_url %>"
          alt="" class="object-cover w-full overflow-hidden rounded-t-lg max-h-12 sm:max-h-18">
 
 
