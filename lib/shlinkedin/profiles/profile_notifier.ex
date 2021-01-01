@@ -92,6 +92,52 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     end
   end
 
+  defp friend_request_text() do
+    [
+      [
+        "What’s the secret to your success?",
+        "What are your business interests?",
+        "How did your last relationship end?",
+        "Whose fault was it?",
+        "Do you still think about it?"
+      ],
+      [
+        "Where do you see yourself in 100 years?",
+        "If you could talk to yourself as a 10 year, or another 10 year old, uh, nevermind."
+      ],
+      [
+        "How many conferences do you attend per year?",
+        "What’s better, spiders or scorpions?"
+      ],
+      [
+        "How long have you been in your line of work?",
+        "How do you keep employees motivated?",
+        "Do you remember what it was like to have dreams?"
+      ],
+      [
+        "What’s cookin’, good lookin’?",
+        "Please don’t tell HR I said that, I really didn’t mean anything by it."
+      ],
+      [
+        "Hey, do you need friends?",
+        "Should we hang out sometime?",
+        "What are you doing this weekend?",
+        "Do you want to come to my birthday party?"
+      ],
+      [
+        "What’s your industry’s best kept secret?",
+        "What do you know about business that no one else does?",
+        "Where is the treasure? WHERE ARE YOU HIDING THE TREASURE?"
+      ],
+      [
+        "Where do you go at night?",
+        "Do you ever have nightmares?",
+        "Are you ever suspicious of people?"
+      ]
+    ]
+    |> Enum.random()
+  end
+
   def notify_accepted_friend_request(
         %Profile{} = from_profile,
         %Profile{} = to_profile
@@ -103,9 +149,14 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
 
-    Congratulations! #{to_profile.persona_name} has accepted your Shlink request. Why not <a href="shlinked.herokuapp.com/sh/#{
-      to_profile.slug
-    }">business jab them in return?</a>
+    <p>Congratulations! #{to_profile.persona_name} has accepted your Shlink request.
+    Time to ask them something personal, like:</p>
+
+    <ul>
+    #{for line <- friend_request_text(), do: "<li>#{line}</li>"}
+    </ul>
+
+    <p>Time to get the conversation going!</p>
 
     <br/>
     <br/>
@@ -125,7 +176,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     if to_profile.unsubscribed == false do
       Shlinkedin.Email.new_email(
         from_profile.user.email,
-        "#{to_profile.persona_name} has accepted your Shlink request! Shlinkpoints +1",
+        "#{to_profile.persona_name} has accepted your Shlink request!",
         body
       )
       |> Shlinkedin.Mailer.deliver_later()
