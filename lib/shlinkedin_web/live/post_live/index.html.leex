@@ -8,7 +8,7 @@
 
     <div class="flex-grow">
         <%# Feed Picker %>
-        <div class="mx-auto sm:max-w-lg pl-2 text-gray-500 p-2 text-xs flex justify-between ">
+        <div class="hidden mx-auto sm:max-w-lg pl-2 text-gray-500 p-2 text-xs flex justify-between ">
 
             <div>
                 <button phx-click="public" phx-disable-with="loading..."
@@ -43,7 +43,7 @@
 
 
         <%# ShlinkBlasts %>
-        <div class="mx-auto w-screen sm:max-w-lg p-5 pb-3 bg-white sm:rounded-t-lg border-b">
+        <div class="mx-auto w-screen mt-4 sm:max-w-lg p-5 pb-3 bg-white sm:rounded-t-lg border-b">
 
             <p class="pb-4 font-bold">ShlinkBlasts</p>
 
@@ -118,8 +118,11 @@
         <%# Featured profiles %>
         <div class="mx-auto p-5 bg-white mt-2 sm:max-w-lg sm:rounded-lg ">
 
-            <h5 class=" font-bold mb-2">Featured Profiles</h5>
+            <div class="flex justify-between mb-2">
+                <h5 class=" font-bold ">Featured Profiles</h5>
+                <%= live_redirect raw("Explore Profiles &rarr;"), to: Routes.users_index_path(@socket, :index), class: "px-2 py-1 text-gray-500 hover:underline text-xs" %>
 
+            </div>
 
             <div class="grid grid-cols-3 gap-2">
                 <%= for profile <- @featured_profiles do %>
@@ -205,7 +208,7 @@
 
 
     <!-- News  -->
-    <div class="hidden sm:flex bg-white border h-full sm:mt-10 rounded-lg border-gray-100 sm:m-4">
+    <div class="hidden sm:flex bg-white border h-full sm:mt-4 rounded-lg border-gray-100 sm:m-4">
         <div class="block sm:w-72 w-full">
             <div class="flex justify-between px-5 py-5">
                 <%= live_redirect "ShlinkNews", to: Routes.article_index_path(@socket, :index), class: "font-bold"  %>
