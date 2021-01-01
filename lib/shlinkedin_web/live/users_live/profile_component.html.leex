@@ -10,7 +10,7 @@
      <%= live_redirect to: Routes.profile_show_path(@socket, :show, @show_profile.slug) do %>
 
      <div class="inline-block relative">
-         <img class="h-16 w-16 sm:w-24 sm:h-24 -mt-8 sm:-mt-12 mx-auto rounded-full object-cover border-2 sm:border-4 border-white"
+         <img class="h-16 w-16 sm:w-20 sm:h-20 -mt-8 mx-auto rounded-full object-cover border-2 sm:border-4 border-white"
              src="<%= @show_profile.photo_url %>" alt="">
      </div>
      <h3 class=" mt-2 text-gray-900 text-sm font-medium hover:underline"><%= @show_profile.persona_name %>
