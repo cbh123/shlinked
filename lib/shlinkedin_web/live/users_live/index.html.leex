@@ -1,8 +1,8 @@
 <%# Shlink Requests %>
-<div class="w-full min-h-screen p-5 pb-12">
+<div class="w-full max-w-2xl mx-auto min-h-screen p-5 pb-12">
     <h1 class="text-4xl font-extrabold mb-4">Explore Profiles</h1>
 
-    <div class="grid gap-2 grid-cols-1 flex-col sm:gap-4 sm:grid-cols-3 mt-8">
+    <div class="grid gap-2 flex-col sm:gap-4 grid-cols-3 mt-8">
         <%= for profile <- @profiles do %>
 
         <%= live_component @socket, ShlinkedinWeb.UsersLive.ProfileComponent,

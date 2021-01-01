@@ -94,6 +94,7 @@
 
         </div>
 
+        <%# Start a Post %>
         <div class="mx-auto sm:max-w-lg p-5 pb-3 bg-white sm:rounded-b-lg border-b hidden sm:block">
             <%= live_patch to: Routes.post_index_path(@socket, :new) do %>
             <button type="button"
@@ -114,8 +115,8 @@
 
 
 
-
-        <div class="mx-auto p-5 bg-white mt-2 w-screen sm:max-w-lg sm:rounded-lg">
+        <%# Featured profiles %>
+        <div class="mx-auto p-5 bg-white mt-2 sm:max-w-lg sm:rounded-lg ">
 
             <h5 class=" font-bold mb-2">Featured Profiles</h5>
 
