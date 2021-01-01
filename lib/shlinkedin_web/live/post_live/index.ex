@@ -2,6 +2,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
   use ShlinkedinWeb, :live_view
 
   alias Shlinkedin.Timeline
+  alias Shlinkedin.Profiles
   alias Shlinkedin.Timeline.{Post, Comment, Story}
   alias Shlinkedin.News
   alias Shlinkedin.News.Article
@@ -25,6 +26,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
        per_page: 5,
        public_feed: public,
        articles: News.list_top_articles(5),
+       featured_profiles: Profiles.list_featured_profiles(3),
        stories: Timeline.list_stories(),
        like_map: Timeline.like_map(),
        comment_like_map: Timeline.comment_like_map(),

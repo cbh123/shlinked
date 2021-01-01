@@ -114,6 +114,28 @@
 
 
 
+
+        <div class="mx-auto p-5 bg-white mt-2 w-screen sm:max-w-lg sm:rounded-lg">
+
+            <h5 class=" font-bold mb-2">Featured Profiles</h5>
+
+
+            <div class="grid grid-cols-3 gap-2">
+                <%= for profile <- @featured_profiles do %>
+
+                <%= live_component @socket, ShlinkedinWeb.UsersLive.ProfileComponent,
+                id: profile.id,
+                profile: @profile,
+                friend_status: Shlinkedin.Profiles.check_between_friend_status(@profile, profile),
+                show_profile: profile
+                %>
+
+
+                <% end %>
+            </div>
+        </div>
+
+
         <div class="py-1"></div>
 
         <%# Mobile News %>
