@@ -29,7 +29,12 @@ defmodule Shlinkedin.News do
   end
 
   def list_random_articles(count) do
-    Repo.all(from h in Article, order_by: fragment("RANDOM()"), limit: ^count, preload: :votes)
+    query = from(h in Article, order_by: fragment("RANDOM()"), limit: ^count)
+
+    from(h in query,
+      preload: [:votes]
+    )
+    |> Repo.all()
   end
 
   def create_vote(%Profile{} = profile, %Article{} = article) do
