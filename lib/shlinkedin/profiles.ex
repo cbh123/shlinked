@@ -69,7 +69,9 @@ defmodule Shlinkedin.Profiles do
   end
 
   def list_featured_profiles(count) do
-    Repo.all(from p in Profile, where: p.featured == true, limit: ^count)
+    Repo.all(
+      from p in Profile, where: p.featured == true, order_by: fragment("RANDOM()"), limit: ^count
+    )
   end
 
   def is_admin?(%Profile{} = profile) do
