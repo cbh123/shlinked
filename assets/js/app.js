@@ -43,17 +43,14 @@ Uploaders.S3 = function (entries, onViewError) {
   });
 };
 
-Hooks.Prompt1 = {
+Hooks.OnboardingPrompt = {
   mounted() {
     this.el.addEventListener("click", (e) => {
-      var options = {
-        strings: [
-          "Hey there—it was great chatting during the breakout session at yesterday’s Tax & Accounting Conference. It’s a pleasure to e-meet!",
-        ],
-        typeSpeed: 20,
-      };
-
-      var typed = new Typed("#typed", options);
+      const id = e.target.id.split("-")[0];
+      var typed = new Typed(`#${id}`, {
+        stringsElement: `#${id}-text`,
+        typeSpeed: 5,
+      });
     });
   },
 };

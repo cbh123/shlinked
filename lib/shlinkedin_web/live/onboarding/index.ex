@@ -40,16 +40,22 @@ defmodule ShlinkedinWeb.OnboardingLive.Index do
      socket
      |> assign(
        step: 1,
-       prompt: false,
        changeset: changeset,
        bio_placeholder: @bio_placeholders |> Enum.random(),
        title_placeholder: @title_placeholders |> Enum.random()
      )}
   end
 
-  def handle_event("start", _, socket) do
-    IO.inspect(binding())
-    {:noreply, socket |> assign(prompt: true)}
+  def handle_event("next-step", %{"step" => step}, socket) do
+    IO.inspect(socket.assigns.step, label: "")
+    IO.inspect(step, label: "")
+
+    if socket.assigns.step > String.to_integer(step) do
+      IO.puts("greater")
+      {:noreply, socket}
+    else
+      {:noreply, socket |> assign(step: String.to_integer(step) + 1)}
+    end
   end
 
   def handle_event("validate", params, socket) do

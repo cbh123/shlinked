@@ -1,4 +1,4 @@
-<div class="bg-white mb-8 pt-8">
+<div class="bg-white mb-8 pt-8 h-screen">
     <%= f = form_for @changeset, "#",
   id: "profile-form",
   phx_change: "validate",
@@ -9,12 +9,59 @@
 
     <%# Form %>
 
-    <div class="mt-2 px-5 max-w-md mx-auto space-y-12">
+    <div class="mt-2 px-5 max-w-md mx-auto">
 
-        <button type="button" phx-hook="Prompt1">Start</button>
 
-        <span id="typed"></span>
-        <%= @prompt %>
+
+        <%= @step %>
+
+        <div class="flex mb-8">
+            <div class="mr-4 flex-shrink-0 self-center">
+                <img class="h-full w-24 object-cover " style="filter: drop-shadow(1px 2px 2px black)"
+                    src="<%= Routes.static_path(@socket, "/images/businessman.png") %>" alt="">
+
+            </div>
+            <div>
+
+                <div id="prompt1-text" class="mt-1 <%= if @step <= 2, do: "hidden" %>">
+                    <p><span class="font-bold">Hey there! </span> My name is Jeff, and welcome to Shlinked — a
+                        satirical social network where everyone is a thought leader and nothing matters.
+
+
+                        <button
+                            class="mt-4 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            type="button" id="prompt2-btn" phx-click="next-step" phx-value-step="2"
+                            phx-hook="OnboardingPrompt">Shake Hands 🤝
+                        </button>
+                    </p>
+
+                </div>
+                <div id="prompt1" class="<%= if @step > 2, do: "hidden"%>"></div>
+            </div>
+        </div>
+
+
+
+
+        <div id="prompt2-text" class="<%= if @step <= 3, do: "hidden" %>">
+            <p>Right, it’s a pleasure to e-meet! I’m Jeff—I’m a Sales Ops Manager and Executive Vice President of
+                Culture and Supply Chain Logistics Czar at Startuply. Someday, I hope to be promoted to Senior Executive
+                Vice President of Culture and Supply Chain Logistics. </p>
+        </div>
+        <p id="prompt2"></p>
+
+
+        <%= case @step do %>
+
+        <%= 1 -> %>
+        <button type="button" id="prompt1-btn" class=" w-full bg-blue-600 text-white px-4 py-2 rounded-full"
+            phx-hook="OnboardingPrompt" phx-click="next-step" phx-value-step="1">Start</button>
+
+        <%= 2 -> %>
+        <%# <button class=" w-full bg-blue-600 text-white px-4 py-2 rounded-full" type="button" id="prompt2-btn"
+            phx-click="next-step" phx-hook="OnboardingPrompt">Shake Hands</button> %>
+
+        <%= 3 -> %>
 
         <%# Name %>
         <div class="">
@@ -36,10 +83,13 @@
             <p class="mt-4 text-xs"><%= error_tag f, :persona_name %></p>
 
         </div>
+        <% end %>
+
+
 
 
         <%# Username %>
-        <div class="" phx-feedback-for="username">
+        <div class="hidden" phx-feedback-for="username">
             <label for="name" class="text-lg font-medium text-gray-700 mt-4">Username</label>
 
             <p class="text-xs text-gray-600 mt-1 mb-2">
@@ -59,7 +109,7 @@
 
 
         <%# Photo %>
-        <div class="pt-2 p-5">
+        <div class="hidden pt-2 p-5">
             <div class="flex justify-center">
 
                 <%= if @uploads.photo.entries != [] do %>
@@ -77,7 +127,7 @@
 
         <%# Photo %>
 
-        <div class="">
+        <div class="hidden">
 
             <label for="picture" class=" block text-lg font-medium text-gray-700">Add a photo to your
                 profile.</label>
@@ -107,7 +157,7 @@
         </div>
 
         <%# Title %>
-        <div class="">
+        <div class="hidden">
             <label for="picture" class=" block text-lg font-medium text-gray-700 mt-12">What's your headline?
             </label>
             <div class="mt-1 relative rounded-md shadow-sm">
@@ -120,7 +170,7 @@
 
         </div>
 
-        <div>
+        <div class="hidden">
             <label for="bio" class=" block text-lg font-medium text-gray-700">And finally, your bio:
             </label>
             <div class="mt-1 relative rounded-md shadow-sm">
@@ -135,7 +185,7 @@
         </div>
 
 
-        <div class="w-full pb-16 pt-8">
+        <div class="w-full pb-16 pt-8 hidden">
 
 
 
