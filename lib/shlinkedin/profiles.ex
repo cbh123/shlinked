@@ -441,6 +441,10 @@ defmodule Shlinkedin.Profiles do
     Profile.changeset(profile, attrs |> Map.put("user_id", user_id))
   end
 
+  def change_profile_no_user(%Profile{} = profile, attrs \\ %{}) do
+    Profile.changeset(profile, attrs)
+  end
+
   def create_profile(%User{id: user_id}, attrs \\ %{}, after_save \\ &{:ok, &1}) do
     %Profile{}
     |> Profile.changeset(attrs |> Map.put("user_id", user_id))

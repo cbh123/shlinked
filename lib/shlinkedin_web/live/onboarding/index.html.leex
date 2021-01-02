@@ -1,0 +1,152 @@
+<div class="bg-white mb-8 pt-8">
+    <%= f = form_for @changeset, "#",
+  id: "profile-form",
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+
+
+
+    <%# Form %>
+
+    <div class="mt-2 px-5 max-w-md mx-auto space-y-12">
+
+        <button type="button" phx-hook="Prompt1">Start</button>
+
+        <span id="typed"></span>
+        <%= @prompt %>
+
+        <%# Name %>
+        <div class="">
+            <label for="name" class="text-lg font-medium text-gray-700">First,
+                what's
+                your
+                name?</label>
+
+            <p class="text-xs text-gray-600 mt-1 mb-2"><%= if @changeset.changes |> Map.has_key?(:persona_name), do: "#{@changeset.changes.persona_name}... sounds like you'd have one hell of a handshake. Welcome to the team.", else: "On ShlinkedIn, you can be yourself, an alter ego, or
+                        anything
+                        in between." %> </p>
+
+            <div class="rounded-md shadow-sm">
+                <%= text_input f, :persona_name, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
+                                    placeholder: "Name", autofocus: "true" %>
+            </div>
+
+
+            <p class="mt-4 text-xs"><%= error_tag f, :persona_name %></p>
+
+        </div>
+
+
+        <%# Username %>
+        <div class="" phx-feedback-for="username">
+            <label for="name" class="text-lg font-medium text-gray-700 mt-4">Username</label>
+
+            <p class="text-xs text-gray-600 mt-1 mb-2">
+                <%= if @changeset.changes |> Map.has_key?(:username), do: "Nice! @#{@changeset.changes.username} sure has a C-Suite ring to it.", else: "This is your unique identifier (can always change later)." %>
+            </p>
+
+            <div class="rounded-md shadow-sm">
+                <%= text_input f, :username, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
+                                    placeholder: "Username", autocapitalize: "off"%>
+            </div>
+
+            <p class="mt-4 text-xs"><%= error_tag f, :username %></p>
+
+        </div>
+
+
+
+
+        <%# Photo %>
+        <div class="pt-2 p-5">
+            <div class="flex justify-center">
+
+                <%= if @uploads.photo.entries != [] do %>
+                <%= for entry <- @uploads.photo.entries do %>
+                <%= live_img_preview entry, class: "inline-block relative object-cover bg-cover bg-center w-24 h-24 sm:w-32 sm:h-32 -mt-16 rounded-full border-4 border-white" %>
+                <% end %>
+                <% else %>
+                <img class="inline-block relative bg-cover bg-center w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-white object-cover"
+                    src="<%= if @profile.photo_url == nil, do: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/George_Washington%2C_1776.jpg/1200px-George_Washington%2C_1776.jpg", else: @profile.photo_url%>">
+                <% end  %>
+
+            </div>
+        </div>
+
+
+        <%# Photo %>
+
+        <div class="">
+
+            <label for="picture" class=" block text-lg font-medium text-gray-700">Add a photo to your
+                profile.</label>
+            <label for="file-upload"
+                class="inline-flex mt-1 items-center py-2 relative cursor-pointertext-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-100 ">
+
+                <%= live_file_input @uploads.photo %>
+            </label>
+
+
+            <%# Photo upload errors %>
+            <%= for {_ref, msg } <- @uploads.photo.errors do %>
+            <p class="alert alert-danger"><%= Phoenix.Naming.humanize(msg) %></p>
+
+            <% end %>
+
+            <%# Photo remove buttons %>
+            <%= for entry <- @uploads.photo.entries do %>
+            <button phx-click="cancel-entry" phx-value-ref="<%= entry.ref %>" type="button"
+                class=" mt-2 items-center px-2.5 py-1.5 border border-transparent text-sm font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Remove photo</button>
+
+            <progress max="100" class="bg-white" value="<%= entry.progress %>" />
+
+            <% end %>
+
+        </div>
+
+        <%# Title %>
+        <div class="">
+            <label for="picture" class=" block text-lg font-medium text-gray-700 mt-12">What's your headline?
+            </label>
+            <div class="mt-1 relative rounded-md shadow-sm">
+                <%= text_input f, :persona_title, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
+                                    placeholder:  @title_placeholder %>
+
+            </div>
+            <span class="text-xs text-gray-600 mb-2">Your elevator pitch.</span>
+            <p class="mt-4 text-xs"><%= error_tag f, :persona_title %></p>
+
+        </div>
+
+        <div>
+            <label for="bio" class=" block text-lg font-medium text-gray-700">And finally, your bio:
+            </label>
+            <div class="mt-1 relative rounded-md shadow-sm">
+                <%= textarea f, :summary, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
+                                    placeholder: @bio_placeholder, rows: 5 %>
+
+            </div>
+            <span class="text-xs text-gray-600 mb-2">Make sure this is dramatic, inspiring, and definitely real.
+            </span>
+            <p class="mt-4 text-xs"><%= error_tag f, :summary %></p>
+
+        </div>
+
+
+        <div class="w-full pb-16 pt-8">
+
+
+
+            <%= submit "Create Profile", class: "w-full -mx-2 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
+
+
+
+
+
+        </div>
+
+    </div>
+
+</div>

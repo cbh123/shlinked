@@ -133,6 +133,9 @@ defmodule ShlinkedinWeb.Router do
   scope "/", ShlinkedinWeb do
     pipe_through [:browser]
 
+    # onboarding
+    live "/onboarding/:id", OnboardingLive.Index, :index
+
     get "/join", UserRegistrationController, :join
 
     # auth stuff

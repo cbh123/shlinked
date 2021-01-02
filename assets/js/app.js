@@ -16,6 +16,7 @@ import "phoenix_html";
 import { Socket } from "phoenix";
 import NProgress from "nprogress";
 import { LiveSocket } from "phoenix_live_view";
+import Typed from "typed.js";
 
 let Uploaders = {};
 let Hooks = {};
@@ -40,6 +41,21 @@ Uploaders.S3 = function (entries, onViewError) {
     xhr.open("POST", url, true);
     xhr.send(formData);
   });
+};
+
+Hooks.Prompt1 = {
+  mounted() {
+    this.el.addEventListener("click", (e) => {
+      var options = {
+        strings: [
+          "Hey there—it was great chatting during the breakout session at yesterday’s Tax & Accounting Conference. It’s a pleasure to e-meet!",
+        ],
+        typeSpeed: 20,
+      };
+
+      var typed = new Typed("#typed", options);
+    });
+  },
 };
 
 Hooks.Pick = {
