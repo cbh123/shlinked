@@ -19,15 +19,24 @@
                 <span
                     class="inline-flex items-center px-2.5 mx-1 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 ">
                     Author
+
+
                 </span>
                 <% end %>
 
 
 
 
+
+
             </div>
             <% end %>
-            <p class="right-0 absolute text-xs text-gray-500 max-w-8"><%= Timex.from_now(@comment.inserted_at) %></p>
+
+
+
+            <p class="right-0 absolute text-xs text-gray-500 max-w-8"><%= Timex.from_now(@comment.inserted_at) %>
+
+            </p>
         </div>
         <%# Comment text %>
         <p class="relative text-xs mt-1 overflow-hidden <%= if !@expand_comment, do: "max-h-8" %>">
@@ -82,6 +91,7 @@
         </div>
 
         <%# Comment number of likes %>
+
         <div class="inline-flex">
             <%# "x likes" with symbols %>
             <%= if length(@comment.likes) > 0 do %>
@@ -104,7 +114,11 @@
             </div>
             <% end %>
             <% end %>
+
         </div>
+        <%= if @profile != nil and @comment.profile_id == @profile.id or @profile.admin do %>
+        <%= link "Delete", to: "#", phx_click: "delete-comment", phx_value_id: @comment.id, data: [confirm: "Are you sure?"], class: "text-xs text-gray-500 absolute bottom-1 right-2 hover:bg-gray-100"%>
+        <% end %>
 
     </div>
 </div>
