@@ -34,16 +34,17 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
         socket
       ) do
     Profiles.change_notification_to_read(id |> String.to_integer())
+    my_slug = socket.assigns.profile.slug
 
     case type do
       "endorsement" ->
-        {:noreply, push_redirect(socket, to: "/sh/#{socket.assigns.profile.slug}/notifications")}
+        {:noreply, push_redirect(socket, to: "/sh/#{my_slug}/notifications")}
 
       "testimonial" ->
-        {:noreply, push_redirect(socket, to: "/sh/#{socket.assigns.profile.slug}/notifications")}
+        {:noreply, push_redirect(socket, to: "/sh/#{my_slug}/notifications")}
 
       "jab" ->
-        {:noreply, push_redirect(socket, to: "/sh/#{socket.assigns.profile.slug}/notifications")}
+        {:noreply, push_redirect(socket, to: "/sh/#{slug}/notifications")}
 
       "accepted_shlink" ->
         {:noreply, push_redirect(socket, to: "/sh/#{slug}/notifications")}
@@ -68,7 +69,7 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
 
       "new_badge" ->
         # ultimately should go to a badge page?
-        {:noreply, push_redirect(socket, to: "/sh/#{socket.assigns.profile.slug}/notifications")}
+        {:noreply, push_redirect(socket, to: "/sh/#{my_slug}/notifications")}
 
       "admin_message" ->
         {:noreply, push_redirect(socket, to: if(link == "", do: "/", else: link))}
