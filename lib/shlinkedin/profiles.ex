@@ -8,6 +8,7 @@ defmodule Shlinkedin.Profiles do
 
   alias Shlinkedin.Profiles.{
     Endorsement,
+    Jab,
     Testimonial,
     ProfileNotifier,
     Profile,
@@ -246,6 +247,13 @@ defmodule Shlinkedin.Profiles do
     |> Friend.changeset(attrs)
     |> Repo.insert_or_update()
     |> ProfileNotifier.observer(:sent_friend_request, from, to)
+  end
+
+  def send_jab(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
+    %Jab{}
+    |> Jab.changeset(attrs)
+    |> Repo.insert()
+    |> ProfileNotifier.observer(:jab, from, to)
   end
 
   def cancel_friend_request(%Profile{} = from, %Profile{} = to) do

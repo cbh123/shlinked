@@ -103,6 +103,14 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(friend_status: status)}
   end
 
+  def handle_event("jab", _, socket) do
+    Profiles.send_jab(socket.assigns.from_profile, socket.assigns.to_profile)
+
+    {:noreply,
+     socket
+     |> put_flash(:info, "Business Jabbed!")}
+  end
+
   def handle_event("feature-profile", _params, socket) do
     {:ok, _post} =
       Profiles.update_profile(socket.assigns.show_profile, %{

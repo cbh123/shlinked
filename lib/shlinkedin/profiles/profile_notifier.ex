@@ -45,12 +45,52 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
       :new_badge ->
         notify_profile_badge(to_profile, res)
+
+      :jab ->
+        notify_jab(from_profile, to_profile)
     end
 
     {:ok, res}
   end
 
-  def observer({:error, error}, _from, _to, _type), do: {:error, error}
+  def notify_jab(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile
+      ) do
+    body = """
+
+    Hi #{to_profile.persona_name},
+
+    <br/>
+    <br/>
+
+    #{from_profile.persona_name} has business jabbed you! Time to take
+    some corporate revenge and <a href="shlinked.herokuapp.com/sh/#{from_profile.slug}">jab them back.</a>
+
+    <br/>
+    <br/>
+    Thanks, <br/>
+    ShlinkTeam
+
+    """
+
+    Shlinkedin.Profiles.create_notification(%Notification{
+      from_profile_id: from_profile.id,
+      to_profile_id: to_profile.id,
+      type: "jab",
+      action: "business jabbed you!",
+      body: "Get some corporate revenge and jab them back!"
+    })
+
+    if to_profile.unsubscribed == false do
+      Shlinkedin.Email.new_email(
+        to_profile.user.email,
+        "#{from_profile.persona_name} business jabbed you!",
+        body
+      )
+      |> Shlinkedin.Mailer.deliver_later()
+    end
+  end
 
   def notify_sent_friend_request(
         %Profile{} = from_profile,
