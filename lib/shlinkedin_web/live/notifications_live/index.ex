@@ -42,6 +42,9 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
       "testimonial" ->
         {:noreply, push_redirect(socket, to: "/sh/#{socket.assigns.profile.slug}/notifications")}
 
+      "jab" ->
+        {:noreply, push_redirect(socket, to: "/sh/#{socket.assigns.profile.slug}/notifications")}
+
       "accepted_shlink" ->
         {:noreply, push_redirect(socket, to: "/sh/#{slug}/notifications")}
 
