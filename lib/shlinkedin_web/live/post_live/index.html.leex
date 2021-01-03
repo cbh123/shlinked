@@ -42,60 +42,8 @@
 
 
 
-        <%# ShlinkBlasts %>
-        <div class="mx-auto w-screen mt-4 sm:max-w-lg p-5 pb-3 bg-white sm:rounded-t-lg border-b">
-
-            <p class="pb-4 font-bold">ShlinkBlasts</p>
-
-
-            <div class="flex overflow-x-auto w-full">
-                <div>
-                    <%= live_patch to: Routes.post_index_path(@socket, :new_story) do %>
-                    <span
-                        class="flex relative mx-1 place-self-center hover:text-blue-400 text-gray-500 cursor-pointer rounded-full">
-
-                        <img class="h-14 w-14 rounded-full border-2 border-white object-cover"
-                            src="<%= @profile.photo_url %>" alt="">
-                        <svg class="absolute bottom-0 right-0 h-4 w-4 text-blue-500 bg-white rounded-full"
-                            fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </span>
-                    <p class="text-center text-xs w-16 mx-auto">Add Blast</p>
-
-                    <% end %>
-                </div>
-
-                <%= for story <- @stories do %>
-                <div>
-                    <%= live_patch to: Routes.story_show_path(@socket, :show, story.profile_id) do %>
-                    <span
-                        class="flex mx-1 border-2 <%= if Shlinkedin.Timeline.seen_all_stories?(@profile, story.profile), do: "border-gray-300", else: "border-blue-400" %> rounded-full">
-
-                        <img class="h-14 w-14 rounded-full border-2 border-white object-cover"
-                            src="<%= story.profile.photo_url %>" alt="">
-                    </span>
-                    <div class="text-center text-xs w-16 mx-auto">
-
-                        <span><%= story.profile.persona_name%></span>
-                        <%= Shlinkedin.Badges.profile_badges(@socket, story.profile, 3) %>
-
-
-                    </div>
-                    <% end %>
-                </div>
-                <% end %>
-
-
-
-            </div>
-
-        </div>
-
         <%# Start a Post %>
-        <div class="mx-auto sm:max-w-lg p-5 pb-3 bg-white sm:rounded-b-lg border-b hidden sm:block">
+        <div class="mt-4 mx-auto sm:max-w-lg p-5 pb-3 bg-white sm:rounded-lg border hidden sm:block">
             <%= live_patch to: Routes.post_index_path(@socket, :new) do %>
             <button type="button"
                 class=" w-full inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-full text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
@@ -138,6 +86,10 @@
                 <% end %>
             </div>
         </div>
+
+
+
+
 
 
         <div class="py-1"></div>
