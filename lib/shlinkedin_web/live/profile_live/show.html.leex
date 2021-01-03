@@ -86,12 +86,16 @@
                  <div class="ml-3 mt-2">
 
                      <%# Name and username %>
+
                      <div class="font-bold sm:text-left text-center text-2xl sm:text-3xl">
+
+                         <p class="text-gray-500 text-sm font-normal">
+                             <%= Shlinkedin.Profiles.show_real_name(@profile, @show_profile) %></p>
+
                          <%= @show_profile.persona_name %>
 
                          <%= Shlinkedin.Badges.profile_badges(@socket, @show_profile) %>
 
-                         <span class="text-gray-500 text-sm font-normal"><%= @show_profile.real_name %></span>
                      </div>
 
                      <%# Title %>

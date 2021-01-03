@@ -29,10 +29,13 @@
                 <div phx-click="pick" id="search-pick-<%= idx %>" phx-value-slug="<%= match.slug %>"
                     class="flex w-full cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200">
 
-                    <img class="h-10 w-10 rounded-full object-cover" src="<%= match.photo %>" alt="">
-                    <p class="ml-3 place-self-center text-sm font-medium text-gray-900"><%= match.name %>
-                        <span class="text-gray-500"> @<%= match.real_name %>
-                        </span>
+                    <img class="h-10 w-10 rounded-full object-cover" src="<%= match.photo_url %>" alt="">
+                    <p class="ml-3 place-self-center text-sm font-medium text-gray-900"><%= match.persona_name %>
+
+
+                        <span class="text-gray-500"><%= Shlinkedin.Profiles.show_real_name(@profile, match) %></span>
+
+
 
                     </p>
 

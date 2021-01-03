@@ -116,4 +116,11 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
   defp like_map_list(like_map) do
     Enum.filter(like_map, fn {_, d} -> d.active end) |> Enum.map(fn {_, d} -> d end)
   end
+
+  defp show_author(profile, post_profile) do
+    case Shlinkedin.Profiles.show_real_name(profile, post_profile) do
+      "" -> "Mystery"
+      name -> name
+    end
+  end
 end

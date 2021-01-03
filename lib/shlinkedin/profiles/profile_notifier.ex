@@ -189,7 +189,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
 
-    <p>Congratulations! #{to_profile.persona_name} has accepted your Shlink request.
+    <p>Congratulations! #{to_profile.persona_name} / #{to_profile.real_name} has accepted your Shlink request.
     Time to ask them something personal, like:</p>
 
     <ul>
@@ -497,23 +497,6 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         %Profile{} = to_profile,
         %Comment{} = comment
       ) do
-    body = """
-
-    Hi #{to_profile.persona_name},
-
-    <br/>
-    <br/>
-
-    Great news: #{from_profile.persona_name} has commented on your
-     <a href="shlinked.herokuapp.com/posts/#{comment.post_id}">post.</a>
-
-    <br/>
-    <br/>
-    Thanks, <br/>
-    ShlinkTeam
-
-    """
-
     for username <- comment.profile_tags do
       to_profile = Shlinkedin.Profiles.get_profile_by_username(username)
 
@@ -550,15 +533,6 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         action: "commented on your post: ",
         body: "#{comment.body}"
       })
-
-      if to_profile.unsubscribed == false do
-        Shlinkedin.Email.new_email(
-          to_profile.user.email,
-          "Your post is getting traction!",
-          body
-        )
-        |> Shlinkedin.Mailer.deliver_later()
-      end
     end
   end
 end

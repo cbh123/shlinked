@@ -18,6 +18,17 @@ defmodule Shlinkedin.Profiles do
 
   alias Shlinkedin.Accounts.User
 
+  def show_real_name(%Profile{} = from, %Profile{} = to) do
+    if from.id == to.id do
+      to.real_name
+    else
+      case check_between_friend_status(from, to) do
+        "accepted" -> to.real_name
+        _ -> ""
+      end
+    end
+  end
+
   @doc """
   Returns the list of endorsements.
 
@@ -48,16 +59,14 @@ defmodule Shlinkedin.Profiles do
     Repo.all(from(p in Profile))
   end
 
-  def search_profiles(username_or_name) do
-    sql = "%#{username_or_name}%"
+  def search_profiles(persona_name) do
+    sql = "%#{persona_name}%"
 
     Repo.all(
       from p in Profile,
-        where:
-          (ilike(p.username, ^sql) or ilike(p.persona_name, ^sql)) and p.persona_name != "test",
+        where: ilike(p.persona_name, ^sql) and p.persona_name != "test",
         limit: 7,
-        order_by: fragment("RANDOM()"),
-        select: %{username: p.username, name: p.persona_name, photo: p.photo_url, slug: p.slug}
+        order_by: fragment("RANDOM()")
     )
   end
 
