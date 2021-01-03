@@ -112,10 +112,9 @@ defmodule Shlinkedin.News do
       from v in Vote,
         join: p in assoc(v, :profile),
         where: v.article_id == ^article.id,
-        group_by: [p.persona_name, p.photo_url, p.username, p.slug],
+        group_by: [p.persona_name, p.photo_url, p.slug],
         select: %{
           name: p.persona_name,
-          username: p.username,
           photo_url: p.photo_url,
           count: count(v.id),
           slug: p.slug

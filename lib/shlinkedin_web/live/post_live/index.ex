@@ -113,9 +113,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
     |> assign(
       :likes,
       Timeline.list_likes(post)
-      |> Enum.group_by(
-        &%{name: &1.name, username: &1.username, photo_url: &1.photo_url, slug: &1.slug}
-      )
+      |> Enum.group_by(&%{name: &1.name, photo_url: &1.photo_url, slug: &1.slug})
     )
     |> assign(:post, post)
   end
@@ -128,9 +126,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
     |> assign(
       :likes,
       Timeline.list_comment_likes(comment)
-      |> Enum.group_by(
-        &%{name: &1.name, username: &1.username, photo_url: &1.photo_url, slug: &1.slug}
-      )
+      |> Enum.group_by(&%{name: &1.name, photo_url: &1.photo_url, slug: &1.slug})
     )
     |> assign(:comment, comment)
   end

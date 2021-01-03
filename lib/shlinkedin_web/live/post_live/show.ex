@@ -20,6 +20,6 @@ defmodule ShlinkedinWeb.PostLive.Show do
      |> assign(like_map: Timeline.like_map())
      |> assign(show_like_options: false)
      |> assign(:post, post)
-     |> assign(:page_title, "See #{post.profile.username}'s post on ShlinkedIn")}
+     |> assign(:page_title, "See #{post.profile.persona_name}'s post on ShlinkedIn")}
   end
 end

@@ -52,7 +52,7 @@
 
 
                     <p class="text-xs text-gray-500">
-                        @<%= @post.profile.username %> • <%= Timex.from_now(@post.inserted_at) %>
+                        <%= @post.profile.real_name %> • <%= Timex.from_now(@post.inserted_at) %>
 
                     </p>
 
