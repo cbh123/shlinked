@@ -63,6 +63,8 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
       )
       |> Map.put(:action, :validate)
 
+    IO.inspect(changeset, label: "")
+
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
@@ -138,6 +140,12 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
       [url | _] ->
         Map.put(attrs, photo_name, url)
     end
+  end
+
+  defp slugify(str) do
+    str
+    |> String.downcase()
+    |> String.replace(~r/[^\w-]+/u, "-")
   end
 
   @bucket "shlinked"

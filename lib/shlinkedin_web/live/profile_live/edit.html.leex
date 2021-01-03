@@ -42,9 +42,9 @@
                 <%# Name %>
                 <div class="">
                     <label for="name" class="text-lg font-medium text-gray-700 mt-4">First,
-                        what's
+                        create
                         your
-                        name?</label>
+                        alter ego.</label>
 
                     <p class="text-xs text-gray-600 mt-1 mb-2"><%= if @changeset.changes |> Map.has_key?(:persona_name), do: "#{@changeset.changes.persona_name}... sounds like you'd have one hell of a handshake. Welcome to the team.", else: "On ShlinkedIn, you can be yourself, an alter ego, or
                         anything
@@ -61,28 +61,20 @@
                 </div>
 
 
-                <%# Username %>
-                <div class="" phx-feedback-for="username">
-                    <label for="name" class="text-lg font-medium text-gray-700 mt-4">Username</label>
+                <%# Title %>
+                <div class="">
+                    <label for="picture" class=" block text-lg font-medium text-gray-700 mt-12">What's your headline?
+                    </label>
+                    <span class="text-xs text-gray-600 mb-2">Your elevator pitch.</span>
+                    <div class="mt-1 relative rounded-md shadow-sm">
+                        <%= text_input f, :persona_title, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
+                                    placeholder:  @title_placeholder %>
 
-                    <p class="text-xs text-gray-600 mt-1 mb-2">
-                        <%= if @changeset.changes |> Map.has_key?(:username), do: "Nice! @#{@changeset.changes.username} sure has a C-Suite ring to it.", else: "This is your unique identifier (can always change later)." %>
-                    </p>
-
-                    <div class="rounded-md shadow-sm">
-                        <%= text_input f, :username, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
-                                    placeholder: "Username", autocapitalize: "off"%>
                     </div>
 
-                    <p class="mt-4 text-xs"><%= error_tag f, :username %></p>
+                    <p class="mt-4 text-xs"><%= error_tag f, :persona_title %></p>
 
                 </div>
-
-
-
-
-
-
 
                 <%# Photo %>
 
@@ -115,33 +107,57 @@
 
                 </div>
 
-                <%# Title %>
+
+                <%# Username %>
+                <div class="" phx-feedback-for="username">
+                    <label for="name" class="text-lg font-medium text-gray-700 mt-4">Customize your URL</label>
+
+                    <p class="text-xs text-gray-600 mt-1 mb-2">
+                        <%= "Enhance your personal brand by using a custom URL for your profile page." %>
+                    </p>
+
+
+                    <div class="mt-1 flex rounded-md shadow-sm">
+                        <span
+                            class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+                            shlinked.com/sh/
+                        </span>
+                        <%= text_input f, :username, class:  class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full px-3 py-2 rounded-none rounded-r-md sm:text-sm border-gray-300",
+                                    placeholder: "username", autocapitalize: "off"%>
+
+                    </div>
+
+
+                    <p class="mt-4 text-xs"><%= error_tag f, :username %></p>
+
+                </div>
+
+
+
+
+                <%# Real Name %>
                 <div class="">
-                    <label for="picture" class=" block text-lg font-medium text-gray-700 mt-12">What's your headline?
-                    </label>
-                    <div class="mt-1 relative rounded-md shadow-sm">
-                        <%= text_input f, :persona_title, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
-                                    placeholder:  @title_placeholder %>
+                    <label for="real_name" class="text-lg font-medium text-gray-700 mt-4">Finally,
+                        what's your real name?</label>
 
+                    <p class="text-xs text-gray-600 mt-1 mb-2">This will be kept private unless you are connected with
+                        somebody.</p>
+
+                    <div class="rounded-md shadow-sm">
+                        <%= text_input f, :real_name, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
+                                    placeholder: "First Last" %>
                     </div>
-                    <span class="text-xs text-gray-600 mb-2">Your elevator pitch.</span>
-                    <p class="mt-4 text-xs"><%= error_tag f, :persona_title %></p>
+
+
+                    <p class="mt-4 text-xs"><%= error_tag f, :real_name %></p>
 
                 </div>
 
-                <div>
-                    <label for="bio" class=" block text-lg font-medium text-gray-700">And finally, your bio:
-                    </label>
-                    <div class="mt-1 relative rounded-md shadow-sm">
-                        <%= textarea f, :summary, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
-                                    placeholder: @bio_placeholder, rows: 5 %>
 
-                    </div>
-                    <span class="text-xs text-gray-600 mb-2">Make sure this is dramatic, inspiring, and definitely real.
-                    </span>
-                    <p class="mt-4 text-xs"><%= error_tag f, :summary %></p>
 
-                </div>
+
+
+
 
 
                 <div class="w-full pb-16 pt-8">

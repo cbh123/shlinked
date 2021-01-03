@@ -56,7 +56,7 @@
 
             </div>
 
-            <%= if @current_user != nil and @profile != nil and @profile.username != nil do %>
+            <%= if @current_user != nil and @profile != nil and @profile.persona_name != nil do %>
 
             <%# SEARCH %>
             <div class="flex-1 flex items-center px-2 sm:ml-6 sm:justify-end" style="justify-content:left">
