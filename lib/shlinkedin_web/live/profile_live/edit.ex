@@ -63,8 +63,6 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
       )
       |> Map.put(:action, :validate)
 
-    IO.inspect(changeset, label: "")
-
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
