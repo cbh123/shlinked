@@ -45,6 +45,8 @@ defmodule Shlinkedin.Profiles.Profile do
 
     has_many(:awards, Shlinkedin.Profiles.Award, on_delete: :nilify_all)
 
+    field :private_mode, :boolean, default: false
+
     timestamps()
   end
 
@@ -65,7 +67,8 @@ defmodule Shlinkedin.Profiles.Profile do
       :verified,
       :verified_date,
       :featured,
-      :featured_date
+      :featured_date,
+      :private_mode
     ])
     |> validate_required([:user_id, :persona_name, :real_name, :username])
     |> downcase_username()

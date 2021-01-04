@@ -140,8 +140,7 @@
                     <label for="real_name" class="text-lg font-medium text-gray-700 mt-4">Finally,
                         what's your real name?</label>
 
-                    <p class="text-xs text-gray-600 mt-1 mb-2">This will be kept private unless you are connected with
-                        somebody.</p>
+                    <p class="text-xs text-gray-600 mt-1 mb-2">This is so your friends can find you.</p>
 
                     <div class="rounded-md shadow-sm">
                         <%= text_input f, :real_name, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
@@ -197,6 +196,8 @@
                 <%= @profile.persona_name %>
             </p>
         </div>
+
+
         <%# Profile and cover photo  %>
         <div class="bg-white shadow ">
 
@@ -367,10 +368,7 @@
 
                 <%# Real Name %>
                 <div class="">
-                    <label for="real_name" class="text-lg font-medium text-gray-700 mt-4">What's your real name?</label>
-
-                    <p class="text-xs text-gray-600 mt-1 mb-2">This will be kept private unless you are connected with
-                        somebody.</p>
+                    <label for="life_score" class="text-sm font-medium text-gray-700 mt-4">Real name</label>
 
                     <div class="rounded-md shadow-sm">
                         <%= text_input f, :real_name, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
@@ -383,14 +381,34 @@
                 </div>
 
 
-                <div>
-                    <label for="unsubscribe" class="text-sm font-medium text-gray-700 mt-4">Seckler Mode? (Turn off
-                        email notifications)</label>
-                    <div class="mt-1">
-                        <%= checkbox f, :unsubscribed %>
+                <h5 class="font-bold text-lg mt-4">Settings</h5>
+                <hr class="my-4">
 
-                    </div>
+                <div>
+                    <%= checkbox f, :unsubscribed %>
+                    <label for="unsubscribed" class="text-sm font-medium text-gray-700 mt-4">Seckler Mode? <span
+                            class="text-sm font-medium text-gray-500">Turns off email notifications.</span></label>
+
+
+
                     <p class=" mt-4 text-xs"><%= error_tag f, :unsubscribe %></p>
+
+                </div>
+
+
+                <div class="">
+
+                    <%= checkbox f, :private_mode%>
+                    <label for="private_mode" class="text-sm font-medium text-gray-700 mt-4">Turn on Private
+                        Mode?
+                        <span class="text-sm font-medium text-gray-500">Private mode means your real name is hidden from
+                            other's unless you're shlinked.</span>
+                    </label>
+
+
+
+
+                    <p class="text-xs"><%= error_tag f, :private_mode %></p>
 
                 </div>
             </div>

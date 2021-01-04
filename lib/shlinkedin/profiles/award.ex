@@ -6,6 +6,7 @@ defmodule Shlinkedin.Profiles.Award do
     field :name, :string
     belongs_to :profile, Shlinkedin.Profiles.Profile
     belongs_to :award_type, Shlinkedin.Awards.AwardType, foreign_key: :award_id
+    field :active, :boolean, default: true
 
     timestamps()
   end
@@ -13,6 +14,6 @@ defmodule Shlinkedin.Profiles.Award do
   @doc false
   def changeset(awards, attrs) do
     awards
-    |> cast(attrs, [:name])
+    |> cast(attrs, [:name, :active])
   end
 end

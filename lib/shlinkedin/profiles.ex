@@ -57,7 +57,7 @@ defmodule Shlinkedin.Profiles do
     else
       case check_between_friend_status(from, to) do
         "accepted" -> to.real_name
-        _ -> ""
+        _ -> to.real_name
       end
     end
   end

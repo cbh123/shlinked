@@ -12,7 +12,7 @@ defmodule Shlinkedin.Badges do
     <div class="inline-flex align-baseline">
 
     <%= for award <- awards do %>
-    <%= if award.award_type.profile_badge do %>
+    <%= if award.award_type.profile_badge and award.active == true do %>
     <div class="inline-flex tooltip <%= award.award_type.color %>">
 
     <%= if award.award_type.image_format == "svg" do  %>
