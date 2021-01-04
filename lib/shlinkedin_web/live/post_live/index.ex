@@ -23,7 +23,6 @@ defmodule ShlinkedinWeb.PostLive.Index do
      socket
      |> assign(
        page: 1,
-       per_page: 5,
        public_feed: public,
        articles: News.list_top_articles(5),
        featured_profiles: Profiles.list_featured_profiles(3),

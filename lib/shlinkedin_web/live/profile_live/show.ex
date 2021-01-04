@@ -1,5 +1,6 @@
 defmodule ShlinkedinWeb.ProfileLive.Show do
   use ShlinkedinWeb, :live_view
+  alias Shlinkedin.Timeline
   alias Shlinkedin.Profiles
   alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Profiles.Endorsement
@@ -13,6 +14,14 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
 
     {:ok,
      socket
+     |> assign(
+       like_map: Timeline.like_map(),
+       comment_like_map: Timeline.comment_like_map(),
+       page: 1,
+       per_page: 5,
+       num_show_comments: 1
+     )
+     |> fetch_posts(show_profile)
      |> assign(live_action: socket.assigns.live_action || :show)
      |> assign(page_title: "Shlinked - " <> show_profile.persona_name)
      |> assign(from_notifications: false)
@@ -25,7 +34,13 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(friend_status: check_between_friend_status(socket.assigns.profile, show_profile))
      |> assign(endorsements: list_endorsements(show_profile.id))
      |> assign(mutual_friends: get_mutual_friends(socket.assigns.profile, show_profile))
-     |> assign(testimonials: list_testimonials(show_profile.id))}
+     |> assign(testimonials: list_testimonials(show_profile.id)), temporary_assigns: [posts: []]}
+  end
+
+  defp fetch_posts(%{assigns: %{page: page, per_page: per}} = socket, %Profile{} = profile) do
+    assign(socket,
+      posts: Timeline.list_profile_posts([paginate: %{page: page, per_page: per}], profile)
+    )
   end
 
   @impl true
@@ -121,73 +136,9 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> put_flash(:info, "Business Jabbed!")}
   end
 
-  def handle_event("feature-profile", _params, socket) do
-    Profiles.grant_award(socket.assigns.show_profile, %{name: "featured"})
-
-    socket =
-      socket
-      |> put_flash(:info, "Profile featured!")
-      |> push_redirect(
-        to: Routes.profile_show_path(socket, :show, socket.assigns.show_profile.slug)
-      )
-
-    {:noreply, socket}
-  end
-
-  def handle_event("unfeature-profile", _, socket) do
-    {:ok, _post} =
-      Profiles.update_profile(socket.assigns.show_profile, %{
-        featured: false
-      })
-
-    socket =
-      socket
-      |> put_flash(:info, "Profile un-featured!")
-      |> push_redirect(
-        to: Routes.profile_show_path(socket, :show, socket.assigns.show_profile.slug)
-      )
-
-    {:noreply, socket}
-  end
-
-  def handle_event("verify-profile", _params, socket) do
-    {:ok, _post} =
-      Profiles.update_profile(socket.assigns.show_profile, %{
-        verified: true,
-        verified_date: NaiveDateTime.utc_now()
-      })
-
-    Shlinkedin.Profiles.ProfileNotifier.observer(
-      {:ok, "verified"},
-      :new_badge,
-      %Profile{id: 3},
-      socket.assigns.show_profile
-    )
-
-    socket =
-      socket
-      |> put_flash(:info, "Profile verified!")
-      |> push_redirect(
-        to: Routes.profile_show_path(socket, :show, socket.assigns.show_profile.slug)
-      )
-
-    {:noreply, socket}
-  end
-
-  def handle_event("unverify-profile", _, socket) do
-    {:ok, _post} =
-      Profiles.update_profile(socket.assigns.show_profile, %{
-        verified: false
-      })
-
-    socket =
-      socket
-      |> put_flash(:info, "Profile un-verified!")
-      |> push_redirect(
-        to: Routes.profile_show_path(socket, :show, socket.assigns.show_profile.slug)
-      )
-
-    {:noreply, socket}
+  def handle_event("load-more", _, %{assigns: assigns} = socket) do
+    {:noreply,
+     socket |> assign(page: assigns.page + 1) |> fetch_posts(socket.assigns.show_profile)}
   end
 
   defp list_endorsements(id) do
