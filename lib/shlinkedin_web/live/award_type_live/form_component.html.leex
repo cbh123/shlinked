@@ -33,9 +33,16 @@
     </div>
 
     <div>
-        <%= label f, :profile_badge %>
+        <%= label f, "Shows up next to name?" %>
         <%= checkbox f, :profile_badge %>
         <%= error_tag f, :profile_badge %>
+    </div>
+
+
+    <div>
+        <%= label f, "How many days should it show next to name?" %>
+        <%= number_input f, :profile_badge_days, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-3" %>
+        <%= error_tag f, :profile_badge_days %>
     </div>
 
 

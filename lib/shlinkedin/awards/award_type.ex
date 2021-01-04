@@ -13,6 +13,7 @@ defmodule Shlinkedin.Awards.AwardType do
     field :name, :string
     field :svg_path, :string
     field :profile_badge, :boolean, default: false
+    field :profile_badge_days, :integer, default: 10000
 
     timestamps()
   end
@@ -30,7 +31,8 @@ defmodule Shlinkedin.Awards.AwardType do
       :bg_hover,
       :fill,
       :svg_path,
-      :profile_badge
+      :profile_badge,
+      :profile_badge_days
     ])
     |> validate_required([
       :image_format,

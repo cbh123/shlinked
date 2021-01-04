@@ -1,5 +1,6 @@
 defmodule Shlinkedin.Badges do
   alias Shlinkedin.Profiles.Profile
+  alias Shlinkedin.Profiles.Award
   alias Shlinkedin.Profiles
   import Phoenix.LiveView.Helpers
 
@@ -7,12 +8,21 @@ defmodule Shlinkedin.Badges do
     is_featured(socket, Profiles.list_awards(profile), size)
   end
 
+  def show_next_to_name(%Award{} = award) do
+    NaiveDateTime.utc_now() <=
+      NaiveDateTime.add(
+        award.inserted_at,
+        award.award_type.profile_badge_days * 86400,
+        :second
+      )
+  end
+
   defp is_featured(assigns, awards, size) do
     ~L"""
     <div class="inline-flex align-baseline">
 
     <%= for award <- awards do %>
-    <%= if award.award_type.profile_badge and award.active == true do %>
+    <%= if award.award_type.profile_badge and show_next_to_name(award) do %>
     <div class="inline-flex tooltip <%= award.award_type.color %>">
 
     <%= if award.award_type.image_format == "svg" do  %>
