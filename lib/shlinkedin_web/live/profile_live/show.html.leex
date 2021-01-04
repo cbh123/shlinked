@@ -472,11 +472,6 @@
 
      <!-- Posts -->
 
-     <%= if @posts == [] do %>
-
-     <p class="font-semibold text-gray-600 text-center my-8">No posts yet 😔</p>
-
-     <% else %>
 
      <p class="font-semibold text-xl text-center my-8">Posts</p>
      <%# Posts %>
@@ -496,6 +491,9 @@
         spin: false  %>
          <% end %>
      </div>
+
+     <%= if @posts == [] do %>
+     <p class="font-semibold text-gray-600 text-center -mt-4">No posts yet 😔</p>
      <% end %>
 
 
