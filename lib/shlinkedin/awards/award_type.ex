@@ -12,6 +12,7 @@ defmodule Shlinkedin.Awards.AwardType do
     field :image_format, :string, default: "emoji"
     field :name, :string
     field :svg_path, :string
+    field :profile_badge, :boolean, default: false
 
     timestamps()
   end
@@ -28,7 +29,8 @@ defmodule Shlinkedin.Awards.AwardType do
       :color,
       :bg_hover,
       :fill,
-      :svg_path
+      :svg_path,
+      :profile_badge
     ])
     |> validate_required([
       :image_format,
