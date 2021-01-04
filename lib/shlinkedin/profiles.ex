@@ -83,10 +83,11 @@ defmodule Shlinkedin.Profiles do
     Repo.all(from e in Shlinkedin.Profiles.Testimonial, where: e.to_profile_id == ^id)
   end
 
-  def list_notifications(id) do
+  def list_notifications(id, count) do
     Repo.all(
       from n in Shlinkedin.Profiles.Notification,
         where: n.to_profile_id == ^id,
+        limit: ^count,
         preload: [:profile],
         order_by: [desc: n.inserted_at]
     )
