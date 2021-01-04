@@ -92,12 +92,13 @@ defmodule Shlinkedin.Profiles do
     Repo.all(from(p in Profile))
   end
 
-  def search_profiles(persona_name) do
-    sql = "%#{persona_name}%"
+  def search_profiles(persona_or_real) do
+    sql = "%#{persona_or_real}%"
 
     Repo.all(
       from p in Profile,
-        where: ilike(p.persona_name, ^sql) and p.persona_name != "test",
+        where:
+          (ilike(p.persona_name, ^sql) or ilike(p.real_name, ^sql)) and p.persona_name != "test",
         limit: 7,
         order_by: fragment("RANDOM()")
     )
