@@ -9,7 +9,6 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   def mount(%{"slug" => slug}, session, socket) do
     show_profile = Shlinkedin.Profiles.get_profile_by_slug(slug)
 
-    # KNOWN BUG: RIGHT WHEN YOU CREATE AN ACCOUNT, THIS BUTTON DOESN"T WORK! PROBLABLY NOT LOADED INTO SOCKET!
     socket = is_user(session, socket)
 
     {:ok,
@@ -17,6 +16,8 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(live_action: socket.assigns.live_action || :show)
      |> assign(page_title: "Shlinked - " <> show_profile.persona_name)
      |> assign(from_notifications: false)
+     |> assign(current_awards: Profiles.list_awards(show_profile))
+     |> assign(award_types: Shlinkedin.Awards.list_award_types())
      |> assign(show_profile: show_profile)
      |> assign(from_profile: socket.assigns.profile)
      |> assign(to_profile: show_profile)

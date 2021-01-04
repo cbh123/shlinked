@@ -244,6 +244,92 @@
          </dl>
      </div>
 
+     <%# Trophies %>
+     <div class=" mt-2 rounded-lg overflow-hidden shadow p-5 bg-white">
+
+         <div class="flex justify-between">
+             <h5 class="text-gray-900 font-bold text-xl pb-3">Trophy Case</h5>
+         </div>
+
+
+
+         <%# Empty State %>
+         <%= if @current_awards == [] do %>
+         <div class="text-center">
+             <p class="font-semibold text-gray-600  my-4">No awards yet 😔</p>
+             <p class="text-xs text-gray-600 italic">Each week, we grant the following awards. Don't give up! </p>
+             <%= for type <- @award_types do %>
+             <%= if type.name != "Verified" do %>
+             <div class="inline-flex tooltip <%= type.color %>">
+                 <%= if type.image_format == "svg" do  %>
+
+                 <svg class="w-4 h-4 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                     <path fill-rule="<%= type.fill%>" d="<%= type.svg_path %>" clip-rule="<%= type.fill%>">
+                     </path>
+                 </svg>
+
+                 <% else %>
+                 <span class="text-sm">
+                     <%= type.emoji %>
+                 </span>
+                 <% end %>
+                 <span class="tooltip-text -mt-8"><%= type.description %></span>
+
+             </div>
+
+             <% end %>
+             <% end %>
+
+         </div>
+         <% end %>
+
+
+
+         <div class="inline-flex">
+             <%= for award <- @current_awards do %>
+             <%= if award.active == true do %>
+
+             <div class="flex rounded-lg m-2 p-2 border">
+                 <div class="mr-2 flex-shrink-0">
+                     <div class="inline-flex tooltip <%= award.award_type.color %>">
+
+                         <%= if award.award_type.image_format == "svg" do  %>
+                         <svg class="w-8 h-8 " fill="currentColor" viewBox="0 0 20 20"
+                             xmlns="http://www.w3.org/2000/svg">
+                             <path fill-rule="<%= award.award_type.fill%>" d="<%= award.award_type.svg_path %>"
+                                 clip-rule="<%= award.award_type.fill%>">
+                             </path>
+                         </svg>
+                         <% else %>
+                         <span class="text-5xl">
+                             <%= award.award_type.emoji %>
+                         </span>
+
+                         <% end %>
+                         <span class="tooltip-text -mt-8"><%= award.award_type.description %></span>
+
+
+                     </div>
+                 </div>
+                 <div>
+                     <h4 class="text-sm font-bold"><%= award.award_type.description %></h4>
+                     <p class="mt-1 text-xs text-gray-600">
+                         Week of <%= Timex.format!(award.inserted_at, "{Mshort}. {D}, {YYYY}") %>
+                     </p>
+                 </div>
+             </div>
+
+
+             <% end %>
+             <% end %>
+         </div>
+
+
+
+
+     </div>
+
+
 
      <%# Testimonials %>
      <div class=" mt-2 rounded-lg overflow-hidden shadow p-5 bg-white">
