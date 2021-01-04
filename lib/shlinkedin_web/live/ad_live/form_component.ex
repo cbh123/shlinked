@@ -27,7 +27,7 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
     save_ad(socket, socket.assigns.action, ad_params)
   end
 
-  defp save_ad(socket, :edit, ad_params) do
+  defp save_ad(socket, :edit_ad, ad_params) do
     case Ads.update_ad(socket.assigns.ad, ad_params) do
       {:ok, _ad} ->
         {:noreply,
@@ -40,7 +40,7 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
     end
   end
 
-  defp save_ad(socket, :new, ad_params) do
+  defp save_ad(socket, :new_ad, ad_params) do
     case Ads.create_ad(ad_params) do
       {:ok, _ad} ->
         {:noreply,

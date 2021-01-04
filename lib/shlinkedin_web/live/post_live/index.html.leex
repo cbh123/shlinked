@@ -129,8 +129,8 @@
 
 
     <!-- News  -->
-    <div class="hidden sm:flex bg-white border h-full sm:mt-4 rounded-lg border-gray-100 sm:m-4">
-        <div class="block sm:w-72 w-full">
+    <div class="hidden sm:block ">
+        <div class="block sm:w-72 w-full bg-white border sm:mt-4 rounded-lg border-gray-100 sm:m-4">
             <div class="flex justify-between px-5 py-5">
                 <%= live_redirect "ShlinkNews", to: Routes.article_index_path(@socket, :index), class: "font-bold"  %>
 
@@ -159,9 +159,25 @@
                             clip-rule="evenodd"></path>
                     </svg>
                     More Headlines </button>
+
+
+
             </div>
         </div>
+
+
+
+        <div class="block bg-white border sm:mt-4 rounded-lg border-gray-100 sm:m-4">
+            <%= live_component @socket, ShlinkedinWeb.AdLive.AdComponent,
+                ad: @ad
+                %>
+        </div>
+
+
     </div>
+
+
+
 
 
 
@@ -228,6 +244,16 @@
     action: @live_action,
     profile: @profile,
     article: @article,
+    return_to: Routes.post_index_path(@socket, :index) %>
+<% end %>
+
+<%= if @live_action in [:new_ad, :edit_ad] do %>
+<%= live_modal @socket, ShlinkedinWeb.AdLive.FormComponent,
+    id: @ad.id || :new,
+    title: @page_title,
+    action: @live_action,
+    profile: @profile,
+    ad: @ad,
     return_to: Routes.post_index_path(@socket, :index) %>
 <% end %>
 

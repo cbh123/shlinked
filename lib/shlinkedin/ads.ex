@@ -21,6 +21,14 @@ defmodule Shlinkedin.Ads do
     Repo.all(Ad)
   end
 
+  def get_random_ad() do
+    Repo.one(
+      from a in Ad,
+        limit: 1,
+        order_by: fragment("RANDOM()")
+    )
+  end
+
   @doc """
   Gets a single ad.
 

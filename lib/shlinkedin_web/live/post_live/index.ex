@@ -5,6 +5,8 @@ defmodule ShlinkedinWeb.PostLive.Index do
   alias Shlinkedin.Profiles
   alias Shlinkedin.Timeline.{Post, Comment, Story}
   alias Shlinkedin.News
+  alias Shlinkedin.Ads.Ad
+  alias Shlinkedin.Ads
   alias Shlinkedin.News.Article
 
   @impl true
@@ -28,6 +30,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
        comment_like_map: Timeline.comment_like_map(),
        num_show_comments: 1
      )
+     |> fetch_ad()
      |> fetch_posts(), temporary_assigns: [posts: [], articles: []]}
   end
 
@@ -35,6 +38,10 @@ defmodule ShlinkedinWeb.PostLive.Index do
     assign(socket,
       posts: Timeline.list_posts(paginate: %{page: page, per_page: per})
     )
+  end
+
+  defp fetch_ad(socket) do
+    assign(socket, ad: Ads.get_random_ad())
   end
 
   @impl true
@@ -74,6 +81,12 @@ defmodule ShlinkedinWeb.PostLive.Index do
     socket
     |> assign(:page_title, "New Headline")
     |> assign(:article, %Article{})
+  end
+
+  defp apply_action(socket, :new_ad, _params) do
+    socket
+    |> assign(:page_title, "Create an Ad")
+    |> assign(:ad, %Ad{})
   end
 
   defp apply_action(socket, :show_votes, %{"id" => id}) do
