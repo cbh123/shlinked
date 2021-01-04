@@ -11,6 +11,13 @@ defmodule ShlinkedinWeb.AwardTypeLive.GrantAward do
     {:noreply, socket |> assign(current_awards: Profiles.list_awards(socket.assigns.to_profile))}
   end
 
+  def handle_event("deactivate-award", %{"id" => award_id}, socket) do
+    award = Profiles.get_award!(award_id)
+    {:ok, _} = Profiles.delete_award(award)
+
+    {:noreply, socket |> assign(current_awards: Profiles.list_awards(socket.assigns.to_profile))}
+  end
+
   def handle_event("delete-award", %{"id" => award_id}, socket) do
     award = Profiles.get_award!(award_id)
     {:ok, _} = Profiles.delete_award(award)

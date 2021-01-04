@@ -35,8 +35,20 @@ defmodule Shlinkedin.Profiles do
     )
   end
 
+  def deactivate_award(%Award{} = award) do
+    update_award(award, %{
+      active: false
+    })
+  end
+
   def list_awards(%Profile{} = profile) do
     Repo.all(from a in Award, where: a.profile_id == ^profile.id, preload: :award_type)
+  end
+
+  def update_award(%Award{} = award, attrs) do
+    award
+    |> AwardType.changeset(attrs)
+    |> Repo.update()
   end
 
   def show_real_name(%Profile{} = from, %Profile{} = to) do
