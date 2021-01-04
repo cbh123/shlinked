@@ -256,7 +256,7 @@
          <%# Empty State %>
          <%= if @current_awards == [] do %>
          <div class="text-center">
-             <p class="font-semibold text-gray-600  my-4">No awards yet 😔</p>
+             <p class="font-semibold text-gray-600  my-4">Nothing yet. 😔</p>
              <p class="text-xs text-gray-600 italic">Each week, we grant the following awards. Don't give up! </p>
              <%= for type <- @award_types do %>
              <%= if type.name != "Verified" do %>
