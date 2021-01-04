@@ -4,6 +4,10 @@ defmodule ShlinkedinWeb.PostLive.Show do
 
   @impl true
   def mount(_params, session, socket) do
+    if connected?(socket) do
+      Timeline.subscribe()
+    end
+
     socket = is_user(session, socket)
 
     {:ok, socket}
@@ -21,5 +25,10 @@ defmodule ShlinkedinWeb.PostLive.Show do
      |> assign(show_like_options: false)
      |> assign(:post, post)
      |> assign(:page_title, "See #{post.profile.persona_name}'s post on ShlinkedIn")}
+  end
+
+  @impl true
+  def handle_info({:post_updated, post}, socket) do
+    {:noreply, assign(socket, :post, post)}
   end
 end

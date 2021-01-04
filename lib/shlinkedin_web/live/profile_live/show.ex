@@ -8,6 +8,10 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
 
   @impl true
   def mount(%{"slug" => slug}, session, socket) do
+    if connected?(socket) do
+      Timeline.subscribe()
+    end
+
     show_profile = Shlinkedin.Profiles.get_profile_by_slug(slug)
 
     socket = is_user(session, socket)
@@ -169,5 +173,10 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
         <span class="tooltip-text -mt-8">Featured Profile</span>
     </div>
     """
+  end
+
+  @impl true
+  def handle_info({:post_updated, post}, socket) do
+    {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
   end
 end

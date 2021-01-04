@@ -16,14 +16,11 @@ defmodule ShlinkedinWeb.PostLive.Index do
 
     socket = is_user(session, socket)
 
-    # need to pull from params here? or somethign else. how do you refresh child component
-    public = true
-
     {:ok,
      socket
      |> assign(
        page: 1,
-       public_feed: public,
+       per_page: 5,
        articles: News.list_top_articles(5),
        featured_profiles: Profiles.list_featured_profiles(3),
        stories: Timeline.list_stories(),
@@ -31,26 +28,13 @@ defmodule ShlinkedinWeb.PostLive.Index do
        comment_like_map: Timeline.comment_like_map(),
        num_show_comments: 1
      )
-     |> fetch_posts(public), temporary_assigns: [posts: [], articles: []]}
+     |> fetch_posts(), temporary_assigns: [posts: [], articles: []]}
   end
 
-  defp fetch_posts(%{assigns: %{page: page, per_page: per}} = socket, public) do
-    case public do
-      true ->
-        assign(socket,
-          posts: Timeline.list_posts(paginate: %{page: page, per_page: per}),
-          public: true
-        )
-
-      false ->
-        assign(socket,
-          posts:
-            Timeline.list_friend_posts(socket.assigns.profile,
-              paginate: %{page: page, per_page: per}
-            ),
-          public: false
-        )
-    end
+  defp fetch_posts(%{assigns: %{page: page, per_page: per}} = socket) do
+    assign(socket,
+      posts: Timeline.list_posts(paginate: %{page: page, per_page: per})
+    )
   end
 
   @impl true
@@ -136,16 +120,8 @@ defmodule ShlinkedinWeb.PostLive.Index do
     |> assign(:post, nil)
   end
 
-  def handle_event("public", _, socket) do
-    {:noreply, socket |> fetch_posts(true)}
-  end
-
-  def handle_event("friend", _, socket) do
-    {:noreply, socket |> fetch_posts(false)}
-  end
-
   def handle_event("load-more", _, %{assigns: assigns} = socket) do
-    {:noreply, socket |> assign(page: assigns.page + 1) |> fetch_posts(socket.assigns.public)}
+    {:noreply, socket |> assign(page: assigns.page + 1) |> fetch_posts()}
   end
 
   def handle_event("more-headlines", _, socket) do
