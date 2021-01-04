@@ -289,35 +289,34 @@
              <%= for award <- @current_awards do %>
              <%= if award.active == true do %>
 
-             <div class="flex rounded-lg m-2 p-2 border">
-                 <div class="mr-2 flex-shrink-0">
-                     <div class="inline-flex tooltip <%= award.award_type.color %>">
+             <div class="text-center m-2">
+                 <div class="block tooltip <%= award.award_type.color %>">
 
-                         <%= if award.award_type.image_format == "svg" do  %>
-                         <svg class="w-8 h-8 " fill="currentColor" viewBox="0 0 20 20"
-                             xmlns="http://www.w3.org/2000/svg">
-                             <path fill-rule="<%= award.award_type.fill%>" d="<%= award.award_type.svg_path %>"
-                                 clip-rule="<%= award.award_type.fill%>">
-                             </path>
-                         </svg>
-                         <% else %>
-                         <span class="text-2xl">
-                             <%= award.award_type.emoji %>
-                         </span>
+                     <%= if award.award_type.image_format == "svg" do  %>
+                     <svg class="w-8 h-8 mx-auto " fill="currentColor" viewBox="0 0 20 20"
+                         xmlns="http://www.w3.org/2000/svg">
+                         <path fill-rule="<%= award.award_type.fill%>" d="<%= award.award_type.svg_path %>"
+                             clip-rule="<%= award.award_type.fill%>">
+                         </path>
+                     </svg>
+                     <% else %>
+                     <span class="text-2xl">
+                         <%= award.award_type.emoji %>
+                     </span>
 
-                         <% end %>
-                         <span class="tooltip-text -mt-8"><%= award.award_type.description %></span>
+                     <% end %>
+                     <span class="tooltip-text -mt-8"><%= award.award_type.description %></span>
 
 
-                     </div>
                  </div>
-                 <div>
-                     <h4 class="text-sm font-bold"><%= award.award_type.description %></h4>
-                     <p class="mt-1 text-xs text-gray-600">
-                         Week of <%= Timex.format!(award.inserted_at, "{Mshort}. {D}, {YYYY}") %>
-                     </p>
-                 </div>
+                 <h4 class="text-xs font-semibold mt-2"><%= award.award_type.description %></h4>
+                 <p class="mt-1 text-xs text-gray-500">
+                     <%= Timex.format!(award.inserted_at, "{Mshort}. {D}, {YYYY}") %>
+                 </p>
              </div>
+
+
+
 
 
              <% end %>
