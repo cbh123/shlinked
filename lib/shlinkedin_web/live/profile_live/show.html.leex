@@ -471,7 +471,12 @@
 
 
      <!-- Posts -->
-     <%= if @posts != [] do %>
+
+     <%= if @posts == [] do %>
+
+     <p class="font-semibold text-gray-600 text-center my-8">No posts yet 😔</p>
+
+     <% else %>
      <h5 class="p-5 text-xl font-bold">Posts</h5>
      <%# Posts %>
      <div id="posts" phx-update="append" phx-hook="InfiniteScroll" data-page="<%= @page %>">
