@@ -42,9 +42,7 @@
                 <%# Name %>
                 <div class="">
                     <label for="name" class="text-lg font-medium text-gray-700 mt-4">First,
-                        create
-                        your
-                        alter ego.</label>
+                        who are you?</label>
 
                     <p class="text-xs text-gray-600 mt-1 mb-2"><%= if @changeset.changes |> Map.has_key?(:persona_name), do: "#{@changeset.changes.persona_name}... sounds like you'd have one hell of a handshake. Welcome to the team.", else: "On ShlinkedIn, you can be yourself, an alter ego, or
                         anything
@@ -80,8 +78,9 @@
 
                 <div class="">
 
-                    <label for="picture" class=" block text-lg font-medium text-gray-700">Add a photo to your
-                        profile.</label>
+                    <label for="picture" class=" block text-lg font-medium text-gray-700">What do you look like?</label>
+                    <span class="text-xs text-gray-600 mb-2">Most people use a picture of themselves, but anything
+                        goes.</span>
                     <label for="file-upload"
                         class="inline-flex mt-1 items-center py-2 relative cursor-pointertext-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-100 ">
 
