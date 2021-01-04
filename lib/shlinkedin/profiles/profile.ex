@@ -42,6 +42,9 @@ defmodule Shlinkedin.Profiles.Profile do
 
     field :verified, :boolean, default: false
     field :verified_date, :naive_datetime
+
+    has_many(:awards, Shlinkedin.Profiles.Award, on_delete: :nilify_all)
+
     timestamps()
   end
 

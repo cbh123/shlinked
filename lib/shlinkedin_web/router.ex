@@ -94,6 +94,7 @@ defmodule ShlinkedinWeb.Router do
     live "/sh/:slug/testimonials/new", ProfileLive.Show, :new_testimonial
     live "/sh/:slug/testimonial/:id/edit", ProfileLive.Show, :edit_testimonial
     live "/sh/:slug/notifications", ProfileLive.Show, :from_notifications
+    live "/sh/:slug/awards/", ProfileLive.Show, :edit_awards
 
     # edit profile
     live "/profile/live_edit", ProfileLive.Edit, :edit
@@ -113,6 +114,12 @@ defmodule ShlinkedinWeb.Router do
     live "/admin", AdminLive.Index, :index
     live "/admin/notification/new", AdminLive.Index, :new_notification
     live "/admin/email/new", AdminLive.Index, :new_email
+    live "/award_types", AwardTypeLive.Index, :index
+    live "/award_types/new", AwardTypeLive.Index, :new
+    live "/award_types/:id/edit", AwardTypeLive.Index, :edit
+
+    live "/award_types/:id", AwardTypeLive.Show, :show
+    live "/award_types/:id/show/edit", AwardTypeLive.Show, :edit
 
     # show all profiles
     live "/profiles", UsersLive.Index, :index

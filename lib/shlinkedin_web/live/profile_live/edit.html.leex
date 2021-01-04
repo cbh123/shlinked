@@ -365,6 +365,24 @@
 
                 </div>
 
+                <%# Real Name %>
+                <div class="">
+                    <label for="real_name" class="text-lg font-medium text-gray-700 mt-4">What's your real name?</label>
+
+                    <p class="text-xs text-gray-600 mt-1 mb-2">This will be kept private unless you are connected with
+                        somebody.</p>
+
+                    <div class="rounded-md shadow-sm">
+                        <%= text_input f, :real_name, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
+                                    placeholder: "First Last" %>
+                    </div>
+
+
+                    <p class="mt-4 text-xs"><%= error_tag f, :real_name %></p>
+
+                </div>
+
+
                 <div>
                     <label for="unsubscribe" class="text-sm font-medium text-gray-700 mt-4">Seckler Mode? (Turn off
                         email notifications)</label>

@@ -6,8 +6,11 @@ defmodule Shlinkedin.Profiles do
   import Ecto.Query, warn: false
   alias Shlinkedin.Repo
 
+  alias Shlinkedin.Awards.AwardType
+
   alias Shlinkedin.Profiles.{
     Endorsement,
+    Award,
     Jab,
     Testimonial,
     ProfileNotifier,
@@ -17,6 +20,24 @@ defmodule Shlinkedin.Profiles do
   }
 
   alias Shlinkedin.Accounts.User
+
+  def grant_award(%Profile{} = profile, %AwardType{} = award_type, attrs \\ %{}) do
+    {:ok, _award} =
+      %Award{profile_id: profile.id, award_id: award_type.id}
+      |> Award.changeset(attrs)
+      |> Repo.insert()
+
+    Shlinkedin.Profiles.ProfileNotifier.observer(
+      {:ok, award_type.name},
+      :new_badge,
+      %Profile{id: 3},
+      profile
+    )
+  end
+
+  def list_awards(%Profile{} = profile) do
+    Repo.all(from a in Award, where: a.profile_id == ^profile.id, preload: :award_type)
+  end
 
   def show_real_name(%Profile{} = from, %Profile{} = to) do
     if from.id == to.id do
@@ -140,6 +161,8 @@ defmodule Shlinkedin.Profiles do
 
   """
   def get_endorsement!(id), do: Repo.get!(Endorsement, id)
+
+  def get_award!(id), do: Repo.get!(Award, id)
 
   def get_testimonial!(id), do: Repo.get!(Testimonial, id)
 
@@ -389,6 +412,10 @@ defmodule Shlinkedin.Profiles do
   """
   def delete_endorsement(%Endorsement{} = endorsement) do
     Repo.delete(endorsement)
+  end
+
+  def delete_award(%Award{} = award) do
+    Repo.delete(award)
   end
 
   def delete_testimonial(%Testimonial{} = testimonial) do

@@ -1,0 +1,62 @@
+<h1>Show Award type</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, ShlinkedinWeb.AwardTypeLive.FormComponent,
+    id: @award_type.id,
+    title: @page_title,
+    action: @live_action,
+    award_type: @award_type,
+    return_to: Routes.award_type_show_path(@socket, :show, @award_type) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Emoji:</strong>
+    <%= @award_type.emoji %>
+  </li>
+
+  <li>
+    <strong>Image format:</strong>
+    <%= @award_type.image_format %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @award_type.description %>
+  </li>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @award_type.name %>
+  </li>
+
+  <li>
+    <strong>Bg:</strong>
+    <%= @award_type.bg %>
+  </li>
+
+  <li>
+    <strong>Color:</strong>
+    <%= @award_type.color %>
+  </li>
+
+  <li>
+    <strong>Bg hover:</strong>
+    <%= @award_type.bg_hover %>
+  </li>
+
+  <li>
+    <strong>Fill:</strong>
+    <%= @award_type.fill %>
+  </li>
+
+  <li>
+    <strong>Svg path:</strong>
+    <%= @award_type.svg_path %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.award_type_show_path(@socket, :edit, @award_type), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.award_type_index_path(@socket, :index) %></span>

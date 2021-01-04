@@ -69,6 +69,15 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     |> assign(:testimonial, %Testimonial{})
   end
 
+  defp apply_action(socket, :edit_awards, %{"slug" => slug}) do
+    socket
+    |> assign(:page_title, "Grant Award to #{socket.assigns.show_profile.persona_name}")
+    |> assign(:from_profile, socket.assigns.profile)
+    |> assign(:to_profile, Profiles.get_profile_by_slug(slug))
+    |> assign(:awards, Shlinkedin.Awards.list_award_types())
+    |> assign(:current_awards, Profiles.list_awards(socket.assigns.show_profile))
+  end
+
   @impl true
   def handle_event("delete-endorsement", %{"id" => id}, socket) do
     endorsement = Profiles.get_endorsement!(id)
@@ -112,18 +121,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   end
 
   def handle_event("feature-profile", _params, socket) do
-    {:ok, _post} =
-      Profiles.update_profile(socket.assigns.show_profile, %{
-        featured: true,
-        featured_date: NaiveDateTime.utc_now()
-      })
-
-    Shlinkedin.Profiles.ProfileNotifier.observer(
-      {:ok, "featured"},
-      :new_badge,
-      %Profile{id: 3},
-      socket.assigns.show_profile
-    )
+    Profiles.grant_award(socket.assigns.show_profile, %{name: "featured"})
 
     socket =
       socket
