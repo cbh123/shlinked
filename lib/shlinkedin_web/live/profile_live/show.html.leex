@@ -443,7 +443,7 @@
          <% else %>
          <div class="">
              <%= for endorsement <- @endorsements do %>
-             <% color = Enum.random(["blue", "red", "yellow", "indigo"]) %>
+             <% color = Enum.random(["blue", "green", "yellow", "indigo"]) %>
              <div id="endorsement-<%= endorsement.id %>"
                  class="<%= "bg-#{color}-100" %> text-white inline-block py-2 px-4 shadow-xs rounded-lg my-1">
                  <p class="font-bold font-lg <%= "text-#{color}-700" %> "><%= endorsement.body %></p>
@@ -477,7 +477,8 @@
      <p class="font-semibold text-gray-600 text-center my-8">No posts yet 😔</p>
 
      <% else %>
-     <h5 class="p-5 text-xl font-bold">Posts</h5>
+
+     <p class="font-semibold text-xl text-center my-8">Posts</p>
      <%# Posts %>
      <div id="posts" phx-update="append" phx-hook="InfiniteScroll" data-page="<%= @page %>">
          <%= for post <- @posts do %>
