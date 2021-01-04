@@ -471,6 +471,7 @@
 
 
      <!-- Posts -->
+     <%= if @posts != [] do %>
      <h5 class="p-5 text-xl font-bold">Posts</h5>
      <%# Posts %>
      <div id="posts" phx-update="append" phx-hook="InfiniteScroll" data-page="<%= @page %>">
@@ -489,6 +490,7 @@
         spin: false  %>
          <% end %>
      </div>
+     <% end %>
 
 
 
