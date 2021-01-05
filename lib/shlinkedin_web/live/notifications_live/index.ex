@@ -72,6 +72,9 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
       "admin_message" ->
         {:noreply, push_redirect(socket, to: if(link == "", do: "/", else: link))}
 
+      "ad_click" ->
+        {:noreply, push_redirect(socket, to: "/")}
+
       "vote" ->
         {:noreply, push_redirect(socket, to: "/news/#{article_id}/votes")}
     end

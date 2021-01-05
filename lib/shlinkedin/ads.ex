@@ -7,7 +7,9 @@ defmodule Shlinkedin.Ads do
   alias Shlinkedin.Repo
 
   alias Shlinkedin.Ads.Ad
+  alias Shlinkedin.Ads.Click
   alias Shlinkedin.Profiles.Profile
+  alias Shlinkedin.Profiles.ProfileNotifier
 
   @doc """
   Returns the list of ads.
@@ -29,6 +31,10 @@ defmodule Shlinkedin.Ads do
         order_by: fragment("RANDOM()"),
         preload: :profile
     )
+  end
+
+  def get_ad_preload_profile!(id) do
+    Repo.one(from a in Ad, where: a.id == ^id, preload: :profile)
   end
 
   @doc """
@@ -66,6 +72,14 @@ defmodule Shlinkedin.Ads do
     |> Ad.changeset(attrs)
     |> Repo.insert()
     |> after_save(after_save)
+  end
+
+  def create_ad_click(%Ad{} = ad, %Profile{} = profile, attrs \\ %{}) do
+    %Click{ad_id: ad.id, profile_id: profile.id}
+    |> Click.changeset(attrs)
+    |> Repo.insert()
+
+    ProfileNotifier.observer({:ok, ad}, :ad_click, profile, %Profile{id: ad.profile_id})
   end
 
   @doc """

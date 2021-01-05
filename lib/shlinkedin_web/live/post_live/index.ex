@@ -147,7 +147,9 @@ defmodule ShlinkedinWeb.PostLive.Index do
     {:noreply, socket |> assign(articles: News.list_random_articles(5))}
   end
 
-  def handle_event("new-ad", _, socket) do
+  def handle_event("new-ad", %{"id" => id}, socket) do
+    ad = Ads.get_ad!(id)
+    Ads.create_ad_click(ad, socket.assigns.profile)
     {:noreply, socket |> assign(ad: Ads.get_random_ad())}
   end
 

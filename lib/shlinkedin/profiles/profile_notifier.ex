@@ -4,6 +4,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   alias Shlinkedin.Timeline
   alias Shlinkedin.News.Vote
   alias Shlinkedin.News.Article
+  alias Shlinkedin.Ads.Ad
 
   @doc """
   Deliver instructions to confirm account.
@@ -48,6 +49,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
       :jab ->
         notify_jab(from_profile, to_profile)
+
+      :ad_click ->
+        notify_ad_click(from_profile, to_profile, res)
     end
 
     {:ok, res}
@@ -208,6 +212,22 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         type: "endorsement",
         action: "endorsed you for",
         body: "#{endorsement.body}"
+      })
+    end
+  end
+
+  def notify_ad_click(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile,
+        %Ad{} = ad
+      ) do
+    if from_profile.id == to_profile.id do
+      Shlinkedin.Profiles.create_notification(%Notification{
+        from_profile_id: from_profile.id,
+        to_profile_id: to_profile.id,
+        type: "ad_click",
+        action: "clicked on your ad for",
+        body: "#{ad.company}"
       })
     end
   end

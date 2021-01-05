@@ -174,7 +174,7 @@
             </div>
             <% else %>
 
-            <button class="text-left" phx-click="new-ad">
+            <button class="text-left" phx-click="new-ad" phx-value-id="<%=  @ad.id %>">
 
                 <%= live_component @socket, ShlinkedinWeb.AdLive.AdComponent,
                 ad: @ad
