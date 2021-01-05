@@ -168,9 +168,9 @@
 
 
         <div class="block bg-white sm:w-72 border sm:mt-4 rounded-lg border-gray-100 sm:m-4">
-            <%= if @ad != nil do %>
+            <%= if @ad != nil do %> <%# # Need this for the case where there are no ads. %>
+
             <button class="text-left" phx-click="new-ad">
-                <%# # Need this for the case where there are no ads. %>
 
                 <%= live_component @socket, ShlinkedinWeb.AdLive.AdComponent,
                 ad: @ad
@@ -185,8 +185,6 @@
             </div>
             <% end %>
             <% end %>
-
-
 
         </div>
 
