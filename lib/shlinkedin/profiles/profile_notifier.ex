@@ -96,24 +96,6 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         %Profile{} = from_profile,
         %Profile{} = to_profile
       ) do
-    body = """
-
-    Hi #{to_profile.persona_name},
-
-    <br/>
-    <br/>
-
-    #{from_profile.persona_name} has sent you a shlink request. You can
-    respond to it on your <a href="shlinked.herokuapp.com/shlinks">my shlinks</a> page.
-
-
-    <br/>
-    <br/>
-    Thanks, <br/>
-    ShlinkTeam
-
-    """
-
     Shlinkedin.Profiles.create_notification(%Notification{
       from_profile_id: from_profile.id,
       to_profile_id: to_profile.id,
@@ -121,15 +103,6 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       action: "has sent you a Shlink request!",
       body: ""
     })
-
-    if to_profile.unsubscribed == false do
-      Shlinkedin.Email.new_email(
-        to_profile.user.email,
-        "#{from_profile.persona_name} has sent you a Shlink request!",
-        body
-      )
-      |> Shlinkedin.Mailer.deliver_later()
-    end
   end
 
   defp friend_request_text() do
@@ -228,24 +201,6 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         %Profile{} = to_profile,
         %Endorsement{} = endorsement
       ) do
-    body = """
-
-    Congratulations #{to_profile.persona_name},
-
-    <br/>
-    <br/>
-
-    <a href="shlinked.herokuapp.com/sh/#{from_profile.slug}">#{from_profile.persona_name}</a> has endorsed you for "#{
-      endorsement.body
-    }"!
-
-    <br/>
-    <br/>
-    Thanks, <br/>
-    ShlinkTeam
-
-    """
-
     if from_profile.id != to_profile.id do
       Shlinkedin.Profiles.create_notification(%Notification{
         from_profile_id: from_profile.id,
@@ -254,11 +209,6 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         action: "endorsed you for",
         body: "#{endorsement.body}"
       })
-
-      if to_profile.unsubscribed == false do
-        Shlinkedin.Email.new_email(to_profile.user.email, "You've been endorsed!", body)
-        |> Shlinkedin.Mailer.deliver_later()
-      end
     end
   end
 
@@ -267,25 +217,6 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         %Profile{} = to_profile,
         %Testimonial{} = testimonial
       ) do
-    body = """
-
-    Wow #{to_profile.persona_name},
-
-    <br/>
-    <br/>
-
-    <a href="shlinked.herokuapp.com/sh/#{from_profile.slug}">#{from_profile.persona_name}</a> has written a #{
-      testimonial.rating
-    }/5 star review for you. Check it out
-    <a href="shlinked.herokuapp.com/sh/#{to_profile.slug}">on your profile.</a>
-
-    <br/>
-    <br/>
-    Thanks, <br/>
-    ShlinkTeam
-
-    """
-
     if from_profile.id != to_profile.id do
       Shlinkedin.Profiles.create_notification(%Notification{
         from_profile_id: from_profile.id,
@@ -294,15 +225,6 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         action: "wrote you a review: ",
         body: "#{testimonial.body}"
       })
-
-      if to_profile.unsubscribed == false do
-        Shlinkedin.Email.new_email(
-          to_profile.user.email,
-          "#{from_profile.persona_name} has given you #{testimonial.rating}/5 stars!",
-          body
-        )
-        |> Shlinkedin.Mailer.deliver_later()
-      end
     end
   end
 
@@ -438,26 +360,6 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     end
   end
 
-  defp tag_email_body(to_name, from_name, id, tag_parent) do
-    """
-
-    Hi #{to_name},
-
-    <br/>
-    <br/>
-
-    #{from_name} has tagged you in a
-     <a href="shlinked.herokuapp.com/posts/#{id}">#{tag_parent}.</a>
-     Check it out, and keep our engagement metrics high!
-
-    <br/>
-    <br/>
-    Thanks, <br/>
-    ShlinkTeam
-
-    """
-  end
-
   def notify_post(
         %Profile{} = from_profile,
         %Profile{} = _to_profile,
@@ -474,20 +376,6 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         action: "tagged you in a post: ",
         body: "#{post.body}"
       })
-
-      if to_profile.unsubscribed == false do
-        Shlinkedin.Email.new_email(
-          to_profile.user.email,
-          "You got tagged in a comment!",
-          tag_email_body(
-            to_profile.persona_name,
-            from_profile.persona_name,
-            post.id,
-            "post"
-          )
-        )
-        |> Shlinkedin.Mailer.deliver_later()
-      end
     end
   end
 
@@ -507,20 +395,6 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         action: "tagged you in a comment: ",
         body: "#{comment.body}"
       })
-
-      if to_profile.unsubscribed == false do
-        Shlinkedin.Email.new_email(
-          to_profile.user.email,
-          "You got tagged in a comment!",
-          tag_email_body(
-            to_profile.persona_name,
-            from_profile.persona_name,
-            comment.post_id,
-            "comment"
-          )
-        )
-        |> Shlinkedin.Mailer.deliver_later()
-      end
     end
 
     if from_profile.id != to_profile.id do
