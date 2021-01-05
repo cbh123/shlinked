@@ -5,7 +5,10 @@ defmodule ShlinkedinWeb.AdLive.AdComponent do
 
   def render(assigns) do
     ~L"""
+
     <%= @ad.slug %>
+
+
     """
   end
 end
