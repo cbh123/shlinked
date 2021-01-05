@@ -10,6 +10,7 @@ defmodule Shlinkedin.Ads.Ad do
     field :company, :string
     field :product, :string
     field :overlay, :string
+    field :gif_url, :string
 
     timestamps()
   end
@@ -17,7 +18,7 @@ defmodule Shlinkedin.Ads.Ad do
   @doc false
   def changeset(ad, attrs) do
     ad
-    |> cast(attrs, [:body, :media_url, :slug, :company, :product, :overlay])
-    |> validate_required([:body, :company, :media_url])
+    |> cast(attrs, [:body, :media_url, :slug, :company, :product, :overlay, :gif_url])
+    |> validate_required([:body, :company])
   end
 end

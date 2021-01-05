@@ -140,14 +140,6 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> put_flash(:info, "Business Jabbed!")}
   end
 
-  def handle_event("interact", %{"action" => action}, socket) do
-    Profiles.send_interact(socket.assigns.from_profile, socket.assigns.to_profile, action)
-
-    {:noreply,
-     socket
-     |> put_flash(:info, action)}
-  end
-
   def handle_event("load-more", _, %{assigns: assigns} = socket) do
     {:noreply,
      socket |> assign(page: assigns.page + 1) |> fetch_posts(socket.assigns.show_profile)}

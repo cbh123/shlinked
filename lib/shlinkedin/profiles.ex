@@ -313,10 +313,6 @@ defmodule Shlinkedin.Profiles do
     |> ProfileNotifier.observer(:jab, from, to)
   end
 
-  def interact(%Profile{} = from, %Profile{} = to, action) do
-    |> ProfileNotifier.observer({:ok, action}, :interact, from, to)
-  end
-
   def cancel_friend_request(%Profile{} = from, %Profile{} = to) do
     request = get_friend_request!(from, to)
 

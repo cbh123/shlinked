@@ -7,6 +7,7 @@ defmodule Shlinkedin.Ads do
   alias Shlinkedin.Repo
 
   alias Shlinkedin.Ads.Ad
+  alias Shlinkedin.Profiles.Profile
 
   @doc """
   Returns the list of ads.
@@ -57,14 +58,17 @@ defmodule Shlinkedin.Ads do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_ad(attrs \\ %{}) do
-    %Ad{}
+  def create_ad(%Profile{} = profile, %Ad{} = ad, attrs \\ %{}, after_save \\ &{:ok, &1}) do
+    ad = %{ad | profile_id: profile.id}
+
+    ad
     |> Ad.changeset(attrs)
     |> Repo.insert()
+    |> after_save(after_save)
   end
 
   @doc """
-  Updates a ad.
+  Updates a ad
 
   ## Examples
 
@@ -75,10 +79,17 @@ defmodule Shlinkedin.Ads do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_ad(%Ad{} = ad, attrs) do
-    ad
-    |> Ad.changeset(attrs)
-    |> Repo.update()
+  def update_ad(%Profile{} = profile, %Ad{} = ad, attrs, after_save \\ &{:ok, &1}) do
+    case profile.id == ad.profile_id or profile.admin do
+      true ->
+        ad
+        |> Ad.changeset(attrs)
+        |> after_save(after_save)
+        |> Repo.update()
+
+      false ->
+        {:error, "You can only edit your own ads!"}
+    end
   end
 
   @doc """
@@ -109,4 +120,10 @@ defmodule Shlinkedin.Ads do
   def change_ad(%Ad{} = ad, attrs \\ %{}) do
     Ad.changeset(ad, attrs)
   end
+
+  defp after_save({:ok, ad}, func) do
+    {:ok, _ad} = func.(ad)
+  end
+
+  defp after_save(error, _func), do: error
 end

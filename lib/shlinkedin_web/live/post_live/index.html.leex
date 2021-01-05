@@ -167,7 +167,7 @@
 
 
 
-        <div class="block bg-white border sm:mt-4 rounded-lg border-gray-100 sm:m-4 hidden">
+        <div class="block bg-white border sm:mt-4 rounded-lg border-gray-100 sm:m-4">
             <%# # Need this for the case where there are no ads. %>
             <%= if @ad != nil do %>
             <%= live_component @socket, ShlinkedinWeb.AdLive.AdComponent,
