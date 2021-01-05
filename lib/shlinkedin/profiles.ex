@@ -61,8 +61,15 @@ defmodule Shlinkedin.Profiles do
     else
       case check_between_friend_status(from, to) do
         "accepted" -> to.real_name
-        _ -> to.real_name
+        _ -> is_profile_private(to)
       end
+    end
+  end
+
+  defp is_profile_private(%Profile{} = profile) do
+    case profile.private_mode do
+      true -> "???"
+      false -> profile.real_name
     end
   end
 
