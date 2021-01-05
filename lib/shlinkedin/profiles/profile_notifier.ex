@@ -412,12 +412,11 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
 
-    You have been awarded the #{badge} badge!!!
-    +100 ShlinkPoints.
+    You have been awarded the #{badge} badge!!! It's been added to your trophy case on your profile.
 
     <br/>
     <br/>
-    Thanks, <br/>
+    Congrats! <br/>
     ShlinkTeam
 
     """
@@ -426,7 +425,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       from_profile_id: 3,
       to_profile_id: to_profile.id,
       type: "new_badge",
-      action: "has awarded you the #{badge} badge!"
+      action: "has awarded you the #{badge} badge! It's been added to your trophy case."
     })
 
     if to_profile.unsubscribed == false do
