@@ -16,7 +16,7 @@
             </span>
             <div class="ml-2 py-2 px-4 rounded-lg">
                 <div class="flex justify-between">
-                    <%= live_patch to: Routes.profile_show_path(@socket, :show, user.slug), class: "bold text-xs font-semibold hover:underline cursor-pointer" do  %>
+                    <%= live_redirect to: Routes.profile_show_path(@socket, :show, user.slug), class: "bold text-xs font-semibold hover:underline cursor-pointer" do  %>
                     <p><%= user.name %>
                     </p>
                     <% end %>
