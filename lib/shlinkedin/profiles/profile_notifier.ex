@@ -221,7 +221,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         %Profile{} = to_profile,
         %Ad{} = ad
       ) do
-    if from_profile.id == to_profile.id do
+    if from_profile.id != to_profile.id do
       Shlinkedin.Profiles.create_notification(%Notification{
         from_profile_id: from_profile.id,
         to_profile_id: to_profile.id,
