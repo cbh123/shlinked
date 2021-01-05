@@ -89,6 +89,12 @@ defmodule ShlinkedinWeb.PostLive.Index do
     |> assign(:ad, %Ad{})
   end
 
+  defp apply_action(socket, :edit_ad, %{"id" => id}) do
+    socket
+    |> assign(:page_title, "Edit Ad")
+    |> assign(:ad, Ads.get_ad!(id))
+  end
+
   defp apply_action(socket, :show_votes, %{"id" => id}) do
     article = News.get_article_preload_votes!(id)
 
@@ -141,6 +147,10 @@ defmodule ShlinkedinWeb.PostLive.Index do
     {:noreply, socket |> assign(articles: News.list_random_articles(5))}
   end
 
+  def handle_event("new-ad", _, socket) do
+    {:noreply, socket |> assign(ad: Ads.get_random_ad())}
+  end
+
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     post = Timeline.get_post!(id)
@@ -168,6 +178,17 @@ defmodule ShlinkedinWeb.PostLive.Index do
     {:noreply,
      socket
      |> put_flash(:info, "Headline deleted")
+     |> push_redirect(to: Routes.post_index_path(socket, :index))}
+  end
+
+  @impl true
+  def handle_event("delete-ad", %{"id" => id}, socket) do
+    ad = Ads.get_ad!(id)
+    {:ok, _} = Ads.delete_ad(ad)
+
+    {:noreply,
+     socket
+     |> put_flash(:info, "Ad deleted")
      |> push_redirect(to: Routes.post_index_path(socket, :index))}
   end
 

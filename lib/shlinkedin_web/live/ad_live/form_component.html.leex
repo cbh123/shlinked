@@ -45,7 +45,10 @@
 
     <%# IMAGE STUFF!!  %>
     <%= if @gif_url == nil do %>
-    <div class="inline-block">
+    <div class="inline-block relative">
+
+
+
 
 
         <%# Show image upload errors %>
@@ -66,7 +69,6 @@
 
 
         <%= live_img_preview entry, class: "mx-auto w-full mt-2 object-cover w-64 self-auto" %>
-
 
         <% end %>
 
@@ -115,6 +117,24 @@
         <% end %>
     </div>
     <% end %>
+
+
+    <div class="flex mt-4">
+        <div>
+            <label for="overlay" class="block text-sm font-medium text-gray-700">(Optional) Image text overlay </label>
+            <%= text_input f, :overlay, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 inline-block sm:text-sm border-gray-300 rounded-md px-3", placeholder: "Overlay" %>
+            <%= error_tag f, :overlay %>
+        </div>
+
+        <div>
+            <label for="overlay_color" class="block text-sm font-medium text-gray-700">Text overlay color </label>
+            <div class="m-2 w-12">
+                <%=  color_input f, :overlay_color %></div>
+        </div>
+    </div>
+
+
+
 
 
 

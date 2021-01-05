@@ -9,7 +9,8 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
   def mount(socket) do
     assigns = [
       gif_url: nil,
-      gif_error: nil
+      gif_error: nil,
+      overlay: ""
     ]
 
     socket = assign(socket, assigns)
@@ -44,7 +45,13 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
       |> Ads.change_ad(ad_params)
       |> Map.put(:action, :validate)
 
-    {:noreply, assign(socket, :changeset, changeset)}
+    case changeset.changes[:overlay] do
+      nil ->
+        {:noreply, assign(socket, :changeset, changeset)}
+
+      overlay ->
+        {:noreply, assign(socket, changeset: changeset, overlay: overlay)}
+    end
   end
 
   def handle_event("save", %{"ad" => ad_params}, socket) do
