@@ -62,7 +62,6 @@
 
             <ul class="-mb-8">
                 <%= for activity <- @activities do %>
-                <%= for activity <- @activities do %>
                 <%= live_component @socket, ShlinkedinWeb.ActivityLive.ActivityComponent,
                     id: activity.id,
                     profile: @profile,
