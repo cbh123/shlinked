@@ -7,6 +7,7 @@ defmodule Shlinkedin.Ads.Ad do
     field :media_url, :string
     field :slug, :string
     belongs_to :profile, Shlinkedin.Profiles.Profile
+    has_many :clicks, Shlinkedin.Ads.Click
     field :company, :string
     field :product, :string
     field :overlay, :string

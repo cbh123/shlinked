@@ -29,7 +29,8 @@ defmodule Shlinkedin.Ads do
       from a in Ad,
         limit: 1,
         order_by: fragment("RANDOM()"),
-        preload: :profile
+        preload: :profile,
+        preload: :clicks
     )
   end
 
