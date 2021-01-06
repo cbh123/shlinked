@@ -15,7 +15,7 @@
      <%# Profile and cover photo  %>
      <div class="bg-white sm:rounded-lg shadow">
 
-         <img src="<%= if @show_profile.cover_photo_url == nil, do: "https://source.unsplash.com/collection/1928683/1600x900", else: @show_profile.cover_photo_url %>"
+         <img src="<%= if @show_profile.cover_photo_url == nil, do: "//shlinked.s3.amazonaws.com/0fbc9143-b559-480e-9b44-4363c437ff7c.png", else: @show_profile.cover_photo_url %>"
              alt="" class="object-cover w-full h-52 overflow-hidden sm:rounded-t-lg">
 
 
