@@ -15,19 +15,17 @@ defmodule Shlinkedin.Accounts.UserNotifier do
 
     Hi #{user.email},
 
-    Danke for joining ShlinkedIn! As an elite early member, you will now live forever. Stay tuned for updates.
+
+    Welcome to Shlinked!
 
 
-
-
-    You can confirm your ShlinkedIn account by visiting the URL below:
+    You can confirm your Shlinked account by visiting the URL below:
 
     #{url}
 
-    If you didn't create an account with us, please ignore this.
 
     Thanks,
-    God
+    ShlinkTeam
 
     """
 
