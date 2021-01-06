@@ -72,13 +72,13 @@ defmodule Shlinkedin.Profiles.Profile do
     ])
     |> validate_required([:user_id, :persona_name, :real_name, :username])
     |> downcase_username()
-    |> unique_constraint([:user_id])
+    |> validate_username()
+    |> unique_constraint([:username])
     |> validate_length(:persona_name, min: 1, max: 40)
     |> validate_length(:real_name, min: 1, max: 40)
     |> validate_length(:persona_title, min: 3, max: 100)
     |> validate_length(:summary, max: 500)
     |> validate_length(:life_score, max: 7)
-    |> validate_username()
     |> validate_slug()
   end
 

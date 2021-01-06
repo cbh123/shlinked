@@ -121,13 +121,14 @@
                             class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
                             shlinked.com/sh/
                         </span>
-                        <%= text_input f, :username, class:  class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full px-3 py-2 rounded-none rounded-r-md sm:text-sm border-gray-300",
+                        <%= text_input f, :username, class: "focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full px-3 py-2 rounded-none rounded-r-md sm:text-sm border-gray-300",
                                     placeholder: "username", autocapitalize: "off"%>
 
                     </div>
 
 
                     <p class="mt-4 text-xs"><%= error_tag f, :username %></p>
+                    <p class="mt-4 text-xs"><%= error_tag f, :slug %></p>
 
                 </div>
 
