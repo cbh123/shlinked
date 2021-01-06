@@ -20,6 +20,7 @@ defmodule Shlinkedin.News do
       [%Article{}, ...]
 
   """
+
   def list_articles() do
     Repo.all(from h in Article, order_by: [desc: h.inserted_at], preload: :votes)
   end
@@ -60,6 +61,16 @@ defmodule Shlinkedin.News do
         where: v.article_id == ^article.id and v.profile_id == ^profile.id,
         select: count(v.profile_id)
     ) == 1
+  end
+
+  def delete_vote(%Profile{} = profile, %Article{} = article) do
+    Repo.one(from v in Vote, where: v.article_id == ^article.id and v.profile_id == ^profile.id)
+    |> Repo.delete()
+
+    # could be optimized
+    article = get_article_preload_votes!(article.id)
+
+    broadcast({:ok, article}, :article_updated)
   end
 
   @doc """

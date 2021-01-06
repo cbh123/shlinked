@@ -10,7 +10,11 @@
          <div class="">
              <button phx-click="clap" phx-target="<%= @myself %>" type="button" phx-value-id="<%= @article.id %>"
                  class="  cursor-pointer ">
-                 <span class="h-5 w-5 hover:bg-gray-100 rounded-full px-1.5 py-1">👏</span></button>
+                 <span class="h-5 w-5 hover:bg-gray-100 rounded-full px-1.5 py-1
+"> <%= if Shlinkedin.News.is_first_vote_on_article?(@profile, @article), do: "👏", else: "✖" %>
+
+
+                 </span></button>
          </div>
      </div>
      <%# second row: time and upvotes %>
