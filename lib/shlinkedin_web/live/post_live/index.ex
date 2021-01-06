@@ -92,7 +92,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
   defp apply_action(socket, :edit_ad, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit Ad")
-    |> assign(:ad, Ads.get_ad!(id))
+    |> assign(:ad, Ads.get_ad_preload_profile!(id))
   end
 
   defp apply_action(socket, :show_votes, %{"id" => id}) do

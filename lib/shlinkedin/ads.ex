@@ -35,7 +35,7 @@ defmodule Shlinkedin.Ads do
   end
 
   def get_ad_preload_profile!(id) do
-    Repo.one(from a in Ad, where: a.id == ^id, preload: :profile)
+    Repo.one(from a in Ad, where: a.id == ^id, preload: :profile, preload: :clicks)
   end
 
   @doc """
