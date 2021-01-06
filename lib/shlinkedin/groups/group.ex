@@ -6,6 +6,8 @@ defmodule Shlinkedin.Groups.Group do
     field :cover_photo_url, :string
     field :public, :boolean, default: false
     field :title, :string
+    field :bio, :string
+    field :categories, {:array, :string}
 
     timestamps()
   end
@@ -13,7 +15,7 @@ defmodule Shlinkedin.Groups.Group do
   @doc false
   def changeset(group, attrs) do
     group
-    |> cast(attrs, [:title, :public, :cover_photo_url])
+    |> cast(attrs, [:title, :public, :cover_photo_url, :bio, :categories])
     |> validate_required([:title, :public, :cover_photo_url])
   end
 end

@@ -6,17 +6,25 @@
   phx_change: "validate",
   phx_submit: "save" %>
 
-  <%= label f, :title %>
-  <%= text_input f, :title %>
-  <%= error_tag f, :title %>
+<%= label f, :title %>
+<%= text_input f, :title %>
+<%= error_tag f, :title %>
 
-  <%= label f, :public %>
-  <%= checkbox f, :public %>
-  <%= error_tag f, :public %>
+<%= label f, :public %>
+<%= checkbox f, :public %>
+<%= error_tag f, :public %>
 
-  <%= label f, :cover_photo_url %>
-  <%= text_input f, :cover_photo_url %>
-  <%= error_tag f, :cover_photo_url %>
+<%= label f, :bio %>
+<%= textarea f, :bio %>
+<%= error_tag f, :bio %>
 
-  <%= submit "Save", phx_disable_with: "Saving..." %>
+<%= label f, :categories %>
+<%= text_input f, :categories %>
+<%= error_tag f, :categories %>
+
+<%= label f, :cover_photo_url %>
+<%= text_input f, :cover_photo_url %>
+<%= error_tag f, :cover_photo_url %>
+
+<%= submit "Save", phx_disable_with: "Saving..." %>
 </form>
