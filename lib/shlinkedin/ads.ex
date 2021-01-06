@@ -79,8 +79,6 @@ defmodule Shlinkedin.Ads do
     %Click{ad_id: ad.id, profile_id: profile.id}
     |> Click.changeset(attrs)
     |> Repo.insert()
-
-    ProfileNotifier.observer({:ok, ad}, :ad_click, profile, %Profile{id: ad.profile_id})
   end
 
   @doc """
