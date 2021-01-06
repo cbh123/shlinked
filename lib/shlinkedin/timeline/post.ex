@@ -31,7 +31,7 @@ defmodule Shlinkedin.Timeline.Post do
       :gif_url,
       :profile_tags
     ])
-    |> validate_required([:body])
-    |> validate_length(:body, max: 1000)
+    |> validate_required([])
+    |> validate_length(:body, max: 1500)
   end
 end

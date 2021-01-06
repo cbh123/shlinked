@@ -136,6 +136,14 @@ defmodule ShlinkedinWeb.Router do
     live "/ads/new", PostLive.Index, :new_ad
     live "/ads/:id/edit", PostLive.Index, :edit_ad
 
+    # groups
+    live "/groups", GroupLive.Index, :index
+    live "/groups/new", GroupLive.Index, :new
+    live "/groups/:id/edit", GroupLive.Index, :edit
+
+    live "/groups/:id", GroupLive.Show, :show
+    live "/groups/:id/show/edit", GroupLive.Show, :edit
+
     # search
     # live "/search", SearchLive.Index, :index
     # live "/search/:query", SearchLive.Index, :index

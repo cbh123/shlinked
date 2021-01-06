@@ -1,0 +1,39 @@
+<h1>Listing Groups</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal @socket, ShlinkedinWeb.GroupLive.FormComponent,
+    id: @group.id || :new,
+    title: @page_title,
+    action: @live_action,
+    group: @group,
+    return_to: Routes.group_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Public</th>
+      <th>Cover photo url</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="groups">
+    <%= for group <- @groups do %>
+      <tr id="group-<%= group.id %>">
+        <td><%= group.title %></td>
+        <td><%= group.public %></td>
+        <td><%= group.cover_photo_url %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.group_show_path(@socket, :show, group) %></span>
+          <span><%= live_patch "Edit", to: Routes.group_index_path(@socket, :edit, group) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: group.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Group", to: Routes.group_index_path(@socket, :new) %></span>

@@ -1,0 +1,32 @@
+<h1>Show Group</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, ShlinkedinWeb.GroupLive.FormComponent,
+    id: @group.id,
+    title: @page_title,
+    action: @live_action,
+    group: @group,
+    return_to: Routes.group_show_path(@socket, :show, @group) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @group.title %>
+  </li>
+
+  <li>
+    <strong>Public:</strong>
+    <%= @group.public %>
+  </li>
+
+  <li>
+    <strong>Cover photo url:</strong>
+    <%= @group.cover_photo_url %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.group_show_path(@socket, :edit, @group), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.group_index_path(@socket, :index) %></span>
