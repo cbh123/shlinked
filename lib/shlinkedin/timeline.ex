@@ -21,6 +21,15 @@ defmodule Shlinkedin.Timeline do
 
   """
 
+  def list_all_notifications(count) do
+    Repo.all(
+      from n in Shlinkedin.Profiles.Notification,
+        limit: ^count,
+        preload: [:profile],
+        order_by: [desc: n.inserted_at]
+    )
+  end
+
   def list_posts(criteria) when is_list(criteria) do
     query = from(p in Post, order_by: [desc: p.featured, desc: p.inserted_at])
 
