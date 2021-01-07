@@ -8,15 +8,17 @@ defmodule ShlinkedinWeb.PostLive.Index do
   alias Shlinkedin.Ads.Ad
   alias Shlinkedin.Ads
   alias Shlinkedin.News.Article
+  alias Phoenix.Socket.Broadcast
 
   @impl true
   def mount(_params, session, socket) do
+    socket = is_user(session, socket)
+
     if connected?(socket) do
       Timeline.subscribe()
+      Timeline.presence_subscribe()
       News.subscribe()
     end
-
-    socket = is_user(session, socket)
 
     {:ok,
      socket
@@ -29,7 +31,8 @@ defmodule ShlinkedinWeb.PostLive.Index do
        stories: Timeline.list_stories(),
        like_map: Timeline.like_map(),
        comment_like_map: Timeline.comment_like_map(),
-       num_show_comments: 1
+       num_show_comments: 1,
+       online_profiles: %{}
      )
      |> fetch_ad()
      |> fetch_posts(), temporary_assigns: [posts: [], articles: []]}
@@ -192,6 +195,12 @@ defmodule ShlinkedinWeb.PostLive.Index do
      socket
      |> put_flash(:info, "Ad deleted")
      |> push_redirect(to: Routes.post_index_path(socket, :index))}
+  end
+
+  def handle_info(%Broadcast{event: "presence_diff"}, socket) do
+    {:noreply,
+     socket
+     |> assign(:online_profiles, ShlinkedinWeb.Presence.list("online"))}
   end
 
   @impl true

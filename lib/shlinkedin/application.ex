@@ -13,6 +13,8 @@ defmodule Shlinkedin.Application do
       ShlinkedinWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: Shlinkedin.PubSub},
+      # Presence
+      ShlinkedinWeb.Presence,
       # Start the Endpoint (http/https)
       ShlinkedinWeb.Endpoint
       # Start a worker by calling: Shlinkedin.Worker.start_link(arg)

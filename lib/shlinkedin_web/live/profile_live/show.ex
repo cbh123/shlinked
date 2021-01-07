@@ -179,4 +179,10 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   def handle_info({:post_updated, post}, socket) do
     {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
   end
+
+  def handle_info(%Phoenix.Socket.Broadcast{event: "presence_diff"}, socket) do
+    {:noreply,
+     socket
+     |> assign(:online_profiles, ShlinkedinWeb.Presence.list("online"))}
+  end
 end
