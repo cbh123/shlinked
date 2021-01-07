@@ -190,7 +190,7 @@
                     <%= raw(format_tags(@post.body, @post.profile_tags)) %></p>
 
                 <%# add a see more button %>
-                <%= if String.length(@post.body) >= 100 && !@expand_post do %>
+                <%= if @post.body != nil && String.length(@post.body) >= 100 && !@expand_post do %>
                 <div class="absolute bottom-0 right-4 bg-white">
                     <button phx-click="expand-post" phx-target="<%= @myself %>"
                         class="text-gray-500 hover:underline">...see more

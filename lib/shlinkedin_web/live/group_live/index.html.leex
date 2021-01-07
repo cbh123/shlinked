@@ -27,11 +27,6 @@
             <td><%= group.privacy_type %></td>
             <td><%= group.cover_photo_url %></td>
 
-            <td>
-                <span><%= live_redirect "Show", to: Routes.group_show_path(@socket, :show, group) %></span>
-                <span><%= live_patch "Edit", to: Routes.group_index_path(@socket, :edit, group) %></span>
-                <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: group.id, data: [confirm: "Are you sure?"] %></span>
-            </td>
         </tr>
         <% end %>
     </tbody>
