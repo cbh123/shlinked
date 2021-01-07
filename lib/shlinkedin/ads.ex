@@ -9,7 +9,6 @@ defmodule Shlinkedin.Ads do
   alias Shlinkedin.Ads.Ad
   alias Shlinkedin.Ads.Click
   alias Shlinkedin.Profiles.Profile
-  alias Shlinkedin.Profiles.ProfileNotifier
 
   @doc """
   Returns the list of ads.

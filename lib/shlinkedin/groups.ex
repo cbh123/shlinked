@@ -7,6 +7,7 @@ defmodule Shlinkedin.Groups do
   alias Shlinkedin.Repo
 
   alias Shlinkedin.Groups.Group
+  alias Shlinkedin.Profiles.Profile
 
   @doc """
   Returns the list of groups.
@@ -49,10 +50,13 @@ defmodule Shlinkedin.Groups do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_group(attrs \\ %{}) do
-    %Group{}
+  def create_group(%Profile{} = profile, %Group{} = group, attrs \\ %{}, after_save \\ &{:ok, &1}) do
+    group = %{group | profile_id: profile.id}
+
+    group
     |> Group.changeset(attrs)
     |> Repo.insert()
+    |> after_save(after_save)
   end
 
   @doc """
@@ -67,10 +71,19 @@ defmodule Shlinkedin.Groups do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_group(%Group{} = group, attrs) do
-    group
-    |> Group.changeset(attrs)
-    |> Repo.update()
+  def update_group(%Profile{} = profile, %Group{} = group, attrs, after_save \\ &{:ok, &1}) do
+    if check_permissions(profile, group, :edit) do
+      group
+      |> Group.changeset(attrs)
+      |> after_save(after_save)
+      |> Repo.update()
+    else
+      {:error, "You can only edit your own ads!"}
+    end
+  end
+
+  def check_permissions(%Profile{} = _profile, %Group{} = _group, _action) do
+    true
   end
 
   @doc """
@@ -101,4 +114,10 @@ defmodule Shlinkedin.Groups do
   def change_group(%Group{} = group, attrs \\ %{}) do
     Group.changeset(group, attrs)
   end
+
+  defp after_save({:ok, group}, func) do
+    {:ok, _group} = func.(group)
+  end
+
+  defp after_save(error, _func), do: error
 end

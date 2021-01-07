@@ -5,7 +5,9 @@ defmodule ShlinkedinWeb.GroupLive.Index do
   alias Shlinkedin.Groups.Group
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, session, socket) do
+    socket = is_user(session, socket)
+
     {:ok, assign(socket, :groups, list_groups())}
   end
 

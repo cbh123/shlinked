@@ -1,32 +1,73 @@
-<h1>Show Group</h1>
+ <div class="max-w-2xl sm:mt-4 mx-auto mb-12">
 
-<%= if @live_action in [:edit] do %>
-  <%= live_modal @socket, ShlinkedinWeb.GroupLive.FormComponent,
+     <%# Profile and cover photo  %>
+     <div class="bg-white sm:rounded-lg shadow p-5">
+
+         <img src="<%= if @group.cover_photo_url == nil, do: "//shlinked.s3.amazonaws.com/0fbc9143-b559-480e-9b44-4363c437ff7c.png", else: @group.cover_photo_url %>"
+             alt="" class="object-cover w-full h-52 overflow-hidden sm:rounded-t-lg">
+
+
+
+         <div class="mt-2">
+
+             <div class="flex justify-center sm:justify-start">
+
+                 <%# Group Title %>
+                 <div class="font-bold sm:text-left text-center text-2xl sm:text-3xl">
+
+
+                     <%= @group.title %>
+
+
+                 </div>
+
+             </div>
+         </div>
+
+
+
+
+         <%# about %>
+         <div class="mt-1 text-sm">
+             <h5 class="font-bold text-lg mb-2">About</h5>
+             <%= @group.about %>
+         </div>
+
+
+
+
+         <%# Started shlinking and buttons %>
+         <div class=" flex items-start text-xs">
+             <span>
+                 <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg">
+                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                         d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                     </path>
+                 </svg>
+             </span>
+             <span class="text-gray-700 ml-2">Founded
+                 <%= Timex.format!(@group.inserted_at, "{Mshort}. {D}, {YYYY}") %></span>
+         </div>
+
+
+
+         <span><%= live_patch "Edit", to: Routes.group_show_path(@socket, :edit, @group), class: "button" %></span>
+         <span><%= live_redirect "Back", to: Routes.group_index_path(@socket, :index) %></span>
+
+
+
+
+     </div>
+
+ </div>
+
+
+ <%= if @live_action in [:edit] do %>
+ <%= live_modal @socket, ShlinkedinWeb.GroupLive.FormComponent,
     id: @group.id,
     title: @page_title,
     action: @live_action,
     group: @group,
     return_to: Routes.group_show_path(@socket, :show, @group) %>
-<% end %>
-
-<ul>
-
-  <li>
-    <strong>Title:</strong>
-    <%= @group.title %>
-  </li>
-
-  <li>
-    <strong>Public:</strong>
-    <%= @group.public %>
-  </li>
-
-  <li>
-    <strong>Cover photo url:</strong>
-    <%= @group.cover_photo_url %>
-  </li>
-
-</ul>
-
-<span><%= live_patch "Edit", to: Routes.group_show_path(@socket, :edit, @group), class: "button" %></span>
-<span><%= live_redirect "Back", to: Routes.group_index_path(@socket, :index) %></span>
+ <% end %>

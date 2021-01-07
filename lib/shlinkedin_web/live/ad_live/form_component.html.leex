@@ -48,9 +48,6 @@
     <div class="inline-block relative">
 
 
-
-
-
         <%# Show image upload errors %>
         <%= for {_ref, msg } <- @uploads.media.errors do %>
         <p class="alert alert-danger"><%= Phoenix.Naming.humanize(msg) %></p>

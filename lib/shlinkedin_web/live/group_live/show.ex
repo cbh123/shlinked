@@ -4,7 +4,8 @@ defmodule ShlinkedinWeb.GroupLive.Show do
   alias Shlinkedin.Groups
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, session, socket) do
+    socket = is_user(session, socket)
     {:ok, socket}
   end
 

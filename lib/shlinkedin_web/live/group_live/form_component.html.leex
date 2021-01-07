@@ -1,30 +1,101 @@
-<h2><%= @title %></h2>
-
 <%= f = form_for @changeset, "#",
   id: "group-form",
   phx_target: @myself,
   phx_change: "validate",
   phx_submit: "save" %>
 
-<%= label f, :title %>
-<%= text_input f, :title %>
-<%= error_tag f, :title %>
+<div class="bg-white p-4 border-b border-gray-200 sm:px-6 rounded-lg">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">
+        <%= @title %>
+    </h3>
+</div>
 
-<%= label f, :public %>
-<%= checkbox f, :public %>
-<%= error_tag f, :public %>
 
-<%= label f, :bio %>
-<%= textarea f, :bio %>
-<%= error_tag f, :bio %>
+<div class="mt-1 p-5">
 
-<%= label f, :categories %>
-<%= text_input f, :categories %>
-<%= error_tag f, :categories %>
+    <div class="space-y-6">
 
-<%= label f, :cover_photo_url %>
-<%= text_input f, :cover_photo_url %>
-<%= error_tag f, :cover_photo_url %>
 
-<%= submit "Save", phx_disable_with: "Saving..." %>
+        <div>
+            <%= label f, "Name", class: "block text-sm font-medium text-gray-700" %>
+            <%= text_input f, :title, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 inline-block sm:text-sm border-gray-300 rounded-md px-3", placeholder: "Name" %>
+            <%= error_tag f, :title %>
+        </div>
+
+
+
+        <%= if @action == :new do %>
+        <div class="mt-4">
+            <label for="public" class="block text-sm font-medium text-gray-700">Group Type</label>
+
+
+            <%= error_tag f, :privacy_type %>
+            <%= select f, :privacy_type, ["Public - anyone can join and see posts": "public", "Private - you have to be accepted to join and see posts": "private",
+         "Secret - must be invited to know of group's existence": "secret"], class: "mt-1 inline-block pl-3 pr-5 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" %>
+
+            <p class="text-xs text-gray-500">Note: you cannot change group type once the group is created.</p>
+
+        </div>
+        <% end %>
+
+
+        <div>
+            <%= label f, "About (optional)", class: "block text-sm font-medium text-gray-700" %>
+            <%= textarea f, :about, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md px-3", rows: 3, placeholder: "What's the purpose of this group?" %>
+            <p class="mt-4 text-xs"><%= error_tag f, :about %></p>
+
+        </div>
+
+
+
+        <div class="inline-block relative">
+
+
+            <label for="media_url" class="block text-sm font-medium text-gray-700">Cover Photo (optional)</label>
+            <%# Show image upload errors %>
+            <%= for {_ref, msg } <- @uploads.media.errors do %>
+            <p class="alert alert-danger"><%= Phoenix.Naming.humanize(msg) %></p>
+            <% end %>
+
+            <%# If there's a gif, show option to remove it %>
+            <%= case @uploads.media.entries do %>
+            <% [] ->  %> <label for="<%= @uploads.media.ref %>"
+                class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <span>📷 Add Cover Photo</span>
+            </label>
+            <% [entry | _] -> %>
+            <button phx-click="cancel-entry" phx-value-ref="<%= entry.ref %>" type="button" phx-target="<%= @myself %>"
+                class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Remove photo</button>
+
+
+            <%= live_img_preview entry, class: "mx-auto w-full mt-2 object-cover w-64 self-auto" %>
+
+            <% end %>
+
+
+
+            <%= live_file_input @uploads.media, class: "sr-only", type: "file"  %>
+
+
+            <%= for entry <- @uploads.media.entries do %>
+            <div class="mx-auto text-center mt-6">
+
+
+            </div>
+            <progress max="100" class="w-full mt-6" value="<%= entry.progress %>" />
+
+            <% end %>
+        </div>
+    </div>
+
+
+    <div class="flex justify-end mt-8 bg-gray-100 -m-5 p-5 rounded-lg">
+
+        <%= live_patch "Cancel", to: @return_to, class: "ml-3 inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-full text-gray-600  bg-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"%>
+        <%= submit (if @action == :new, do: "Establish", else: "Save"), class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
+    </div>
+
+
+</div>
 </form>

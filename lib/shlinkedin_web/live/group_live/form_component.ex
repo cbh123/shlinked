@@ -2,6 +2,18 @@ defmodule ShlinkedinWeb.GroupLive.FormComponent do
   use ShlinkedinWeb, :live_component
 
   alias Shlinkedin.Groups
+  alias Shlinkedin.Groups.Group
+  alias Shlinkedin.MediaUpload
+
+  @impl true
+  def mount(socket) do
+    {:ok,
+     allow_upload(socket, :media,
+       accept: ~w(.png .jpeg .jpg .gif),
+       max_entries: 1,
+       external: &MediaUpload.presign_media_entry/2
+     )}
+  end
 
   @impl true
   def update(%{group: group} = assigns, socket) do
@@ -11,6 +23,11 @@ defmodule ShlinkedinWeb.GroupLive.FormComponent do
      socket
      |> assign(assigns)
      |> assign(:changeset, changeset)}
+  end
+
+  def update(%{uploads: uploads}, socket) do
+    socket = assign(socket, :uploads, uploads)
+    {:ok, socket}
   end
 
   @impl true
@@ -27,8 +44,37 @@ defmodule ShlinkedinWeb.GroupLive.FormComponent do
     save_group(socket, socket.assigns.action, group_params)
   end
 
+  def handle_event("cancel-entry", %{"ref" => ref}, socket) do
+    {:noreply, cancel_upload(socket, :media, ref)}
+  end
+
+  defp put_photo_urls(socket, %Group{} = group) do
+    {completed, []} = uploaded_entries(socket, :media)
+
+    urls =
+      for entry <- completed do
+        # Routes.static_path(socket, "/uploads/#{entry.uuid}.#{ext(entry)}") # local path
+        Path.join(MediaUpload.s3_host(), MediaUpload.s3_key(entry))
+      end
+
+    %Group{group | cover_photo_url: urls |> Enum.at(0)}
+  end
+
+  def consume_photos(socket, %Group{} = group) do
+    consume_uploaded_entries(socket, :media, fn _meta, _entry -> :ok end)
+
+    {:ok, group}
+  end
+
   defp save_group(socket, :edit, group_params) do
-    case Groups.update_group(socket.assigns.group, group_params) do
+    group = put_photo_urls(socket, socket.assigns.group)
+
+    case Groups.update_group(
+           socket.assigns.profile,
+           group,
+           group_params,
+           &consume_photos(socket, &1)
+         ) do
       {:ok, _group} ->
         {:noreply,
          socket
@@ -40,8 +86,10 @@ defmodule ShlinkedinWeb.GroupLive.FormComponent do
     end
   end
 
-  defp save_group(socket, :new, group_params) do
-    case Groups.create_group(group_params) do
+  defp save_group(%{assigns: %{profile: profile}} = socket, :new, group_params) do
+    group = put_photo_urls(socket, socket.assigns.group)
+
+    case Groups.create_group(profile, group, group_params, &consume_photos(socket, &1)) do
       {:ok, _group} ->
         {:noreply,
          socket
