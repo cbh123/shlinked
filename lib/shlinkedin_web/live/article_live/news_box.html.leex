@@ -3,8 +3,10 @@
      <%# Top row: headline and clap and dot %>
      <div class="flex justify-between">
          <div>
-             <p class=" font-semibold text-xs">
+             <p class=" font-semibold text-xs hover:underline">
+                 <%= live_patch to: Routes.post_index_path(@socket, :show_votes, @article.id) do %>
                  <%= @article.headline %>
+                 <% end %>
              </p>
          </div>
          <div class="">
