@@ -55,14 +55,14 @@ Hooks.OnboardingPrompt = {
   },
 };
 
-Hooks.Pick = {
+Hooks.CommentPickTag = {
   mounted() {
     this.el.addEventListener("click", (e) => {
       const textarea = document.getElementById("comment-form_body");
 
       const name = this.el.getAttribute("phx-value-name");
 
-      textarea.value = textarea.value + name + " ";
+      //   textarea.value = textarea.value + name + " ";
       textarea.focus();
 
       textarea.setSelectionRange(textarea.value.length, textarea.value.length);
@@ -70,7 +70,7 @@ Hooks.Pick = {
   },
 };
 
-Hooks.PostPick = {
+Hooks.PostPickTag = {
   mounted() {
     this.el.addEventListener("click", (e) => {
       const textarea = document.getElementById("post-form_body");
