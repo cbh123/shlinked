@@ -60,10 +60,6 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
     sliced_body = String.replace(body, String.split(body, "@") |> List.last(), "")
     new_body = sliced_body <> username <> " "
 
-    IO.inspect(body, label: "")
-    IO.inspect(sliced_body, label: "")
-    IO.inspect(new_body, label: "")
-
     changeset =
       socket.assigns.changeset
       |> Ecto.Changeset.put_change(:body, new_body)

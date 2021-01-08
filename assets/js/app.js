@@ -62,7 +62,13 @@ Hooks.CommentPickTag = {
 
       const name = this.el.getAttribute("phx-value-name");
 
-      //   textarea.value = textarea.value + name + " ";
+      const body = textarea.value;
+      const split = body.split("@");
+      const tag = split[split.length - 1];
+      const sliced_body = body.replace(tag, "");
+      const new_body = sliced_body + name + " ";
+
+      textarea.value = new_body;
       textarea.focus();
 
       textarea.setSelectionRange(textarea.value.length, textarea.value.length);
@@ -77,8 +83,11 @@ Hooks.PostPickTag = {
 
       const name = this.el.getAttribute("phx-value-name");
 
-      textarea.value = textarea.value + name + " ";
-      textarea.focus();
+      const body = textarea.value;
+      const split = body.split("@");
+      const tag = split[split.length - 1];
+      const sliced_body = body.replace(tag, "");
+      const new_body = sliced_body + name + " ";
 
       textarea.setSelectionRange(textarea.value.length, textarea.value.length);
     });

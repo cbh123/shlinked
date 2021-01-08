@@ -40,7 +40,9 @@
 
 
     <div class="mt-4">
+
         <%= textarea f, :body, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md", rows:  2, placeholder: "Add a comment...", autofocus: "true" %>
+
         <%= if @search_results != [] do %>
         <div class="relative" id="matches">
             <div class="absolute text-xs w-64 z-50 left-0 right-0 rounded border border-gray-100 shadow py-1 bg-white">
