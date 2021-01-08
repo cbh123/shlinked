@@ -18,9 +18,31 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
     {:ok, assign(socket, assigns)}
   end
 
+  defp update_reply_changeset(changeset, assigns) do
+    case assigns.reply_to do
+      nil ->
+        changeset
+
+      username ->
+        changeset
+        |> Ecto.Changeset.put_change(:body, "@#{username}")
+    end
+  end
+
+  defp update_reply_socket(socket, assigns) do
+    case assigns.reply_to do
+      nil ->
+        socket
+
+      username ->
+        assign(socket, tags: [username])
+    end
+  end
+
   @impl true
   def update(%{comment: comment} = assigns, socket) do
-    changeset = Timeline.change_comment(comment)
+    changeset = Timeline.change_comment(comment) |> update_reply_changeset(assigns)
+    socket = update_reply_socket(socket, assigns)
 
     {:ok,
      socket

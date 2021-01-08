@@ -71,11 +71,23 @@ defmodule ShlinkedinWeb.PostLive.Index do
     |> assign(:story, %Story{})
   end
 
+  defp apply_action(socket, :new_comment, %{"id" => id, "username" => username}) do
+    post = Timeline.get_post_preload_profile(id)
+
+    socket
+    |> assign(:page_title, "Reply to #{post.profile.persona_name}'s comment")
+    |> assign(:reply_to, username)
+    |> assign(:comments, [])
+    |> assign(:comment, %Comment{})
+    |> assign(:post, post)
+  end
+
   defp apply_action(socket, :new_comment, %{"id" => id}) do
     post = Timeline.get_post_preload_profile(id)
 
     socket
     |> assign(:page_title, "Comment")
+    |> assign(:reply_to, nil)
     |> assign(:comments, [])
     |> assign(:comment, %Comment{})
     |> assign(:post, post)
