@@ -127,7 +127,7 @@
 
             <%= for {post, idx} <- Enum.with_index(@posts) do %>
 
-            <%= live_component @socket, ShlinkedinWeb.HomeLive.PostComponent,
+            <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
                 id: post.id,
                 idx: idx,
                 profile: @profile,
@@ -223,7 +223,7 @@
 </div>
 
 <%= if @live_action in [:new_comment] do %>
-<%= live_modal @socket, ShlinkedinWeb.HomeLive.CommentComponent,
+<%= live_modal @socket, ShlinkedinWeb.PostLive.CommentComponent,
     id: :new_comment,
     profile: @profile,
     title: @page_title,
@@ -236,7 +236,7 @@
 <% end %>
 
 <%= if @live_action in [:show_likes] do %>
-<%= live_modal @socket, ShlinkedinWeb.HomeLive.LikeComponent,
+<%= live_modal @socket, ShlinkedinWeb.PostLive.LikeComponent,
     profile: @profile,
     title: @page_title,
     like_map: @like_map,
@@ -246,7 +246,7 @@
 <% end %>
 
 <%= if @live_action in [:show_comment_likes] do %>
-<%= live_modal @socket, ShlinkedinWeb.HomeLive.LikeComponent,
+<%= live_modal @socket, ShlinkedinWeb.PostLive.LikeComponent,
     profile: @profile,
     title: @page_title,
     like_map: @comment_like_map,
@@ -256,7 +256,7 @@
 <% end %>
 
 <%= if @live_action in [:new, :edit] do %>
-<%= live_modal @socket, ShlinkedinWeb.HomeLive.FormComponent,
+<%= live_modal @socket, ShlinkedinWeb.PostLive.FormComponent,
     profile: @profile,
     id: @post.id || :new,
     title: @page_title,

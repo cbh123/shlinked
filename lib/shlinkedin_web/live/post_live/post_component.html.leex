@@ -1,0 +1,201 @@
+<div id="post-<%= @post.id %>" phx-click="hide-post-options" phx-target="<%= @myself %>"
+    class="relative bg-white shadow-lg sm:max-w-lg mx-auto sm:rounded-lg p-4 mb-2 pb-2 <%= if @deleted, do: "hidden" %>">
+    <%= if @deleted != true do %>
+
+
+
+    <%= featured_post_header(@socket, @post) %>
+
+    <%# Post Header and Options %>
+    <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap ">
+
+        <%# Post Header: Image, Name, Title, Time, and Business Jab %>
+        <%= post_header(@socket, @post) %>
+
+        <%# Post Options %>
+        <div class="sm:block text-xs text-gray-500 text-right">
+            <div class="relative inline-block text-left ">
+                <div>
+                    <button type="button" phx-click="toggle-post-options" phx-target="<%= @myself %>"
+                        class=" py-2 text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
+                        id="options-menu" aria-haspopup="true" aria-expanded="true">
+
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z">
+                            </path>
+                        </svg>
+
+                    </button>
+                </div>
+
+
+                <%# Options Menu %>
+                <div
+                    class="<%= if @show_post_options != true, do: "hidden" %> origin-top-right z-10 absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                    <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                        <%= live_patch to: Routes.home_show_path(@socket, :show, @post.id), do: raw("View post &rarr;"), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
+                        <%= if @profile != nil and @post.profile_id == @profile.id or @profile.admin do %>
+                        <%= live_patch to: Routes.home_index_path(@socket, :edit, @post.id), do: "Edit", class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
+                        <%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @post.id, data: [confirm: "Are you sure?"], class: "block px-4 py-2 text-sm text-red-700 hover:bg-gray-100"%>
+                        <% end %>
+                        <%= if @profile != nil and @profile.admin do %>
+                        <%= if @post.featured do %>
+                        <button class="block px-4 py-2 text-sm text-red-700 hover:bg-gray-100"
+                            data-confirm="Are you sure you want to unfeature post? " phx-click="unfeature-post"
+                            phx-target="<%= @myself %>">Unfeature post </button>
+                        <% else %>
+
+                        <button class="block px-4 py-2 text-sm text-green-700 hover:bg-gray-100"
+                            data-confirm="Are you sure you want to feature post? Writer will be notified."
+                            phx-click="feature-post" phx-target="<%= @myself %>">Make post of the
+                            day</button>
+                        <% end %>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%# Post Text / Image %>
+    <div class="relative mt-2 overflow-hidden <%= if @post.photo_urls != [] or @post.gif_url != nil, do: "-mx-4" %>">
+
+        <%= live_component @socket, ShlinkedinWeb.PostLive.BodyComponent,
+                id: @post.id,
+                expand_post: @expand_post,
+                post: @post %>
+        <%= censor_tag(@socket, @post) %>
+    </div>
+
+    <%# Post Text Bottom: likes, comments, bar %>
+    <div class="flex justify-between text-xs text-gray-500">
+
+        <%# Left side: number of likes and comments %>
+        <div class="inline-flex items-center pl-2">
+
+            <%# "x likes" with symbols %>
+            <%= if length(@post.likes) > 0 do %>
+            <%= live_patch to: Routes.home_index_path(@socket, :show_likes, @post.id) do %>
+            <div
+                class="<%= if @spin == true, do: "animate-spin" %> inline-flex items-center hover:text-blue-500 hover:underline hover:cursor-pointer py-2 my-2">
+                <%= for unique_like <- show_unique_likes(@post) do %>
+                <%= if @like_map[unique_like] != nil do %>
+                <svg class="-ml-1 mr-1 h-3 w-3 <%= @like_map[unique_like].color %> hover:underline hover:cursor-pointer"
+                    fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="<%= @like_map[unique_like].fill %>" d="<%= @like_map[unique_like].svg_path %>">
+                    </path>
+                </svg>
+                <% end %>
+                <% end %>
+
+                <p class="text-xs">
+                    <%= length(@post.likes)%> • <%= (length_unique_user_likes(@post)) %>
+                </p>
+
+
+            </div>
+            <% end %>
+            <% end %>
+
+        </div>
+
+        <%#  "1 Comment" %>
+        <%= if length(@post.comments) > 0 do %>
+        <button phx-click="expand-comments" phx-target="<%= @myself %>"
+            class=" text-xs hover:underline hover:text-blue-500 <%= if @comment_spin == true, do: " animate-spin" %> py-2  my-2">
+            <%= length(@post.comments) %>
+            Comment<%= if length(@post.comments) > 1, do: "s" %></button>
+        <% end %>
+
+    </div>
+
+    <%# Like / Comment Buttons %>
+    <div>
+        <hr class="pb-1">
+        <div class="py-1 pb-0">
+
+            <%= for like <- like_map_list(@like_map) do %>
+            <%= case Enum.filter(@post.likes, fn l -> l.profile_id == @profile.id && l.like_type == like.like_type end) |> length() do %>
+            <% 0 -> %><button type="button" phx-target="<%= @myself %>" phx-click="like-selected"
+                phx-value-like-type="<%=like.like_type%>"
+                class="active:text-white active:<%=like.bg %> inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <svg class="-ml-1 mr-3 h-4 w-4 sm:h-5 sm:w-5 mx-auto" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path d="<%=like.svg_path%>" fill-rule="<%=like.fill%>">
+                    </path>
+                </svg>
+                <span><%=like.like_type%></span>
+            </button>
+
+            <% num -> %>
+            <button type="button" phx-target="<%= @myself %>" phx-click="like-selected"
+                phx-value-like-type="<%=like.like_type%>"
+                class="active:text-white active:<%=like.bg %> inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded-md <%= like.color %> bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+
+                <svg class="-ml-1 h-4 w-4 sm:h-5 sm:w-5 mx-auto" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path d="<%=like.svg_path%>" fill-rule="<%=like.fill%>">
+                    </path>
+                </svg>
+                <span class="pl-1 mr-2 text-xs"><%= num %></span>
+                <span><%=like.like_type%></span>
+
+            </button>
+
+            <% end %>
+            <% end %>
+
+
+
+
+            <%= live_patch to: Routes.home_index_path(@socket, :new_comment, @post.id) do %>
+            <button type="button" phx-target="<%= @myself %>"
+                class="active:bg-yellow-100 active:text-yellow-600 inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <svg class="-ml-1 mr-2  h-4 w-4 sm:h-5 sm:w-5" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
+                        clip-rule="evenodd"></path>
+                </svg>
+                Comment
+            </button>
+            <% end %>
+        </div>
+    </div>
+
+
+    <%# Show first first comments stuff %>
+    <div class="mt-2 block">
+        <%= for comment <- @post.comments |> Enum.slice(0, @num_show_comments) do %>
+        <div class="my-1">
+            <%= live_component @socket, ShlinkedinWeb.PostLive.CommentBubbleComponent,
+                id: comment.id,
+                post: @post,
+                profile: @profile,
+                expand_comment: false,
+                like_map: Shlinkedin.Timeline.comment_like_map,
+                num_show_comments: @num_show_comments,
+                comment: comment %>
+        </div>
+        <% end %>
+
+        <%= if length(@post.comments) == 0 do %>
+        <%= live_patch to: Routes.home_index_path(@socket, :new_comment, @post.id) do %>
+        <button class="text-gray-600 font-semibold mb-0 text-xs hover:bg-gray-100 px-2 py-1 rounded mt-2">Be the
+            first
+            to comment on this!</button>
+        <% end %>
+        <% end %>
+
+        <%= if @num_show_comments < length(@post.comments) do %>
+        <button class="text-gray-600 font-semibold mb-0 text-xs hover:bg-gray-100 px-2 py-1 rounded mt-2"
+            phx-click="expand-comments" phx-target="<%= @myself %>">
+            Load more comments (<%= length(@post.comments) - @num_show_comments %>)</button>
+        <% end %>
+    </div>
+    <%end %>
+
+
+</div>

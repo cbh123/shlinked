@@ -1,7 +1,7 @@
-defmodule ShlinkedinWeb.HomeLive.CommentBubbleComponent do
+defmodule ShlinkedinWeb.PostLive.CommentBubbleComponent do
   use ShlinkedinWeb, :live_component
-  alias ShlinkedinWeb.HomeLive.CommentBubbleComponent
-  alias ShlinkedinWeb.HomeLive.PostComponent
+  alias ShlinkedinWeb.PostLive.CommentBubbleComponent
+  alias ShlinkedinWeb.PostLive.PostComponent
   alias Shlinkedin.Timeline.Comment
   alias Shlinkedin.Tagging
 
