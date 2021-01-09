@@ -125,9 +125,11 @@
 
 
 
-            <%= for post <- @posts do %>
+            <%= for {post, idx} <- Enum.with_index(@posts) do %>
+
             <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
                 id: post.id,
+                idx: idx,
                 profile: @profile,
                 post: post,
                 deleted: post.__meta__.state == :deleted,
