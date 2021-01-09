@@ -1,4 +1,4 @@
-defmodule ShlinkedinWeb.PostLive.Show do
+defmodule ShlinkedinWeb.HomeLive.Show do
   use ShlinkedinWeb, :live_view
   alias Shlinkedin.Timeline
 

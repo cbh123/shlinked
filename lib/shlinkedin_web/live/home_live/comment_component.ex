@@ -1,9 +1,9 @@
-defmodule ShlinkedinWeb.PostLive.CommentComponent do
+defmodule ShlinkedinWeb.HomeLive.CommentComponent do
   use ShlinkedinWeb, :live_component
 
   alias Shlinkedin.Timeline
   alias Shlinkedin.Tagging
-  alias ShlinkedinWeb.PostLive.PostComponent
+  alias ShlinkedinWeb.HomeLive.PostComponent
 
   @impl true
   def mount(socket) do
@@ -109,31 +109,31 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
 
   def handle_event("comment-ai", _, socket) do
     send_update_after(
-      ShlinkedinWeb.PostLive.CommentComponent,
+      ShlinkedinWeb.HomeLive.CommentComponent,
       [id: :new_comment, loading_text: Timeline.comment_loading(), progress: 33],
       500
     )
 
     send_update_after(
-      ShlinkedinWeb.PostLive.CommentComponent,
+      ShlinkedinWeb.HomeLive.CommentComponent,
       [id: :new_comment, loading_text: Timeline.comment_loading(), progress: 66],
       800
     )
 
     send_update_after(
-      ShlinkedinWeb.PostLive.CommentComponent,
+      ShlinkedinWeb.HomeLive.CommentComponent,
       [id: :new_comment, loading_text: Timeline.comment_loading(), progress: 99],
       1250
     )
 
     send_update_after(
-      ShlinkedinWeb.PostLive.CommentComponent,
+      ShlinkedinWeb.HomeLive.CommentComponent,
       [id: :new_comment, loading_text: "Comment generated", progress: 100, ai_loading: false],
       1750
     )
 
     send_update_after(
-      ShlinkedinWeb.PostLive.CommentComponent,
+      ShlinkedinWeb.HomeLive.CommentComponent,
       [id: :new_comment, comment: %Timeline.Comment{body: Timeline.comment_ai()}],
       1800
     )

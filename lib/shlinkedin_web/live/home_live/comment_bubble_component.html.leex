@@ -62,7 +62,7 @@
         <div class="flex pl-2 pt-2 mt-2">
             <%# "x likes" with symbols %>
             <%= if length(@comment.likes) > 0 do %>
-            <%= live_patch to: Routes.post_index_path(@socket, :show_comment_likes, @comment.id) do %>
+            <%= live_patch to: Routes.home_index_path(@socket, :show_comment_likes, @comment.id) do %>
             <div class=" inline-flex items-center hover:text-blue-500 hover:underline hover:cursor-pointer ">
                 <%= for unique_like <- show_unique_likes(@comment) do %>
                 <%= if @like_map[unique_like] != nil do %>
@@ -119,7 +119,7 @@
         </div>
 
 
-        <%= live_patch "Reply", to: Routes.post_index_path(@socket, :new_comment, @post.id, username: @comment.profile.username), class: "inline-flex items-center px-2 py-1 mr-1 border text-xs font-medium rounded-full bg-gray-50 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
+        <%= live_patch "Reply", to: Routes.home_index_path(@socket, :new_comment, @post.id, username: @comment.profile.username), class: "inline-flex items-center px-2 py-1 mr-1 border text-xs font-medium rounded-full bg-gray-50 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
 
 
         <%= if @profile != nil and @comment.profile_id == @profile.id or @profile.admin do %>

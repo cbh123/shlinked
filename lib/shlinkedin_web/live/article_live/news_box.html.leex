@@ -4,7 +4,7 @@
      <div class="flex justify-between">
          <div>
              <p class=" font-semibold text-xs hover:underline">
-                 <%= live_patch to: Routes.post_index_path(@socket, :show_votes, @article.id) do %>
+                 <%= live_patch to: Routes.home_index_path(@socket, :show_votes, @article.id) do %>
                  <%= @article.headline %>
                  <% end %>
              </p>
@@ -25,7 +25,7 @@
              <%= Timex.from_now(@article.inserted_at)%> • </span>
 
 
-         <%= live_patch to: Routes.post_index_path(@socket, :show_votes, @article.id) do %>
+         <%= live_patch to: Routes.home_index_path(@socket, :show_votes, @article.id) do %>
 
          <span class="pl-1 <%= if @spin == true, do: "animate-spin" %> "> <%= length(@article.votes)%>
              claps </span>

@@ -1,4 +1,4 @@
-defmodule ShlinkedinWeb.PostLive.Index do
+defmodule ShlinkedinWeb.HomeLive.Index do
   use ShlinkedinWeb, :live_view
 
   alias Shlinkedin.Timeline
@@ -184,7 +184,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
     {:noreply,
      socket
      |> put_flash(:info, "Comment deleted")
-     |> push_redirect(to: Routes.post_index_path(socket, :index))}
+     |> push_redirect(to: Routes.home_index_path(socket, :index))}
   end
 
   @impl true
@@ -195,7 +195,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
     {:noreply,
      socket
      |> put_flash(:info, "Headline deleted")
-     |> push_redirect(to: Routes.post_index_path(socket, :index))}
+     |> push_redirect(to: Routes.home_index_path(socket, :index))}
   end
 
   @impl true
@@ -206,7 +206,7 @@ defmodule ShlinkedinWeb.PostLive.Index do
     {:noreply,
      socket
      |> put_flash(:info, "Ad deleted")
-     |> push_redirect(to: Routes.post_index_path(socket, :index))}
+     |> push_redirect(to: Routes.home_index_path(socket, :index))}
   end
 
   def handle_info(%Broadcast{event: "presence_diff"}, socket) do

@@ -1,4 +1,4 @@
-defmodule ShlinkedinWeb.PostLive.FormComponent do
+defmodule ShlinkedinWeb.HomeLive.FormComponent do
   use ShlinkedinWeb, :live_component
 
   alias Shlinkedin.Timeline

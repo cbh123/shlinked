@@ -42,7 +42,7 @@ defmodule ShlinkedinWeb.StoryLive.Show do
   end
 
   def handle_event("exit-story", _values, socket) do
-    {:noreply, socket |> push_redirect(to: Routes.post_index_path(socket, :index))}
+    {:noreply, socket |> push_redirect(to: Routes.home_index_path(socket, :index))}
   end
 
   def handle_event("delete", %{"id" => id}, socket) do
@@ -52,13 +52,13 @@ defmodule ShlinkedinWeb.StoryLive.Show do
     {:noreply,
      socket
      |> put_flash(:info, "ShlinkBlast slide deleted successfully")
-     |> push_redirect(to: Routes.post_index_path(socket, :index))}
+     |> push_redirect(to: Routes.home_index_path(socket, :index))}
   end
 
   defp handle_story(socket, id) do
     case id do
       nil ->
-        socket |> push_redirect(to: Routes.post_index_path(socket, :index))
+        socket |> push_redirect(to: Routes.home_index_path(socket, :index))
 
       number ->
         socket

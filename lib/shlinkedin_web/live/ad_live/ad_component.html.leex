@@ -2,7 +2,7 @@
     <div class="p-2 flex justify-between ">
         <p class="font-semibold"><%= @ad.company %></p>
 
-        <%= live_patch "+ New Ad", to: Routes.post_index_path(@socket, :new_ad), class: "text-xs text-green-800 font-semibold bg-green-100 px-2 py-1 rounded-lg hover:bg-green-200"  %>
+        <%= live_patch "+ New Ad", to: Routes.home_index_path(@socket, :new_ad), class: "text-xs text-green-800 font-semibold bg-green-100 px-2 py-1 rounded-lg hover:bg-green-200"  %>
 
 
     </div>

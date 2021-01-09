@@ -13,11 +13,11 @@ defmodule ShlinkedinWeb.LiveHelpers do
 
   ## Examples
 
-      <%= live_modal @socket, ShlinkedinWeb.PostLive.FormComponent,
+      <%= live_modal @socket, ShlinkedinWeb.HomeLive.FormComponent,
         id: @post.id || :new,
         action: @live_action,
         post: @post,
-        return_to: Routes.post_index_path(@socket, :index) %>
+        return_to: Routes.home_index_path(@socket, :index) %>
   """
   def live_modal(socket, component, opts) do
     path = Keyword.fetch!(opts, :return_to)

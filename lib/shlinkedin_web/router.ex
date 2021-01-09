@@ -72,19 +72,19 @@ defmodule ShlinkedinWeb.Router do
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
     # view and show posts
-    live "/", PostLive.Index, :index
-    live "/posts/new", PostLive.Index, :new
-    live "/posts/:id/", PostLive.Show, :show
-    live "/posts/:id/edit", PostLive.Index, :edit
-    live "/posts/:id/new_comment", PostLive.Index, :new_comment
+    live "/", HomeLive.Index, :index
+    live "/posts/new", HomeLive.Index, :new
+    live "/posts/:id/", HomeLive.Show, :show
+    live "/posts/:id/edit", HomeLive.Index, :edit
+    live "/posts/:id/new_comment", HomeLive.Index, :new_comment
     live "/posts/:id/new_comment?reply_to=:username", :new_comment
-    live "/posts/:id/show/edit", PostLive.Show, :edit
-    live "/posts/:id/likes", PostLive.Index, :show_likes
-    live "/posts/:comment_id/comment_likes", PostLive.Index, :show_comment_likes
-    live "/posts/:id/:notifications", PostLive.Show, :show
+    live "/posts/:id/show/edit", HomeLive.Show, :edit
+    live "/posts/:id/likes", HomeLive.Index, :show_likes
+    live "/posts/:comment_id/comment_likes", HomeLive.Index, :show_comment_likes
+    live "/posts/:id/:notifications", HomeLive.Show, :show
 
     # stories
-    live "/stories/new", PostLive.Index, :new_story
+    live "/stories/new", HomeLive.Index, :new_story
     live "/stories/:profile_id/:story_id", StoryLive.Show, :show
     live "/stories/:profile_id", StoryLive.Show, :show
 
@@ -127,15 +127,15 @@ defmodule ShlinkedinWeb.Router do
 
     # news
     live "/news", ArticleLive.Index, :index
-    live "/new_article", PostLive.Index, :new_article
-    live "/news/:id/votes/", PostLive.Index, :show_votes
+    live "/new_article", HomeLive.Index, :new_article
+    live "/news/:id/votes/", HomeLive.Index, :show_votes
     live "/news/:id/show_votes/", ArticleLive.Index, :show_votes
     live "/news/new", ArticleLive.Index, :new_article
     live "/news/:id", ArticleLive.Show, :show
 
     # ads
-    live "/ads/new", PostLive.Index, :new_ad
-    live "/ads/:id/edit", PostLive.Index, :edit_ad
+    live "/ads/new", HomeLive.Index, :new_ad
+    live "/ads/:id/edit", HomeLive.Index, :edit_ad
 
     # groups
     live "/groups", GroupLive.Index, :index

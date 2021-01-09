@@ -83,9 +83,9 @@
                 <div
                     class="<%= if @show_post_options != true, do: "hidden" %> origin-top-right z-10 absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                     <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                        <%= live_patch to: Routes.post_show_path(@socket, :show, @post.id), do: raw("View post &rarr;"), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
+                        <%= live_patch to: Routes.home_show_path(@socket, :show, @post.id), do: raw("View post &rarr;"), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
                         <%= if @profile != nil and @post.profile_id == @profile.id or @profile.admin do %>
-                        <%= live_patch to: Routes.post_index_path(@socket, :edit, @post.id), do: "Edit", class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
+                        <%= live_patch to: Routes.home_index_path(@socket, :edit, @post.id), do: "Edit", class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
                         <%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @post.id, data: [confirm: "Are you sure?"], class: "block px-4 py-2 text-sm text-red-700 hover:bg-gray-100"%>
                         <% end %>
                         <%= if @profile != nil and @profile.admin do %>
@@ -264,7 +264,7 @@
 
             <%# "x likes" with symbols %>
             <%= if length(@post.likes) > 0 do %>
-            <%= live_patch to: Routes.post_index_path(@socket, :show_likes, @post.id) do %>
+            <%= live_patch to: Routes.home_index_path(@socket, :show_likes, @post.id) do %>
             <div
                 class="<%= if @spin == true, do: "animate-spin" %> inline-flex items-center hover:text-blue-500 hover:underline hover:cursor-pointer py-2 my-2">
                 <%= for unique_like <- show_unique_likes(@post) do %>
@@ -337,7 +337,7 @@
 
 
 
-            <%= live_patch to: Routes.post_index_path(@socket, :new_comment, @post.id) do %>
+            <%= live_patch to: Routes.home_index_path(@socket, :new_comment, @post.id) do %>
             <button type="button" phx-target="<%= @myself %>"
                 class="active:bg-yellow-100 active:text-yellow-600 inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 <svg class="-ml-1 mr-2  h-4 w-4 sm:h-5 sm:w-5" fill="currentColor" viewBox="0 0 20 20"
@@ -357,7 +357,7 @@
     <div class="mt-2 block">
         <%= for comment <- @post.comments |> Enum.slice(0, @num_show_comments) do %>
         <div class="my-1">
-            <%= live_component @socket, ShlinkedinWeb.PostLive.CommentBubbleComponent,
+            <%= live_component @socket, ShlinkedinWeb.HomeLive.CommentBubbleComponent,
                 id: comment.id,
                 post: @post,
                 profile: @profile,
@@ -369,7 +369,7 @@
         <% end %>
 
         <%= if length(@post.comments) == 0 do %>
-        <%= live_patch to: Routes.post_index_path(@socket, :new_comment, @post.id) do %>
+        <%= live_patch to: Routes.home_index_path(@socket, :new_comment, @post.id) do %>
         <button class="text-gray-600 font-semibold mb-0 text-xs hover:bg-gray-100 px-2 py-1 rounded mt-2">Be the
             first
             to comment on this!</button>

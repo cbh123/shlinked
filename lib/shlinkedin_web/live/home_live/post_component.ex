@@ -1,6 +1,6 @@
-defmodule ShlinkedinWeb.PostLive.PostComponent do
+defmodule ShlinkedinWeb.HomeLive.PostComponent do
   use ShlinkedinWeb, :live_component
-  alias ShlinkedinWeb.PostLive.PostComponent
+  alias ShlinkedinWeb.HomeLive.PostComponent
   alias Shlinkedin.Timeline.Post
   alias Shlinkedin.Timeline
   alias Shlinkedin.Tagging

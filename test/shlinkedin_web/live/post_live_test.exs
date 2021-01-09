@@ -1,4 +1,4 @@
-defmodule ShlinkedinWeb.PostLiveTest do
+defmodule ShlinkedinWeb.HomeLiveTest do
   use ShlinkedinWeb.ConnCase
 
   import Phoenix.LiveViewTest
@@ -48,18 +48,18 @@ defmodule ShlinkedinWeb.PostLiveTest do
       user_token = Accounts.generate_user_session_token(user)
       conn = conn |> put_session(:user_token, user_token)
 
-      {:ok, _index_live, html} = live(conn, Routes.post_index_path(conn, :index))
+      {:ok, _index_live, html} = live(conn, Routes.home_index_path(conn, :index))
 
       assert html =~ post.body
     end
 
     test "saves new post", %{conn: conn} do
-      {:ok, index_live, _html} = live(conn, Routes.post_index_path(conn, :index))
+      {:ok, index_live, _html} = live(conn, Routes.home_index_path(conn, :index))
 
       assert index_live |> element("a", "Start a post") |> render_click() =~
                "Create Post Post"
 
-      assert_patch(index_live, Routes.post_index_path(conn, :new))
+      assert_patch(index_live, Routes.home_index_path(conn, :new))
 
       assert index_live
              |> form("#post-form", post: @invalid_attrs)
@@ -69,7 +69,7 @@ defmodule ShlinkedinWeb.PostLiveTest do
         index_live
         |> form("#post-form", post: @create_attrs)
         |> render_submit()
-        |> follow_redirect(conn, Routes.post_index_path(conn, :index))
+        |> follow_redirect(conn, Routes.home_index_path(conn, :index))
 
       assert html =~ "Post created successfully"
       assert html =~ "some body"

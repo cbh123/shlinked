@@ -116,7 +116,7 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
          socket
          |> assign(:profile, profile)
          |> put_flash(:info, "Welcome to ShlinkedIn, #{profile.persona_name}!")
-         |> redirect(to: Routes.post_index_path(socket, :index))}
+         |> redirect(to: Routes.home_index_path(socket, :index))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}

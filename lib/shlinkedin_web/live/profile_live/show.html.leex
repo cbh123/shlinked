@@ -479,7 +479,7 @@
      <%# Posts %>
      <div id="posts" phx-update="append" phx-hook="InfiniteScroll" data-page="<%= @page %>">
          <%= for post <- @posts do %>
-         <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
+         <%= live_component @socket, ShlinkedinWeb.HomeLive.PostComponent,
         id: post.id,
         profile: @profile,
         post: post,
