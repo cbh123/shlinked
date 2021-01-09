@@ -341,16 +341,22 @@
 
                 </div>
 
-                <div>
-                    <label for="summary" class="block text-sm font-medium text-gray-700 mt-4">Publish Bio
-                        Changes?</label>
-                    <div class="mt-1 relative">
-                        <%= checkbox f, :publish_bio%>
 
-                    </div>
+
+                <div class="">
+
+                    <%= checkbox f, :publish_bio, class: "h-4 w-4 text-blue-400 focus:ring-blue-400 border-gray-300 rounded"%>
+
+
+                    <span for="publish_bio" class="text-sm font-medium text-gray-700 mt-4">Publish Bio
+                        Changes?</span>
+
+
+
                     <p class="mt-4 text-xs"><%= error_tag f, :publish_bio %></p>
 
                 </div>
+
 
 
 
@@ -385,7 +391,7 @@
                 <hr class="my-4">
 
                 <div>
-                    <%= checkbox f, :unsubscribed %>
+                    <%= checkbox f, :unsubscribed, class: "h-4 w-4 text-blue-400 focus:ring-blue-400 border-gray-300 rounded" %>
                     <label for="unsubscribed" class="text-sm font-medium text-gray-700 mt-4">Seckler Mode? <span
                             class="text-sm font-medium text-gray-500">Turns off email notifications.</span></label>
 
@@ -398,7 +404,7 @@
 
                 <div class="">
 
-                    <%= checkbox f, :private_mode%>
+                    <%= checkbox f, :private_mode, class: "h-4 w-4 text-blue-400 focus:ring-blue-400 border-gray-300 rounded"%>
                     <label for="private_mode" class="text-sm font-medium text-gray-700 mt-4">Turn on Private
                         Mode?
                         <span class="text-sm font-medium text-gray-500">Private mode means your real name is hidden from
@@ -414,8 +420,8 @@
 
                 <div class="">
 
-                    <%= number_input f, :ad_frequency%>
-                    <label for="ad_frequency" class="text-sm font-medium text-gray-700 mt-4">Fake ad Frequency.
+                    <%= number_input f, :ad_frequency, class: "focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md w-16"%>
+                    <label for="ad_frequency" class="text-sm font-medium text-gray-700 mt-4">Fake ad Frequency:
                         <span class="text-sm font-medium text-gray-500">How many posts do you posts do you want to see
                             before a fake ad?</span>
                     </label>
@@ -423,7 +429,7 @@
 
 
 
-                    <p class="text-xs"><%= error_tag f, :private_mode %></p>
+                    <p class="text-xs"><%= error_tag f, :ad_frequency %></p>
 
                 </div>
             </div>

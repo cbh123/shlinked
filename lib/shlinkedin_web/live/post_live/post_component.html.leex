@@ -1,6 +1,7 @@
 <div id="post-<%= @post.id %>">
 
-    <%= case rem(@idx, @post.profile.ad_frequency) do %>
+
+    <%= case rem(@idx, @profile.ad_frequency) do %>
 
     <% 0 -> %><div id="<%= "ad-feed-#{@idx}"%>">
 
