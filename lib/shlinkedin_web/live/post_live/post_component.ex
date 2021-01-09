@@ -175,14 +175,6 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     """
   end
 
-  defp format_tags(body, []) do
-    Tagging.format_tags(body, [])
-  end
-
-  defp format_tags(body, tags) do
-    Tagging.format_tags(body, tags)
-  end
-
   defp show_unique_likes(%Post{} = post) do
     Enum.map(post.likes, fn x -> x.like_type end) |> Enum.uniq()
   end

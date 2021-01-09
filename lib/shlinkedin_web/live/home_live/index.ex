@@ -24,7 +24,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
      socket
      |> assign(
        page: 1,
-       per_page: 5,
+       per_page: 10,
        activities: Timeline.list_all_notifications(10),
        articles: News.list_top_articles(5),
        featured_profiles: Profiles.list_featured_profiles(3),
