@@ -1,9 +1,9 @@
 <div id="post-<%= @post.id %>">
 
 
-    <%= case rem(@idx, @profile.ad_frequency) do %>
+    <%= if rem(@idx, @profile.ad_frequency) do %>
 
-    <% 0 -> %><div id="<%= "ad-feed-#{@idx}"%>">
+    <div id="<%= "ad-feed-#{@idx}"%>">
 
         <div class="relative bg-white shadow-lg sm:max-w-lg mx-auto sm:rounded-lg p-4 mb-2 pb-2">
             <% ad = Shlinkedin.Ads.get_random_ad() %>
@@ -17,9 +17,6 @@
                 ad: ad
                 %>
 
-
-
-
             <%= if ad.profile_id == @profile.id do %>
             <div class="text-right bg-gray-50">
                 <%= live_patch "Edit", to: Routes.home_index_path(@socket, :edit_ad, ad.id), class: "text-xs text-gray-600 hover:underline"  %>
@@ -31,7 +28,7 @@
         </div>
     </div>
 
-    <% _ -> %>
+    <% end %>
 
 
     <div phx-click="hide-post-options" phx-target="<%= @myself %>"
@@ -237,7 +234,5 @@
 
 
     </div>
-
-    <%end %>
 
 </div>
