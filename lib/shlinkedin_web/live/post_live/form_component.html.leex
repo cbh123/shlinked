@@ -47,8 +47,7 @@
                     class="cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200 <%= if idx == @current_focus, do: "bg-gray-200" %>"
                     phx-click="pick" phx-hook="PostPickTag" phx-value-name="<%= search_result.username %>"
                     phx-target="<%= @myself %>">
-                    <%= search_result.persona_name %> <span
-                        class="text-gray-500"><%= search_result.persona_name %></span>
+                    <%= search_result.persona_name %> <span class="text-gray-500"><%= search_result.username %></span>
                 </div>
                 <% end %>
             </div>

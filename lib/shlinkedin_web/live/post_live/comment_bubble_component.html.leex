@@ -90,8 +90,8 @@
 
             <%= for like <- like_map_list(@like_map) do %>
             <%= case Enum.filter(@comment.likes, fn l -> l.profile_id == @profile.id && l.like_type == like.like_type end) |> length() do %>
-            <% 0 -> %><button type="button" phx-target="<%= @myself %>" phx-click="like-selected"
-                phx-value-like-type="<%=like.like_type%>"
+            <% 0 -> %><button id="comment-like-btn-<%=like.like_type %>" type="button" phx-target="<%= @myself %>"
+                phx-click="like-selected" phx-value-like-type="<%=like.like_type%>"
                 class="active:text-white active:<%=like.bg %> inline-flex items-center py-1 px-2 mr-1 border text-xs font-medium rounded-full bg-gray-50 hover:bg-gray-100 text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 <svg class=" h-3 w-3 mx-auto" fill="currentColor" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
@@ -101,8 +101,8 @@
             </button>
 
             <% num -> %>
-            <button type="button" phx-target="<%= @myself %>" phx-click="like-selected"
-                phx-value-like-type="<%=like.like_type%>"
+            <button id="comment-like-btn-<%=like.like_type %>" type="button" phx-target="<%= @myself %>"
+                phx-click="like-selected" phx-value-like-type="<%=like.like_type%>"
                 class="active:text-white active:<%=like.bg %> inline-flex items-center px-2 py-1 border text-xs font-medium  <%= like.color %> rounded-full bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
 
                 <svg class="-ml-1 h-3 w-3 mx-auto" fill="currentColor" viewBox="0 0 20 20"
