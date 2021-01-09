@@ -69,7 +69,8 @@ defmodule Shlinkedin.Profiles.Profile do
       :verified_date,
       :featured,
       :featured_date,
-      :private_mode
+      :private_mode,
+      :fake_ad
     ])
     |> validate_required([:user_id, :persona_name, :real_name, :username])
     |> downcase_username()
@@ -80,6 +81,7 @@ defmodule Shlinkedin.Profiles.Profile do
     |> validate_length(:persona_title, min: 3, max: 100)
     |> validate_length(:summary, max: 500)
     |> validate_length(:life_score, max: 7)
+    |> validate_number(:ad_frequency, greater_than: 0)
     |> validate_slug()
   end
 
