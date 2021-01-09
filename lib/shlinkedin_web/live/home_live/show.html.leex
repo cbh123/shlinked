@@ -13,6 +13,7 @@
 <div class="mt-4 pb-12">
     <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
         id: @post.id,
+        idx: 1,
         profile: @profile,
         post: @post,
         deleted: false, # hard coding

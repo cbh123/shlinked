@@ -1,9 +1,10 @@
 <div id="<%= @id %>">
-    <div class="p-2 flex justify-between ">
+    <%= live_redirect to: Routes.profile_show_path(@socket, :show, @ad.profile.slug) do%>
+
+    <div class="p-2 flex justify-between w-full">
         <p class="font-semibold"><%= @ad.company %></p>
 
-        <%= live_patch "+ New Ad", to: Routes.home_index_path(@socket, :new_ad), class: "text-xs text-green-800 font-semibold bg-green-100 px-2 py-1 rounded-lg hover:bg-green-200"  %>
-
+        <span class="text-xs text-gray-500 font-semibold px-2 py-1">Fake Ad</span>
 
     </div>
 
@@ -30,4 +31,5 @@
 
 
     </div>
+    <% end %>
 </div>

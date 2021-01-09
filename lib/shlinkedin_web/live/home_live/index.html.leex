@@ -140,6 +140,8 @@
                 expand_post: false,
                 num_show_comments: @num_show_comments,
                 spin: false  %>
+
+
             <% end %>
         </div>
     </div>
@@ -185,30 +187,7 @@
 
 
 
-        <div class="block bg-white sm:w-72 border sm:mt-4 rounded-lg border-gray-100 sm:m-4">
-            <%= if @ad == nil do %>
-            <div class="text-center my-2">
-                <%= live_patch "+ New Ad", to: Routes.home_index_path(@socket, :new_ad), class: "text-xs text-green-800 font-semibold bg-green-100 px-2 py-1 rounded-lg hover:bg-green-200"  %>
-            </div>
-            <% else %>
 
-            <button class="text-left" phx-click="new-ad" phx-value-id="<%=  @ad.id %>" phx-update="replace">
-
-                <%= live_component @socket, ShlinkedinWeb.AdLive.AdComponent,
-                ad: @ad
-                %>
-
-            </button>
-
-            <%= if @ad.profile_id == @profile.id do %>
-            <div class="text-right bg-gray-50">
-                <%= live_patch "Edit", to: Routes.home_index_path(@socket, :edit_ad, @ad.id), class: "text-xs text-gray-600 hover:underline"  %>
-                <%= link "Delete", to: "#", phx_click: "delete-ad", phx_value_id: @ad.id, data: [confirm: "Are you sure?"], class: "text-xs text-gray-500 hover:bg-gray-100"%>
-            </div>
-            <% end %>
-            <% end %>
-
-        </div>
 
 
     </div>

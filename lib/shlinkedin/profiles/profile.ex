@@ -46,6 +46,7 @@ defmodule Shlinkedin.Profiles.Profile do
     has_many(:awards, Shlinkedin.Profiles.Award, on_delete: :nilify_all)
 
     field :private_mode, :boolean, default: false
+    field :ad_frequency, :integer, default: 7
 
     timestamps()
   end

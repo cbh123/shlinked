@@ -478,9 +478,10 @@
      <p class="font-semibold text-xl text-center my-8">Posts</p>
      <%# Posts %>
      <div id="posts" phx-update="append" phx-hook="InfiniteScroll" data-page="<%= @page %>">
-         <%= for post <- @posts do %>
+         <%= for {post, idx} <- Enum.with_index(@posts) do %>
          <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
         id: post.id,
+        idx: idx,
         profile: @profile,
         post: post,
         deleted: post.__meta__.state == :deleted,
