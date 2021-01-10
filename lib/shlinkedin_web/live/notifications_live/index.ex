@@ -84,6 +84,6 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
     Profiles.mark_all_notifications_read(socket.assigns.profile)
 
     {:noreply,
-     socket |> assign(notifications: Profiles.list_notifications(socket.assigns.profile.id))}
+     socket |> assign(notifications: Profiles.list_notifications(socket.assigns.profile.id, 15))}
   end
 end

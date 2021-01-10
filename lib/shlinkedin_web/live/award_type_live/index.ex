@@ -10,7 +10,7 @@ defmodule ShlinkedinWeb.AwardTypeLive.Index do
 
     {:ok,
      check_access(socket)
-     |> assign(live_action: socket.assigns.live_action || :index, award_types: list_award_types)}
+     |> assign(live_action: socket.assigns.live_action || :index, award_types: list_award_types())}
   end
 
   @impl true
@@ -44,7 +44,7 @@ defmodule ShlinkedinWeb.AwardTypeLive.Index do
     {:noreply, assign(socket, :award_types, list_award_types())}
   end
 
-  defp list_award_types do
+  defp list_award_types() do
     Awards.list_award_types()
   end
 

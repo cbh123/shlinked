@@ -34,6 +34,6 @@ defmodule Shlinkedin.Timeline.Post do
       :profile_tags
     ])
     |> validate_required([])
-    |> validate_length(:body, max: 1500)
+    |> validate_length(:body, max: 2000)
   end
 end
