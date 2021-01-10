@@ -161,6 +161,10 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     Profiles.get_mutual_friends(from, to)
   end
 
+  defp get_ad_clicks(profile) do
+    Shlinkedin.Ads.get_profile_clicks(profile)
+  end
+
   @impl true
   def handle_info({:post_updated, post}, socket) do
     {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}

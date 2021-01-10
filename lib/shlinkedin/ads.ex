@@ -23,6 +23,17 @@ defmodule Shlinkedin.Ads do
     Repo.all(Ad)
   end
 
+  def get_profile_clicks(%Profile{} = profile) do
+    Repo.one(
+      from a in Ad,
+        where: a.profile_id == ^profile.id,
+        join: c in Click,
+        on: a.id == c.ad_id,
+        group_by: a.profile_id,
+        select: count(c.id)
+    )
+  end
+
   def get_random_ad() do
     Repo.one(
       from a in Ad,

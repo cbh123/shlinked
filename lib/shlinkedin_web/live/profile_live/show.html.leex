@@ -204,15 +204,13 @@
              <div>
                  <div class="px-4 py-5 sm:p-6">
                      <dt class="text-xs sm:text-base font-semibold text-gray-800">
-                         ShlinkPoints
+                         Ad Clicks
                      </dt>
                      <dd class="mt-1 flex justify-between items-baseline">
                          <div class="flex items-baseline text-lg sm:text-2xl font-semibold text-blue-600">
-                             <%= @show_profile.points %>
+                             <%= get_ad_clicks(@show_profile) %>
                          </div>
-                         <span class="ml-2 text-xs sm:text-sm font-medium text-gray-500">
-                             #1
-                         </span>
+
                      </dd>
                  </div>
              </div>
