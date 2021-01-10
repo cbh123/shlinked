@@ -128,6 +128,7 @@
             <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
                 id: post.id,
                 idx: idx,
+                page: @page,
                 show_ads: true,
                 profile: @profile,
                 post: post,
