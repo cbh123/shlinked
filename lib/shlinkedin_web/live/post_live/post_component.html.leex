@@ -1,7 +1,7 @@
 <div id="post-<%= @post.id %>">
 
 
-    <%= if rem(@idx, @profile.ad_frequency) do %>
+    <%= if rem(@idx, @profile.ad_frequency) == 0 and @show_ads do %>
 
     <div id="<%= "ad-feed-#{@idx}"%>">
 

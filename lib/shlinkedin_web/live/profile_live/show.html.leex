@@ -480,6 +480,7 @@
          <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
         id: post.id,
         idx: idx,
+        show_ads: false,
         profile: @profile,
         post: post,
         deleted: post.__meta__.state == :deleted,

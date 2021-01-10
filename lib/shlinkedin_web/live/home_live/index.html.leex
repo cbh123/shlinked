@@ -9,8 +9,6 @@
     <div class="flex-grow">
 
 
-
-
         <%# Start a Post %>
         <div class="mt-4 mx-auto sm:max-w-lg p-5 pb-3 bg-white sm:rounded-lg border hidden sm:block">
             <%= live_patch to: Routes.home_index_path(@socket, :new) do %>
@@ -130,6 +128,7 @@
             <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
                 id: post.id,
                 idx: idx,
+                show_ads: true,
                 profile: @profile,
                 post: post,
                 deleted: post.__meta__.state == :deleted,
