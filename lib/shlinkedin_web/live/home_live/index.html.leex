@@ -274,6 +274,7 @@
     return_to: Routes.home_index_path(@socket, :index) %>
 <% end %>
 
+
 <%= if @live_action in [:show_votes] do %>
 <%= live_modal @socket, ShlinkedinWeb.ArticleLive.VoteComponent,
     profile: @profile,

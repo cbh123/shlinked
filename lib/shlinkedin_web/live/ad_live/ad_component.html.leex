@@ -1,7 +1,8 @@
 <button id="<%= @id %>" class="w-full" phx-click="ad-click" phx-value-id="<%= @ad.id %>" phx-target="<%= @myself %>">
 
     <div class="p-2 flex justify-between w-full">
-        <p class="font-semibold"><%= @ad.company %></p>
+        <%= live_redirect @ad.company, to: Routes.ad_show_path(@socket, :show, @ad.id), class: "font-semibold" %>
+
 
         <div class="text-right">
             <p class="text-xs text-gray-500 font-semibold">Fake Ad</p>

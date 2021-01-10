@@ -98,12 +98,20 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     socket
     |> assign(:page_title, "Create an Ad")
     |> assign(:ad, %Ad{})
-  end
+  end:
 
   defp apply_action(socket, :edit_ad, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit Ad")
     |> assign(:ad, Ads.get_ad_preload_profile!(id))
+  end
+
+  defp apply_action(socket, :show_ad, %{"id" => id}) do
+    ad = Ads.get_ad_preload_profile!(id)
+
+    socket
+    |> assign(:page_title, "See #{ad.persona_name}'s ad for #{ad.company}")
+    |> assign(:ad, ad)
   end
 
   defp apply_action(socket, :show_votes, %{"id" => id}) do
