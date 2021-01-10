@@ -208,7 +208,7 @@
                      </dt>
                      <dd class="mt-1 flex justify-between items-baseline">
                          <div class="flex items-baseline text-lg sm:text-2xl font-semibold text-blue-600">
-                             <%= get_ad_clicks(@show_profile) %>
+                             <%= if get_ad_clicks(@show_profile) == nil, do: 0, else: get_ad_clicks(@show_profile) %>
                          </div>
 
                      </dd>

@@ -1,5 +1,4 @@
-<div id="<%= @id %>">
-    <%= live_redirect to: Routes.profile_show_path(@socket, :show, @ad.profile.slug) do%>
+<button id="<%= @id %>" class="w-full" phx-click="ad-click" phx-value-id="<%= @ad.id %>" phx-target="<%= @myself %>">
 
     <div class="p-2 flex justify-between w-full">
         <p class="font-semibold"><%= @ad.company %></p>
@@ -33,5 +32,5 @@
 
 
     </div>
-    <% end %>
-</div>
+
+</button>

@@ -34,7 +34,6 @@ defmodule ShlinkedinWeb.HomeLive.Index do
        num_show_comments: 1,
        online_profiles: %{}
      )
-     |> fetch_ad()
      |> fetch_posts(), temporary_assigns: [posts: [], articles: []]}
   end
 
@@ -42,10 +41,6 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     assign(socket,
       posts: Timeline.list_posts(paginate: %{page: page, per_page: per})
     )
-  end
-
-  defp fetch_ad(socket) do
-    assign(socket, ad: Ads.get_random_ad())
   end
 
   @impl true
@@ -161,11 +156,6 @@ defmodule ShlinkedinWeb.HomeLive.Index do
 
   def handle_event("more-headlines", _, socket) do
     {:noreply, socket |> assign(articles: News.list_random_articles(5))}
-  end
-
-  def handle_event("new-ad", _params, socket) do
-    Ads.create_ad_click(%Ad{}, socket.assigns.profile)
-    {:noreply, socket |> assign(ad: Ads.get_random_ad())}
   end
 
   @impl true

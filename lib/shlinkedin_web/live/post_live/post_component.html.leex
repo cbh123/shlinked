@@ -14,7 +14,9 @@
             <% else %>
 
             <%= live_component @socket, ShlinkedinWeb.AdLive.AdComponent,
-                ad: ad
+                ad: ad,
+                id: "feed-ad-#{ad.id}-#{:rand.uniform(10000)}",
+                profile: @profile
                 %>
 
             <div class="text-right bg-gray-50">
