@@ -70,10 +70,10 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
         {:noreply, push_redirect(socket, to: "/sh/#{my_slug}/notifications")}
 
       "admin_message" ->
-        {:noreply, push_redirect(socket, to: if(link == "", do: "/", else: link))}
+        {:noreply, push_redirect(socket, to: if(link == "", do: "/home", else: link))}
 
       "ad_click" ->
-        {:noreply, push_redirect(socket, to: "/")}
+        {:noreply, push_redirect(socket, to: "/home")}
 
       "vote" ->
         {:noreply, push_redirect(socket, to: "/news/#{article_id}/votes")}

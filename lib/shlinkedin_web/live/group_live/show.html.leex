@@ -3,7 +3,7 @@
 
 
     <%# Profile and cover photo  %>
-    <div class="bg-white sm:rounded-lg shadow p-5">
+    <div class="bg-white sm:rounded-lg shadow ">
 
 
         <img src="<%= if @group.cover_photo_url == nil, do: "//shlinked.s3.amazonaws.com/0fbc9143-b559-480e-9b44-4363c437ff7c.png", else: @group.cover_photo_url %>"
@@ -11,89 +11,148 @@
 
 
 
+        <div class="p-5">
 
 
-        <div class="mt-2">
+            <div class="">
 
-            <div class="flex justify-center sm:justify-start">
+                <div class="flex justify-center sm:justify-start">
 
-                <%# Group Title %>
-                <div class="font-bold sm:text-left text-center text-2xl sm:text-3xl">
-
-
-                    <%= @group.title %>
-
+                    <%# Group Title %>
+                    <div class="font-bold sm:text-left text-center text-2xl sm:text-3xl">
+                        <%= @group.title %>
+                    </div>
 
                 </div>
-
             </div>
-        </div>
 
 
-        <%# about %>
-        <div class="mt-1 text-sm">
-            <h5 class="font-bold text-lg mb-2">About</h5>
-            <%= @group.about %>
-        </div>
+            <%# about %>
+            <div class="mt-1 text-sm">
+                <h5 class="font-bold text-lg mb-2">About</h5>
+                <%= @group.about %>
+            </div>
 
 
-        <%# Started shlinking and buttons %>
-        <div class=" flex items-start text-xs">
-            <span>
-                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            <%# Started shlinking and buttons %>
+            <div class=" flex items-start text-xs">
+                <span>
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                </span>
+                <span class="text-gray-700 ml-2">Foundedc
+                    <%= Timex.format!(@group.inserted_at, "{Mshort}. {D}, {YYYY}") %></span>
+            </div>
+
+
+
+            <%= if @member_ranking == "admin" do %>
+            <%= live_patch "Edit Group", to: Routes.group_show_path(@socket, :edit_group, @group), class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500", as: "button" %>
+            <% end %>
+
+
+            <%= case @member_status do %>
+            <% false -> %>
+
+            <button type="button" phx-click="join-group" phx-value-id="<%= @group.id %>"
+                class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Join
+            </button>
+            <% true -> %>
+            <%= live_redirect to: Routes.group_show_path(@socket, :show, @group.id) do %>
+            <button phx-value-id="<%= @group.id %>"
+                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                <svg class="-ml-1 mr-2 h-3 w-3" fill="currentColor" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                    </path>
-                </svg>
-            </span>
-            <span class="text-gray-700 ml-2">Foundedc
-                <%= Timex.format!(@group.inserted_at, "{Mshort}. {D}, {YYYY}") %></span>
+                    <path fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clip-rule="evenodd"></path>
+                </svg> Member</button>
+            <% end %>
+
+            <button phx-click="leave-group" data-confirm="Are you sure you want to leave this group?"
+                class="inline-flex items-center px-2 py-1 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-red-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">Leave
+            </button>
+
+            <% end %>
+
+
+
         </div>
-
-
-
-        <%= case @member_status do %>
-        <% false -> %>
-        <button phx-click="join-group" phx-value-id="<%= @group.id %>"
-            class="inline-flex mx-auto items-center px-3 py-1 border border-transparent shadow-sm text-xs font-semibold rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Join</button>
-        <% true -> %>
-        <%= live_redirect to: Routes.group_show_path(@socket, :show, @group.id) do %>
-        <button phx-value-id="<%= @group.id %>"
-            class="inline-flex mx-auto items-center px-3 py-1 border border-transparent shadow-sm text-xs font-semibold rounded-full text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-            <svg class="-ml-1 mr-2 h-3 w-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    clip-rule="evenodd"></path>
-            </svg> Member</button>
-        <% end %>
-        <button phx-click="leave-group" data-confirm="Are you sure you want to leave this group?">Leave</button>
-
-        <% end %>
-
-
-        <span><%= live_patch "Edit", to: Routes.group_show_path(@socket, :edit_group, @group), class: "button" %></span>
-        <span><%= live_redirect "Back", to: Routes.group_index_path(@socket, :index) %></span>
-        <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @group.id, data: [confirm: "Are you sure?"] %></span>
     </div>
 
 
-    <%= live_patch to: Routes.group_show_path(@socket, :new, @group.id) do %>
-    <button type="button"
-        class=" w-full inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-full text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-        <svg class="-ml-1 mr-3 h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path>
-            <path fill-rule="evenodd"
-                d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
-                clip-rule="evenodd">
-            </path>
-        </svg>
-        Start a post
-    </button>
-    <% end %>
+    <!-- Stats-->
+    <div class="mt-2">
+        <dl class="grid grid-cols-3 rounded-lg bg-white overflow-hidden shadow divide-gray-200 divide-x">
+            <div>
+                <div class="px-4 py-5 sm:p-6">
+                    <dt class="text-xs sm:text-base font-semibold text-gray-800">
+                        Members
+                    </dt>
+                    <dd class="mt-1 flex justify-between items-baseline">
+                        <div class="flex items-baseline text-lg sm:text-2xl font-semibold text-blue-600">
+                            <%= length(@members) %>
+                        </div>
+
+                    </dd>
+                </div>
+            </div>
+
+            <div>
+                <div class="px-4 py-5 sm:p-6">
+                    <dt class="text-xs sm:text-base font-semibold text-gray-800">
+                        Posts
+                    </dt>
+                    <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+                        <div class="flex items-baseline text-lg sm:text-2xl font-semibold text-yellow-600">
+                            <%= length(@posts) %>
+                        </div>
+                    </dd>
+                </div>
+            </div>
+
+            <div>
+                <div class="px-4 py-5 sm:p-6">
+                    <dt class="text-xs sm:text-base font-semibold text-gray-900 trunacte">
+                        Prestige
+                    </dt>
+                    <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+                        <div class="flex items-baseline text-lg sm:text-2xl font-semibold text-green-600">
+                            Very
+                        </div>
+
+                    </dd>
+                </div>
+            </div>
+        </dl>
+    </div>
 
 
-    <p class="font-semibold text-xl text-center mt-8 mb-4">Posts</p>
+
+
+    <div class="my-8">
+
+
+        <%= live_patch to: Routes.group_show_path(@socket, :new, @group.id) do %>
+        <button type="button"
+            class=" w-full inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-full text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <svg class="-ml-1 mr-3 h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path>
+                <path fill-rule="evenodd"
+                    d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+                    clip-rule="evenodd">
+                </path>
+            </svg>
+            Start a post
+        </button>
+        <% end %>
+
+    </div>
 
     <%# Posts %>
     <div id="posts" phx-update="append" phx-hook="InfiniteScroll" data-page="<%= @page %>">
@@ -115,6 +174,7 @@
                 show_post_options: false,
                 expand_post: false,
                 num_show_comments: @num_show_comments,
+                return_to: Routes.group_show_path(@socket, :show, @group),
                 spin: false  %>
 
 
@@ -140,5 +200,25 @@
     title: @page_title,
     action: @live_action,
     group: @group,
+    return_to: Routes.group_show_path(@socket, :show, @group) %>
+<% end %>
+
+<%= if @live_action in [:show_likes] do %>
+<%= live_modal @socket, ShlinkedinWeb.PostLive.LikeComponent,
+    profile: @profile,
+    title: @page_title,
+    like_map: @like_map,
+    action: @live_action,
+    grouped_likes:  @grouped_likes,
+    return_to: Routes.group_show_path(@socket, :show, @group) %>
+<% end %>
+
+<%= if @live_action in [:show_comment_likes] do %>
+<%= live_modal @socket, ShlinkedinWeb.PostLive.LikeComponent,
+    profile: @profile,
+    title: @page_title,
+    like_map: @comment_like_map,
+    action: @live_action,
+    likes:  @likes,
     return_to: Routes.group_show_path(@socket, :show, @group) %>
 <% end %>

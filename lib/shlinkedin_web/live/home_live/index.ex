@@ -124,11 +124,10 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     socket
     |> assign(:page_title, "Reactions")
     |> assign(
-      :likes,
+      :grouped_likes,
       Timeline.list_likes(post)
       |> Enum.group_by(&%{name: &1.name, photo_url: &1.photo_url, slug: &1.slug})
     )
-    |> assign(:post, post)
   end
 
   defp apply_action(socket, :show_comment_likes, %{"comment_id" => comment_id}) do

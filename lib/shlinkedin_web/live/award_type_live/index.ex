@@ -53,7 +53,7 @@ defmodule ShlinkedinWeb.AwardTypeLive.Index do
       false ->
         socket
         |> put_flash(:danger, "ACCESS DENIED")
-        |> push_redirect(to: "/")
+        |> push_redirect(to: "/home")
 
       true ->
         socket

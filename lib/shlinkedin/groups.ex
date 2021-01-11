@@ -40,9 +40,15 @@ defmodule Shlinkedin.Groups do
   end
 
   def leave_group(%Profile{} = profile, %Group{} = group) do
-    IO.inspect(group, label: "")
-    IO.inspect(get_member(profile, group), label: "")
     get_member(profile, group) |> Repo.delete()
+  end
+
+  def get_member_ranking(%Profile{} = profile, %Group{} = group) do
+    Repo.one(
+      from m in Member,
+        where: m.profile_id == ^profile.id and m.group_id == ^group.id,
+        select: m.ranking
+    )
   end
 
   def invite_to_group do
@@ -55,6 +61,24 @@ defmodule Shlinkedin.Groups do
   end
 
   def change_member_status do
+  end
+
+  def update_member(%Member{} = from_member, %Member{} = member, attrs) do
+    if check_permissions(from_member, :update_member) do
+      member
+      |> Member.changeset(attrs)
+      |> Repo.update()
+    else
+      {:error, "You can only edit your own ads!"}
+    end
+  end
+
+  def check_permissions(%Member{} = _profile, action) do
+    case action do
+      :edit -> true
+      :update_member -> true
+      _ -> false
+    end
   end
 
   @doc """
@@ -126,18 +150,16 @@ defmodule Shlinkedin.Groups do
 
   """
   def update_group(%Profile{} = profile, %Group{} = group, attrs, after_save \\ &{:ok, &1}) do
-    if check_permissions(profile, group, :edit) do
+    member = get_member(profile, group)
+
+    if check_permissions(member, :edit) do
       group
       |> Group.changeset(attrs)
       |> after_save(after_save)
       |> Repo.update()
     else
-      {:error, "You can only edit your own ads!"}
+      {:error, "You do not have permission to do that."}
     end
-  end
-
-  def check_permissions(%Profile{} = _profile, %Group{} = _group, _action) do
-    true
   end
 
   @doc """

@@ -1,5 +1,5 @@
-<%= link to: "/" do %>
-<button class="mt-2 <%= if @conn.request_path == "/", do: "text-blue-500 italic italic"%>"">
+<%= link to: "/home" do %>
+<button class="mt-2 <%= if @conn.request_path == "/home", do: "text-blue-500 italic italic"%>"">
        <span class=" sr-only">Home</span>
 
 

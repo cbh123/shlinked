@@ -20,6 +20,8 @@ defmodule ShlinkedinWeb.GroupLive.Show do
        group: group,
        page_title: group.title,
        member_status: is_member?(socket.assigns.profile, group),
+       members: members(group),
+       member_ranking: Shlinkedin.Groups.get_member_ranking(socket.assigns.profile, group),
        page: 1,
        per_page: 5,
        like_map: Timeline.like_map(),
@@ -38,10 +40,42 @@ defmodule ShlinkedinWeb.GroupLive.Show do
     socket
   end
 
+  defp apply_action(socket, :edit_group, %{"id" => id}) do
+    socket
+    |> assign(:page_title, "Edit Group")
+    |> assign(:group, Groups.get_group!(id))
+  end
+
   defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "Create a post")
     |> assign(:post, %Post{group_id: socket.assigns.group.id})
+  end
+
+  defp apply_action(socket, :show_likes, %{"id" => id}) do
+    post = Timeline.get_post_preload_profile(id)
+
+    socket
+    |> assign(:page_title, "Reactions")
+    |> assign(
+      :grouped_likes,
+      Timeline.list_likes(post)
+      |> Enum.group_by(&%{name: &1.name, photo_url: &1.photo_url, slug: &1.slug})
+    )
+    |> assign(:post, post)
+  end
+
+  defp apply_action(socket, :show_comment_likes, %{"comment_id" => comment_id}) do
+    comment = Timeline.get_comment!(comment_id)
+
+    socket
+    |> assign(:page_title, "Comment Reactions")
+    |> assign(
+      :likes,
+      Timeline.list_comment_likes(comment)
+      |> Enum.group_by(&%{name: &1.name, photo_url: &1.photo_url, slug: &1.slug})
+    )
+    |> assign(:comment, comment)
   end
 
   defp fetch_posts(%{assigns: %{page: page, per_page: per, group: group}} = socket) do
@@ -73,6 +107,10 @@ defmodule ShlinkedinWeb.GroupLive.Show do
 
   defp is_member?(profile, group) do
     Shlinkedin.Groups.is_member?(profile, group)
+  end
+
+  defp members(group) do
+    Shlinkedin.Groups.list_members(group)
   end
 
   @impl true

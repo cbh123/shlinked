@@ -5,11 +5,11 @@
 
 </div>
 
+
 <div class="p-5 pt-2 max-h-96 overflow-y-scroll">
-    <%= for user <- @likes |> Map.keys() do %>
+    <%= for user <- @grouped_likes |> Map.keys() do %>
 
-
-    <div class="my-1 border-gray-100 border-b">
+    <div id="<%= user.id %>" class="my-1 border-gray-100 border-b">
         <div class="flex">
             <span class="inline-block cursor-pointer place-self-center">
                 <img class="h-8 w-8 rounded-full object-cover" src="<%= user.photo_url %>" alt="">
@@ -22,7 +22,7 @@
                     <% end %>
                 </div>
 
-                <%= for like <- @likes[user] do%>
+                <%= for like <- @grouped_likes[user] do%>
                 <%= if @like_map[like.like_type] != nil do %>
 
                 <span

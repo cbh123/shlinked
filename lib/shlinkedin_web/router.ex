@@ -72,16 +72,16 @@ defmodule ShlinkedinWeb.Router do
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
     # view and show posts
-    live "/", HomeLive.Index, :index
-    live "/posts/new", HomeLive.Index, :new
-    live "/posts/:id/", HomeLive.Show, :show
-    live "/posts/:id/edit", HomeLive.Index, :edit
-    live "/posts/:id/new_comment", HomeLive.Index, :new_comment
-    live "/posts/:id/new_comment?reply_to=:username", :new_comment
-    live "/posts/:id/show/edit", HomeLive.Show, :edit
-    live "/posts/:id/likes", HomeLive.Index, :show_likes
-    live "/posts/:comment_id/comment_likes", HomeLive.Index, :show_comment_likes
-    live "/posts/:id/:notifications", HomeLive.Show, :show
+    live "/home", HomeLive.Index, :index
+    live "/home/posts/new", HomeLive.Index, :new
+    live "/home/posts/:id", HomeLive.Show, :show
+    live "/home/posts/:id/edit", HomeLive.Index, :edit
+    live "/home/posts/:id/new_comment", HomeLive.Index, :new_comment
+    live "/home/posts/:id/new_comment?reply_to=:username", :new_comment
+    live "/home/posts/:id/show/edit", HomeLive.Show, :edit
+    live "/home/posts/:id/likes", HomeLive.Index, :show_likes
+    live "/home/posts/:comment_id/comment_likes", HomeLive.Index, :show_comment_likes
+    live "/home/posts/:id/:notifications", HomeLive.Show, :show
 
     # stories
     live "/stories/new", HomeLive.Index, :new_story
@@ -146,6 +146,7 @@ defmodule ShlinkedinWeb.Router do
     live "/groups/:id", GroupLive.Show, :show
     live "/groups/:id/show/edit", GroupLive.Show, :edit_group
     live "/groups/:id/new_post", GroupLive.Show, :new
+    live "/groups/:id/posts/:post_id/likes", GroupLive.Show, :show_likes
 
     # search
     # live "/search", SearchLive.Index, :index

@@ -44,7 +44,7 @@
 
 
 
-                    <%= link "Shlinked", to: (if @current_user, do: "/", else: "/join"), class: "text-xs text-blue-700 font-bold hidden sm:inline-flex" %>
+                    <%= link "Shlinked", to: (if @current_user, do: "/home", else: "/join"), class: "text-xs text-blue-700 font-bold hidden sm:inline-flex" %>
 
                     <% else %>
                     <%= link "Shlinked", to: "/join", class: "text-xs text-blue-700 font-bold inline-flex" %>
@@ -68,9 +68,9 @@
             <%# NAV %>
             <div class="hidden sm:ml-6 sm:flex text-xs md:text-sm text-gray-500">
 
-                <%= link to: "/" do %>
+                <%= link to: "/home" do %>
                 <button
-                    class="hover:bg-gray-100 px-2 mx-1 h-full  <%= if @conn.request_path == "/", do: "border-gray-700 text-gray-700 "%>border-b-2 border-white  px-1 pt-1 basent-light">
+                    class="hover:bg-gray-100 px-2 mx-1 h-full  <%= if @conn.request_path == "/home", do: "border-gray-700 text-gray-700 "%>border-b-2 border-white  px-1 pt-1 basent-light">
                     <svg class="mx-auto w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
                         <path

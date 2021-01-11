@@ -3,8 +3,31 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
   alias ShlinkedinWeb.PostLive.PostComponent
   alias Shlinkedin.Timeline.Post
   alias Shlinkedin.Timeline
-  alias Shlinkedin.Tagging
   alias Shlinkedin.Profiles.Profile
+
+  def handle_event("show-likes", %{"id" => id}, socket) do
+    post = Timeline.get_post_preload_profile(id)
+
+    Timeline.list_likes(post) |> IO.inspect()
+
+    IO.inspect(
+      Timeline.list_likes(post)
+      |> Enum.group_by(&%{name: &1.name, photo_url: &1.photo_url, slug: &1.slug})
+      |> Map.keys(),
+      label: ""
+    )
+
+    socket =
+      socket
+      |> assign(:page_title, "Reactions")
+      |> assign(
+        :grouped_likes,
+        Timeline.list_likes(post)
+        |> Enum.group_by(&%{name: &1.name, photo_url: &1.photo_url, slug: &1.slug})
+      )
+
+    {:noreply, push_patch(socket, to: socket.assigns.return_to <> "/posts/#{post.id}/likes")}
+  end
 
   def handle_event("toggle-post-options", _, socket) do
     send_update(PostComponent,
@@ -29,7 +52,7 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     socket =
       socket
       |> put_flash(:info, "Post featured!")
-      |> push_redirect(to: "/")
+      |> push_redirect(to: "/home")
 
     {:noreply, socket}
   end
@@ -45,7 +68,7 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     socket =
       socket
       |> put_flash(:info, "Post un-featured!")
-      |> push_redirect(to: "/")
+      |> push_redirect(to: "/home")
 
     {:noreply, socket}
   end

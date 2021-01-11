@@ -148,6 +148,7 @@
                 show_post_options: false,
                 expand_post: false,
                 num_show_comments: @num_show_comments,
+                return_to: Routes.home_index_path(@socket, :index),
                 spin: false  %>
 
 
@@ -229,7 +230,7 @@
     title: @page_title,
     like_map: @like_map,
     action: @live_action,
-    likes:  @likes,
+    grouped_likes:  @grouped_likes,
     return_to: Routes.home_index_path(@socket, :index) %>
 <% end %>
 

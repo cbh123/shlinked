@@ -12,6 +12,9 @@ defmodule ShlinkedinWeb.GroupLive.GroupComponent do
       member_status: Shlinkedin.Groups.is_member?(socket.assigns.profile, group)
     )
 
-    {:noreply, socket}
+    {:noreply,
+     socket
+     |> redirect(to: Routes.group_show_path(socket, :show, group.id))
+     |> put_flash(:info, "You joined #{group.title}!")}
   end
 end
