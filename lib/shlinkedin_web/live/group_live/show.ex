@@ -52,7 +52,7 @@ defmodule ShlinkedinWeb.GroupLive.Show do
     |> assign(:post, %Post{group_id: socket.assigns.group.id})
   end
 
-  defp apply_action(socket, :show_likes, %{"id" => id}) do
+  defp apply_action(socket, :show_likes, %{"post_id" => id}) do
     post = Timeline.get_post_preload_profile(id)
 
     socket
@@ -62,7 +62,6 @@ defmodule ShlinkedinWeb.GroupLive.Show do
       Timeline.list_likes(post)
       |> Enum.group_by(&%{name: &1.name, photo_url: &1.photo_url, slug: &1.slug})
     )
-    |> assign(:post, post)
   end
 
   defp apply_action(socket, :show_comment_likes, %{"comment_id" => comment_id}) do

@@ -5,17 +5,8 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
   alias Shlinkedin.Timeline
   alias Shlinkedin.Profiles.Profile
 
-  def handle_event("show-likes", %{"id" => id}, socket) do
+  def handle_event("show-likes", %{"id" => id}, %{assigns: %{return_to: return_to}} = socket) do
     post = Timeline.get_post_preload_profile(id)
-
-    Timeline.list_likes(post) |> IO.inspect()
-
-    IO.inspect(
-      Timeline.list_likes(post)
-      |> Enum.group_by(&%{name: &1.name, photo_url: &1.photo_url, slug: &1.slug})
-      |> Map.keys(),
-      label: ""
-    )
 
     socket =
       socket
@@ -26,7 +17,10 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
         |> Enum.group_by(&%{name: &1.name, photo_url: &1.photo_url, slug: &1.slug})
       )
 
-    {:noreply, push_patch(socket, to: socket.assigns.return_to <> "/posts/#{post.id}/likes")}
+    case return_to do
+      "/" -> {:noreply, push_patch(socket, to: "/home/posts/#{post.id}/likes")}
+      other -> {:noreply, push_patch(socket, to: other <> "/posts/#{post.id}/likes")}
+    end
   end
 
   def handle_event("toggle-post-options", _, socket) do

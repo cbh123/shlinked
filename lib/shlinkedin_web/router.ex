@@ -72,6 +72,7 @@ defmodule ShlinkedinWeb.Router do
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
     # view and show posts
+    live "/", HomeLive.Index, :index
     live "/home", HomeLive.Index, :index
     live "/home/posts/new", HomeLive.Index, :new
     live "/home/posts/:id", HomeLive.Show, :show
