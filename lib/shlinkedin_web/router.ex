@@ -78,7 +78,7 @@ defmodule ShlinkedinWeb.Router do
     live "/home/posts/:id", HomeLive.Show, :show
     live "/home/posts/:id/edit", HomeLive.Index, :edit
     live "/home/posts/:id/new_comment", HomeLive.Index, :new_comment
-    live "/home/posts/:id/new_comment?reply_to=:username", :new_comment
+    live "/home/posts/:id/new_comment?reply_to=:username", HomeLive.Index, :new_comment
     live "/home/posts/:id/show/edit", HomeLive.Show, :edit
     live "/home/posts/:id/likes", HomeLive.Index, :show_likes
     live "/home/posts/:comment_id/comment_likes", HomeLive.Index, :show_comment_likes
@@ -148,6 +148,9 @@ defmodule ShlinkedinWeb.Router do
     live "/groups/:id/show/edit", GroupLive.Show, :edit_group
     live "/groups/:id/new_post", GroupLive.Show, :new
     live "/groups/:id/posts/:post_id/likes", GroupLive.Show, :show_likes
+    live "/groups/:id/posts/:post_id/new_comment", GroupLive.Show, :new_comment
+    live "/groups/:id/posts/:post_id/new_comment?reply_to=:username", GroupLive.Show, :new_comment
+    live "/groups/:id/posts/:comment_id/comment_likes", GroupLive.Show, :show_comment_likes
 
     # search
     # live "/search", SearchLive.Index, :index

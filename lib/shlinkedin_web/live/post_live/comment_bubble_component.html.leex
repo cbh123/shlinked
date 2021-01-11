@@ -62,8 +62,9 @@
         <div class="flex pl-2 pt-2 mt-2">
             <%# "x likes" with symbols %>
             <%= if length(@comment.likes) > 0 do %>
-            <%= live_patch to: Routes.home_index_path(@socket, :show_comment_likes, @comment.id) do %>
-            <div class=" inline-flex items-center hover:text-blue-500 hover:underline hover:cursor-pointer ">
+
+            <button phx-click="show-comment-likes" phx-value-id="<%= @comment.id %>" phx-target="<%= @myself %>"
+                class=" inline-flex items-center hover:text-blue-500 hover:underline hover:cursor-pointer ">
                 <%= for unique_like <- show_unique_likes(@comment) do %>
                 <%= if @like_map[unique_like] != nil do %>
                 <svg class="-ml-1 mr-1 h-3 w-3 <%= @like_map[unique_like].color %> hover:underline hover:cursor-pointer"
@@ -78,9 +79,9 @@
                     <%= length(@comment.likes)%>
                 </p>
 
-            </div>
+            </button>
             <% end %>
-            <% end %>
+
 
         </div>
 
@@ -119,12 +120,13 @@
         </div>
 
 
-        <%= live_patch "Reply", to: Routes.home_index_path(@socket, :new_comment, @post.id, username: @comment.profile.username), class: "inline-flex items-center px-2 py-1 mr-1 border text-xs font-medium rounded-full bg-gray-50 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
-
-
-        <%= if @profile != nil and @comment.profile_id == @profile.id or @profile.admin do %>
+        <button phx-click="reply" phx-target="<%= @myself %>" phx-value-post-id="<%= @post.id %>"
+            phx-value-username="<%= @comment.profile.username %>" class="inline-flex
+            items-center px-2 py-1 mr-1 border text-xs font-medium rounded-full bg-gray-50 text-gray-700
+            hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            Reply
+        </button> <%= if @profile != nil and @comment.profile_id == @profile.id or @profile.admin do %>
         <%= link "Delete", to: "#", phx_click: "delete-comment", phx_value_id: @comment.id, data: [confirm: "Are you sure?"], class: "text-xs text-gray-500 absolute bottom-1 right-2 hover:bg-gray-100"%>
         <% end %>
-
     </div>
 </div>

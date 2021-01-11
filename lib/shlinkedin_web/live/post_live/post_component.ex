@@ -6,20 +6,16 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
   alias Shlinkedin.Profiles.Profile
 
   def handle_event("show-likes", %{"id" => id}, %{assigns: %{return_to: return_to}} = socket) do
-    post = Timeline.get_post_preload_profile(id)
-
-    socket =
-      socket
-      |> assign(:page_title, "Reactions")
-      |> assign(
-        :grouped_likes,
-        Timeline.list_likes(post)
-        |> Enum.group_by(&%{name: &1.name, photo_url: &1.photo_url, slug: &1.slug})
-      )
-
     case return_to do
-      "/" -> {:noreply, push_patch(socket, to: "/home/posts/#{post.id}/likes")}
-      other -> {:noreply, push_patch(socket, to: other <> "/posts/#{post.id}/likes")}
+      "/" -> {:noreply, push_patch(socket, to: "/home/posts/#{id}/likes")}
+      other -> {:noreply, push_patch(socket, to: other <> "/posts/#{id}/likes")}
+    end
+  end
+
+  def handle_event("new-comment", %{"id" => id}, %{assigns: %{return_to: return_to}} = socket) do
+    case return_to do
+      "/" -> {:noreply, push_patch(socket, to: "/home/posts/#{id}/new_comment")}
+      other -> {:noreply, push_patch(socket, to: other <> "/posts/#{id}/new_comment")}
     end
   end
 

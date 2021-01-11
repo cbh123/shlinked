@@ -136,7 +136,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     socket
     |> assign(:page_title, "Comment Reactions")
     |> assign(
-      :likes,
+      :grouped_likes,
       Timeline.list_comment_likes(comment)
       |> Enum.group_by(&%{name: &1.name, photo_url: &1.photo_url, slug: &1.slug})
     )

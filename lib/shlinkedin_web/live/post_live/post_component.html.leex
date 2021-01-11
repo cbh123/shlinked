@@ -188,10 +188,7 @@
                 <% end %>
 
 
-
-
-                <%= live_patch to: Routes.home_index_path(@socket, :new_comment, @post.id) do %>
-                <button type="button" phx-target="<%= @myself %>"
+                <button type="button" phx-click="new-comment" phx-target="<%= @myself %>" phx-value-id="<%= @post.id %>"
                     class="active:bg-yellow-100 active:text-yellow-600 inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                     <svg class="-ml-1 mr-2  h-4 w-4 sm:h-5 sm:w-5" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
@@ -201,7 +198,7 @@
                     </svg>
                     Comment
                 </button>
-                <% end %>
+
             </div>
         </div>
 
@@ -216,6 +213,7 @@
                 profile: @profile,
                 expand_comment: false,
                 like_map: Shlinkedin.Timeline.comment_like_map,
+                return_to: @return_to,
                 num_show_comments: @num_show_comments,
                 comment: comment %>
             </div>

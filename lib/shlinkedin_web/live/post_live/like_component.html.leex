@@ -9,7 +9,6 @@
 <div class="p-5 pt-2 max-h-96 overflow-y-scroll">
     <%= for user <- @grouped_likes |> Map.keys() do %>
 
-    <%= user.name %>
     <div class="my-1 border-gray-100 border-b">
         <div class="flex">
             <span class="inline-block cursor-pointer place-self-center">

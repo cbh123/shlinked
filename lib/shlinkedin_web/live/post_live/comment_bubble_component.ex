@@ -11,6 +11,32 @@ defmodule ShlinkedinWeb.PostLive.CommentBubbleComponent do
     {:noreply, socket}
   end
 
+  def handle_event(
+        "show-comment-likes",
+        %{"id" => id},
+        %{assigns: %{return_to: return_to}} = socket
+      ) do
+    case return_to do
+      "/" -> {:noreply, push_patch(socket, to: "/home/posts/#{id}/comment_likes")}
+      other -> {:noreply, push_patch(socket, to: other <> "/posts/#{id}/comment_likes")}
+    end
+  end
+
+  def handle_event(
+        "reply",
+        %{"post-id" => id, "username" => username},
+        %{assigns: %{return_to: return_to}} = socket
+      ) do
+    case return_to do
+      "/" ->
+        {:noreply, push_patch(socket, to: "/home/posts/#{id}/new_comment?reply_to=#{username}")}
+
+      other ->
+        {:noreply,
+         push_patch(socket, to: other <> "/posts/#{id}/new_comment?reply_to#{username}")}
+    end
+  end
+
   def handle_event("like-selected", %{"like-type" => like_type}, socket) do
     Shlinkedin.Timeline.create_comment_like(
       socket.assigns.profile,
