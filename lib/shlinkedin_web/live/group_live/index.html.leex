@@ -18,34 +18,13 @@
     <div class="grid gap-2 flex-col sm:gap-4 grid-cols-2 sm:grid-cols-3 mt-8">
         <%= for group <- @groups do %>
 
-        <%= live_redirect to: Routes.group_show_path(@socket, :show, group.id) do %>
-        <li id="<%= group.id %>" class="col-span-1 flex flex-col text-center bg-white shadow rounded-lg text-xs">
+        <%= live_component @socket, ShlinkedinWeb.GroupLive.GroupComponent,
+        id: group.id,
+        profile: @profile,
+        member_status: Shlinkedin.Groups.is_member?(@profile, group),
+        group: group
+         %>
 
-            <img src="<%= if group.cover_photo_url == nil, do: "//shlinked.s3.amazonaws.com/0fbc9143-b559-480e-9b44-4363c437ff7c.png", else: group.cover_photo_url %>"
-                alt="" class="object-cover w-full overflow-hidden rounded-t-lg max-h-24 sm:max-h-18">
-
-
-            <h3 class=" mt-2 text-gray-900 text-base font-medium hover:underline"><%= group.title %></h3>
-            <div class="">
-                <p class="text-xs text-gray-500">12 members • <%= String.capitalize(group.privacy_type) %></p>
-            </div>
-            <div class="text-xs text-gray-500 px-4 my-2 italic">
-                <p class><%= group.about %></p>
-            </div>
-
-            <div class="mb-2">
-                <button
-                    class="block sm:inline-block mx-auto items-center px-3 py-1 border border-transparent shadow-sm text-xs font-semibold rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Join</button>
-                <button
-                    class="block sm:inline-block mx-auto items-center px-3 py-1  shadow-sm text-xs font-semibold rounded-full text-gray-600 bg-gray-200 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Visit
-                    &rarr;</button>
-
-            </div>
-
-
-
-        </li>
-        <% end %>
         <% end %>
 
     </div>

@@ -7,7 +7,55 @@ defmodule Shlinkedin.Groups do
   alias Shlinkedin.Repo
 
   alias Shlinkedin.Groups.Group
+  alias Shlinkedin.Groups.Member
   alias Shlinkedin.Profiles.Profile
+
+  def is_member?(%Profile{} = profile, %Group{} = group) do
+    Repo.one(
+      from m in Member,
+        where: m.group_id == ^group.id and m.ranking == "member" and m.profile_id == ^profile.id
+    ) !=
+      nil
+  end
+
+  def list_members(%Group{} = group) do
+    Repo.all(from m in Member, where: m.group_id == ^group.id and m.ranking == "member")
+  end
+
+  @doc """
+  Add current profile as a member to given group.
+  """
+  def join_group(%Profile{} = profile, %Group{} = group, attrs \\ %{}) do
+    {:ok, _member} =
+      %Member{profile_id: profile.id, group_id: group.id}
+      |> Member.changeset(attrs)
+      |> Repo.insert()
+
+    Shlinkedin.Profiles.ProfileNotifier.observer(
+      {:ok, group},
+      :new_group_member,
+      profile,
+      profile
+    )
+  end
+
+  def leave_group(%Profile{} = profile, %Group{} = group) do
+    IO.inspect(group, label: "")
+    IO.inspect(get_member(profile, group), label: "")
+    get_member(profile, group) |> Repo.delete()
+  end
+
+  def invite_to_group do
+  end
+
+  def remove_from_group do
+  end
+
+  def request_access do
+  end
+
+  def change_member_status do
+  end
 
   @doc """
   Returns the list of groups.
@@ -38,6 +86,10 @@ defmodule Shlinkedin.Groups do
   """
   def get_group!(id), do: Repo.get!(Group, id)
 
+  def get_member(%Profile{} = profile, %Group{} = group) do
+    Repo.one(from m in Member, where: m.profile_id == ^profile.id and m.group_id == ^group.id)
+  end
+
   @doc """
   Creates a group.
 
@@ -52,6 +104,8 @@ defmodule Shlinkedin.Groups do
   """
   def create_group(%Profile{} = profile, %Group{} = group, attrs \\ %{}, after_save \\ &{:ok, &1}) do
     group = %{group | profile_id: profile.id}
+
+    # TODO: add creator as founder to members table
 
     group
     |> Group.changeset(attrs)

@@ -3,12 +3,13 @@ defmodule ShlinkedinWeb.GroupLive.Index do
 
   alias Shlinkedin.Groups
   alias Shlinkedin.Groups.Group
+  alias Shlinkedin.Profiles.Profile
 
   @impl true
   def mount(_params, session, socket) do
     socket = is_user(session, socket)
 
-    {:ok, assign(socket, :groups, list_groups())}
+    {:ok, assign(socket, groups: list_groups(), profile: socket.assigns.profile)}
   end
 
   @impl true

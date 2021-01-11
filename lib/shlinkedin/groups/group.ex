@@ -12,7 +12,7 @@ defmodule Shlinkedin.Groups.Group do
     field :categories, {:array, :string}
     field :slug, :string
     belongs_to :profile, Shlinkedin.Profiles.Profile
-
+    has_many(:members, Shlinkedin.Groups.Member, on_delete: :nilify_all)
     timestamps()
   end
 

@@ -5,6 +5,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   alias Shlinkedin.News.Vote
   alias Shlinkedin.News.Article
   alias Shlinkedin.Ads.Ad
+  alias Shlinkedin.Groups.Group
 
   @doc """
   Deliver instructions to confirm account.
@@ -52,9 +53,27 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
       :ad_click ->
         notify_ad_click(from_profile, to_profile, res)
+
+      :new_group_member ->
+        notify_new_group_member(from_profile, res)
     end
 
     {:ok, res}
+  end
+
+  def notify_new_group_member(%Profile{} = new_profile, %Group{} = group) do
+    for profile <- Shlinkedin.Groups.list_members(group) do
+      IO.inspect(profile, label: "Notify this person")
+
+      # Shlinkedin.Profiles.create_notification(%Notification{
+      #   from_profile_id: from_profile.id,
+      #   to_profile_id: to_profile.id,
+      #   type: "new_group_member",
+      #   post_id: post.id,
+      #   action: "tagged you in a post: ",
+      #   body: "#{post.body}"
+      # })
+    end
   end
 
   def notify_jab(
