@@ -10,30 +10,29 @@
 
 
         <%# Start a Post %>
-        <div
-            class="mt-4 mx-auto sm:max-w-lg p-5 pb-3 bg-white sm:rounded-lg border hidden sm:flex sm:flex-row sm:justify-between ">
+        <div class="mt-4 mx-auto sm:max-w-lg p-5 pb-3 bg-white sm:rounded-lg border hidden sm:block ">
 
-            <div class="w-8/12 mr-2">
 
-                <%= live_patch to: Routes.home_index_path(@socket, :new) do %>
-                <button type="button"
-                    class="w-full flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-full text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    <svg class="-ml-1 mr-3 h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path>
-                        <path fill-rule="evenodd"
-                            d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
-                            clip-rule="evenodd">
-                        </path>
-                    </svg>
-                    Start a post
-                </button>
-                <% end %>
 
-            </div>
+            <%= live_patch to: Routes.home_index_path(@socket, :new) do %>
+            <button type="button"
+                class="w-full flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-full text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <svg class="-ml-1 mr-3 h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path>
+                    <path fill-rule="evenodd"
+                        d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+                        clip-rule="evenodd">
+                    </path>
+                </svg>
+                Start a post
+            </button>
+            <% end %>
 
-            <div class="w-4/12">
-                <%= live_patch "📢 Create Ad", to: Routes.home_index_path(@socket, :new_ad), class: "w-full inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-full text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
+            <div class="flex justify-between mt-2">
+
+                <%= live_patch "📢  Create Ad", to: Routes.home_index_path(@socket, :new_ad), class: "items-center px-4 py-2 border-gray-300 text-base font-medium rounded-lg text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
+                <%= live_patch "🗞️  Write Headline", to: Routes.home_index_path(@socket, :new_article), class: "items-center px-4 py-2 border-gray-300 text-base font-medium rounded-lg text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
             </div>
         </div>
 
