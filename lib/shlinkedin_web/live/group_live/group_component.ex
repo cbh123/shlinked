@@ -1,8 +1,7 @@
 defmodule ShlinkedinWeb.GroupLive.GroupComponent do
   use ShlinkedinWeb, :live_component
-  alias Shlinkedin.Profiles.Profile
+
   alias Shlinkedin.Groups
-  alias Shlinkedin.Groups.Group
 
   def handle_event("join-group", %{"id" => id}, socket) do
     group = Groups.get_group!(id)

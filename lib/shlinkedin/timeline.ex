@@ -8,6 +8,7 @@ defmodule Shlinkedin.Timeline do
   alias Shlinkedin.Timeline.{Post, Comment, Like, CommentLike, Story, StoryView}
   alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Profiles.ProfileNotifier
+  alias Shlinkedin.Groups.Group
 
   @doc """
   Returns the list of posts.
@@ -43,6 +44,17 @@ defmodule Shlinkedin.Timeline do
 
   def list_profile_posts(criteria, %Profile{} = profile) when is_list(criteria) do
     query = from(p in Post, where: p.profile_id == ^profile.id, order_by: [desc: p.inserted_at])
+
+    paged_query = paginate(query, criteria)
+
+    from(p in paged_query,
+      preload: [:profile, :likes, comments: [:profile, :likes]]
+    )
+    |> Repo.all()
+  end
+
+  def list_group_posts(criteria, %Group{} = group) when is_list(criteria) do
+    query = from(p in Post, where: p.group_id == ^group.id, order_by: [desc: p.inserted_at])
 
     paged_query = paginate(query, criteria)
 

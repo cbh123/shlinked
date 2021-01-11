@@ -157,10 +157,10 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
     end
   end
 
-  defp save_post(%{assigns: %{profile: profile}} = socket, :new, post_params) do
-    post_params = Map.put(post_params, "profile_tags", socket.assigns.tags)
-    post = put_photo_urls(socket, %Post{})
+  defp save_post(%{assigns: %{profile: profile, post: post}} = socket, :new, post_params) do
+    post = put_photo_urls(socket, post)
     post = %Post{post | gif_url: socket.assigns.gif_url}
+    post_params = Map.put(post_params, "profile_tags", socket.assigns.tags)
 
     case Timeline.create_post(
            profile,
