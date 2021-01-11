@@ -1,6 +1,7 @@
 defmodule ShlinkedinWeb.ProfileLive.Show do
   use ShlinkedinWeb, :live_view
   alias Shlinkedin.Timeline
+  alias Shlinkedin.Timeline.Comment
   alias Shlinkedin.Profiles
   alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Profiles.Endorsement
@@ -96,6 +97,53 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     |> assign(:to_profile, Profiles.get_profile_by_slug(slug))
     |> assign(:awards, Shlinkedin.Awards.list_award_types())
     |> assign(:current_awards, Profiles.list_awards(socket.assigns.show_profile))
+  end
+
+  defp apply_action(socket, :show_likes, %{"post_id" => id}) do
+    post = Timeline.get_post_preload_profile(id)
+
+    socket
+    |> assign(:page_title, "Reactions")
+    |> assign(
+      :grouped_likes,
+      Timeline.list_likes(post)
+      |> Enum.group_by(&%{name: &1.name, photo_url: &1.photo_url, slug: &1.slug})
+    )
+  end
+
+  defp apply_action(socket, :show_comment_likes, %{"comment_id" => comment_id}) do
+    comment = Timeline.get_comment!(comment_id)
+
+    socket
+    |> assign(:page_title, "Comment Reactions")
+    |> assign(
+      :grouped_likes,
+      Timeline.list_comment_likes(comment)
+      |> Enum.group_by(&%{name: &1.name, photo_url: &1.photo_url, slug: &1.slug})
+    )
+    |> assign(:comment, comment)
+  end
+
+  defp apply_action(socket, :new_comment, %{"post_id" => id, "username" => username}) do
+    post = Timeline.get_post_preload_profile(id)
+
+    socket
+    |> assign(:page_title, "Reply to #{post.profile.persona_name}'s comment")
+    |> assign(:reply_to, username)
+    |> assign(:comments, [])
+    |> assign(:comment, %Comment{})
+    |> assign(:post, post)
+  end
+
+  defp apply_action(socket, :new_comment, %{"post_id" => id}) do
+    post = Timeline.get_post_preload_profile(id)
+
+    socket
+    |> assign(:page_title, "Comment")
+    |> assign(:reply_to, nil)
+    |> assign(:comments, [])
+    |> assign(:comment, %Comment{})
+    |> assign(:post, post)
   end
 
   @impl true

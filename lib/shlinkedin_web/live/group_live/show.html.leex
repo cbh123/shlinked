@@ -139,7 +139,23 @@
                     </dt>
                     <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
                         <div class="flex items-baseline text-xs sm:text-normal font-semibold text-green-600">
-                            Charlie
+                            <div class="flex -space-x-2 relative z-0  ">
+                                <%= for admin <- @admins do %>
+                                <div class="tooltip">
+                                    <%= live_redirect to: Routes.profile_show_path(@socket, :show, admin.profile.slug) do %>
+
+
+                                    <img class="relative z-30 inline-block h-10 w-10 rounded-full ring-2 ring-white"
+                                        src="<%= admin.profile.photo_url%>" alt="">
+                                    <span class="tooltip-text -mb-32 "><%= admin.profile.persona_name %></span>
+
+                                </div>
+                                <% end %>
+                                <% end %>
+
+                            </div>
+
+
                         </div>
 
                     </dd>

@@ -22,6 +22,7 @@ defmodule ShlinkedinWeb.GroupLive.Show do
        page_title: group.title,
        member_status: is_member?(socket.assigns.profile, group),
        members: members(group),
+       admins: Shlinkedin.Groups.list_admins(group),
        member_ranking: Shlinkedin.Groups.get_member_ranking(socket.assigns.profile, group),
        page: 1,
        per_page: 5,

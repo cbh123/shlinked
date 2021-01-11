@@ -97,6 +97,10 @@ defmodule ShlinkedinWeb.Router do
     live "/sh/:slug/testimonial/:id/edit", ProfileLive.Show, :edit_testimonial
     live "/sh/:slug/notifications", ProfileLive.Show, :from_notifications
     live "/sh/:slug/awards/", ProfileLive.Show, :edit_awards
+    live "/sh/:slug/posts/:post_id/likes", ProfileLive.Show, :show_likes
+    live "/sh/:slug/posts/:post_id/new_comment", ProfileLive.Show, :new_comment
+    live "/sh/:slug/posts/:post_id/new_comment?reply_to=:username", ProfileLive.Show, :new_comment
+    live "/sh/:slug/posts/:comment_id/comment_likes", ProfileLive.Show, :show_comment_likes
 
     # edit profile
     live "/profile/live_edit", ProfileLive.Edit, :edit

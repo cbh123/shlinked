@@ -27,6 +27,12 @@ defmodule Shlinkedin.Groups do
     )
   end
 
+  def list_admins(%Group{} = group) do
+    Repo.all(
+      from m in Member, where: m.group_id == ^group.id and m.ranking == "admin", preload: :profile
+    )
+  end
+
   @doc """
   Add current profile as a member to given group.
   """
