@@ -49,7 +49,7 @@ defmodule ShlinkedinWeb.GroupLive.Show do
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "Create a post")
+    |> assign(:page_title, "Create a post in #{socket.assigns.group.title}")
     |> assign(:post, %Post{group_id: socket.assigns.group.id})
   end
 
@@ -98,19 +98,6 @@ defmodule ShlinkedinWeb.GroupLive.Show do
     |> assign(:comments, [])
     |> assign(:comment, %Comment{})
     |> assign(:post, post)
-  end
-
-  defp apply_action(socket, :show_comment_likes, %{"comment_id" => comment_id}) do
-    comment = Timeline.get_comment!(comment_id)
-
-    socket
-    |> assign(:page_title, "Comment Reactions")
-    |> assign(
-      :likes,
-      Timeline.list_comment_likes(comment)
-      |> Enum.group_by(&%{name: &1.name, photo_url: &1.photo_url, slug: &1.slug})
-    )
-    |> assign(:comment, comment)
   end
 
   defp fetch_posts(%{assigns: %{page: page, per_page: per, group: group}} = socket) do

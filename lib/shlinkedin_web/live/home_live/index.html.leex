@@ -127,9 +127,7 @@
 
 
         <%# Posts %>
-        <div id="posts" phx-update="append" phx-hook="InfiniteScroll" data-page="<%= @page %>">
-
-
+        <div id="posts" phx-update="append" phx-hook="InfiniteScroll" data-page="<%= @page %>" class="sm:max-w-lg ">
 
 
             <%= for {post, idx} <- Enum.with_index(@posts) do %>

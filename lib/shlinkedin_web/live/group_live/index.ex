@@ -3,7 +3,6 @@ defmodule ShlinkedinWeb.GroupLive.Index do
 
   alias Shlinkedin.Groups
   alias Shlinkedin.Groups.Group
-  alias Shlinkedin.Profiles.Profile
 
   @impl true
   def mount(_params, session, socket) do
@@ -15,12 +14,6 @@ defmodule ShlinkedinWeb.GroupLive.Index do
   @impl true
   def handle_params(params, _url, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
-  end
-
-  defp apply_action(socket, :edit, %{"id" => id}) do
-    socket
-    |> assign(:page_title, "Edit Group")
-    |> assign(:group, Groups.get_group!(id))
   end
 
   defp apply_action(socket, :new, _params) do

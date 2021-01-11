@@ -13,13 +13,18 @@ defmodule Shlinkedin.Groups do
   def is_member?(%Profile{} = profile, %Group{} = group) do
     Repo.one(
       from m in Member,
-        where: m.group_id == ^group.id and m.ranking == "member" and m.profile_id == ^profile.id
+        where:
+          m.group_id == ^group.id and (m.ranking == "member" or m.ranking == "admin") and
+            m.profile_id == ^profile.id
     ) !=
       nil
   end
 
   def list_members(%Group{} = group) do
-    Repo.all(from m in Member, where: m.group_id == ^group.id and m.ranking == "member")
+    Repo.all(
+      from m in Member,
+        where: m.group_id == ^group.id and (m.ranking == "member" or m.ranking == "admin")
+    )
   end
 
   @doc """
@@ -155,8 +160,8 @@ defmodule Shlinkedin.Groups do
     if check_permissions(member, :edit) do
       group
       |> Group.changeset(attrs)
-      |> after_save(after_save)
       |> Repo.update()
+      |> after_save(after_save)
     else
       {:error, "You do not have permission to do that."}
     end

@@ -6,7 +6,7 @@
 
     <div id="<%= "ad-feed-#{@idx}"%>">
 
-        <div class="relative bg-white shadow-lg sm:max-w-lg mx-auto sm:rounded-lg p-4 mb-2 pb-2">
+        <div class="relative bg-white shadow-lg mx-auto sm:rounded-lg p-4 mb-2 pb-2">
             <% ad = Shlinkedin.Ads.get_random_ad() %>
             <%= if ad == nil do %>
             <div class="text-center my-2">
@@ -39,7 +39,7 @@
 
 
     <div phx-click="hide-post-options" phx-target="<%= @myself %>"
-        class="relative bg-white shadow-lg sm:max-w-lg mx-auto sm:rounded-lg p-4 mb-2 pb-2 <%= if @deleted, do: "hidden" %>">
+        class="relative bg-white shadow-lg mx-auto sm:rounded-lg p-4 mb-2 pb-2 <%= if @deleted, do: "hidden" %>">
         <%= if @deleted != true do %>
 
 
@@ -49,7 +49,8 @@
         <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap ">
 
             <%# Post Header: Image, Name, Title, Time, and Business Jab %>
-            <%= post_header(@socket, @post) %>
+            <%= live_component @socket, ShlinkedinWeb.PostLive.PostHeader,
+                post: @post %>
 
             <%# Post Options %>
             <div class="sm:block text-xs text-gray-500 text-right">

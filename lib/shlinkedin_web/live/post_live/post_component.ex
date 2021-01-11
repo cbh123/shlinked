@@ -122,45 +122,6 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     """
   end
 
-  defp post_header(assigns, post) do
-    ~L"""
-    <div class="ml-2 sm:ml-4 mt-2 sm:mt-3">
-    <div class="flex items-center">
-        <div class="flex-shrink-0">
-            <span class="inline-block relative">
-                <img class="h-10 w-10 sm:h-12 sm:w-12 rounded-full object-cover"
-                    src="<%= post.profile.photo_url %>" alt="">
-                <span
-                    class="absolute bottom-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-green-400"></span>
-            </span>
-        </div>
-        <div class="ml-3 sm:ml-4 cursor-pointer w-64 text-gray-500 truncate overflow-hidden">
-
-
-            <span class="text-gray-900 ">
-
-                <%= live_redirect post.profile.persona_name, to: Routes.profile_show_path(assigns, :show, post.profile.slug), class: "text-sm font-semibold text-gray-900 hover:underline"  %>
-                <%= Shlinkedin.Badges.profile_badges(assigns, post.profile, 3) %>
-
-            </span>
-            <span
-                class="text-gray-500 <%= if post.profile_update, do: "text-sm", else: "text-xs"%> font-normal">
-                <%= if post.profile_update == true, do: "updated their #{post.update_type}", else: post.profile.persona_title  %>
-            </span>
-
-
-            <p class="text-xs text-gray-500">
-                <%= Timex.from_now(post.inserted_at) %>
-            </p>
-
-
-
-        </div>
-    </div>
-    </div>
-    """
-  end
-
   defp censor_tag(assigns, post) do
     ~L"""
     <%= if post.censor_tag == true do %>
@@ -203,12 +164,5 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
 
   defp like_map_list(like_map) do
     Enum.filter(like_map, fn {_, d} -> d.active end) |> Enum.map(fn {_, d} -> d end)
-  end
-
-  defp show_author(profile, post_profile) do
-    case Shlinkedin.Profiles.show_real_name(profile, post_profile) do
-      "" -> "Mystery"
-      name -> name
-    end
   end
 end

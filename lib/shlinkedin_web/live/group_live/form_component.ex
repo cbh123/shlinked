@@ -48,7 +48,7 @@ defmodule ShlinkedinWeb.GroupLive.FormComponent do
     {:noreply, cancel_upload(socket, :media, ref)}
   end
 
-  defp put_photo_urls(socket, %Group{} = group) do
+  defp put_photo_urls(socket, attrs) do
     {completed, []} = uploaded_entries(socket, :media)
 
     urls =
@@ -57,7 +57,7 @@ defmodule ShlinkedinWeb.GroupLive.FormComponent do
         Path.join(MediaUpload.s3_host(), MediaUpload.s3_key(entry))
       end
 
-    %Group{group | cover_photo_url: urls |> Enum.at(0)}
+    Map.put(attrs, "cover_photo_url", urls |> Enum.at(0))
   end
 
   def consume_photos(socket, %Group{} = group) do
@@ -66,11 +66,15 @@ defmodule ShlinkedinWeb.GroupLive.FormComponent do
     {:ok, group}
   end
 
-  defp save_group(socket, :edit, group_params) do
-    group = put_photo_urls(socket, socket.assigns.group)
+  defp save_group(
+         %{assigns: %{profile: profile, group: group}} = socket,
+         :edit_group,
+         group_params
+       ) do
+    group_params = put_photo_urls(socket, group_params)
 
     case Groups.update_group(
-           socket.assigns.profile,
+           profile,
            group,
            group_params,
            &consume_photos(socket, &1)
@@ -86,8 +90,8 @@ defmodule ShlinkedinWeb.GroupLive.FormComponent do
     end
   end
 
-  defp save_group(%{assigns: %{profile: profile}} = socket, :new, group_params) do
-    group = put_photo_urls(socket, socket.assigns.group)
+  defp save_group(%{assigns: %{profile: profile, group: group}} = socket, :new, group_params) do
+    group_params = put_photo_urls(socket, group_params)
 
     case Groups.create_group(profile, group, group_params, &consume_photos(socket, &1)) do
       {:ok, _group} ->
