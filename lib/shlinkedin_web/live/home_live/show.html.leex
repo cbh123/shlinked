@@ -10,7 +10,7 @@
      %>
     <% end %>
 </div>
-<div class="mt-4 pb-12">
+<div class="mt-4 pb-12 max-w-lg mx-auto">
     <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
         id: @post.id,
         idx: 1,
@@ -24,5 +24,41 @@
         show_post_options: false,
         expand_post: false,
         num_show_comments: 1,
+        return_to: Routes.home_show_path(@socket, :show, @post.id),
         spin: false  %>
 </div>
+
+
+<%= if @live_action in [:new_comment] do %>
+<%= live_modal @socket, ShlinkedinWeb.PostLive.CommentComponent,
+    id: :new_comment,
+    profile: @profile,
+    title: @page_title,
+    reply_to: @reply_to,
+    post: @post,
+    action: @live_action,
+    ai_loading: false,
+    comment: @comment,
+    return_to: Routes.home_show_path(@socket, :show, @post.id) %>
+<% end %>
+
+
+<%= if @live_action in [:show_likes] do %>
+<%= live_modal @socket, ShlinkedinWeb.PostLive.LikeComponent,
+    profile: @profile,
+    title: @page_title,
+    like_map: @like_map,
+    action: @live_action,
+    grouped_likes:  @grouped_likes,
+    return_to: Routes.home_show_path(@socket, :show, @post.id) %>
+<% end %>
+
+<%= if @live_action in [:show_comment_likes] do %>
+<%= live_modal @socket, ShlinkedinWeb.PostLive.LikeComponent,
+    profile: @profile,
+    title: @page_title,
+    like_map: @comment_like_map,
+    action: @live_action,
+    grouped_likes:  @grouped_likes,
+    return_to: Routes.home_show_path(@socket, :show, @post.id) %>
+<% end %>
