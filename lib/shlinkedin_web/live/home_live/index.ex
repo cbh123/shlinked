@@ -3,6 +3,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
 
   alias Shlinkedin.Timeline
   alias Shlinkedin.Profiles
+  alias Shlinkedin.Groups
   alias Shlinkedin.Timeline.{Post, Comment, Story}
   alias Shlinkedin.News
   alias Shlinkedin.Ads.Ad
@@ -28,6 +29,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
        activities: Timeline.list_all_notifications(10),
        articles: News.list_top_articles(5),
        featured_profiles: Profiles.list_featured_profiles(3),
+       random_groups: Groups.list_random_groups(5),
        stories: Timeline.list_stories(),
        like_map: Timeline.like_map(),
        comment_like_map: Timeline.comment_like_map(),

@@ -107,6 +107,10 @@ defmodule Shlinkedin.Groups do
     Repo.all(Group)
   end
 
+  def list_random_groups(count) do
+    Repo.all(from g in Group, order_by: fragment("RANDOM()"), limit: ^count)
+  end
+
   @doc """
   Gets a single group.
 

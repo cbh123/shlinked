@@ -40,7 +40,7 @@
 
 
         <%# Featured profiles %>
-        <div class="mx-auto p-5 bg-white mt-2 sm:max-w-lg sm:rounded-lg ">
+        <div class="mx-auto p-5 bg-white mt-2 sm:max-w-lg sm:rounded-lg hidden">
 
             <div class="flex justify-between mb-2">
                 <h5 class=" font-bold ">Featured Profiles</h5>
@@ -61,6 +61,32 @@
 
                 <% end %>
             </div>
+        </div>
+
+        <%# Featured Groups %>
+        <div class="mx-auto p-5 bg-white mt-2 sm:max-w-lg sm:rounded-lg ">
+
+            <div class="flex justify-between mb-2">
+                <h5 class=" font-bold ">Featured Groups</h5>
+                <%= live_redirect raw("Explore Groups &rarr;"), to: Routes.group_index_path(@socket, :index), class: "px-2 py-1 text-gray-500 hover:underline text-xs" %>
+
+            </div>
+
+            <div class="flex overflow-x-scroll w-full ">
+                <%= for group <- @random_groups do %>
+
+                <%= live_component @socket, ShlinkedinWeb.GroupLive.GroupComponent,
+                    id: group.id,
+                    profile: @profile,
+                    member_status: Shlinkedin.Groups.is_member?(@profile, group),
+                    group: group
+                    %>
+
+                <% end %>
+
+            </div>
+
+
         </div>
 
 
