@@ -31,7 +31,7 @@
 </button>
 <% end %>
 
-<%= link to: "/posts/new" do %>
+<%= link to: "/home/posts/new" do %>
 <button class="mt-2 <%= if @conn.request_path == "/posts/new", do: "text-blue-500 italic"%>"">
        <span class=" sr-only">Post</span>
 
