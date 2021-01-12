@@ -66,13 +66,12 @@
 
             <%# about %>
             <div class="mt-1 text-sm">
-                <h5 class="font-bold text-lg mb-2">About</h5>
                 <%= @group.about %>
             </div>
 
 
             <%# Started shlinking and buttons %>
-            <div class=" flex items-start text-xs">
+            <div class=" flex items-start text-xs mt-6">
                 <span>
                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
@@ -86,7 +85,7 @@
             </div>
 
 
-            <div class="mt-6">
+            <div class="mt-4">
                 <%= case @member_status do %>
                 <% false -> %>
 
