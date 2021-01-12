@@ -77,8 +77,8 @@ defmodule ShlinkedinWeb.Router do
     live "/home/posts/new", HomeLive.Index, :new
 
     live "/home/posts/:id/edit", HomeLive.Index, :edit
-    live "/home/posts/:id/new_comment", HomeLive.Index, :new_comment
     live "/home/posts/:id/new_comment?reply_to=:username", HomeLive.Index, :new_comment
+    live "/home/posts/:id/new_comment", HomeLive.Index, :new_comment
 
     live "/home/posts/:id/likes", HomeLive.Index, :show_likes
     live "/home/posts/:comment_id/comment_likes", HomeLive.Index, :show_comment_likes
@@ -103,8 +103,8 @@ defmodule ShlinkedinWeb.Router do
     live "/sh/:slug/notifications", ProfileLive.Show, :from_notifications
     live "/sh/:slug/awards/", ProfileLive.Show, :edit_awards
     live "/sh/:slug/posts/:post_id/likes", ProfileLive.Show, :show_likes
-    live "/sh/:slug/posts/:post_id/new_comment", ProfileLive.Show, :new_comment
     live "/sh/:slug/posts/:post_id/new_comment?reply_to=:username", ProfileLive.Show, :new_comment
+    live "/sh/:slug/posts/:post_id/new_comment", ProfileLive.Show, :new_comment
     live "/sh/:slug/posts/:comment_id/comment_likes", ProfileLive.Show, :show_comment_likes
 
     # edit profile

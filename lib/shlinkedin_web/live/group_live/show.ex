@@ -79,7 +79,7 @@ defmodule ShlinkedinWeb.GroupLive.Show do
     |> assign(:comment, comment)
   end
 
-  defp apply_action(socket, :new_comment, %{"post_id" => id, "username" => username}) do
+  defp apply_action(socket, :new_comment, %{"post_id" => id, "reply_to" => username}) do
     post = Timeline.get_post_preload_profile(id)
 
     socket

@@ -33,7 +33,7 @@ defmodule ShlinkedinWeb.PostLive.CommentBubbleComponent do
 
       other ->
         {:noreply,
-         push_patch(socket, to: other <> "/posts/#{id}/new_comment?reply_to#{username}")}
+         push_patch(socket, to: other <> "/posts/#{id}/new_comment?reply_to=#{username}")}
     end
   end
 

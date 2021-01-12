@@ -66,7 +66,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     |> assign(:story, %Story{})
   end
 
-  defp apply_action(socket, :new_comment, %{"id" => id, "username" => username}) do
+  defp apply_action(socket, :new_comment, %{"id" => id, "reply_to" => username}) do
     post = Timeline.get_post_preload_profile(id)
 
     socket
