@@ -63,16 +63,14 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
   def notify_new_group_member(%Profile{} = new_profile, %Group{} = group) do
     for profile <- Shlinkedin.Groups.list_members(group) do
-      IO.inspect(profile, label: "Notify this person")
-
-      # Shlinkedin.Profiles.create_notification(%Notification{
-      #   from_profile_id: from_profile.id,
-      #   to_profile_id: to_profile.id,
-      #   type: "new_group_member",
-      #   post_id: post.id,
-      #   action: "tagged you in a post: ",
-      #   body: "#{post.body}"
-      # })
+      Shlinkedin.Profiles.create_notification(%Notification{
+        from_profile_id: new_profile.id,
+        to_profile_id: profile.id,
+        type: "new_group_member",
+        group_id: group.id,
+        action: "joined a group you are in: ",
+        body: "#{group.title}. Welcome them!"
+      })
     end
   end
 
