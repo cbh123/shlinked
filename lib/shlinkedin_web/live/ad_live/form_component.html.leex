@@ -12,16 +12,17 @@
 
 <div class="mt-1 p-5">
 
+
     <div class="sm:flex">
         <div>
-            <%= label f, "Company*", class: "block text-sm font-medium text-gray-700" %>
-            <%= text_input f, :company, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 inline-block sm:text-sm border-gray-300 rounded-md px-3", placeholder: "Company Name" %>
+            <%= label f, "What's the company name?", class: "block text-sm font-medium text-gray-700" %>
+            <%= text_input f, :company, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 inline-block sm:text-sm border-gray-300 rounded-md px-3", placeholder: "Micromicrosoft" %>
 
         </div>
 
         <div class="mt-2 sm:mt-0 sm:ml-3">
-            <%= label f, :product, class: "block text-sm font-medium text-gray-700" %>
-            <%= text_input f, :product, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 inline-block sm:text-sm border-gray-300 rounded-md px-3", placeholder: "Product Name" %>
+            <%= label f, "What product are you selling?", class: "block text-sm font-medium text-gray-700" %>
+            <%= text_input f, :product, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 inline-block sm:text-sm border-gray-300 rounded-md px-3", placeholder: "Teeny Comper" %>
             <%= error_tag f, :product %>
         </div>
     </div>
@@ -30,9 +31,9 @@
         <%= error_tag f, :company %>
     </span>
 
-    <div class="mt-3">
-        <%= label f, "Ad Copy*", class: "block text-sm font-medium text-gray-700" %>
-        <%= textarea f, :body, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md px-3", rows: 3, placeholder: "Advertisement Copy" %>
+    <div class="mt-6">
+        <%= label f, "What's the ad copy?", class: "block text-sm font-medium text-gray-700" %>
+        <%= textarea f, :body, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md px-3", rows: 3, placeholder: "Is you're comper too big for your little hands? Try Teeny Comper Pro™ it's so little you won't feel a thing." %>
         <p class="mt-4 text-xs"><%= error_tag f, :body %></p>
 
         <%# Error for gif %>
@@ -57,7 +58,7 @@
         <%= case @uploads.media.entries do %>
         <% [] ->  %> <label for="<%= @uploads.media.ref %>"
             class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-            <span>📷 Upload Photo / Video</span>
+            <span>📷 Photo / Video</span>
         </label>
         <% [entry | _] -> %>
         <button phx-click="cancel-entry" phx-value-ref="<%= entry.ref %>" type="button" phx-target="<%= @myself %>"
@@ -96,7 +97,7 @@
         <%# Show add gif button, but if there's a gif then option to choose a new one %>
         <button type="button" phx-click="add-gif" phx-target="<%=@myself %>" phx-disable-with="Loading..."
             class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-            🖼️ <%= if @gif_url == nil, do: "Add gif based on product name", else: "Choose new Gif" %></button>
+            🖼️ <%= if @gif_url == nil, do: "Add Gif", else: "Choose new Gif" %></button>
 
 
 
@@ -116,19 +117,7 @@
     <% end %>
 
 
-    <div class="flex mt-4">
-        <div>
-            <label for="overlay" class="block text-sm font-medium text-gray-700">(Optional) Image text overlay </label>
-            <%= text_input f, :overlay, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 inline-block sm:text-sm border-gray-300 rounded-md px-3", placeholder: "Overlay" %>
-            <%= error_tag f, :overlay %>
-        </div>
 
-        <div>
-            <label for="overlay_color" class="block text-sm font-medium text-gray-700">Text overlay color </label>
-            <div class="m-2 w-12">
-                <%=  color_input f, :overlay_color %></div>
-        </div>
-    </div>
 
 
 

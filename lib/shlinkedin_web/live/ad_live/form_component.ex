@@ -69,7 +69,7 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
   def handle_event("add-gif", _params, socket) do
     case socket.assigns.changeset.changes[:product] do
       nil ->
-        {:noreply, assign(socket, gif_error: "Pls enter product first!")}
+        {:noreply, assign(socket, gif_error: "Pls enter a product name first!")}
 
       body ->
         gif_url = Shlinkedin.Timeline.get_gif_from_text(body)
@@ -104,7 +104,7 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
         {:noreply,
          socket
          |> put_flash(:info, "Ad updated successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
+         |> push_redirect(to: Routes.ad_show_path(socket, :show, ad.id))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
@@ -116,11 +116,11 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
     ad = %Ad{ad | gif_url: socket.assigns.gif_url}
 
     case Ads.create_ad(profile, ad, ad_params, &consume_photos(socket, &1)) do
-      {:ok, _ad} ->
+      {:ok, ad} ->
         {:noreply,
          socket
          |> put_flash(:info, "Ad created successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
+         |> push_redirect(to: Routes.ad_show_path(socket, :show, ad.id))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
