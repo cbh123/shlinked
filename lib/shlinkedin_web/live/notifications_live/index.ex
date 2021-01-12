@@ -27,7 +27,8 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
           "type" => type,
           "post-id" => post_id,
           "link" => link,
-          "article-id" => article_id
+          "article-id" => article_id,
+          "group-id" => group_id
         },
         socket
       ) do
@@ -77,6 +78,9 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
 
       "vote" ->
         {:noreply, push_redirect(socket, to: "/news/#{article_id}/votes")}
+
+      "new_group_member" ->
+        {:noreply, push_redirect(socket, to: "/groups/#{group_id}")}
     end
   end
 
