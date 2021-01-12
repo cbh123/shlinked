@@ -98,7 +98,7 @@ defmodule ShlinkedinWeb.GroupLive.FormComponent do
         {:noreply,
          socket
          |> put_flash(:info, "Group created successfully")
-         |> push_redirect(to: Routes.group_show_path(@socket, :show, group.id))}
+         |> push_redirect(to: Routes.group_show_path(socket, :show, group.id))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}

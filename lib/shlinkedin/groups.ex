@@ -48,6 +48,8 @@ defmodule Shlinkedin.Groups do
       profile,
       profile
     )
+
+    {:ok, group}
   end
 
   def leave_group(%Profile{} = profile, %Group{} = group) do
@@ -140,14 +142,19 @@ defmodule Shlinkedin.Groups do
   def create_group(%Profile{} = profile, %Group{} = group, attrs \\ %{}, after_save \\ &{:ok, &1}) do
     group = %{group | profile_id: profile.id}
 
-    {:ok, group} =
+    res =
       group
       |> Group.changeset(attrs)
       |> Repo.insert()
       |> after_save(after_save)
 
-    # add user an admin
-    join_group(profile, group, %{ranking: "admin"})
+    case res do
+      {:ok, group} ->
+        join_group(profile, group, %{ranking: "admin"})
+
+      error ->
+        error
+    end
   end
 
   @doc """
