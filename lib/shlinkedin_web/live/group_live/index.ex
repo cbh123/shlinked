@@ -18,7 +18,7 @@ defmodule ShlinkedinWeb.GroupLive.Index do
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Group")
+    |> assign(:page_title, "Create a Group")
     |> assign(:group, %Group{})
   end
 
@@ -26,14 +26,6 @@ defmodule ShlinkedinWeb.GroupLive.Index do
     socket
     |> assign(:page_title, "Listing Groups")
     |> assign(:group, nil)
-  end
-
-  @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    group = Groups.get_group!(id)
-    {:ok, _} = Groups.delete_group(group)
-
-    {:noreply, assign(socket, :groups, list_groups())}
   end
 
   defp list_groups do

@@ -94,11 +94,11 @@ defmodule ShlinkedinWeb.GroupLive.FormComponent do
     group_params = put_photo_urls(socket, group_params)
 
     case Groups.create_group(profile, group, group_params, &consume_photos(socket, &1)) do
-      {:ok, _group} ->
+      {:ok, group} ->
         {:noreply,
          socket
          |> put_flash(:info, "Group created successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
+         |> push_redirect(to: Routes.group_show_path(@socket, :show, group.id))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}

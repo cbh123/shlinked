@@ -1,4 +1,4 @@
-<div class="max-w-2xl sm:mt-4 mx-auto mb-12">
+<div class="max-w-2xl sm:mt-4 mx-auto mb-12" phx-click="hide-menu">
 
 
 
@@ -11,20 +11,57 @@
 
 
 
-        <div class="p-5">
+        <div class="p-5 relative">
 
 
-            <div class="">
 
-                <div class="flex justify-center sm:justify-start">
 
-                    <%# Group Title %>
-                    <div class="font-bold sm:text-left text-center text-2xl sm:text-3xl">
-                        <%= @group.title %>
+            <div class="flex justify-center sm:justify-start">
+
+                <%# Group Title %>
+                <div class="font-bold sm:text-left text-center text-2xl sm:text-3xl">
+                    <%= @group.title %>
+                </div>
+
+            </div>
+
+            <%= if @member_status do %>
+            <div class="absolute top-3 right-3" phx-click="show-menu">
+                <div class=" relative inline-block text-left">
+                    <div>
+                        <button
+                            class="bg-gray-100 rounded-full flex items-center text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
+                            id="options-menu" aria-haspopup="true" aria-expanded="true">
+                            <span class="sr-only">Open options</span>
+                            <!-- Heroicon name: dots-vertical -->
+                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                fill="currentColor" aria-hidden="true">
+                                <path
+                                    d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                            </svg>
+                        </button>
                     </div>
-
+                    <div id="group-option-menu"
+                        class="<%= if @show_menu == false, do: "hidden" %> origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                        <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                            <%= if @member_ranking == "admin" do %>
+                            <%= live_patch "Edit Group", to: Routes.group_show_path(@socket, :edit_group, @group.id), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
+                            <span><%= link "Delete Group", to: "#", phx_click: "delete", phx_value_id: @group.id, data: [confirm: "Are you sure?"], class: "block px-4 py-2 text-sm text-red-700 hover:bg-gray-100 hover:text-red-900" %></span>
+                            <% end %>
+                            <%= if @member_status do %>
+                            <button phx-value-id="<%= @group.id %>" phx-click="leave-group"
+                                data-confirm="<%= "You are currently an #{@member_ranking}. Do you want to leave this group?" %> "
+                                class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900">
+                                Leave Group
+                            </button>
+                            <% end %>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <% end %>
+
+
 
 
             <%# about %>
@@ -50,10 +87,6 @@
 
 
             <div class="mt-6">
-
-
-
-
                 <%= case @member_status do %>
                 <% false -> %>
 
@@ -68,18 +101,36 @@
                     <button phx-value-id="<%= @group.id %>" phx-click="leave-group"
                         data-confirm="<%= "You are currently an #{@member_ranking}. Do you want to leave this group?" %> "
                         class="inline-flex items-center px-4 py-2 text-sm font-medium border border-gray-300  rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+
+                        <%= if Shlinkedin.Groups.get_member_ranking(@profile, @group) == "admin" do %>
+
+                        <svg class="-ml-1 mr-2 h-3 w-3 text-green-600" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 14l9-5-9-5-9 5 9 5z"></path>
+                            <path
+                                d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z">
+                            </path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222">
+                            </path>
+                        </svg>
+
+                        <% else %>
                         <svg class="-ml-1 mr-2 h-3 w-3 text-green-600" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                 d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                 clip-rule="evenodd"></path>
                         </svg>
+
+
+                        <% end %>
+
+
                         <%= if @member_ranking != nil, do: "#{String.capitalize(@member_ranking)}", else: "Member" %>
                     </button>
 
-                    <%= if @member_ranking == "admin" do %>
-                    <%= live_patch "Edit", to: Routes.group_show_path(@socket, :edit_group, @group.id), class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500", as: "button" %>
-                    <% end %>
+
 
                     <%= live_patch to: Routes.group_show_path(@socket, :new, @group.id) do %>
                     <button type="button"

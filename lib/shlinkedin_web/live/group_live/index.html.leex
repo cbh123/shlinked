@@ -12,8 +12,20 @@
 <div class="w-full max-w-2xl mx-auto min-h-screen p-5 pb-12">
     <h1 class="text-4xl font-extrabold mb-4">Explore Groups</h1>
 
-    <span><%= live_patch "New Group", to: Routes.group_index_path(@socket, :new) %></span>
 
+
+    <%= live_patch to: Routes.group_index_path(@socket, :new) do %>
+    <button type="button"
+        class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+
+        <svg class="-ml-1 mr-3 h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                clip-rule="evenodd"></path>
+        </svg>
+        Create a Group
+    </button>
+    <% end %>
 
     <div class="grid gap-2 flex-col sm:gap-4 grid-cols-2 sm:grid-cols-3 mt-8">
         <%= for group <- @groups do %>

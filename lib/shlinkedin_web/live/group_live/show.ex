@@ -18,6 +18,7 @@ defmodule ShlinkedinWeb.GroupLive.Show do
     {:ok,
      socket
      |> assign(
+       show_menu: false,
        group: group,
        page_title: group.title,
        member_status: is_member?(socket.assigns.profile, group),
@@ -118,6 +119,16 @@ defmodule ShlinkedinWeb.GroupLive.Show do
     {:noreply, socket |> assign(member_status: is_member?(socket.assigns.profile, group))}
   end
 
+  def handle_event("show-menu", _, socket) do
+    socket = assign(socket, show_menu: !socket.assigns.show_menu)
+    {:noreply, socket}
+  end
+
+  def handle_event("hide-menu", _, socket) do
+    socket = assign(socket, show_menu: false)
+    {:noreply, socket}
+  end
+
   @impl true
   def handle_event("leave-group", _, socket) do
     Groups.leave_group(socket.assigns.profile, socket.assigns.group)
@@ -125,6 +136,17 @@ defmodule ShlinkedinWeb.GroupLive.Show do
     {:noreply,
      socket
      |> put_flash(:info, "You left the group")
+     |> push_redirect(to: Routes.group_index_path(socket, :index))}
+  end
+
+  @impl true
+  def handle_event("delete", %{"id" => id}, socket) do
+    group = Groups.get_group!(id)
+    {:ok, _} = Groups.delete_group(group)
+
+    {:noreply,
+     socket
+     |> put_flash(:info, "Group has been deleted")
      |> push_redirect(to: Routes.group_index_path(socket, :index))}
   end
 

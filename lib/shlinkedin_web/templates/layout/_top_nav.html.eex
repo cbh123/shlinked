@@ -169,7 +169,7 @@
             <%= link "Admin", to: "/admin", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
 
             <% end %>
-
+            <%= link "Groups", to: "/groups", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
             <%= link "Explore Profiles", to: "/profiles", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
             <%= link "Edit Profile", to: "/profile/live_edit", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
             <%= link "Settings", to: "/users/settings", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>

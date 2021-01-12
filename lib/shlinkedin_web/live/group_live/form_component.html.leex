@@ -13,19 +13,19 @@
 
 <div class="mt-1 p-5">
 
-    <div class="space-y-6">
+    <div class="">
 
 
         <div>
-            <%= label f, "Name", class: "block text-sm font-medium text-gray-700" %>
-            <%= text_input f, :title, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 inline-block sm:text-sm border-gray-300 rounded-md px-3", placeholder: "Name" %>
+            <%= label f, "What do you want to call your group?", class: "block text-sm font-medium text-gray-700" %>
+            <%= text_input f, :title, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 inline-block sm:text-sm border-gray-300 rounded-md px-3", placeholder: "Business Lovers" %>
             <%= error_tag f, :title %>
         </div>
 
 
 
         <%= if @action == :new do %>
-        <div class="mt-4">
+        <div class="mt-6">
             <label for="public" class="block text-sm font-medium text-gray-700">Group Type</label>
 
 
@@ -39,16 +39,16 @@
         <% end %>
 
 
-        <div>
-            <%= label f, "About (optional)", class: "block text-sm font-medium text-gray-700" %>
-            <%= textarea f, :about, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md px-3", rows: 3, placeholder: "What's the purpose of this group?" %>
+        <div class="mt-6">
+            <%= label f, "How would you describe this group?", class: "block text-sm font-medium text-gray-700" %>
+            <%= textarea f, :about, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md px-3", rows: 3, placeholder: "Lovers of corporations only." %>
             <p class="mt-4 text-xs"><%= error_tag f, :about %></p>
 
         </div>
 
 
 
-        <div class="inline-block relative">
+        <div class="inline-block relative mt-4">
 
 
             <label for="media_url" class="block text-sm font-medium text-gray-700">Cover Photo (optional)</label>

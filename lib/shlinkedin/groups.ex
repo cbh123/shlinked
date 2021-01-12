@@ -140,12 +140,14 @@ defmodule Shlinkedin.Groups do
   def create_group(%Profile{} = profile, %Group{} = group, attrs \\ %{}, after_save \\ &{:ok, &1}) do
     group = %{group | profile_id: profile.id}
 
-    # TODO: add creator as founder to members table
+    {:ok, group} =
+      group
+      |> Group.changeset(attrs)
+      |> Repo.insert()
+      |> after_save(after_save)
 
-    group
-    |> Group.changeset(attrs)
-    |> Repo.insert()
-    |> after_save(after_save)
+    # add user an admin
+    join_group(profile, group, %{ranking: "admin"})
   end
 
   @doc """
