@@ -147,6 +147,25 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   end
 
   @impl true
+  def handle_event("delete", %{"id" => id}, socket) do
+    post = Timeline.get_post!(id)
+    {:ok, _} = Timeline.delete_post(post)
+
+    {:noreply, socket |> fetch_posts(socket.assigns.show_profile)}
+  end
+
+  @impl true
+  def handle_event("delete-comment", %{"id" => id}, socket) do
+    comment = Timeline.get_comment!(id)
+    {:ok, _} = Timeline.delete_comment(comment)
+
+    {:noreply,
+     socket
+     |> put_flash(:info, "Comment deleted")
+     |> push_redirect(to: Routes.profile_show_path(socket, :show, socket.assigns.profile.slug))}
+  end
+
+  @impl true
   def handle_event("delete-endorsement", %{"id" => id}, socket) do
     endorsement = Profiles.get_endorsement!(id)
     {:ok, _} = Profiles.delete_endorsement(endorsement)
@@ -215,6 +234,11 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
 
   @impl true
   def handle_info({:post_updated, post}, socket) do
+    {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
+  end
+
+  @impl true
+  def handle_info({:post_deleted, post}, socket) do
     {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
   end
 
