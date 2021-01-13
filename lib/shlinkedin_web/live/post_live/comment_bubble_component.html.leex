@@ -125,8 +125,9 @@
             items-center px-2 py-1 mr-1 border text-xs font-medium rounded-full bg-gray-50 text-gray-700
             hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
             Reply
-        </button> <%= if @profile != nil and @comment.profile_id == @profile.id or @profile.admin do %>
-        <%= link "Delete", to: "#", phx_click: "delete-comment", phx_value_id: @comment.id, data: [confirm: "Are you sure?"], class: "text-xs text-gray-500 absolute bottom-1 right-2 hover:bg-gray-100"%>
+        </button>
+        <%= if @profile != nil and @comment.profile_id == @profile.id or @profile.admin do %>
+        <%= link "Delete", to: "#", phx_click: "delete-comment", phx_value_id: @comment.id, data: [confirm: "Are you sure?"], class: "text-xs text-gray-500 hover:bg-gray-100"%>
         <% end %>
     </div>
 </div>
