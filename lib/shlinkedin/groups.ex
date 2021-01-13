@@ -10,6 +10,10 @@ defmodule Shlinkedin.Groups do
   alias Shlinkedin.Groups.Member
   alias Shlinkedin.Profiles.Profile
 
+  def list_profile_group_ids(%Profile{} = profile) do
+    Repo.all(from m in Member, where: m.profile_id == ^profile.id, select: m.group_id)
+  end
+
   def is_member?(%Profile{} = profile, %Group{} = group) do
     Repo.one(
       from m in Member,
