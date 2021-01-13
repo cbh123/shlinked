@@ -46,7 +46,7 @@
                         <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                             <%= if @member_ranking == "admin" do %>
                             <%= live_patch "Edit Group", to: Routes.group_show_path(@socket, :edit_group, @group.id), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
-                            <span><%= link "Delete Group", to: "#", phx_click: "delete", phx_value_id: @group.id, data: [confirm: "Are you sure you want to delete this group? This is permanent!"], class: "block px-4 py-2 text-sm text-red-700 hover:bg-gray-100 hover:text-red-900" %></span>
+                            <span><%= link "Delete Group", to: "#", phx_click: "delete-group", phx_value_id: @group.id, data: [confirm: "Are you sure you want to delete this group? This is permanent!"], class: "block px-4 py-2 text-sm text-red-700 hover:bg-gray-100 hover:text-red-900" %></span>
                             <% end %>
                             <%= if @member_status do %>
                             <button phx-value-id="<%= @group.id %>" phx-click="leave-group"

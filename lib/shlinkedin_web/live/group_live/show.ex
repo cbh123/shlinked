@@ -141,6 +141,25 @@ defmodule ShlinkedinWeb.GroupLive.Show do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
+    post = Timeline.get_post!(id)
+    {:ok, _} = Timeline.delete_post(post)
+
+    {:noreply, assign(socket, :posts, Timeline.list_posts(paginate: %{page: 1, per_page: 5}))}
+  end
+
+  @impl true
+  def handle_event("delete-comment", %{"id" => id}, socket) do
+    comment = Timeline.get_comment!(id)
+    {:ok, _} = Timeline.delete_comment(comment)
+
+    {:noreply,
+     socket
+     |> put_flash(:info, "Comment deleted")
+     |> push_redirect(to: Routes.group_show_path(socket, :show, socket.assigns.group.id))}
+  end
+
+  @impl true
+  def handle_event("delete-group", %{"id" => id}, socket) do
     group = Groups.get_group!(id)
     {:ok, _} = Groups.delete_group(group)
 
