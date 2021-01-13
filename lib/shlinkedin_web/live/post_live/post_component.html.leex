@@ -19,17 +19,6 @@
                 id: "feed-ad-#{ad.id}-#{:rand.uniform(10000)}",
                 profile: @profile
                 %>
-
-            <div class="text-right bg-gray-50">
-                <%= live_patch "Create Ad", to: Routes.home_index_path(@socket, :new_ad), class: "text-xs text-gray-600 hover:underline"  %>
-
-                <%= if ad.profile_id == @profile.id do %>
-
-                <%= live_patch "• Edit • ", to: Routes.home_index_path(@socket, :edit_ad, ad.id), class: "text-xs text-gray-600 hover:underline"  %>
-                <%= link "Delete", to: "#", phx_click: "delete-ad", phx_value_id: ad.id, data: [confirm: "Are you sure?"], class: "text-xs text-gray-500 hover:bg-gray-100"%>
-
-                <% end %>
-            </div>
             <% end %>
 
         </div>

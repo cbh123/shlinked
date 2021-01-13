@@ -35,6 +35,11 @@ defmodule ShlinkedinWeb.PostLive.PostHeader do
 
             <%= live_redirect to: Routes.group_show_path(@socket, :show, group.id) do %>
 
+            <span class="text-gray-500 mx-1">
+              &rarr;
+            </span>
+
+
             <div class="inline-flex text-blue-500 font-semibold hover:underline text-xs">
             <span class="inline-flex">
 
