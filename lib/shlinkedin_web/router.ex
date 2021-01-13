@@ -71,23 +71,27 @@ defmodule ShlinkedinWeb.Router do
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
+    # show home
+    live "/home/show/posts/:id", HomeLive.Show, :show
+    live "/home/show/posts/:id/show/edit", HomeLive.Show, :edit
+    live "/home/show/posts/:id/:notifications", HomeLive.Show, :show
+    live "/home/show/posts/:id/:notifications/likes", HomeLive.Show, :show_likes
+    live "/home/show/posts/:id/posts/:id/new_comment", HomeLive.Show, :new_comment
+    live "/home/show/posts/:id/posts/:id/likes", HomeLive.Show, :show_likes
+
+    live "/home/show/posts/:id/posts/:comment_id/comment_likes",
+         HomeLive.Show,
+         :show_comment_likes
+
     # view and show posts
     live "/", HomeLive.Index, :index
     live "/home", HomeLive.Index, :index
     live "/home/posts/new", HomeLive.Index, :new
-
     live "/home/posts/:id/edit", HomeLive.Index, :edit
     live "/home/posts/:id/new_comment?reply_to=:username", HomeLive.Index, :new_comment
     live "/home/posts/:id/new_comment", HomeLive.Index, :new_comment
-
     live "/home/posts/:id/likes", HomeLive.Index, :show_likes
     live "/home/posts/:comment_id/comment_likes", HomeLive.Index, :show_comment_likes
-
-    live "/home/posts/:id", HomeLive.Show, :show
-    live "/home/posts/:id/show/edit", HomeLive.Show, :edit
-    live "/home/posts/:id/:notifications", HomeLive.Show, :show
-    live "/home/posts/:id/:notifications/likes", HomeLive.Show, :show_likes
-    live "/home/posts/:id/posts/:post_id/likes", HomeLive.Show, :show_likes
 
     # stories
     live "/stories/new", HomeLive.Index, :new_story

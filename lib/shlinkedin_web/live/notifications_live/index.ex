@@ -55,16 +55,16 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
         {:noreply, push_redirect(socket, to: "/shlinks/notifications")}
 
       "comment" ->
-        {:noreply, push_redirect(socket, to: "/home/posts/#{post_id}/notifications")}
+        {:noreply, push_redirect(socket, to: "/home/show/posts/#{post_id}/notifications")}
 
       "post_tag" ->
-        {:noreply, push_redirect(socket, to: "/home/posts/#{post_id}/notifications")}
+        {:noreply, push_redirect(socket, to: "/home/show/posts/#{post_id}/notifications")}
 
       "like" ->
-        {:noreply, push_redirect(socket, to: "/home/posts/#{post_id}/notifications")}
+        {:noreply, push_redirect(socket, to: "/home/show/posts/#{post_id}/notifications")}
 
       "featured" ->
-        {:noreply, push_redirect(socket, to: "/home/posts/#{post_id}/notifications")}
+        {:noreply, push_redirect(socket, to: "/home/show/posts/#{post_id}/notifications")}
 
       "new_badge" ->
         # ultimately should go to a badge page?
