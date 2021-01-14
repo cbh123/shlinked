@@ -183,6 +183,29 @@ defmodule ShlinkedinWeb.GroupLive.Show do
      |> push_redirect(to: Routes.group_index_path(socket, :index))}
   end
 
+  def handle_event("invite", %{"id" => id}, socket) do
+    to_profile = Shlinkedin.Profiles.get_profile_by_profile_id(id)
+    Groups.send_invite(socket.assigns.profile, to_profile, socket.assigns.group)
+
+    send_update(ShlinkedinWeb.GroupLive.InviteRow,
+      id: to_profile.id,
+      member_status: member_status(to_profile, socket.assigns.group)
+    )
+
+    {:noreply, socket}
+  end
+
+  @doc """
+  Gets the text for the invite button.
+  """
+  defp member_status(profile, group) do
+    cond do
+      Shlinkedin.Groups.is_member?(profile, group) -> "Member"
+      Shlinkedin.Groups.is_invited?(profile, group) -> "Invited"
+      true -> "Invite"
+    end
+  end
+
   defp is_member?(profile, group) do
     Shlinkedin.Groups.is_member?(profile, group)
   end

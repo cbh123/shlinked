@@ -5,10 +5,9 @@ defmodule Shlinkedin.Groups.Invite do
   schema "invites" do
     field :status, :string
     belongs_to :profile, Shlinkedin.Profiles.Profile, foreign_key: :from_profile_id
-    field :invite_id, :id
+    field :group_id, :id
     field :to_profile_id, :id
     field :note, :string
-    field :persona_name_list, {:array, :string}, virtual: true
 
     timestamps()
   end

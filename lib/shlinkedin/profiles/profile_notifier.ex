@@ -6,6 +6,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   alias Shlinkedin.News.Article
   alias Shlinkedin.Ads.Ad
   alias Shlinkedin.Groups.Group
+  alias Shlinkedin.Groups
+  alias Shlinkedin.Groups.Invite
 
   @doc """
   Deliver instructions to confirm account.
@@ -56,9 +58,56 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
       :new_group_member ->
         notify_new_group_member(from_profile, res)
+
+      :sent_group_invite ->
+        notify_group_invite(from_profile, to_profile, res)
     end
 
     {:ok, res}
+  end
+
+  def notify_group_invite(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile,
+        %Invite{} = invite
+      ) do
+    group = Groups.get_group!(invite.group_id)
+
+    body = """
+
+    Hi #{to_profile.persona_name},
+
+    <br/>
+    <br/>
+
+    #{from_profile.persona_name} has invited you the #{group.privacy_type} group they are in, "#{
+      group.title
+    }." To accept or reject their invite,
+    you can <a href="shlinked.herokuapp.com/groups/#{group.id}">click here.</a>
+
+    <br/>
+    <br/>
+    Thanks, <br/>
+    ShlinkTeam
+
+    """
+
+    Shlinkedin.Profiles.create_notification(%Notification{
+      from_profile_id: from_profile.id,
+      to_profile_id: to_profile.id,
+      type: "group_invite",
+      action: "invited you to join a group they are in.",
+      body: ""
+    })
+
+    if to_profile.unsubscribed == false do
+      Shlinkedin.Email.new_email(
+        to_profile.user.email,
+        "#{from_profile.persona_name} business jabbed you!",
+        body
+      )
+      |> Shlinkedin.Mailer.deliver_later()
+    end
   end
 
   def notify_new_group_member(%Profile{} = new_profile, %Group{} = group) do

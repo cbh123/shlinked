@@ -4,7 +4,7 @@
     </h3>
 </div>
 
-<div class="mt-1 p-5">
+<div class="p-5">
 
     <form phx-change="suggest" phx-submit="search" phx-target="<%= @myself %>" class="relative">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -19,34 +19,48 @@
 
 
         <input type="text" name="q" value="<%= @query %>" list="matches" placeholder="Search..." class="block w-full pl-10 pr-3
-                    py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none
-                    focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                    py-2 border border-gray-300 rounded-md leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none
+                    focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text"
             autocomplete="off" <%= if @loading, do: "readonly" %> />
     </form>
 
 
     <div class="mt-4" id="matches">
+        <h5 class="text-sm text-gray-500 font-semibold">Suggested</h5>
+        <%= if @matches == [] do %>
+        <div class="text-center">
+            <p>No one found.</p>
+        </div>
+        <% else %>
         <div class=" rounded-lg py-1">
             <%= for {match, idx} <- Enum.with_index(@matches) do %>
 
 
-            <div phx-click="pick" id="search-pick-<%= idx %>" phx-value-slug="<%= match.slug %>"
-                class="flex w-full p-2">
-
-                <img class="h-10 w-10 rounded-full object-cover" src="<%= match.photo_url %>" alt="">
-                <p class="ml-3 place-self-center text-sm font-medium text-gray-900"><%= match.persona_name %>
+            <div class="flex w-full p-2 justify-between">
 
 
-                    <span class="text-gray-500"><%= Shlinkedin.Profiles.show_real_name(@profile, match) %></span>
+                <div class="flex">
+                    <img class="h-10 w-10 rounded-full object-cover" src="<%= match.photo_url %>" alt="">
+                    <p class="ml-3 place-self-center text-sm font-medium text-gray-900"><%= match.persona_name %>
+                        <span class="text-gray-500"><%= Shlinkedin.Profiles.show_real_name(@profile, match) %></span>
+                    </p>
+                </div>
+                <div class="flex">
+                    <%# three cases: not invited yet, someone else invited, in group already %>
 
+                    <%= live_component @socket, ShlinkedinWeb.GroupLive.InviteRow,
+                        id: match.id,
+                        member_status: member_status(match, @group),
+                        match: match
+                        %>
 
-
-                </p>
+                </div>
 
             </div>
             <% end %>
 
         </div>
+        <% end %>
     </div>
 
 

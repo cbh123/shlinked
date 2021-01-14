@@ -26,6 +26,11 @@ defmodule Shlinkedin.Groups do
       nil
   end
 
+  def is_invited?(%Profile{} = profile, %Group{} = group) do
+    Repo.one(from i in Invite, where: i.group_id == ^group.id and i.to_profile_id == ^profile.id) !=
+      nil
+  end
+
   def list_members(%Group{} = group) do
     Repo.all(
       from m in Member,
@@ -70,8 +75,8 @@ defmodule Shlinkedin.Groups do
     )
   end
 
-  def send_invite(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
-    %Invite{}
+  def send_invite(%Profile{} = from, %Profile{} = to, %Group{} = group, attrs \\ %{}) do
+    %Invite{from_profile_id: from.id, to_profile_id: to.id, group_id: group.id}
     |> Invite.changeset(%{status: "pending"})
     |> Invite.changeset(attrs)
     |> Repo.insert_or_update()
