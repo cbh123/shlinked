@@ -50,7 +50,7 @@
 
                     <%= live_component @socket, ShlinkedinWeb.GroupLive.InviteRow,
                         id: match.id,
-                        member_status: member_status(match, @group),
+                        member_status: Shlinkedin.Groups.member_status(match, @group),
                         match: match
                         %>
 

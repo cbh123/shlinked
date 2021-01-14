@@ -189,21 +189,10 @@ defmodule ShlinkedinWeb.GroupLive.Show do
 
     send_update(ShlinkedinWeb.GroupLive.InviteRow,
       id: to_profile.id,
-      member_status: member_status(to_profile, socket.assigns.group)
+      member_status: Shlinkedin.Groups.member_status(to_profile, socket.assigns.group)
     )
 
     {:noreply, socket}
-  end
-
-  @doc """
-  Gets the text for the invite button.
-  """
-  defp member_status(profile, group) do
-    cond do
-      Shlinkedin.Groups.is_member?(profile, group) -> "Member"
-      Shlinkedin.Groups.is_invited?(profile, group) -> "Invited"
-      true -> "Invite"
-    end
   end
 
   defp is_member?(profile, group) do

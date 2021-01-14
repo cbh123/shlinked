@@ -103,7 +103,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     if to_profile.unsubscribed == false do
       Shlinkedin.Email.new_email(
         to_profile.user.email,
-        "#{from_profile.persona_name} business jabbed you!",
+        "#{from_profile.persona_name} invited you to join #{group.title}",
         body
       )
       |> Shlinkedin.Mailer.deliver_later()

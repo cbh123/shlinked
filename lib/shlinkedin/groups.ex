@@ -16,6 +16,17 @@ defmodule Shlinkedin.Groups do
     Repo.all(from m in Member, where: m.profile_id == ^profile.id, select: m.group_id)
   end
 
+  @doc """
+  Gets the text for the invite button.
+  """
+  def member_status(profile, group) do
+    cond do
+      is_member?(profile, group) -> "Member"
+      is_invited?(profile, group) -> "Invited"
+      true -> "Invite"
+    end
+  end
+
   def is_member?(%Profile{} = profile, %Group{} = group) do
     Repo.one(
       from m in Member,
