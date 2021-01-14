@@ -81,6 +81,9 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
 
       "new_group_member" ->
         {:noreply, push_redirect(socket, to: "/groups/#{group_id}")}
+
+      "group_invite" ->
+        {:noreply, push_redirect(socket, to: "/groups/#{group_id}")}
     end
   end
 
