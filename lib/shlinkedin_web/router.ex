@@ -156,6 +156,7 @@ defmodule ShlinkedinWeb.Router do
     live "/groups", GroupLive.Index, :index
     live "/groups/new", GroupLive.Index, :new
     live "/groups/:id", GroupLive.Show, :show
+    live "/groups/:id/invite", GroupLive.Show, :invite
     live "/groups/:id/show/edit", GroupLive.Show, :edit_group
     live "/groups/:id/new_post", GroupLive.Show, :new
     live "/groups/:id/posts/:post_id/likes", GroupLive.Show, :show_likes

@@ -7,8 +7,10 @@ defmodule Shlinkedin.Groups do
   alias Shlinkedin.Repo
 
   alias Shlinkedin.Groups.Group
+  alias Shlinkedin.Groups.Invite
   alias Shlinkedin.Groups.Member
   alias Shlinkedin.Profiles.Profile
+  alias Shlinkedin.Profiles.ProfileNotifier
 
   def list_profile_group_ids(%Profile{} = profile) do
     Repo.all(from m in Member, where: m.profile_id == ^profile.id, select: m.group_id)
@@ -68,7 +70,12 @@ defmodule Shlinkedin.Groups do
     )
   end
 
-  def invite_to_group do
+  def send_invite(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
+    %Invite{}
+    |> Invite.changeset(%{status: "pending"})
+    |> Invite.changeset(attrs)
+    |> Repo.insert_or_update()
+    |> ProfileNotifier.observer(:sent_group_invite, from, to)
   end
 
   def remove_from_group do
@@ -217,6 +224,10 @@ defmodule Shlinkedin.Groups do
   """
   def change_group(%Group{} = group, attrs \\ %{}) do
     Group.changeset(group, attrs)
+  end
+
+  def change_invite(%Invite{} = invite, attrs \\ %{}) do
+    Invite.changeset(invite, attrs)
   end
 
   defp after_save({:ok, group}, func) do

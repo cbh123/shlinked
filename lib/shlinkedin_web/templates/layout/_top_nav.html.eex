@@ -44,10 +44,10 @@
 
 
 
-                    <%= link "Shlinked", to: (if @current_user, do: "/home", else: "/join"), class: "text-xs text-blue-700 font-bold hidden sm:inline-flex" %>
+                    <%= link "ShlinkedIn", to: (if @current_user, do: "/home", else: "/join"), class: "text-xs text-blue-700 font-bold hidden sm:inline-flex" %>
 
                     <% else %>
-                    <%= link "Shlinked", to: "/join", class: "text-xs text-blue-700 font-bold inline-flex" %>
+                    <%= link "ShlinkedIn", to: "/join", class: "text-xs text-blue-700 font-bold inline-flex" %>
 
                     <% end %>
 

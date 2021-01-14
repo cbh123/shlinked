@@ -374,6 +374,23 @@ defmodule Shlinkedin.Profiles do
     |> Enum.uniq()
   end
 
+  def list_friends(%Profile{} = profile) do
+    friend_ids = get_unique_connection_ids(profile)
+    Repo.all(from p in Profile, where: p.id in ^friend_ids, select: p)
+  end
+
+  def list_random_friends(%Profile{} = profile, count) do
+    friend_ids = get_unique_connection_ids(profile)
+
+    Repo.all(
+      from p in Profile,
+        where: p.id in ^friend_ids,
+        order_by: fragment("RANDOM()"),
+        limit: ^count,
+        select: p
+    )
+  end
+
   def get_mutual_friends(%Profile{} = from, %Profile{} = to) do
     friends_1 = get_unique_connection_ids(from)
     friends_2 = get_unique_connection_ids(to)

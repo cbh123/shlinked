@@ -16,7 +16,7 @@ defmodule Shlinkedin.Accounts.UserNotifier do
     Hi #{user.email},
 
 
-    Welcome to Shlinked!
+    Welcome to ShlinkedIn!
 
 
     You can confirm your Shlinked account by visiting the URL below:

@@ -2,6 +2,7 @@ defmodule ShlinkedinWeb.GroupLive.Show do
   use ShlinkedinWeb, :live_view
 
   alias Shlinkedin.Groups
+  alias Shlinkedin.Groups.Invite
   alias Shlinkedin.Timeline
   alias Shlinkedin.Timeline.Post
   alias Shlinkedin.Timeline.Comment
@@ -41,6 +42,14 @@ defmodule ShlinkedinWeb.GroupLive.Show do
 
   defp apply_action(socket, :show, _params) do
     socket
+  end
+
+  defp apply_action(socket, :invite, %{"id" => id}) do
+    socket
+    |> assign(:page_title, "Invite to #{socket.assigns.group.title}")
+    |> assign(:profile, socket.assigns.profile)
+    |> assign(:invite, %Invite{})
+    |> assign(:group, Groups.get_group!(id))
   end
 
   defp apply_action(socket, :edit_group, %{"id" => id}) do

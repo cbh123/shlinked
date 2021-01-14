@@ -31,10 +31,22 @@ defmodule Shlinkedin.Timeline do
     )
   end
 
+  def list_posts(%Profile{id: nil}, criteria) do
+    query =
+      from(p in Post,
+        order_by: [desc: p.featured, desc: p.inserted_at]
+      )
+
+    paged_query = paginate(query, criteria)
+
+    from(p in paged_query,
+      preload: [:profile, :likes, comments: [:profile, :likes]]
+    )
+    |> Repo.all()
+  end
+
   def list_posts(%Profile{} = profile, criteria) when is_list(criteria) do
     profile_groups = Shlinkedin.Groups.list_profile_group_ids(profile)
-
-    IO.inspect(profile_groups, label: "")
 
     query =
       from(p in Post,

@@ -137,6 +137,13 @@
                         Write Post
                     </button>
                     <% end %>
+
+                    <%= live_patch to: Routes.group_show_path(@socket, :invite, @group.id) do %>
+                    <button type="button"
+                        class="inline-flex items-center px-4 py-2 shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Invite
+                    </button>
+                    <% end %>
                 </div>
                 <% end %>
 
@@ -317,5 +324,16 @@
     like_map: @comment_like_map,
     action: @live_action,
     grouped_likes:  @grouped_likes,
+    return_to: Routes.group_show_path(@socket, :show, @group) %>
+<% end %>
+
+<%= if @live_action in [:invite] do %>
+<%= live_modal @socket, ShlinkedinWeb.GroupLive.InviteComponent,
+    id: @group.id,
+    invite: %Invite{},
+    profile: @profile,
+    title: @page_title,
+    action: @live_action,
+    group: @group,
     return_to: Routes.group_show_path(@socket, :show, @group) %>
 <% end %>
