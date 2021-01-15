@@ -33,7 +33,7 @@
         </div>
         <% else %>
         <div class=" rounded-lg py-1">
-            <%= for {match, idx} <- Enum.with_index(@matches) do %>
+            <%= for match <- @matches do %>
 
 
             <div class="flex w-full p-2 justify-between">
