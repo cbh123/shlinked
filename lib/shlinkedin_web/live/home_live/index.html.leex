@@ -37,6 +37,19 @@
             </div>
         </div>
 
+        <div class="hidden flow-root mt-2 max-h-72 overflow-y-scroll p-5 bg-white">
+
+            <ul class="-mb-8">
+                <%= for activity <- @activities do %>
+                <%= live_component @socket, ShlinkedinWeb.ActivityLive.ActivityComponent,
+                    id: activity.id,
+                    profile: @profile,
+                    activity: activity
+                 %>
+                <% end %>
+            </ul>
+        </div>
+
 
 
 
