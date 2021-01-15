@@ -57,7 +57,13 @@ defmodule ShlinkedinWeb.GroupLive.FormComponent do
         Path.join(MediaUpload.s3_host(), MediaUpload.s3_key(entry))
       end
 
-    Map.put(attrs, "cover_photo_url", urls |> Enum.at(0))
+    case urls do
+      [] ->
+        attrs
+
+      [url | _] ->
+        Map.put(attrs, "cover_photo_url", url)
+    end
   end
 
   def consume_photos(socket, %Group{} = group) do
@@ -71,7 +77,9 @@ defmodule ShlinkedinWeb.GroupLive.FormComponent do
          :edit_group,
          group_params
        ) do
+    IO.inspect(group_params, label: "group params")
     group_params = put_photo_urls(socket, group_params)
+    IO.inspect(group_params, label: "group params")
 
     case Groups.update_group(
            profile,
