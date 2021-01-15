@@ -100,17 +100,33 @@
     </div>
 
     <div class="mt-4">
-        <div class="inline-block">
-            <label for="background_color" class="mb-2 block text-sm font-medium text-gray-700">Background Color</label>
 
-            <%= color_input f, :header_bg_color, [default: "#ffffff"]  %>
-            <%= error_tag f, :header_bg_color %>
-        </div>
-        <div class="inline-block ml-4">
+        <div class="inline-block">
             <label for="text_color" class="mb-2 block text-sm font-medium text-gray-700">Text Color</label>
 
             <%= color_input f, :header_text_color, [default: "#1a0000"] %>
             <%= error_tag f, :header_text_color %>
+        </div>
+
+
+
+        <div class="block">
+            <label for="header_background_color" class="mb-2 block text-sm font-medium text-gray-700">Summary
+                Background
+                Color</label>
+            <div class="">
+                <%= color_input f, :header_bg_color, [default: "#ffffff"]  %>
+                <%= error_tag f, :header_bg_color %>
+            </div>
+        </div>
+
+        <div class="block">
+            <label for="background_color" class="mb-2 block text-sm font-medium text-gray-700">Main Background
+                Color</label>
+            <div class="">
+                <%= color_input f, :bg_color, [default: "#ffffff"]  %>
+                <%= error_tag f, :bg_color %>
+            </div>
         </div>
 
     </div>

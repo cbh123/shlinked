@@ -14,6 +14,7 @@ defmodule Shlinkedin.Groups.Group do
     field :header_bg_color, :string, default: "#FFFFFF"
     field :header_text_color, :string
     field :header_font, :string
+    field :bg_color, :string, default: "#f1f5f9"
 
     belongs_to :profile, Shlinkedin.Profiles.Profile
     has_many(:members, Shlinkedin.Groups.Member, on_delete: :nilify_all)
@@ -32,7 +33,8 @@ defmodule Shlinkedin.Groups.Group do
       :slug,
       :header_bg_color,
       :header_text_color,
-      :header_font
+      :header_font,
+      :bg_color
     ])
     |> validate_required([:title, :privacy_type])
     |> validate_length(:title, min: 1, max: 100)
