@@ -77,9 +77,7 @@ defmodule ShlinkedinWeb.GroupLive.FormComponent do
          :edit_group,
          group_params
        ) do
-    IO.inspect(group_params, label: "group params")
     group_params = put_photo_urls(socket, group_params)
-    IO.inspect(group_params, label: "group params")
 
     case Groups.update_group(
            profile,
