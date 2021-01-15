@@ -13,6 +13,10 @@ module.exports = {
       times: ["Times New Roman"],
       windows: ["VT323"],
       mono: ["ui-monospace", "SFMono-Regular"],
+      creepster: ["Creepster"],
+      ibm_plex: ["IBM Plex Serif"],
+      metal: ["Metal Mania"],
+      marker: ["Permanent Marker"],
     },
     extend: {
       colors: {

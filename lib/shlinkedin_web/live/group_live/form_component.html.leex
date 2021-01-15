@@ -28,7 +28,6 @@
         <div class="mt-6">
             <label for="public" class="block text-sm font-medium text-gray-700">Group Type</label>
 
-
             <%= error_tag f, :privacy_type %>
             <%= select f, :privacy_type, [[key: "Public - anyone can join and see posts", value: "public"], [key: "Private - you have to be accepted to join and see posts", value: "private", disabled: true],
          [key: "Secret - must be invited to know of group's existence", value: "secret", disabled: true]], class: "mt-1 inline-block pl-3 pr-5 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" %>
@@ -49,8 +48,6 @@
 
 
         <div class="inline-block relative mt-4">
-
-
             <label for="media_url" class="block text-sm font-medium text-gray-700">Cover Photo (optional)</label>
             <%# Show image upload errors %>
             <%= for {_ref, msg } <- @uploads.media.errors do %>
@@ -88,6 +85,36 @@
             <% end %>
         </div>
     </div>
+
+    <%= if @action == :edit_group do %>
+    <hr class="mt-8 mb-2">
+    <h5 class="font-semibold text-lg text-gray-700">Theme</h5>
+
+    <div class="mt-4">
+        <label for="font"
+            class="<%= if @changeset.changes |> Map.has_key?(:header_font), do: "font-#{@changeset.changes.header_font}" %> block text-sm font-medium text-gray-700">Font</label>
+
+        <%= error_tag f, :header_font %>
+        <%= select f, :header_font, ["Default": "default", "Memo": "times", "Creepster": "creepster", "Professional": "ibm_plex", "Robot": "windows", "Metal": "metal", "Marker": "marker"], class: "mt-1 inline-block pl-3 pr-5 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" %>
+
+    </div>
+
+    <div class="mt-4">
+        <div class="inline-block">
+            <label for="background_color" class="mb-2 block text-sm font-medium text-gray-700">Background Color</label>
+
+            <%= color_input f, :header_bg_color, [default: "#ffffff"]  %>
+            <%= error_tag f, :header_bg_color %>
+        </div>
+        <div class="inline-block ml-4">
+            <label for="text_color" class="mb-2 block text-sm font-medium text-gray-700">Text Color</label>
+
+            <%= color_input f, :header_text_color, [default: "#1a0000"] %>
+            <%= error_tag f, :header_text_color %>
+        </div>
+
+    </div>
+    <% end %>
 
 
     <div class="flex justify-end mt-8 bg-gray-100 -m-5 p-5 rounded-lg">

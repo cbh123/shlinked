@@ -11,6 +11,10 @@ defmodule Shlinkedin.Groups.Group do
     field :about, :string
     field :categories, {:array, :string}
     field :slug, :string
+    field :header_bg_color, :string, default: "#FFFFFF"
+    field :header_text_color, :string
+    field :header_font, :string
+
     belongs_to :profile, Shlinkedin.Profiles.Profile
     has_many(:members, Shlinkedin.Groups.Member, on_delete: :nilify_all)
     timestamps()
@@ -19,7 +23,17 @@ defmodule Shlinkedin.Groups.Group do
   @doc false
   def changeset(group, attrs) do
     group
-    |> cast(attrs, [:title, :privacy_type, :cover_photo_url, :about, :categories, :slug])
+    |> cast(attrs, [
+      :title,
+      :privacy_type,
+      :cover_photo_url,
+      :about,
+      :categories,
+      :slug,
+      :header_bg_color,
+      :header_text_color,
+      :header_font
+    ])
     |> validate_required([:title, :privacy_type])
     |> validate_length(:title, min: 1, max: 100)
     |> validate_length(:about, max: 500)

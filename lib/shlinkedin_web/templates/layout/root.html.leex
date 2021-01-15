@@ -12,7 +12,10 @@
     <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>" />
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Creepster&family=IBM+Plex+Serif&family=Metal+Mania&family=Permanent+Marker&family=VT323&display=swap"
+        rel="stylesheet">
+
 
 
     <script type="text/javascript">
@@ -36,32 +39,21 @@
 
 <body class="bg-gray-100">
     <header>
-
-
         <%= render "_top_nav.html", assigns %>
-
-
-
     </header>
-
-
 
     <div class="pt-16 pb-6">
         <%= @inner_content %>
-
     </div>
 
     <header>
-
         <nav class="sm:hidden bg-white border-t text-gray-500 text-base bottom-0 fixed w-full z-10">
-
             <div class="flex justify-around h-16 items-top   text-xs">
                 <%= if @profile != nil and @profile != %Shlinkedin.Profiles.Profile{} do %>
                 <%= render "_footer_nav.html", assigns %>
                 <% end %>
             </div>
         </nav>
-
     </header>
 </body>
 
