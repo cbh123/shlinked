@@ -15,7 +15,10 @@
     <div class="max-w-prose mx-auto mb-16">
 
 
-        <h5 class="font-extrabold leading-tight text-2xl">Shlink Requests</h5>
+        <h5 class="font-extrabold leading-tight text-2xl inline-block">Shlink Requests</h5>
+
+        <%= live_redirect raw("Explore Profiles &rarr;"), to: Routes.users_index_path(@socket, :index), class: " inline-flex ml-4 px-2 bg-blue-100 text-blue-700 py-1 hover:bg-blue-200 text-xs rounded-lg" %>
+
 
         <%= if @requests == [] do %>
         <p class=" mt-2 mb-8 text-gray-500 italic">
@@ -30,6 +33,8 @@
             not be notified. You
             can always unshlink later.</p>
         <% end %>
+
+
 
 
 
