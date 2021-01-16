@@ -113,7 +113,7 @@ defmodule ShlinkedinWeb.GroupLive.Show do
 
   defp fetch_posts(%{assigns: %{page: page, per_page: per, group: group}} = socket) do
     assign(socket,
-      posts: Timeline.list_group_posts(group, paginate: %{page: page, per_page: per})
+      posts: Timeline.list_posts(group, [paginate: %{page: page, per_page: per}], "group")
     )
   end
 
