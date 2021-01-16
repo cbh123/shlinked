@@ -175,6 +175,40 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       action: "has sent you a Shlink request!",
       body: ""
     })
+
+    body = """
+
+    Hi #{to_profile.persona_name},
+
+    <br/>
+    <br/>
+
+    <p>Hi #{from_profile.persona_name} / #{from_profile.real_name} has sent you a Shlink request. You can accept it
+    <a href="shlinked.herokuapp.com/sh/#{to_profile.slug}">here.</a>
+
+    Time to think of some ice-breakers, like:</p>
+
+    <ul>
+    #{for line <- friend_request_text(), do: "<li>#{line}</li>"}
+    </ul>
+
+    <p>Happy shlinking!</p>
+
+    <br/>
+    <br/>
+    Thanks, <br/>
+    ShlinkTeam
+
+    """
+
+    if to_profile.unsubscribed == false do
+      Shlinkedin.Email.new_email(
+        to_profile.user.email,
+        "#{from_profile.persona_name} has sent you a shlink request!",
+        body
+      )
+      |> Shlinkedin.Mailer.deliver_later()
+    end
   end
 
   defp friend_request_text() do
