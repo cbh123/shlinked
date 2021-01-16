@@ -31,7 +31,7 @@ defmodule Shlinkedin.Timeline do
     )
   end
 
-  # List posts when account is first created
+  # List posts when account is first created and profile is nil
   def list_posts(%Profile{id: nil}, criteria) do
     query =
       from(p in Post,
@@ -46,64 +46,46 @@ defmodule Shlinkedin.Timeline do
     |> Repo.all()
   end
 
-  def list_posts(%Profile{} = profile, criteria) when is_list(criteria) do
-    profile_groups = Shlinkedin.Groups.list_profile_group_ids(profile)
+  def get_feed_query(object, feed_type) do
+    case feed_type do
+      "all" ->
+        profile_groups = Shlinkedin.Groups.list_profile_group_ids(object)
 
-    query =
-      from(p in Post,
-        where: is_nil(p.group_id) or p.group_id in ^profile_groups,
-        order_by: [desc: p.featured, desc: p.inserted_at]
-      )
+        from(p in Post,
+          where: is_nil(p.group_id) or p.group_id in ^profile_groups,
+          order_by: [desc: p.featured, desc: p.inserted_at]
+        )
 
-    paged_query = paginate(query, criteria)
+      "featured" ->
+        from(p in Post, where: not is_nil(p.featured_date), order_by: [desc: p.inserted_at])
 
-    from(p in paged_query,
-      preload: [:profile, :likes, comments: [:profile, :likes]]
-    )
-    |> Repo.all()
+      "friends" ->
+        friend_ids = Shlinkedin.Profiles.get_unique_connection_ids(object)
+
+        from(p in Post,
+          order_by: [desc: p.featured, desc: p.inserted_at],
+          where: p.profile_id in ^friend_ids
+        )
+
+      "group" ->
+        %Group{id: id} = object
+        from(p in Post, where: p.group_id == ^id, order_by: [desc: p.inserted_at])
+
+      "profile" ->
+        %Profile{id: id} = object
+
+        from(p in Post,
+          order_by: [desc: p.featured, desc: p.inserted_at],
+          where: p.profile_id == ^id
+        )
+
+      _ ->
+        from(p in Post, order_by: [desc: p.featured, desc: p.inserted_at])
+    end
   end
 
-  def list_profile_posts(criteria, %Profile{} = profile) when is_list(criteria) do
-    query = from(p in Post, where: p.profile_id == ^profile.id, order_by: [desc: p.inserted_at])
-
-    paged_query = paginate(query, criteria)
-
-    from(p in paged_query,
-      preload: [:profile, :likes, comments: [:profile, :likes]]
-    )
-    |> Repo.all()
-  end
-
-  def list_group_posts(%Group{} = group, criteria) when is_list(criteria) do
-    query = from(p in Post, where: p.group_id == ^group.id, order_by: [desc: p.inserted_at])
-
-    paged_query = paginate(query, criteria)
-
-    from(p in paged_query,
-      preload: [:profile, :likes, comments: [:profile, :likes]]
-    )
-    |> Repo.all()
-  end
-
-  def list_featured_posts(%Profile{}, criteria) when is_list(criteria) do
-    query = from(p in Post, where: not is_nil(p.featured_date), order_by: [desc: p.inserted_at])
-
-    paged_query = paginate(query, criteria)
-
-    from(p in paged_query,
-      preload: [:profile, :likes, comments: [:profile, :likes]]
-    )
-    |> Repo.all()
-  end
-
-  def list_friend_posts(%Profile{} = profile, criteria) when is_list(criteria) do
-    friend_ids = Shlinkedin.Profiles.get_unique_connection_ids(profile)
-
-    query =
-      from(p in Post,
-        order_by: [desc: p.featured, desc: p.inserted_at],
-        where: p.profile_id in ^friend_ids
-      )
+  def list_posts(object, criteria, feed_type \\ "all") when is_list(criteria) do
+    query = get_feed_query(object, feed_type)
 
     paged_query = paginate(query, criteria)
 

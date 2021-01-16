@@ -41,9 +41,16 @@ defmodule ShlinkedinWeb.HomeLive.Index do
      |> fetch_posts(), temporary_assigns: [posts: [], articles: []]}
   end
 
-  defp fetch_posts(%{assigns: %{page: page, per_page: per}} = socket) do
+  defp fetch_posts(
+         %{assigns: %{profile: profile, feed_type: feed_type, page: page, per_page: per}} = socket
+       ) do
     assign(socket,
-      posts: Timeline.list_posts(socket.assigns.profile, paginate: %{page: page, per_page: per})
+      posts:
+        Timeline.list_posts(
+          profile,
+          [paginate: %{page: page, per_page: per}],
+          feed_type
+        )
     )
   end
 
@@ -164,47 +171,15 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   def handle_event("change-feed", %{"feed" => feed}, socket) do
     case feed do
       "friends" ->
-        IO.inspect(
-          Timeline.list_friend_posts(socket.assigns.profile, paginate: %{page: 1, per_page: 5}),
-          label: ""
-        )
-
         {:noreply,
-         socket
-         |> assign(
-           update_action: "replace",
-           feed_type: "friends",
-           posts:
-             Timeline.list_friend_posts(socket.assigns.profile, paginate: %{page: 1, per_page: 5})
-         )}
+         socket |> assign(update_action: "replace", feed_type: "friends") |> fetch_posts}
 
       "featured" ->
-        IO.inspect(
-          Timeline.list_featured_posts(socket.assigns.profile,
-            paginate: %{page: 1, per_page: 5}
-          ),
-          label: ""
-        )
-
         {:noreply,
-         socket
-         |> assign(
-           update_action: "replace",
-           feed_type: "featured",
-           posts:
-             Timeline.list_featured_posts(socket.assigns.profile,
-               paginate: %{page: 1, per_page: 5}
-             )
-         )}
+         socket |> assign(update_action: "replace", feed_type: "featured") |> fetch_posts}
 
       _ ->
-        {:noreply,
-         socket
-         |> assign(
-           update_action: "replace",
-           feed_type: "all",
-           posts: Timeline.list_posts(socket.assigns.profile, paginate: %{page: 1, per_page: 5})
-         )}
+        {:noreply, socket |> assign(update_action: "replace", feed_type: "all") |> fetch_posts}
     end
   end
 
@@ -212,12 +187,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     post = Timeline.get_post!(id)
     {:ok, _} = Timeline.delete_post(post)
 
-    {:noreply,
-     assign(
-       socket,
-       :posts,
-       Timeline.list_posts(socket.assigns.profile, paginate: %{page: 1, per_page: 5})
-     )}
+    {:noreply, socket |> fetch_posts()}
   end
 
   def handle_event("delete-comment", %{"id" => id}, socket) do
