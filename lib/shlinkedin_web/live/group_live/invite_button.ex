@@ -1,11 +1,11 @@
-defmodule ShlinkedinWeb.GroupLive.InviteRow do
+defmodule ShlinkedinWeb.GroupLive.InviteButton do
   use ShlinkedinWeb, :live_component
 
   def handle_event("invite", %{"id" => id}, socket) do
     to_profile = Shlinkedin.Profiles.get_profile_by_profile_id(id)
     Shlinkedin.Groups.send_invite(socket.assigns.profile, to_profile, socket.assigns.group)
 
-    send_update(ShlinkedinWeb.GroupLive.InviteRow,
+    send_update(ShlinkedinWeb.GroupLive.InviteButton,
       id: to_profile.id,
       member_status: Shlinkedin.Groups.member_status(to_profile, socket.assigns.group)
     )

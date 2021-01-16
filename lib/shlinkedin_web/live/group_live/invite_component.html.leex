@@ -51,7 +51,9 @@
                     <%= live_component @socket, ShlinkedinWeb.GroupLive.InviteButton,
                         id: match.id,
                         member_status: Shlinkedin.Groups.member_status(match, @group),
-                        match: match
+                        match: match,
+                        profile: @profile,
+                        group: @group
                         %>
 
                 </div>
