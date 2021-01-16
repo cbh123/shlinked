@@ -86,7 +86,7 @@ defmodule Shlinkedin.Timeline do
   end
 
   def list_featured_posts(%Profile{}, criteria) when is_list(criteria) do
-    query = from(p in Post, where: is_nil(p.featured_date), order_by: [desc: p.inserted_at])
+    query = from(p in Post, where: not is_nil(p.featured_date), order_by: [desc: p.inserted_at])
 
     paged_query = paginate(query, criteria)
 

@@ -164,6 +164,11 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   def handle_event("change-feed", %{"feed" => feed}, socket) do
     case feed do
       "friends" ->
+        IO.inspect(
+          Timeline.list_friend_posts(socket.assigns.profile, paginate: %{page: 1, per_page: 5}),
+          label: ""
+        )
+
         {:noreply,
          socket
          |> assign(
