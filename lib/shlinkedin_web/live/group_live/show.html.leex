@@ -157,9 +157,8 @@
             <dl class="grid grid-cols-3 rounded-lg bg-white overflow-hidden shadow divide-gray-200 divide-x">
                 <div>
                     <div class="px-4 py-5 sm:p-6">
-                        <dt class="text-xs sm:text-base font-semibold text-gray-800">
-                            Members
-                        </dt>
+                        <%= live_patch "Members", to: Routes.group_show_path(@socket, :show_members, @group.id), class: "text-xs sm:text-base font-semibold text-gray-800 hover:underline"  %>
+
                         <dd class="mt-1 flex justify-between items-baseline">
                             <div class="flex items-baseline text-lg sm:text-2xl font-semibold text-blue-600">
                                 <%= length(@members) %>
@@ -329,5 +328,15 @@
     title: @page_title,
     action: @live_action,
     group: @group,
+    return_to: Routes.group_show_path(@socket, :show, @group) %>
+<% end %>
+
+<%= if @live_action in [:show_members] do %>
+<%= live_modal @socket, ShlinkedinWeb.ProfileLive.ProfilesModal,
+    id: @group.id,
+    title: @page_title,
+    profile: @profile,
+    profiles: @members,
+    action: @live_action,
     return_to: Routes.group_show_path(@socket, :show, @group) %>
 <% end %>

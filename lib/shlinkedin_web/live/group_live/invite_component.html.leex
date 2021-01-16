@@ -48,7 +48,7 @@
                 <div class="flex">
                     <%# three cases: not invited yet, someone else invited, in group already %>
 
-                    <%= live_component @socket, ShlinkedinWeb.GroupLive.InviteRow,
+                    <%= live_component @socket, ShlinkedinWeb.GroupLive.InviteButton,
                         id: match.id,
                         member_status: Shlinkedin.Groups.member_status(match, @group),
                         match: match

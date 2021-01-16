@@ -49,6 +49,17 @@ defmodule Shlinkedin.Groups do
     )
   end
 
+  def list_members_as_profile(%Group{} = group) do
+    member_profile_ids =
+      Repo.all(
+        from m in Member,
+          where: m.group_id == ^group.id and (m.ranking == "member" or m.ranking == "admin"),
+          select: m.profile_id
+      )
+
+    Repo.all(from p in Profile, where: p.id in ^member_profile_ids)
+  end
+
   def list_admins(%Group{} = group) do
     Repo.all(
       from m in Member, where: m.group_id == ^group.id and m.ranking == "admin", preload: :profile

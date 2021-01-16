@@ -111,6 +111,15 @@ defmodule ShlinkedinWeb.GroupLive.Show do
     |> assign(:post, post)
   end
 
+  defp apply_action(socket, :show_members, %{"id" => id}) do
+    group = Groups.get_group!(id)
+    profiles = Groups.list_members_as_profile(group)
+
+    socket
+    |> assign(:page_title, "Showing Group Members")
+    |> assign(:members, profiles)
+  end
+
   defp fetch_posts(%{assigns: %{page: page, per_page: per, group: group}} = socket) do
     assign(socket,
       posts: Timeline.list_posts(group, [paginate: %{page: page, per_page: per}], "group")
@@ -181,18 +190,6 @@ defmodule ShlinkedinWeb.GroupLive.Show do
      socket
      |> put_flash(:info, "Group has been deleted")
      |> push_redirect(to: Routes.group_index_path(socket, :index))}
-  end
-
-  def handle_event("invite", %{"id" => id}, socket) do
-    to_profile = Shlinkedin.Profiles.get_profile_by_profile_id(id)
-    Groups.send_invite(socket.assigns.profile, to_profile, socket.assigns.group)
-
-    send_update(ShlinkedinWeb.GroupLive.InviteRow,
-      id: to_profile.id,
-      member_status: Shlinkedin.Groups.member_status(to_profile, socket.assigns.group)
-    )
-
-    {:noreply, socket}
   end
 
   defp is_member?(profile, group) do
