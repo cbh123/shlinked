@@ -30,6 +30,11 @@ defmodule ShlinkedinWeb.ProfileLive.FriendButton do
     ~L"""
     <div class="inline-flex" id="<%= @id %>">
     <%= case @friend_status do %>
+    <% "me" -> %>
+    <h5
+    class="inline-flex items-center px-3 py-2 border border-transparent text-xs font-semibold rounded-full text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+    Me
+    </h5>
     <% nil -> %>
     <button type="button" phx-click="send-friend-request" phx-target="<%= @myself %>" phx-value-id="<%= @to_profile.id %>"
         class="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-xs font-semibold rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">

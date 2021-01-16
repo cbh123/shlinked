@@ -146,6 +146,14 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     |> assign(:post, post)
   end
 
+  defp apply_action(socket, :show_friends, _) do
+    friends = Profiles.list_friends(socket.assigns.show_profile)
+
+    socket
+    |> assign(:page_title, "#{socket.assigns.show_profile.persona_name};s Shlinks")
+    |> assign(:friends, friends)
+  end
+
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     post = Timeline.get_post!(id)

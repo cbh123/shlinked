@@ -100,6 +100,7 @@ defmodule ShlinkedinWeb.Router do
 
     ### profile
     live "/sh/:slug", ProfileLive.Show, :show
+    live "/sh/:slug/shlinks", ProfileLive.Show, :show_friends
     live "/sh/:slug/endorsements/new", ProfileLive.Show, :new_endorsement
     live "/sh/:slug/endorsement/:id/edit", ProfileLive.Show, :edit_endorsement
     live "/sh/:slug/testimonials/new", ProfileLive.Show, :new_testimonial

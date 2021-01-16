@@ -405,15 +405,19 @@ defmodule Shlinkedin.Profiles do
   end
 
   def check_between_friend_status(%Profile{} = from, %Profile{} = to) do
-    Repo.all(
-      from f in Friend,
-        select: f.status,
-        where:
-          (f.from_profile_id == ^from.id and f.to_profile_id == ^to.id) or
-            (f.from_profile_id == ^to.id and f.to_profile_id == ^from.id)
-    )
-    |> Enum.uniq()
-    |> Enum.at(0)
+    if from.id == to.id do
+      "me"
+    else
+      Repo.all(
+        from f in Friend,
+          select: f.status,
+          where:
+            (f.from_profile_id == ^from.id and f.to_profile_id == ^to.id) or
+              (f.from_profile_id == ^to.id and f.to_profile_id == ^from.id)
+      )
+      |> Enum.uniq()
+      |> Enum.at(0)
+    end
   end
 
   @doc """
