@@ -36,6 +36,6 @@ defmodule Shlinkedin.Timeline.Post do
       :group_id
     ])
     |> validate_required([])
-    |> validate_length(:body, max: 2000)
+    |> validate_length(:body, max: 4000)
   end
 end
