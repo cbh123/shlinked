@@ -31,6 +31,7 @@ defmodule Shlinkedin.Timeline do
     )
   end
 
+  # List posts when account is first created
   def list_posts(%Profile{id: nil}, criteria) do
     query =
       from(p in Post,
@@ -73,7 +74,7 @@ defmodule Shlinkedin.Timeline do
     |> Repo.all()
   end
 
-  def list_group_posts(criteria, %Group{} = group) when is_list(criteria) do
+  def list_group_posts(%Group{} = group, criteria) when is_list(criteria) do
     query = from(p in Post, where: p.group_id == ^group.id, order_by: [desc: p.inserted_at])
 
     paged_query = paginate(query, criteria)
@@ -84,7 +85,18 @@ defmodule Shlinkedin.Timeline do
     |> Repo.all()
   end
 
-  def list_friend_posts(%Profile{} = profile, criteria) do
+  def list_featured_posts(%Profile{}, criteria) when is_list(criteria) do
+    query = from(p in Post, where: is_nil(p.featured_date), order_by: [desc: p.inserted_at])
+
+    paged_query = paginate(query, criteria)
+
+    from(p in paged_query,
+      preload: [:profile, :likes, comments: [:profile, :likes]]
+    )
+    |> Repo.all()
+  end
+
+  def list_friend_posts(%Profile{} = profile, criteria) when is_list(criteria) do
     friend_ids = Shlinkedin.Profiles.get_unique_connection_ids(profile)
 
     query =
@@ -96,7 +108,7 @@ defmodule Shlinkedin.Timeline do
     paged_query = paginate(query, criteria)
 
     from(p in paged_query,
-      preload: [:profile, :likes, comments: :profile]
+      preload: [:profile, :likes, comments: [:profile, :likes]]
     )
     |> Repo.all()
   end

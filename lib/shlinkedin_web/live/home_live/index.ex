@@ -24,6 +24,8 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     {:ok,
      socket
      |> assign(
+       update_action: "append",
+       feed_type: "all",
        page: 1,
        per_page: 10,
        activities: Timeline.list_all_notifications(10),
@@ -152,14 +154,55 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   end
 
   def handle_event("load-more", _, %{assigns: assigns} = socket) do
-    {:noreply, socket |> assign(page: assigns.page + 1) |> fetch_posts()}
+    {:noreply, socket |> assign(update_action: "append", page: assigns.page + 1) |> fetch_posts()}
   end
 
   def handle_event("more-headlines", _, socket) do
     {:noreply, socket |> assign(articles: News.list_random_articles(5))}
   end
 
-  @impl true
+  def handle_event("change-feed", %{"feed" => feed}, socket) do
+    case feed do
+      "friends" ->
+        {:noreply,
+         socket
+         |> assign(
+           update_action: "replace",
+           feed_type: "friends",
+           posts:
+             Timeline.list_friend_posts(socket.assigns.profile, paginate: %{page: 1, per_page: 5})
+         )}
+
+      "featured" ->
+        IO.inspect(
+          Timeline.list_featured_posts(socket.assigns.profile,
+            paginate: %{page: 1, per_page: 5}
+          ),
+          label: ""
+        )
+
+        {:noreply,
+         socket
+         |> assign(
+           update_action: "replace",
+           feed_type: "featured",
+           posts:
+             Timeline.list_featured_posts(socket.assigns.profile,
+               paginate: %{page: 1, per_page: 5}
+             )
+         )}
+
+      _ ->
+        {:noreply,
+         socket
+         |> assign(
+           update_action: "replace",
+           feed_type: "all",
+           posts: Timeline.list_posts(socket.assigns.profile, paginate: %{page: 1, per_page: 5})
+         )}
+    end
+  end
+
   def handle_event("delete", %{"id" => id}, socket) do
     post = Timeline.get_post!(id)
     {:ok, _} = Timeline.delete_post(post)
@@ -172,7 +215,6 @@ defmodule ShlinkedinWeb.HomeLive.Index do
      )}
   end
 
-  @impl true
   def handle_event("delete-comment", %{"id" => id}, socket) do
     comment = Timeline.get_comment!(id)
     {:ok, _} = Timeline.delete_comment(comment)
