@@ -29,7 +29,8 @@ defmodule Shlinkedin.Ads do
         where: a.profile_id == ^profile.id,
         join: c in Click,
         on: a.id == c.ad_id,
-        select: c
+        group_by: [c.profile_id, c.ad_id],
+        select: %{profile_id: c.profile_id, ad_id: c.ad_id}
     )
   end
 
