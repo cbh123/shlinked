@@ -170,21 +170,7 @@
         <!-- Stats-->
         <div class="mt-2">
             <dl class="grid grid-cols-3 rounded-lg bg-white overflow-hidden shadow divide-gray-200 divide-x">
-                <div>
-                    <div class="px-4 py-5 sm:p-6">
-                        <%= live_patch to: Routes.profile_show_path(@socket, :show_ad_clicks, @show_profile.slug) do %>
-                        <dt class="text-xs sm:text-base font-semibold text-gray-800">
-                            Ad Clicks
-                        </dt>
-                        <dd class="mt-1 flex justify-between items-baseline">
-                            <div class="flex items-baseline text-lg sm:text-2xl font-semibold text-blue-600">
-                                <%= length(@ad_clicks) %>
-                            </div>
 
-                        </dd>
-                        <% end %>
-                    </div>
-                </div>
 
                 <div>
                     <div class="px-4 py-5 sm:p-6">
@@ -199,7 +185,22 @@
                         </dd>
                         <% end %>
                     </div>
+                </div>
 
+                <div>
+                    <div class="px-4 py-5 sm:p-6">
+                        <%= live_patch to: Routes.profile_show_path(@socket, :show_ad_clicks, @show_profile.slug) do %>
+                        <dt class="text-xs sm:text-base font-semibold text-gray-800">
+                            Ad Clicks
+                        </dt>
+                        <dd class="mt-1 flex justify-between items-baseline">
+                            <div class="flex items-baseline text-lg sm:text-2xl font-semibold text-blue-600">
+                                <%= length(@ad_clicks) %>
+                            </div>
+
+                        </dd>
+                        <% end %>
+                    </div>
                 </div>
 
                 <div>
