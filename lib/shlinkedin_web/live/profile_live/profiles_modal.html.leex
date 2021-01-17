@@ -28,14 +28,14 @@
                         <span class="text-gray-500"><%= Shlinkedin.Profiles.show_real_name(@profile, profile) %></span>
                     </p>
                     <% mutual_friends = get_mutual_friends(@profile, profile)  %>
-                    <p class="font-semibold ml-3 text-xs text-gray-500">
-                        <%= length(mutual_friends) %> Mutual Shlinks
+                    <p class="font-semibold ml-3 text-xs text-gray-400">
+                        <%= length(mutual_friends) %> Mutual
                     </p>
                 </div>
             </div>
             <% end %>
 
-            <div class="flex">
+            <div class="block">
                 <%= live_component @socket, ShlinkedinWeb.ProfileLive.FriendButton,
                         id: "friend-button-#{profile.slug}",
                         friend_status: check_between_friend_status(@profile, profile),
