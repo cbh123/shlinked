@@ -29,7 +29,7 @@ defmodule ShlinkedinWeb.ProfileLive.AdClicksModal do
 
             <%= live_redirect to: Routes.ad_show_path(@socket, :show, click.ad_id) do %>
             <div class="flex hover:underline">
-                <img class="h-10 w-10 rounded-lg object-cover" src="<%= if is_nil(@ad.media_url), do: ad.gif_url, else: ad.media_url  %>" alt="">
+                <img class="h-10 w-10 rounded-lg object-cover" src="<%= if is_nil(ad.media_url), do: ad.gif_url, else: ad.media_url  %>" alt="">
 
                     <p class="ml-3 place-self-center text-sm text-gray-900"><%= clicker.persona_name %> clicked <%= @profile.persona_name %>'s ad for <%= ad.company %>
                     </p>

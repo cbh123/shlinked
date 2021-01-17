@@ -32,7 +32,7 @@ defmodule Shlinkedin.Timeline do
   end
 
   # List posts when account is first created and profile is nil
-  def list_posts(%Profile{id: nil}, criteria) do
+  def list_posts(%Profile{id: nil}, criteria, _feed_type) do
     query =
       from(p in Post,
         order_by: [desc: p.featured, desc: p.inserted_at]
