@@ -566,7 +566,7 @@
 <%= live_modal @socket, ShlinkedinWeb.ProfileLive.AdClicksModal,
     id: @show_profile.id,
     title: @page_title,
-    profile: @profile,
+    profile: @show_profile,
     ad_clicks: @ad_clicks,
     action: @live_action,
     return_to: Routes.profile_show_path(@socket, :show, @show_profile.slug) %>
