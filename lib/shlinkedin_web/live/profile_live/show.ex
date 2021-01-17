@@ -32,6 +32,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(current_awards: Profiles.list_awards(show_profile))
      |> assign(award_types: Shlinkedin.Awards.list_award_types())
      |> assign(show_profile: show_profile)
+     |> assign(ad_clicks: get_ad_clicks(show_profile))
      |> fetch_posts()
      |> assign(from_profile: socket.assigns.profile)
      |> assign(to_profile: show_profile)
@@ -155,6 +156,11 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     |> assign(:friends, friends)
   end
 
+  defp apply_action(socket, :show_ad_clicks, _) do
+    socket
+    |> assign(:page_title, "#{socket.assigns.show_profile.persona_name};s Ad Clicks")
+  end
+
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     post = Timeline.get_post!(id)
@@ -237,7 +243,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   end
 
   defp get_ad_clicks(profile) do
-    Shlinkedin.Ads.get_profile_clicks(profile)
+    Shlinkedin.Ads.get_ad_clicks(profile)
   end
 
   @impl true

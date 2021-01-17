@@ -172,15 +172,17 @@
             <dl class="grid grid-cols-3 rounded-lg bg-white overflow-hidden shadow divide-gray-200 divide-x">
                 <div>
                     <div class="px-4 py-5 sm:p-6">
+                        <%= live_patch to: Routes.profile_show_path(@socket, :show_ad_clicks, @show_profile.slug) do %>
                         <dt class="text-xs sm:text-base font-semibold text-gray-800">
                             Ad Clicks
                         </dt>
                         <dd class="mt-1 flex justify-between items-baseline">
                             <div class="flex items-baseline text-lg sm:text-2xl font-semibold text-blue-600">
-                                <%= if get_ad_clicks(@show_profile) == nil, do: 0, else: get_ad_clicks(@show_profile) %>
+                                <%= length(@ad_clicks) %>
                             </div>
 
                         </dd>
+                        <% end %>
                     </div>
                 </div>
 
@@ -555,6 +557,16 @@
     title: @page_title,
     profile: @profile,
     profiles: @friends,
+    action: @live_action,
+    return_to: Routes.profile_show_path(@socket, :show, @show_profile.slug) %>
+<% end %>
+
+<%= if @live_action in [:show_ad_clicks] do %>
+<%= live_modal @socket, ShlinkedinWeb.ProfileLive.AdClicksModal,
+    id: @show_profile.id,
+    title: @page_title,
+    profile: @profile,
+    ad_clicks: @ad_clicks,
     action: @live_action,
     return_to: Routes.profile_show_path(@socket, :show, @show_profile.slug) %>
 <% end %>
