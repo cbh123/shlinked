@@ -152,13 +152,13 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     friends = Profiles.list_friends(socket.assigns.show_profile)
 
     socket
-    |> assign(:page_title, "#{socket.assigns.show_profile.persona_name};s Shlinks")
+    |> assign(:page_title, "#{socket.assigns.show_profile.persona_name}'s Shlinks")
     |> assign(:friends, friends)
   end
 
   defp apply_action(socket, :show_ad_clicks, _) do
     socket
-    |> assign(:page_title, "#{socket.assigns.show_profile.persona_name};s Ad Clicks")
+    |> assign(:page_title, "#{socket.assigns.show_profile.persona_name}'s Ad Clicks")
   end
 
   @impl true

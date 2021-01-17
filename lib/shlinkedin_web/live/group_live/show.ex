@@ -116,7 +116,7 @@ defmodule ShlinkedinWeb.GroupLive.Show do
     profiles = Groups.list_members_as_profile(group)
 
     socket
-    |> assign(:page_title, "Showing Group Members")
+    |> assign(:page_title, "#{group.title} Members")
     |> assign(:members, profiles)
   end
 
