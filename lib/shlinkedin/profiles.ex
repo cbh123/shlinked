@@ -372,6 +372,7 @@ defmodule Shlinkedin.Profiles do
     )
     |> List.flatten()
     |> Enum.uniq()
+    |> Enum.filter(fn x -> x != profile.id end)
   end
 
   def list_friends(%Profile{} = profile) do

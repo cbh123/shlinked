@@ -26,13 +26,13 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
        per_page: 5,
        num_show_comments: 1
      )
-     |> fetch_posts(show_profile)
      |> assign(live_action: socket.assigns.live_action || :show)
      |> assign(page_title: "Shlinked - " <> show_profile.persona_name)
      |> assign(from_notifications: false)
      |> assign(current_awards: Profiles.list_awards(show_profile))
      |> assign(award_types: Shlinkedin.Awards.list_award_types())
      |> assign(show_profile: show_profile)
+     |> fetch_posts()
      |> assign(from_profile: socket.assigns.profile)
      |> assign(to_profile: show_profile)
      |> assign(connections: Profiles.get_connections(show_profile))
@@ -42,9 +42,10 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(testimonials: list_testimonials(show_profile.id)), temporary_assigns: [posts: []]}
   end
 
-  defp fetch_posts(%{assigns: %{page: page, per_page: per}} = socket, %Profile{} = profile) do
+  defp fetch_posts(%{assigns: %{show_profile: show_profile, page: page, per_page: per}} = socket) do
     assign(socket,
-      posts: Timeline.list_posts(profile, [paginate: %{page: page, per_page: per}], "profile")
+      posts:
+        Timeline.list_posts(show_profile, [paginate: %{page: page, per_page: per}], "profile")
     )
   end
 
@@ -159,7 +160,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     post = Timeline.get_post!(id)
     {:ok, _} = Timeline.delete_post(post)
 
-    {:noreply, socket |> fetch_posts(socket.assigns.show_profile)}
+    {:noreply, socket |> fetch_posts()}
   end
 
   @impl true
@@ -216,8 +217,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   end
 
   def handle_event("load-more", _, %{assigns: assigns} = socket) do
-    {:noreply,
-     socket |> assign(page: assigns.page + 1) |> fetch_posts(socket.assigns.show_profile)}
+    {:noreply, socket |> assign(page: assigns.page + 1) |> fetch_posts()}
   end
 
   defp list_endorsements(id) do

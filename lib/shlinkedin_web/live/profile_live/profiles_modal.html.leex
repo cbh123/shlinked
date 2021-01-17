@@ -10,7 +10,7 @@
 
     <%= if @profiles == [] do %>
     <div class="text-center">
-        <p>No one found.</p>
+        <p>No one here 😞</p>
     </div>
     <% else %>
     <div class=" rounded-lg py-1">
@@ -37,7 +37,7 @@
 
             <div class="flex">
                 <%= live_component @socket, ShlinkedinWeb.ProfileLive.FriendButton,
-                        id: profile.id,
+                        id: "friend-button-#{profile.slug}",
                         friend_status: check_between_friend_status(@profile, profile),
                         profile: @profile,
                         to_profile: profile
@@ -50,8 +50,9 @@
         <% end %>
 
 
-        <% end %>
+
     </div>
+    <% end %>
 
 
 
