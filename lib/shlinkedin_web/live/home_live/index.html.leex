@@ -10,7 +10,7 @@
 
 
         <%# Start a Post %>
-        <div class="mt-4 mx-auto sm:max-w-lg p-5 pb-3 bg-white sm:rounded-lg border hidden sm:block ">
+        <div class="sm:mt-4 mx-auto sm:max-w-lg p-5 pb-3 bg-white sm:rounded-lg border block ">
 
 
 
@@ -31,9 +31,9 @@
 
             <div class="flex justify-between mt-2">
 
-                <%= live_patch "👥  Start Network", to: Routes.group_index_path(@socket, :new), class: "items-center px-4 py-2 border-gray-300 text-base font-medium rounded-lg text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
-                <%= live_patch "📢  Create Ad", to: Routes.home_index_path(@socket, :new_ad), class: "items-center px-4 py-2 border-gray-300 text-base font-medium rounded-lg text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
-                <%= live_patch "🗞️  Write Headline", to: Routes.home_index_path(@socket, :new_article), class: "items-center px-4 py-2 border-gray-300 text-base font-medium rounded-lg text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
+                <%= live_patch "👥  Start Network", to: Routes.group_index_path(@socket, :new), class: "items-center px-2 sm:px-4 py-2 border-gray-300 text-xs sm:text-base font-medium rounded-lg text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
+                <%= live_patch "📢  Create Ad", to: Routes.home_index_path(@socket, :new_ad), class: "items-center px-2 sm:px-4 py-2 border-gray-300 text-xs sm:text-base font-medium rounded-lg text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
+                <%= live_patch "🗞️  Write Headline", to: Routes.home_index_path(@socket, :new_article), class: "items-center px-2 sm:px-4 py-2 border-gray-300 text-xs sm:text-base font-medium rounded-lg text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
             </div>
         </div>
 
