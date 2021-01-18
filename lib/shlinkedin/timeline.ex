@@ -22,7 +22,7 @@ defmodule Shlinkedin.Timeline do
 
   """
 
-  def list_all_notifications(count) do
+  def list_unique_notifications(count) do
     Repo.all(
       from n in Shlinkedin.Profiles.Notification,
         limit: ^count,
@@ -31,6 +31,7 @@ defmodule Shlinkedin.Timeline do
         distinct: true,
         where: n.type != "new_profile"
     )
+    |> Enum.uniq_by(fn x -> x.action end)
   end
 
   # List posts when account is first created and profile is nil

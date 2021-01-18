@@ -23,6 +23,17 @@ defmodule ShlinkedinWeb.ActivityLive.ActivityComponent do
       "endorsement" ->
         text <> " \"#{notification.body}\""
 
+      "new_group_member" ->
+        group = Shlinkedin.Groups.get_group!(notification.group_id)
+
+        "joined " <>
+          Phoenix.HTML.safe_to_string(
+            Phoenix.HTML.Link.link(group.title,
+              to: "/groups/#{group.id}",
+              class: "font-medium text-gray-900"
+            )
+          )
+
       _ ->
         text
     end
