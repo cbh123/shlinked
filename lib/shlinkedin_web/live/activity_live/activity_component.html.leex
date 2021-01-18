@@ -4,13 +4,14 @@
         <div class="relative flex items-start space-x-3">
             <div>
                 <div class="relative px-1">
-                    <img class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white"
+                    <img class="h-8 w-8 object-fit rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white"
                         src="<%= @activity.profile.photo_url %>" alt="">
                 </div>
             </div>
             <div class="min-w-0 flex-1 py-1.5">
                 <div class="text-sm text-gray-500">
-                    <a href="#" class="font-medium text-gray-900"><%= @activity.profile.persona_name%></a>
+                    <%= live_redirect @activity.profile.persona_name, to: Routes.profile_show_path(@socket, :show, @activity.profile.slug), class: "font-medium text-gray-900" %>
+
                     <%= raw(render_notification_as_activity(@activity)) %>
 
                     <span class="whitespace-nowrap"><%= Timex.from_now(@activity.inserted_at) %></span>
