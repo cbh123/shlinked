@@ -16,12 +16,12 @@
         <div class="bg-white sm:rounded-lg shadow">
 
             <img src="<%= if @show_profile.cover_photo_url == nil, do: "//shlinked.s3.amazonaws.com/0fbc9143-b559-480e-9b44-4363c437ff7c.png", else: @show_profile.cover_photo_url %>"
-                alt="" class="object-cover w-full h-52 overflow-hidden sm:rounded-t-lg">
+                alt="" class="object-cover w-full h-36 sm:h-48 overflow-hidden sm:rounded-t-lg">
 
             <div class=" pt-2 p-5 ">
                 <div class="flex justify-center sm:block relative">
                     <div class="inline-block relative">
-                        <img class="object-cover bg-center w-32 h-32 sm:w-42 sm:h-42 -mt-16 rounded-full border-4 border-white"
+                        <img class="object-cover bg-center w-48 h-48 sm:w-44 sm:h-44 -mt-24 rounded-full border-4 border-white"
                             src="<%= @show_profile.photo_url %>" />
                         <span
                             class="absolute bottom-2 right-2 h-3 w-3 sm:bottom-2 sm:right-3 block sm:h-4 sm:w-4 rounded-full ring-2 ring-white bg-green-500"></span>
