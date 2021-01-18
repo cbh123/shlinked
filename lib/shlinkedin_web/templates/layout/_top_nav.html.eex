@@ -90,7 +90,7 @@
                         </path>
                     </svg>
 
-                    <p class=" pt-0.5 text-xs hidden md:inline-block">Groups</p>
+                    <p class=" pt-0.5 text-xs hidden md:inline-block">Networks</p>
                 </button>
                 <% end %>
 

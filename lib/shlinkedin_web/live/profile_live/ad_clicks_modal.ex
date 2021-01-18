@@ -1,6 +1,5 @@
 defmodule ShlinkedinWeb.ProfileLive.AdClicksModal do
   use ShlinkedinWeb, :live_component
-  alias Shlinkedin.Profiles
 
   def render(assigns) do
     ~L"""
