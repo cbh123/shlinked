@@ -4,10 +4,11 @@ defmodule ShlinkedinWeb.ProfileLive.FriendButton do
 
   def handle_event("send-friend-request", %{"id" => id}, socket) do
     to_profile = Profiles.get_profile_by_profile_id(id)
+
     Profiles.send_friend_request(socket.assigns.profile, to_profile)
 
     send_update(ShlinkedinWeb.ProfileLive.FriendButton,
-      id: to_profile.id,
+      id: id,
       friend_status: Profiles.check_between_friend_status(socket.assigns.profile, to_profile)
     )
 
@@ -19,7 +20,7 @@ defmodule ShlinkedinWeb.ProfileLive.FriendButton do
     Profiles.cancel_friend_request(socket.assigns.profile, to_profile)
 
     send_update(ShlinkedinWeb.ProfileLive.FriendButton,
-      id: to_profile.id,
+      id: id,
       friend_status: Profiles.check_between_friend_status(socket.assigns.profile, to_profile)
     )
 
@@ -28,7 +29,9 @@ defmodule ShlinkedinWeb.ProfileLive.FriendButton do
 
   def render(assigns) do
     ~L"""
-    <div class="inline-flex" id="<%= @id %>">
+    <div class="inline-flex" id="<%= @id %>" phx-update="replace">
+
+
     <%= case @friend_status do %>
     <% "me" -> %>
     <h5

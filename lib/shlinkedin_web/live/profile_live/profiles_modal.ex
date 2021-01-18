@@ -42,7 +42,7 @@ defmodule ShlinkedinWeb.ProfileLive.ProfilesModal do
 
             <div class="block">
                 <%= live_component @socket, ShlinkedinWeb.ProfileLive.FriendButton,
-                        id: "friend-button-#{profile.slug}",
+                        id: "#{profile.id}",
                         friend_status: Shlinkedin.Profiles.check_between_friend_status(@profile, profile),
                         profile: @profile,
                         to_profile: profile

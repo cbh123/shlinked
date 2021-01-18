@@ -19,6 +19,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
 
     {:ok,
      socket
+     |> assign(show_profile: show_profile)
      |> assign(
        like_map: Timeline.like_map(),
        comment_like_map: Timeline.comment_like_map(),
@@ -31,7 +32,6 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(from_notifications: false)
      |> assign(current_awards: Profiles.list_awards(show_profile))
      |> assign(award_types: Shlinkedin.Awards.list_award_types())
-     |> assign(show_profile: show_profile)
      |> assign(ad_clicks: get_ad_clicks(show_profile))
      |> fetch_posts()
      |> assign(from_profile: socket.assigns.profile)

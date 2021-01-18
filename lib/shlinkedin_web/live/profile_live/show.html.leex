@@ -146,7 +146,7 @@
             <div class="px-5 ml-3 pb-6">
 
                 <%= live_component @socket, ShlinkedinWeb.ProfileLive.FriendButton,
-                        id: @profile.id,
+                        id: "#{@show_profile.id}",
                         friend_status: check_between_friend_status(@profile, @show_profile),
                         profile: @profile,
                         to_profile: @show_profile
