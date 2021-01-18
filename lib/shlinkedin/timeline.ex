@@ -27,7 +27,9 @@ defmodule Shlinkedin.Timeline do
       from n in Shlinkedin.Profiles.Notification,
         limit: ^count,
         preload: [:profile],
-        order_by: [desc: n.inserted_at]
+        order_by: [desc: n.inserted_at],
+        distinct: true,
+        where: n.type != "new_profile"
     )
   end
 

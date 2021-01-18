@@ -37,8 +37,11 @@
             </div>
         </div>
 
-        <div class="hidden flow-root mt-2 max-h-72 overflow-y-scroll p-5 bg-white">
 
+        <%# Activity Box %>
+        <div class="flow-root mt-2 max-h-72 overflow-y-scroll p-5 bg-white rounded-lg border">
+            <h5 class=" font-bold mb-3">
+                Activity</h5>
             <ul class="-mb-8">
                 <%= for activity <- @activities do %>
                 <%= live_component @socket, ShlinkedinWeb.ActivityLive.ActivityComponent,
@@ -59,7 +62,6 @@
             <div class="flex justify-between mb-2">
                 <h5 class=" font-bold ">Featured Profiles</h5>
                 <%= live_redirect raw("Explore Profiles &rarr;"), to: Routes.users_index_path(@socket, :index), class: "px-2 py-1 text-gray-500 hover:underline text-xs" %>
-
             </div>
 
             <div class="grid grid-cols-3 gap-2">
