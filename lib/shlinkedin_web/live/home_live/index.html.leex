@@ -41,7 +41,7 @@
         <%# Activity Box %>
         <div class="flow-root mt-2 max-h-72 overflow-y-scroll p-5 bg-white rounded-lg border">
             <h5 class=" font-bold mb-3">
-                Activity</h5>
+                Recently</h5>
             <ul class="-mb-8">
                 <%= for activity <- @activities do %>
                 <%= live_component @socket, ShlinkedinWeb.ActivityLive.ActivityComponent,

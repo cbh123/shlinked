@@ -11,7 +11,7 @@
             <div class="min-w-0 flex-1 py-1.5">
                 <div class="text-sm text-gray-500">
                     <a href="#" class="font-medium text-gray-900"><%= @activity.profile.persona_name%></a>
-                    <%= render_notification_as_activity(@activity) %>
+                    <%= raw(render_notification_as_activity(@activity)) %>
 
                     <span class="whitespace-nowrap"><%= Timex.from_now(@activity.inserted_at) %></span>
                 </div>

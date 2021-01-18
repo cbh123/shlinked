@@ -95,8 +95,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     Shlinkedin.Profiles.create_notification(%Notification{
       from_profile_id: from_profile.id,
       to_profile_id: to_profile.id,
+      group_id: group.id,
       type: "group_invite",
-      action: "invited you to join a group they are in.",
+      action: "invited you to join #{group.title}",
       body: ""
     })
 
