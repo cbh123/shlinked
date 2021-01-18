@@ -56,55 +56,6 @@
 
 
 
-        <%# Featured profiles %>
-        <div class="mx-auto p-5 bg-white mt-2 sm:max-w-lg sm:rounded-lg hidden">
-
-            <div class="flex justify-between mb-2">
-                <h5 class=" font-bold ">Featured Profiles</h5>
-                <%= live_redirect raw("Explore Profiles &rarr;"), to: Routes.users_index_path(@socket, :index), class: "px-2 py-1 text-gray-500 hover:underline text-xs" %>
-            </div>
-
-            <div class="grid grid-cols-3 gap-2">
-                <%= for profile <- @featured_profiles do %>
-
-                <%= live_component @socket, ShlinkedinWeb.UsersLive.ProfileComponent,
-                id: profile.id,
-                profile: @profile,
-                friend_status: Shlinkedin.Profiles.check_between_friend_status(@profile, profile),
-                show_profile: profile
-                %>
-
-
-                <% end %>
-            </div>
-        </div>
-
-        <%# Featured Groups %>
-        <div class="mx-auto p-5 bg-white mt-2 sm:max-w-lg sm:rounded-lg ">
-
-            <div class="flex justify-between mb-2">
-                <h5 class=" font-bold ">Featured Networks</h5>
-                <%= live_redirect raw("Explore Networks &rarr;"), to: Routes.group_index_path(@socket, :index), class: "px-2 py-1 text-gray-500 hover:underline text-xs" %>
-
-
-            </div>
-
-            <div class="flex overflow-x-scroll w-full pb-2">
-                <%= for group <- @random_groups do %>
-
-                <%= live_component @socket, ShlinkedinWeb.GroupLive.GroupComponent,
-                    id: group.id,
-                    profile: @profile,
-                    member_status: Shlinkedin.Groups.is_member?(@profile, group),
-                    group: group
-                    %>
-
-                <% end %>
-
-            </div>
-
-
-        </div>
 
 
 
@@ -113,43 +64,7 @@
 
         <div class="py-1"></div>
 
-        <%# Mobile News %>
-        <div class="sm:hidden mx-auto w-screen sm:max-w-lg bg-white sm:rounded-lg border-b">
 
-            <div class="block sm:w-72 w-full">
-                <div class="flex justify-between px-5 py-5">
-                    <%= live_redirect "ShlinkNews", to: Routes.article_index_path(@socket, :index), class: "font-bold"  %>
-
-
-                    <%= live_patch "+ Add Headline", to: Routes.home_index_path(@socket, :new_article), class: "text-xs text-green-800 font-semibold bg-green-100 px-2 py-1 rounded-lg hover:bg-green-200"  %>
-
-                </div>
-                <div class="space-y-3 px-2" phx-update="append">
-                    <%= for a <- @articles do %>
-                    <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
-                    id: "mobile:#{a.id}",
-                    profile: @profile,
-                    spin: false,
-                    article: a %>
-                    <% end %>
-
-                </div>
-                <div class="p-5 justify-center">
-
-                    <button phx-click="more-headlines"
-                        class="mx-auto text-xs text-gray-800 font-semibold bg-gray-100 px-2 py-1 rounded-lg hover:bg-gray-200 flex">
-
-                        <svg class="w-3 h-3 place-self-center mr-2" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                        More Headlines </button>
-
-                </div>
-            </div>
-        </div>
 
 
         <div class="py-1"></div>
@@ -230,6 +145,96 @@
                 spin: false  %>
 
 
+
+            <%= if idx == 2 do %>
+            <%# Mobile News %>
+            <div id="mobile-news" class="sm:hidden mx-auto w-screen sm:max-w-lg bg-white sm:rounded-lg border-b my-2">
+
+                <div class="block sm:w-72 w-full">
+                    <div class="flex justify-between px-5 py-5">
+                        <%= live_redirect "ShlinkNews", to: Routes.article_index_path(@socket, :index), class: "font-bold"  %>
+
+
+                        <%= live_patch "+ Add Headline", to: Routes.home_index_path(@socket, :new_article), class: "text-xs text-green-800 font-semibold bg-green-100 px-2 py-1 rounded-lg hover:bg-green-200"  %>
+
+                    </div>
+                    <div class="space-y-3 px-2" phx-update="append">
+                        <%= for a <- @articles do %>
+                        <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
+                    id: "mobile:#{a.id}",
+                    profile: @profile,
+                    spin: false,
+                    article: a %>
+                        <% end %>
+
+                    </div>
+                    <div class="p-5 justify-center">
+
+                        <button phx-click="more-headlines"
+                            class="mx-auto text-xs text-gray-800 font-semibold bg-gray-100 px-2 py-1 rounded-lg hover:bg-gray-200 flex">
+
+                            <svg class="w-3 h-3 place-self-center mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            More Headlines </button>
+
+                    </div>
+                </div>
+            </div>
+            <% end %>
+            <%= if idx == 4 do %>
+            <%# Featured Groups %>
+            <div id="featured-groups" class="mx-auto p-5 bg-white my-2 sm:max-w-lg sm:rounded-lg ">
+
+                <div class="flex justify-between mb-2">
+                    <h5 class=" font-bold ">Featured Networks</h5>
+                    <%= live_redirect raw("Explore Networks &rarr;"), to: Routes.group_index_path(@socket, :index), class: "px-2 py-1 text-gray-500 hover:underline text-xs" %>
+
+
+                </div>
+
+                <div class="flex overflow-x-scroll w-full pb-2">
+                    <%= for group <- @random_groups do %>
+
+                    <%= live_component @socket, ShlinkedinWeb.GroupLive.GroupComponent,
+                    id: group.id,
+                    profile: @profile,
+                    member_status: Shlinkedin.Groups.is_member?(@profile, group),
+                    group: group
+                    %>
+
+                    <% end %>
+                </div>
+            </div>
+            <% end %>
+            <%= if idx == 6 do %>
+            <%# Featured profiles %>
+            <div id="featured-profiles" class="mx-auto p-5 bg-white my-2 sm:max-w-lg sm:rounded-lg">
+
+                <div class="flex justify-between mb-2">
+                    <h5 class=" font-bold ">Featured Profiles</h5>
+                    <%= live_redirect raw("Explore Profiles &rarr;"), to: Routes.users_index_path(@socket, :index), class: "px-2 py-1 text-gray-500 hover:underline text-xs" %>
+                </div>
+
+                <div class="grid grid-cols-3 gap-2">
+                    <%= for profile <- @featured_profiles do %>
+
+                    <%= live_component @socket, ShlinkedinWeb.UsersLive.ProfileComponent,
+                id: profile.id,
+                profile: @profile,
+                friend_status: Shlinkedin.Profiles.check_between_friend_status(@profile, profile),
+                show_profile: profile
+                %>
+
+
+                    <% end %>
+                </div>
+            </div>
+
+            <% end %>
             <% end %>
         </div>
     </div>
