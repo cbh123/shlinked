@@ -57,7 +57,7 @@
 
                 </div>
                 <div class="space-y-3 px-2" phx-update="append">
-                    <%= for a <- @mobile_articles do %>
+                    <%= for a <- @articles |> Enum.slice(0..2) do %>
                     <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
                     id: "mobile:#{a.id}",
                     profile: @profile,

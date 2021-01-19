@@ -30,7 +30,6 @@ defmodule ShlinkedinWeb.HomeLive.Index do
        per_page: 10,
        activities: Timeline.list_unique_notifications(60),
        articles: News.list_top_articles(5),
-       mobile_articles: News.list_top_articles(3),
        featured_profiles: Profiles.list_featured_profiles(3),
        random_groups: Groups.list_random_groups(5),
        stories: Timeline.list_stories(),
