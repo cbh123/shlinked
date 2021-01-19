@@ -91,7 +91,7 @@ Hooks.ShareVia = {
       navigator
         .share(shareData)
         .then(() => console.log("Successful share"))
-        .catch((error) => alert("Error sharing"));
+        .catch((error) => alert("Error sharing -- this only works on Safari."));
     });
   },
 };
