@@ -79,6 +79,23 @@ Hooks.CopyToClipboard = {
   },
 };
 
+Hooks.ShareVia = {
+  mounted() {
+    this.el.addEventListener("click", (e) => {
+      const shareData = {
+        title: this.el.getAttribute("phx-value-title"),
+        text: this.el.getAttribute("phx-value-text"),
+        url: this.el.getAttribute("phx-value-link"),
+      };
+
+      navigator
+        .share(shareData)
+        .then(() => console.log("Successful share"))
+        .catch((error) => alert("Error sharing"));
+    });
+  },
+};
+
 Hooks.OnboardingPrompt = {
   mounted() {
     this.el.addEventListener("click", (e) => {
@@ -126,16 +143,6 @@ Hooks.PostPickTag = {
       const new_body = sliced_body + name + " ";
 
       textarea.setSelectionRange(textarea.value.length, textarea.value.length);
-    });
-  },
-};
-
-Hooks.OpenNavMenu = {
-  mounted() {
-    this.el.addEventListener("click", (e) => {
-      console.log(e);
-      const menu = document.getElementById("nav-menu");
-      menu.removeClass("hidden");
     });
   },
 };
