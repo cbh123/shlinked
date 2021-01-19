@@ -50,35 +50,38 @@
 
             <div class="block sm:w-72 w-full">
                 <div class="flex justify-between px-5 py-5">
-                    <%= live_redirect "ShlinkNews", to: Routes.article_index_path(@socket, :index), class: "font-bold"  %>
+                    <%= live_redirect "Trending ShlinkNews", to: Routes.article_index_path(@socket, :index), class: "font-bold"  %>
 
 
                     <%= live_patch "+ Add Headline", to: Routes.home_index_path(@socket, :new_article), class: "text-xs text-green-800 font-semibold bg-green-100 px-2 py-1 rounded-lg hover:bg-green-200"  %>
 
                 </div>
-                <div class="space-y-3 px-2" phx-update="append">
-                    <%= for a <- @articles |> Enum.slice(0..2) do %>
-                    <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
+
+                <div class="h-44 overflow-y-scroll">
+                    <div class="space-y-3 px-2" phx-update="append">
+                        <%= for a <- @articles do %>
+                        <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
                     id: "mobile-article-#{a.id}",
                     profile: @profile,
                     spin: false,
                     article: a %>
-                    <% end %>
+                        <% end %>
 
-                </div>
-                <div class="p-5 justify-center">
+                    </div>
+                    <div class="p-5 justify-center">
 
-                    <button phx-click="more-headlines"
-                        class="mx-auto text-xs text-gray-800 font-semibold bg-gray-100 px-2 py-1 rounded-lg hover:bg-gray-200 flex">
+                        <button phx-click="more-headlines"
+                            class="mx-auto text-xs text-gray-800 font-semibold bg-gray-100 px-2 py-1 rounded-lg hover:bg-gray-200 flex">
 
-                        <svg class="w-3 h-3 place-self-center mr-2" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                        More Headlines </button>
+                            <svg class="w-3 h-3 place-self-center mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            More Headlines </button>
 
+                    </div>
                 </div>
             </div>
         </div>
@@ -249,6 +252,7 @@
     <!-- News  -->
     <div class="hidden sm:block ">
         <div class="block sm:w-72 w-full bg-white border sm:mt-4 rounded-lg border-gray-100 sm:m-4">
+
             <div class="flex justify-between px-5 py-5">
                 <%= live_redirect "ShlinkNews", to: Routes.article_index_path(@socket, :index), class: "font-bold"  %>
 
@@ -256,29 +260,32 @@
                 <%= live_patch "+ Add Headline", to: Routes.home_index_path(@socket, :new_article), class: "text-xs text-green-800 font-semibold bg-green-100 px-2 py-1 rounded-lg hover:bg-green-200"  %>
 
             </div>
-            <div class="space-y-3 px-2" phx-update="append">
-                <%= for a <- @articles do %>
-                <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
+
+            <div class="h-72 overflow-y-scroll">
+                <div class="space-y-3 px-2" phx-update="append">
+                    <%= for a <- @articles do %>
+                    <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
                     id: "article-#{a.id}",
                     profile: @profile,
                     spin: false,
                     article: a %>
-                <% end %>
+                    <% end %>
 
-            </div>
-            <div class="p-5 justify-center">
-                <button phx-click="more-headlines"
-                    class="mx-auto text-xs text-gray-800 font-semibold bg-gray-100 px-2 py-1 rounded-lg hover:bg-gray-200 flex">
+                </div>
+                <div class="p-5 justify-center">
+                    <button phx-click="more-headlines"
+                        class="mx-auto text-xs text-gray-800 font-semibold bg-gray-100 px-2 py-1 rounded-lg hover:bg-gray-200 flex">
 
-                    <svg class="w-3 h-3 place-self-center mr-2" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                    More Headlines </button>
+                        <svg class="w-3 h-3 place-self-center mr-2" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        More Headlines </button>
 
 
+                </div>
             </div>
         </div>
 
