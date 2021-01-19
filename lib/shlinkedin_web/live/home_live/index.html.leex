@@ -59,7 +59,7 @@
                 <div class="space-y-3 px-2" phx-update="append">
                     <%= for a <- @articles |> Enum.slice(0..2) do %>
                     <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
-                    id: "mobile:#{a.id}",
+                    id: "mobile-article-#{a.id}",
                     profile: @profile,
                     spin: false,
                     article: a %>
@@ -259,7 +259,7 @@
             <div class="space-y-3 px-2" phx-update="append">
                 <%= for a <- @articles do %>
                 <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
-                    id: a.id,
+                    id: "article-#{a.id}",
                     profile: @profile,
                     spin: false,
                     article: a %>
@@ -290,7 +290,7 @@
                 <ul class="-mb-8">
                     <%= for activity <- @activities do %>
                     <%= live_component @socket, ShlinkedinWeb.ActivityLive.ActivityComponent,
-                    id: activity.id,
+                    id: "activity-#{activity.id}",
                     profile: @profile,
                     activity: activity
                  %>
