@@ -29,7 +29,7 @@ defmodule Shlinkedin.Timeline do
         preload: [:profile],
         order_by: [desc: n.inserted_at],
         distinct: true,
-        where: n.type != "new_profile"
+        where: n.type != "new_profile" and n.type != "admin_message"
     )
     |> Enum.uniq_by(fn x -> x.action end)
   end
