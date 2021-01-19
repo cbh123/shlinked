@@ -43,6 +43,42 @@ Uploaders.S3 = function (entries, onViewError) {
   });
 };
 
+Hooks.CopyToClipboard = {
+  mounted() {
+    this.el.addEventListener("click", (e) => {
+      // @link https://css-tricks.com/copy-paste-the-web/
+      // Select the email link anchor text
+      const link = this.el.getAttribute("phx-value-link");
+
+      var textarea = document.createElement("textarea");
+      textarea.textContent = link;
+      textarea.style.position = "fixed"; // Prevent scrolling to bottom of page in Microsoft Edge.
+      document.body.appendChild(textarea);
+      textarea.select();
+
+      try {
+        // Now that we've selected the anchor text, execute the copy command
+
+        let successful = document.execCommand("copy");
+        let msg = successful ? "successful" : "unsuccessful";
+
+        if (!successful) {
+          alert(
+            "Copy to clipboard failed. Please select the area to copy and use ctrl + c shortcut keys."
+          );
+        } else {
+          alert("Link copied to clipboard");
+        }
+      } catch (err) {
+        console.log(err);
+        alert(
+          "Copy to clipboard error. Please select the area to copy and use ctrl + c shortcut keys."
+        );
+      }
+    });
+  },
+};
+
 Hooks.OnboardingPrompt = {
   mounted() {
     this.el.addEventListener("click", (e) => {
