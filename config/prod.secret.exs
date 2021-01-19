@@ -5,7 +5,7 @@
 use Mix.Config
 
 database_url =
-  System.get_env("DATABASE_URL") ||
+  System.get_env("AWS_DATABASE_URL") ||
     raise """
     environment variable DATABASE_URL is missing.
     For example: ecto://USER:PASS@HOST/DATABASE
