@@ -1,5 +1,13 @@
  <div id="<%= @id %>" class="px-5 leading-none relative">
+
+     <%= if @article.emoji == nil do %>
      <span class="absolute left-2 top-1.5 h-1.5 w-1.5 rounded-full ring-2 ring-white bg-blue-400 mr-1.5"></span>
+     <% else %>
+     <div class="tooltip absolute text-xs left-1 top-0 h-1.5 w-1.5 mr-1.5"><%= @article.emoji %>
+         <div class="tooltip-text">Headline of Week <%= Timex.format!(@article.inserted_at, "{Mshort}. {D}, {YYYY}") %>
+         </div>
+     </div>
+     <% end %>
      <%# Top row: headline and clap and dot %>
      <div class="flex justify-between">
          <div>

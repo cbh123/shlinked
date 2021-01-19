@@ -7,6 +7,8 @@ defmodule Shlinkedin.News.Article do
     field :media_url, :string
     field :slug, :string
     field :profile_id, :id
+    field :emoji, :string
+    field :emoji_description, :string
     has_many :votes, Shlinkedin.News.Vote, on_delete: :nilify_all
 
     timestamps()
