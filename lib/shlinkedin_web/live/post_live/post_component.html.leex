@@ -165,11 +165,9 @@
 
 
 
-
                     <%# Right Side: Share Button %>
-                    <button type="button" phx-hook="CopyToClipboard" id="<%= "share-#{@post.id}" %>"
-                        phx-value-id="<%= @post.id %>"
-                        phx-value-link="<%="shlinked.herokuapp.com/show/posts/#{@post.id}"%>"
+                    <button type="button" phx-hook="CopyToClipboard"
+                        phx-value-link="<%="#{ShlinkedinWeb.Endpoint.url}/home/show/posts/#{@post.id}"%>"
                         class="ml-1 inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                         id="options-menu" aria-haspopup="true" aria-expanded="true">
                         <svg class="-ml-1 mr-1  h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor"
