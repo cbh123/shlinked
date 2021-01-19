@@ -39,6 +39,52 @@
 
 
 
+        <%# ShlinkBlasts %>
+        <div class="mx-auto w-screen sm:max-w-lg p-5 pb-3 mt-2 bg-white sm:rounded-lg border-b">
+
+            <p class="pb-4 font-bold">ShlinkBlasts</p>
+
+
+            <div class="flex overflow-x-auto w-full">
+                <div>
+                    <%= live_patch to: Routes.home_index_path(@socket, :new_story) do %>
+                    <span
+                        class="flex relative mx-1 place-self-center hover:text-blue-400 text-gray-500 cursor-pointer rounded-full">
+
+                        <img class="h-14 w-14 rounded-full border-2 border-white object-cover"
+                            src="<%= @profile.photo_url %>" alt="">
+                        <svg class="absolute bottom-0 right-0 h-4 w-4 text-blue-500 bg-white rounded-full"
+                            fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </span>
+                    <p class="text-center text-xs w-16 mx-auto">Add Blast</p>
+
+                    <% end %>
+                </div>
+
+                <%= for story <- @stories do %>
+                <div>
+                    <%= live_patch to: Routes.story_show_path(@socket, :show, story.profile_id) do %>
+                    <span
+                        class="flex mx-1 border-2 <%= if Shlinkedin.Timeline.seen_all_stories?(@profile, story.profile), do: "border-gray-300", else: "border-blue-400" %> rounded-full">
+
+                        <img class="h-14 w-14 rounded-full border-2 border-white object-cover"
+                            src="<%= story.profile.photo_url %>" alt="">
+                    </span>
+                    <p class="text-center text-xs w-16 mx-auto"><%= story.profile.persona_name%></p>
+                    <% end %>
+                </div>
+                <% end %>
+
+
+
+            </div>
+
+        </div>
+
 
 
         <div class="py-1"></div>
