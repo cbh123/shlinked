@@ -11,7 +11,7 @@ defmodule ShlinkedinWeb.StoryLive.FormComponent do
      allow_upload(socket, :media,
        accept: ~w(.png .jpeg .jpg .gif .mp4 .mov),
        max_entries: 1,
-       external: &MediaUpload.presign_entry/2
+       external: &MediaUpload.presign_media_entry/2
      )}
   end
 
