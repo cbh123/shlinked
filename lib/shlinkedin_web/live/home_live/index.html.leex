@@ -337,18 +337,23 @@
 
         <%# Activity Box %>
         <div class="block sm:w-72 w-full bg-white sm:mt-4 rounded-lg sm:m-4">
-            <div class="flow-root max-h-72 overflow-y-scroll p-5 bg-white rounded-lg">
+            <div class="flow-root  p-5 bg-white rounded-lg">
                 <h5 class=" font-bold mb-3">
-                    Recently</h5>
-                <ul class="-mb-8">
-                    <%= for activity <- @activities do %>
-                    <%= live_component @socket, ShlinkedinWeb.ActivityLive.ActivityComponent,
+
+
+                    Recent Activity</h5>
+
+                <div class="max-h-72 overflow-y-scroll">
+                    <ul class="-mb-8">
+                        <%= for activity <- @activities do %>
+                        <%= live_component @socket, ShlinkedinWeb.ActivityLive.ActivityComponent,
                     id: "activity-#{activity.id}",
                     profile: @profile,
                     activity: activity
                  %>
-                    <% end %>
-                </ul>
+                        <% end %>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
