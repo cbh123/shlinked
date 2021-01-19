@@ -83,7 +83,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     #{from_profile.persona_name} has invited you the #{group.privacy_type} group they are in, "#{
       group.title
     }." To accept or reject their invite,
-    you can <a href="shlinked.herokuapp.com/groups/#{group.id}">click here.</a>
+    you can <a href="https://www.shlinkedin.com/groups/#{group.id}">click here.</a>
 
     <br/>
     <br/>
@@ -138,7 +138,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
 
     #{from_profile.persona_name} has business jabbed you! Time to take
-    some corporate revenge and <a href="shlinked.herokuapp.com/sh/#{from_profile.slug}">jab them back.</a>
+    some corporate revenge and <a href="https://www.shlinkedin.com/sh/#{from_profile.slug}">jab them back.</a>
 
     <br/>
     <br/>
@@ -185,7 +185,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
 
     <p>Hi #{from_profile.persona_name} / #{from_profile.real_name} has sent you a Shlink request. You can accept it
-    <a href="shlinked.herokuapp.com/sh/#{to_profile.slug}">here.</a>
+    <a href="https://www.shlinkedin.com/sh/#{to_profile.slug}">here.</a>
 
     Time to think of some ice-breakers, like:</p>
 
@@ -421,7 +421,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
 
     We are excited to inform you that your post has been awarded
-     <a href="shlinked.herokuapp.com/posts/#{post.id}">post of the day!</a>!!!
+     <a href="https://www.shlinkedin.com/posts/#{post.id}">post of the day!</a>!!!
      +100 ShlinkPoints.
 
     <br/>
