@@ -195,7 +195,7 @@
             <%= for comment <- @post.comments |> Enum.slice(0, @num_show_comments) do %>
             <div class="my-1">
                 <%= live_component @socket, ShlinkedinWeb.PostLive.CommentBubbleComponent,
-                id: comment.id,
+                id: "comment-#{comment.id}",
                 post: @post,
                 profile: @profile,
                 expand_comment: false,
