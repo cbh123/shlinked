@@ -17,7 +17,7 @@
 
 
         <div>
-            <%= label f, "What do you want to call your network?", class: "block text-sm font-medium text-gray-700" %>
+            <%= label f, "What do you want to call your Group?", class: "block text-sm font-medium text-gray-700" %>
             <%= text_input f, :title, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 inline-block sm:text-sm border-gray-300 rounded-md px-3", placeholder: "Business Lovers" %>
             <%= error_tag f, :title %>
         </div>
@@ -26,20 +26,20 @@
 
         <%= if @action == :new do %>
         <div class="mt-6">
-            <label for="public" class="block text-sm font-medium text-gray-700">Network Type</label>
+            <label for="public" class="block text-sm font-medium text-gray-700">Group Type</label>
 
             <%= error_tag f, :privacy_type %>
             <%= select f, :privacy_type, [[key: "Public - anyone can join and see posts", value: "public"], [key: "Private - you have to be accepted to join and see posts", value: "private", disabled: true],
-         [key: "Secret - must be invited to know of network's existence", value: "secret", disabled: true]], class: "mt-1 inline-block pl-3 pr-5 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" %>
+         [key: "Secret - must be invited to know of Group's existence", value: "secret", disabled: true]], class: "mt-1 inline-block pl-3 pr-5 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" %>
 
-            <p class="text-xs text-gray-500">Note: you cannot change network type once the network is created.</p>
+            <p class="text-xs text-gray-500">Note: you cannot change Group type once the Group is created.</p>
 
         </div>
         <% end %>
 
 
         <div class="mt-6">
-            <%= label f, "How would you describe this network?", class: "block text-sm font-medium text-gray-700" %>
+            <%= label f, "How would you describe this Group?", class: "block text-sm font-medium text-gray-700" %>
             <%= textarea f, :about, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md px-3", rows: 3, placeholder: "Lovers of corporations only." %>
             <p class="mt-4 text-xs"><%= error_tag f, :about %></p>
 

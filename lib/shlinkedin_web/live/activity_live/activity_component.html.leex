@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="min-w-0 flex-1 py-1.5">
-                <div class="text-sm text-gray-500">
+                <div class="text-xs text-gray-500">
                     <%= live_redirect @activity.profile.persona_name, to: Routes.profile_show_path(@socket, :show, @activity.profile.slug), class: "font-medium text-gray-900" %>
 
                     <%= raw(render_notification_as_activity(@activity)) %>

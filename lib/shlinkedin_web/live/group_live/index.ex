@@ -18,7 +18,7 @@ defmodule ShlinkedinWeb.GroupLive.Index do
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "Create a Network")
+    |> assign(:page_title, "Create a Group")
     |> assign(:group, %Group{})
   end
 
