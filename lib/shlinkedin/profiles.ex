@@ -111,7 +111,8 @@ defmodule Shlinkedin.Profiles do
     Repo.all(
       from p in Profile,
         where:
-          (ilike(p.persona_name, ^sql) or ilike(p.real_name, ^sql)) and p.persona_name != "test",
+          (ilike(p.persona_name, ^sql) or ilike(p.real_name, ^sql) or ilike(p.username, ^sql)) and
+            p.persona_name != "test",
         limit: 7,
         order_by: fragment("RANDOM()")
     )
@@ -230,6 +231,7 @@ defmodule Shlinkedin.Profiles do
   def create_invite(%Invite{} = invite, attrs \\ %{}) do
     invite
     |> Invite.changeset(attrs)
+    |> IO.inspect()
     |> Repo.insert()
   end
 

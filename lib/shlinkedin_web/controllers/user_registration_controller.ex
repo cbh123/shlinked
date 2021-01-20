@@ -5,8 +5,18 @@ defmodule ShlinkedinWeb.UserRegistrationController do
   alias Shlinkedin.Accounts.User
   alias ShlinkedinWeb.UserAuth
 
+  def join(conn, %{"ref" => slug}) do
+    case Shlinkedin.Profiles.get_profile_by_slug(slug) do
+      nil ->
+        render(conn, "join.html", persona_name: nil, real_name: nil)
+
+      profile ->
+        render(conn, "join.html", persona_name: profile.persona_name, real_name: profile.real_name)
+    end
+  end
+
   def join(conn, _params) do
-    render(conn, "join.html")
+    render(conn, "join.html", persona_name: nil, real_name: nil)
   end
 
   def new(conn, _params) do

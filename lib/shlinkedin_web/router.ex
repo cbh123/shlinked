@@ -181,6 +181,7 @@ defmodule ShlinkedinWeb.Router do
     live "/onboarding/:id", OnboardingLive.Index, :index
 
     get "/join", UserRegistrationController, :join
+    get "/join?ref=:profile_slug", UserRegistrationController, :join
 
     # auth stuff
     delete "/users/log_out", UserSessionController, :delete

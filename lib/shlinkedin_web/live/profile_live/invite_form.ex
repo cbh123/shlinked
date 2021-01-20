@@ -5,6 +5,12 @@ defmodule ShlinkedinWeb.ProfileLive.InviteForm do
   alias Shlinkedin.Profiles.Invite
 
   @impl true
+  def mount(socket) do
+    socket = assign(socket, invite_email: nil)
+    {:ok, socket}
+  end
+
+  @impl true
   def update(%{invite: invite} = assigns, socket) do
     changeset = Profiles.change_invite(invite)
 
@@ -25,7 +31,7 @@ defmodule ShlinkedinWeb.ProfileLive.InviteForm do
   end
 
   def handle_event("save", %{"invite" => invite_params}, socket) do
-    save_invite(socket, socket.assigns.action, invite_params)
+    save_invite(socket, :new_invite, invite_params)
   end
 
   defp save_invite(%{assigns: %{profile: profile}} = socket, :new_invite, invite_params) do
@@ -36,8 +42,7 @@ defmodule ShlinkedinWeb.ProfileLive.InviteForm do
       {:ok, _invite} ->
         {:noreply,
          socket
-         |> put_flash(:info, "invite sent")
-         |> push_redirect(to: socket.assigns.return_to)}
+         |> assign(:invite_email, invite_params["email"])}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
