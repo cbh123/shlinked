@@ -154,6 +154,12 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     |> assign(:comment, comment)
   end
 
+  defp apply_action(socket, :new_invite, _params) do
+    socket
+    |> assign(:invite, %Shlinkedin.Profiles.Invite{})
+    |> assign(:page_title, "Invite to ShlinkedIn")
+  end
+
   defp apply_action(socket, :index, _params) do
     socket
     |> assign(:page_title, "Home")

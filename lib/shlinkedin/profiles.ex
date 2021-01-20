@@ -16,7 +16,8 @@ defmodule Shlinkedin.Profiles do
     ProfileNotifier,
     Profile,
     Notification,
-    Friend
+    Friend,
+    Invite
   }
 
   alias Shlinkedin.Accounts.User
@@ -223,6 +224,12 @@ defmodule Shlinkedin.Profiles do
       ) do
     notification
     |> Notification.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def create_invite(%Invite{} = invite, attrs \\ %{}) do
+    invite
+    |> Invite.changeset(attrs)
     |> Repo.insert()
   end
 
@@ -488,6 +495,10 @@ defmodule Shlinkedin.Profiles do
 
   def change_notification(%Notification{} = notification, attrs \\ %{}) do
     Notification.changeset(notification, attrs)
+  end
+
+  def change_invite(%Invite{} = invite, attrs \\ %{}) do
+    Invite.changeset(invite, attrs)
   end
 
   def get_random_profiles(count) do

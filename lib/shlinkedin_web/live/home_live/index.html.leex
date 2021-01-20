@@ -449,3 +449,12 @@
     votes:  @votes,
     return_to: Routes.home_index_path(@socket, :index) %>
 <% end %>
+
+<%= if @live_action in [:new_invite] do %>
+<%= live_modal @socket, ShlinkedinWeb.ProfileLive.InviteForm,
+    id: :new_invite,
+    profile: @profile,
+    invite: @invite,
+    title: @page_title,
+    return_to: Routes.home_index_path(@socket, :index) %>
+<% end %>
