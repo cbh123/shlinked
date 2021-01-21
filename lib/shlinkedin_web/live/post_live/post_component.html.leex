@@ -191,7 +191,7 @@
                             role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                             <div class="py-1">
                                 <button type="button" phx-hook="CopyToClipboard" id="<%= "#{@post.id}-copy-btn" %> "
-                                    phx-value-link="<%="https://shlinkedin.com/home/show/posts/#{@post.id}"%>"
+                                    phx-value-link="<%="https://www.shlinkedin.com/home/show/posts/#{@post.id}"%>"
                                     class="flex w-full items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                                     role="menuitem">
                                     <svg class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" fill="none"
@@ -203,7 +203,7 @@
                                     Copy link to post
                                 </button>
                                 <button type="button" phx-hook="ShareVia" id="<%= "#{@post.id}-sharevia-btn" %> "
-                                    phx-value-link="<%="https://shlinkedin.com/home/show/posts/#{@post.id}"%>"
+                                    phx-value-link="<%="https://www.shlinkedin.com/home/show/posts/#{@post.id}"%>"
                                     phx-value-text="<%= "#{if @post.body != nil, do: String.slice(@post.body, 0..50)}... "%>"
                                     phx-value-title="<%= "See #{@post.profile.persona_name}'s post on ShlinkedIn "%>"
                                     class="flex w-full items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
