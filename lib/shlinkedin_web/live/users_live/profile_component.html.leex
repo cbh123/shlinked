@@ -11,8 +11,11 @@
              src="<%= @show_profile.photo_url %>" alt="">
      </div>
      <h3 class=" mt-2 text-gray-900 text-sm font-medium hover:underline"><%= @show_profile.persona_name %>
+
          <span><%= Shlinkedin.Badges.profile_badges(@socket, @show_profile, 3) %></span>
      </h3>
+     aka <p> <%= Shlinkedin.Profiles.show_real_name(@profile, @show_profile) %></p>
+
      <% end %>
 
      <dl class="mt-1 flex-grow flex flex-col justify-between">

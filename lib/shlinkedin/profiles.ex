@@ -536,10 +536,9 @@ defmodule Shlinkedin.Profiles do
     Invite.changeset(invite, attrs)
   end
 
-  def get_random_profiles(count) do
+  def list_random_profiles(count) do
     Repo.all(
       from p in Profile,
-        select: %{name: p.persona_name, slug: p.slug, photo: p.photo_url, title: p.persona_title},
         order_by: fragment("RANDOM()"),
         limit: ^count,
         where: not ilike(p.persona_name, "%test%") and not like(p.persona_name, "")

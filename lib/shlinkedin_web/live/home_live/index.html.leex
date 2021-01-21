@@ -264,12 +264,12 @@
                 </div>
             </div>
             <% end %>
-            <%= if idx == 6 do %>
+            <%= if idx == 2 do %>
             <%# Featured profiles %>
             <div id="featured-profiles" class="mx-auto p-5 bg-white my-2 sm:max-w-lg sm:rounded-lg">
 
                 <div class="flex justify-between mb-2">
-                    <h5 class=" font-bold ">Featured Profiles</h5>
+                    <h5 class=" font-bold ">Shlinkers you may know</h5>
                     <%= live_redirect raw("Explore Profiles &rarr;"), to: Routes.users_index_path(@socket, :index), class: "px-2 py-1 text-gray-500 hover:underline text-xs" %>
                 </div>
 
