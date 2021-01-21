@@ -82,7 +82,8 @@
             <div class="inline-flex items-center pl-2">
 
                 <%# "x likes" with symbols %>
-                <%= if length(@post.likes) > 0 do %>
+                <%# Adding @post.likes != nil line to deal with a bug.  %>
+                <%= if @post.likes != nil and length(@post.likes) > 0 do %>
 
                 <button phx-click="show-likes" phx-target="<%= @myself %>" phx-value-id="<%= @post.id %>"
                     class="<%= if @spin == true, do: "animate-spin" %> inline-flex items-center hover:text-blue-500 hover:underline hover:cursor-pointer py-2 my-2">

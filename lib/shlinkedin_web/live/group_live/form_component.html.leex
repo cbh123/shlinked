@@ -30,7 +30,7 @@
 
             <%= error_tag f, :privacy_type %>
             <%= select f, :privacy_type, [[key: "Public - anyone can join and see posts", value: "public"], [key: "Private - you have to be accepted to join and see posts", value: "private", disabled: true],
-         [key: "Secret - must be invited to know of Group's existence", value: "secret", disabled: true]], class: "mt-1 inline-block pl-3 pr-5 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" %>
+         [key: "Secret", value: "secret", disabled: true]], class: "mt-1 inline-block pl-3 pr-5 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" %>
 
             <p class="text-xs text-gray-500">Note: you cannot change Group type once the Group is created.</p>
 

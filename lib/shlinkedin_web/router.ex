@@ -169,6 +169,9 @@ defmodule ShlinkedinWeb.Router do
     live "/groups/:id/posts/:post_id/new_comment?reply_to=:username", GroupLive.Show, :new_comment
     live "/groups/:id/posts/:comment_id/comment_likes", GroupLive.Show, :show_comment_likes
 
+    # leaderboard
+    live "/leaders", LeaderboardLive.Index, :index
+
     # search
     # live "/search", SearchLive.Index, :index
     # live "/search/:query", SearchLive.Index, :index
