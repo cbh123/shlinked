@@ -231,8 +231,41 @@ defmodule Shlinkedin.Profiles do
   def create_invite(%Invite{} = invite, attrs \\ %{}) do
     invite
     |> Invite.changeset(attrs)
-    |> IO.inspect()
     |> Repo.insert()
+    |> IO.inspect()
+    |> send_email_invite()
+  end
+
+  def send_email_invite({:error, msg}), do: {:error, msg}
+
+  def send_email_invite({:ok, %Invite{profile_id: profile_id, email: email} = invite}) do
+    from = get_profile_by_profile_id(profile_id)
+
+    body = """
+
+    Hi there,
+
+    <br/>
+    <br/>
+
+    #{from.real_name} aka \"#{from.persona_name}\" has invited you to join ShlinkedIn, a social network for satire. To accept their invite,
+    <a href="https://www.shlinkedin.com/join?ref=#{from.slug}">click here.</a>
+
+    <br/>
+    <br/>
+    Thanks, <br/>
+    ShlinkTeam
+
+    """
+
+    Shlinkedin.Email.new_email(
+      email,
+      "#{from.real_name} invited you to join ShlinkedIn!",
+      body
+    )
+    |> Shlinkedin.Mailer.deliver_later()
+
+    {:ok, invite}
   end
 
   def notify_everyone(%Notification{} = notification, attrs \\ %{}) do
