@@ -69,7 +69,7 @@ defmodule Shlinkedin.Profiles do
 
   defp is_profile_private(%Profile{} = profile) do
     case profile.private_mode do
-      true -> "???"
+      true -> "Private 🔒"
       false -> profile.real_name
     end
   end

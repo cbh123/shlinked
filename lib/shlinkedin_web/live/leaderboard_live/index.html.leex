@@ -1,6 +1,57 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <div class="container mx-auto sm:px-6 lg:px-8 mt-16">
-    <h1 class="font-bold">Thought Leaders</h1>
+
+    <div class="pb-5 border-b border-gray-200 sm:pb-0">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+            Thought Leaders
+        </h3>
+        <div class="mt-3 sm:mt-4">
+            <!-- Dropdown menu on small screens -->
+            <div class="sm:hidden">
+                <label for="selected-tab" class="sr-only">Select a tab</label>
+                <select id="selected-tab" name="selected-tab"
+                    class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                    <option selected># Shlinks</option>
+
+                    <option>Post Reactions</option>
+
+                    <option>Headline Claps o</option>
+
+                    <option>Ad Clicks</option>
+
+                </select>
+            </div>
+            <!-- Tabs at small breakpoint and up -->
+            <div class="hidden sm:block">
+                <nav class="-mb-px flex space-x-8">
+                    <a href="#"
+                        class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">
+                        # Shlinks
+                    </a>
+
+                    <a href="#"
+                        class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">
+                        Post Reactions
+                    </a>
+
+                    <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" -->
+                    <a href="#"
+                        class="border-indigo-500 text-indigo-600 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm"
+                        aria-current="page">
+                        Headline Claps
+                    </a>
+
+                    <a href="#"
+                        class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">
+                        Ad Clicks
+                    </a>
+
+
+                </nav>
+            </div>
+        </div>
+    </div>
+
     <div class="flex flex-col">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -8,6 +59,10 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Rank
+                                </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Name
@@ -31,6 +86,9 @@
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">#1</div>
+                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0 h-10 w-10">

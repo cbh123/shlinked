@@ -73,7 +73,8 @@
 
 
                         <p class="text-xs">
-                            @<%= @story.profile.real_name %> • <%= Timex.from_now(@story.inserted_at) %>
+                            <%= Shlinkedin.Profiles.show_real_name(@profile, @story.profile) %> •
+                            <%= Timex.from_now(@story.inserted_at) %>
 
                         </p>
 
