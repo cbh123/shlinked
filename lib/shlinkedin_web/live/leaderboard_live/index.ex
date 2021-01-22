@@ -13,6 +13,10 @@ defmodule ShlinkedinWeb.LeaderboardLive.Index do
      )}
   end
 
+  def handle_params(params, _url, socket) do
+    {:noreply, socket}
+  end
+
   # def handle_event("show", %{"cat" => cat}, socket) do
   #   socket = assign(socket, key: value)
   #   {:noreply, socket}
