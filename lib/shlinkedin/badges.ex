@@ -9,17 +9,20 @@ defmodule Shlinkedin.Badges do
   end
 
   defp profile_badge_active(%Award{} = award) do
-    NaiveDateTime.utc_now() <=
+    NaiveDateTime.compare(
+      NaiveDateTime.utc_now(),
       NaiveDateTime.add(
         award.inserted_at,
         award.award_type.profile_badge_days * 86400,
         :second
       )
+    ) == :lt
   end
 
   defp show_profile_badges(assigns, awards, size) do
     ~L"""
     <div class="inline-flex align-baseline">
+
 
     <%= for award <- awards do %>
     <%= if award.award_type.profile_badge and profile_badge_active(award) and award.active == true do %>
