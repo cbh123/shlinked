@@ -105,6 +105,13 @@ defmodule Shlinkedin.Profiles do
     Repo.all(from(p in Profile))
   end
 
+  def list_profiles_by_shlink_count(count) do
+    list_profiles()
+    |> Enum.map(fn p -> %{number: length(get_unique_connection_ids(p)), profile: p} end)
+    |> Enum.sort(&(&1 >= &2))
+    |> Enum.slice(0..count)
+  end
+
   def search_profiles(persona_or_real) do
     sql = "%#{persona_or_real}%"
 
