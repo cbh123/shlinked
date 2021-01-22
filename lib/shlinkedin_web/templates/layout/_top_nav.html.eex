@@ -59,7 +59,11 @@
             <%= if @current_user != nil and @profile != nil and @profile.persona_name != nil do %>
 
             <%# SEARCH %>
-
+            <div class="flex-1 flex items-center px-2 sm:ml-6 sm:justify-end" style="justify-content:left">
+                <div class="max-w-lg w-full md:max-w-md lg:max-w-xs">
+                    <%# <%= live_render(@conn, ShlinkedinWeb.SearchLive.SearchBox, id: :search) %>
+                </div>
+            </div>
 
             <%# NAV %>
             <div class="hidden sm:ml-6 sm:flex text-xs md:text-sm text-gray-500">
