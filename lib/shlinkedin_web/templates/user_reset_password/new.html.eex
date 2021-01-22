@@ -1,15 +1,26 @@
-<h1>Forgot your password?</h1>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+    <!-- We've used 3xl here, but feel free to try other max-widths based on your needs -->
+    <div class="max-w-3xl mx-auto text-center">
+        <h1 class="font-bold text-xl">Forgot your password?</h1>
 
-<%= form_for :user, Routes.user_reset_password_path(@conn, :create), fn f -> %>
-  <%= label f, :email %>
-  <%= email_input f, :email, required: true %>
+        <%= form_for :user, Routes.user_reset_password_path(@conn, :create), fn f -> %>
 
-  <div>
-    <%= submit "Send instructions to reset password" %>
-  </div>
-<% end %>
+        <div class="mt-4">
+            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+            <div class="mt-1">
+                <%= email_input f, :email, required: true, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block mx-auto sm:text-base border-gray-300 rounded-md", placeholder: "elonmusk@bitcoin.com" %>
+                <%= submit "Send instructions to reset password", class: "my-4 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
 
-<p>
-  <%= link "Register", to: Routes.user_registration_path(@conn, :new) %> |
-  <%= link "Log in", to: Routes.user_session_path(@conn, :new) %>
-</p>
+            </div>
+
+        </div>
+
+        <% end %>
+
+        <p>
+            <%= link "Register", to: Routes.user_registration_path(@conn, :new) %> |
+            <%= link "Log in", to: Routes.user_session_path(@conn, :new) %>
+        </p>
+
+    </div>
+</div>

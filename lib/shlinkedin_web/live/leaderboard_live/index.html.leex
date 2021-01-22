@@ -1,16 +1,25 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
-<div class="container mx-auto sm:px-6 lg:px-8 mt-12 max-w-2xl">
+<div class="container mx-auto sm:px-6 lg:px-8 mt-4 sm:mt-12 max-w-2xl">
 
-    <div class="pb-5 border-b border-gray-200 sm:pb-0">
-        <h3 class="text-4xl tracking-tighter font-extrabold text-gray-900">
-            Thought Leaders
-        </h3>
-        <div class="mt-3 sm:mt-4">
+    <div class="pb-5 border-b border-gray-200 sm:pb-0 px-2">
+
+        <div>
+            <span class="block text-base text-blue-600 font-semibold tracking-wide uppercase">Introducing</span>
+            <h3 class="text-4xl tracking-tighter font-bold text-gray-900 ">
+                Thought Leaderboard
+            </h3>
+
+            <p class="text-gray-500 mt-2">
+                Ever wondered how you stacked up relative to your peers, objectively? Compare across different
+                dimensions below.
+            </p>
+        </div>
+        <div class="mt-4 sm:mt-12">
             <!-- Dropdown menu on small screens -->
             <div class="sm:hidden">
                 <label for="selected-tab" class="sr-only">Select a tab</label>
                 <select id="selected-tab" name="selected-tab"
-                    class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                    class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
                     <option selected># Shlinks</option>
 
                     <option>Post Reactions</option>
@@ -18,6 +27,8 @@
                     <option>Headline Claps o</option>
 
                     <option>Ad Clicks</option>
+
+                    <option>Reviews</option>
 
                 </select>
             </div>
@@ -34,9 +45,9 @@
                         Post Reactions
                     </a>
 
-                    <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" -->
+                    <!-- Current: "border-blue-500 text-blue-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" -->
                     <a href="#"
-                        class="border-indigo-500 text-indigo-600 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm"
+                        class="border-blue-500 text-blue-600 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm"
                         aria-current="page">
                         Headline Claps
                     </a>
@@ -44,6 +55,12 @@
                     <a href="#"
                         class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">
                         Ad Clicks
+                    </a>
+
+
+                    <a href="#"
+                        class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">
+                        Reviews
                     </a>
 
 
@@ -60,12 +77,12 @@
                         <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Rank
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Name
+                                    Profile
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
