@@ -9,7 +9,7 @@ defmodule ShlinkedinWeb.LeaderboardLive.Index do
      socket
      |> assign(
        cat: "shlink_count",
-       rankings: Shlinkedin.Profiles.list_profiles_by_shlink_count(25)
+       rankings: Shlinkedin.Profiles.list_profiles_by_unique_post_reactions(25)
      )}
   end
 

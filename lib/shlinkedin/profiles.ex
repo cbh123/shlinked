@@ -105,11 +105,35 @@ defmodule Shlinkedin.Profiles do
     Repo.all(from(p in Profile))
   end
 
+  # Leaderboard stuff
   def list_profiles_by_shlink_count(count) do
     list_profiles()
     |> Enum.map(fn p -> %{number: length(get_unique_connection_ids(p)), profile: p} end)
     |> Enum.sort(&(&1 >= &2))
     |> Enum.slice(0..count)
+  end
+
+  def list_profiles_by_unique_post_reactions(count) do
+    query =
+      from l in Shlinkedin.Timeline.Like,
+        group_by: [l.profile_id, l.post_id, l.like_type],
+        select: %{
+          post_id: l.post_id,
+          profile_id: l.profile_id,
+          like_type: l.like_type,
+          count: count(l.like_type)
+        }
+
+    Repo.all(
+      from l in subquery(query),
+        left_join: posts in Shlinkedin.Timeline.Post,
+        on: posts.id == l.post_id,
+        left_join: profiles in Profile,
+        on: posts.profile_id == profiles.id,
+        group_by: profiles.id,
+        select: %{profile: profiles, number: count(l.like_type)},
+        limit: ^count
+    )
   end
 
   def search_profiles(persona_or_real) do
