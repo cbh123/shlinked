@@ -132,6 +132,7 @@ defmodule Shlinkedin.Profiles do
         left_join: profiles in Profile,
         on: posts.profile_id == profiles.id,
         group_by: profiles.id,
+        where: l.profile_id != posts.profile_id,
         select: %{profile: profiles, number: count(l.like_type)},
         limit: ^count
     )
