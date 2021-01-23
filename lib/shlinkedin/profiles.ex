@@ -17,7 +17,8 @@ defmodule Shlinkedin.Profiles do
     Profile,
     Notification,
     Friend,
-    Invite
+    Invite,
+    ProfileView
   }
 
   alias Shlinkedin.Accounts.User
@@ -367,6 +368,12 @@ defmodule Shlinkedin.Profiles do
     |> Testimonial.changeset(attrs)
     |> Repo.insert()
     |> ProfileNotifier.observer(:testimonial, from, to)
+  end
+
+  def create_profile_view(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
+    %ProfileView{from_profile_id: from.id, to_profile_id: to.id}
+    |> ProfileView.changeset(attrs)
+    |> Repo.insert()
   end
 
   def send_friend_request(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do

@@ -3,7 +3,6 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   alias Shlinkedin.Timeline
   alias Shlinkedin.Timeline.Comment
   alias Shlinkedin.Profiles
-  alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Profiles.Endorsement
   alias Shlinkedin.Profiles.Testimonial
 
@@ -16,6 +15,9 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     show_profile = Shlinkedin.Profiles.get_profile_by_slug(slug)
 
     socket = is_user(session, socket)
+
+    # store profile view
+    Profiles.create_profile_view(socket.assigns.profile, show_profile)
 
     {:ok,
      socket
