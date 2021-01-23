@@ -38,7 +38,7 @@
 
          <span class="pl-1 <%= if @spin == true, do: "animate-spin" %> "> <%= length(@article.votes)%>
              claps </span>
-         <span><%= if @article.profile_id == @profile.id, do: link "• Delete", to: "#", phx_click: "delete-article", class: "hover:text-gray-600", phx_value_id: @article.id, data: [confirm: "Are you sure?"] %></span>
+         <span><%= if @article.profile_id == @profile.id or @profile.admin, do: link "• Delete", to: "#", phx_click: "delete-article", class: "hover:text-gray-600", phx_value_id: @article.id, data: [confirm: "Are you sure?"] %></span>
          </p>
 
          <% end %>
