@@ -162,7 +162,7 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
     {:noreply,
      socket
      |> assign(:progress, 5)
-     |> assign(:ai_loading, !socket.assigns.ai_loading)
+     |> assign(:ai_loading, true)
      |> assign(:loading_text, Timeline.comment_loading())}
   end
 
