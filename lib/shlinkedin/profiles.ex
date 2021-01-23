@@ -380,7 +380,7 @@ defmodule Shlinkedin.Profiles do
   end
 
   def send_jab(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
-    %Jab{}
+    %Jab{from_profile_id: from.id, to_profile_id: to.id}
     |> Jab.changeset(attrs)
     |> Repo.insert()
     |> ProfileNotifier.observer(:jab, from, to)
