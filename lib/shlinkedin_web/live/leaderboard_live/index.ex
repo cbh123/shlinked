@@ -44,7 +44,13 @@ defmodule ShlinkedinWeb.LeaderboardLive.Index do
   def handle_params(%{"curr_category" => curr_category}, _url, socket) do
     rankings = match_cat(curr_category, socket.assigns.count)
 
-    {:noreply, socket |> assign(rankings: rankings, page_title: "#{curr_category} Leaders")}
+    {:noreply,
+     socket
+     |> assign(
+       rankings: rankings,
+       page_title: "#{curr_category} Leaders",
+       curr_category: curr_category
+     )}
   end
 
   @impl true

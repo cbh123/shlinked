@@ -38,13 +38,10 @@
                     <%# <%= live_patch "Post Reactions", to: Routes.live_patch(@socket, ) %>
 
                     <%= for category <- @categories |> Map.keys() do %>
-                    <div>
-                        <%= live_patch category, to: Routes.leaderboard_index_path(@socket, :index, curr_category: category),
+
+                    <%= live_patch category, to: Routes.leaderboard_index_path(@socket, :index, curr_category: category),
                          class: "#{if category |> Atom.to_string() == @curr_category, do: "border-blue-500 text-blue-600", else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"} whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm"  %>
-                    </div>
-                    <a href="#" class=>
-                        <%= category %>
-                    </a>
+
                     <% end %>
 
 
