@@ -229,13 +229,11 @@ defmodule ShlinkedinWeb.HomeLive.Index do
 
   @impl true
   def handle_info({:post_created, post}, socket) do
-    IO.inspect(post, label: "post created")
     {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
   end
 
   @impl true
   def handle_info({:post_updated, post}, socket) do
-    IO.inspect(post, label: "post updated")
     {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
   end
 

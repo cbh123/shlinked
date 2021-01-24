@@ -95,11 +95,6 @@ defmodule ShlinkedinWeb.Router do
     live "/home/posts/:id/likes", HomeLive.Index, :show_likes
     live "/home/posts/:comment_id/comment_likes", HomeLive.Index, :show_comment_likes
 
-    # stories
-    live "/stories/new", HomeLive.Index, :new_story
-    live "/stories/:profile_id/:story_id", StoryLive.Show, :show
-    live "/stories/:profile_id", StoryLive.Show, :show
-
     ### profile
     live "/sh/:slug", ProfileLive.Show, :show
     live "/sh/:slug/shlinks", ProfileLive.Show, :show_friends
