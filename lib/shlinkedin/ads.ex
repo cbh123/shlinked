@@ -23,7 +23,7 @@ defmodule Shlinkedin.Ads do
     Repo.all(Ad)
   end
 
-  def get_ad_clicks(%Profile{} = profile) do
+  def list_unique_ad_clicks(%Profile{} = profile) do
     Repo.all(
       from a in Ad,
         where: a.profile_id == ^profile.id,

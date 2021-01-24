@@ -7,6 +7,7 @@
                     <%= if @current_user do %>
                     <%= link to: "/menu" do %>
 
+
                     <% end %>
 
 
@@ -42,12 +43,17 @@
 
                     </button>
 
-
-
                     <%= link "ShlinkedIn", to: (if @current_user, do: "/home", else: "/join"), class: "text-xs text-blue-700 font-bold hidden sm:inline-flex" %>
 
                     <% else %>
                     <%= link "ShlinkedIn", to: "/join", class: "text-xs text-blue-700 font-bold inline-flex" %>
+
+                    <div class="inline-flex ml-4">
+
+
+                        <%= link "Log in", to: "/log_in", class: "mr-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded-full text-blue-700 bg-white hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+                        <%= link "Register", to: "/register", class: "inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded-full text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+                    </div>
 
                     <% end %>
 
@@ -180,6 +186,9 @@
                 </div>
             </div>
             <% end %>
+
+
+
         </div>
     </div>
 

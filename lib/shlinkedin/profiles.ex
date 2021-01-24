@@ -114,6 +114,22 @@ defmodule Shlinkedin.Profiles do
     |> Enum.slice(0..count)
   end
 
+  def list_profiles_by_ad_clicks(count) do
+    list_profiles()
+    |> Enum.map(fn p -> %{number: length(Shlinkedin.Ads.list_unique_ad_clicks(p)), profile: p} end)
+    |> Enum.sort(&(&1 >= &2))
+    |> Enum.slice(0..count)
+  end
+
+  def list_profiles_by_article_votes(count) do
+    list_profiles()
+    |> Enum.map(fn p ->
+      %{number: length(Shlinkedin.News.list_unique_article_votes(p)), profile: p}
+    end)
+    |> Enum.sort(&(&1 >= &2))
+    |> Enum.slice(0..count)
+  end
+
   def list_profiles_by_unique_post_reactions(count) do
     query =
       from l in Shlinkedin.Timeline.Like,
@@ -134,6 +150,19 @@ defmodule Shlinkedin.Profiles do
         group_by: profiles.id,
         where: l.profile_id != posts.profile_id,
         select: %{profile: profiles, number: count(l.like_type)},
+        order_by: [desc: count(l.like_type)],
+        limit: ^count
+    )
+  end
+
+  def list_profiles_by_reviews(count) do
+    Repo.all(
+      from t in Testimonial,
+        left_join: profiles in Shlinkedin.Profiles.Profile,
+        on: profiles.id == t.to_profile_id,
+        group_by: profiles.id,
+        order_by: [desc: avg(t.rating)],
+        select: %{profile: profiles, avg: avg(t.rating), count: count(t.rating)},
         limit: ^count
     )
   end

@@ -20,15 +20,13 @@
                 <label for="selected-tab" class="sr-only">Select a tab</label>
                 <select id="selected-tab" name="selected-tab"
                     class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-                    <option selected># Shlinks</option>
+                    <%# <option selected># Shlinks</option> %>
 
-                    <option>Post Reactions</option>
+                    <%= for category <- @categories |> Map.keys() do %>
+                    <option><%= category %></option>
+                    <% end %>
 
-                    <option>Headline Claps</option>
 
-                    <option>Ad Clicks</option>
-
-                    <option>Reviews</option>
 
                 </select>
             </div>
@@ -39,39 +37,17 @@
 
                     <%# <%= live_patch "Post Reactions", to: Routes.live_patch(@socket, ) %>
 
-                    <a href="#"
-                        class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">
-                        Post Engagements
+                    <%= for category <- @categories |> Map.keys() do %>
+                    <div>
+                        <%= live_patch category, to: Routes.leaderboard_index_path(@socket, :index, curr_category: category),
+                         class: "#{if category |> Atom.to_string() == @curr_category, do: "border-blue-500 text-blue-600", else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"} whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm"  %>
+                    </div>
+                    <a href="#" class=>
+                        <%= category %>
                     </a>
-
-                    <a href="#" phx-click="show" phx-value-cat="shlink_count"
-                        class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">
-                        Shlinks
-                    </a>
-
-                    <a href="#" phx-click="show" phx-value-cat="shlink_count"
-                        class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">
-                        Jabs
-                    </a>
+                    <% end %>
 
 
-                    <!-- Current: "border-blue-500 text-blue-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" -->
-                    <a href="#"
-                        class="border-blue-500 text-blue-600 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm"
-                        aria-current="page">
-                        Claps
-                    </a>
-
-                    <a href="#"
-                        class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">
-                        Ads
-                    </a>
-
-
-                    <a href="#"
-                        class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">
-                        Reviews
-                    </a>
 
 
 
@@ -97,8 +73,8 @@
                                     Profile
                                 </th>
                                 <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
-                                    Score
+                                    class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
+                                    <%= @categories[@curr_category] %>
                                 </th>
                             </tr>
                         </thead>

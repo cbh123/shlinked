@@ -34,7 +34,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(from_notifications: false)
      |> assign(current_awards: Profiles.list_awards(show_profile))
      |> assign(award_types: Shlinkedin.Awards.list_award_types())
-     |> assign(ad_clicks: get_ad_clicks(show_profile))
+     |> assign(ad_clicks: list_unique_ad_clicks(show_profile))
      |> fetch_posts()
      |> assign(from_profile: socket.assigns.profile)
      |> assign(to_profile: show_profile)
@@ -244,8 +244,8 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     Profiles.get_mutual_friends(from, to)
   end
 
-  defp get_ad_clicks(profile) do
-    Shlinkedin.Ads.get_ad_clicks(profile)
+  defp list_unique_ad_clicks(profile) do
+    Shlinkedin.Ads.list_unique_ad_clicks(profile)
   end
 
   @impl true
