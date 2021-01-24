@@ -7,7 +7,7 @@ defmodule Shlinkedin.ProfilesFixtures do
 
   def unique_persona_name, do: "Mr. #{System.unique_integer()} Beans"
   def title, do: "Product Manager"
-  def unique_slug, do: "profile_23"
+  def unique_slug, do: "profile_#{:rand.uniform(10000)}"
 
   def profile_fixture(%Shlinkedin.Accounts.User{} = user, attrs \\ %{}) do
     {:ok, profile} =
