@@ -9,15 +9,15 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   alias Shlinkedin.Ads.Ad
   alias Shlinkedin.Ads
   alias Shlinkedin.News.Article
-  alias Phoenix.Socket.Broadcast
 
   @impl true
   def mount(_params, session, socket) do
     socket = is_user(session, socket)
 
+    IO.inspect(connected?(socket), label: "connected to socket?")
+
     if connected?(socket) do
       Timeline.subscribe()
-      Timeline.presence_subscribe()
       News.subscribe()
     end
 
@@ -227,19 +227,15 @@ defmodule ShlinkedinWeb.HomeLive.Index do
      |> push_redirect(to: Routes.home_index_path(socket, :index))}
   end
 
-  def handle_info(%Broadcast{event: "presence_diff"}, socket) do
-    {:noreply,
-     socket
-     |> assign(:online_profiles, ShlinkedinWeb.Presence.list("online"))}
-  end
-
   @impl true
   def handle_info({:post_created, post}, socket) do
+    IO.inspect(post, label: "post created")
     {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
   end
 
   @impl true
   def handle_info({:post_updated, post}, socket) do
+    IO.inspect(post, label: "post updated")
     {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
   end
 

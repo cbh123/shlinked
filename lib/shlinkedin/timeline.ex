@@ -524,10 +524,6 @@ defmodule Shlinkedin.Timeline do
     Phoenix.PubSub.subscribe(Shlinkedin.PubSub, "posts")
   end
 
-  def presence_subscribe do
-    Phoenix.PubSub.subscribe(Shlinkedin.PubSub, "online")
-  end
-
   defp broadcast({:error, _reason} = error, _), do: error
 
   defp broadcast({:ok, post}, event) do
