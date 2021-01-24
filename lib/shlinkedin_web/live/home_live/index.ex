@@ -32,7 +32,6 @@ defmodule ShlinkedinWeb.HomeLive.Index do
        articles: News.list_top_articles(15),
        featured_profiles: Profiles.list_random_profiles(3),
        random_groups: Groups.list_random_groups(5),
-       stories: Timeline.list_stories(),
        like_map: Timeline.like_map(),
        comment_like_map: Timeline.comment_like_map(),
        num_show_comments: 1,
