@@ -34,7 +34,7 @@ defmodule ShlinkedinWeb.LeaderboardLive.Index do
     {:ok,
      socket
      |> assign(
-       curr_category: "Shlinks",
+       curr_category: :"Post Reactions",
        count: count,
        categories: @categories,
        rankings: Shlinkedin.Profiles.list_profiles_by_unique_post_reactions(count)
