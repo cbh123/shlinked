@@ -10,27 +10,16 @@ defmodule ShlinkedinWeb.HomeLiveTest do
   import Shlinkedin.ProfilesFixtures
 
   setup %{conn: conn} do
+    user = user_fixture()
+
     conn =
       conn
       |> Map.replace!(:secret_key_base, ShlinkedinWeb.Endpoint.config(:secret_key_base))
       |> init_test_session(%{})
-
-    user = user_fixture()
+      |> log_in_user(user)
+      |> ShlinkedinWeb.UserAuth.fetch_current_user([])
 
     %{user: user, profile: profile_fixture(user), conn: conn}
-  end
-
-  test "renders join page if user is not logged in", %{conn: conn} do
-    assert {:error, {:redirect, %{to: "/join"}}} = live(conn, "/home")
-  end
-
-  test "initial render with user but no profile yet", %{conn: conn} do
-    user = user_fixture()
-
-    assert {:ok, _view, _html} =
-             conn
-             |> log_in_user(user)
-             |> live("/profile/welcome")
   end
 
   test "initial render with user and profile", %{conn: conn} do
@@ -39,8 +28,6 @@ defmodule ShlinkedinWeb.HomeLiveTest do
 
     {:ok, view, _html} =
       conn
-      |> log_in_user(user)
-      |> ShlinkedinWeb.UserAuth.fetch_current_user([])
       |> live("/home")
 
     assert render(view) =~ "Start a post"
@@ -62,11 +49,9 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       assert html =~ post.body
     end
 
-    test "saves new post", %{conn: conn, user: user} do
+    test "saves new post", %{conn: conn} do
       {:ok, index_live, _html} =
         conn
-        |> log_in_user(user)
-        |> ShlinkedinWeb.UserAuth.fetch_current_user([])
         |> live(Routes.home_index_path(conn, :index))
 
       assert index_live |> element("a", "Start a post") |> render_click() =~
@@ -76,16 +61,13 @@ defmodule ShlinkedinWeb.HomeLiveTest do
 
       {:ok, _, html} =
         index_live
-        |> IO.inspect()
         |> form("#post-form", post: @create_attrs)
-        |> IO.inspect()
         |> render_submit()
-        |> IO.inspect()
-
-      # |> follow_redirect(conn, Routes.home_index_path(conn, :index))
+        |> follow_redirect(conn, Routes.home_index_path(conn, :index))
 
       assert html =~ "Post created successfully"
       assert html =~ "some body"
     end
-  end
+
+
 end

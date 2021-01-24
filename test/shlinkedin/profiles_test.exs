@@ -7,7 +7,11 @@ defmodule Shlinkedin.ProfilesTest do
     alias Shlinkedin.Profiles.Endorsement
 
     @valid_attrs %{body: "some body", emoji: "some emoji", gif_url: "some gif_url"}
-    @update_attrs %{body: "some updated body", emoji: "some updated emoji", gif_url: "some updated gif_url"}
+    @update_attrs %{
+      body: "some updated body",
+      emoji: "some updated emoji",
+      gif_url: "some updated gif_url"
+    }
     @invalid_attrs %{body: nil, emoji: nil, gif_url: nil}
 
     def endorsement_fixture(attrs \\ %{}) do
@@ -17,6 +21,19 @@ defmodule Shlinkedin.ProfilesTest do
         |> Profiles.create_endorsement()
 
       endorsement
+    end
+
+    test "renders join page if user is not logged in", %{conn: conn} do
+      assert {:error, {:redirect, %{to: "/join"}}} = live(conn, "/home")
+    end
+
+    test "initial render with user but no profile yet", %{conn: conn} do
+      user = user_fixture()
+
+      assert {:ok, _view, _html} =
+               conn
+               |> log_in_user(user)
+               |> live("/profile/welcome")
     end
 
     test "list_endorsements/0 returns all endorsements" do
@@ -42,7 +59,10 @@ defmodule Shlinkedin.ProfilesTest do
 
     test "update_endorsement/2 with valid data updates the endorsement" do
       endorsement = endorsement_fixture()
-      assert {:ok, %Endorsement{} = endorsement} = Profiles.update_endorsement(endorsement, @update_attrs)
+
+      assert {:ok, %Endorsement{} = endorsement} =
+               Profiles.update_endorsement(endorsement, @update_attrs)
+
       assert endorsement.body == "some updated body"
       assert endorsement.emoji == "some updated emoji"
       assert endorsement.gif_url == "some updated gif_url"
@@ -50,7 +70,10 @@ defmodule Shlinkedin.ProfilesTest do
 
     test "update_endorsement/2 with invalid data returns error changeset" do
       endorsement = endorsement_fixture()
-      assert {:error, %Ecto.Changeset{}} = Profiles.update_endorsement(endorsement, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Profiles.update_endorsement(endorsement, @invalid_attrs)
+
       assert endorsement == Profiles.get_endorsement!(endorsement.id)
     end
 
