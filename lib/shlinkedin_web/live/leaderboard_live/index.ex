@@ -58,6 +58,16 @@ defmodule ShlinkedinWeb.LeaderboardLive.Index do
     {:noreply, socket}
   end
 
+  @impl true
+  def handle_event("handle_select", %{"selected-tab" => category}, socket) do
+    {:noreply,
+     socket
+     |> push_patch(
+       to:
+         Routes.leaderboard_index_path(socket, :index, curr_category: category |> String.to_atom())
+     )}
+  end
+
   defp match_cat(category, count) do
     case category do
       "Shlinks" -> Profiles.list_profiles_by_shlink_count(count)

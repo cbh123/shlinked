@@ -21,17 +21,22 @@
             <!-- Dropdown menu on small screens -->
             <div class="sm:hidden">
                 <label for="selected-tab" class="sr-only">Select a tab</label>
+
+                <%= f =  form_for :category, "#", [phx_change: :handle_select] %>
+
+
                 <select id="selected-tab" name="selected-tab"
                     class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
                     <%# <option selected># Shlinks</option> %>
 
                     <%= for category <- @categories |> Map.keys() do %>
-                    <option><%= category %></option>
+                    <option <%= if category == @curr_category, do: "selected" %>><%= category %></option>
                     <% end %>
 
 
 
                 </select>
+                </form>
             </div>
             <!-- Tabs at small breakpoint and up -->
             <div class="hidden sm:block">
