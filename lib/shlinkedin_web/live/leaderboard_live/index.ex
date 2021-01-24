@@ -49,7 +49,7 @@ defmodule ShlinkedinWeb.LeaderboardLive.Index do
      |> assign(
        rankings: rankings,
        page_title: "#{curr_category} Leaders",
-       curr_category: curr_category
+       curr_category: curr_category |> String.to_atom()
      )}
   end
 
