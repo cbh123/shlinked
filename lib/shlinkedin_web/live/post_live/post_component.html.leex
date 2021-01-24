@@ -83,7 +83,7 @@
 
                 <%# "x likes" with symbols %>
                 <%# Adding @post.likes != nil line to deal with a bug.  %>
-                <%= if  @post.likes != nil and length(@post.likes) > 0 do %>
+                <%= if Ecto.assoc_loaded?(@post.likes) and @post.likes != nil and length(@post.likes) > 0 do %>
 
                 <button phx-click="show-likes" phx-target="<%= @myself %>" phx-value-id="<%= @post.id %>"
                     class="<%= if @spin == true, do: "animate-spin" %> inline-flex items-center hover:text-blue-500 hover:underline hover:cursor-pointer py-2 my-2">
@@ -109,7 +109,7 @@
             </div>
 
             <%#  "1 Comment" %>
-            <%= if length(@post.comments) > 0 do %>
+            <%= if Ecto.assoc_loaded?(@post.comments) and length(@post.comments) > 0 do %>
             <button phx-click="expand-comments" phx-target="<%= @myself %>"
                 class=" text-xs hover:underline hover:text-blue-500 <%= if @comment_spin == true, do: " animate-spin" %> py-2  my-2">
                 <%= length(@post.comments) %>
@@ -126,7 +126,7 @@
                 <%# Left Side: Reactions and Comment %>
                 <div>
                     <%= for like <- like_map_list(@like_map) do %>
-                    <% num_likes = Enum.filter(@post.likes, fn l -> l.profile_id == @profile.id && l.like_type == like.like_type end) |> length()  %>
+                    <% num_likes = if Ecto.assoc_loaded?(@post.likes), do: Enum.filter(@post.likes, fn l -> l.profile_id == @profile.id && l.like_type == like.like_type end) |> length(), else: 0  %>
 
                     <button type="button" phx-target="<%= @myself %>" phx-click="like-selected"
                         phx-value-like-type="<%=like.like_type%>" class="<%= if num_likes > 0, do: like.color, else: "text-gray-500" %> active:text-white active:<%=like.bg %> tooltip inline-flex items-center
