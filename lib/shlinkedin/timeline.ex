@@ -129,6 +129,10 @@ defmodule Shlinkedin.Timeline do
     |> Repo.one()
   end
 
+  def get_post_count(%Profile{} = profile) do
+    Repo.one(from p in Post, where: p.profile_id == ^profile.id, select: count(p.id))
+  end
+
   def get_post_preload_all(id) do
     Repo.one(
       from p in Post,

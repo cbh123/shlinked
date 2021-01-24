@@ -162,7 +162,7 @@ defmodule Shlinkedin.Profiles do
         on: profiles.id == t.to_profile_id,
         group_by: profiles.id,
         order_by: [desc: avg(t.rating)],
-        select: %{profile: profiles, avg: avg(t.rating), count: count(t.rating)},
+        select: %{profile: profiles, number: avg(t.rating), count: count(t.rating)},
         limit: ^count
     )
   end

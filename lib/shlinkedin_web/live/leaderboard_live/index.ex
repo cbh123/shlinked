@@ -10,7 +10,7 @@ defmodule ShlinkedinWeb.LeaderboardLive.Index do
     "Post Reactions": %{
       title: "reactions",
       desc:
-        "The most prestigous ranking, aka the number of unique post reactions. The number of reactions don't matter (100 YoYs counts just as much as 1) and, reactions on your own post aren't included."
+        "The most prestigous ranking - the number of unique post reactions. The number of reactions don't matter (100 YoYs counts just as much as 1) and, reactions on your own post aren't included."
     },
     Claps: %{
       title: "claps",

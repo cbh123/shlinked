@@ -10,8 +10,8 @@
             </h3>
 
             <p class="text-gray-500 mt-2">
-                Ever wondered how you stacked up relative to your peers, objectively? Compare across different
-                dimensions below.
+                Ever wondered how you stacked up relative to your peers, objectively? At the end of week, we grant
+                awards to the leaders (more categories coming soon).
             </p>
         </div>
 
@@ -104,9 +104,22 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                             <tr>
 
-                                <%= for {%{number: number, profile: p}, idx} <- Enum.with_index(@rankings) do %>
+                                <%= for {%{number: number, profile: p} = res, idx} <- Enum.with_index(@rankings) do %>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-500"><%= idx + 1%></div>
+                                    <div class="text-sm text-gray-500">
+                                        <span>
+                                            <%= case idx + 1 do %>
+                                            <% 1 ->  %>🥇
+                                            <% 2 ->  %>🥈
+                                            <% 3 ->  %>🥉
+                                            <% other -> %><%= other %>
+                                            <% end %>
+                                        </span>
+
+
+
+                                    </div>
+
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
@@ -115,18 +128,31 @@
                                                 alt="">
                                         </div>
                                         <div class="ml-4">
-                                            <div class="text-sm font-medium text-gray-900">
+                                            <%= live_redirect to: Routes.profile_show_path(@socket, :show, p.slug) do %>
+
+                                            <div class="text-sm font-medium text-gray-900 hover:underline">
                                                 <%= p.persona_name %>
                                             </div>
                                             <div class="text-sm text-gray-500 truncate max-w-xs">
                                                 <%= Shlinkedin.Profiles.show_real_name(@profile, p) %>
                                             </div>
+                                            <% end %>
                                         </div>
+
                                     </div>
                                 </td>
 
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-600 font-bold text-center">
-                                    <%= number %>
+                                    <%= case @curr_category do %>
+                                    <% :Reviews -> %> <%= Decimal.round(number, 2) %><span
+                                        class="text-xs text-gray-500 font-normal">/ <%= res.count %>
+                                        reviews</span>
+                                    <%  :"Post Reactions" -> %><%= number %><span
+                                        class="text-xs text-gray-500 font-normal">
+                                        / <%= Shlinkedin.Timeline.get_post_count(p) %>
+                                        posts</span>
+                                    <% _ -> %> <%= number %>
+                                    <% end %>
                                 </td>
                             </tr>
                             <% end %>
