@@ -49,6 +49,17 @@ defmodule Shlinkedin.Timeline do
     |> Repo.all()
   end
 
+  def list_posts(object, criteria, feed_type \\ "all") when is_list(criteria) do
+    query = get_feed_query(object, feed_type)
+
+    paged_query = paginate(query, criteria)
+
+    from(p in paged_query,
+      preload: [:profile, :likes, comments: [:profile, :likes]]
+    )
+    |> Repo.all()
+  end
+
   def get_feed_query(object, feed_type) do
     case feed_type do
       "all" ->
@@ -85,17 +96,6 @@ defmodule Shlinkedin.Timeline do
       _ ->
         from(p in Post, order_by: [desc: p.featured, desc: p.inserted_at])
     end
-  end
-
-  def list_posts(object, criteria, feed_type \\ "all") when is_list(criteria) do
-    query = get_feed_query(object, feed_type)
-
-    paged_query = paginate(query, criteria)
-
-    from(p in paged_query,
-      preload: [:profile, :likes, comments: [:profile, :likes]]
-    )
-    |> Repo.all()
   end
 
   def paginate(query, criteria) do

@@ -1,4 +1,4 @@
-defmodule Shlinkedin.Repo.Migrations.CreateInvites do
+defmodule Shlinkedin.Repo.Migrations.CreateProfileInvites do
   use Ecto.Migration
 
   def change do
