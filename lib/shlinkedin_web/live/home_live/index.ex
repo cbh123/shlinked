@@ -14,8 +14,6 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   def mount(_params, session, socket) do
     socket = is_user(session, socket)
 
-    IO.inspect(connected?(socket), label: "connected to socket?")
-
     if connected?(socket) do
       Timeline.subscribe()
       News.subscribe()

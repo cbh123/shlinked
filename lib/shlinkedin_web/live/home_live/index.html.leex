@@ -75,7 +75,7 @@
                 </div>
 
                 <div class="h-32 overflow-y-scroll">
-                    <div class="space-y-3 px-2" phx-update="append">
+                    <div class="space-y-3 px-2" phx-update="append" id="news-box">
                         <%= for a <- @articles do %>
                         <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
                     id: "mobile-article-#{a.id}",
@@ -281,7 +281,7 @@
             </div>
 
             <div class="h-72 overflow-y-scroll">
-                <div class="space-y-3 px-2" phx-update="append">
+                <div class="space-y-3 px-2" phx-update="append" id="desktop-news-box">
                     <%= for a <- @articles do %>
                     <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
                     id: "article-#{a.id}",

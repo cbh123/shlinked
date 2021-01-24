@@ -8,7 +8,33 @@ defmodule ShlinkedinWeb.HomeLiveTest do
   alias Shlinkedin.Accounts
 
   import Shlinkedin.AccountsFixtures
-  alias ShlinkedinWeb.UserAuth
+  import Shlinkedin.ProfilesFixtures
+
+  test "renders join page if user is not logged in", %{conn: conn} do
+    assert {:error, {:redirect, %{to: "/join"}}} = live(conn, "/home")
+  end
+
+  test "initial render with user but no profile yet", %{conn: conn} do
+    user = user_fixture()
+
+    assert {:ok, view, _html} =
+             conn
+             |> log_in_user(user)
+             |> live("/profile/welcome")
+  end
+
+  test "initial render with user and profile", %{conn: conn} do
+    user = user_fixture()
+    profile = profile_fixture(user)
+
+    {:ok, view, _html} =
+      conn
+      |> log_in_user(user)
+      |> ShlinkedinWeb.UserAuth.fetch_current_user([])
+      |> live("/home")
+
+    assert render(view) =~ "Start a post"
+  end
 
   @profile %Profile{username: "chalie"}
   @create_attrs %{
