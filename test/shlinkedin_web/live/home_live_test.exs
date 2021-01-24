@@ -68,6 +68,5 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       assert html =~ "Post created successfully"
       assert html =~ "some body"
     end
-
-
+  end
 end
