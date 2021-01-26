@@ -246,12 +246,6 @@ defmodule Shlinkedin.Timeline do
     |> Post.changeset(attrs)
     |> Repo.insert()
     |> after_save(after_save)
-
-    # post = get_post_preload_all(post.id)
-
-    # {:ok, post}
-
-    # broadcast({:ok, post}, :post_created)
   end
 
   def create_story(%Profile{} = profile, %Story{} = story, attrs \\ %{}, after_save \\ &{:ok, &1}) do

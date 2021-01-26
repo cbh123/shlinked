@@ -294,7 +294,6 @@ defmodule Shlinkedin.Profiles do
     invite
     |> Invite.changeset(attrs)
     |> Repo.insert()
-    |> IO.inspect()
     |> send_email_invite()
   end
 
