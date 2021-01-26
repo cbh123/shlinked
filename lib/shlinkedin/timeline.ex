@@ -36,8 +36,6 @@ defmodule Shlinkedin.Timeline do
 
   # List posts when account is first created and profile is nil
   def list_posts(%Profile{id: nil}, criteria, _feed_type) do
-    IO.inspect(criteria, label: "list posts being called with NIL PROFILE!")
-
     query =
       from(p in Post,
         order_by: [desc: p.featured, desc: p.inserted_at]
@@ -52,7 +50,6 @@ defmodule Shlinkedin.Timeline do
   end
 
   def list_posts(object, criteria, feed_type \\ "all") when is_list(criteria) do
-    IO.inspect(feed_type, label: "list posts being called with")
     query = get_feed_query(object, feed_type)
 
     paged_query = paginate(query, criteria)
