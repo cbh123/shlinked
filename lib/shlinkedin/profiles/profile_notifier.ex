@@ -308,6 +308,24 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         %Profile{} = to_profile,
         %Endorsement{} = endorsement
       ) do
+    body = """
+
+    Congratulations #{to_profile.persona_name},
+
+    <br/>
+    <br/>
+
+    <a href="https://www.shlinkedin.com/sh/#{from_profile.slug}">#{from_profile.persona_name}</a> has endorsed you for "#{
+      endorsement.body
+    }"!
+
+    <br/>
+    <br/>
+    Thanks, <br/>
+    ShlinkTeam
+
+    """
+
     if from_profile.id != to_profile.id do
       Shlinkedin.Profiles.create_notification(%Notification{
         from_profile_id: from_profile.id,
@@ -316,6 +334,11 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         action: "endorsed you for",
         body: "#{endorsement.body}"
       })
+
+      if to_profile.unsubscribed == false do
+        Shlinkedin.Email.new_email(to_profile.user.email, "You've been endorsed!", body)
+        |> Shlinkedin.Mailer.deliver_later()
+      end
     end
   end
 
@@ -340,6 +363,25 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         %Profile{} = to_profile,
         %Testimonial{} = testimonial
       ) do
+    body = """
+
+    Wow #{to_profile.persona_name},
+
+    <br/>
+    <br/>
+
+    <a href="https://www.shlinkedin.com/sh/#{from_profile.slug}">#{from_profile.persona_name}</a> has written a #{
+      testimonial.rating
+    }/5 star review for you. Check it out
+    <a href="shlinked.herokuapp.com/sh/#{to_profile.slug}">on your profile.</a>
+
+    <br/>
+    <br/>
+    Thanks, <br/>
+    ShlinkTeam
+
+    """
+
     if from_profile.id != to_profile.id do
       Shlinkedin.Profiles.create_notification(%Notification{
         from_profile_id: from_profile.id,
@@ -348,6 +390,15 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         action: "wrote you a review: ",
         body: "#{testimonial.body}"
       })
+
+      if to_profile.unsubscribed == false do
+        Shlinkedin.Email.new_email(
+          to_profile.user.email,
+          "#{from_profile.persona_name} has given you #{testimonial.rating}/5 stars!",
+          body
+        )
+        |> Shlinkedin.Mailer.deliver_later()
+      end
     end
   end
 
