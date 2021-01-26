@@ -61,7 +61,9 @@ defmodule Shlinkedin.News do
       |> ProfileNotifier.observer(:vote, profile, article_writer)
 
     # could be optimized
-    get_article_preload_votes!(article.id) |> broadcast(:article_updated)
+    article = get_article_preload_votes!(article.id)
+
+    broadcast({:ok, article}, :article_updated)
   end
 
   def is_first_vote_on_article?(%Profile{} = profile, %Article{} = article) do
