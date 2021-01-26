@@ -24,45 +24,44 @@ defmodule ShlinkedinWeb.PostLive.PostHeader do
 
             </span>
 
-            <%= case get_group_name(@post) do %>
-            <% nil -> %>
             <span
-                class="text-gray-500 font-normal <%= if @post.profile_update, do: "text-sm", else: "text-xs"%>">
-                <%= if @post.profile_update == true, do: "updated their #{@post.update_type}", else: @post.profile.persona_title  %>
-            </span>
+            class="text-gray-500 font-normal <%= if @post.profile_update, do: "text-sm", else: "text-xs"%>">
+            <%= if @post.profile_update == true, do: "updated their #{@post.update_type}", else: @post.profile.persona_title  %>
+        </span>
 
-            <% group -> %>
 
+
+
+
+            <div class="text-xs text-gray-500">
+            <%= case get_group_name(@post) do %>
+
+          <% nil -> %>
+          <% group -> %>
             <%= live_redirect to: Routes.group_show_path(@socket, :show, group.id) do %>
 
-            <span class="text-gray-500 mx-1">
+            <span class=" mx-1 inline-flex">
               &rarr;
             </span>
 
-
             <div class="inline-flex text-blue-500 <%= if group.header_font == nil, do: "font-normal", else: "font-#{group.header_font}" %> font-semibold hover:underline text-xs">
-            <span class="inline-flex">
+              <span class="inline-flex">
 
-            <svg class="w-3 h-3 place-self-center mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path></svg>
-            </span>
-            <span class="">
-
-
-
-            <%= group.title %>
+                <svg class="w-3 h-3 place-self-center mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path></svg>
+              </span>
+            <span class="mr-2">
+              <%= group.title %>
             </span>
             </div>
 
             <% end %>
-
-
             <% end %>
+            <span class="inline-flex">
+            <%= Timex.from_now(@post.inserted_at) %>
 
+            </span>
 
-
-            <p class="text-xs text-gray-500">
-                <%= Timex.from_now(@post.inserted_at) %>
-            </p>
+            </div>
 
 
 
