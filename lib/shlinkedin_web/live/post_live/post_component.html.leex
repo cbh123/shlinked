@@ -23,7 +23,7 @@
                     <div>
                         <button type="button" phx-click="toggle-post-options" phx-target="<%= @myself %>"
                             class=" py-2 text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
-                            id="options-menu" aria-haspopup="true" aria-expanded="true">
+                            id="<%= "options-menu-#{@post.id}" %>" aria-haspopup="true" aria-expanded="true">
 
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -173,7 +173,7 @@
                             <button type="button" phx-click="toggle-share-menu" phx-target="<%= @myself %>"
                                 phx-blur="toggle-share-menu" phx-value-id="<%= @post.id %>"
                                 class="ml-1 inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                                id="options-menu" aria-haspopup="true" aria-expanded="true">
+                                id="<%= "share-menu-btn-#{@post.id}" %>" aria-haspopup="true" aria-expanded="true">
 
                                 <svg class="-ml-1 mr-1  h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

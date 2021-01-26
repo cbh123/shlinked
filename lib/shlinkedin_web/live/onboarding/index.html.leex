@@ -53,15 +53,15 @@
 
         <%= case @step do %>
 
-        <%= 1 -> %>
+        <% 1 -> %>
         <button type="button" id="prompt1-btn" class=" w-full bg-blue-600 text-white px-4 py-2 rounded-full"
             phx-hook="OnboardingPrompt" phx-click="next-step" phx-value-step="1">Start</button>
 
-        <%= 2 -> %>
+        <% 2 -> %>
         <%# <button class=" w-full bg-blue-600 text-white px-4 py-2 rounded-full" type="button" id="prompt2-btn"
             phx-click="next-step" phx-hook="OnboardingPrompt">Shake Hands</button> %>
 
-        <%= 3 -> %>
+        <% 3 -> %>
 
         <%# Name %>
         <div class="">

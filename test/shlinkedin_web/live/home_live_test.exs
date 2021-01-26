@@ -9,6 +9,10 @@ defmodule ShlinkedinWeb.HomeLiveTest do
   import Shlinkedin.AccountsFixtures
   import Shlinkedin.ProfilesFixtures
 
+  @create_attrs %{
+    body: "some body"
+  }
+
   setup %{conn: conn} do
     user = user_fixture()
 
@@ -33,13 +37,9 @@ defmodule ShlinkedinWeb.HomeLiveTest do
     assert render(view) =~ "Start a post"
   end
 
-  @create_attrs %{
-    body: "some body"
-  }
-
   describe "Index" do
-    test "lists all posts", %{conn: conn, user: user, profile: profile} do
-      {:ok, post} = Timeline.create_post(profile, %{body: "test"}, %Timeline.Post{})
+    test "create new post and lists them", %{conn: conn, user: user, profile: profile} do
+      {:ok, post} = Timeline.create_post(profile, @create_attrs, %Timeline.Post{})
 
       user_token = Accounts.generate_user_session_token(user)
       conn = conn |> put_session(:user_token, user_token)
@@ -47,6 +47,7 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       {:ok, _index_live, html} = live(conn, Routes.home_index_path(conn, :index))
 
       assert html =~ post.body
+      assert html =~ "ShlinkNews"
     end
 
     test "saves new post", %{conn: conn} do
@@ -67,6 +68,20 @@ defmodule ShlinkedinWeb.HomeLiveTest do
 
       assert html =~ "Post created successfully"
       assert html =~ "some body"
+    end
+
+    test "deletes post", %{conn: conn, profile: profile} do
+      {:ok, index_live, _html} = live(conn, Routes.home_index_path(conn, :index))
+
+      {:ok, post} = Timeline.create_post(profile, %{body: "test"}, %Timeline.Post{})
+
+      assert index_live |> element("#options-menu-#{post.id}") |> render_click()
+
+      assert index_live |> element("#post-#{post.id} a", "Delete") |> render_click()
+
+      refute index_live
+             |> element("#post-#{post.id} a", "Delete")
+             |> has_element?()
     end
   end
 end

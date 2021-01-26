@@ -12,12 +12,12 @@ defmodule ShlinkedinWeb.HomeLive.Index do
 
   @impl true
   def mount(_params, session, socket) do
-    socket = is_user(session, socket)
-
     if connected?(socket) do
       Timeline.subscribe()
       News.subscribe()
     end
+
+    socket = is_user(session, socket)
 
     {:ok,
      socket
@@ -32,8 +32,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
        random_groups: Groups.list_random_groups(5),
        like_map: Timeline.like_map(),
        comment_like_map: Timeline.comment_like_map(),
-       num_show_comments: 1,
-       online_profiles: %{}
+       num_show_comments: 1
      )
      |> fetch_posts(), temporary_assigns: [posts: [], articles: []]}
   end

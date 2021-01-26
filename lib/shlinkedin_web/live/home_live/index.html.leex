@@ -227,7 +227,7 @@
                     <%= for group <- @random_groups do %>
 
                     <%= live_component @socket, ShlinkedinWeb.GroupLive.GroupComponent,
-                    id: group.id,
+                    id: "group-#{group.id}",
                     profile: @profile,
                     member_status: Shlinkedin.Groups.is_member?(@profile, group),
                     group: group
@@ -250,7 +250,7 @@
                     <%= for profile <- @featured_profiles do %>
 
                     <%= live_component @socket, ShlinkedinWeb.UsersLive.ProfileComponent,
-                id: profile.id,
+                id: "profile-#{profile.id}",
                 profile: @profile,
                 friend_status: Shlinkedin.Profiles.check_between_friend_status(@profile, profile),
                 show_profile: profile
