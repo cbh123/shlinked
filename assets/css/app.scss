@@ -15,7 +15,7 @@
       }
 
       .tooltip:hover .tooltip-text {
-        @apply visible;
+        @apply visible -ml-24;
       }
 
   }
