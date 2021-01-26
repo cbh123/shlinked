@@ -3,6 +3,8 @@
 To start your Phoenix server:
 
   * Unlock, update, and install dependencies with `mix deps.unlock --all; mix deps.update --all; mix deps.get`
+  * Set up a local Postgres instance, you can download a client [here](https://postgresapp.com/)
+    * Open Postgres.app and start the server, the rest is handled by Phoneix
   * Create and migrate your database with `mix ecto.setup`. (You may need to first create a postgres user with the credentials listed in ./config/dev.exs — see [this page](https://github.com/phoenixframework/phoenix/issues/2435#issuecomment-320880811) for more info.)
   * `cd assets` and install Node.js dependencies with `npm install` or `yarn install`
   * Return to root directory and start Phoenix endpoint with `mix phx.server`
