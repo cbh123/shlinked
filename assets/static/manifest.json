@@ -3,6 +3,6 @@
     "short_name": "ShlinkedIn",
     "start_url": "./",
     "display": "standalone",
-    "background-color": "rgba(59,130,246,0.5)",
+    "background-color": "white",
     "description": "A social network for satire."
 }
