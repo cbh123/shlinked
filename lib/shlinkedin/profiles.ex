@@ -107,33 +107,38 @@ defmodule Shlinkedin.Profiles do
   end
 
   # Leaderboard stuff
-  def list_profiles_by_shlink_count(count) do
-    list_profiles()
-    |> Enum.map(fn p -> %{number: length(get_unique_connection_ids(p)), profile: p} end)
-    |> Enum.sort(&(&1 >= &2))
-    |> Enum.slice(0..count)
-  end
-
-  def list_profiles_by_ad_clicks(count) do
-    list_profiles()
-    |> Enum.map(fn p -> %{number: length(Shlinkedin.Ads.list_unique_ad_clicks(p)), profile: p} end)
-    |> Enum.sort(&(&1 >= &2))
-    |> Enum.slice(0..count)
-  end
-
-  def list_profiles_by_article_votes(count) do
+  def list_profiles_by_shlink_count(count, start_date) do
     list_profiles()
     |> Enum.map(fn p ->
-      %{number: length(Shlinkedin.News.list_unique_article_votes(p)), profile: p}
+      %{number: length(get_unique_connection_ids(p, start_date)), profile: p}
     end)
     |> Enum.sort(&(&1 >= &2))
     |> Enum.slice(0..count)
   end
 
-  def list_profiles_by_unique_post_reactions(count) do
+  def list_profiles_by_ad_clicks(count, start_date) do
+    list_profiles()
+    |> Enum.map(fn p ->
+      %{number: length(Shlinkedin.Ads.list_unique_ad_clicks(p, start_date)), profile: p}
+    end)
+    |> Enum.sort(&(&1 >= &2))
+    |> Enum.slice(0..count)
+  end
+
+  def list_profiles_by_article_votes(count, start_date) do
+    list_profiles()
+    |> Enum.map(fn p ->
+      %{number: length(Shlinkedin.News.list_unique_article_votes(p, start_date)), profile: p}
+    end)
+    |> Enum.sort(&(&1 >= &2))
+    |> Enum.slice(0..count)
+  end
+
+  def list_profiles_by_unique_post_reactions(count, start_date) do
     query =
       from l in Shlinkedin.Timeline.Like,
         group_by: [l.profile_id, l.post_id, l.like_type],
+        where: l.inserted_at >= ^start_date,
         select: %{
           post_id: l.post_id,
           profile_id: l.profile_id,
@@ -155,14 +160,15 @@ defmodule Shlinkedin.Profiles do
     )
   end
 
-  def list_profiles_by_reviews(count) do
+  def list_profiles_by_profile_views(count, start_date) do
     Repo.all(
-      from t in Testimonial,
-        left_join: profiles in Shlinkedin.Profiles.Profile,
-        on: profiles.id == t.to_profile_id,
+      from v in ProfileView,
+        left_join: profiles in Profile,
+        on: v.to_profile_id == profiles.id,
+        where: v.from_profile_id != v.to_profile_id and v.inserted_at >= ^start_date,
         group_by: profiles.id,
-        order_by: [desc: avg(t.rating)],
-        select: %{profile: profiles, number: avg(t.rating), count: count(t.rating)},
+        select: %{profile: profiles, number: count(v.id)},
+        order_by: [desc: count(v.id)],
         limit: ^count
     )
   end
@@ -471,6 +477,25 @@ defmodule Shlinkedin.Profiles do
         where:
           (f.to_profile_id == ^profile.id or f.from_profile_id == ^profile.id) and
             f.status == "accepted",
+        join: p in Profile,
+        as: :profile,
+        on: f.from_profile_id == p.id,
+        join: p2 in Profile,
+        as: :to_profile,
+        on: f.to_profile_id == p2.id,
+        select: [p.id, p2.id]
+    )
+    |> List.flatten()
+    |> Enum.uniq()
+    |> Enum.filter(fn x -> x != profile.id end)
+  end
+
+  def get_unique_connection_ids(%Profile{} = profile, naive_start_date) do
+    Repo.all(
+      from f in Friend,
+        where:
+          (f.to_profile_id == ^profile.id or f.from_profile_id == ^profile.id) and
+            f.status == "accepted" and f.inserted_at >= ^naive_start_date,
         join: p in Profile,
         as: :profile,
         on: f.from_profile_id == p.id,

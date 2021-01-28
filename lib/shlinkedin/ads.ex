@@ -34,6 +34,18 @@ defmodule Shlinkedin.Ads do
     )
   end
 
+  def list_unique_ad_clicks(%Profile{} = profile, start_date) do
+    Repo.all(
+      from a in Ad,
+        where: a.profile_id == ^profile.id,
+        join: c in Click,
+        on: a.id == c.ad_id,
+        where: c.inserted_at >= ^start_date,
+        group_by: [c.profile_id, c.ad_id],
+        select: %{profile_id: c.profile_id, ad_id: c.ad_id}
+    )
+  end
+
   def get_random_ad() do
     Repo.one(
       from a in Ad,

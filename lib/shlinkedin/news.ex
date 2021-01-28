@@ -40,6 +40,18 @@ defmodule Shlinkedin.News do
     )
   end
 
+  def list_unique_article_votes(%Profile{} = profile, start_date) do
+    Repo.all(
+      from a in Article,
+        where: a.profile_id == ^profile.id,
+        join: v in Vote,
+        on: a.id == v.article_id,
+        where: v.inserted_at >= ^start_date,
+        group_by: [v.profile_id, v.article_id],
+        select: %{profile_id: v.profile_id, article_id: v.article_id}
+    )
+  end
+
   def list_random_articles(count) do
     query = from(h in Article, order_by: fragment("RANDOM()"), limit: ^count)
 

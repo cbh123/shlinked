@@ -11,10 +11,25 @@
 
             <p class="text-gray-500 mt-2">
                 Ever wondered how you stacked up relative to your peers, objectively? At the end of week, we grant
-                awards to the leaders (more categories coming soon).
+                awards to the leaders.
             </p>
         </div>
 
+
+        <div class="flex items-center mt-6">
+            <!-- On: "bg-indigo-600", Off: "bg-gray-200" -->
+            <button type="button" aria-pressed="false" aria-labelledby="toggleLabel" phx-click="toggle-weekly"
+                class="<%= if @weekly, do: "bg-blue-600", else: "bg-gray-200" %>  relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <span class="sr-only">Weekly on/off</span>
+                <!-- On: "translate-x-5", Off: "translate-x-0" -->
+                <span aria-hidden="true"
+                    class="pointer-events-none <%= if @weekly, do: "translate-x-5", else: "translate-x-0" %> inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"></span>
+            </button>
+            <span class="ml-3" id="toggleLabel">
+                <span
+                    class="text-sm font-medium text-gray-900"><%= if @weekly, do: "This week's ranking (since #{Timex.format!(get_start_date(@weekly), "{WDshort}, {M}/{D}/{YY}")})", else: "All time ranking" %></span>
+            </span>
+        </div>
 
 
         <div class="mt-4 sm:mt-12">
@@ -22,7 +37,7 @@
             <div class="sm:hidden">
                 <label for="selected-tab" class="sr-only">Select a tab</label>
 
-                <%= f =  form_for :category, "#", [phx_change: :handle_select] %>
+                <%= _f =  form_for :category, "#", [phx_change: :handle_select] %>
 
 
                 <select id="selected-tab" name="selected-tab"
@@ -30,7 +45,9 @@
                     <%# <option selected># Shlinks</option> %>
 
                     <%= for category <- @categories |> Map.keys() do %>
-                    <option <%= if category == @curr_category, do: "selected" %>><%= category %></option>
+                    <option <%= if category == @curr_category, do: "selected" %>>
+                        <%= category %>
+                    </option>
                     <% end %>
 
 
@@ -47,7 +64,7 @@
 
                     <%= for category <- @categories |> Map.keys() do %>
 
-                    <%= live_patch category, to: Routes.leaderboard_index_path(@socket, :index, curr_category: category),
+                    <%= live_patch "#{@categories[category].emoji} #{category}", to: Routes.leaderboard_index_path(@socket, :index, curr_category: category),
                          class: "#{if category == @curr_category, do: "border-blue-500 text-blue-600", else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"} whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm"  %>
 
                     <% end %>
@@ -154,7 +171,7 @@
                                         reviews</span>
                                     <%  :"Post Reactions" -> %><%= number %><span
                                         class="text-xs text-gray-500 font-normal">
-                                        / <%= Shlinkedin.Timeline.get_post_count(p) %>
+                                        / <%= Shlinkedin.Timeline.get_post_count(p, get_start_date(@weekly)) %>
                                         posts</span>
                                     <% _ -> %> <%= number %>
                                     <% end %>
