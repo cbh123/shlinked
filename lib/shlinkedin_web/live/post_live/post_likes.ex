@@ -25,6 +25,13 @@ defmodule ShlinkedinWeb.PostLive.PostLikes do
     """
   end
 
+  def handle_event("show-likes", %{"id" => id}, %{assigns: %{return_to: return_to}} = socket) do
+    case return_to do
+      "/" -> {:noreply, push_patch(socket, to: "/home/posts/#{id}/likes")}
+      other -> {:noreply, push_patch(socket, to: other <> "/posts/#{id}/likes")}
+    end
+  end
+
   defp show_unique_likes(%Post{} = post) do
     Enum.map(post.likes, fn x -> x.like_type end) |> Enum.uniq()
   end

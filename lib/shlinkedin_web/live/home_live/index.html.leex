@@ -341,7 +341,7 @@
 </div>
 
 <%= if @live_action in [:new_comment] do %>
-<%= live_modal @socket, ShlinkedinWeb.PostLive.CommentComponent,
+<%= live_modal @socket, ShlinkedinWeb.PostLive.CommentFormComponent,
     id: :new_comment,
     profile: @profile,
     title: @page_title,

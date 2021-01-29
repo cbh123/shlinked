@@ -1,7 +1,6 @@
 defmodule ShlinkedinWeb.PostLive.PostComponent do
   use ShlinkedinWeb, :live_component
   alias ShlinkedinWeb.PostLive.PostComponent
-  alias Shlinkedin.Timeline.Post
   alias Shlinkedin.Timeline
   alias Shlinkedin.Profiles.Profile
 
@@ -13,13 +12,6 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
   def handle_event("toggle-share-menu", _, socket) do
     socket = assign(socket, show_share_menu: !socket.assigns.show_share_menu)
     {:noreply, socket}
-  end
-
-  def handle_event("show-likes", %{"id" => id}, %{assigns: %{return_to: return_to}} = socket) do
-    case return_to do
-      "/" -> {:noreply, push_patch(socket, to: "/home/posts/#{id}/likes")}
-      other -> {:noreply, push_patch(socket, to: other <> "/posts/#{id}/likes")}
-    end
   end
 
   def handle_event("new-comment", %{"id" => id}, %{assigns: %{return_to: return_to}} = socket) do

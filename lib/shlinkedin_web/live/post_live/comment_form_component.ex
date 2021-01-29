@@ -1,4 +1,4 @@
-defmodule ShlinkedinWeb.PostLive.CommentComponent do
+defmodule ShlinkedinWeb.PostLive.CommentFormComponent do
   use ShlinkedinWeb, :live_component
 
   alias Shlinkedin.Timeline
@@ -109,7 +109,7 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
 
   def handle_event("comment-ai", _, socket) do
     send_update_after(
-      ShlinkedinWeb.PostLive.CommentComponent,
+      ShlinkedinWeb.PostLive.CommentFormComponent,
       [
         id: :new_comment,
         loading_text: Timeline.comment_loading(),
@@ -119,7 +119,7 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
     )
 
     send_update_after(
-      ShlinkedinWeb.PostLive.CommentComponent,
+      ShlinkedinWeb.PostLive.CommentFormComponent,
       [
         id: :new_comment,
         loading_text: Timeline.comment_loading(),
@@ -129,7 +129,7 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
     )
 
     send_update_after(
-      ShlinkedinWeb.PostLive.CommentComponent,
+      ShlinkedinWeb.PostLive.CommentFormComponent,
       [
         id: :new_comment,
         loading_text: Timeline.comment_loading(),
@@ -139,7 +139,7 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
     )
 
     send_update_after(
-      ShlinkedinWeb.PostLive.CommentComponent,
+      ShlinkedinWeb.PostLive.CommentFormComponent,
       [
         id: :new_comment,
         loading_text: "Comment generated",
@@ -150,7 +150,7 @@ defmodule ShlinkedinWeb.PostLive.CommentComponent do
     )
 
     send_update_after(
-      ShlinkedinWeb.PostLive.CommentComponent,
+      ShlinkedinWeb.PostLive.CommentFormComponent,
       [
         id: :new_comment,
         comment: %Timeline.Comment{body: Timeline.comment_ai()},

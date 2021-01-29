@@ -43,7 +43,7 @@
 
                     </button>
 
-                    <%= link "ShlinkedIn", to: (if @current_user, do: "/home", else: "/join"), class: "text-xs text-blue-700 font-bold hidden sm:inline-flex" %>
+                    <%= link "The ShlinkedIn", to: (if @current_user, do: "/home", else: "/join"), class: "text-xs text-blue-700 font-bold hidden sm:inline-flex" %>
 
                     <% else %>
                     <%= link "ShlinkedIn", to: "/join", class: "text-xs text-blue-700 font-bold inline-flex" %>

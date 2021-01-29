@@ -26,6 +26,9 @@ defmodule ShlinkedinWeb.HomeLiveTest do
     %{user: user, profile: profile_fixture(user), conn: conn}
   end
 
+  # add test for show likes
+  # add test for like
+  # add test for comment
   test "initial render with user and profile", %{conn: conn} do
     user = user_fixture()
     profile_fixture(user)
