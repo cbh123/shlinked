@@ -95,14 +95,14 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
   def handle_event("like-selected", %{"like-type" => like_type}, socket) do
     Shlinkedin.Timeline.create_like(socket.assigns.profile, socket.assigns.post, like_type)
 
-    send_update(PostComponent,
+    send_update(ShlinkedinWeb.PostLive.PostLikes,
       id: socket.assigns.post.id,
       spin: true,
       expand_post: true
     )
 
     send_update_after(
-      PostComponent,
+      ShlinkedinWeb.PostLive.PostLikes,
       [id: socket.assigns.post.id, spin: false],
       1000
     )
@@ -158,19 +158,6 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     </div>
     <% end %>
     """
-  end
-
-  defp show_unique_likes(%Post{} = post) do
-    Enum.map(post.likes, fn x -> x.like_type end) |> Enum.uniq()
-  end
-
-  defp length_unique_user_likes(%Post{} = post) do
-    uniq = Enum.map(post.likes, fn x -> x.profile_id end) |> Enum.uniq() |> length
-
-    case uniq do
-      1 -> "1 person"
-      uniq -> "#{uniq} people"
-    end
   end
 
   defp like_map_list(like_map) do
