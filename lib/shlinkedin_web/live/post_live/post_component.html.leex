@@ -67,10 +67,8 @@
         <%# Post Text / Image %>
         <div
             class="relative mt-2 overflow-hidden <%= if @post.photo_urls != [] or @post.gif_url != nil, do: "-mx-4" %>">
-
             <%= live_component @socket, ShlinkedinWeb.PostLive.BodyComponent,
                 id: @post.id,
-                expand_post: @expand_post,
                 post: @post %>
             <%= censor_tag(@socket, @post) %>
         </div>
@@ -91,9 +89,6 @@
                         return_to: @return_to,
                         spin: @spin
                       %>
-
-
-
                 <% end %>
 
             </div>

@@ -5,13 +5,11 @@
 
 
 
-    <div class="flex-grow">
 
+    <div class="flex-grow">
 
         <%# Start a Post %>
         <div class="sm:mt-4 mx-auto sm:max-w-lg p-5 pb-3 bg-white sm:rounded-lg border block ">
-
-
 
             <%= live_patch to: Routes.home_index_path(@socket, :new) do %>
             <button type="button"
@@ -180,7 +178,6 @@
                 comment_like_map: @comment_like_map,
                 comment_spin: false,
                 show_post_options: false,
-                expand_post: false,
                 num_show_comments: @num_show_comments,
                 return_to: Routes.home_index_path(@socket, :index),
                 spin: false  %>

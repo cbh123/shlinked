@@ -1,13 +1,13 @@
 defmodule ShlinkedinWeb.PostLive.BodyComponent do
   use ShlinkedinWeb, :live_component
 
-  def handle_event("expand-post", _, socket) do
-    send_update(ShlinkedinWeb.PostLive.BodyComponent,
-      id: socket.assigns.post.id,
-      expand_post: true
-    )
+  def mount(socket) do
+    socket = assign(socket, expand_post: false)
+    {:ok, socket}
+  end
 
-    {:noreply, socket}
+  def handle_event("expand-post", _, socket) do
+    {:noreply, socket |> assign(expand_post: true)}
   end
 
   defp format_tags(body, []) do

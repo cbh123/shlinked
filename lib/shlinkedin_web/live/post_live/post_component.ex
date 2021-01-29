@@ -5,7 +5,11 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
   alias Shlinkedin.Profiles.Profile
 
   def mount(socket) do
-    socket = assign(socket, show_share_menu: false)
+    socket =
+      assign(socket,
+        show_share_menu: false
+      )
+
     {:ok, socket}
   end
 
@@ -89,8 +93,7 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
 
     send_update(ShlinkedinWeb.PostLive.PostLikes,
       id: socket.assigns.post.id,
-      spin: true,
-      expand_post: true
+      spin: true
     )
 
     send_update_after(
