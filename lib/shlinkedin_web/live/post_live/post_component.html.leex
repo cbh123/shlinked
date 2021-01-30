@@ -94,10 +94,9 @@
 
             <%#  "1 Comment" %>
             <%= if Ecto.assoc_loaded?(@post.comments) and length(@post.comments) > 0 do %>
-            <button phx-click="expand-comments" phx-target="<%= @myself %>"
-                class=" text-xs hover:underline hover:text-blue-500 <%= if @comment_spin == true, do: " animate-spin" %> py-2  my-2">
+            <span class=" <%= if @comment_spin == true, do: " animate-spin" %> py-2  my-2">
                 <%= length(@post.comments) %>
-                Comment<%= if length(@post.comments) > 1, do: "s" %></button>
+                Comment<%= if length(@post.comments) > 1, do: "s" %></span>
             <% end %>
 
         </div>
