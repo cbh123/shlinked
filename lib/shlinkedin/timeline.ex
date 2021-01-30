@@ -171,10 +171,14 @@ defmodule Shlinkedin.Timeline do
       ) do
     post = %{post | profile_id: profile.id}
 
-    post
-    |> Post.changeset(attrs)
-    |> Repo.insert()
-    |> after_save(after_save)
+    post =
+      post
+      |> Post.changeset(attrs)
+      |> Repo.insert!()
+      |> after_save(after_save)
+      |> Repo.preload([:profile, :likes, comments: [:profile, :likes]])
+
+    broadcast({:ok, post}, :post_created)
   end
 
   def get_gif_from_text(text) do
@@ -196,22 +200,44 @@ defmodule Shlinkedin.Timeline do
 
   defp after_save(error, _func), do: error
 
-  def create_comment(%Profile{} = profile, %Post{} = post, attrs \\ %{}) do
-    %Comment{post_id: post.id, profile_id: profile.id}
-    |> Comment.changeset(attrs)
-    |> Repo.insert()
-    |> ProfileNotifier.observer(:comment, profile, post.profile)
+  def create_comment(%Profile{} = profile, %Post{id: post_id}, attrs \\ %{}) do
+    new_comment =
+      %Comment{post_id: post_id, profile_id: profile.id}
+      |> Comment.changeset(attrs)
+      |> Repo.insert()
+
+    case new_comment do
+      {:ok, _} ->
+        # could be optimized
+        post = get_post_preload_all(post_id)
+
+        # notify person
+        ProfileNotifier.observer(new_comment, :comment, profile, post.profile)
+
+        broadcast(
+          {:ok, post},
+          :post_updated
+        )
+
+      {:error, changeset} ->
+        {:error, changeset}
+    end
   end
 
   def create_like(%Profile{} = profile, %Post{} = post, like_type) do
-    %Like{
-      profile_id: profile.id,
-      post_id: post.id,
-      like_type: like_type
-    }
-    |> Repo.insert()
-    |> ProfileNotifier.observer(:like, profile, post.profile)
-    |> broadcast(:post_liked)
+    {:ok, _like} =
+      %Like{
+        profile_id: profile.id,
+        post_id: post.id,
+        like_type: like_type
+      }
+      |> Repo.insert()
+      |> ProfileNotifier.observer(:like, profile, post.profile)
+
+    # could be optimized
+    post = get_post_preload_all(post.id)
+
+    broadcast({:ok, post}, :post_updated)
   end
 
   def create_comment_like(%Profile{} = profile, %Comment{} = comment, like_type) do

@@ -47,6 +47,7 @@ defmodule ShlinkedinWeb.PostLive.CommentBubbleComponent do
       like_type
     )
 
+    # this keeps the post component showing the same amount of comments as it was when you liked
     send_update(PostComponent,
       id: socket.assigns.post.id,
       num_show_comments: socket.assigns.num_show_comments

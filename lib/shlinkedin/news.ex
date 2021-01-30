@@ -214,8 +214,6 @@ defmodule Shlinkedin.News do
     Phoenix.PubSub.subscribe(Shlinkedin.PubSub, "articles")
   end
 
-  defp broadcast({:error, _reason} = error, _), do: error
-
   defp broadcast({:ok, article}, event) do
     Phoenix.PubSub.broadcast(Shlinkedin.PubSub, "articles", {event, article})
     {:ok, article}

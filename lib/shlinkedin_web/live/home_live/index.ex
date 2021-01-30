@@ -226,11 +226,13 @@ defmodule ShlinkedinWeb.HomeLive.Index do
 
   @impl true
   def handle_info({:post_created, post}, socket) do
+    socket = assign(socket, update_action: "prepend")
     {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
   end
 
   @impl true
   def handle_info({:post_updated, post}, socket) do
+    socket = assign(socket, update_action: "append")
     {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
   end
 

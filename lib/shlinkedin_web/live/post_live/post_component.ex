@@ -95,10 +95,6 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     {:noreply, socket}
   end
 
-  def handle_info({:post_liked, like}, socket) do
-    IO.inspect(like, label: "like")
-  end
-
   defp featured_post_header(assigns, post) do
     ~L"""
         <%# Post of Day tag %>

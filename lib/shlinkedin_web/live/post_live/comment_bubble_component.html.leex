@@ -82,37 +82,27 @@
         <div class="inline-flex mb-2 ">
 
             <%= for like <- like_map_list(@like_map) do %>
-            <%= case Enum.filter(@comment.likes, fn l -> l.profile_id == @profile.id && l.like_type == like.like_type end) |> length() do %>
-            <% 0 -> %><button id="comment-<%=@comment.id%>-like-btn-<%=like.like_type %>" type="button"
+            <% num_likes = if Ecto.assoc_loaded?(@comment.likes), do: Enum.filter(@comment.likes, fn l -> l.profile_id == @profile.id && l.like_type == like.like_type end) |> length(), else: 0  %>
+            <button id="comment-<%=@comment.id%>-like-btn-<%=like.like_type %>" type="button"
                 phx-target="<%= @myself %>" phx-click="like-selected" phx-value-like-type="<%=like.like_type%>"
-                class="active:text-white active:<%=like.bg %> inline-flex items-center py-1 px-2 mr-1 border text-xs font-medium rounded-full bg-gray-50 hover:bg-gray-100 text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                class="<%= if num_likes > 0, do: like.color, else: "text-gray-500" %> active:text-white active:<%=like.bg %> inline-flex items-center py-1 px-2 mr-1 border text-xs font-medium rounded-full bg-gray-50 hover:bg-gray-100 text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 <svg class=" h-3 w-3 mx-auto" fill="currentColor" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
                     <path d="<%=like.svg_path%>" fill-rule="<%=like.fill%>">
                     </path>
                 </svg>
+                <%= if num_likes > 0 do %>
+                <span class="pl-1 text-xs"><%= num_likes %></span>
+                <% end %>
             </button>
 
-            <% num -> %>
-            <button id="comment-like-btn-<%=like.like_type %>" type="button" phx-target="<%= @myself %>"
-                phx-click="like-selected" phx-value-like-type="<%=like.like_type%>"
-                class="active:text-white active:<%=like.bg %> inline-flex items-center px-2 py-1 border text-xs font-medium  <%= like.color %> rounded-full bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
 
-                <svg class="-ml-1 h-3 w-3 mx-auto" fill="currentColor" viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path d="<%=like.svg_path%>" fill-rule="<%=like.fill%>">
-                    </path>
-                </svg>
-                <span class="pl-1 text-xs"><%= num %></span>
 
-            </button>
-
-            <% end %>
             <% end %>
         </div>
 
 
-        <button phx-click="reply" phx-target="<%= @myself %>" phx-value-post-id="<%= @post.id %>"
+        <button phx-click="reply" phx-target="<%= @myself %>" phx-value-comments-id="<%= @post.id %>"
             phx-value-username="<%= @comment.profile.username %>" class="inline-flex
             items-center px-2 py-1 mr-1 border text-xs font-medium rounded-full bg-gray-50 text-gray-700
             hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">

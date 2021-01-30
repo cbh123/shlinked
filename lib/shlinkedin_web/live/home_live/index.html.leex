@@ -157,15 +157,14 @@
 
 
 
-
-
         <%# Posts %>
-        <div id="posts" phx-update="<%= @update_action %>" phx-hook="InfiniteScroll" data-page="<%= @page %>"
+
+        <div id="posts" phx-update="<%=@update_action%>" phx-hook="InfiniteScroll" data-page="<%= @page %>"
             class="sm:max-w-lg ">
 
 
-            <%= for {post, idx} <- Enum.with_index(@posts) do %>
 
+            <%= for {post, idx} <- Enum.with_index(@posts) do %>
             <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
                 id: post.id,
                 page: @page,
@@ -186,7 +185,7 @@
 
             <div id="<%= "ad-feed-#{idx}"%>">
 
-                <div class="relative bg-blue-100 shadow-lg mx-auto sm:rounded-lg p-4 mb-2 pb-2">
+                <div class="relative bg-blue-100 h-64 shadow-lg mx-auto sm:rounded-lg p-4 mb-2 pb-2">
                     <% ad = Shlinkedin.Ads.get_random_ad() %>
                     <%= if ad == nil do %>
                     <div class="text-center my-2">
