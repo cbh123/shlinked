@@ -5,12 +5,11 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
   alias Shlinkedin.Profiles.Profile
 
   def mount(socket) do
-    socket =
-      assign(socket,
-        show_share_menu: false
-      )
+    if connected?(socket) do
+      Timeline.subscribe()
+    end
 
-    {:ok, socket}
+    {:ok, socket |> assign(show_share_menu: false)}
   end
 
   def handle_event("toggle-share-menu", _, socket) do
@@ -79,15 +78,6 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     {:noreply, socket}
   end
 
-  def handle_event("expand-comments", _, socket) do
-    send_update(PostComponent,
-      id: socket.assigns.post.id,
-      num_show_comments: socket.assigns.num_show_comments + 5
-    )
-
-    {:noreply, socket}
-  end
-
   def handle_event("like-selected", %{"like-type" => like_type}, socket) do
     Shlinkedin.Timeline.create_like(socket.assigns.profile, socket.assigns.post, like_type)
 
@@ -103,6 +93,10 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     )
 
     {:noreply, socket}
+  end
+
+  def handle_info({:post_liked, like}, socket) do
+    IO.inspect(like, label: "like")
   end
 
   defp featured_post_header(assigns, post) do

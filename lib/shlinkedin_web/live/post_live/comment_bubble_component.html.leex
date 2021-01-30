@@ -1,17 +1,21 @@
 <%# Top of comment: image, name, title, and time on right %>
-<div class="flex" id="<%= @id %>">
+<div class="flex my-1" id="comment-bubble-<%= @id %>">
+
+    <%# Profile Photo %>
     <span class="inline-block cursor-pointer">
         <img class="h-6 w-6 mt-1 object-cover rounded-full" src="<%= @comment.profile.photo_url %>" alt="">
     </span>
+
+    <%# Bubble %>
     <div class=" bg-gray-100 ml-2 pt-2 px-4 rounded-lg w-11/12 relative">
         <div class="flex justify-between relative">
+
+            <%# Profile Name, Badges, Title, and Author Tag %>
             <%= live_redirect to: Routes.profile_show_path(@socket, :show, @comment.profile.slug), class: "text-sm font-semibold text-gray-900 hover:underline" do  %>
             <div class="bold text-xs font-semibold hover:underline cursor-pointer w-52 sm:w-64 truncate">
 
                 <span><%= @comment.profile.persona_name %></span>
-
                 <%= Shlinkedin.Badges.profile_badges(@socket, @comment.profile, 3) %>
-
                 <%= if @comment.profile.id == @post.profile.id do  %>
                 <span
                     class="inline-flex items-center px-2.5 mx-1 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 ">
@@ -25,17 +29,17 @@
 
 
 
+            <%# Time of commenting %>
             <p class="right-0 absolute text-xs text-gray-500 max-w-8"><%= Timex.from_now(@comment.inserted_at) %>
-
             </p>
         </div>
+
         <%# Comment text %>
         <p class="relative text-xs mt-1 overflow-hidden <%= if !@expand_comment, do: "max-h-8" %>">
 
             <%= raw(format_tags(@comment.body, @comment.profile_tags)) %>
 
-
-            <%# add a see more button %>
+            <%# See more button %>
             <%= if String.length(@comment.body) >= 100 && !@expand_comment do %>
             <div class="absolute bottom-1 right-2 bg-gray-100">
                 <button phx-click="expand-comment" phx-target="<%= @myself %>"
@@ -47,7 +51,6 @@
 
 
         <%# Comment number of likes %>
-
         <div class="flex pl-2 pt-2 mt-2">
             <%# "x likes" with symbols %>
             <%= if length(@comment.likes) > 0 do %>
@@ -115,6 +118,8 @@
             hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
             Reply
         </button>
+
+        <%# Option to delete if you're the poster (or an admin) %>
         <%= if @profile != nil and @comment.profile_id == @profile.id or @profile.admin do %>
         <%= link "Delete", to: "#", phx_click: "delete-comment", phx_value_id: @comment.id, data: [confirm: "Are you sure?"], class: "text-xs text-gray-500 hover:bg-gray-100"%>
         <% end %>

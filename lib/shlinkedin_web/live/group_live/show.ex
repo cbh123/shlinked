@@ -166,7 +166,7 @@ defmodule ShlinkedinWeb.GroupLive.Show do
      assign(
        socket,
        :posts,
-       Timeline.list_posts(socket.assigns.profile, paginate: %{page: 1, per_page: 5})
+       Timeline.list_posts(socket.assigns.profile, [paginate: %{page: 1, per_page: 5}], "group")
      )}
   end
 

@@ -252,9 +252,7 @@
 
             <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
                 id: post.id,
-                idx: idx,
                 page: @page,
-                show_ads: false,
                 profile: @profile,
                 post: post,
                 deleted: post.__meta__.state == :deleted,
@@ -262,7 +260,6 @@
                 comment_like_map: @comment_like_map,
                 comment_spin: false,
                 show_post_options: false,
-                expand_post: false,
                 num_show_comments: @num_show_comments,
                 return_to: Routes.group_show_path(@socket, :show, @group),
                 spin: false  %>

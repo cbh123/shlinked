@@ -453,31 +453,25 @@
         <div id="posts" phx-update="append" phx-hook="InfiniteScroll" data-page="<%= @page %>">
             <%= for {post, idx} <- Enum.with_index(@posts) do %>
             <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
-        id: post.id,
-        idx: idx,
-        show_ads: false,
-        page: @page,
-        profile: @profile,
-        post: post,
-        deleted: post.__meta__.state == :deleted,
-        like_map: @like_map,
-        comment_like_map: @comment_like_map,
-        comment_spin: false,
-        show_post_options: false,
-        expand_post: false,
-        num_show_comments: @num_show_comments,
-        return_to: Routes.profile_show_path(@socket, :show, @show_profile.id),
-        spin: false  %>
+                    id: post.id,
+                    idx: idx,
+                    page: @page,
+                    profile: @profile,
+                    post: post,
+                    deleted: post.__meta__.state == :deleted,
+                    like_map: @like_map,
+                    comment_like_map: @comment_like_map,
+                    comment_spin: false,
+                    show_post_options: false,
+                    num_show_comments: @num_show_comments,
+                    return_to: Routes.profile_show_path(@socket, :show, @show_profile.id),
+                    spin: false  %>
             <% end %>
         </div>
 
         <%= if @posts == [] do %>
         <p class="font-semibold text-gray-600 text-center -mt-4">No posts yet 😔</p>
         <% end %>
-
-
-
-
 
 
     </div>

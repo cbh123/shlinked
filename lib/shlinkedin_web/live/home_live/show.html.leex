@@ -14,7 +14,6 @@
     <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
         id: @post.id,
         idx: 1,
-        show_ads: false,
         page: 1,
         profile: @profile,
         post: @post,
@@ -22,7 +21,6 @@
         like_map: @like_map,
         comment_spin: false,
         show_post_options: false,
-        expand_post: false,
         num_show_comments: 5,
         return_to: Routes.home_show_path(@socket, :show, @post.id),
         spin: false  %>
