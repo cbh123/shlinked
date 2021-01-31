@@ -117,6 +117,7 @@ defmodule ShlinkedinWeb.LeaderboardLive.Index do
     end
   end
 
+  # convert UTC now to EST at noon
   @seventeen_hours 17 * 60 * 60
 
   defp get_start_date(weekly) do
