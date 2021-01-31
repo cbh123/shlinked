@@ -249,18 +249,29 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   end
 
   @impl true
+  def handle_info({:post_created, post}, socket) do
+    if post.profile.id == socket.assigns.profile.id do
+      {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
+    else
+      {:noreply, socket}
+    end
+  end
+
+  @impl true
   def handle_info({:post_updated, post}, socket) do
-    {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
+    if post.profile.id == socket.assigns.profile.id do
+      {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
+    else
+      {:noreply, socket}
+    end
   end
 
   @impl true
   def handle_info({:post_deleted, post}, socket) do
-    {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
-  end
-
-  def handle_info(%Phoenix.Socket.Broadcast{event: "presence_diff"}, socket) do
-    {:noreply,
-     socket
-     |> assign(:online_profiles, ShlinkedinWeb.Presence.list("online"))}
+    if post.profile.id == socket.assigns.profile.id do
+      {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
+    else
+      {:noreply, socket}
+    end
   end
 end
