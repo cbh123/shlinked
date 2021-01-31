@@ -42,6 +42,10 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(friend_status: check_between_friend_status(socket.assigns.profile, show_profile))
      |> assign(endorsements: list_endorsements(show_profile.id))
      |> assign(mutual_friends: get_mutual_friends(socket.assigns.profile, show_profile))
+     |> assign(reviews_recieved: true)
+     |> assign(number_testimonials: Profiles.get_number_testimonials(show_profile.id))
+     |> assign(number_given_testimonials: Profiles.get_number_given_testimonials(show_profile.id))
+     |> assign(num_show_testimonials: 2)
      |> assign(testimonials: list_testimonials(show_profile.id)), temporary_assigns: [posts: []]}
   end
 
@@ -198,6 +202,16 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     {:noreply, assign(socket, :testimonials, list_testimonials(socket.assigns.to_profile.id))}
   end
 
+  def handle_event("show-more-testimonials", _, socket) do
+    socket = assign(socket, num_show_testimonials: socket.assigns.num_show_testimonials + 5)
+    {:noreply, socket}
+  end
+
+  def handle_event("show-fewer-testimonials", _, socket) do
+    socket = assign(socket, num_show_testimonials: 2)
+    {:noreply, socket}
+  end
+
   def handle_event("send-friend-request", _, socket) do
     Profiles.send_friend_request(socket.assigns.from_profile, socket.assigns.to_profile)
     status = check_between_friend_status(socket.assigns.profile, socket.assigns.to_profile)
@@ -228,6 +242,26 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     {:noreply, socket |> assign(page: assigns.page + 1) |> fetch_posts()}
   end
 
+  def handle_event("show-received", _, socket) do
+    socket =
+      assign(socket,
+        reviews_recieved: true,
+        testimonials: list_testimonials(socket.assigns.show_profile.id)
+      )
+
+    {:noreply, socket}
+  end
+
+  def handle_event("show-given", _, socket) do
+    socket =
+      assign(socket,
+        reviews_recieved: false,
+        testimonials: list_given_testimonials(socket.assigns.show_profile.id)
+      )
+
+    {:noreply, socket}
+  end
+
   defp list_endorsements(id) do
     Profiles.list_endorsements(id)
   end
@@ -238,6 +272,10 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
 
   defp list_testimonials(id) do
     Profiles.list_testimonials(id)
+  end
+
+  defp list_given_testimonials(id) do
+    Profiles.list_given_testimonials(id)
   end
 
   defp get_mutual_friends(from, to) do

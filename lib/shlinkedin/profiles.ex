@@ -92,6 +92,26 @@ defmodule Shlinkedin.Profiles do
     Repo.all(from e in Shlinkedin.Profiles.Testimonial, where: e.to_profile_id == ^id)
   end
 
+  def get_number_testimonials(id) do
+    Repo.aggregate(
+      from(t in Shlinkedin.Profiles.Testimonial, where: t.to_profile_id == ^id),
+      :count,
+      :id
+    )
+  end
+
+  def get_number_given_testimonials(id) do
+    Repo.aggregate(
+      from(t in Shlinkedin.Profiles.Testimonial, where: t.from_profile_id == ^id),
+      :count,
+      :id
+    )
+  end
+
+  def list_given_testimonials(id) do
+    Repo.all(from e in Shlinkedin.Profiles.Testimonial, where: e.from_profile_id == ^id)
+  end
+
   def list_notifications(id, count) do
     Repo.all(
       from n in Shlinkedin.Profiles.Notification,

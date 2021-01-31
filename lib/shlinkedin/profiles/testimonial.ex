@@ -7,14 +7,14 @@ defmodule Shlinkedin.Profiles.Testimonial do
     field :rating, :integer
     field :from_profile_id, :id
     field :to_profile_id, :id
-
+    field :relation, :string
     timestamps()
   end
 
   @doc false
   def changeset(testimonials, attrs) do
     testimonials
-    |> cast(attrs, [:body, :rating])
+    |> cast(attrs, [:body, :rating, :relation])
     |> validate_length(:body, min: 1, max: 300)
     |> validate_number(:rating, greater_than_or_equal_to: 1, less_than_or_equal_to: 5)
     |> validate_required([:body, :rating])

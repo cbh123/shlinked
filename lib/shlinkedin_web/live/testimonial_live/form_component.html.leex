@@ -13,6 +13,27 @@
 
 
 <div class="mb-4">
+    <label for="relation" class="font-bold">How do you know
+        <%= @to_profile_first %>?</label>
+    <%= select f, :relation, ["You managed #{@to_profile_first } directly",
+                              "You reported directly to #{@to_profile_first }",
+                              "You were senior to #{@to_profile_first }",
+                              "#{@to_profile_first } was senior to you",
+                              "You are standing directly behind #{@to_profile_first}",
+                              "#{@to_profile_first } was a client of yours",
+                              "You and #{@to_profile_first} just go way back",
+                              "You were a client of #{@to_profile_first }",
+                              "You are #{@to_profile_first} in disguise",
+                              "You taught #{@to_profile_first }",
+                              "You mentored #{@to_profile_first }",
+                              "You are a figment of #{@to_profile_first }'s imagination",
+                              "You and #{@to_profile_first } studied together",
+                              "You’ve watched #{@to_profile_first} from afar",
+                              "Other"
+                              ], class: "mt-1 max-w-full block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+        %>
+</div>
+<div class="mb-4">
     <label for="testimonial" class="font-bold">Review</label>
     <%= textarea f, :body, class: "mt-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-3", rows: 2, placeholder: "#{@to_profile.persona_name} is..." %>
 </div>
