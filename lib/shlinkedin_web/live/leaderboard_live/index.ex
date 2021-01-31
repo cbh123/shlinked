@@ -118,13 +118,13 @@ defmodule ShlinkedinWeb.LeaderboardLive.Index do
   end
 
   # convert UTC now to EST at noon
-  @seventeen_hours 17 * 60 * 60
+  @twenty_three_hours 23 * 60 * 60
 
   defp get_start_date(weekly) do
     if weekly,
       do:
         NaiveDateTime.utc_now()
-        |> NaiveDateTime.add(-@seventeen_hours)
+        |> NaiveDateTime.add(-@twenty_three_hours)
         |> Timex.beginning_of_week(:sun),
       else: ~N[2000-01-01 00:00:00]
   end
