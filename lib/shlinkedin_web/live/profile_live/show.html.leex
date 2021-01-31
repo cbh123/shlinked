@@ -172,6 +172,8 @@
                 <span><%= live_patch "+ Review", to: Routes.profile_show_path(@socket, :new_testimonial, @to_profile.slug), class: "px-4 py-2 bg-blue-500 text-white shadow-xs rounded-full font-bold" %></span>
             </div>
 
+
+
             <%# Tabs %>
             <div class="mt-0">
                 <div class="block">
@@ -192,7 +194,13 @@
                 </div>
             </div>
 
+
+            <%= if @testimonials == [] do %>
+            <p class="font-semibold text-gray-600 text-center my-8">No reviews yet 😔</p>
+            <% else %>
+
             <div class="bg-white overflow-hidden sm:rounded-md">
+
                 <ul class="divide-y divide-gray-200">
                     <%= for testimonial <- @testimonials |> Enum.slice(0, @num_show_testimonials) do %>
                     <% t_profile = Profiles.get_profile_by_profile_id(testimonial.from_profile_id) %>
@@ -247,6 +255,7 @@
                     </li>
                     <% end %>
                 </ul>
+
             </div>
 
             <div class="text-center border-t">
@@ -273,6 +282,7 @@
                 </button>
                 <% end %>
             </div>
+            <% end %>
         </div>
 
 
