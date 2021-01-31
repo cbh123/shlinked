@@ -30,7 +30,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
        num_show_comments: 1
      )
      |> assign(live_action: socket.assigns.live_action || :show)
-     |> assign(page_title: "Shlinked - " <> show_profile.persona_name)
+     |> assign(page_title: "ShlinkedIn - " <> show_profile.persona_name)
      |> assign(from_notifications: false)
      |> assign(current_awards: Profiles.list_awards(show_profile))
      |> assign(award_types: Shlinkedin.Awards.list_award_types())

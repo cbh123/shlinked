@@ -7,7 +7,7 @@ defmodule ShlinkedinWeb.PostLive.CommentBubbleComponent do
 
   def handle_event("expand-comment", _, socket) do
     send_update(CommentBubbleComponent,
-      id: "comment-#{socket.assigns.comment.id}",
+      id: socket.assigns.comment.id,
       expand_comment: true
     )
 
