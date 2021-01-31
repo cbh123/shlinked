@@ -117,9 +117,15 @@ defmodule ShlinkedinWeb.LeaderboardLive.Index do
     end
   end
 
+  @seventeen_hours 17 * 60 * 60
+
   defp get_start_date(weekly) do
     if weekly,
-      do: Timex.beginning_of_week(NaiveDateTime.utc_now(), :sun),
+      do:
+        Timex.beginning_of_week(
+          NaiveDateTime.utc_now() |> NaiveDateTime.add(@seventeen_hours),
+          :sun
+        ),
       else: ~N[2000-01-01 00:00:00]
   end
 end

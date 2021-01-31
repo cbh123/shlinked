@@ -26,9 +26,6 @@ defmodule ShlinkedinWeb.HomeLiveTest do
     %{user: user, profile: profile_fixture(user), conn: conn}
   end
 
-  # add test for show likes
-  # add test for like
-  # add test for comment
   test "initial render with user and profile", %{conn: conn} do
     user = user_fixture()
     profile_fixture(user)
@@ -85,6 +82,19 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       refute index_live
              |> element("#post-#{post.id} a", "Delete")
              |> has_element?()
+    end
+
+    # add test for show likes
+    # add test for like
+    # add test for comment
+    test "like post", %{conn: conn, profile: profile} do
+      {:ok, index_live, _html} = live(conn, Routes.home_index_path(conn, :index))
+
+      {:ok, post} = Timeline.create_post(profile, %{body: "test"}, %Timeline.Post{})
+
+      assert index_live
+             |> render_click(:like_selected, %{"phx-value-like-type:" "Pity"})
+             |> IO.inspect()
     end
   end
 end
