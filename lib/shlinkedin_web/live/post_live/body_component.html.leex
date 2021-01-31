@@ -68,6 +68,8 @@
     </section>
     <% else %>
 
+
+
     <%# Actual Post Text %>
     <%= if @post.update_type != "ShlinkPic" do %>
     <div class="relative">
@@ -116,5 +118,28 @@
     <% end %>
     <% end %>
     <% end %>
+
+
+    <%= if @post.sponsored do %>
+    <div class="text-center">
+        <div class="bg-gray-100 py-2 px-4 rounded-full inline-flex mb-2">
+
+            <img class="h-8 w-8 rounded-full object-cover"
+                src="//shlinked.s3.amazonaws.com/8de9d4f1-1282-490c-b791-009a9f454030.jpg" alt="">
+
+            <div class="ml-2">
+
+                <p class="flex place-self-center font-bold text-gray-700 text-xs">
+                    This post is sponsored by HIMBS
+                </p>
+
+                <p class="flex place-self-center italic text-xs">
+                    "Herbs for MEN" • Bornk Kindvast
+                </p>
+            </div>
+        </div>
+    </div>
+    <% end %>
+
     <% end %>
 </div>

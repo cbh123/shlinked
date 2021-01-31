@@ -19,6 +19,7 @@ defmodule Shlinkedin.Timeline.Post do
     field :censor_tag, :boolean, default: false
     field :censor_body, :string
     field :group_id, :integer
+    field :sponsored, :boolean, default: false
     timestamps()
   end
 
@@ -33,7 +34,8 @@ defmodule Shlinkedin.Timeline.Post do
       :featured_date,
       :gif_url,
       :profile_tags,
-      :group_id
+      :group_id,
+      :sponsored
     ])
     |> validate_required([])
     |> validate_length(:body, max: 4000)

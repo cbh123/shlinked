@@ -36,7 +36,19 @@
         </div>
     </div>
 
+    <div class="mt-2">
 
+        <%= checkbox f, :sponsored, class: "h-4 w-4 text-blue-400 focus:ring-blue-400 border-gray-300 rounded"%>
+        <label for="sponsored" class="text-sm font-medium text-gray-700 mt-4">Sponsor by HIMBS
+
+        </label>
+
+
+
+
+        <p class="text-xs"><%= error_tag f, :sponsored %></p>
+
+    </div>
 
     <%# Enter Body Text %>
     <div class="my-4">
