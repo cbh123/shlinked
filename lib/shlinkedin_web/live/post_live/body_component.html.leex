@@ -121,6 +121,7 @@
 
 
     <%= if @post.sponsored do %>
+    <%= live_redirect to: Routes.profile_show_path(@socket, :show, "manherbs") do %>
     <div class="text-center">
         <div class="bg-gray-100 py-2 px-4 rounded-full inline-flex mb-2">
 
@@ -129,7 +130,7 @@
 
             <div class="ml-2">
 
-                <p class="flex place-self-center font-bold text-gray-700 text-xs">
+                <p class="flex place-self-center font-bold text-gray-700 text-xs hover:underline">
                     This post is sponsored by HIMBS
                 </p>
 
@@ -139,6 +140,7 @@
             </div>
         </div>
     </div>
+    <% end %>
     <% end %>
 
     <% end %>
