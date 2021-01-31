@@ -122,8 +122,12 @@
 
     <%= if @post.sponsored do %>
     <%= live_redirect to: Routes.profile_show_path(@socket, :show, "manherbs") do %>
-    <div class="text-center">
-        <div class="bg-gray-100 py-2 px-4 rounded-full inline-flex mb-2">
+    <div class="text-center relative">
+
+        <img src="//shlinked.s3.amazonaws.com/f4f94700-3922-4596-9a12-f5bdcbc929e5.png"
+            class="absolute w-full z-0 object-cover" alt="">
+
+        <div class="bg-gray-100 py-2 px-4 rounded-full inline-flex my-2 relative z-10">
 
             <img class="h-8 w-8 rounded-full object-cover"
                 src="//shlinked.s3.amazonaws.com/8de9d4f1-1282-490c-b791-009a9f454030.jpg" alt="">
