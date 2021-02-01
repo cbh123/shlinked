@@ -93,7 +93,6 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       {:ok, post} = Timeline.create_post(profile, %{body: "test"}, %Timeline.Post{})
 
       assert index_live
-             |> render_click(:like_selected, %{"phx-value-like-type:" "Pity"})
              |> IO.inspect()
     end
   end
