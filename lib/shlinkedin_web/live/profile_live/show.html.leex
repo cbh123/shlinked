@@ -203,7 +203,7 @@
 
                 <ul class="divide-y divide-gray-200">
                     <%= for testimonial <- @testimonials |> Enum.slice(0, @num_show_testimonials) do %>
-                    <% t_profile = Profiles.get_profile_by_profile_id(testimonial.from_profile_id) %>
+                    <% t_profile = if @reviews_recieved, do: Profiles.get_profile_by_profile_id(testimonial.from_profile_id), else: Profiles.get_profile_by_profile_id(testimonial.to_profile_id)%>
                     <li class="py-3">
                         <div class="flex">
                             <div class="inline-flex w-full sm:w-1/3">
