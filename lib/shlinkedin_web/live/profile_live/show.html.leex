@@ -261,7 +261,7 @@
 
             </div>
 
-            <%= if @num_show_testimonials != length(@testimonials) do %>
+            <%= if @num_show_testimonials < length(@testimonials)  do %>
             <div class="text-center border-t">
                 <button type="button"
                     phx-click="<%= if @num_show_testimonials > length(@testimonials), do: "show-fewer-testimonials", else: "show-more-testimonials"%>"
