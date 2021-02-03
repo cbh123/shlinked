@@ -8,8 +8,12 @@ defmodule Shlinkedin.Feedback do
   alias Shlinkedin.Feedback.Feedback
 
   def create_feedback(%Feedback{} = feedback, attrs \\ %{}) do
-    invite
+    feedback
     |> Feedback.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def change_feedback(%Feedback{} = feedback, attrs \\ %{}) do
+    Feedback.changeset(feedback, attrs)
   end
 end

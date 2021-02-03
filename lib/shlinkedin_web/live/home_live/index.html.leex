@@ -425,3 +425,11 @@
     title: @page_title,
     return_to: Routes.home_index_path(@socket, :index) %>
 <% end %>
+
+<%= if @live_action in [:new_feedback] do %>
+<%= live_modal @socket, ShlinkedinWeb.FeedbackLive.FeedbackForm,
+    id: :new_feedback,
+    feedback: @feedback,
+    title: @page_title,
+    return_to: Routes.home_index_path(@socket, :index) %>
+<% end %>

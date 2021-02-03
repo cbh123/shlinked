@@ -5,7 +5,7 @@ defmodule ShlinkedinWeb.FeedbackLive.FeedbackForm do
 
   @impl true
   def update(%{feedback: feedback} = assigns, socket) do
-    changeset = Profiles.change_feedback(feedback)
+    changeset = Shlinkedin.Feedback.change_feedback(feedback)
 
     {:ok,
      socket
@@ -17,7 +17,7 @@ defmodule ShlinkedinWeb.FeedbackLive.FeedbackForm do
   def handle_event("validate", %{"feedback" => params}, socket) do
     changeset =
       socket.assigns.feedback
-      |> Profiles.change_feedback(params)
+      |> Shlinkedin.Feedback.change_feedback(params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
@@ -28,14 +28,14 @@ defmodule ShlinkedinWeb.FeedbackLive.FeedbackForm do
   end
 
   defp save_feedback(socket, :new_feedback, feedback_params) do
-    case Feedback.create_feedback(
+    case Shlinkedin.Feedback.create_feedback(
            %Feedback{},
            feedback_params
          ) do
       {:ok, _feedback} ->
         {:noreply,
          socket
-         |> assign(:feedback_email, feedback_params["email"])}
+         |> push_redirect(socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}

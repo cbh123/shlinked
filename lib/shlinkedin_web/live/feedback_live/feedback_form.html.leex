@@ -1,5 +1,5 @@
 <%= f = form_for @changeset, "#",
-  id: "invite-form",
+  id: "feedback-form",
   phx_target: @myself,
   phx_change: "validate",
   phx_submit: "save" %>
@@ -14,55 +14,12 @@
 <div class="mt-1 p-5">
 
 
-    <%= if @invite_email do %>
-    <div class="rounded-md bg-green-50 p-4 mb-4 ">
-        <div class="flex">
-            <div class="flex-shrink-0">
-                <!-- Heroicon name: check-circle -->
-                <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                    fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clip-rule="evenodd" />
-                </svg>
-            </div>
-            <div class="ml-3">
-                <p class="text-sm font-medium text-green-800">
-                    Invite sent to <%= @invite_email %>! Thx
-                </p>
-            </div>
-
-        </div>
-    </div>
-    <% end %>
-    <%# Name and title %>
-
-    <h3 class="text-base leading-6 font-medium text-gray-900">
-        Invite friends, build your social capital, and get credit on your profile!
-    </h3>
-
     <%# Enter Email Text %>
-    <div class="my-4">
-        <label for="body" class="text-xs text-gray-500 font-semibold">Send Email</label>
-        <%= email_input f, :email, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-3", placeholder: "joeschmo@gmail.com" %>
-        <p class="mt-4 text-xs"><%= error_tag f, :email %></p>
+    <div class="mt-2">
+        <%= textarea f, :body, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-3", rows: 3, placeholder: "Noticed a bug, have a feature request, or just want someone to talk to? Help us improve!" %>
+        <p class="mt-4 text-xs"><%= error_tag f, :body %></p>
     </div>
 
-
-    <h3 class="text-xs text-gray-500 font-semibold">
-        Or, copy this link and send to them:
-    </h3>
-
-    <button type="button" phx-hook="CopyToClipboard"
-        phx-value-link="<%= "https://www.shlinkedin.com/join?ref=#{@profile.slug}" %>"
-        class=" mt-2 w-full sm:w-auto flex-none bg-gray-50 text-gray-400 hover:text-gray-900 font-windows leading-6 py-3 sm:px-6 border border-gray-200 rounded-xl flex items-center justify-center space-x-2 sm:space-x-4 focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-gray-300 focus:outline-none transition-colors duration-200"><span
-            class="text-gray-900"><span class="hidden sm:inline text-gray-500" aria-hidden="true">
-                <!-- --> </span>shlinkedin.com/join?ref=<%=@profile.slug%></span><span class="sr-only">(click to copy to
-            clipboard)</span><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path
-                d="M8 16c0 1.886 0 2.828.586 3.414C9.172 20 10.114 20 12 20h4c1.886 0 2.828 0 3.414-.586C20 18.828 20 17.886 20 16v-4c0-1.886 0-2.828-.586-3.414C18.828 8 17.886 8 16 8m-8 8h4c1.886 0 2.828 0 3.414-.586C16 14.828 16 13.886 16 12V8m-8 8c-1.886 0-2.828 0-3.414-.586C4 14.828 4 13.886 4 12V8c0-1.886 0-2.828.586-3.414C5.172 4 6.114 4 8 4h4c1.886 0 2.828 0 3.414.586C16 5.172 16 6.114 16 8">
-            </path>
-        </svg></button>
 
 
 
@@ -72,8 +29,8 @@
 
     <div class="flex justify-end mt-8 bg-gray-100 -m-5 p-5 rounded-b-lg">
 
-        <%= live_patch "Close", to: @return_to, class: "ml-3 inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-full text-gray-600  bg-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"%>
-        <%= submit "Send Invite", class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
+        <%= live_patch "Cancel", to: @return_to, class: "ml-3 inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-full text-gray-600  bg-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"%>
+        <%= submit "Send feedback", class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
     </div>
 
 

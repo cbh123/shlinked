@@ -156,6 +156,12 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     |> assign(:page_title, "Invite to ShlinkedIn")
   end
 
+  defp apply_action(socket, :new_feedback, _params) do
+    socket
+    |> assign(:feedback, %Shlinkedin.Feedback.Feedback{})
+    |> assign(:page_title, "Feedback")
+  end
+
   defp apply_action(socket, :index, _params) do
     socket
     |> assign(:page_title, "ShlinkedIn")

@@ -87,15 +87,15 @@
                     <p class=" pt-0.5 text-xs hidden md:inline-block">Home</p>
                 </button>
                 <% end %>
-                <%= link to: "/invite" do %>
-                <button
-                    class="hover:bg-gray-100 px-2 mx-1 h-full relative <%= if @conn.request_path == "/new_invite", do: "border-gray-700 text-gray-700 "%>border-b-2 border-white  px-1 pt-1 font-base">
+                <%= live_patch to: "/feedback" do %>
+                <button class="hover:bg-gray-100 px-2 mx-1 h-full relative border-b-2 border-white pt-1 font-base">
                     <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
-                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                        <path fill-rule="evenodd"
+                            d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.382l6.553 3.276A1 1 0 0018 15V3z"
+                            clip-rule="evenodd"></path>
                     </svg>
-                    <p class=" pt-0.5 text-xs hidden md:inline-block">Invite</p>
+                    <p class=" pt-0.5 text-xs hidden md:inline-block">Feedback</p>
                 </button>
                 <% end %>
                 <%= link to: "/groups" do %>
