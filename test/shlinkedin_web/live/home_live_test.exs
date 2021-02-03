@@ -92,8 +92,9 @@ defmodule ShlinkedinWeb.HomeLiveTest do
 
       {:ok, post} = Timeline.create_post(profile, %{body: "test"}, %Timeline.Post{})
 
-      assert index_live
-             |> IO.inspect()
+      assert index_live |> element("#post-#{post.id}-like-Pity") |> render_click()
+
+      IO.inspect(index_live |> element("post-likes-#{post.id}") |> render())
     end
   end
 end

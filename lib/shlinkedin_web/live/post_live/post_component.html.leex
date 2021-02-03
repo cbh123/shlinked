@@ -112,7 +112,8 @@
                     <% num_likes = if Ecto.assoc_loaded?(@post.likes), do: Enum.filter(@post.likes, fn l -> l.profile_id == @profile.id && l.like_type == like.like_type end) |> length(), else: 0  %>
 
                     <button type="button" phx-target="<%= @myself %>" phx-click="like-selected"
-                        phx-value-like-type="<%=like.like_type%>" class="<%= if num_likes > 0, do: like.color, else: "text-gray-500" %> active:text-white active:<%=like.bg %> tooltip inline-flex items-center
+                        id="post-<%=@post.id%>-like-<%=like.like_type%>" phx-value-like-type="<%=like.like_type%>"
+                        class="<%= if num_likes > 0, do: like.color, else: "text-gray-500" %> active:text-white active:<%=like.bg %> tooltip inline-flex items-center
                     mr-0.5 px-1 py-1 rounded-full border border-transparent text-xs font-medium rounded-md bg-white hover:bg-gray-100
                     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 relative">
 
