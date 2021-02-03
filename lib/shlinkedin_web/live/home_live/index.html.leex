@@ -1,8 +1,8 @@
 <div class="min-h-screen bg-gray-100">
 
-    <div class="py-10">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-12 lg:gap-8">
-            <div class="hidden lg:block lg:col-span-3 xl:col-span-2">
+    <div class="py-10 pt-4">
+        <div class="max-w-3xl mx-auto md:max-w-7xl sm:px-8 sm:grid sm:grid-cols-12 sm:gap-8">
+            <div class="hidden sm:block sm:col-span-3 md:col-span-2">
                 <nav aria-label="Sidebar" class="sticky top-4 divide-y divide-gray-300">
                     <div class="pb-8 space-y-1">
                         <a href="#"
@@ -132,48 +132,152 @@
                     </div>
                 </nav>
             </div>
-            <main class="lg:col-span-9 xl:col-span-6">
-                <div class="px-4 sm:px-0">
-                    <div class="sm:hidden">
-                        <label for="question-tabs" class="sr-only">Select a tab</label>
-                        <select id="question-tabs"
-                            class="block w-full rounded-md border-gray-300 text-base font-medium text-gray-900 shadow-sm focus:border-rose-500 focus:ring-rose-500">
-                            <option value="#/recent">Recent</option>
-                            <option value="#/most-liked">Most Liked</option>
-                            <option value="#/most-answers">Most Answers</option>
-                        </select>
-                    </div>
-                    <div class="hidden sm:block">
-                        <nav class="relative z-0 rounded-lg shadow flex divide-x divide-gray-200" aria-label="Tabs">
-                            <a href="#" aria-current="page"
-                                class="text-gray-900 rounded-l-lg group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-6 text-sm font-medium text-center hover:bg-gray-50 focus:z-10">
-                                <span>Recent</span>
-                                <span aria-hidden="true" class="bg-rose-500 absolute inset-x-0 bottom-0 h-0.5"></span>
-                            </a>
+            <main class="sm:col-span-9 md:col-span-6">
+                <%# Start a Post %>
+                <div class="mx-auto p-5 pb-3 bg-white sm:rounded-lg border block mb-2">
 
-                            <a href="#" aria-current="false"
-                                class="text-gray-500 hover:text-gray-700 group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-6 text-sm font-medium text-center hover:bg-gray-50 focus:z-10">
-                                <span>Most Liked</span>
-                                <span aria-hidden="true"
-                                    class="bg-transparent absolute inset-x-0 bottom-0 h-0.5"></span>
-                            </a>
+                    <%= live_patch to: Routes.home_index_path(@socket, :new) do %>
+                    <button type="button"
+                        class="w-full flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-full text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <svg class="-ml-1 mr-3 h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z">
+                            </path>
+                            <path fill-rule="evenodd"
+                                d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+                                clip-rule="evenodd">
+                            </path>
+                        </svg>
+                        Start a post
+                    </button>
+                    <% end %>
 
-                            <a href="#" aria-current="false"
-                                class="text-gray-500 hover:text-gray-700 rounded-r-lg group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-6 text-sm font-medium text-center hover:bg-gray-50 focus:z-10">
-                                <span>Most Answers</span>
-                                <span aria-hidden="true"
-                                    class="bg-transparent absolute inset-x-0 bottom-0 h-0.5"></span>
-                            </a>
-                        </nav>
+                    <div class="flex justify-between mt-2">
+
+                        <%= live_patch "👥  Start Group", to: Routes.group_index_path(@socket, :new), class: "items-center px-2 sm:px-4 py-2 border-gray-300 text-xs sm:text-base font-medium rounded-lg text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
+                        <%= live_patch "📢  Create Ad", to: Routes.home_index_path(@socket, :new_ad), class: "items-center px-2 sm:px-4 py-2 border-gray-300 text-xs sm:text-base font-medium rounded-lg text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
+                        <%= live_patch "🗞️  Write Headline", to: Routes.home_index_path(@socket, :new_article), class: "items-center px-2 sm:px-4 py-2 border-gray-300 text-xs sm:text-base font-medium rounded-lg text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
                     </div>
                 </div>
 
-                <div class="mt-4">
+                <%# Leaderboard %>
+                <div class="rounded-md bg-blue-100 p-4 my-2 shadow-sm">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <!-- Heroicon name: information-circle -->
+                            <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="ml-3 flex-1 md:flex md:justify-between">
+                            <p class="text-sm text-blue-700">
+                                Want to see how you stack up, objectively? 📈
+                            </p>
+                            <p class="mt-3 text-sm md:mt-0 md:ml-6">
+                                <%= live_redirect raw("Leaderboard &rarr;"), to: Routes.leaderboard_index_path(@socket, :index), class: "whitespace-nowrap font-medium text-blue-700 hover:text-blue-600"  %>
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <%# Mobile News %>
+                <div id="mobile-news" class="sm:hidden mx-auto w-screen bg-white sm:rounded-lg border-b my-2">
+
+                    <div class="block sm:w-72 w-full">
+                        <div class="flex justify-between px-5 py-5">
+                            <%= live_redirect "Trending ShlinkNews", to: Routes.article_index_path(@socket, :index), class: "font-bold"  %>
+
+
+                            <%= live_patch "+ Add Headline", to: Routes.home_index_path(@socket, :new_article), class: "text-xs text-green-800 font-semibold bg-green-100 px-2 py-1 rounded-lg hover:bg-green-200"  %>
+
+                        </div>
+
+                        <div class="h-32 overflow-y-scroll">
+                            <div class="space-y-3 px-2" phx-update="append" id="news-box">
+                                <%= for a <- @articles do %>
+                                <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
+                    id: "mobile-article-#{a.id}",
+                    profile: @profile,
+                    spin: false,
+                    article: a %>
+                                <% end %>
+
+                            </div>
+                            <div class="p-5 justify-center">
+
+                                <button phx-click="more-headlines"
+                                    class="mx-auto text-xs text-gray-800 font-semibold bg-gray-100 px-2 py-1 rounded-lg hover:bg-gray-200 flex">
+
+                                    <svg class="w-3 h-3 place-self-center mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    More Headlines </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <%# Feed Picker %>
+                <div class="mx-auto pl-2 text-gray-500 p-2 text-xs flex justify-between ">
+
+                    <div>
+                        <button phx-click="change-feed" phx-value-feed="all" phx-disable-with="loading..."
+                            class="tooltip px-2 py-1 bg-gray-100 rounded-lg hover:bg-gray-200 inline-flex items-center  <%= if @feed_type == "all", do: "bg-blue-100 text-blue-500 font-semibold"%>">
+                            <svg class=" mr-1 w-3 h-3 inline-flex" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="tooltip-text -mt-16 mr-32 font-normal">Show all posts
+                            </span>
+
+                            Recent</button>
+                        <button phx-click="change-feed" phx-value-feed="featured" phx-disable-with="loading..."
+                            class="tooltip px-2 py-1 rounded-lg hover:bg-gray-200 inline-flex items-center  <%= if @feed_type == "featured", do: "bg-blue-100 text-blue-500 font-semibold"%>">
+
+
+                            <svg class="mr-1 w-3 h-3 inline-flex" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+
+                            <span class="tooltip-text -mt-16 mr-32 font-normal">Just featured posts
+                            </span>
+                            Featured
+                        </button>
+                        <button phx-click="change-feed" phx-value-feed="friends" phx-disable-with="loading..."
+                            class="tooltip px-2 py-1 rounded-lg hover:bg-gray-200 inline-flex items-center  <%= if @feed_type == "friends", do: "bg-blue-100 text-blue-500 font-semibold"%>">
+
+                            <svg class=" mr-1 w-3 h-3 inline-flex" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z">
+                                </path>
+                            </svg>
+
+                            <span class="tooltip-text -mt-16 mr-32 font-normal">Just friend's posts
+                            </span>
+                            Friends
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mt-2">
                     <%# Posts %>
 
                     <div id="posts" phx-update="<%=@update_action%>" phx-hook="InfiniteScroll" data-page="<%= @page %>">
-
-
 
                         <%= for {post, idx} <- Enum.with_index(@posts) do %>
                         <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
@@ -189,7 +293,6 @@
                                 num_show_comments: @num_show_comments,
                                 return_to: Routes.home_index_path(@socket, :index),
                                 spin: false  %>
-
 
                         <%# hide ad as very first post %>
                         <%= if !(@page == 1 and idx == 0) and rem(idx, @profile.ad_frequency) == 0 do %>
@@ -215,11 +318,9 @@
                         </div>
                         <% end %>
 
-
-
                         <%= if idx == 4 do %>
                         <%# Featured Groups %>
-                        <div id="featured-groups" class="mx-auto p-5 bg-white my-2 sm:max-w-lg sm:rounded-lg ">
+                        <div id="featured-groups" class="mx-auto p-5 bg-white my-2 sm:rounded-lg ">
 
                             <div class="flex justify-between mb-2">
                                 <h5 class=" font-bold ">Featured Groups</h5>
@@ -244,7 +345,7 @@
                         <% end %>
                         <%= if idx == 2 do %>
                         <%# Featured profiles %>
-                        <div id="featured-profiles" class="mx-auto p-5 bg-white my-2 sm:max-w-lg sm:rounded-lg">
+                        <div id="featured-profiles" class="mx-auto p-5 bg-white my-2 sm:rounded-lg">
 
                             <div class="flex justify-between mb-2">
                                 <h5 class=" font-bold ">Shlinkers you may know</h5>
@@ -273,223 +374,73 @@
 
 
             </main>
-            <aside class="hidden xl:block xl:col-span-4">
+            <aside class="hidden sm:block sm:col-span-4">
                 <div class="sticky top-4 space-y-4">
-                    <section aria-labelledby="who-to-follow-heading">
+                    <section aria-labelledby="shlink-news">
                         <div class="bg-white rounded-lg shadow">
-                            <div class="p-6">
-                                <h2 id="who-to-follow-heading" class="text-base font-medium text-gray-900">
-                                    Who to follow
-                                </h2>
-                                <div class="mt-6 flow-root">
-                                    <ul class="-my-4 divide-y divide-gray-200">
-                                        <li class="flex items-center py-4 space-x-3">
-                                            <div class="flex-shrink-0">
-                                                <img class="h-8 w-8 rounded-full"
-                                                    src="https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
-                                                    alt="">
-                                            </div>
-                                            <div class="min-w-0 flex-1">
-                                                <p class="text-sm font-medium text-gray-900">
-                                                    <a href="#">Leonard Krasner</a>
-                                                </p>
-                                                <p class="text-sm text-gray-500">
-                                                    <a href="#">@leonardkrasner</a>
-                                                </p>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <button type="button"
-                                                    class="inline-flex items-center px-3 py-0.5 rounded-full bg-rose-50 text-sm font-medium text-rose-700 hover:bg-rose-100">
-                                                    <!-- Heroicon name: solid/plus -->
-                                                    <svg class="-ml-1 mr-0.5 h-5 w-5 text-rose-400"
-                                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                        fill="currentColor" aria-hidden="true">
-                                                        <path fill-rule="evenodd"
-                                                            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                                            clip-rule="evenodd" />
-                                                    </svg>
-                                                    <span>
-                                                        Follow
-                                                    </span>
-                                                </button>
-                                            </div>
-                                        </li>
+                            <!-- News  -->
 
-                                        <li class="flex items-center py-4 space-x-3">
-                                            <div class="flex-shrink-0">
-                                                <img class="h-8 w-8 rounded-full"
-                                                    src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
-                                                    alt="">
-                                            </div>
-                                            <div class="min-w-0 flex-1">
-                                                <p class="text-sm font-medium text-gray-900">
-                                                    <a href="#">Floyd Miles</a>
-                                                </p>
-                                                <p class="text-sm text-gray-500">
-                                                    <a href="#">@floydmiles</a>
-                                                </p>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <button type="button"
-                                                    class="inline-flex items-center px-3 py-0.5 rounded-full bg-rose-50 text-sm font-medium text-rose-700 hover:bg-rose-100">
-                                                    <!-- Heroicon name: solid/plus -->
-                                                    <svg class="-ml-1 mr-0.5 h-5 w-5 text-rose-400"
-                                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                        fill="currentColor" aria-hidden="true">
-                                                        <path fill-rule="evenodd"
-                                                            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                                            clip-rule="evenodd" />
-                                                    </svg>
-                                                    <span>
-                                                        Follow
-                                                    </span>
-                                                </button>
-                                            </div>
-                                        </li>
+                            <div class="flex justify-between px-5 py-5">
+                                <%= live_redirect "ShlinkNews", to: Routes.article_index_path(@socket, :index), class: "font-bold"  %>
 
-                                        <li class="flex items-center py-4 space-x-3">
-                                            <div class="flex-shrink-0">
-                                                <img class="h-8 w-8 rounded-full"
-                                                    src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
-                                                    alt="">
-                                            </div>
-                                            <div class="min-w-0 flex-1">
-                                                <p class="text-sm font-medium text-gray-900">
-                                                    <a href="#">Emily Selman</a>
-                                                </p>
-                                                <p class="text-sm text-gray-500">
-                                                    <a href="#">@emilyselman</a>
-                                                </p>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <button type="button"
-                                                    class="inline-flex items-center px-3 py-0.5 rounded-full bg-rose-50 text-sm font-medium text-rose-700 hover:bg-rose-100">
-                                                    <!-- Heroicon name: solid/plus -->
-                                                    <svg class="-ml-1 mr-0.5 h-5 w-5 text-rose-400"
-                                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                        fill="currentColor" aria-hidden="true">
-                                                        <path fill-rule="evenodd"
-                                                            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                                            clip-rule="evenodd" />
-                                                    </svg>
-                                                    <span>
-                                                        Follow
-                                                    </span>
-                                                </button>
-                                            </div>
-                                        </li>
-                                    </ul>
+
+                                <%= live_patch "+ Headline", to: Routes.home_index_path(@socket, :new_article), class: "text-xs text-green-800 font-semibold bg-green-100 px-2 py-1 rounded-lg hover:bg-green-200"  %>
+
+                            </div>
+
+                            <div class="h-56 overflow-y-scroll">
+                                <div class="space-y-3 px-2" phx-update="append" id="desktop-news-box">
+                                    <%= for a <- @articles do %>
+                                    <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
+                                        id: "article-#{a.id}",
+                                        profile: @profile,
+                                        spin: false,
+                                        article: a %>
+                                    <% end %>
                                 </div>
-                                <div class="mt-6">
-                                    <a href="#"
-                                        class="w-full block text-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                                        View all
-                                    </a>
+                                <div class="p-5 justify-center">
+                                    <button phx-click="more-headlines"
+                                        class="mx-auto text-xs text-gray-800 font-semibold bg-gray-100 px-2 py-1 rounded-lg hover:bg-gray-200 flex">
+
+                                        <svg class="w-3 h-3 place-self-center mr-2" fill="currentColor"
+                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                        More Headlines </button>
+
+
+
+
                                 </div>
                             </div>
                         </div>
                     </section>
-                    <section aria-labelledby="trending-heading">
-                        <div class="bg-white rounded-lg shadow">
-                            <div class="p-6">
-                                <h2 id="trending-heading" class="text-base font-medium text-gray-900">
-                                    Trending
-                                </h2>
-                                <div class="mt-6 flow-root">
-                                    <ul class="-my-4 divide-y divide-gray-200">
-                                        <li class="flex py-4 space-x-3">
-                                            <div class="flex-shrink-0">
-                                                <img class="h-8 w-8 rounded-full"
-                                                    src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
-                                                    alt="">
-                                            </div>
-                                            <div class="min-w-0 flex-1">
-                                                <p class="text-sm text-gray-800">What books do you have on your
-                                                    bookshelf just to look smarter than you actually are?</p>
-                                                <div class="mt-2 flex">
-                                                    <span class="inline-flex items-center text-sm">
-                                                        <button
-                                                            class="inline-flex space-x-2 text-gray-400 hover:text-gray-500">
-                                                            <!-- Heroicon name: solid/chat-alt -->
-                                                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg"
-                                                                viewBox="0 0 20 20" fill="currentColor"
-                                                                aria-hidden="true">
-                                                                <path fill-rule="evenodd"
-                                                                    d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z"
-                                                                    clip-rule="evenodd" />
-                                                            </svg>
-                                                            <span class="font-medium text-gray-900">291</span>
-                                                        </button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </li>
+                    <section aria-labelledby="activity-heading">
+                        <div class="bg-white p-5 rounded-lg shadow">
 
-                                        <li class="flex py-4 space-x-3">
-                                            <div class="flex-shrink-0">
-                                                <img class="h-8 w-8 rounded-full"
-                                                    src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
-                                                    alt="">
-                                            </div>
-                                            <div class="min-w-0 flex-1">
-                                                <p class="text-sm text-gray-800">Have you ever lied about your age to
-                                                    buy a kid&#039;s meal at a restaurant?</p>
-                                                <div class="mt-2 flex">
-                                                    <span class="inline-flex items-center text-sm">
-                                                        <button
-                                                            class="inline-flex space-x-2 text-gray-400 hover:text-gray-500">
-                                                            <!-- Heroicon name: solid/chat-alt -->
-                                                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg"
-                                                                viewBox="0 0 20 20" fill="currentColor"
-                                                                aria-hidden="true">
-                                                                <path fill-rule="evenodd"
-                                                                    d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z"
-                                                                    clip-rule="evenodd" />
-                                                            </svg>
-                                                            <span class="font-medium text-gray-900">164</span>
-                                                        </button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </li>
+                            <h5 class=" font-bold mb-3">
 
-                                        <li class="flex py-4 space-x-3">
-                                            <div class="flex-shrink-0">
-                                                <img class="h-8 w-8 rounded-full"
-                                                    src="https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
-                                                    alt="">
-                                            </div>
-                                            <div class="min-w-0 flex-1">
-                                                <p class="text-sm text-gray-800">Does Santa Claus pay property taxes for
-                                                    his workshop at the North Pole?</p>
-                                                <div class="mt-2 flex">
-                                                    <span class="inline-flex items-center text-sm">
-                                                        <button
-                                                            class="inline-flex space-x-2 text-gray-400 hover:text-gray-500">
-                                                            <!-- Heroicon name: solid/chat-alt -->
-                                                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg"
-                                                                viewBox="0 0 20 20" fill="currentColor"
-                                                                aria-hidden="true">
-                                                                <path fill-rule="evenodd"
-                                                                    d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z"
-                                                                    clip-rule="evenodd" />
-                                                            </svg>
-                                                            <span class="font-medium text-gray-900">133</span>
-                                                        </button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="mt-6">
-                                    <a href="#"
-                                        class="w-full block text-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                                        View all
-                                    </a>
-                                </div>
+
+                                Recent Activity</h5>
+
+                            <div class="max-h-56 overflow-y-scroll">
+                                <ul class="-mb-8">
+                                    <%= for activity <- @activities do %>
+                                    <%= live_component @socket, ShlinkedinWeb.ActivityLive.ActivityComponent,
+                                id: "activity-#{activity.id}",
+                                profile: @profile,
+                                activity: activity
+                            %>
+                                    <% end %>
+
+
                             </div>
                         </div>
+
+
+
                     </section>
                 </div>
             </aside>
@@ -498,7 +449,6 @@
 </div>
 
 
-<div class="sm:flex w-full max-w-3xl mx-auto">
 
 
 
@@ -506,233 +456,12 @@
 
 
 
-    <div class="flex-grow">
 
-        <%# Start a Post %>
-        <div class="sm:mt-4 mx-auto sm:max-w-lg p-5 pb-3 bg-white sm:rounded-lg border block ">
 
-            <%= live_patch to: Routes.home_index_path(@socket, :new) do %>
-            <button type="button"
-                class="w-full flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-full text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                <svg class="-ml-1 mr-3 h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path>
-                    <path fill-rule="evenodd"
-                        d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
-                        clip-rule="evenodd">
-                    </path>
-                </svg>
-                Start a post
-            </button>
-            <% end %>
 
-            <div class="flex justify-between mt-2">
 
-                <%= live_patch "👥  Start Group", to: Routes.group_index_path(@socket, :new), class: "items-center px-2 sm:px-4 py-2 border-gray-300 text-xs sm:text-base font-medium rounded-lg text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
-                <%= live_patch "📢  Create Ad", to: Routes.home_index_path(@socket, :new_ad), class: "items-center px-2 sm:px-4 py-2 border-gray-300 text-xs sm:text-base font-medium rounded-lg text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
-                <%= live_patch "🗞️  Write Headline", to: Routes.home_index_path(@socket, :new_article), class: "items-center px-2 sm:px-4 py-2 border-gray-300 text-xs sm:text-base font-medium rounded-lg text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
-            </div>
-        </div>
 
 
-
-        <div class="rounded-md bg-blue-100 p-4 mt-2 shadow-sm">
-            <div class="flex">
-                <div class="flex-shrink-0">
-                    <!-- Heroicon name: information-circle -->
-                    <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                        fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd"
-                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </div>
-                <div class="ml-3 flex-1 md:flex md:justify-between">
-                    <p class="text-sm text-blue-700">
-                        Want to see how you stack up, objectively? 📈
-                    </p>
-                    <p class="mt-3 text-sm md:mt-0 md:ml-6">
-                        <%= live_redirect raw("Leaderboard &rarr;"), to: Routes.leaderboard_index_path(@socket, :index), class: "whitespace-nowrap font-medium text-blue-700 hover:text-blue-600"  %>
-
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <%# Mobile News %>
-
-        <div id="mobile-news" class="sm:hidden mx-auto w-screen sm:max-w-lg bg-white sm:rounded-lg border-b my-2">
-
-            <div class="block sm:w-72 w-full">
-                <div class="flex justify-between px-5 py-5">
-                    <%= live_redirect "Trending ShlinkNews", to: Routes.article_index_path(@socket, :index), class: "font-bold"  %>
-
-
-                    <%= live_patch "+ Add Headline", to: Routes.home_index_path(@socket, :new_article), class: "text-xs text-green-800 font-semibold bg-green-100 px-2 py-1 rounded-lg hover:bg-green-200"  %>
-
-                </div>
-
-                <div class="h-32 overflow-y-scroll">
-                    <div class="space-y-3 px-2" phx-update="append" id="news-box">
-                        <%= for a <- @articles do %>
-                        <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
-                    id: "mobile-article-#{a.id}",
-                    profile: @profile,
-                    spin: false,
-                    article: a %>
-                        <% end %>
-
-                    </div>
-                    <div class="p-5 justify-center">
-
-                        <button phx-click="more-headlines"
-                            class="mx-auto text-xs text-gray-800 font-semibold bg-gray-100 px-2 py-1 rounded-lg hover:bg-gray-200 flex">
-
-                            <svg class="w-3 h-3 place-self-center mr-2" fill="currentColor" viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                    d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            More Headlines </button>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-
-
-        <%# Feed Picker %>
-        <div class="mx-auto sm:max-w-lg pl-2 text-gray-500 p-2 text-xs flex justify-between ">
-
-            <div>
-                <button phx-click="change-feed" phx-value-feed="all" phx-disable-with="loading..."
-                    class="tooltip px-2 py-1 bg-gray-100 rounded-lg hover:bg-gray-200 inline-flex items-center  <%= if @feed_type == "all", do: "bg-blue-100 text-blue-500 font-semibold"%>">
-                    <svg class=" mr-1 w-3 h-3 inline-flex" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                    <span class="tooltip-text -mt-16 mr-32 font-normal">Show all posts
-                    </span>
-
-                    All</button>
-                <button phx-click="change-feed" phx-value-feed="featured" phx-disable-with="loading..."
-                    class="tooltip px-2 py-1 rounded-lg hover:bg-gray-200 inline-flex items-center  <%= if @feed_type == "featured", do: "bg-blue-100 text-blue-500 font-semibold"%>">
-
-
-                    <svg class="mr-1 w-3 h-3 inline-flex" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-
-                    <span class="tooltip-text -mt-16 mr-32 font-normal">Just featured posts
-                    </span>
-                    Featured
-                </button>
-                <button phx-click="change-feed" phx-value-feed="friends" phx-disable-with="loading..."
-                    class="tooltip px-2 py-1 rounded-lg hover:bg-gray-200 inline-flex items-center  <%= if @feed_type == "friends", do: "bg-blue-100 text-blue-500 font-semibold"%>">
-
-                    <svg class=" mr-1 w-3 h-3 inline-flex" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z">
-                        </path>
-                    </svg>
-
-                    <span class="tooltip-text -mt-16 mr-32 font-normal">Just friend's posts
-                    </span>
-                    Friends
-                </button>
-            </div>
-
-
-        </div>
-
-
-
-
-    </div>
-
-
-
-    <!-- News  -->
-    <div class="hidden sm:block ">
-        <div class="block sm:w-72 w-full bg-white border sm:mt-4 rounded-lg border-gray-100 sm:m-4">
-
-            <div class="flex justify-between px-5 py-5">
-                <%= live_redirect "ShlinkNews", to: Routes.article_index_path(@socket, :index), class: "font-bold"  %>
-
-
-                <%= live_patch "+ Add Headline", to: Routes.home_index_path(@socket, :new_article), class: "text-xs text-green-800 font-semibold bg-green-100 px-2 py-1 rounded-lg hover:bg-green-200"  %>
-
-            </div>
-
-            <div class="h-72 overflow-y-scroll">
-                <div class="space-y-3 px-2" phx-update="append" id="desktop-news-box">
-                    <%= for a <- @articles do %>
-                    <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
-                    id: "article-#{a.id}",
-                    profile: @profile,
-                    spin: false,
-                    article: a %>
-                    <% end %>
-
-                </div>
-                <div class="p-5 justify-center">
-                    <button phx-click="more-headlines"
-                        class="mx-auto text-xs text-gray-800 font-semibold bg-gray-100 px-2 py-1 rounded-lg hover:bg-gray-200 flex">
-
-                        <svg class="w-3 h-3 place-self-center mr-2" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                        More Headlines </button>
-
-
-                </div>
-            </div>
-        </div>
-
-        <%# Activity Box %>
-        <div class="block sm:w-72 w-full bg-white sm:mt-4 rounded-lg sm:m-4">
-            <div class="flow-root  p-5 bg-white rounded-lg">
-                <h5 class=" font-bold mb-3">
-
-
-                    Recent Activity</h5>
-
-                <div class="max-h-72 overflow-y-scroll">
-                    <ul class="-mb-8">
-                        <%= for activity <- @activities do %>
-                        <%= live_component @socket, ShlinkedinWeb.ActivityLive.ActivityComponent,
-                    id: "activity-#{activity.id}",
-                    profile: @profile,
-                    activity: activity
-                 %>
-                        <% end %>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-
-
-
-
-
-</div>
 
 <%= if @live_action in [:new_comment] do %>
 <%= live_modal @socket, ShlinkedinWeb.PostLive.CommentFormComponent,
