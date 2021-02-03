@@ -28,14 +28,17 @@ defmodule ShlinkedinWeb.FeedbackLive.FeedbackForm do
   end
 
   defp save_feedback(socket, :new_feedback, feedback_params) do
+    user = Shlinkedin.Accounts.get_user!(socket.assigns.profile.user_id)
+
     case Shlinkedin.Feedback.create_feedback(
-           %Feedback{},
+           %Feedback{from_email: user.email},
            feedback_params
          ) do
       {:ok, _feedback} ->
         {:noreply,
          socket
-         |> push_redirect(socket.assigns.return_to)}
+         |> put_flash(:info, "Feedback sent!")
+         |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}

@@ -430,6 +430,7 @@
 <%= live_modal @socket, ShlinkedinWeb.FeedbackLive.FeedbackForm,
     id: :new_feedback,
     feedback: @feedback,
+    profile: @profile,
     title: @page_title,
     return_to: Routes.home_index_path(@socket, :index) %>
 <% end %>
