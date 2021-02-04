@@ -79,15 +79,15 @@
         <%= @inner_content %>
     </div>
 
-    <header>
-        <nav class="sm:hidden bg-white border-t text-gray-500 text-base bottom-0 fixed w-full z-10">
-            <div class="flex justify-around h-20 items-top space-x-3  text-xs">
-                <%= if @profile != nil and @profile != %Shlinkedin.Profiles.Profile{} do %>
-                <%= render "_footer_nav.html", assigns %>
-                <% end %>
-            </div>
-        </nav>
-    </header>
+    <%# Bottom footer %>
+    <nav class="sm:hidden bg-white border-t text-gray-500 text-base bottom-0 fixed w-full z-10">
+        <div class="flex justify-around h-20 items-top space-x-3  text-xs">
+            <%= if @profile != nil and @profile != %Shlinkedin.Profiles.Profile{} do %>
+            <%= render "_footer_nav.html", assigns %>
+            <% end %>
+        </div>
+    </nav>
+
 </body>
 
 </html>
