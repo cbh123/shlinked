@@ -63,6 +63,7 @@
                         </p>
                         <div class="mt-3 space-y-2" aria-labelledby="groups-headline">
                             <%= for member <- @my_groups do %>
+                            <%= if !is_nil(member) do %>
                             <%= live_redirect to: Routes.group_show_path(@socket, :show, member.group.id) do %>
                             <div
                                 class="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50">
@@ -70,6 +71,7 @@
                                     <%= member.group.title %>
                                 </span>
                             </div>
+                            <% end %>
                             <% end %>
                             <% end %>
 
