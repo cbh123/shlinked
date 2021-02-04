@@ -29,6 +29,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
        activities: Timeline.list_unique_notifications(60),
        articles: News.list_top_articles(15),
        featured_profiles: Profiles.list_random_profiles(3),
+       my_groups: Groups.list_profile_groups(socket.assigns.profile),
        random_groups: Groups.list_random_groups(5),
        like_map: Timeline.like_map(),
        comment_like_map: Timeline.comment_like_map(),

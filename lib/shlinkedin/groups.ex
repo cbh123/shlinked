@@ -12,6 +12,10 @@ defmodule Shlinkedin.Groups do
   alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Profiles.ProfileNotifier
 
+  def list_profile_groups(%Profile{} = profile) do
+    Repo.all(from m in Member, where: m.profile_id == ^profile.id, preload: :group)
+  end
+
   def list_profile_group_ids(%Profile{} = profile) do
     Repo.all(from m in Member, where: m.profile_id == ^profile.id, select: m.group_id)
   end
