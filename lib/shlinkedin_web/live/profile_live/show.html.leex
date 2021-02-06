@@ -75,7 +75,11 @@
                         <%# Title %>
                         <div class="sm:flex items-start sm:text-left text-center text-sm">
                             <span class="text-gray-700 italic"><%= @show_profile.persona_title %></span>
+
                         </div>
+                        <p class="text-lg text-indigo-600 font-medium sm:text-left text-center">
+                            <%= @show_profile.life_score %>
+                        </p>
 
 
 
@@ -94,6 +98,9 @@
             <%# summary %>
             <div class="px-5 mt-1 mb-6 ml-3 max-w-lg text-xs sm:text-sm text-center sm:text-left">
                 <%= if @show_profile.summary == nil, do: "FILL OUT BIO!", else: @show_profile.summary %>
+
+
+
             </div>
 
 
@@ -245,6 +252,7 @@
                                     </p>
                                     <p class="text-gray-800 text-sm">
                                         <%= t_profile.persona_title %>
+
                                     </p>
                                     <p class="text-xs mt-2 text-gray-500">
                                         <%= Timex.format!(testimonial.inserted_at, "{Mshort}. {D}, {YYYY}") %>.
@@ -321,57 +329,6 @@
 
 
 
-        <!-- Stats-->
-        <div class="mt-2">
-            <dl class="grid grid-cols-3 rounded-lg bg-white overflow-hidden shadow divide-gray-200 divide-x">
-
-
-                <div>
-                    <div class="px-4 py-5 sm:p-6">
-                        <%= live_patch to: Routes.profile_show_path(@socket, :show_friends, @show_profile.slug) do %>
-                        <dt class="text-xs sm:text-base font-semibold text-gray-800">
-                            Shlinks
-                        </dt>
-                        <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
-                            <div class="flex items-baseline text-lg sm:text-2xl font-semibold text-indigo-600">
-                                <%= length(@connections) %>
-                            </div>
-                        </dd>
-                        <% end %>
-                    </div>
-                </div>
-
-                <div>
-                    <div class="px-4 py-5 sm:p-6">
-                        <%= live_patch to: Routes.profile_show_path(@socket, :show_ad_clicks, @show_profile.slug) do %>
-                        <dt class="text-xs sm:text-base font-semibold text-gray-800">
-                            Ad Clicks
-                        </dt>
-                        <dd class="mt-1 flex justify-between items-baseline">
-                            <div class="flex items-baseline text-lg sm:text-2xl font-semibold text-blue-600">
-                                <%= length(@ad_clicks) %>
-                            </div>
-
-                        </dd>
-                        <% end %>
-                    </div>
-                </div>
-
-                <div>
-                    <div class="px-4 py-5 sm:p-6">
-                        <dt class="text-xs sm:text-base font-semibold text-gray-900 trunacte">
-                            Life
-                        </dt>
-                        <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
-                            <div class="flex items-baseline text-lg sm:text-2xl font-semibold text-yellow-600">
-                                <%= @show_profile.life_score %>
-                            </div>
-
-                        </dd>
-                    </div>
-                </div>
-            </dl>
-        </div>
 
         <%# Trophies %>
         <div class=" mt-2 rounded-lg overflow-hidden shadow p-5 bg-white">
@@ -505,6 +462,7 @@
 
 
         <!-- Posts -->
+
 
 
         <p class="font-semibold text-xl text-center my-8">Posts</p>
