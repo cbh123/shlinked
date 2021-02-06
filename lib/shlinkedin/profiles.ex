@@ -193,6 +193,57 @@ defmodule Shlinkedin.Profiles do
     )
   end
 
+  @doc """
+  Given a profile, number of profiles to include,
+  and leaderboard category, return the profiles's ranking
+  in that category. Subtracts 23 hours to put the ranking as
+  of this week's sunday 6pm.
+  """
+  def get_ranking(%Profile{} = profile, count, category) do
+    rankings =
+      match_cat(
+        category,
+        count,
+        NaiveDateTime.utc_now()
+        |> NaiveDateTime.add(-(23 * 60 * 60))
+        |> Timex.beginning_of_week(:sun)
+      )
+
+    case Enum.find_index(rankings, fn res -> res.profile == profile end) do
+      nil -> nil
+      number -> number + 1
+    end
+  end
+
+  def get_all_rankings(%Profile{} = profile, count) do
+    category_names = categories() |> Map.keys()
+
+    Enum.map(category_names, fn c ->
+      %{
+        category: Atom.to_string(c),
+        ranking: get_ranking(profile, count, Atom.to_string(c)),
+        emoji: categories()[c].emoji
+      }
+    end)
+  end
+
+  def match_cat(category, count, start_date) do
+    case category do
+      "Shlinks" -> list_profiles_by_shlink_count(count, start_date)
+      "Post Reactions" -> list_profiles_by_unique_post_reactions(count, start_date)
+      "Claps" -> list_profiles_by_article_votes(count, start_date)
+      "Ads" -> list_profiles_by_ad_clicks(count, start_date)
+      "Hottest" -> list_profiles_by_profile_views(count, start_date)
+    end
+  end
+
+  def match_emoji(category) do
+    case category do
+      "Shlinks" -> "hi"
+      _ -> "hi"
+    end
+  end
+
   def search_profiles(persona_or_real) do
     sql = "%#{persona_or_real}%"
 
@@ -730,4 +781,35 @@ defmodule Shlinkedin.Profiles do
   end
 
   defp after_save(error, _func), do: error
+
+  def categories do
+    %{
+      Shlinks: %{
+        title: "count",
+        desc: "Total number of shlinked connections.",
+        emoji: "🤝"
+      },
+      "Post Reactions": %{
+        title: "reactions",
+        desc:
+          "The most prestigous ranking - the number of unique post reactions. The number of reactions don't matter (100 YoYs counts just as much as 1) and, reactions on your own post aren't included.",
+        emoji: "🪧"
+      },
+      Claps: %{
+        title: "claps",
+        desc: "Unique headline claps.",
+        emoji: "👏"
+      },
+      Ads: %{
+        title: "unique clicks",
+        desc: "Unique clicks on your ad. You can only get max 1 click from each person per ad.",
+        emoji: "👁️"
+      },
+      Hottest: %{
+        title: "profile views",
+        desc: "Unique profile views, from everyone but yourself.",
+        emoji: "🔥"
+      }
+    }
+  end
 end
