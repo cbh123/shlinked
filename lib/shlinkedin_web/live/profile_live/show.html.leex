@@ -92,7 +92,7 @@
 
 
             <%# summary %>
-            <div class="px-5 mt-1 mb-6 ml-3 max-w-lg text-xs sm:text-sm">
+            <div class="px-5 mt-1 mb-6 ml-3 max-w-lg text-xs sm:text-sm text-center sm:text-left">
                 <%= if @show_profile.summary == nil, do: "FILL OUT BIO!", else: @show_profile.summary %>
             </div>
 
@@ -100,7 +100,7 @@
 
             <%# mutual shlinks %>
             <%= if @show_profile.id != @profile.id do %>
-            <div class="px-5 mt-1 mb-6 ml-3 max-w-lg text-xs sm:text-sm">
+            <div class="px-5 mt-1 ml-3 max-w-lg text-xs sm:text-sm">
 
                 <%= live_patch to: Routes.profile_show_path(@socket, :show_friends, @show_profile.id) do %>
                 <div class="flex items-center text-grey-darker mb-2 hover:underline">
@@ -129,8 +129,36 @@
             <% end %>
 
 
+            <div class="flex justify-around mt-1">
+                <%= for r <- @rankings do %>
+                <%= live_redirect to: Routes.leaderboard_index_path(@socket, :index, curr_category: r.category) do %>
+                <div class="hover:bg-gray-100 p-2 rounded-md">
+                    <span class="text-xs text-gray-700"><%= r.emoji %></span>
+                    <span class="text-xs text-gray-700">
+                        <%= r.category |> String.split(" ") |> Enum.at(0) %></span>
+
+                    <div class="font-bold text-center text-gray-600">
+                        <%= if is_nil(r.ranking) do  %>
+                        <span class="text-xs text-gray-500"> N/A</span>
+                        <%  else %>
+                        <%= case r.ranking do %>
+                        <% 1 ->  %>🥇
+                        <% 2 ->  %>🥈
+                        <% 3 ->  %>🥉
+                        <% other -> %><%= other %>
+                        <% end %>
+                        <% end%>
+                    </div>
+
+                </div>
+                <% end %>
+                <% end %>
+            </div>
+
+
+
             <%# Started shlinking and buttons %>
-            <div class="px-5 ml-3 flex items-start text-xs pb-6">
+            <div class="px-5 ml-3 flex items-start text-xs pb-6 mt-3">
                 <span>
                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">

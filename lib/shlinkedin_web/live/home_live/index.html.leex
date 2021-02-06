@@ -167,10 +167,10 @@
                             <div class="space-y-3 px-2" phx-update="append" id="news-box">
                                 <%= for a <- @articles do %>
                                 <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
-                    id: "mobile-article-#{a.id}",
-                    profile: @profile,
-                    spin: false,
-                    article: a %>
+                                    id: "mobile-article-#{a.id}",
+                                    profile: @profile,
+                                    spin: false,
+                                    article: a %>
                                 <% end %>
 
                             </div>
