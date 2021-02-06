@@ -33,6 +33,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
        random_groups: Groups.list_random_groups(5),
        like_map: Timeline.like_map(),
        comment_like_map: Timeline.comment_like_map(),
+       rankings: Profiles.get_all_rankings(socket.assigns.profile, 25),
        num_show_comments: 1
      )
      |> fetch_posts(), temporary_assigns: [posts: [], articles: []]}

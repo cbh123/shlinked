@@ -2,35 +2,6 @@ defmodule ShlinkedinWeb.LeaderboardLive.Index do
   use ShlinkedinWeb, :live_view
   alias Shlinkedin.Profiles
 
-  @categories %{
-    Shlinks: %{
-      title: "count",
-      desc: "Total number of shlinked connections.",
-      emoji: "🤝"
-    },
-    "Post Reactions": %{
-      title: "reactions",
-      desc:
-        "The most prestigous ranking - the number of unique post reactions. The number of reactions don't matter (100 YoYs counts just as much as 1) and, reactions on your own post aren't included.",
-      emoji: "🪧"
-    },
-    Claps: %{
-      title: "claps",
-      desc: "Unique headline claps.",
-      emoji: "👏"
-    },
-    Ads: %{
-      title: "unique clicks",
-      desc: "Unique clicks on your ad. You can only get max 1 click from each person per ad.",
-      emoji: "👁️"
-    },
-    Hottest: %{
-      title: "profile views",
-      desc: "Unique profile views, from everyone but yourself.",
-      emoji: "🔥"
-    }
-  }
-
   @impl true
   def mount(_params, session, socket) do
     socket = is_user(session, socket)
@@ -43,7 +14,7 @@ defmodule ShlinkedinWeb.LeaderboardLive.Index do
        curr_category: :"Post Reactions",
        weekly: weekly,
        count: count,
-       categories: @categories,
+       categories: Profiles.categories(),
        rankings:
          Profiles.list_profiles_by_unique_post_reactions(
            count,
@@ -53,7 +24,8 @@ defmodule ShlinkedinWeb.LeaderboardLive.Index do
   end
 
   def handle_params(%{"curr_category" => curr_category, "weekly" => weekly}, _url, socket) do
-    rankings = match_cat(curr_category, socket.assigns.count, weekly |> String.to_atom())
+    start_date = get_start_date(weekly |> String.to_atom())
+    rankings = Profiles.match_cat(curr_category, socket.assigns.count, start_date)
 
     {:noreply,
      socket
@@ -66,7 +38,8 @@ defmodule ShlinkedinWeb.LeaderboardLive.Index do
   end
 
   def handle_params(%{"curr_category" => curr_category}, _url, socket) do
-    rankings = match_cat(curr_category, socket.assigns.count, socket.assigns.weekly)
+    start_date = get_start_date(socket.assigns.weekly)
+    rankings = Profiles.match_cat(curr_category, socket.assigns.count, start_date)
 
     {:noreply,
      socket
@@ -103,18 +76,6 @@ defmodule ShlinkedinWeb.LeaderboardLive.Index do
            weekly: !socket.assigns.weekly
          )
      )}
-  end
-
-  defp match_cat(category, count, weekly) do
-    start_date = get_start_date(weekly)
-
-    case category do
-      "Shlinks" -> Profiles.list_profiles_by_shlink_count(count, start_date)
-      "Post Reactions" -> Profiles.list_profiles_by_unique_post_reactions(count, start_date)
-      "Claps" -> Profiles.list_profiles_by_article_votes(count, start_date)
-      "Ads" -> Profiles.list_profiles_by_ad_clicks(count, start_date)
-      "Hottest" -> Profiles.list_profiles_by_profile_views(count, start_date)
-    end
   end
 
   # convert UTC now to EST at noon
