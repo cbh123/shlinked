@@ -209,7 +209,7 @@ defmodule Shlinkedin.Profiles do
         |> Timex.beginning_of_week(:sun)
       )
 
-    case Enum.find_index(rankings, fn res -> res.profile == profile end) do
+    case Enum.find_index(rankings, fn res -> res.profile.id == profile.id end) do
       nil -> nil
       number -> number + 1
     end
