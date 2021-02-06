@@ -109,8 +109,7 @@
 
                 <%# Leaderboard %>
                 <div class="my-2 bg-white p-4 shadow-sm rounded-md">
-
-                    <div class="flex justify-between text-sm text-gray-700 ">
+                    <div class=" text-sm text-gray-700 ">
                         <p class="font-bold">
                             <svg class="inline-flex w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -119,12 +118,11 @@
                                     clip-rule="evenodd"></path>
                             </svg>
                             My Ranks <span class="text-xs text-gray-500 font-normal">(this week)</span></p>
-                        <%= live_redirect raw("Leaderboard &rarr;"), to: Routes.leaderboard_index_path(@socket, :index), class: "text-xs text-gray-600 whitespace-nowrap hover:underline"  %>
 
                     </div>
 
 
-                    <div class="flex justify-around mt-2">
+                    <div class="flex justify-around mt-1">
                         <%= for r <- @rankings do %>
                         <%= live_redirect to: Routes.leaderboard_index_path(@socket, :index, curr_category: r.category) do %>
                         <div class="hover:bg-gray-100 p-2 rounded-md">
