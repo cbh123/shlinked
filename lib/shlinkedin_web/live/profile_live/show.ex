@@ -43,7 +43,6 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(endorsements: list_endorsements(show_profile.id))
      |> assign(mutual_friends: get_mutual_friends(socket.assigns.profile, show_profile))
      |> assign(reviews_recieved: true)
-     |> assign(rankings: Profiles.get_all_rankings(show_profile, 25))
      |> assign(number_testimonials: Profiles.get_number_testimonials(show_profile.id))
      |> assign(number_given_testimonials: Profiles.get_number_given_testimonials(show_profile.id))
      |> assign(num_show_testimonials: 2)

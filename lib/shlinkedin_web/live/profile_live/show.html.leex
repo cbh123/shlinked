@@ -136,34 +136,6 @@
             <% end %>
 
 
-            <div class="flex justify-around mt-1">
-                <%= for r <- @rankings do %>
-                <%= live_redirect to: Routes.leaderboard_index_path(@socket, :index, curr_category: r.category) do %>
-                <div class="hover:bg-gray-100 p-2 rounded-md">
-                    <span class="text-xs text-gray-700"><%= r.emoji %></span>
-                    <span class="text-xs text-gray-700">
-                        <%= r.category |> String.split(" ") |> Enum.at(0) %></span>
-                    <div class="font-bold text-center text-gray-600">
-
-                        <%= if is_nil(r.ranking) do  %>
-                        <span class="text-xs text-gray-500"> N/A</span>
-                        <%  else %>
-                        <%= case r.ranking do %>
-                        <% 1 ->  %>🥇
-                        <% 2 ->  %>🥈
-                        <% 3 ->  %>🥉
-                        <% other -> %><%= other %>
-                        <% end %>
-                        <% end%>
-                    </div>
-
-                </div>
-                <% end %>
-                <% end %>
-            </div>
-
-
-
             <%# Started shlinking and buttons %>
             <div class="px-5 ml-3 flex items-start text-xs pb-6 mt-3">
                 <span>
@@ -465,7 +437,10 @@
 
 
 
-        <p class="font-semibold text-xl text-center my-8">Posts</p>
+        <div class="my-8 text-xl text-center font-semibold">
+            <p class="inline-flex">Posts</p>
+            <p class="inline-flex">Ads</p>
+        </div>
         <%# Posts %>
         <div id="posts" phx-update="append" phx-hook="InfiniteScroll" data-page="<%= @page %>">
             <%= for {post, idx} <- Enum.with_index(@posts) do %>
