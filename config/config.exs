@@ -28,6 +28,12 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+config :money,
+  default_currency: :SHLINK,
+  custom_currencies: [
+    SHLINK: %{name: "Shlink Coin", symbol: "Sh", exponent: 2}
+  ]
+
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 

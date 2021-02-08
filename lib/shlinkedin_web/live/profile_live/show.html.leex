@@ -165,6 +165,7 @@
                     Business Jab
                 </button>
 
+                <%= live_patch "Send ShlinkPoints", to: Routes.profile_show_path(@socket, :new_transaction, @to_profile.slug), class: "bg-white hover:bg-green-200 inline-flex items-center px-3 py-2 border border-green-600 shadow-sm text-xs font-semibold rounded-full text-green-600  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" %>
 
 
             </div>
@@ -557,4 +558,15 @@
     ad_clicks: @ad_clicks,
     action: @live_action,
     return_to: Routes.profile_show_path(@socket, :show, @show_profile.slug) %>
+<% end %>
+
+<%= if @live_action in [:new_transaction] do %>
+<%= live_modal @socket, ShlinkedinWeb.PointsLive.FormComponent,
+    id: :new_transaction,
+    from_profile: @from_profile,
+    to_profile: @to_profile,
+    title: @page_title,
+    action: @live_action,
+    transaction: @transaction,
+    return_to: Routes.profile_show_path(@socket, :show, @to_profile.slug) %>
 <% end %>

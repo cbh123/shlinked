@@ -5,6 +5,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   alias Shlinkedin.Profiles
   alias Shlinkedin.Profiles.Endorsement
   alias Shlinkedin.Profiles.Testimonial
+  alias Shlinkedin.Points.Transaction
 
   @impl true
   def mount(%{"slug" => slug}, session, socket) do
@@ -96,6 +97,14 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     |> assign(:from_profile, socket.assigns.profile)
     |> assign(:to_profile, Profiles.get_profile_by_slug(slug))
     |> assign(:testimonial, %Testimonial{})
+  end
+
+  defp apply_action(socket, :new_transaction, %{"slug" => slug}) do
+    socket
+    |> assign(:page_title, "Send ShlinkPoints to #{socket.assigns.show_profile.persona_name}")
+    |> assign(:from_profile, socket.assigns.profile)
+    |> assign(:to_profile, Profiles.get_profile_by_slug(slug))
+    |> assign(:transaction, %Transaction{})
   end
 
   defp apply_action(socket, :edit_awards, %{"slug" => slug}) do

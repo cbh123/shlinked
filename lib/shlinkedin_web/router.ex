@@ -110,6 +110,7 @@ defmodule ShlinkedinWeb.Router do
     live "/sh/:slug/posts/:post_id/new_comment?reply_to=:username", ProfileLive.Show, :new_comment
     live "/sh/:slug/posts/:post_id/new_comment", ProfileLive.Show, :new_comment
     live "/sh/:slug/posts/:comment_id/comment_likes", ProfileLive.Show, :show_comment_likes
+    live "/sh/:slug/points", ProfileLive.Show, :new_transaction
 
     # edit profile
     live "/profile/live_edit", ProfileLive.Edit, :edit
@@ -167,6 +168,9 @@ defmodule ShlinkedinWeb.Router do
 
     # leaderboard
     live "/leaders", LeaderboardLive.Index, :index
+
+    # points
+    live "/points", PointsLive.Index, :index
 
     # search
     # live "/search", SearchLive.Index, :index

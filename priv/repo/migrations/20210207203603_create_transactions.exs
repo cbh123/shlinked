@@ -4,7 +4,7 @@ defmodule Shlinkedin.Repo.Migrations.CreateTransactions do
   def change do
     create table(:transactions) do
       add :amount, :integer
-      add :notes, :string
+      add :note, :string
       add :from_profile_id, references(:profiles, on_delete: :nothing)
       add :to_profile_id, references(:profiles, on_delete: :nothing)
 

@@ -20,7 +20,9 @@ defmodule Shlinkedin.Profiles.Profile do
         "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/George_Washington%2C_1776.jpg/1200px-George_Washington%2C_1776.jpg"
 
     field :cover_photo_url, :string
-    field :shlinkpoints, :integer, default: 0
+
+    field :shlinkpoints, Money.Ecto.Amount.Type
+
     belongs_to :user, Shlinkedin.Accounts.User
     has_many :posts, Shlinkedin.Timeline.Post, on_delete: :delete_all
     has_many :comments, Shlinkedin.Timeline.Comment, on_delete: :delete_all
