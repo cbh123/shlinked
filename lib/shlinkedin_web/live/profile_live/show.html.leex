@@ -98,14 +98,11 @@
             <%# summary %>
             <div class="px-5 mt-1 mb-6 ml-3 max-w-lg text-xs sm:text-sm text-center sm:text-left">
                 <%= if @show_profile.summary == nil, do: "FILL OUT BIO!", else: @show_profile.summary %>
-
-
-
             </div>
 
             <%# points %>
             <div class="ml-3 px-5">
-                <p class="font-bold"><%= Money.to_string(@show_profile.points) %></p>
+                <p class="font-bold text-2xl"><%= Money.to_string(@show_profile.points) %></p>
             </div>
 
 

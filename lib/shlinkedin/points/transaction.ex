@@ -16,8 +16,9 @@ defmodule Shlinkedin.Points.Transaction do
   @doc false
   def changeset(transaction, attrs) do
     transaction
-    |> cast(attrs, [:amount, :note, :from_profile_id, :to_profile_id])
-    |> validate_required([:amount, :note, :from_profile_id, :to_profile_id])
+    |> cast(attrs, [:amount, :note])
+    |> validate_length(:note, min: 0, max: 250)
+    |> validate_required([:amount, :note])
     |> validate_not_zero(:amount)
   end
 
