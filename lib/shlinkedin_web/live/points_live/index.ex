@@ -12,7 +12,8 @@ defmodule ShlinkedinWeb.PointsLive.Index do
      |> assign(
        show_profile: socket.assigns.profile,
        balance: Points.get_balance(socket.assigns.profile),
-       transactions: Points.list_transactions(socket.assigns.profile)
+       transactions: Points.list_transactions(socket.assigns.profile),
+       wealth_ranking: Shlinkedin.Profiles.get_ranking(socket.assigns.profile, 50, "Wealth")
      )}
   end
 
@@ -25,7 +26,8 @@ defmodule ShlinkedinWeb.PointsLive.Index do
      |> assign(
        show_profile: show_profile,
        balance: Points.get_balance(show_profile),
-       transactions: Points.list_transactions(show_profile)
+       transactions: Points.list_transactions(show_profile),
+       wealth_ranking: Shlinkedin.Profiles.get_ranking(socket.assigns.profile, 50, "Wealth")
      )}
   end
 

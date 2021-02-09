@@ -179,11 +179,15 @@
                     <div class="px-4 py-5 sm:p-6">
                         <%= live_redirect to: Routes.points_index_path(@socket, :index, slug: @show_profile.slug) do %>
                         <dt class="text-sm font-medium text-gray-500 truncate">
-                            Net Worth
+
+                            💰 Net Worth
                         </dt>
                         <dd class="mt-1 text-3xl font-semibold text-gray-900">
 
+
                             <%= @show_profile.points %>
+
+                            <%= live_redirect to: Routes.leaderboard_index_path(@socket, :index, curr_category: "Wealth") do  %>
                             <div class="ml-2 inline-flex items-baseline text-sm font-semibold text-green-600">
                                 <svg class="self-center flex-shrink-0 h-5 w-5 text-green-500" fill="currentColor"
                                     viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -191,11 +195,14 @@
                                         d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
                                         clip-rule="evenodd"></path>
                                 </svg>
+
+
                                 <span class="sr-only">
-                                    Ranked
+                                    Ranking
                                 </span>
-                                <%= live_redirect @wealth_ranking, to: Routes.leaderboard_index_path(@socket, :index, curr_category: "Wealth")   %>
+                                <%= @wealth_ranking %>
                             </div>
+                            <% end %>
                         </dd>
                         <% end %>
                     </div>
@@ -206,7 +213,7 @@
 
                         <%= live_patch to: Routes.profile_show_path(@socket, :show_friends, @show_profile.id) do %>
                         <dt class="text-sm font-medium text-gray-500 truncate">
-                            Shlinks
+                            🤝 Shlinks
                         </dt>
                         <dd class="mt-1 text-3xl font-semibold text-gray-900">
                             <%= @connections |> length() %>
@@ -218,12 +225,16 @@
 
                 <div class="bg-white overflow-hidden shadow rounded-lg">
                     <div class="px-4 py-5 sm:p-6">
+                        <%= live_redirect to: Routes.leaderboard_index_path(@socket, :index, curr_category: "Hottest") do  %>
+
                         <dt class="text-sm font-medium text-gray-500 truncate">
-                            Profile Views
+
+                            👀 Profile Views
                         </dt>
                         <dd class="mt-1 text-3xl font-semibold text-gray-900">
                             <%= @num_profile_views %>
                         </dd>
+                        <% end %>
                     </div>
                 </div>
             </dl>
