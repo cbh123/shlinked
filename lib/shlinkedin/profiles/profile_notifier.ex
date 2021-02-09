@@ -8,6 +8,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   alias Shlinkedin.Groups.Group
   alias Shlinkedin.Groups
   alias Shlinkedin.Groups.Invite
+  alias Shlinkedin.Points.Transaction
 
   @doc """
   Deliver instructions to confirm account.
@@ -63,6 +64,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
       :sent_group_invite ->
         notify_group_invite(from_profile, to_profile, res)
+
+      :sent_transaction ->
+        notify_sent_points(from_profile, to_profile, res)
     end
 
     {:ok, res}
@@ -161,6 +165,50 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       Shlinkedin.Email.new_email(
         to_profile.user.email,
         "#{from_profile.persona_name} business jabbed you!",
+        body
+      )
+      |> Shlinkedin.Mailer.deliver_later()
+    end
+  end
+
+  def notify_sent_points(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile,
+        %Transaction{} = transaction
+      ) do
+    body = """
+
+    Hi #{to_profile.persona_name},
+
+    <br/>
+    <br/>
+
+    <a href="https://www.shlinkedin.com/sh/#{from_profile.slug}">#{from_profile.persona_name}</a>
+    has sent you #{transaction.amount}! You now have a new worth of #{to_profile.points}.
+
+    <br/>
+    <br/>
+    Transaction Memo: #{transaction.note}
+
+    <br/>
+    <br/>
+    Thanks, <br/>
+    ShlinkTeam
+
+    """
+
+    Shlinkedin.Profiles.create_notification(%Notification{
+      from_profile_id: from_profile.id,
+      to_profile_id: to_profile.id,
+      type: "sent_points",
+      action: "sent you #{transaction.amount}.",
+      body: "Memo: #{transaction.note}"
+    })
+
+    if to_profile.unsubscribed == false do
+      Shlinkedin.Email.new_email(
+        to_profile.user.email,
+        "#{from_profile.persona_name} has sent you ShlinkPoints!",
         body
       )
       |> Shlinkedin.Mailer.deliver_later()

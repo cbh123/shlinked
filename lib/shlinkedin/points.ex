@@ -8,6 +8,7 @@ defmodule Shlinkedin.Points do
 
   alias Shlinkedin.Points.Transaction
   alias Shlinkedin.Profiles.Profile
+  alias Shlinkedin.Profiles.ProfileNotifier
 
   @doc """
   Checks whether transaction is valid, aka whether or "from profile" can
@@ -88,6 +89,7 @@ defmodule Shlinkedin.Points do
     |> Transaction.validate_transaction()
     |> Repo.insert()
     |> transfer_wealth()
+    |> ProfileNotifier.observer(:sent_transaction, from, to)
   end
 
   @doc """
