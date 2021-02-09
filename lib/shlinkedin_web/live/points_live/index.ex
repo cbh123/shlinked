@@ -10,9 +10,27 @@ defmodule ShlinkedinWeb.PointsLive.Index do
     {:ok,
      socket
      |> assign(
+       show_profile: socket.assigns.profile,
        balance: Points.get_balance(socket.assigns.profile),
        transactions: Points.list_transactions(socket.assigns.profile)
      )}
+  end
+
+  @impl true
+  def handle_params(%{"slug" => slug}, _url, socket) do
+    show_profile = Shlinkedin.Profiles.get_profile_by_slug(slug)
+
+    {:noreply,
+     socket
+     |> assign(
+       show_profile: show_profile,
+       balance: Points.get_balance(show_profile),
+       transactions: Points.list_transactions(show_profile)
+     )}
+  end
+
+  def handle_params(_, _url, socket) do
+    {:noreply, socket}
   end
 
   defp get_profile(id) do

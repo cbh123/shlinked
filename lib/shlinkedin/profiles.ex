@@ -193,6 +193,24 @@ defmodule Shlinkedin.Profiles do
     )
   end
 
+  def list_profiles_by_points(count) do
+    Repo.all(
+      from p in Profile,
+        select: %{profile: p, number: p.points},
+        order_by: [desc: p.points],
+        limit: ^count
+    )
+  end
+
+  def get_profile_views_not_yourself(%Profile{} = profile) do
+    Repo.aggregate(
+      from(v in ProfileView,
+        where: v.from_profile_id != ^profile.id
+      ),
+      :count
+    )
+  end
+
   @doc """
   Given a profile, number of profiles to include,
   and leaderboard category, return the profiles's ranking
@@ -234,6 +252,7 @@ defmodule Shlinkedin.Profiles do
       "Claps" -> list_profiles_by_article_votes(count, start_date)
       "Ads" -> list_profiles_by_ad_clicks(count, start_date)
       "Hottest" -> list_profiles_by_profile_views(count, start_date)
+      "Wealth" -> list_profiles_by_points(count)
     end
   end
 
@@ -788,6 +807,11 @@ defmodule Shlinkedin.Profiles do
         title: "count",
         desc: "Total number of shlinked connections.",
         emoji: "🤝"
+      },
+      Wealth: %{
+        title: "points",
+        desc: "Total number of ShlinkPoints",
+        emoji: "💰"
       },
       "Post Reactions": %{
         title: "reactions",
