@@ -51,7 +51,8 @@ defmodule Shlinkedin.Points do
   def list_transactions(%Profile{} = profile) do
     Repo.all(
       from t in Transaction,
-        where: t.from_profile_id == ^profile.id or t.to_profile_id == ^profile.id
+        where: t.from_profile_id == ^profile.id or t.to_profile_id == ^profile.id,
+        order_by: [desc: t.inserted_at]
     )
   end
 
@@ -72,15 +73,15 @@ defmodule Shlinkedin.Points do
   def get_transaction!(id), do: Repo.get!(Transaction, id)
 
   @doc """
-  Creates a transaction.
+    Creates a transaction.
 
-  ## Examples
+    ## Examples
 
-      iex> create_transaction(%{field: value})
-      {:ok, %Transaction{}}
+        iex> create_transaction(%{field: value})
+        {:ok, %Transaction{}}
 
-      iex> create_transaction(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+        iex> create_transaction(%{field: bad_value})
+        {:error, %Ecto.Changeset{}}
 
   """
   def create_transaction(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do

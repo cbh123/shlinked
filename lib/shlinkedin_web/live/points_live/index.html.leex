@@ -29,6 +29,10 @@
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Date
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     From
                                 </th>
                                 <th scope="col"
@@ -52,6 +56,9 @@
                                 <td
                                     class="px-6 py-4 whitespace-nowrap text-sm font-medium <%= if @profile.id == t.from_profile_id, do: "text-red-600", else: "text-green-600" %>">
                                     <%= t.amount %>
+                                </td>
+                                <td class=" px-6 py-4 whitespace-nowrap text-sm text-gray-500 hover:underline">
+                                    <%= Timex.format!(t.inserted_at, "{Mshort}. {D}, {YYYY}") %>
                                 </td>
                                 <td class=" px-6 py-4 whitespace-nowrap text-sm text-gray-500 hover:underline">
                                     <%= live_redirect from.persona_name, to: Routes.profile_show_path(@socket, :show, from.slug) %>
