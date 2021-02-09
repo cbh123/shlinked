@@ -36,7 +36,12 @@ defmodule ShlinkedinWeb.PointsLive.FormComponent do
       {:ok, _transaction} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Successfully sent #{transaction_params["amount"]}")
+         |> put_flash(
+           :info,
+           "Successfully sent #{transaction_params["amount"]} to #{
+             socket.assigns.to_profile.persona_name
+           }"
+         )
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

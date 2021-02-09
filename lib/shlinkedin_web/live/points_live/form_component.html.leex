@@ -14,14 +14,14 @@
 
 
 <div>
-    <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+    <label for="price" class="block text-sm font-medium text-gray-700">Amount</label>
     <div class="mt-1 relative rounded-md shadow-sm">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <span class="text-gray-500 sm:text-sm">
                 S
             </span>
         </div>
-        <%= text_input f, :amount, placeholder: "0.00", class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-20 sm:text-sm border-gray-300 rounded-md" %>
+        <%= text_input f, :amount, placeholder: "0.00", class: "focus:ring-blue-500 focus:border-blue-500 block w-full pl-7 pr-20 sm:text-sm border-gray-300 rounded-md" %>
 
         <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
             <span class="text-gray-500 sm:text-sm" id="price-currency">
@@ -46,7 +46,7 @@
 <div class="flex justify-end mt-4">
     <%= live_patch "Cancel", to: @return_to, class: "ml-3 inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-full text-gray-600  bg-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"%>
 
-    <%= submit "Send", class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
+    <%= submit "Send ShlinkPoints", class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
 </div>
 
 

@@ -31,7 +31,7 @@ config :logger, :console,
 config :money,
   default_currency: :SHLINK,
   custom_currencies: [
-    SHLINK: %{name: "Shlink Coin", symbol: "Sh", exponent: 2}
+    SHLINK: %{name: "Shlink Coin", symbol: "SP", exponent: 2}
   ]
 
 # Use Jason for JSON parsing in Phoenix
