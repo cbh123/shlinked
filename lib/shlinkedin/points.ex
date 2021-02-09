@@ -13,15 +13,17 @@ defmodule Shlinkedin.Points do
   Checks whether transaction is valid, aka whether or "from profile" can
   pay "to profile" the transaction amount.
   """
-  def valid_transaction(%Transaction{from_profile_id: from_profile_id} = transaction) do
-    case get_balance(%Profile{id: from_profile_id}) >= transaction.amount do
-      true -> {:ok, transaction}
-      false -> {:error, "Balance is not large enough."}
-    end
-  end
 
-  def get_balance(%Profile{} = profile) do
-    profile.points
+  # %Transaction{from_profile_id: from_profile_id} = transaction) do
+  #   case get_balance(%Profile{id: from_profile_id}) >= transaction.amount do
+  #     true -> {:ok, transaction}
+  #     false -> {:error, "Balance is not large enough."}
+  #   end
+  # end
+
+  def get_balance(%Profile{id: id}) do
+    IO.inspect(id, label: "")
+    Shlinkedin.Profiles.get_profile_by_profile_id(id).points
   end
 
   @doc """
@@ -71,6 +73,7 @@ defmodule Shlinkedin.Points do
   def create_transaction(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
     %Transaction{from_profile_id: from.id, to_profile_id: to.id}
     |> Transaction.changeset(attrs)
+    |> Transaction.validate_transaction()
     |> Repo.insert()
   end
 

@@ -25,42 +25,44 @@
                             <tr>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Name
+                                    Amount
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Title
+                                    From
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Email
+                                    To
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Role
+                                    Note
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            <%= for {idx, t} <- Enum.with_index(@transactions) do %>
+                            <%= for {t, idx} <- Enum.with_index(@transactions) do %>
+                            <% from = get_profile(t.from_profile_id) %>
+                            <% to = get_profile(t.to_profile_id) %>
                             <!-- Odd row -->
-                            <tr class="<%= if rem(1, 2) == 0 , do: "bg-white", else: "bg-gray-50"%>">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    Jane Cooper
+                            <tr class="<%= if Integer.is_even(idx), do: "bg-white", else: "bg-gray-50"%>">
+
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium <%= if @profile.id == t.from_profile_id, do: "text-red-600", else: "text-green-600" %>">
+                                    <%= t.amount %>
+                                </td>
+                                <td class=" px-6 py-4 whitespace-nowrap text-sm text-gray-500 hover:underline">
+                                    <%= live_redirect from.persona_name, to: Routes.profile_show_path(@socket, :show, from.slug) %>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 hover:underline">
+                                    <%= live_redirect to.persona_name, to: Routes.profile_show_path(@socket, :show, to.slug) %>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    Regional Paradigm Technician
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    jane.cooper@example.com
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    Admin
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
                                 </td>
+
                             </tr>
                             <% end %>
                         </tbody>
