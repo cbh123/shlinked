@@ -13,17 +13,30 @@ defmodule Shlinkedin.Points do
   Checks whether transaction is valid, aka whether or "from profile" can
   pay "to profile" the transaction amount.
   """
-
-  # %Transaction{from_profile_id: from_profile_id} = transaction) do
-  #   case get_balance(%Profile{id: from_profile_id}) >= transaction.amount do
-  #     true -> {:ok, transaction}
-  #     false -> {:error, "Balance is not large enough."}
-  #   end
-  # end
-
   def get_balance(%Profile{id: id}) do
     Shlinkedin.Profiles.get_profile_by_profile_id(id).points
   end
+
+  def transfer_wealth(
+        {:ok,
+         %Transaction{from_profile_id: from, to_profile_id: to, amount: amount} = transaction}
+      ) do
+    from_profile = Shlinkedin.Profiles.get_profile_by_profile_id(from)
+    to_profile = Shlinkedin.Profiles.get_profile_by_profile_id(to)
+
+    from_balance = get_balance(from_profile)
+    to_balance = get_balance(to_profile)
+
+    from_new_balance = Money.subtract(from_balance, amount)
+    to_new_balance = Money.add(to_balance, amount)
+
+    Shlinkedin.Profiles.update_profile(from_profile, %{points: from_new_balance})
+    Shlinkedin.Profiles.update_profile(to_profile, %{points: to_new_balance})
+
+    {:ok, transaction}
+  end
+
+  def transfer_wealth({:error, changeset}), do: {:error, changeset}
 
   @doc """
   Returns the list of transactions.
@@ -74,6 +87,7 @@ defmodule Shlinkedin.Points do
     |> Transaction.changeset(attrs)
     |> Transaction.validate_transaction()
     |> Repo.insert()
+    |> transfer_wealth()
   end
 
   @doc """

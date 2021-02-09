@@ -73,7 +73,8 @@ defmodule Shlinkedin.Profiles.Profile do
       :featured,
       :featured_date,
       :private_mode,
-      :ad_frequency
+      :ad_frequency,
+      :points
     ])
     |> validate_required([:user_id, :persona_name, :real_name, :username])
     |> downcase_username()

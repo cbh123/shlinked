@@ -31,16 +31,26 @@ defmodule Shlinkedin.Points.Transaction do
     end)
   end
 
+  @doc """
+  Validates that you have enough balance and that you are not sending to yourself.
+  """
   def validate_transaction(
-        %Ecto.Changeset{data: %Transaction{from_profile_id: from_profile_id}} = changeset
+        %Ecto.Changeset{
+          data: %Transaction{from_profile_id: from_profile_id, to_profile_id: to_profile_id}
+        } = changeset
       ) do
     validate_change(changeset, :amount, fn :amount, amount ->
       balance = Shlinkedin.Points.get_balance(%Profile{id: from_profile_id})
 
-      if Money.compare(balance, amount) < 0 do
-        [amount: "Not enough balance. You have #{balance}."]
-      else
-        []
+      cond do
+        Money.compare(balance, amount) < 0 ->
+          [amount: "Not enough balance. You have #{balance}."]
+
+        from_profile_id == to_profile_id ->
+          [amount: "You cannot send money to yourself, you launderer!"]
+
+        true ->
+          []
       end
     end)
   end
