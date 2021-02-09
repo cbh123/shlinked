@@ -22,7 +22,6 @@ defmodule Shlinkedin.Points do
   # end
 
   def get_balance(%Profile{id: id}) do
-    IO.inspect(id, label: "")
     Shlinkedin.Profiles.get_profile_by_profile_id(id).points
   end
 
