@@ -12,7 +12,7 @@ defmodule Shlinkedin.Feedback.Feedback do
   @doc false
   def changeset(feedback, attrs) do
     feedback
-    |> cast(attrs, [:body])
+    |> cast(attrs, [:body, :category])
     |> validate_required([:body])
   end
 end
