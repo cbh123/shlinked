@@ -136,7 +136,7 @@ defmodule Shlinkedin.News do
       ) do
     article = %{article | profile_id: profile.id}
 
-    Points.generate_wealth(profile, Points.get_rule_amount(:new_headline), "Price for a headline")
+    Points.generate_wealth(profile, :new_headline)
 
     article
     |> Article.changeset(attrs)

@@ -78,14 +78,6 @@ defmodule Shlinkedin.Points do
   def get_rule_amount(type), do: rules()[type].amount
   def get_rule_desc(type), do: rules()[type].desc
 
-  def generate_wealth_given_type(from_profile, to_profile, type) do
-    if Map.has_key?(rules(), type) do
-      amount = get_rule_amount(type)
-      desc = get_rule_desc(type)
-      generate_wealth(to_profile, amount, "Reward " <> String.downcase(desc))
-    end
-  end
-
   @doc """
   Checks whether transaction is valid, aka whether or "from profile" can
   pay "to profile" the transaction amount.
@@ -119,9 +111,13 @@ defmodule Shlinkedin.Points do
   Similar to transfer_wealth(), but generates points out of thin
   air instead of transferring from one person to another.
   """
-  def generate_wealth(%Profile{} = profile, %Money{} = amount, note) do
+  def generate_wealth(%Profile{} = profile, type) do
     balance = get_balance(profile)
+    amount = get_rule_amount(type)
     new_balance = Money.add(balance, amount)
+    note = get_rule_desc(type)
+
+    # update profile
     Shlinkedin.Profiles.update_profile(profile, %{points: new_balance})
 
     # hardcoded to Dave Business' profile id

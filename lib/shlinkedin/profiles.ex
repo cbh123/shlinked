@@ -22,6 +22,7 @@ defmodule Shlinkedin.Profiles do
   }
 
   alias Shlinkedin.Accounts.User
+  alias Shlinkedin.Points
 
   def grant_award(%Profile{} = profile, %AwardType{} = award_type, attrs \\ %{}) do
     {:ok, _award} =
@@ -496,6 +497,8 @@ defmodule Shlinkedin.Profiles do
   end
 
   def create_profile_view(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
+    if from.id != to.id, do: Points.generate_wealth(to, :profile_view)
+
     %ProfileView{from_profile_id: from.id, to_profile_id: to.id}
     |> ProfileView.changeset(attrs)
     |> Repo.insert()
