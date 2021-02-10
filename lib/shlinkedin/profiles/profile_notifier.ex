@@ -20,7 +20,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     from_profile = Shlinkedin.Profiles.get_profile_by_profile_id_preload_user(from.id)
     to_profile = Shlinkedin.Profiles.get_profile_by_profile_id_preload_user(to.id)
 
-    Points.generate_wealth(to_profile, type)
+    if Map.has_key?(Points.rules(), type), do: Points.generate_wealth(to_profile, type)
 
     case type do
       :post ->
