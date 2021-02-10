@@ -9,16 +9,18 @@ defmodule Shlinkedin.Points do
   alias Shlinkedin.Points.Transaction
   alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Profiles.ProfileNotifier
+  alias Shlinkedin.Timeline
+  alias Shlinkedin.Timeline.{Post, Comment}
 
   def rules() do
     %{
       :like => %{
         amount: Money.new(200),
-        desc: "For each post reaction you receive"
+        desc: "For each post reaction you receive (from someone other than you)"
       },
       :comment_like => %{
         amount: Money.new(200),
-        desc: "For each comment reaction you receive"
+        desc: "For each comment reaction you receive (from someone other than you)"
       },
       :vote => %{
         amount: Money.new(500),
@@ -73,6 +75,24 @@ defmodule Shlinkedin.Points do
       #   desc: "For cost of writing an ad."
       # }
     }
+  end
+
+  def point_observer(%Profile{} = from_profile, %Profile{} = to_profile, type, object)
+      when is_atom(type) do
+    case type do
+      :like ->
+        if from_profile.id != to_profile.id and
+             Timeline.is_first_like_on_post?(from_profile, %Post{id: object.post_id}),
+           do: generate_wealth(to_profile, type)
+
+      :comment_like ->
+        if from_profile.id != to_profile.id and
+             Timeline.is_first_like_on_comment?(from_profile, %Comment{id: object.comment_id}),
+           do: generate_wealth(to_profile, type)
+
+      _ ->
+        generate_wealth(to_profile, type)
+    end
   end
 
   def get_rule_amount(type), do: rules()[type].amount

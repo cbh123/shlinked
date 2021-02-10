@@ -20,7 +20,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     from_profile = Shlinkedin.Profiles.get_profile_by_profile_id_preload_user(from.id)
     to_profile = Shlinkedin.Profiles.get_profile_by_profile_id_preload_user(to.id)
 
-    if Map.has_key?(Points.rules(), type), do: Points.generate_wealth(to_profile, type)
+    if Map.has_key?(Points.rules(), type),
+      do: Points.point_observer(from_profile, to_profile, type, res)
 
     case type do
       :post ->
@@ -476,9 +477,10 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         %Like{} = like,
         type
       ) do
-    # get notification where to_profile is same and post id is same,
+    # todo: get notification where to_profile is same and post id is same,
     # and then update action to "and [] also did."
-    if from_profile.id != to_profile.id do
+    if from_profile.id != to_profile.id and
+         Shlinkedin.Timeline.is_first_like_on_post?(from_profile, %Post{id: like.post_id}) do
       Shlinkedin.Profiles.create_notification(%Notification{
         from_profile_id: from_profile.id,
         to_profile_id: to_profile.id,
@@ -501,7 +503,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     comment = Timeline.get_comment!(like.comment_id)
     post = Timeline.get_post!(comment.post_id)
 
-    if from_profile.id != to_profile.id do
+    if from_profile.id != to_profile.id and
+         Shlinkedin.Timeline.is_first_like_on_comment?(from_profile, %Comment{id: like.comment_id}) do
       Shlinkedin.Profiles.create_notification(%Notification{
         from_profile_id: from_profile.id,
         to_profile_id: to_profile.id,
