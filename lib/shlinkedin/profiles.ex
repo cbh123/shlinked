@@ -205,7 +205,7 @@ defmodule Shlinkedin.Profiles do
   def get_profile_views_not_yourself(%Profile{} = profile) do
     Repo.aggregate(
       from(v in ProfileView,
-        where: v.from_profile_id != ^profile.id
+        where: v.from_profile_id != ^profile.id and v.to_profile_id == ^profile.id
       ),
       :count
     )
