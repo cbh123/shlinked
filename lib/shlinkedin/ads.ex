@@ -9,6 +9,7 @@ defmodule Shlinkedin.Ads do
   alias Shlinkedin.Ads.Ad
   alias Shlinkedin.Ads.Click
   alias Shlinkedin.Profiles.Profile
+  alias Shlinkedin.Profiles.ProfileNotifier
 
   @doc """
   Returns the list of ads.
@@ -101,10 +102,11 @@ defmodule Shlinkedin.Ads do
     |> after_save(after_save)
   end
 
-  def create_ad_click(%Ad{} = ad, %Profile{} = profile, attrs \\ %{}) do
+  def create_ad_click(%Ad{profile: ad_profile} = ad, %Profile{} = profile, attrs \\ %{}) do
     %Click{ad_id: ad.id, profile_id: profile.id}
     |> Click.changeset(attrs)
     |> Repo.insert()
+    |> ProfileNotifier.observer(:ad_click, profile, ad_profile)
   end
 
   @doc """

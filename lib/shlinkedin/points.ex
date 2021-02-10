@@ -51,7 +51,7 @@ defmodule Shlinkedin.Points do
       :testimonial => %{
         amount: Money.new(100),
         desc: "For each review star rating"
-      }
+      },
       # :sent_testimonial => %{
       #   amount: Money.new(99),
       #   desc: "For writing a review"
@@ -64,10 +64,10 @@ defmodule Shlinkedin.Points do
       #   amount: Money.new(99),
       #   desc: "For when someone clicks 'see more' on one of your posts"
       # },
-      # :ad_click => %{
-      #   amount: Money.new(1000),
-      #   desc: "For when someone clicks on your ad"
-      # },
+      :ad_click => %{
+        amount: Money.new(1000),
+        desc: "For when someone clicks on your ad"
+      }
       # :new_ad => %{
       #   amount: Money.new(-2000),
       #   desc: "For cost of writing an ad."
