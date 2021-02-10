@@ -20,7 +20,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     from_profile = Shlinkedin.Profiles.get_profile_by_profile_id_preload_user(from.id)
     to_profile = Shlinkedin.Profiles.get_profile_by_profile_id_preload_user(to.id)
 
-    Points.generate_wealth_given_notification_type(from_profile, to_profile, type)
+    Points.generate_wealth_given_type(from_profile, to_profile, type)
 
     case type do
       :post ->

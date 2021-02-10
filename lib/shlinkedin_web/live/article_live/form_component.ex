@@ -3,10 +3,18 @@ defmodule ShlinkedinWeb.ArticleLive.FormComponent do
 
   alias Shlinkedin.News
   alias Shlinkedin.News.Article
+  alias Shlinkedin.Points
 
   @impl true
   def mount(socket) do
-    socket = socket |> assign(gif_url: nil, gif_error: nil)
+    socket =
+      socket
+      |> assign(
+        gif_url: nil,
+        gif_error: nil,
+        cost: Points.get_rule_amount(:new_headline),
+        reward: Points.get_rule_amount(:vote)
+      )
 
     {:ok,
      allow_upload(socket, :media,
@@ -61,7 +69,7 @@ defmodule ShlinkedinWeb.ArticleLive.FormComponent do
       {:ok, _article} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Article created successfully")
+         |> put_flash(:info, "Headline created successfully #{socket.assigns.cost}")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

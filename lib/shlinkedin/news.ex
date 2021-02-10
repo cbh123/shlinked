@@ -10,6 +10,7 @@ defmodule Shlinkedin.News do
   alias Shlinkedin.News.Vote
   alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Profiles.ProfileNotifier
+  alias Shlinkedin.Points
 
   @doc """
   Returns the list of articles.
@@ -134,6 +135,8 @@ defmodule Shlinkedin.News do
         after_save \\ &{:ok, &1}
       ) do
     article = %{article | profile_id: profile.id}
+
+    Points.generate_wealth(profile, Points.get_rule_amount(:new_headline), "Price for a headline")
 
     article
     |> Article.changeset(attrs)

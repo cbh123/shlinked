@@ -24,14 +24,14 @@ defmodule Shlinkedin.Points do
         amount: Money.new(500),
         desc: "For each headline clap you receive"
       },
-      # :new_headline => %{
-      #   amount: Money.new(-1000),
-      #   desc: "The cost of writing a headline"
-      # },
-      # :profile_view => %{
-      #   amount: Money.new(100),
-      #   desc: "For each profile view (from someone other than you)"
-      # },
+      :new_headline => %{
+        amount: Money.new(-1000),
+        desc: "The cost of writing a headline"
+      },
+      :profile_view => %{
+        amount: Money.new(10),
+        desc: "For each profile view (from someone other than you)"
+      },
       :accepted_friend_request => %{
         amount: Money.new(500),
         desc: "When someone accepts your Shlink Request"
@@ -78,13 +78,11 @@ defmodule Shlinkedin.Points do
   def get_rule_amount(type), do: rules()[type].amount
   def get_rule_desc(type), do: rules()[type].desc
 
-  def generate_wealth_given_notification_type(from_profile, to_profile, type) do
+  def generate_wealth_given_type(from_profile, to_profile, type) do
     if Map.has_key?(rules(), type) do
       amount = get_rule_amount(type)
       desc = get_rule_desc(type)
       generate_wealth(to_profile, amount, "Reward " <> String.downcase(desc))
-    else
-      IO.puts("No reward for that notification")
     end
   end
 
