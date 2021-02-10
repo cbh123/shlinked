@@ -439,7 +439,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     }/5 star review for you. Check it out
     <a href="shlinked.herokuapp.com/sh/#{to_profile.slug}">on your profile.</a>. Your reward is +#{
       Points.get_rule_amount(type)
-    }/
+    }
 
     <br/>
     <br/>
@@ -542,7 +542,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
     We are excited to inform you that your post has been awarded
      <a href="https://www.shlinkedin.com/posts/#{post.id}">post of the day!</a>!!!
-     +50 ShlinkPoints.
+     Your reward is +#{Points.get_rule_amount(type)}.
 
     <br/>
     <br/>
@@ -556,7 +556,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       to_profile_id: to_profile.id,
       type: "featured",
       post_id: post.id,
-      action: "has decided to award you post of the day!"
+      action: "has decided to award you post of the day! +#{Points.get_rule_amount(type)}."
     })
 
     if to_profile.unsubscribed == false do
