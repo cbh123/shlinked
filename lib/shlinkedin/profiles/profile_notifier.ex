@@ -9,6 +9,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   alias Shlinkedin.Groups
   alias Shlinkedin.Groups.Invite
   alias Shlinkedin.Points.Transaction
+  alias Shlinkedin.Points
 
   @doc """
   Deliver instructions to confirm account.
@@ -19,54 +20,56 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     from_profile = Shlinkedin.Profiles.get_profile_by_profile_id_preload_user(from.id)
     to_profile = Shlinkedin.Profiles.get_profile_by_profile_id_preload_user(to.id)
 
+    Points.generate_wealth_given_notification_type(from_profile, to_profile, type)
+
     case type do
       :post ->
-        notify_comment(from_profile, to_profile, res)
+        notify_comment(from_profile, to_profile, res, type)
 
       :comment ->
-        notify_comment(from_profile, to_profile, res)
+        notify_comment(from_profile, to_profile, res, type)
 
       :like ->
-        notify_like(from_profile, to_profile, res)
+        notify_like(from_profile, to_profile, res, type)
 
       :comment_like ->
-        notify_comment_like(from_profile, to_profile, res)
+        notify_comment_like(from_profile, to_profile, res, type)
 
       :vote ->
-        notify_vote(from_profile, to_profile, res)
+        notify_vote(from_profile, to_profile, res, type)
 
       :endorsement ->
-        notify_endorsement(from_profile, to_profile, res)
+        notify_endorsement(from_profile, to_profile, res, type)
 
       :testimonial ->
-        notify_testimonial(from_profile, to_profile, res)
+        notify_testimonial(from_profile, to_profile, res, type)
 
       :sent_friend_request ->
-        notify_sent_friend_request(from_profile, to_profile)
+        notify_sent_friend_request(from_profile, to_profile, type)
 
       :accepted_friend_request ->
-        notify_accepted_friend_request(from_profile, to_profile)
+        notify_accepted_friend_request(from_profile, to_profile, type)
 
       :featured_post ->
-        notify_post_featured(to_profile, res)
+        notify_post_featured(to_profile, res, type)
 
       :new_badge ->
-        notify_profile_badge(to_profile, res)
+        notify_profile_badge(to_profile, res, type)
 
       :jab ->
-        notify_jab(from_profile, to_profile)
+        notify_jab(from_profile, to_profile, type)
 
       :ad_click ->
-        notify_ad_click(from_profile, to_profile, res)
+        notify_ad_click(from_profile, to_profile, res, type)
 
       :new_group_member ->
-        notify_new_group_member(from_profile, res)
+        notify_new_group_member(from_profile, res, type)
 
       :sent_group_invite ->
-        notify_group_invite(from_profile, to_profile, res)
+        notify_group_invite(from_profile, to_profile, res, type)
 
       :sent_transaction ->
-        notify_sent_points(from_profile, to_profile, res)
+        notify_sent_points(from_profile, to_profile, res, type)
     end
 
     {:ok, res}
@@ -75,7 +78,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   def notify_group_invite(
         %Profile{} = from_profile,
         %Profile{} = to_profile,
-        %Invite{} = invite
+        %Invite{} = invite,
+        type
       ) do
     group = Groups.get_group!(invite.group_id)
 
@@ -117,7 +121,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     end
   end
 
-  def notify_new_group_member(%Profile{} = new_profile, %Group{} = group) do
+  def notify_new_group_member(%Profile{} = new_profile, %Group{} = group, type) do
     for member <- Shlinkedin.Groups.list_members(group) do
       if member.profile_id != new_profile.id do
         Shlinkedin.Profiles.create_notification(%Notification{
@@ -134,7 +138,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
   def notify_jab(
         %Profile{} = from_profile,
-        %Profile{} = to_profile
+        %Profile{} = to_profile,
+        type
       ) do
     body = """
 
@@ -174,7 +179,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   def notify_sent_points(
         %Profile{} = from_profile,
         %Profile{} = to_profile,
-        %Transaction{} = transaction
+        %Transaction{} = transaction,
+        type
       ) do
     body = """
 
@@ -217,7 +223,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
   def notify_sent_friend_request(
         %Profile{} = from_profile,
-        %Profile{} = to_profile
+        %Profile{} = to_profile,
+        type
       ) do
     Shlinkedin.Profiles.create_notification(%Notification{
       from_profile_id: from_profile.id,
@@ -310,7 +317,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
   def notify_accepted_friend_request(
         %Profile{} = from_profile,
-        %Profile{} = to_profile
+        %Profile{} = to_profile,
+        type
       ) do
     body = """
 
@@ -319,8 +327,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
 
-    <p>Congratulations! #{to_profile.persona_name} / #{to_profile.real_name} has accepted your Shlink request.
-    Time to ask them something personal, like:</p>
+    <p>Congratulations! #{to_profile.persona_name} / #{to_profile.real_name} has accepted your Shlink request. Your reward is +#{
+      Points.get_rule_amount(type)
+    }. Time to ask them something personal, like:</p>
 
     <ul>
     #{for line <- friend_request_text(), do: "<li>#{line}</li>"}
@@ -339,7 +348,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       from_profile_id: to_profile.id,
       to_profile_id: from_profile.id,
       type: "accepted_shlink",
-      action: "has accepted your Shlink request!",
+      action: "has accepted your Shlink request! +#{Points.get_rule_amount(type)}",
       body: ""
     })
 
@@ -356,7 +365,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   def notify_endorsement(
         %Profile{} = from_profile,
         %Profile{} = to_profile,
-        %Endorsement{} = endorsement
+        %Endorsement{} = endorsement,
+        type
       ) do
     body = """
 
@@ -367,7 +377,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
     <a href="https://www.shlinkedin.com/sh/#{from_profile.slug}">#{from_profile.persona_name}</a> has endorsed you for "#{
       endorsement.body
-    }"!
+    }"! Your reward is +#{Points.get_rule_amount(type)}.
 
     <br/>
     <br/>
@@ -382,7 +392,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         to_profile_id: to_profile.id,
         type: "endorsement",
         action: "endorsed you for",
-        body: "#{endorsement.body}"
+        body: "#{endorsement.body}. +#{Points.get_rule_amount(type)}"
       })
 
       if to_profile.unsubscribed == false do
@@ -395,7 +405,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   def notify_ad_click(
         %Profile{} = from_profile,
         %Profile{} = to_profile,
-        %Ad{} = ad
+        %Ad{} = ad,
+        type
       ) do
     if from_profile.id != to_profile.id do
       Shlinkedin.Profiles.create_notification(%Notification{
@@ -411,7 +422,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   def notify_testimonial(
         %Profile{} = from_profile,
         %Profile{} = to_profile,
-        %Testimonial{} = testimonial
+        %Testimonial{} = testimonial,
+        type
       ) do
     body = """
 
@@ -423,7 +435,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <a href="https://www.shlinkedin.com/sh/#{from_profile.slug}">#{from_profile.persona_name}</a> has written a #{
       testimonial.rating
     }/5 star review for you. Check it out
-    <a href="shlinked.herokuapp.com/sh/#{to_profile.slug}">on your profile.</a>
+    <a href="shlinked.herokuapp.com/sh/#{to_profile.slug}">on your profile.</a>. Your reward is +#{
+      Points.get_rule_amount(type)
+    }/
 
     <br/>
     <br/>
@@ -444,7 +458,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       if to_profile.unsubscribed == false do
         Shlinkedin.Email.new_email(
           to_profile.user.email,
-          "#{from_profile.persona_name} has given you #{testimonial.rating}/5 stars!",
+          "#{from_profile.persona_name} has given you #{testimonial.rating}/5 stars! +#{
+            Points.get_rule_amount(type)
+          }",
           body
         )
         |> Shlinkedin.Mailer.deliver_later()
@@ -455,18 +471,18 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   def notify_like(
         %Profile{} = from_profile,
         %Profile{} = to_profile,
-        %Like{} = like
+        %Like{} = like,
+        type
       ) do
     # get notification where to_profile is same and post id is same,
     # and then update action to "and [] also did."
-    if from_profile.id != to_profile.id and
-         Shlinkedin.Timeline.is_first_like_on_post?(from_profile, %Post{id: like.post_id}) do
+    if from_profile.id != to_profile.id do
       Shlinkedin.Profiles.create_notification(%Notification{
         from_profile_id: from_profile.id,
         to_profile_id: to_profile.id,
         type: "like",
         post_id: like.post_id,
-        action: "reacted \"#{like.like_type}\" to your post."
+        action: "reacted \"#{like.like_type}\" to your post. +#{Points.get_rule_amount(type)}"
       })
     end
   end
@@ -474,7 +490,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   def notify_comment_like(
         %Profile{} = from_profile,
         %Profile{} = to_profile,
-        %CommentLike{} = like
+        %CommentLike{} = like,
+        type
       ) do
     # get notification where to_profile is same and post id is same,
     # and then update action to "and [] also did."
@@ -482,14 +499,13 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     comment = Timeline.get_comment!(like.comment_id)
     post = Timeline.get_post!(comment.post_id)
 
-    if from_profile.id != to_profile.id and
-         Shlinkedin.Timeline.is_first_like_on_comment?(from_profile, %Comment{id: like.comment_id}) do
+    if from_profile.id != to_profile.id do
       Shlinkedin.Profiles.create_notification(%Notification{
         from_profile_id: from_profile.id,
         to_profile_id: to_profile.id,
         type: "like",
         post_id: post.id,
-        action: "reacted \"#{like.like_type}\" to your comment."
+        action: "reacted \"#{like.like_type}\" to your comment. +#{Points.get_rule_amount(type)}"
       })
     end
   end
@@ -497,7 +513,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   def notify_vote(
         %Profile{} = from_profile,
         %Profile{} = to_profile,
-        %Vote{} = vote
+        %Vote{} = vote,
+        type
       ) do
     # get notification where to_profile is same and post id is same,
     # and then update action to "and [] also did."
@@ -508,12 +525,12 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         to_profile_id: to_profile.id,
         type: "vote",
         article_id: vote.article_id,
-        action: "clapped your headline!"
+        action: "clapped your headline! +#{Points.get_rule_amount(type)}"
       })
     end
   end
 
-  def notify_post_featured(%Profile{} = to_profile, %Post{} = post) do
+  def notify_post_featured(%Profile{} = to_profile, %Post{} = post, type) do
     body = """
 
     Hi #{to_profile.persona_name},
@@ -523,7 +540,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
     We are excited to inform you that your post has been awarded
      <a href="https://www.shlinkedin.com/posts/#{post.id}">post of the day!</a>!!!
-     +100 ShlinkPoints.
+     +50 ShlinkPoints.
 
     <br/>
     <br/>
@@ -550,7 +567,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     end
   end
 
-  def notify_profile_badge(%Profile{} = to_profile, badge) do
+  def notify_profile_badge(%Profile{} = to_profile, badge, type) do
     body = """
 
     Hi #{to_profile.persona_name},
@@ -587,7 +604,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   def notify_post(
         %Profile{} = from_profile,
         %Profile{} = _to_profile,
-        %Post{} = post
+        %Post{} = post,
+        type
       ) do
     for username <- post.profile_tags do
       to_profile = Shlinkedin.Profiles.get_profile_by_username(username)
@@ -606,7 +624,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   def notify_comment(
         %Profile{} = from_profile,
         %Profile{} = to_profile,
-        %Comment{} = comment
+        %Comment{} = comment,
+        type
       ) do
     for username <- comment.profile_tags do
       to_profile = Shlinkedin.Profiles.get_profile_by_username(username)

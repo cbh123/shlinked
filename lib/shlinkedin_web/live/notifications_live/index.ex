@@ -13,7 +13,7 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
     {:ok,
      socket
      |> assign(
-       notifications: Profiles.list_notifications(profile.id, 15),
+       notifications: Profiles.list_notifications(profile.id, 30),
        unread_count: Profiles.get_unread_notification_count(profile)
      ), temporary_assigns: [notifications: []]}
   end

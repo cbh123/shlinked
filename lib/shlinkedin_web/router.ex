@@ -171,6 +171,8 @@ defmodule ShlinkedinWeb.Router do
 
     # points
     live "/points", PointsLive.Index, :index
+    live "/points/rules", PointsLive.Rules, :index
+    live "/points/rules/propose", PointsLive.Rules, :new_feedback
     live "/points/:slug", PointsLive.Index, :index
 
     # search

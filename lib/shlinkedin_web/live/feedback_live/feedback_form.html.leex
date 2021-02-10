@@ -16,7 +16,7 @@
 
     <%# Enter Email Text %>
     <div class="mt-2">
-        <%= textarea f, :body, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-3", rows: 3, placeholder: "Noticed a bug, have a feature request, or just want someone to talk to? Help us improve!" %>
+        <%= textarea f, :body, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-3", rows: 3, placeholder: if @caption, do: @caption, else: "Noticed a bug, have a feature request, or just want someone to talk to? Help us improve!" %>
         <p class="mt-4 text-xs"><%= error_tag f, :body %></p>
     </div>
 
@@ -30,7 +30,7 @@
     <div class="flex justify-end mt-8 bg-gray-100 -m-5 p-5 rounded-b-lg">
 
         <%= live_patch "Cancel", to: @return_to, class: "ml-3 inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-full text-gray-600  bg-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"%>
-        <%= submit "Send feedback", class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
+        <%= submit "Send", class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
     </div>
 
 

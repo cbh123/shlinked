@@ -10,6 +10,84 @@ defmodule Shlinkedin.Points do
   alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Profiles.ProfileNotifier
 
+  def rules() do
+    %{
+      :like => %{
+        amount: Money.new(200),
+        desc: "For each post reaction you receive"
+      },
+      :comment_like => %{
+        amount: Money.new(200),
+        desc: "For each comment reaction you receive"
+      },
+      :vote => %{
+        amount: Money.new(500),
+        desc: "For each headline clap you receive"
+      },
+      # :new_headline => %{
+      #   amount: Money.new(-1000),
+      #   desc: "The cost of writing a headline"
+      # },
+      # :profile_view => %{
+      #   amount: Money.new(100),
+      #   desc: "For each profile view (from someone other than you)"
+      # },
+      :accepted_friend_request => %{
+        amount: Money.new(500),
+        desc: "When someone accepts your Shlink Request"
+      },
+      # :sent_friend_request => %{
+      #   amount: Money.new(-250),
+      #   desc: "The cost of sending a Shlink Request"
+      # },
+      # :sent_endorsement => %{
+      #   amount: Money.new(200),
+      #   desc: "For writing an endorsement"
+      # },
+      :endorsement => %{
+        amount: Money.new(300),
+        desc: "For each endorsement you receieve"
+      },
+      :testimonial => %{
+        amount: Money.new(100),
+        desc: "For each review star rating"
+      }
+      # :sent_testimonial => %{
+      #   amount: Money.new(99),
+      #   desc: "For writing a review"
+      # },
+      # :featured_post => %{
+      #   amount: Money.new(5000),
+      #   desc: "For winning 'Post of the Day'"
+      # },
+      # :see_more => %{
+      #   amount: Money.new(99),
+      #   desc: "For when someone clicks 'see more' on one of your posts"
+      # },
+      # :ad_click => %{
+      #   amount: Money.new(1000),
+      #   desc: "For when someone clicks on your ad"
+      # },
+      # :new_ad => %{
+      #   amount: Money.new(-2000),
+      #   desc: "For cost of writing an ad."
+      # }
+    }
+  end
+
+  def get_rule_amount(type), do: rules()[type].amount
+  def get_rule_desc(type), do: rules()[type].desc
+
+  def generate_wealth_given_notification_type(from_profile, to_profile, type) do
+    if Map.has_key?(rules(), type) do
+      amount = get_rule_amount(type)
+      desc = get_rule_desc(type)
+      generate_wealth(to_profile, amount, "Reward " <> String.downcase(desc))
+    else
+      IO.puts("No reward for that notification")
+    end
+  end
+
   @doc """
   Checks whether transaction is valid, aka whether or "from profile" can
   pay "to profile" the transaction amount.
@@ -38,6 +116,21 @@ defmodule Shlinkedin.Points do
   end
 
   def transfer_wealth({:error, changeset}), do: {:error, changeset}
+
+  @doc """
+  Similar to transfer_wealth(), but generates points out of thin
+  air instead of transferring from one person to another.
+  """
+  def generate_wealth(%Profile{} = profile, %Money{} = amount, note) do
+    balance = get_balance(profile)
+    new_balance = Money.add(balance, amount)
+    Shlinkedin.Profiles.update_profile(profile, %{points: new_balance})
+
+    # hardcoded to Dave Business' profile id
+    %Transaction{from_profile_id: 3, to_profile_id: profile.id, amount: amount, note: note}
+    |> Transaction.changeset(%{})
+    |> Repo.insert()
+  end
 
   @doc """
   Returns the list of transactions.

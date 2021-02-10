@@ -37,7 +37,7 @@ defmodule ShlinkedinWeb.FeedbackLive.FeedbackForm do
       {:ok, _feedback} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Feedback sent!")
+         |> put_flash(:info, "Sent!")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
