@@ -3,7 +3,6 @@ defmodule Shlinkedin.ProfilesFixtures do
   This module defines test helpers for creating
   entities via the `Shlinkedin.Profiles` context.
   """
-  import Shlinkedin.AccountsFixtures
 
   def unique_persona_name, do: "Mr. #{System.unique_integer()} Beans"
   def title, do: "Product Manager"
