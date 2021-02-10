@@ -91,7 +91,7 @@
                             <tr class="<%= if Integer.is_even(idx), do: "bg-white", else: "bg-gray-50"%>">
 
                                 <td
-                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium <%= if @profile.id == t.from_profile_id, do: "text-red-600", else: "text-green-600" %>">
+                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium <%= if @show_profile.id == t.from_profile_id, do: "text-red-600", else: "text-green-600" %>">
                                     <%= t.amount %>
                                 </td>
                                 <td class=" px-6 py-4 whitespace-nowrap text-sm text-gray-500 hover:underline">
