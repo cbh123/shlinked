@@ -175,15 +175,17 @@
         <%# Stats %>
         <div class="mt-2">
             <dl class="grid grid-cols-1 gap-2 sm:grid-cols-3">
-                <div class="bg-white overflow-hidden shadow rounded-lg">
+
+
+                <div class="bg-white overflow-hidden shadow rounded-lg hover:bg-gray-100">
+                    <%= live_redirect to: Routes.points_index_path(@socket, :index, slug: @show_profile.slug) do %>
+
                     <div class="px-4 py-5 sm:p-6">
-                        <%= live_redirect to: Routes.points_index_path(@socket, :index, slug: @show_profile.slug) do %>
                         <dt class="text-sm font-medium text-gray-500 truncate">
 
                             💰 Net Worth
                         </dt>
                         <dd class="mt-1 text-3xl font-semibold text-gray-900">
-
 
                             <%= @show_profile.points %>
 
@@ -202,30 +204,38 @@
                                 </span>
                                 <%= @wealth_ranking %>
                             </div>
-                            <% end %>
+
                         </dd>
                         <% end %>
                     </div>
+                    <% end %>
                 </div>
 
-                <div class="bg-white overflow-hidden shadow rounded-lg">
+
+
+
+
+                <%= live_patch to: Routes.profile_show_path(@socket, :show_friends, @show_profile.id) do %>
+
+                <div class="bg-white overflow-hidden shadow rounded-lg hover:bg-gray-100">
                     <div class="px-4 py-5 sm:p-6">
 
-                        <%= live_patch to: Routes.profile_show_path(@socket, :show_friends, @show_profile.id) do %>
                         <dt class="text-sm font-medium text-gray-500 truncate">
                             🤝 Shlinks
                         </dt>
                         <dd class="mt-1 text-3xl font-semibold text-gray-900">
                             <%= @connections |> length() %>
                         </dd>
-                        <% end %>
+
                     </div>
 
                 </div>
+                <% end %>
 
-                <div class="bg-white overflow-hidden shadow rounded-lg">
+                <%= live_redirect to: Routes.leaderboard_index_path(@socket, :index, curr_category: "Hottest") do  %>
+
+                <div class="bg-white overflow-hidden shadow rounded-lg hover:bg-gray-100">
                     <div class="px-4 py-5 sm:p-6">
-                        <%= live_redirect to: Routes.leaderboard_index_path(@socket, :index, curr_category: "Hottest") do  %>
 
                         <dt class="text-sm font-medium text-gray-500 truncate">
 
@@ -234,9 +244,10 @@
                         <dd class="mt-1 text-3xl font-semibold text-gray-900">
                             <%= @num_profile_views %>
                         </dd>
-                        <% end %>
                     </div>
                 </div>
+                <% end %>
+
             </dl>
         </div>
 
