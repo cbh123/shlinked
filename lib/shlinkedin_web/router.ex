@@ -185,6 +185,9 @@ defmodule ShlinkedinWeb.Router do
     # search
     # live "/search", SearchLive.Index, :index
     # live "/search/:query", SearchLive.Index, :index
+
+    # conversations
+    live "/conversations/:conversation_id/profiles/:profile_id", ConversationLive
   end
 
   scope "/", ShlinkedinWeb do
