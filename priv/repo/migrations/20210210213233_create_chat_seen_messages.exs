@@ -3,8 +3,8 @@ defmodule Shlinkedin.Repo.Migrations.CreateChatSeenMessages do
 
   def change do
     create table(:chat_seen_messages) do
-      add :profile_id, references(:profiles, on_delete: :nothing)
-      add :message_id, references(:chat_messages, on_delete: :nothing)
+      add :profile_id, references(:profiles, on_delete: :nothing), null: false
+      add :message_id, references(:chat_messages, on_delete: :nothing), null: false
 
       timestamps()
     end

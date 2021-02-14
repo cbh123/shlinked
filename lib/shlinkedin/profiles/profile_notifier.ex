@@ -4,7 +4,6 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   alias Shlinkedin.Timeline
   alias Shlinkedin.News.Vote
   alias Shlinkedin.News.Article
-  alias Shlinkedin.Ads.Ad
   alias Shlinkedin.Groups.Group
   alias Shlinkedin.Groups
   alias Shlinkedin.Groups.Invite

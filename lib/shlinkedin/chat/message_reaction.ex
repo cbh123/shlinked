@@ -13,7 +13,8 @@ defmodule Shlinkedin.Chat.MessageReaction do
   @doc false
   def changeset(message_reaction, attrs) do
     message_reaction
-    |> cast(attrs, [])
-    |> validate_required([])
+    |> cast(attrs, [:profile_id, :emoji_id, :message_id])
+    |> validate_required([:profile_id, :emoji_id, :message_id])
+    |> unique_constraint(:emoji_id)
   end
 end

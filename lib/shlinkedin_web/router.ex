@@ -137,6 +137,13 @@ defmodule ShlinkedinWeb.Router do
     live "/award_types/:id", AwardTypeLive.Show, :show
     live "/award_types/:id/show/edit", AwardTypeLive.Show, :edit
 
+    live "/templates", TemplateLive.Index, :index
+    live "/templates/new", TemplateLive.Index, :new
+    live "/templates/:id/edit", TemplateLive.Index, :edit
+
+    live "/templates/:id", TemplateLive.Show, :show
+    live "/templates/:id/show/edit", TemplateLive.Show, :edit
+
     # show all profiles
     live "/profiles", UsersLive.Index, :index
 

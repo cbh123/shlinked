@@ -140,12 +140,6 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
     end
   end
 
-  defp slugify(str) do
-    str
-    |> String.downcase()
-    |> String.replace(~r/[^\w-]+/u, "-")
-  end
-
   @bucket "shlinked"
   defp s3_host, do: "//#{@bucket}.s3.amazonaws.com"
   defp s3_key(entry), do: "#{entry.uuid}.#{ext(entry)}"

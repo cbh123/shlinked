@@ -4,8 +4,8 @@ defmodule Shlinkedin.Repo.Migrations.CreateChatMessages do
   def change do
     create table(:chat_messages) do
       add :content, :text
-      add :conversation_id, references(:chat_conversations, on_delete: :nothing)
-      add :profile_id, references(:profiles, on_delete: :nothing)
+      add :conversation_id, references(:chat_conversations, on_delete: :nothing), null: false
+      add :profile_id, references(:profiles, on_delete: :nothing), null: false
 
       timestamps()
     end

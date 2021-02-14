@@ -12,43 +12,18 @@
 </div>
 
 
-
 <div class="mt-1 p-5">
 
 
-    <%# Name and title %>
-    <div class="flex items-center">
-        <div class="flex-shrink-0">
-            <span class="inline-block relative">
-                <img class="h-10 w-10 rounded-full object-cover" src="<%= @profile.photo_url %>" alt="">
-                <span
-                    class="absolute bottom-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-green-400"></span>
-            </span>
-        </div>
-        <div class="ml-4 hover:cursor-pointer mb-2">
 
-            <%= live_patch @profile.persona_name, to: Routes.profile_show_path(@socket, :show, @profile.slug), class: "text-lg leading-6 font-bold text-gray-900 hover:underline"  %>
-            <%= Shlinkedin.Badges.profile_badges(@socket, @profile, 3) %>
-
-
-            <p class="text-xs text-gray-500">
-                @<%= @profile.username %> </p>
-        </div>
+    <div>
+        <label for="location" class="block text-sm font-medium text-gray-700">(Optional) Template</label>
+        <%= select f, :template, @templates, class: "mt-1 max-w-full block pl-3
+        pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm
+        rounded-md"
+        %>
     </div>
 
-    <div class="mt-2">
-
-        <%= checkbox f, :sponsored, class: "h-4 w-4 text-blue-400 focus:ring-blue-400 border-gray-300 rounded"%>
-        <label for="sponsored" class="text-sm font-medium text-gray-700 mt-4">Sponsor by HIMBS
-
-        </label>
-
-
-
-
-        <p class="text-xs"><%= error_tag f, :sponsored %></p>
-
-    </div>
 
     <%# Enter Body Text %>
     <div class="my-4">

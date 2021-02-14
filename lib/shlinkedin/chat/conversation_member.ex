@@ -4,8 +4,9 @@ defmodule Shlinkedin.Chat.ConversationMember do
 
   schema "chat_conversation_members" do
     field :owner, :boolean, default: false
-    field :conversation_id, :id
-    field :profile_id, :id
+
+    belongs_to :profile, Shlinkedin.Profiles.Profile
+    belongs_to :conversation, Shlinkedin.Chat.Conversation
 
     timestamps()
   end
@@ -13,7 +14,9 @@ defmodule Shlinkedin.Chat.ConversationMember do
   @doc false
   def changeset(conversation_member, attrs) do
     conversation_member
-    |> cast(attrs, [:owner])
-    |> validate_required([:owner])
+    |> cast(attrs, [:owner, :conversation_id, :profile_id])
+    |> validate_required([:owner, :conversation_id, :profile_id])
+    |> unique_constraint(:user, name: :chat_conversation_members_conversation_id_user_id_index)
+    |> unique_constraint(:conversation_id, name: :chat_conversation_members_owner)
   end
 end

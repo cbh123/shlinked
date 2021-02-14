@@ -15,7 +15,10 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
       search_results: [],
       current_focus: -1,
       tagging_mode: false,
-      query: ""
+      query: "",
+      templates:
+        [[key: "Choose a template", value: "choose", disabled: "true", selected: "true"]] ++
+          Enum.map(list_templates(), &[key: &1.title, value: &1.title])
     ]
 
     socket = assign(socket, assigns)
@@ -50,6 +53,7 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
     changeset =
       socket.assigns.post
       |> Timeline.change_post(post_params)
+      |> template_changeset()
       |> Map.put(:action, :validate)
 
     new_tagging_mode = Tagging.check_tagging_mode(body, socket.assigns.tagging_mode)
@@ -176,6 +180,21 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
+    end
+  end
+
+  defp list_templates do
+    Timeline.list_templates()
+  end
+
+  defp template_changeset(changeset) do
+    case Ecto.Changeset.fetch_change(changeset, :template) do
+      :error ->
+        changeset
+
+      {:ok, title} ->
+        body = Timeline.get_template_by_title_return_body(title)
+        changeset |> Ecto.Changeset.put_change(:body, body)
     end
   end
 end
