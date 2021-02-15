@@ -21,6 +21,7 @@ defmodule Shlinkedin.Timeline.Post do
     field :group_id, :integer
     field :sponsored, :boolean, default: false
     field :template, :string, virtual: true
+    field :category, :string
     timestamps()
   end
 
@@ -37,9 +38,24 @@ defmodule Shlinkedin.Timeline.Post do
       :profile_tags,
       :group_id,
       :sponsored,
-      :template
+      :template,
+      :category
     ])
     |> validate_required([])
+    |> add_theme()
     |> validate_length(:body, max: 4000)
+  end
+
+  defp add_theme(changeset) do
+    case Map.get(changeset.changes, :body) do
+      nil -> changeset
+      text -> Ecto.Changeset.put_change(changeset, :category, select_theme(text))
+    end
+  end
+
+  defp select_theme(text) do
+    if text |> String.downcase() |> String.contains?("#cybersecurity"),
+      do: "cybersecurity",
+      else: ""
   end
 end
