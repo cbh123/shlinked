@@ -4,7 +4,7 @@ defmodule Shlinkedin.Repo.Migrations.CreateChatMessageReactions do
   def change do
     create table(:chat_message_reactions) do
       add :message_id, references(:chat_messages, on_delete: :nothing), null: false
-      add :user_id, references(:auth_users, on_delete: :nothing), null: false
+      add :profile_id, references(:profiles, on_delete: :nothing), null: false
       add :emoji_id, references(:chat_emojis, on_delete: :nothing), null: false
 
       timestamps()
