@@ -1,35 +1,11 @@
-defmodule CuriousMessengerWeb.ConversationLive do
+defmodule ShlinkedinWeb.ConversationLive do
   use ShlinkedinWeb, :live_view
+  require Logger
 
   alias Shlinkedin.{Profiles, Chat, Repo}
 
-  def render(assigns) do
-    ~L"""
-    <div>
-      <b>User name:</b> <%= @user.nickname %>
-    </div>
-    <div>
-      <b>Conversation title:</b> <%= @conversation.title %>
-    </div>
-    <div>
-      <%= f = form_for :message, "#", [phx_submit: "send_message"] %>
-        <%= label f, :content %>
-        <%= text_input f, :content %>
-        <%= submit "Send" %>
-      </form>
-    </div>
-    <div>
-      <b>Messages:</b>
-      <%= for message <- @messages do %>
-        <div>
-          <b><%= message.user.nickname %></b>: <%= message.content %>
-        </div>
-      <% end %>
-    </div>
-    """
-  end
-
-  def mount(assigns, socket) do
+  def mount(_assigns, socket) do
+    # todo: add securiy
     {:ok, socket}
   end
 
@@ -47,17 +23,16 @@ defmodule CuriousMessengerWeb.ConversationLive do
       {:ok, new_message} ->
         new_message = %{new_message | profile: profile}
 
-        Phoenix.PubSub.broadcast!(
-          "conversation_#{conversation_id}" |> String.to_atom(),
-          :new_message,
-          new_message
+        Phoenix.PubSub.broadcast(
+          Shlinkedin.PubSub,
+          "conversation_#{conversation_id}",
+          {:new_message, new_message}
         )
 
-        updated_messages = socket.assigns[:messages] ++ [new_message]
+        {:noreply, socket}
 
-        {:noreply, socket |> assign(:messages, updated_messages)}
-
-      {:error, _} ->
+      {:error, msg} ->
+        Logger.error(inspect(msg))
         {:noreply, socket}
     end
   end
@@ -92,7 +67,7 @@ defmodule CuriousMessengerWeb.ConversationLive do
     |> assign(:messages, conversation.messages)
   end
 
-  def handle_info(%{event: "new_message", payload: new_message}, socket) do
+  def handle_info({:new_message, new_message}, socket) do
     updated_messages = socket.assigns[:messages] ++ [new_message]
 
     {:noreply, socket |> assign(:messages, updated_messages)}

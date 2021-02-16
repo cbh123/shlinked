@@ -6,7 +6,7 @@ defmodule Shlinkedin.Chat.Message do
   schema "chat_messages" do
     field :content, :string
 
-    belongs_to :profile_id, Shlinkedin.Profiles.Profile
+    belongs_to :profile, Shlinkedin.Profiles.Profile
     belongs_to :conversation, Conversation
 
     has_many :seen_messages, SeenMessage

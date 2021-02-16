@@ -1,0 +1,21 @@
+   <div>
+       <b>User name:</b> <%= @profile.persona_name %>
+   </div>
+   <div>
+       <b>Conversation title:</b> <%= @conversation.title %>
+   </div>
+   <div>
+       <%= f = form_for :message, "#", [phx_submit: "send_message"] %>
+       <%= label f, :content %>
+       <%= text_input f, :content %>
+       <%= submit "Send" %>
+       </form>
+   </div>
+   <div>
+       <b>Messages:</b>
+       <%= for message <- @messages do %>
+       <div>
+           <b><%= message.profile.persona_name %></b>: <%= message.content %>
+       </div>
+       <% end %>
+   </div>
