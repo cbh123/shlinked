@@ -77,6 +77,7 @@ defmodule Shlinkedin.Profiles.Profile do
       :featured_date,
       :private_mode,
       :ad_frequency,
+      :unsubscribed,
       :points
     ])
     |> validate_required([:user_id, :persona_name, :real_name, :username])
