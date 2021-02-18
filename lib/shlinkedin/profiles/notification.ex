@@ -9,6 +9,7 @@ defmodule Shlinkedin.Profiles.Notification do
     field :post_id, :id, on_delete: :nilify_all
     field :article_id, :id, on_delete: :nilify_all
     field :group_id, :id, on_delete: :nilify_all
+    field :ad_id, :id, on_delete: :nilify_all
     field :type, :string
     field :body, :string
     field :subject, :string
@@ -26,6 +27,8 @@ defmodule Shlinkedin.Profiles.Notification do
       :from_profile_id,
       :to_profile_id,
       :post_id,
+      :ad_id,
+      :group_id,
       :type,
       :action,
       :subject,

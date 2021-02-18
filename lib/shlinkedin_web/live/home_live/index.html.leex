@@ -272,7 +272,7 @@
 
                                 <%= live_component @socket, ShlinkedinWeb.AdLive.AdComponent,
                                         ad: ad,
-                                        id: "feed-ad-#{ad.id}-#{:rand.uniform(10000)}",
+                                        id: post.id,
                                         profile: @profile
                                         %>
                                 <% end %>

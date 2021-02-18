@@ -6,10 +6,8 @@ defmodule Shlinkedin.Ads do
   import Ecto.Query, warn: false
   alias Shlinkedin.Repo
 
-  alias Shlinkedin.Ads.Ad
-  alias Shlinkedin.Ads.Click
-  alias Shlinkedin.Profiles.Profile
-  alias Shlinkedin.Profiles.ProfileNotifier
+  alias Shlinkedin.Ads.{Ad, AdLike, Click}
+  alias Shlinkedin.Profiles.{Profile, ProfileNotifier}
 
   @doc """
   Returns the list of ads.
@@ -107,6 +105,17 @@ defmodule Shlinkedin.Ads do
     |> Click.changeset(attrs)
     |> Repo.insert()
     |> ProfileNotifier.observer(:ad_click, profile, ad_profile)
+  end
+
+  def create_like(%Profile{} = profile, %Ad{} = ad, like_type) do
+    {:ok, _like} =
+      %AdLike{
+        profile_id: profile.id,
+        ad_id: ad.id,
+        like_type: like_type
+      }
+      |> Repo.insert()
+      |> ProfileNotifier.observer(:ad_like, profile, ad.profile)
   end
 
   @doc """

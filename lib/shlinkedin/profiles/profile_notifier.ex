@@ -9,6 +9,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   alias Shlinkedin.Groups.Invite
   alias Shlinkedin.Points.Transaction
   alias Shlinkedin.Points
+  alias Shlinkedin.Ads.AdLike
 
   @doc """
   Deliver instructions to confirm account.
@@ -61,6 +62,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
       :ad_click ->
         notify_ad_click(from_profile, to_profile, res, type)
+
+      :ad_like ->
+        notify_ad_like(from_profile, to_profile, res, type)
 
       :new_group_member ->
         notify_new_group_member(from_profile, res, type)
@@ -121,7 +125,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     end
   end
 
-  def notify_new_group_member(%Profile{} = new_profile, %Group{} = group, type) do
+  def notify_new_group_member(%Profile{} = new_profile, %Group{} = group, _type) do
     for member <- Shlinkedin.Groups.list_members(group) do
       if member.profile_id != new_profile.id do
         Shlinkedin.Profiles.create_notification(%Notification{
@@ -139,7 +143,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   def notify_jab(
         %Profile{} = from_profile,
         %Profile{} = to_profile,
-        type
+        _type
       ) do
     body = """
 
@@ -180,7 +184,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         %Profile{} = from_profile,
         %Profile{} = to_profile,
         %Transaction{} = transaction,
-        type
+        _type
       ) do
     body = """
 
@@ -224,7 +228,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   def notify_sent_friend_request(
         %Profile{} = from_profile,
         %Profile{} = to_profile,
-        type
+        _type
       ) do
     Shlinkedin.Profiles.create_notification(%Notification{
       from_profile_id: from_profile.id,
@@ -486,6 +490,25 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         type: "like",
         post_id: like.post_id,
         action: "reacted \"#{like.like_type}\" to your post. +#{Points.get_rule_amount(type)}"
+      })
+    end
+  end
+
+  def notify_ad_like(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile,
+        %AdLike{} = like,
+        type
+      ) do
+    # todo: get notification where to_profile is same and post id is same,
+    # and then update action to "and [] also did."
+    if from_profile.id != to_profile.id do
+      Shlinkedin.Profiles.create_notification(%Notification{
+        from_profile_id: from_profile.id,
+        to_profile_id: to_profile.id,
+        type: "ad_like",
+        ad_id: like.ad_id,
+        action: "clicked \"#{like.like_type}\" on your ad. +#{Points.get_rule_amount(type)}"
       })
     end
   end
