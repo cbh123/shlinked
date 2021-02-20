@@ -107,6 +107,28 @@ defmodule Shlinkedin.Ads do
     |> ProfileNotifier.observer(:ad_click, profile, ad_profile)
   end
 
+  @doc """
+  Checks if like on ad count is currently zero, which
+  means that the adlike about to be added is first.
+  """
+  def is_first_like_on_ad?(%Profile{} = profile, %Ad{} = ad) do
+    Repo.one(
+      from l in AdLike,
+        where: l.ad_id == ^ad.id and l.profile_id == ^profile.id,
+        select: count(l.profile_id)
+    ) == 0
+  end
+
+  def delete_like(%Profile{} = profile, %Ad{} = ad) do
+    Repo.one(from l in AdLike, where: l.ad_id == ^ad.id and l.profile_id == ^profile.id)
+    |> Repo.delete()
+
+    # could be optimized
+    # ad = get_article_preload_votes!(article.id)
+
+    # broadcast({:ok, article}, :article_updated)
+  end
+
   def create_like(%Profile{} = profile, %Ad{} = ad, like_type) do
     {:ok, _like} =
       %AdLike{
