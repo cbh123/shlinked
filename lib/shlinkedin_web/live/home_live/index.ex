@@ -26,12 +26,10 @@ defmodule ShlinkedinWeb.HomeLive.Index do
        update_action: "append",
        feed_type: "all",
        page: 1,
-       per_page: 10,
+       per_page: 5,
        activities: Timeline.list_unique_notifications(60),
        articles: News.list_top_articles(15),
-       featured_profiles: Profiles.list_random_profiles(3),
        my_groups: Groups.list_profile_groups(socket.assigns.profile),
-       random_groups: Groups.list_random_groups(5),
        like_map: Timeline.like_map(),
        comment_like_map: Timeline.comment_like_map(),
        num_show_comments: 1
@@ -70,7 +68,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
       Enum.with_index(posts)
       |> Enum.map(fn {post, index} ->
         cond do
-          rem(index, ad_frequency) == 0 and (page != 0 and index != 0) ->
+          rem(index, ad_frequency) == 0 and page != 1 ->
             [get_ad(), post]
 
           index == 2 ->
@@ -78,6 +76,9 @@ defmodule ShlinkedinWeb.HomeLive.Index do
 
           index == 4 ->
             [%{type: "featured_groups", content: Groups.list_random_groups(5)}, post]
+
+          index == 1 and page == 1 ->
+            [get_ad(), post]
 
           true ->
             post
