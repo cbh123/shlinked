@@ -163,7 +163,7 @@ Hooks.InfiniteScroll = {
   mounted() {
     this.pending = this.page();
     window.addEventListener("scroll", (e) => {
-      if (this.pending == this.page() && scrollAt() > 80) {
+      if (this.pending == this.page() && scrollAt() > 90) {
         this.pending = this.page() + 1;
         this.pushEvent("load-more", {});
       }
