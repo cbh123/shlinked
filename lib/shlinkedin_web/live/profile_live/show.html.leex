@@ -10,13 +10,13 @@
     </div>
     <% end %>
 
-    <div class="max-w-2xl sm:pt-4 mx-auto pb-12 z-10">
+    <div class="mx-auto pb-12 z-10">
 
         <%# Profile and cover photo  %>
         <div class="bg-white sm:rounded-lg shadow">
 
             <img src="<%= if @show_profile.cover_photo_url == nil, do: "//shlinked.s3.amazonaws.com/0fbc9143-b559-480e-9b44-4363c437ff7c.png", else: @show_profile.cover_photo_url %>"
-                alt="" class="object-cover w-full h-36 sm:h-48 overflow-hidden sm:rounded-t-lg">
+                alt="" class="object-cover w-full h-36 sm:h-48 overflow-hidden">
 
             <div class=" pt-2 p-5 ">
                 <div class="flex justify-center sm:block relative">
@@ -33,9 +33,11 @@
                     <button type="button"
                         class="absolute top-2 right-0 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
 
-                        <svg class="-ml-1 mr-2 h-3 w-3" fill="currentColor" viewBox="0 0 20 20"
+                        <svg class="-ml-1 mr-2 h-3 w-3" fill="currentColor"
+                            viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
-                            <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z">
+                            <path
+                                d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z">
                             </path>
                             <path fill-rule="evenodd"
                                 d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
@@ -61,10 +63,12 @@
 
                         <%# Name and username %>
 
-                        <div class="font-bold sm:text-left text-center text-2xl sm:text-3xl">
+                        <div
+                            class="font-bold sm:text-left text-center text-2xl sm:text-3xl">
 
                             <p class="text-gray-500 text-sm font-normal">
-                                <%= Shlinkedin.Profiles.show_real_name(@profile, @show_profile) %></p>
+                                <%= Shlinkedin.Profiles.show_real_name(@profile, @show_profile) %>
+                            </p>
 
                             <%= @show_profile.persona_name %>
 
@@ -73,12 +77,15 @@
                         </div>
 
                         <%# Title %>
-                        <div class="sm:flex items-start sm:text-left text-center text-sm">
-                            <span class="text-gray-700 italic"><%= @show_profile.persona_title %></span>
+                        <div
+                            class="sm:flex items-start sm:text-left text-center text-sm">
+                            <span
+                                class="text-gray-700 italic"><%= @show_profile.persona_title %></span>
 
                         </div>
 
-                        <p class="text-lg text-indigo-600 font-medium sm:text-left text-center">
+                        <p
+                            class="text-lg text-indigo-600 font-medium sm:text-left text-center">
                             <%= @show_profile.life_score %>
                         </p>
 
@@ -97,7 +104,8 @@
 
 
             <%# summary %>
-            <div class="px-5 mt-1 mb-6 ml-3 max-w-lg text-xs sm:text-sm text-center sm:text-left">
+            <div
+                class="px-5 mt-1 mb-6 ml-3 max-w-lg text-xs sm:text-sm text-center sm:text-left">
                 <%= if @show_profile.summary == nil, do: "FILL OUT BIO!", else: @show_profile.summary %>
             </div>
 
@@ -109,13 +117,17 @@
             <div class="px-5 mt-1 ml-3 max-w-lg text-xs sm:text-sm">
 
                 <%= live_patch to: Routes.profile_show_path(@socket, :show_friends, @show_profile.id) do %>
-                <div class="flex items-center text-grey-darker mb-2 hover:underline">
-                    <svg class="h-6 w-6 text-grey mr-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24" width="24" height="24">
+                <div
+                    class="flex items-center text-grey-darker mb-2 hover:underline">
+                    <svg class="h-6 w-6 text-grey mr-1" fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        width="24" height="24">
                         <path class="heroicon-ui"
                             d="M12 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm9 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v2z" />
                     </svg>
-                    <span><strong class="text-black"><%= length(@mutual_friends) %></strong> Mutual Shlinkers</span>
+                    <span><strong
+                            class="text-black"><%= length(@mutual_friends) %></strong>
+                        Mutual Shlinkers</span>
                 </div>
                 <% end %>
                 <div class="flex max-w-96">
@@ -138,15 +150,18 @@
             <%# Started shlinking and buttons %>
             <div class="px-5 ml-3 flex items-start text-xs pb-6 mt-3">
                 <span>
-                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    <svg class="w-4 h-4 text-gray-400" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2"
                             d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
                         </path>
                     </svg>
                 </span>
                 <span class="text-gray-700 ml-2">Started Shlinkin'
-                    <%= Timex.format!(@show_profile.inserted_at, "{Mshort}. {D}, {YYYY}") %></span></div>
+                    <%= Timex.format!(@show_profile.inserted_at, "{Mshort}. {D}, {YYYY}") %></span>
+            </div>
 
             <%= if @profile.id != @show_profile.id do %>
             <div class="px-5 ml-3 pb-6">
@@ -172,12 +187,16 @@
 
         </div>
 
+
+
+
         <%# Stats %>
         <div class="mt-2">
             <dl class="grid grid-cols-1 gap-2 sm:grid-cols-3">
 
 
-                <div class="bg-white overflow-hidden shadow rounded-lg hover:bg-gray-100">
+                <div
+                    class="bg-white overflow-hidden shadow rounded-lg hover:bg-gray-100">
                     <%= live_redirect to: Routes.points_index_path(@socket, :index, slug: @show_profile.slug) do %>
 
                     <div class="px-4 py-5 sm:p-6">
@@ -190,9 +209,11 @@
                             <%= @show_profile.points %>
 
                             <%= live_redirect to: Routes.leaderboard_index_path(@socket, :index, curr_category: "Wealth") do  %>
-                            <div class="inline-flex items-baseline text-sm font-semibold text-green-600">
-                                <svg class="self-center flex-shrink-0 h-5 w-5 text-green-500" fill="currentColor"
-                                    viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <div
+                                class="inline-flex items-baseline text-sm font-semibold text-green-600">
+                                <svg class="self-center flex-shrink-0 h-5 w-5 text-green-500"
+                                    fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
                                         d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
                                         clip-rule="evenodd"></path>
@@ -217,7 +238,8 @@
 
                 <%= live_patch to: Routes.profile_show_path(@socket, :show_friends, @show_profile.id) do %>
 
-                <div class="bg-white overflow-hidden shadow rounded-lg hover:bg-gray-100">
+                <div
+                    class="bg-white overflow-hidden shadow rounded-lg hover:bg-gray-100">
                     <div class="px-4 py-5 sm:p-6">
 
                         <dt class="text-sm font-medium text-gray-500 truncate">
@@ -234,7 +256,8 @@
 
                 <%= live_redirect to: Routes.leaderboard_index_path(@socket, :index, curr_category: "Hottest") do  %>
 
-                <div class="bg-white overflow-hidden shadow rounded-lg hover:bg-gray-100">
+                <div
+                    class="bg-white overflow-hidden shadow rounded-lg hover:bg-gray-100">
                     <div class="px-4 py-5 sm:p-6">
 
                         <dt class="text-sm font-medium text-gray-500 truncate">
@@ -282,7 +305,8 @@
 
 
             <%= if @testimonials == [] do %>
-            <p class="font-semibold text-gray-600 text-center my-8">No reviews yet 😔</p>
+            <p class="font-semibold text-gray-600 text-center my-8">No reviews
+                yet 😔</p>
             <% else %>
 
             <div class="bg-white overflow-hidden sm:rounded-md">
@@ -298,7 +322,8 @@
 
                                 <%= live_redirect to: Routes.profile_show_path(@socket, :show, t_profile.slug) do %>
                                 <div class="ml-2">
-                                    <p class="text-base font-bold text-gray-900">
+                                    <p
+                                        class="text-base font-bold text-gray-900">
                                         <%= t_profile.persona_name %>
                                     </p>
                                     <p class="text-gray-800 text-sm">
@@ -328,7 +353,9 @@
                                     <div class="inline-flex mt-2">
                                         <%= for i <- 0..4 do  %>
                                         <svg class="w-6 h-6 <%= if i < testimonial.rating, do: "text-yellow-500", else: "text-gray-200"%>"
-                                            fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            fill="currentColor"
+                                            viewBox="0 0 20 20"
+                                            xmlns="http://www.w3.org/2000/svg">
                                             <path
                                                 d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
                                             </path>
@@ -356,16 +383,16 @@
                     <%= if @num_show_testimonials > length(@testimonials), do: "Show fewer", else: "Show more"%>
 
                     <%= if @num_show_testimonials > length(@testimonials) do%>
-                    <svg class="ml-2 w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
+                    <svg class="ml-2 w-6 h-6" fill="currentColor"
+                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
                             d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
                             clip-rule="evenodd"></path>
                     </svg>
 
                     <% else %>
-                    <svg class="ml-2 w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
+                    <svg class="ml-2 w-6 h-6" fill="currentColor"
+                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
                             d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                             clip-rule="evenodd"></path>
@@ -385,7 +412,8 @@
         <div class=" mt-2 rounded-lg overflow-hidden shadow p-5 bg-white">
 
             <div class="flex justify-between">
-                <h5 class="text-gray-900 font-bold text-xl pb-3">Trophy Case</h5>
+                <h5 class="text-gray-900 font-bold text-xl pb-3">Trophy Case
+                </h5>
             </div>
 
 
@@ -394,14 +422,18 @@
             <%= if @current_awards == [] do %>
             <div class="text-center">
                 <p class="font-semibold text-gray-600  my-4">Nothing yet. 😔</p>
-                <p class="text-xs text-gray-600 italic">Each week, we grant the following awards. Don't give up! </p>
+                <p class="text-xs text-gray-600 italic">Each week, we grant the
+                    following awards. Don't give up! </p>
                 <%= for type <- @award_types do %>
                 <%= if type.name != "Verified" do %>
                 <div class="inline-flex tooltip <%= type.color %>">
                     <%= if type.image_format == "svg" do  %>
 
-                    <svg class="w-4 h-4 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="<%= type.fill%>" d="<%= type.svg_path %>" clip-rule="<%= type.fill%>">
+                    <svg class="w-4 h-4 " fill="currentColor"
+                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="<%= type.fill%>"
+                            d="<%= type.svg_path %>"
+                            clip-rule="<%= type.fill%>">
                         </path>
                     </svg>
 
@@ -410,7 +442,8 @@
                         <%= type.emoji %>
                     </span>
                     <% end %>
-                    <span class="tooltip-text -mt-8 -ml-24"><%= type.description %></span>
+                    <span
+                        class="tooltip-text -mt-8 -ml-24"><%= type.description %></span>
 
                 </div>
 
@@ -430,9 +463,11 @@
                     <div class="block tooltip <%= award.award_type.color %>">
 
                         <%= if award.award_type.image_format == "svg" do  %>
-                        <svg class="w-8 h-8 mx-auto " fill="currentColor" viewBox="0 0 20 20"
+                        <svg class="w-8 h-8 mx-auto " fill="currentColor"
+                            viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="<%= award.award_type.fill%>" d="<%= award.award_type.svg_path %>"
+                            <path fill-rule="<%= award.award_type.fill%>"
+                                d="<%= award.award_type.svg_path %>"
                                 clip-rule="<%= award.award_type.fill%>">
                             </path>
                         </svg>
@@ -442,11 +477,13 @@
                         </span>
 
                         <% end %>
-                        <span class="tooltip-text -mt-8"><%= award.award_type.description %></span>
+                        <span
+                            class="tooltip-text -mt-8"><%= award.award_type.description %></span>
 
 
                     </div>
-                    <h4 class="text-xs font-semibold mt-2"><%= award.award_type.description %></h4>
+                    <h4 class="text-xs font-semibold mt-2">
+                        <%= award.award_type.description %></h4>
                     <p class="mt-1 text-xs text-gray-500">
                         <%= Timex.format!(award.inserted_at, "{Mshort}. {D}, {YYYY}") %>
                     </p>
@@ -476,19 +513,22 @@
         <div class="mt-2 rounded-lg overflow-hidden shadow p-5 bg-white">
 
             <div class="flex justify-between">
-                <h5 class="text-gray-900 font-bold text-xl pb-3">Endorsements</h5>
+                <h5 class="text-gray-900 font-bold text-xl pb-3">Endorsements
+                </h5>
                 <span><%= live_patch "+ Endorse", to: Routes.profile_show_path(@socket, :new_endorsement, @to_profile.slug), class: "px-4 py-2 bg-green-500 text-white shadow-xs rounded-full font-bold" %></span>
             </div>
 
             <%= if @endorsements == [] do %>
-            <p class="font-semibold text-gray-600 text-center my-4">No endorsements yet 😔</p>
+            <p class="font-semibold text-gray-600 text-center my-4">No
+                endorsements yet 😔</p>
             <% else %>
             <div class="">
                 <%= for endorsement <- @endorsements do %>
                 <% color = Enum.random(["blue", "green", "yellow", "indigo"]) %>
                 <div id="endorsement-<%= endorsement.id %>"
                     class="<%= "bg-#{color}-100" %> text-white inline-block py-2 px-4 shadow-xs rounded-lg my-1">
-                    <p class="font-bold font-lg <%= "text-#{color}-700" %> "><%= endorsement.body %></p>
+                    <p class="font-bold font-lg <%= "text-#{color}-700" %> ">
+                        <%= endorsement.body %></p>
 
                     <% e_profile = Profiles.get_profile_by_profile_id(endorsement.from_profile_id) %>
 
@@ -521,7 +561,8 @@
             <p class="inline-flex hidden">Ads</p>
         </div>
         <%# Posts %>
-        <div id="posts" phx-update="append" phx-hook="InfiniteScroll" data-page="<%= @page %>">
+        <div id="posts" phx-update="append" phx-hook="InfiniteScroll"
+            class="max-w-2xl mx-auto" data-page="<%= @page %>">
             <%= for {post, idx} <- Enum.with_index(@posts) do %>
             <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
                     id: post.id,
@@ -541,7 +582,8 @@
         </div>
 
         <%= if @posts == [] do %>
-        <p class="font-semibold text-gray-600 text-center -mt-4">No posts yet 😔</p>
+        <p class="font-semibold text-gray-600 text-center -mt-4">No posts yet 😔
+        </p>
         <% end %>
 
 
