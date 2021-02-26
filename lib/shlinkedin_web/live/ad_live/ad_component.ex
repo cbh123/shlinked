@@ -20,8 +20,6 @@ defmodule ShlinkedinWeb.AdLive.AdComponent do
         %{"like-type" => like_type},
         %{assigns: %{profile: profile, ad: ad}} = socket
       ) do
-    IO.inspect(Ads.is_first_like_on_ad?(profile, ad), label: "is first like")
-
     if Ads.is_first_like_on_ad?(profile, ad) do
       Ads.create_like(socket.assigns.profile, socket.assigns.ad, like_type)
 
@@ -35,10 +33,11 @@ defmodule ShlinkedinWeb.AdLive.AdComponent do
         [id: socket.assigns.id, spin: nil],
         1000
       )
+
+      {:noreply, socket |> assign(ad: Ads.get_ad_preload_profile!(ad.id))}
     else
       Ads.delete_like(profile, ad)
+      {:noreply, socket |> assign(ad: Ads.get_ad_preload_profile!(ad.id))}
     end
-
-    {:noreply, socket}
   end
 end

@@ -13,19 +13,22 @@
 
 
 <div class="mb-4">
-    <label for="action">Subject of notification: ie, 🚨 New feature alert! 🚨</label>
+    <label for="action">Subject of notification: ie, 🚨 New feature alert!
+        🚨</label>
     <%= text_input f, :action, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-3", placeholder: "🚨 New feature alert! 🚨" %>
     <p class="text-xs"><%= error_tag f, :action %></p>
 </div>
 
 <div class="mb-4">
-    <label for="body">Body of notification: ie, "You can now post videos!" </label>
+    <label for="body">Body of notification: ie, "You can now post videos!"
+    </label>
     <%= textarea f, :body, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-3", rows: 2, placeholder: "You can now post videos!" %>
     <p class="text-xs"><%= error_tag f, :body %></p>
 </div>
 
 <div class="mb-4">
-    <label for="link" class="text-xs">Link (optional). Has to be a local link, like "/sh/charlie" or "/updates" or
+    <label for="link" class="text-xs">Link (optional). Has to be a local link,
+        like "/sh/charlie" or "/updates" or
         "/shlinks". Does not
         accept a full https
         link. Ask charlie for list of avaliable local links.</label>
@@ -36,7 +39,8 @@
 
 
 <div class="mb-4">
-    <label for="notify_all" class="text-xs">Leave unchecked if you want to send a test. Otherwise, ready to send to
+    <label for="notify_all" class="text-xs">Leave unchecked if you want to send
+        a test. Otherwise, ready to send to
         everyone?</label>
     <%= checkbox f, :notify_all%>
     <p class="text-xs"><%= error_tag f, :notify_all %></p>

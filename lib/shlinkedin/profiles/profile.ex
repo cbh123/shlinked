@@ -51,7 +51,7 @@ defmodule Shlinkedin.Profiles.Profile do
     field :private_mode, :boolean, default: false
     field :ad_frequency, :integer, default: 3
 
-    has_many :conversation_members, ConversationMember
+    has_many :conversation_members, Shlinkedin.Chat.ConversationMember
     has_many :conversations, through: [:conversation_members, :conversation]
 
     timestamps()

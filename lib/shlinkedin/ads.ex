@@ -55,12 +55,15 @@ defmodule Shlinkedin.Ads do
         limit: 1,
         order_by: fragment("RANDOM()"),
         preload: :profile,
-        preload: :clicks
+        preload: :clicks,
+        preload: :adlikes
     )
   end
 
   def get_ad_preload_profile!(id) do
-    Repo.one(from a in Ad, where: a.id == ^id, preload: :profile, preload: :clicks)
+    Repo.one(
+      from a in Ad, where: a.id == ^id, preload: :profile, preload: :clicks, preload: [:adlikes]
+    )
   end
 
   @doc """
@@ -127,6 +130,14 @@ defmodule Shlinkedin.Ads do
     # ad = get_article_preload_votes!(article.id)
 
     # broadcast({:ok, article}, :article_updated)
+  end
+
+  def get_like_on_ad(%Profile{} = profile, %Ad{} = ad) do
+    Repo.one(
+      from l in AdLike,
+        where: l.ad_id == ^ad.id and l.profile_id == ^profile.id,
+        select: l.like_type
+    )
   end
 
   def create_like(%Profile{} = profile, %Ad{} = ad, like_type) do

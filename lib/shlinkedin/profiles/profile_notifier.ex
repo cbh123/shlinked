@@ -508,8 +508,66 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         to_profile_id: to_profile.id,
         type: "ad_like",
         ad_id: like.ad_id,
-        action: "clicked \"#{like.like_type}\" on your ad. +#{Points.get_rule_amount(type)}"
+        action: get_ad_like_text(like) <> " +#{Points.get_rule_amount(type)}"
       })
+    end
+
+    if to_profile.unsubscribed == false do
+      ad = Shlinkedin.Ads.get_ad!(like.ad_id)
+      ranking = Shlinkedin.Profiles.get_ranking(to_profile, 100_000, "Wealth")
+
+      body = """
+
+      Hi #{to_profile.persona_name}.
+
+      #{
+        if like.like_type == "buy",
+          do: "We have great news for your company, '#{ad.company}'.",
+          else: "Times are tough at your shell company, '#{ad.company}'."
+      }
+
+      <br/>
+      <br/>
+
+      #{from_profile.persona_name} has
+
+      <a href="https://www.shlinkedin.com/ads/#{ad.id}">#{get_ad_like_text(like)}</a>. Your reward is +#{
+        Points.get_rule_amount(type)
+      }!
+
+      <br/>
+      <br/>
+      Believe it or not, with you now are the <a href="https://www.shlinkedin.com/leaders?curr_category=Wealth">#{
+        Ordinal.ordinalize(ranking)
+      }</a> wealthiest person on ShlinkedIn.
+
+      <br/>
+      <br/>
+      Thanks, <br/>
+      ShlinkTeam
+
+      """
+
+      Shlinkedin.Email.new_email(
+        to_profile.user.email,
+        "#{
+          if like.like_type == "buy",
+            do: "You made a sale!",
+            else: "Uh oh. You've been sued by #{from_profile.persona_name}"
+        }",
+        body
+      )
+      |> Shlinkedin.Mailer.deliver_later()
+    end
+  end
+
+  defp get_ad_like_text(%AdLike{} = like) do
+    ad = Shlinkedin.Ads.get_ad!(like.ad_id)
+
+    case like.like_type do
+      "buy" -> "bought 1 of your products: '#{ad.product}'"
+      "sue" -> "sued your company, '#{ad.company}'"
+      _ -> "clicked #{like.like_type} on your ad"
     end
   end
 
