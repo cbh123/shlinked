@@ -20,6 +20,7 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
 
   @impl true
   def handle_event(
+        # note: don't actually need to do this. can just pull notification from DB based on id
         "notification-click",
         %{
           "id" => id,
@@ -32,6 +33,7 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
         },
         socket
       ) do
+    n = Profiles.get_notification!(id)
     Profiles.change_notification_to_read(id |> String.to_integer())
     my_slug = socket.assigns.profile.slug
 
@@ -74,7 +76,10 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
         {:noreply, push_redirect(socket, to: if(link == "", do: "/home", else: link))}
 
       "ad_click" ->
-        {:noreply, push_redirect(socket, to: "/home")}
+        {:noreply, push_redirect(socket, to: "/ads/#{n.ad_id}")}
+
+      "ad_like" ->
+        {:noreply, push_redirect(socket, to: "/ads/#{n.ad_id}")}
 
       "vote" ->
         {:noreply, push_redirect(socket, to: "/news/#{article_id}/votes")}

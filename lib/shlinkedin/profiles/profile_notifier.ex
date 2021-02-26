@@ -412,17 +412,6 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         %Shlinkedin.Ads.Click{} = click,
         type
       ) do
-    ad = Shlinkedin.Ads.get_ad!(click.ad_id)
-
-    if from_profile.id != to_profile.id do
-      Shlinkedin.Profiles.create_notification(%Notification{
-        from_profile_id: from_profile.id,
-        to_profile_id: to_profile.id,
-        type: "ad_click",
-        action: "clicked on your ad for",
-        body: "#{ad.company}. +#{Points.get_rule_amount(type)}"
-      })
-    end
   end
 
   def notify_testimonial(
