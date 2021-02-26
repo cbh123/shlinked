@@ -71,13 +71,13 @@ defmodule ShlinkedinWeb.HomeLive.Index do
           rem(index, ad_frequency) == 0 and page != 1 ->
             [get_ad(), post]
 
-          index == 2 ->
+          index == 3 ->
             [%{type: "featured_profiles", content: Profiles.list_random_profiles(3)}, post]
 
-          index == 4 ->
+          index == 5 ->
             [%{type: "featured_groups", content: Groups.list_random_groups(5)}, post]
 
-          index == 1 and page == 1 ->
+          index == 2 and page == 1 ->
             [get_ad(), post]
 
           true ->
