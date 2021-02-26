@@ -407,10 +407,10 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   end
 
   def notify_ad_click(
-        %Profile{} = from_profile,
-        %Profile{} = to_profile,
-        %Shlinkedin.Ads.Click{} = click,
-        type
+        %Profile{} = _from_profile,
+        %Profile{} = _to_profile,
+        %Shlinkedin.Ads.Click{} = _click,
+        _type
       ) do
   end
 
