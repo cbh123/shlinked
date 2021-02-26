@@ -501,7 +501,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       })
     end
 
-    if to_profile.unsubscribed == false do
+    if to_profile.unsubscribed == false and from_profile.id != to_profile.id do
       ad = Shlinkedin.Ads.get_ad!(like.ad_id)
       ranking = Shlinkedin.Profiles.get_ranking(to_profile, 100_000, "Wealth")
 
