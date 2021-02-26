@@ -50,7 +50,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
          } = socket
        ) do
     """
-     We want to end up with a enum that looks like:
+     We want to end up with a map that looks like:
 
       [
         %{type: "post", content: post},
