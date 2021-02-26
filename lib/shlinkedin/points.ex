@@ -73,7 +73,7 @@ defmodule Shlinkedin.Points do
         desc: "For when someone clicks on your ad"
       },
       :ad_like => %{
-        amount: Money.new(500),
+        amount: Money.new(2000),
         desc: "For when someone reacts to your ad"
       }
       # :new_ad => %{

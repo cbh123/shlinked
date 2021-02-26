@@ -41,13 +41,28 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   defp fetch_posts(
          %{assigns: %{profile: profile, feed_type: feed_type, page: page, per_page: per}} = socket
        ) do
+    """
+     We want to end up with a enum that looks like:
+
+      [
+        %{type: "post", content: post},
+        %{type: "post", content: post},
+        %{type: "ad", content: ad},
+        %{type: "post", content: post}
+      ]
+
+    """
+
+    posts =
+      Timeline.list_posts(profile, [paginate: %{page: page, per_page: per}], feed_type)
+      |> Enum.map(fn c -> %{type: "post", content: c} end)
+
+    ads = Ads.get_random_ads(per) |> Enum.map(fn c -> %{type: "ad", content: c} end)
+
+    content = Enum.concat(posts, ads) |> Enum.shuffle()
+
     assign(socket,
-      posts:
-        Timeline.list_posts(
-          profile,
-          [paginate: %{page: page, per_page: per}],
-          feed_type
-        )
+      posts: content
     )
   end
 
@@ -234,13 +249,13 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   @impl true
   def handle_info({:post_created, post}, socket) do
     socket = assign(socket, update_action: "prepend")
-    {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
+    {:noreply, update(socket, :posts, fn posts -> [%{type: "post", content: post} | posts] end)}
   end
 
   @impl true
   def handle_info({:post_updated, post}, socket) do
     socket = assign(socket, update_action: "append")
-    {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
+    {:noreply, update(socket, :posts, fn posts -> [%{type: "post", content: post} | posts] end)}
   end
 
   @impl true
@@ -250,7 +265,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
 
   @impl true
   def handle_info({:post_deleted, post}, socket) do
-    {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
+    {:noreply, update(socket, :posts, fn posts -> [%{type: "post", content: post} | posts] end)}
   end
 
   @impl true

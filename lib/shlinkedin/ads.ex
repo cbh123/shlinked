@@ -49,13 +49,22 @@ defmodule Shlinkedin.Ads do
     )
   end
 
+  def get_random_ads(num) do
+    Repo.all(
+      from a in Ad,
+        limit: ^num,
+        order_by: fragment("RANDOM()"),
+        preload: :profile,
+        preload: :adlikes
+    )
+  end
+
   def get_random_ad() do
     Repo.one(
       from a in Ad,
         limit: 1,
         order_by: fragment("RANDOM()"),
         preload: :profile,
-        preload: :clicks,
         preload: :adlikes
     )
   end

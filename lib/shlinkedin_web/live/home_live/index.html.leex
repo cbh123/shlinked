@@ -208,7 +208,6 @@
                     </div>
                 </div>
 
-
                 <%# Feed Picker %>
                 <div
                     class="mx-auto pl-2 text-gray-500 p-2 text-xs flex justify-between ">
@@ -277,13 +276,16 @@
                     <div id="posts" phx-update="<%=@update_action%>"
                         phx-hook="InfiniteScroll" data-page="<%= @page %>">
 
-                        <%= for {post, idx} <- Enum.with_index(@posts) do %>
+
+                        <%= for {entity, idx} <- Enum.with_index(@posts) do %>
+                        <%= case entity.type do %>
+                        <% "post" -> %>
                         <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
-                                id: post.id,
+                                id: entity.content.id,
                                 page: @page,
                                 profile: @profile,
-                                post: post,
-                                deleted: post.__meta__.state == :deleted,
+                                post: entity.content,
+                                deleted: entity.content.__meta__.state == :deleted,
                                 like_map: @like_map,
                                 comment_like_map: @comment_like_map,
                                 comment_spin: false,
@@ -291,82 +293,15 @@
                                 num_show_comments: @num_show_comments,
                                 return_to: Routes.home_index_path(@socket, :index),
                                 spin: false  %>
-
-                        <%# hide ad as very first post %>
-                        <%= if rem(idx, @profile.ad_frequency) == 0 do %>
-
-                        <div id="<%= "ad-feed-#{idx}"%>">
-
-                            <div
-                                class="relative bg-blue-100 shadow-lg mx-auto sm:rounded-lg p-4 mb-2 pb-2">
-                                <% ad = Shlinkedin.Ads.get_random_ad() %>
-                                <%= if ad == nil do %>
-                                <div class="text-center my-2">
-                                    <%= live_patch "+ New Ad", to: Routes.home_index_path(@socket, :new_ad), class: "text-xs text-green-800 font-semibold bg-green-100 px-2 py-1 rounded-lg hover:bg-green-200"  %>
-                                </div>
-                                <% else %>
-
-                                <%= live_component @socket, ShlinkedinWeb.AdLive.AdComponent,
-                                        ad: ad,
-                                        id: post.id,
-                                        profile: @profile
-                                        %>
-                                <% end %>
-
-                            </div>
-                        </div>
-                        <% end %>
-
-                        <%= if idx == 4 do %>
-                        <%# Featured Groups %>
-                        <div id="featured-groups"
-                            class="mx-auto p-5 bg-white my-2 sm:rounded-lg ">
-
-                            <div class="flex justify-between mb-2">
-                                <h5 class=" font-bold ">Featured Groups</h5>
-                                <%= live_redirect raw("Explore Groups &rarr;"), to: Routes.group_index_path(@socket, :index), class: "px-2 py-1 text-gray-500 hover:underline text-xs" %>
+                        <% "ad" -> %>
+                        <%= live_component @socket, ShlinkedinWeb.AdLive.AdComponent,
+                                ad: entity.content,
+                                id: :rand.uniform(1000000),
+                                profile: @profile
+                                %>
+                        <% _ -> %>
 
 
-                            </div>
-
-                            <div class="flex overflow-x-scroll w-full pb-2">
-                                <%= for group <- @random_groups do %>
-
-                                <%= live_component @socket, ShlinkedinWeb.GroupLive.GroupComponent,
-                                        id: "group-#{group.id}",
-                                        profile: @profile,
-                                        member_status: Shlinkedin.Groups.is_member?(@profile, group),
-                                        group: group
-                                        %>
-
-                                <% end %>
-                            </div>
-                        </div>
-                        <% end %>
-                        <%= if idx == 2 do %>
-                        <%# Featured profiles %>
-                        <div id="featured-profiles"
-                            class="mx-auto p-5 bg-white my-2 sm:rounded-lg">
-
-                            <div class="flex justify-between mb-2">
-                                <h5 class=" font-bold ">Shlinkers you may know
-                                </h5>
-                                <%= live_redirect raw("Explore Profiles &rarr;"), to: Routes.users_index_path(@socket, :index), class: "px-2 py-1 text-gray-500 hover:underline text-xs" %>
-                            </div>
-
-                            <div class="grid grid-cols-3 gap-2">
-                                <%= for profile <- @featured_profiles do %>
-
-                                <%= live_component @socket, ShlinkedinWeb.UsersLive.ProfileComponent,
-                                    id: "profile-#{profile.id}",
-                                    profile: @profile,
-                                    friend_status: Shlinkedin.Profiles.check_between_friend_status(@profile, profile),
-                                    show_profile: profile
-                                    %>
-
-                                <% end %>
-                            </div>
-                        </div>
 
                         <% end %>
                         <% end %>
