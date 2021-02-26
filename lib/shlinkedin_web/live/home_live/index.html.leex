@@ -299,9 +299,57 @@
                                 id: :rand.uniform(1000000),
                                 profile: @profile
                                 %>
-                        <% _ -> %>
+                        <% "featured_profiles" -> %>
+
+                        <%# Featured profiles %>
+                        <div id="featured-profiles"
+                            class="mx-auto p-5 bg-white my-2 sm:rounded-lg">
+
+                            <div class="flex justify-between mb-2">
+                                <h5 class=" font-bold ">Shlinkers you may know
+                                </h5>
+                                <%= live_redirect raw("Explore Profiles &rarr;"), to: Routes.users_index_path(@socket, :index), class: "px-2 py-1 text-gray-500 hover:underline text-xs" %>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-2">
+                                <%= for profile <- entity.content do %>
+
+                                <%= live_component @socket, ShlinkedinWeb.UsersLive.ProfileComponent,
+                                        id: "profile-#{profile.id}",
+                                        profile: @profile,
+                                        friend_status: Shlinkedin.Profiles.check_between_friend_status(@profile, profile),
+                                        show_profile: profile
+                                        %>
+
+                                <% end %>
+                            </div>
+                        </div>
+
+                        <% "featured_groups" -> %>
+                        <%# Featured Groups %>
+                        <div id="featured-groups"
+                            class="mx-auto p-5 bg-white my-2 sm:rounded-lg ">
+
+                            <div class="flex justify-between mb-2">
+                                <h5 class=" font-bold ">Featured Groups</h5>
+                                <%= live_redirect raw("Explore Groups &rarr;"), to: Routes.group_index_path(@socket, :index), class: "px-2 py-1 text-gray-500 hover:underline text-xs" %>
 
 
+                            </div>
+
+                            <div class="flex overflow-x-scroll w-full pb-2">
+                                <%= for group <- entity.content do %>
+
+                                <%= live_component @socket, ShlinkedinWeb.GroupLive.GroupComponent,
+                                    id: "group-#{group.id}",
+                                    profile: @profile,
+                                    member_status: Shlinkedin.Groups.is_member?(@profile, group),
+                                    group: group
+                                    %>
+
+                                <% end %>
+                            </div>
+                        </div>
 
                         <% end %>
                         <% end %>

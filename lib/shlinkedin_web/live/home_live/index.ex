@@ -9,6 +9,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   alias Shlinkedin.Ads.Ad
   alias Shlinkedin.Ads
   alias Shlinkedin.News.Article
+  require Integer
 
   @impl true
   def mount(_params, session, socket) do
@@ -39,7 +40,14 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   end
 
   defp fetch_posts(
-         %{assigns: %{profile: profile, feed_type: feed_type, page: page, per_page: per}} = socket
+         %{
+           assigns: %{
+             profile: %{ad_frequency: ad_frequency} = profile,
+             feed_type: feed_type,
+             page: page,
+             per_page: per
+           }
+         } = socket
        ) do
     """
      We want to end up with a enum that looks like:
@@ -53,17 +61,37 @@ defmodule ShlinkedinWeb.HomeLive.Index do
 
     """
 
+    # get posts and convert a %{type: "post", content: post} format
     posts =
       Timeline.list_posts(profile, [paginate: %{page: page, per_page: per}], feed_type)
       |> Enum.map(fn c -> %{type: "post", content: c} end)
 
-    ads = Ads.get_random_ads(per) |> Enum.map(fn c -> %{type: "ad", content: c} end)
+    content =
+      Enum.with_index(posts)
+      |> Enum.map(fn {post, index} ->
+        cond do
+          rem(index, ad_frequency) == 0 and (page != 0 and index != 0) ->
+            [get_ad(), post]
 
-    content = Enum.concat(posts, ads) |> Enum.shuffle()
+          index == 2 ->
+            [%{type: "featured_profiles", content: Profiles.list_random_profiles(3)}, post]
+
+          index == 4 ->
+            [%{type: "featured_groups", content: Groups.list_random_groups(5)}, post]
+
+          true ->
+            post
+        end
+      end)
+      |> List.flatten()
 
     assign(socket,
       posts: content
     )
+  end
+
+  defp get_ad() do
+    %{type: "ad", content: Ads.get_random_ad()}
   end
 
   @impl true
