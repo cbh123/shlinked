@@ -362,6 +362,77 @@
     </div>
 </div>
 
+<!--
+  This example requires Tailwind CSS v2.0+
+
+  This example requires some changes to your config:
+
+  ```
+  // tailwind.config.js
+  module.exports = {
+    // ...
+    plugins: [
+      // ...
+      require('@tailwindcss/aspect-ratio'),
+    ]
+  }
+  ```
+-->
+<div class="bg-blue-50">
+
+    <div class="mx-auto px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
+        <div class="lg:text-center mb-8">
+            <h2
+                class="text-base text-blue-600 font-semibold tracking-wide uppercase">
+                GET inspired</h2>
+            <p
+                class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                Content you care about
+            </p>
+            <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+                Every day, we're astounded by the weird, stupid content
+                generated on our platform. Be a part of something stupid and
+                special.
+            </p>
+        </div>
+        <div class="space-y-12">
+            <ul
+                class="space-y-12 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-3 lg:gap-x-8">
+                <li>
+                    <div class="space-y-4">
+                        <div class="p-4">
+                            <img class="object-cover shadow-lg rounded-lg"
+                                src="<%= Routes.static_path(@conn, "/images/twinder.png")%>"
+                                alt="">
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="space-y-4">
+                        <div class="p-4">
+                            <img class="object-cover shadow-lg rounded-lg"
+                                src="<%= Routes.static_path(@conn, "/images/hr.png")%>"
+                                alt="">
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="space-y-4">
+                        <div class="p-4">
+                            <img class="object-cover shadow-lg rounded-lg"
+                                src="<%= Routes.static_path(@conn, "/images/spitting.png")%>"
+                                alt="">
+                        </div>
+                    </div>
+                </li>
+
+                <!-- More items... -->
+            </ul>
+        </div>
+    </div>
+</div>
+
+
 <!-- This example requires Tailwind CSS v2.0+ -->
 <div class="relative bg-white py-16 sm:py-24 lg:py-32">
     <div
