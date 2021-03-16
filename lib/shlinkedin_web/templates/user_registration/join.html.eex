@@ -3,7 +3,7 @@
         <div
             class="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24">
             <div>
-                <div class="mt-8">
+                <div class="mt-6">
                     <div class="mt-6 sm:max-w-xl">
                         <h1
                             class="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
@@ -24,14 +24,44 @@
                         <%= link "Register", to: "/register", class: "rounded-md border border-transparent px-5 py-3 bg-blue-600 text-base font-medium text-white shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:px-10" %>
                     </div>
 
-                    <div class="mt-6">
-                        <div
-                            class="inline-flex items-center divide-x divide-gray-300">
-                            <div
-                                class="min-w-0 flex-1 py-1 text-sm text-gray-500 sm:py-3">
-                                <span class="font-medium text-gray-900">THIS IS
-                                    NOT LINKEDIN. THIS IS A SATIRE.</div>
+                    <div class="mt-10">
+                        <!-- This example requires Tailwind CSS v2.0+ -->
+                        <div class="rounded-md bg-gray-100 p-4">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <!-- Heroicon name: solid/exclamation -->
+                                    <svg class="h-5 w-5 text-gray-400"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20" fill="currentColor"
+                                        aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h3
+                                        class="text-sm font-medium text-gray-800">
+                                        THIS IS NOT LINKEDIN
+                                    </h3>
+                                    <div class="mt-2 text-xs text-gray-600">
+                                        <p>
+                                            ShlinkedIn is a satirical version of
+                                            LinkedIn. But it is NOT LinkedIn,
+                                            which
+                                            you can find <a href="linkedin.com/"
+                                                class="underline">here.</a>
+                                            It's worth checking out — you will
+                                            find
+                                            great inspiration for
+                                            your ShlinkedIn content there.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
+
                     </div>
                 </div>
             </div>
@@ -62,7 +92,271 @@
                 <div
                     class="relative pl-4 -mr-40 sm:mx-auto sm:max-w-3xl sm:px-0 lg:max-w-none lg:h-full lg:pl-12">
                     <img class="w-full rounded-md shadow-xl ring-1 ring-black ring-opacity-5 lg:h-full lg:w-auto lg:max-w-none"
-                        src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg"
+                        src="<%= Routes.static_path(@conn, "/images/landing1.png") %>"
+                        alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="py-16 bg-gray-50 overflow-hidden lg:py-24">
+    <div class="relative max-w-xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl">
+        <svg class="hidden lg:block absolute left-full transform -translate-x-1/2 -translate-y-1/4"
+            width="404" height="784" fill="none" viewBox="0 0 404 784"
+            aria-hidden="true">
+            <defs>
+                <pattern id="b1e6e422-73f8-40a6-b5d9-c8586e37e0e7" x="0" y="0"
+                    width="20" height="20" patternUnits="userSpaceOnUse">
+                    <rect x="0" y="0" width="4" height="4" class="text-gray-200"
+                        fill="currentColor" />
+                </pattern>
+            </defs>
+            <rect width="404" height="784"
+                fill="url(#b1e6e422-73f8-40a6-b5d9-c8586e37e0e7)" />
+        </svg>
+
+        <div class="relative">
+            <h2
+                class="text-center text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                A new kind of social media
+            </h2>
+            <p class="mt-4 max-w-3xl mx-auto text-center text-xl text-gray-500">
+                User generated ads. FauxNews. Next generation AI. Business Jabs.
+                An entire
+                economy consisting of "ShlinkPoints". Name a buzzword, and we
+                built it.
+            </p>
+        </div>
+
+        <%# feature section 1 %>
+        <div class="relative mt-12 lg:mt-24 lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center"
+            x-data="{ activeSlide: 1, slides: [1, 2, 3, 4, 5] }">
+            <div class="relative">
+                <h3
+                    class="text-2xl font-extrabold text-gray-900 tracking-tight sm:text-3xl">
+                    Create an alter ego
+                </h3>
+                <p class="mt-3 text-lg text-gray-500">
+                    Sick of being you? On ShlinkedIn, you are a Titan of
+                    Industry. A marketeur. Create a persona and corner the
+                    market.
+                </p>
+
+                <dl class="mt-10 space-y-10">
+                    <div class="relative">
+                        <dt>
+                            <div
+                                class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
+                                <!-- Heroicon name: outline/globe-alt -->
+                                <svg class="h-6 w-6"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="2"
+                                        d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                                </svg>
+                            </div>
+                            <p
+                                class="ml-16 text-lg leading-6 font-medium text-gray-900">
+                                Be whomever you want to be.</p>
+                        </dt>
+                        <dd class="mt-2 ml-16 text-base text-gray-500">
+                            Create an alter ego and that best represents you and
+                            your business interests.
+                        </dd>
+                    </div>
+
+
+
+                    <div class="relative">
+                        <dt>
+                            <div
+                                class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
+                                <!-- Heroicon name: outline/lightning-bolt -->
+                                <svg class="h-6 w-6"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="2"
+                                        d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                            </div>
+                            <p
+                                class="ml-16 text-lg leading-6 font-medium text-gray-900">
+                                Reward your colleagues with endorsements.</p>
+                        </dt>
+                        <dd class="mt-2 ml-16 text-base text-gray-500">
+                            Keep your friends close, but your colleagues
+                            semi-close.
+                            Reward your coworkers with endorsements and
+                            ShlinkPoints.
+                        </dd>
+                    </div>
+
+                    <div class="relative">
+                        <dt>
+                            <div
+                                class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
+                                <!-- Heroicon name: outline/scale -->
+                                <svg class="h-6 w-6"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="2"
+                                        d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                                </svg>
+                            </div>
+                            <p
+                                class="ml-16 text-lg leading-6 font-medium text-gray-900">
+                                And Business Jab those who betray you.</p>
+                        </dt>
+                        <dd class="mt-2 ml-16 text-base text-gray-500">
+                            Grab some corporate revenge by "business jabbing".
+                            We don't know what that button does, but it's there
+                            if you need it.
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+
+
+
+
+
+            <div class="mt-10 -mx-4 relative lg:mt-0" aria-hidden="true">
+                <svg class="absolute left-1/2 transform -translate-x-1/2 translate-y-16 lg:hidden"
+                    width="784" height="404" fill="none" viewBox="0 0 784 404">
+                    <defs>
+                        <pattern id="ca9667ae-9f92-4be7-abcb-9e3d727f2941" x="0"
+                            y="0" width="20" height="20"
+                            patternUnits="userSpaceOnUse">
+                            <rect x="0" y="0" width="4" height="4"
+                                class="text-gray-200" fill="currentColor" />
+                        </pattern>
+                    </defs>
+                    <rect width="784" height="404"
+                        fill="url(#ca9667ae-9f92-4be7-abcb-9e3d727f2941)" />
+                </svg>
+                <img class="relative mx-auto rounded-lg shadow" width="490"
+                    x-show="activeSlide === slide"
+                    src="<%= Routes.static_path(@conn, "/images/beast.png") %>"
+                    alt="">
+
+
+
+            </div>
+
+        </div>
+
+        <svg class="hidden lg:block absolute right-full transform translate-x-1/2 translate-y-12"
+            width="404" height="784" fill="none" viewBox="0 0 404 784"
+            aria-hidden="true">
+            <defs>
+                <pattern id="64e643ad-2176-4f86-b3d7-f2c5da3b6a6d" x="0" y="0"
+                    width="20" height="20" patternUnits="userSpaceOnUse">
+                    <rect x="0" y="0" width="4" height="4" class="text-gray-200"
+                        fill="currentColor" />
+                </pattern>
+            </defs>
+            <rect width="404" height="784"
+                fill="url(#64e643ad-2176-4f86-b3d7-f2c5da3b6a6d)" />
+        </svg>
+
+        <div class="relative mt-12 sm:mt-16 lg:mt-24">
+            <div
+                class="lg:grid lg:grid-flow-row-dense lg:grid-cols-2 lg:gap-8 lg:items-center">
+                <div class="lg:col-start-2">
+                    <h3
+                        class="text-2xl font-extrabold text-gray-900 tracking-tight sm:text-3xl">
+                        Create your own ads
+                    </h3>
+                    <p class="mt-3 text-lg text-gray-500">
+                        Hate targeted ads? On ShlinkedIn, all ads are user
+                        generated, and you can buy (or "sue") at the touch of a
+                        button.
+                    </p>
+
+                    <dl class="mt-10 space-y-10">
+                        <div class="relative">
+                            <dt>
+                                <div
+                                    class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
+                                    <!-- Heroicon name: outline/annotation -->
+                                    <svg class="h-6 w-6"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        aria-hidden="true">
+                                        <path stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                                    </svg>
+                                </div>
+                                <p
+                                    class="ml-16 text-lg leading-6 font-medium text-gray-900">
+                                    Mobile notifications</p>
+                            </dt>
+                            <dd class="mt-2 ml-16 text-base text-gray-500">
+                                Lorem ipsum, dolor sit amet consectetur
+                                adipisicing elit. Maiores impedit perferendis
+                                suscipit eaque, iste dolor cupiditate blanditiis
+                                ratione.
+                            </dd>
+                        </div>
+
+                        <div class="relative">
+                            <dt>
+                                <div
+                                    class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
+                                    <!-- Heroicon name: outline/mail -->
+                                    <svg class="h-6 w-6"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        aria-hidden="true">
+                                        <path stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <p
+                                    class="ml-16 text-lg leading-6 font-medium text-gray-900">
+                                    Reminder emails</p>
+                            </dt>
+                            <dd class="mt-2 ml-16 text-base text-gray-500">
+                                Lorem ipsum, dolor sit amet consectetur
+                                adipisicing elit. Maiores impedit perferendis
+                                suscipit eaque, iste dolor cupiditate blanditiis
+                                ratione.
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <div class="mt-10 -mx-4 relative lg:mt-0 lg:col-start-1">
+                    <svg class="absolute left-1/2 transform -translate-x-1/2 translate-y-16 lg:hidden"
+                        width="784" height="404" fill="none"
+                        viewBox="0 0 784 404" aria-hidden="true">
+                        <defs>
+                            <pattern id="e80155a9-dfde-425a-b5ea-1f6fadd20131"
+                                x="0" y="0" width="20" height="20"
+                                patternUnits="userSpaceOnUse">
+                                <rect x="0" y="0" width="4" height="4"
+                                    class="text-gray-200" fill="currentColor" />
+                            </pattern>
+                        </defs>
+                        <rect width="784" height="404"
+                            fill="url(#e80155a9-dfde-425a-b5ea-1f6fadd20131)" />
+                    </svg>
+                    <img class="relative mx-auto shadow-lg rounded-lg"
+                        width="490"
+                        src="<%= Routes.static_path(@conn, "/images/create_ad.png") %>"
                         alt="">
                 </div>
             </div>
@@ -71,47 +365,257 @@
 </div>
 
 <!-- This example requires Tailwind CSS v2.0+ -->
-<div class="relative bg-gray-50 min-h-screen">
-    <main class="lg:relative">
-        <div
-            class="mx-auto max-w-7xl w-full pt-16 pb-20 text-center md:py-48 md:text-left">
-            <div class="px-4 md:w-1/2 sm:px-8 xl:pr-16">
-                <h1
-                    class="text-5xl tracking-tight font-extrabold text-gray-900 lg:text-5xl xl:text-6xl max-w-prose">
-
-                    <%= if @real_name != nil and @persona_name != nil do %>
-                    <span class="block xl:inline"><%= @real_name %> <span
-                            class="italic">aka</span>
-                        "<%= @persona_name %>" welcomes you to</span>
-                    <span
-                        class="block text-blue-600 xl:inline">ShlinkedIn.</span>
-                    <% else %>
-                    <span class="block xl:inline">Welcome to</span>
-                    <span
-                        class="block text-blue-600 xl:inline">ShlinkedIn.</span>
-                    <% end %>
-                </h1>
-                <p
-                    class="mt-6 max-w-sm mx-auto text-lg text-gray-500 lg:ml-0 sm:text-xl md:mt-5">
-                    Here, you can be whoever you want. A salesperson, a sales
-                    manager, even a <span class="italic">managing sales
-                        director</span>. Join us and live out your wildest
-                    corporate-sanctioned dreams.
-                </p>
-                <div class="mt-10 flex justify-center lg:justify-start">
-                    <div class="rounded-md">
-                        <%= link raw("Enter &rarr;"), to: Routes.user_registration_path(@conn, :new), class: "flex items-center justify-center border border-transparent font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 py-4 text-lg px-10"%>
+<div class="relative bg-white py-16 sm:py-24 lg:py-32">
+    <div
+        class="mx-auto max-w-md px-4 text-center sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
+        <h2
+            class="text-base font-semibold tracking-wider text-blue-600 uppercase">
+            An all-in-one satire solution</h2>
+        <p
+            class="mt-2 text-3xl font-extrabold text-gray-900 tracking-tight sm:text-4xl">
+            Social media is a waste of time. We're no different.
+        </p>
+        <p class="mt-5 max-w-prose mx-auto text-xl text-gray-500">
+            But we're packed full of features to keep you pulling the
+            lever.
+        </p>
+        <div class="mt-12">
+            <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                <div class="pt-6">
+                    <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+                        <div class="-mt-6">
+                            <div>
+                                <span
+                                    class="inline-flex items-center justify-center p-3 bg-blue-500 rounded-md shadow-lg">
+                                    <!-- Heroicon name: outline/cloud-upload -->
+                                    <svg class="h-6 w-6 text-white"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        aria-hidden="true">
+                                        <path stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <h3
+                                class="mt-8 text-lg font-medium text-gray-900 tracking-tight">
+                                Grow your network</h3>
+                            <p class="mt-5 text-base text-gray-500">
+                                Ac tincidunt sapien vehicula erat auctor
+                                pellentesque rhoncus. Et magna sit morbi
+                                lobortis.
+                            </p>
+                        </div>
                     </div>
+                </div>
 
+                <div class="pt-6">
+                    <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+                        <div class="-mt-6">
+                            <div>
+                                <span
+                                    class="inline-flex items-center justify-center p-3 bg-blue-500 rounded-md shadow-lg">
+                                    <!-- Heroicon name: outline/lock-closed -->
+                                    <svg class="h-6 w-6 text-white"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        aria-hidden="true">
+                                        <path stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <h3
+                                class="mt-8 text-lg font-medium text-gray-900 tracking-tight">
+                                Win the weekly leaderboard</h3>
+                            <p class="mt-5 text-base text-gray-500">
+                                Ac tincidunt sapien vehicula erat auctor
+                                pellentesque rhoncus. Et magna sit morbi
+                                lobortis.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-6">
+                    <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+                        <div class="-mt-6">
+                            <div>
+                                <span
+                                    class="inline-flex items-center justify-center p-3 bg-blue-500 rounded-md shadow-lg">
+                                    <!-- Heroicon name: outline/refresh -->
+                                    <svg class="h-6 w-6 text-white"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        aria-hidden="true">
+                                        <path stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <h3
+                                class="mt-8 text-lg font-medium text-gray-900 tracking-tight">
+                                Unlimited likes</h3>
+                            <p class="mt-5 text-base text-gray-500">
+                                Ac tincidunt sapien vehicula erat auctor
+                                pellentesque rhoncus. Et magna sit morbi
+                                lobortis.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-6">
+                    <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+                        <div class="-mt-6">
+                            <div>
+                                <span
+                                    class="inline-flex items-center justify-center p-3 bg-blue-500 rounded-md shadow-lg">
+                                    <!-- Heroicon name: outline/shield-check -->
+                                    <svg class="h-6 w-6 text-white"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        aria-hidden="true">
+                                        <path stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <h3
+                                class="mt-8 text-lg font-medium text-gray-900 tracking-tight">
+                                Private mode</h3>
+                            <p class="mt-5 text-base text-gray-500">
+                                Ac tincidunt sapien vehicula erat auctor
+                                pellentesque rhoncus. Et magna sit morbi
+                                lobortis.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-6">
+                    <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+                        <div class="-mt-6">
+                            <div>
+                                <span
+                                    class="inline-flex items-center justify-center p-3 bg-blue-500 rounded-md shadow-lg">
+                                    <!-- Heroicon name: outline/cog -->
+                                    <svg class="h-6 w-6 text-white"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        aria-hidden="true">
+                                        <path stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                        <path stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <h3
+                                class="mt-8 text-lg font-medium text-gray-900 tracking-tight">
+                                Settings?</h3>
+                            <p class="mt-5 text-base text-gray-500">
+                                Ac tincidunt sapien vehicula erat auctor
+                                pellentesque rhoncus. Et magna sit morbi
+                                lobortis.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-6">
+                    <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+                        <div class="-mt-6">
+                            <div>
+                                <span
+                                    class="inline-flex items-center justify-center p-3 bg-blue-500 rounded-md shadow-lg">
+                                    <!-- Heroicon name: outline/server -->
+                                    <svg class="h-6 w-6 text-white"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        aria-hidden="true">
+                                        <path stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <h3
+                                class="mt-8 text-lg font-medium text-gray-900 tracking-tight">
+                                Open source</h3>
+                            <p class="mt-5 text-base text-gray-500">
+                                Ac tincidunt sapien vehicula erat auctor
+                                pellentesque rhoncus. Et magna sit morbi
+                                lobortis.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div
-            class="hidden relative w-full h-64 sm:h-72 md:h-96 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 lg:h-full">
-            <img class="absolute inset-0 w-full h-full object-cover"
-                src="https://images.unsplash.com/photo-1520333789090-1afc82db536a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2102&q=80"
-                alt="">
-        </div>
-    </main>
+    </div>
+</div>
 
+
+<!--
+  This example requires Tailwind CSS v2.0+
+
+  This example requires some changes to your config:
+
+  ```
+  // tailwind.config.js
+  module.exports = {
+    // ...
+    plugins: [
+      // ...
+      require('@tailwindcss/aspect-ratio'),
+    ]
+  }
+  ```
+-->
+<div class="bg-white">
+    <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+        <div
+            class="bg-blue-700 rounded-lg shadow-xl overflow-hidden lg:grid lg:grid-cols-2 lg:gap-4">
+            <div
+                class="pt-10 pb-12 px-6 sm:pt-16 sm:px-16 lg:py-16 lg:pr-0 xl:py-20 xl:px-20">
+                <div class="lg:self-center">
+                    <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                        <span class="block">Join ShlinkedIn today.</span>
+                    </h2>
+                    <p class="mt-4 text-lg leading-6 text-indigo-200">
+                        You have nothing to lose except your time and dignity.
+                    </p>
+
+                    <%= link "Join for free", to: "/register", class: "mt-8 bg-white border border-transparent rounded-md shadow px-5 py-3 inline-flex items-center text-base font-medium text-blue-600 hover:bg-indigo-50" %>
+
+                </div>
+            </div>
+            <div
+                class="-mt-6 aspect-w-5 aspect-h-3 md:aspect-w-2 md:aspect-h-1">
+                <img class="transform translate-x-6 translate-y-6 rounded-md object-cover object-left-top sm:translate-x-16 lg:translate-y-20"
+                    src="<%= Routes.static_path(@conn, "/images/quip.png") %>"
+                    alt="App screenshot">
+            </div>
+        </div>
+    </div>
 </div>
