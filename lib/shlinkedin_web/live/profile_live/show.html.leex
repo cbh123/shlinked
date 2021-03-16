@@ -1,5 +1,7 @@
 <div class="relative">
 
+
+
     <%= if @from_notifications do %>
     <div class=" max-w-2xl mx-auto font-windows z-10">
 
@@ -10,7 +12,7 @@
     </div>
     <% end %>
 
-    <div class="mx-auto pb-12 z-10">
+    <div class="max-w-3xl mx-auto pb-12">
 
         <%# Profile and cover photo  %>
         <div class="bg-white sm:rounded-lg shadow">
@@ -562,7 +564,7 @@
         </div>
         <%# Posts %>
         <div id="posts" phx-update="append" phx-hook="InfiniteScroll"
-            class="max-w-2xl mx-auto" data-page="<%= @page %>">
+            class="max-w-xl mx-auto" data-page="<%= @page %>">
             <%= for {post, idx} <- Enum.with_index(@posts) do %>
             <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
                     id: post.id,
