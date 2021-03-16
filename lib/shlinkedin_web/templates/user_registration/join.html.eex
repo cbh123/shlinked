@@ -1,23 +1,102 @@
+<div class="bg-white pb-8 sm:pb-12 lg:pb-12">
+    <div class="pt-8 overflow-hidden sm:pt-12 lg:relative lg:py-48">
+        <div
+            class="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24">
+            <div>
+                <div class="mt-8">
+                    <div class="mt-6 sm:max-w-xl">
+                        <h1
+                            class="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
+                            Welcome to <span
+                                class="text-blue-600">ShlinkedIn.</span>
+                        </h1>
+                        <p class="mt-6 text-xl text-gray-500">
+                            Here, you can be whoever you want. A salesperson, a
+                            sales
+                            manager, even a <span class="italic">managing sales
+                                director</span>. Join us and live out your
+                            wildest
+                            corporate-sanctioned dreams.
+                        </p>
+                    </div>
+
+                    <div class="mt-8">
+                        <%= link "Register", to: "/register", class: "rounded-md border border-transparent px-5 py-3 bg-blue-600 text-base font-medium text-white shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:px-10" %>
+                    </div>
+
+                    <div class="mt-6">
+                        <div
+                            class="inline-flex items-center divide-x divide-gray-300">
+                            <div
+                                class="min-w-0 flex-1 py-1 text-sm text-gray-500 sm:py-3">
+                                <span class="font-medium text-gray-900">THIS IS
+                                    NOT LINKEDIN. THIS IS A SATIRE.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sm:mx-auto sm:max-w-3xl sm:px-6">
+            <div
+                class="py-12 sm:relative sm:mt-12 sm:py-16 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+                <div class="hidden sm:block">
+                    <div
+                        class="absolute inset-y-0 left-1/2 w-screen bg-gray-50 rounded-l-3xl lg:left-80 lg:right-0 lg:w-full">
+                    </div>
+                    <svg class="absolute top-8 right-1/2 -mr-3 lg:m-0 lg:left-0"
+                        width="404" height="392" fill="none"
+                        viewBox="0 0 404 392">
+                        <defs>
+                            <pattern id="837c3e70-6c3a-44e6-8854-cc48c737b659"
+                                x="0" y="0" width="20" height="20"
+                                patternUnits="userSpaceOnUse">
+                                <rect x="0" y="0" width="4" height="4"
+                                    class="text-gray-200" fill="currentColor" />
+                            </pattern>
+                        </defs>
+                        <rect width="404" height="392"
+                            fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)" />
+                    </svg>
+                </div>
+                <div
+                    class="relative pl-4 -mr-40 sm:mx-auto sm:max-w-3xl sm:px-0 lg:max-w-none lg:h-full lg:pl-12">
+                    <img class="w-full rounded-md shadow-xl ring-1 ring-black ring-opacity-5 lg:h-full lg:w-auto lg:max-w-none"
+                        src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg"
+                        alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- This example requires Tailwind CSS v2.0+ -->
 <div class="relative bg-gray-50 min-h-screen">
     <main class="lg:relative">
-        <div class="mx-auto max-w-7xl w-full pt-16 pb-20 text-center md:py-48 md:text-left">
+        <div
+            class="mx-auto max-w-7xl w-full pt-16 pb-20 text-center md:py-48 md:text-left">
             <div class="px-4 md:w-1/2 sm:px-8 xl:pr-16">
-                <h1 class="text-5xl tracking-tight font-extrabold text-gray-900 lg:text-5xl xl:text-6xl max-w-prose">
+                <h1
+                    class="text-5xl tracking-tight font-extrabold text-gray-900 lg:text-5xl xl:text-6xl max-w-prose">
 
                     <%= if @real_name != nil and @persona_name != nil do %>
-                    <span class="block xl:inline"><%= @real_name %> <span class="italic">aka</span>
+                    <span class="block xl:inline"><%= @real_name %> <span
+                            class="italic">aka</span>
                         "<%= @persona_name %>" welcomes you to</span>
-                    <span class="block text-blue-600 xl:inline">ShlinkedIn.</span>
+                    <span
+                        class="block text-blue-600 xl:inline">ShlinkedIn.</span>
                     <% else %>
                     <span class="block xl:inline">Welcome to</span>
-                    <span class="block text-blue-600 xl:inline">ShlinkedIn.</span>
+                    <span
+                        class="block text-blue-600 xl:inline">ShlinkedIn.</span>
                     <% end %>
                 </h1>
-                <p class="mt-6 max-w-sm mx-auto text-lg text-gray-500 lg:ml-0 sm:text-xl md:mt-5">
-                    Here, you can be whoever you want. A salesperson, a sales manager, even a <span
-                        class="italic">managing sales
-                        director</span>. Join us and live out your wildest corporate-sanctioned dreams.
+                <p
+                    class="mt-6 max-w-sm mx-auto text-lg text-gray-500 lg:ml-0 sm:text-xl md:mt-5">
+                    Here, you can be whoever you want. A salesperson, a sales
+                    manager, even a <span class="italic">managing sales
+                        director</span>. Join us and live out your wildest
+                    corporate-sanctioned dreams.
                 </p>
                 <div class="mt-10 flex justify-center lg:justify-start">
                     <div class="rounded-md">
@@ -27,7 +106,8 @@
                 </div>
             </div>
         </div>
-        <div class="hidden relative w-full h-64 sm:h-72 md:h-96 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 lg:h-full">
+        <div
+            class="hidden relative w-full h-64 sm:h-72 md:h-96 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 lg:h-full">
             <img class="absolute inset-0 w-full h-full object-cover"
                 src="https://images.unsplash.com/photo-1520333789090-1afc82db536a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2102&q=80"
                 alt="">
