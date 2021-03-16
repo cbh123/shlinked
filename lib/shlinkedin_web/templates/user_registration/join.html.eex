@@ -5,18 +5,17 @@
             <div>
                 <div class="mt-6">
                     <div class="mt-6 sm:max-w-xl">
+                        <span
+                            class="block text-sm font-semibold uppercase tracking-wide text-gray-500 sm:text-base lg:text-sm xl:text-base">open
+                            beta</span>
                         <h1
                             class="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
                             Welcome to <span
                                 class="text-blue-600">ShlinkedIn.</span>
                         </h1>
                         <p class="mt-6 text-xl text-gray-500">
-                            Here, you can be whoever you want. A salesperson, a
-                            sales
-                            manager, even a <span class="italic">managing sales
-                                director</span>. Join us and live out your
-                            wildest
-                            corporate-sanctioned dreams.
+                            We got sick of LinkedIn thought leadership, so we
+                            made a satirical social network.
                         </p>
                     </div>
 
