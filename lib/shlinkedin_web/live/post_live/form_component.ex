@@ -4,6 +4,7 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
   alias Shlinkedin.Timeline
   alias Shlinkedin.Tagging
   alias Shlinkedin.Timeline.Post
+  alias Shlinkedin.Timeline.Generators
   alias Shlinkedin.MediaUpload
 
   @impl true
@@ -62,6 +63,16 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
        query: Tagging.add_to_query(new_tagging_mode, body),
        search_results: Tagging.get_search_results(new_tagging_mode, socket.assigns.query)
      )}
+  end
+
+  def handle_event("adversity", _, socket) do
+    changeset =
+      socket.assigns.post
+      |> Timeline.change_post(%{body: Generators.adversity()})
+      |> template_changeset()
+      |> Map.put(:action, :validate)
+
+    {:noreply, assign(socket, changeset: changeset)}
   end
 
   def handle_event("save", %{"post" => post_params}, socket) do
