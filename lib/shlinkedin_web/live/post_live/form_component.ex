@@ -15,10 +15,7 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
       search_results: [],
       current_focus: -1,
       tagging_mode: false,
-      query: "",
-      templates:
-        [[key: "Choose a template", value: "choose", disabled: "true", selected: "true"]] ++
-          Enum.map(list_templates(), &[key: &1.title, value: &1.title])
+      query: ""
     ]
 
     socket = assign(socket, assigns)

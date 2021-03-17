@@ -14,31 +14,40 @@
 
 <div class="mt-1 p-5">
 
+    <div class="mb-8">
+        <p class="text-xs text-gray-500 pb-2">Looking for inspiration?</p>
+        <button type="button"
+            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-full shadow-sm text-yellow-700 bg-yellow-100 hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Adversity
+        </button>
+        <button type="button"
+            class="inline-flex font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-blue-100 text-blue-700 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Growth Hacks
+        </button>
 
-
-    <div>
-        <label for="location" class="block text-sm font-medium text-gray-700">(Optional) Template</label>
-        <%= select f, :template, @templates, class: "mt-1 max-w-full block pl-3
-        pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm
-        rounded-md"
-        %>
+        <button type="button"
+            class="inline-flex font-bold text-green-800 font-windows items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-green-100 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            DATA BREACH
+        </button>
     </div>
-
 
     <%# Enter Body Text %>
     <div class="my-4">
 
 
-        <%= textarea f, :body, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-3", rows: 5, placeholder: "What do you want to talk about?" %>
+        <%= textarea f, :body, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-3", rows: 6, placeholder: "What do you want to talk about?" %>
         <%= if @search_results != [] do %>
         <div class="relative" id="matches">
-            <div class="absolute text-xs w-64 z-50 left-0 right-0 rounded border border-gray-100 shadow py-1 bg-white">
+            <div
+                class="absolute text-xs w-64 z-50 left-0 right-0 rounded border border-gray-100 shadow py-1 bg-white">
                 <%= for {search_result, idx} <- Enum.with_index(@search_results) do %>
                 <div id="post-pick-<%= idx %>"
                     class="cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200 <%= if idx == @current_focus, do: "bg-gray-200" %>"
-                    phx-click="pick" phx-hook="PostPickTag" phx-value-name="<%= search_result.username %>"
+                    phx-click="pick" phx-hook="PostPickTag"
+                    phx-value-name="<%= search_result.username %>"
                     phx-target="<%= @myself %>">
-                    <%= search_result.persona_name %> <span class="text-gray-500"><%= search_result.username %></span>
+                    <%= search_result.persona_name %> <span
+                        class="text-gray-500"><%= search_result.username %></span>
                 </div>
                 <% end %>
             </div>
@@ -48,7 +57,8 @@
         <p class="mt-4 text-xs"><%= error_tag f, :body %></p>
 
         <%# Error for gif %>
-        <span class="text-red-500 font-semibold italic text-xs"><%= @gif_error %></span>
+        <span
+            class="text-red-500 font-semibold italic text-xs"><%= @gif_error %></span>
 
     </div>
 
@@ -60,15 +70,18 @@
 
 
         <%# Show add gif button, but if there's a gif then option to choose a new one %>
-        <button type="button" phx-click="add-gif" phx-target="<%=@myself %>" phx-disable-with="Loading..."
+        <button type="button" phx-click="add-gif" phx-target="<%=@myself %>"
+            phx-disable-with="Loading..."
             class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-            🖼️ <%= if @gif_url == nil, do: "Add Gif", else: "Choose new Gif" %></button>
+            🖼️
+            <%= if @gif_url == nil, do: "Add Gif", else: "Choose new Gif" %></button>
 
 
 
         <%# If there's a gif, show option to remove it %>
         <%= if @gif_url != nil do %>
-        <button type="button" phx-click="cancel-gif" phx-target="<%=@myself %>" phx-disable-with="Loading..."
+        <button type="button" phx-click="cancel-gif" phx-target="<%=@myself %>"
+            phx-disable-with="Loading..."
             class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
             ❌ Remove Gif</button>
         <% end %>
@@ -80,6 +93,7 @@
         <% end %>
     </div>
     <% end %>
+
 
 
 
@@ -100,7 +114,8 @@
             <span>📷 Upload Photo / Video</span>
         </label>
         <% [entry | _] -> %>
-        <button phx-click="cancel-entry" phx-value-ref="<%= entry.ref %>" type="button" phx-target="<%= @myself %>"
+        <button phx-click="cancel-entry" phx-value-ref="<%= entry.ref %>"
+            type="button" phx-target="<%= @myself %>"
             class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
             Remove photo</button>
 
@@ -140,17 +155,52 @@
             class="inline-flex rounded-full items-center py-0.5 pl-2.5 pr-1 text-xs font-medium bg-indigo-100 text-indigo-700">
 
             <%= tag %>
-            <button type="button" phx-click="remove-tag" phx-target="<%= @myself %>" phx-value-name="<%= tag %>"
+            <button type="button" phx-click="remove-tag"
+                phx-target="<%= @myself %>" phx-value-name="<%= tag %>"
                 class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 focus:outline-none focus:bg-indigo-500 focus:text-white">
                 <span class="sr-only">Remove large option</span>
-                <svg class="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
-                    <path stroke-linecap="round" stroke-width="1.5" d="M1 1l6 6m0-6L1 7" />
+                <svg class="h-2 w-2" stroke="currentColor" fill="none"
+                    viewBox="0 0 8 8">
+                    <path stroke-linecap="round" stroke-width="1.5"
+                        d="M1 1l6 6m0-6L1 7" />
                 </svg>
             </button>
         </span>
         <% end %>
     </div>
     <% end %>
+
+
+    <!-- This example requires Tailwind CSS v2.0+ -->
+    <div class="relative mt-8">
+        <div class="absolute inset-0 flex items-center" aria-hidden="true">
+            <div class="w-full border-t border-gray-300"></div>
+        </div>
+        <div class="relative flex justify-start">
+            <span class="pr-2 bg-white text-sm text-gray-500">
+                Advanced features
+            </span>
+        </div>
+    </div>
+
+    <div class="mt-2">
+        <button type="button" phx-hook="Clappify"
+            class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            👏
+            Clappify</button>
+        <button type="button" phx-hook="Space"
+            class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+
+            ↕️
+            Space out</button>
+
+        <button type="button" phx-hook="Bizarro"
+            class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            🧩
+            bIzArRo</button>
+
+
+    </div>
 
 
 

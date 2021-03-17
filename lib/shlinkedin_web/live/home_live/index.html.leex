@@ -63,6 +63,8 @@
                         </div>
                         <% end %>
 
+
+
                         <%= live_redirect to: Routes.leaderboard_index_path(@socket, :index) do  %>
                         <div class="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
                             aria-current="false">
@@ -80,6 +82,25 @@
                             </span>
                         </div>
                         <% end %>
+
+                        <%= live_patch to: Routes.home_index_path(@socket, :new_invite) do %>
+                        <div class="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+                            aria-current="false">
+                            <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                                fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z">
+                                </path>
+                                <path
+                                    d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z">
+                                </path>
+                            </svg>
+                            <span class="truncate">
+                                Invite
+                            </span>
+                        </div>
+                        <% end  %>
                     </div>
                     <div class="pt-10">
                         <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider"
