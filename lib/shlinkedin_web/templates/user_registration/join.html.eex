@@ -90,7 +90,7 @@
                     </svg>
                 </div>
                 <div
-                    class="relative pl-4 -mr-40 sm:mx-auto sm:max-w-3xl sm:px-0 lg:max-w-none lg:h-full lg:pl-12">
+                    class="relative sm:mx-auto sm:max-w-3xl sm:px-0 lg:max-w-none lg:h-full lg:pl-12">
                     <img class="w-full rounded-md shadow-xl ring-1 ring-black ring-opacity-5 lg:h-full lg:w-auto lg:max-w-none"
                         src="<%= Routes.static_path(@conn, "/images/landing1.png") %>"
                         alt="">
@@ -354,7 +354,7 @@
                     </svg>
                     <img class="relative mx-auto shadow-lg rounded-lg"
                         width="490"
-                        src="<%= Routes.static_path(@conn, "/images/create_ad.png") %>"
+                        src="<%= Routes.static_path(@conn, "/images/axel.png") %>"
                         alt="">
                 </div>
             </div>
