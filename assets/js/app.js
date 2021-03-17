@@ -129,6 +129,28 @@ Hooks.CommentPickTag = {
   },
 };
 
+Hooks.Bizarro = {
+  mounted() {
+    this.el.addEventListener("click", (e) => {
+      const text = document.getElementById("post-form_body").value;
+      var res = "";
+      for (let i = 0; i < text.length; i++) {
+        res += i % 2 == 0 ? text.charAt(i).toUpperCase() : text.charAt(i);
+      }
+      document.getElementById("post-form_body").value = res;
+    });
+  },
+};
+
+Hooks.Clappify = {
+  mounted() {
+    this.el.addEventListener("click", (e) => {
+      const textarea = document.getElementById("post-form_body");
+      textarea.value = textarea.value.trim().split(/\s+/).join(" 👏 ");
+    });
+  },
+};
+
 Hooks.PostPickTag = {
   mounted() {
     this.el.addEventListener("click", (e) => {
