@@ -8,6 +8,7 @@ defmodule Shlinkedin.Timeline.Generators do
     Well, something similar happened to me. One day, when I was #{
       blatantly_self_aggrandizing_charitable_action()
     }, a #{surprising_aggressor()} managed to #{crime()}. I was left extremely #{adjective()}.
+
     But I didn’t whine, or complain. I didn’t even #{reasonable_response()}.
 
     Instead, I asked the #{surprising_aggressor()} #{business_question()}. That’s when I learned to #{
@@ -40,11 +41,11 @@ defmodule Shlinkedin.Timeline.Generators do
       "An itty bitty lil kid",
       "A boy two weeks ago",
       "A wee lass",
-      "So so small ",
+      "So so small",
       "Tiny",
       "5 and three quarters",
-      "So small that my legs didn’t touch the ground when i sat on a chair",
-      "So young that i didn’t even know what business meant",
+      "So small that my legs didn’t touch the ground when I sat on a chair",
+      "So young that I didn’t even know what business meant",
       "Young and reckless",
       "Young and beautiful"
     ]
@@ -66,7 +67,7 @@ defmodule Shlinkedin.Timeline.Generators do
       "on the side of the road",
       "in a haunted house",
       "in a decrepit neo-modernist mansion barely worth $3.2 million",
-      "by a Dairy Queen in Secaucus, NJ. ",
+      "by a Dairy Queen in Secaucus, NJ",
       "under a giant turtle",
       "in a pineapple under the sea",
       "in a dumpster by Dave & Busters",
