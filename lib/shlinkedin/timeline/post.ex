@@ -22,6 +22,7 @@ defmodule Shlinkedin.Timeline.Post do
     field :sponsored, :boolean, default: false
     field :template, :string, virtual: true
     field :category, :string
+    field :generator_type, :string
     timestamps()
   end
 
@@ -39,7 +40,8 @@ defmodule Shlinkedin.Timeline.Post do
       :group_id,
       :sponsored,
       :template,
-      :category
+      :category,
+      :generator_type
     ])
     |> validate_required([])
     |> add_theme()

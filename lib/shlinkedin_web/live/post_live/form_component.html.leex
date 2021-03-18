@@ -8,8 +8,26 @@
 <div class="bg-white px-4 py-4 border-b border-gray-200 sm:px-6 rounded-lg">
     <h3 class="text-lg leading-6 font-medium text-gray-900">
         <%= @title %>
+        <%= if @generator_type != nil do %>
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-gradient-to-r
+
+        <%= case @generator_type do %>
+        <% "adversity lesson" -> %> from-purple-500 to-blue-300
+        <% "job update" -> %> from-blue-500 to-green-300
+        <% _ -> %> from-orange-500 to-yellow-300
+        <% end %>
+        uppercase text-white">
+            <%= @generator_type %>
+        </span>
+        <% end %>
+
     </h3>
+
+
+
 </div>
+
+
 
 
 <div class="mt-1 p-5">
@@ -17,7 +35,10 @@
     <div class="mb-8">
         <p class="text-xs text-gray-500 pb-2">Looking for inspiration?</p>
         <button type="button" phx-click="adversity" phx-target="<%= @myself %>"
-            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-full shadow-sm text-yellow-700 bg-yellow-100 hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            class="inline-flex items-center px-3 py-2 border border-transparent text-sm
+    leading-4 font-medium rounded-full shadow-sm text-yellow-700 bg-yellow-100
+    hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-offset-2
+    focus:ring-indigo-500">
             Adversity Lesson
         </button>
         <button type="button" phx-click="job" phx-target="<%= @myself %>"
@@ -25,14 +46,12 @@
             Job Announcement
         </button>
 
-        <button type="button"
-            class="hidden inline-flex font-bold text-green-800 font-windows items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-green-100 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            DATA BREACH
-        </button>
+        <%= live_patch "*Your idea here*", to: Routes.home_index_path(@socket, :new_feedback), class: "inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
     </div>
 
     <%# Enter Body Text %>
     <div class="my-4">
+
 
 
         <%= textarea f, :body, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-3", rows: 6, placeholder: "What do you want to talk about?" %>

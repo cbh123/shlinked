@@ -16,7 +16,8 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
       search_results: [],
       current_focus: -1,
       tagging_mode: false,
-      query: ""
+      query: "",
+      generator_type: nil
     ]
 
     socket = assign(socket, assigns)
@@ -68,21 +69,19 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
   def handle_event("adversity", _, socket) do
     changeset =
       socket.assigns.post
-      |> Timeline.change_post(%{body: Generators.adversity()})
-      |> template_changeset()
+      |> Timeline.change_post(%{body: Generators.adversity(), generator_type: "adversity"})
       |> Map.put(:action, :validate)
 
-    {:noreply, assign(socket, changeset: changeset)}
+    {:noreply, assign(socket, changeset: changeset, generator_type: "adversity lesson")}
   end
 
   def handle_event("job", _, socket) do
     changeset =
       socket.assigns.post
       |> Timeline.change_post(%{body: Generators.job()})
-      |> template_changeset()
       |> Map.put(:action, :validate)
 
-    {:noreply, assign(socket, changeset: changeset)}
+    {:noreply, assign(socket, changeset: changeset, generator_type: "job update")}
   end
 
   def handle_event("save", %{"post" => post_params}, socket) do
@@ -182,7 +181,11 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
   defp save_post(%{assigns: %{profile: profile, post: post}} = socket, :new, post_params) do
     post = put_photo_urls(socket, post)
     post = %Post{post | gif_url: socket.assigns.gif_url}
-    post_params = Map.put(post_params, "profile_tags", socket.assigns.tags)
+
+    post_params =
+      post_params
+      |> Map.put("profile_tags", socket.assigns.tags)
+      |> Map.put("generator_type", socket.assigns.generator_type)
 
     case Timeline.create_post(
            profile,
@@ -199,10 +202,6 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
     end
-  end
-
-  defp list_templates do
-    Timeline.list_templates()
   end
 
   defp template_changeset(changeset) do

@@ -1,27 +1,49 @@
 <div id="<%= "body-component-#{@id}" %>">
+    <%= if @post.generator_type != nil do %>
+    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-gradient-to-r
+
+        <%= case @post.generator_type do %>
+        <% "adversity lesson" -> %> from-purple-500 to-blue-300
+        <% "job update" -> %> from-blue-500 to-green-300
+        <% _ -> %> from-orange-500 to-yellow-300
+        <% end %>
+        uppercase text-white">
+        <%= @post.generator_type %>
+    </span>
+    <% end %>
+
     <%= if @post.update_type == "bio" do %>
     <section class=" bg-white overflow-hidden">
-        <div class="relative max-w-7xl mx-auto pt-20 pb-12 px-4 sm:px-6 lg:px-8 lg:py-20">
-            <svg class="absolute top-full left-0 transform translate-x-80 -translate-y-24 lg:hidden" width="784"
-                height="404" fill="none" viewBox="0 0 784 404" aria-hidden="true">
+        <div
+            class="relative max-w-7xl mx-auto pt-20 pb-12 px-4 sm:px-6 lg:px-8 lg:py-20">
+            <svg class="absolute top-full left-0 transform translate-x-80 -translate-y-24 lg:hidden"
+                width="784" height="404" fill="none" viewBox="0 0 784 404"
+                aria-hidden="true">
                 <defs>
-                    <pattern id="e56e3f81-d9c1-4b83-a3ba-0d0ac8c32f32" x="0" y="0" width="20" height="20"
+                    <pattern id="e56e3f81-d9c1-4b83-a3ba-0d0ac8c32f32" x="0"
+                        y="0" width="20" height="20"
                         patternUnits="userSpaceOnUse">
-                        <rect x="0" y="0" width="4" height="4" class="text-gray-200" fill="currentColor" />
+                        <rect x="0" y="0" width="4" height="4"
+                            class="text-gray-200" fill="currentColor" />
                     </pattern>
                 </defs>
-                <rect width="784" height="404" fill="url(#e56e3f81-d9c1-4b83-a3ba-0d0ac8c32f32)" />
+                <rect width="784" height="404"
+                    fill="url(#e56e3f81-d9c1-4b83-a3ba-0d0ac8c32f32)" />
             </svg>
 
             <svg class="hidden lg:block absolute right-full top-1/2 transform translate-x-1/2 -translate-y-1/2"
-                width="404" height="784" fill="none" viewBox="0 0 404 784" aria-hidden="true">
+                width="404" height="784" fill="none" viewBox="0 0 404 784"
+                aria-hidden="true">
                 <defs>
-                    <pattern id="56409614-3d62-4985-9a10-7ca758a8f4f0" x="0" y="0" width="20" height="20"
+                    <pattern id="56409614-3d62-4985-9a10-7ca758a8f4f0" x="0"
+                        y="0" width="20" height="20"
                         patternUnits="userSpaceOnUse">
-                        <rect x="0" y="0" width="4" height="4" class="text-gray-200" fill="currentColor" />
+                        <rect x="0" y="0" width="4" height="4"
+                            class="text-gray-200" fill="currentColor" />
                     </pattern>
                 </defs>
-                <rect width="404" height="784" fill="url(#56409614-3d62-4985-9a10-7ca758a8f4f0)" />
+                <rect width="404" height="784"
+                    fill="url(#56409614-3d62-4985-9a10-7ca758a8f4f0)" />
             </svg>
 
             <div class="relative lg:flex lg:items-center">
@@ -29,12 +51,14 @@
 
                 <div class="relative lg:ml-10">
                     <svg class="absolute top-0 left-0 transform -translate-x-8 -translate-y-24 h-36 w-36 text-indigo-200 opacity-50"
-                        stroke="currentColor" fill="none" viewBox="0 0 144 144" aria-hidden="true">
+                        stroke="currentColor" fill="none" viewBox="0 0 144 144"
+                        aria-hidden="true">
                         <path stroke-width="2"
                             d="M41.485 15C17.753 31.753 1 59.208 1 89.455c0 24.664 14.891 39.09 32.109 39.09 16.287 0 28.386-13.03 28.386-28.387 0-15.356-10.703-26.524-24.663-26.524-2.792 0-6.515.465-7.446.93 2.327-15.821 17.218-34.435 32.11-43.742L41.485 15zm80.04 0c-23.268 16.753-40.02 44.208-40.02 74.455 0 24.664 14.891 39.09 32.109 39.09 15.822 0 28.386-13.03 28.386-28.387 0-15.356-11.168-26.524-25.129-26.524-2.792 0-6.049.465-6.98.93 2.327-15.821 16.753-34.435 31.644-43.742L121.525 15z" />
                     </svg>
                     <blockquote class="relative">
-                        <div class="text-sm leading-9 font-medium text-gray-900">
+                        <div
+                            class="text-sm leading-9 font-medium text-gray-900">
                             <p>
                                 <%= raw(format_tags(@post.body, @post.profile_tags)) %>
                             </p>
@@ -43,17 +67,20 @@
                             <div class="flex">
                                 <div class="flex-shrink-0">
                                     <img class="h-12 w-12 rounded-full object-cover"
-                                        src="<%= @post.profile.photo_url %>" alt="">
+                                        src="<%= @post.profile.photo_url %>"
+                                        alt="">
                                 </div>
                                 <div class="ml-4 lg:ml-0">
                                     <%= live_redirect to: Routes.profile_show_path(@socket, :show, @post.profile.slug) do %>
 
-                                    <div class="text-base font-medium text-gray-900 hover:underline">
+                                    <div
+                                        class="text-base font-medium text-gray-900 hover:underline">
                                         <%= @post.profile.persona_name %>
                                         <%= Shlinkedin.Badges.profile_badges(@socket, @post.profile, 3) %>
 
                                     </div>
-                                    <div class="text-base font-medium text-indigo-600 hover:underline truncate">
+                                    <div
+                                        class="text-base font-medium text-indigo-600 hover:underline truncate">
                                         <%= @post.profile.persona_title %>
                                     </div>
 
@@ -73,7 +100,8 @@
     <%# Actual Post Text %>
     <%= if @post.update_type != "ShlinkPic" do %>
     <div class="relative">
-        <p class="whitespace-pre-line pt-2
+        <p
+            class="whitespace-pre-line pt-2
                  mb-4 -mt-5 overflow-hidden <%= if !@expand_post, do: "max-h-32" %>
                    <%= if @post.photo_urls != [] or @post.gif_url != nil, do: "px-4" %>">
             <%= raw(format_tags(@post.body, @post.profile_tags)) %></p>
@@ -81,7 +109,8 @@
         <%# add a see more button %>
         <%= if @post.body != nil && String.length(@post.body) >= 100 && !@expand_post do %>
         <div class="absolute bottom-0 right-4 bg-white">
-            <button phx-click="expand-post" phx-target="<%= @myself %>" class="text-gray-500 hover:underline">...see
+            <button phx-click="expand-post" phx-target="<%= @myself %>"
+                class="text-gray-500 hover:underline">...see
                 more
             </button>
         </div>
@@ -93,14 +122,14 @@
 
 
     <%= if @post.update_type == "ShlinkPic" do %>
-    <img class=" pt-2 mb-4 object-cover mx-auto h-64 w-64 rounded-full" src="<%= @post.profile.photo_url %>" alt=""
-        width="256">
+    <img class=" pt-2 mb-4 object-cover mx-auto h-64 w-64 rounded-full"
+        src="<%= @post.profile.photo_url %>" alt="" width="256">
     <% end %>
 
     <%# If we got a gif, it takes precendence over photo! %>
     <%= if @post.gif_url != nil do %>
-    <img class="object-center pt-2 object-cover bg-cover align-middle mx-auto w-full h-full" src="<%= @post.gif_url %>"
-        alt="">
+    <img class="object-center pt-2 object-cover bg-cover align-middle mx-auto w-full h-full"
+        src="<%= @post.gif_url %>" alt="">
     <% else %>
     <%# If we got a photo or video! %>
     <%= if @post.photo_urls != [] do %>
@@ -114,7 +143,8 @@
         Your browser does not support the video tag.
     </video>
     <% else %>
-    <img class="object-center pt-2 object-cover bg-cover align-middle mx-auto w-full h-full" src="<%= media %>" alt="">
+    <img class="object-center pt-2 object-cover bg-cover align-middle mx-auto w-full h-full"
+        src="<%= media %>" alt="">
     <% end %>
     <% end %>
     <% end %>
@@ -129,12 +159,14 @@
 
         <div class=" py-2 px-4 rounded-full inline-flex my-2 relative z-10">
             <img class="h-8 w-8 rounded-full object-cover"
-                src="//shlinked.s3.amazonaws.com/8de9d4f1-1282-490c-b791-009a9f454030.jpg" alt="">
+                src="//shlinked.s3.amazonaws.com/8de9d4f1-1282-490c-b791-009a9f454030.jpg"
+                alt="">
 
 
             <div class="ml-2">
 
-                <p class="flex place-self-center font-bold text-gray-700 text-xs hover:underline">
+                <p
+                    class="flex place-self-center font-bold text-gray-700 text-xs hover:underline">
                     Sponsored by HIMBS
                 </p>
 
