@@ -45,7 +45,6 @@ defmodule ShlinkedinWeb.Router do
   scope "/" do
     pipe_through [:browser, :admins_only]
     live_dashboard "/dashboard", metrics: ShlinkedinWeb.Telemetry, ecto_repos: [Shlinkedin.Repo]
-    live "/generator", PostLive.Generator, :index
   end
 
   ## Authentication routes
@@ -193,6 +192,8 @@ defmodule ShlinkedinWeb.Router do
 
   scope "/", ShlinkedinWeb do
     pipe_through [:browser]
+
+    live "/generator", PostLive.Generator, :index
 
     # onboarding
     live "/onboarding/:id", OnboardingLive.Index, :index
