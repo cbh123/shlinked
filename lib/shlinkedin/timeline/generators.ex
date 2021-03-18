@@ -1,5 +1,7 @@
 defmodule Shlinkedin.Timeline.Generators do
   def adversity() do
+    surprising_aggressor = surprising_aggressor()
+
     """
     Storytime... When I was #{young_identifier()}, I lived #{poor_condition()}. We had to fight to survive — I once #{
       weird_brutal_action()
@@ -7,11 +9,11 @@ defmodule Shlinkedin.Timeline.Generators do
 
     Well, something even worse happened to me. One day, when I was #{
       blatantly_self_aggrandizing_charitable_action()
-    }, a #{surprising_aggressor()} managed to #{crime()}. I was left extremely #{adjective()}.
+    }, a #{surprising_aggressor} managed to #{crime()}. I was left extremely #{adjective()}.
 
     But I didn’t whine, or complain. I didn’t even #{reasonable_response()}.
 
-    Instead, I asked #{surprising_aggressor()} #{business_question()}, and offered my help in solving their business challenge. That’s when I learned to #{
+    Instead, I asked #{surprising_aggressor} #{business_question()}, and offered my help in solving their business challenge. That’s when I learned to #{
       modern_business_practice()
     }. When you are faced with #adversity, you need to #{stupid_response()}. It’s the only way to learn. Thanks to my challenges, and my willingness to power through them, I am now #{
       present_title()
