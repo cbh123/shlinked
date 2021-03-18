@@ -28,9 +28,7 @@ defmodule Shlinkedin.Timeline.Generators do
 
     I'm thrilled to announce I am now #{present_title()}.
 
-    I could never imagine accepting such an amazing position. Just 10 hours ago, I was #{
-      poor_condition()
-    }. And now, I'm #{blatantly_self_aggrandizing_charitable_action()}!
+    I could never imagine accepting such an amazing position.
 
     #{hashtags()}
     """
@@ -500,7 +498,7 @@ defmodule Shlinkedin.Timeline.Generators do
       "the proud owner of two separate Instagram accounts",
       "helping business owners achieve their goals",
       "Head Coder at codetech.io",
-      "a train engineer",
+      "a Train Engineer",
       "a DJ",
       "a podcaster",
       "CEO of my own company that I invented",
@@ -513,8 +511,8 @@ defmodule Shlinkedin.Timeline.Generators do
       "exclusively carnivorous—like Joe Rogan, my hero",
       "on an exclusive deal with Clubhouse where I go on there and talk for awhile",
       "a doctor",
-      "an oil baron",
-      "a rollercoaster tycoon",
+      "an Oil Baron",
+      "a Rollercoaster Tycoon",
       "Warren Buffet",
       "Richard Branson’s right-hand man",
       "Elon Musk and Grimes’ baby",
