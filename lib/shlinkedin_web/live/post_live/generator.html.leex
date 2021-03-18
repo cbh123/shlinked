@@ -1,129 +1,138 @@
-<form class="max-w-xl mx-auto bg-white rounded-lg shadow sm:mt-8">
+<div
+    class="h-full bg-gradient-to-r from-blue-300 to-green-100 pt-3 sm:pt-8 -mb-36">
+    <form class="max-w-xl bg-white rounded-lg shadow m-3">
 
-    <div
-        class="px-4 py-4 border-b bg-white border-gray-200 sm:px-6 rounded-t-lg">
-        <h3 class="text-lg leading-6 font-medium text-gray-700 pt-2">
-            ShlinkedIn Content Generator
-        </h3>
-        <p class="text-xs text-gray-500 pb-2">Use our state of the art AI to
-            generate thought leadership.</p>
-    </div>
+        <div
+            class="px-4 py-4 border-b bg-white border-gray-200 sm:px-6 rounded-t-lg">
+            <h3 class="text-lg leading-6 font-medium text-gray-700 pt-2">
+                ShlinkedIn Content Generator
+            </h3>
+            <p class="text-xs text-gray-500 pb-2">Use our state of the art AI to
+                generate thought leadership.</p>
+        </div>
 
 
 
 
-    <div class="mt-1 p-5">
+        <div class="mt-1 p-5">
 
-        <div class="mb-8">
-            <p class="text-xs text-gray-500">Choose a theme</p>
-            <button type="button" phx-click="adversity" class="inline-flex items-center px-3 py-2 border border-transparent text-sm
+            <div class="mb-8">
+                <p class="text-xs text-gray-500">Choose a theme</p>
+                <button type="button" phx-click="adversity" class="inline-flex items-center px-3 py-2 border border-transparent text-sm
     leading-4 font-medium rounded-full shadow-sm text-yellow-700 bg-yellow-100
     hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-offset-2
     focus:ring-indigo-500">
-                Adversity Lesson
-            </button>
-            <button type="button" phx-click="job"
-                class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-blue-100 text-blue-700 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Job Update
-            </button>
-            <button type="button" phx-click="challenge"
-                class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-green-100 text-green-700 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Business Challenge
-            </button>
-            <button type="button" phx-click="strange"
-                class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-red-200 text-red-700 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Strange Observation
-            </button>
-            <button type="button" phx-click="guilt"
-                class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-indigo-100 text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Guilt Trip
-            </button>
-            <button type="button" phx-click="hashtags"
-                class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-gray-100 text-gray-700 hover:bg--200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Hashtags
-            </button>
+                    Adversity Lesson
+                </button>
+                <button type="button" phx-click="job"
+                    class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-blue-100 text-blue-700 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Job Update
+                </button>
+                <button type="button" phx-click="challenge"
+                    class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-green-100 text-green-700 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Business Challenge
+                </button>
+                <button type="button" phx-click="strange"
+                    class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-red-200 text-red-700 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Strange Observation
+                </button>
+                <button type="button" phx-click="guilt"
+                    class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-indigo-100 text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Guilt Trip
+                </button>
+                <button type="button" phx-click="hashtags"
+                    class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-gray-100 text-gray-700 hover:bg--200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Hashtags
+                </button>
 
-        </div>
-
-        <%# Enter Body Text %>
-        <div class="my-4">
-
-
-
-            <textarea id="post-form_body"
-                class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-3"
-                rows=10
-                placeholder="What do you want to talk about?"><%= @body %></textarea>
-
-
-        </div>
-
-        <!-- This example requires Tailwind CSS v2.0+ -->
-        <div class="relative mt-8">
-            <div class="absolute inset-0 flex items-center" aria-hidden="true">
-                <div class="w-full border-t border-gray-300"></div>
             </div>
-            <div class="relative flex justify-start">
-                <span class="pr-2 bg-white text-sm text-gray-500">
-                    Advanced features
-                </span>
+
+            <%# Enter Body Text %>
+            <div class="my-4">
+
+
+
+                <textarea id="post-form_body"
+                    class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-3"
+                    rows=10
+                    placeholder="What do you want to talk about?"><%= @body %></textarea>
+
+
             </div>
-        </div>
 
-        <div class="mt-2">
-
-
-
-
-
-            <button type="button" phx-hook="Clappify" id="clap-test"
-                class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                👏
-                Add claps</button>
-
-
-            <button type="button" phx-hook="Space" id="space-test"
-                class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-
-                ↕️
-                Excessive spacing</button>
-
-
-            <button type="button" phx-hook="Bizarro"
-                class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                🧩
-                bIzArRo</button>
-
-
-
-        </div>
-
-
-
-
-
-
-    </div>
-</form>
-<div class="bg-white">
-    <div class="max-w-7xl mx-auto pt-16 px-4 sm:px-6 lg:px-8">
-        <div
-            class="bg-blue-700 rounded-lg shadow-xl overflow-hidden lg:grid lg:grid-cols-2 lg:gap-4">
-            <div
-                class="pt-10 pb-12 px-6 sm:pt-16 sm:px-16 lg:py-16 lg:pr-0 xl:py-20 xl:px-20">
-                <div class="lg:self-center">
-                    <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
-                        <span class="block">Join ShlinkedIn today.</span>
-                    </h2>
-                    <p class="mt-4 text-lg leading-6 text-indigo-200">
-                        You have nothing to lose except your time and dignity.
-                    </p>
-
-                    <%= live_redirect "Join for free", to: Routes.user_registration_path(@socket, :new), class: "mt-8 bg-white border border-transparent rounded-md shadow px-5 py-3 inline-flex items-center text-base font-medium text-blue-600 hover:bg-indigo-50" %>
-
+            <!-- This example requires Tailwind CSS v2.0+ -->
+            <div class="relative mt-8">
+                <div class="absolute inset-0 flex items-center"
+                    aria-hidden="true">
+                    <div class="w-full border-t border-gray-300"></div>
+                </div>
+                <div class="relative flex justify-start">
+                    <span class="pr-2 bg-white text-sm text-gray-500">
+                        Advanced features
+                    </span>
                 </div>
             </div>
 
+            <div class="mt-2">
+
+
+
+
+
+                <button type="button" phx-hook="Clappify" id="clap-test"
+                    class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    👏
+                    Add claps</button>
+
+
+                <button type="button" phx-hook="Space" id="space-test"
+                    class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+
+                    ↕️
+                    Excessive spacing</button>
+
+
+                <button type="button" phx-hook="Bizarro"
+                    class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    🧩
+                    bIzArRo</button>
+
+
+
+            </div>
+
+
+
+
+
+
+        </div>
+    </form>
+
+
+    <div class="">
+        <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+            <div
+                class="bg-blue-700 rounded-lg shadow-xl overflow-hidden lg:grid lg:grid-cols-2 lg:gap-4">
+                <div
+                    class="pt-10 pb-12 px-6 sm:pt-16 sm:px-16 lg:py-16 lg:pr-0 xl:py-20 xl:px-20">
+                    <div class="lg:self-center">
+                        <h2
+                            class="text-3xl font-extrabold text-white sm:text-4xl">
+                            <span class="block">Join ShlinkedIn today.</span>
+                        </h2>
+                        <p class="mt-4 text-lg leading-6 text-indigo-200">
+                            You have nothing to lose except your time and
+                            dignity.
+                        </p>
+
+                        <%= live_redirect "Join for free", to: Routes.user_registration_path(@socket, :new), class: "mt-8 bg-white border border-transparent rounded-md shadow px-5 py-3 inline-flex items-center text-base font-medium text-blue-600 hover:bg-indigo-50" %>
+                        <%= live_redirect "Learn More", to: Routes.user_registration_path(@socket, :join), class: "mt-8 bg-blue-400 border border-transparent rounded-md shadow px-5 py-3 inline-flex items-center text-base font-medium text-white hover:bg-blue-500" %>
+
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>

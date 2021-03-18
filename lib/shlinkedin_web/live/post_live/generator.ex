@@ -9,7 +9,7 @@ defmodule ShlinkedinWeb.PostLive.Generator do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, socket |> assign(body: "", gif_url: nil)}
+    {:ok, socket |> assign(body: "", gif_url: nil, page_title: "ShlinkedIn Content Generator")}
   end
 
   def handle_event("validate", %{"value" => value}, socket) do
