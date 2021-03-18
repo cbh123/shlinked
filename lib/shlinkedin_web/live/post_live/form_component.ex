@@ -75,6 +75,16 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
     {:noreply, assign(socket, changeset: changeset)}
   end
 
+  def handle_event("job", _, socket) do
+    changeset =
+      socket.assigns.post
+      |> Timeline.change_post(%{body: Generators.job()})
+      |> template_changeset()
+      |> Map.put(:action, :validate)
+
+    {:noreply, assign(socket, changeset: changeset)}
+  end
+
   def handle_event("save", %{"post" => post_params}, socket) do
     save_post(socket, socket.assigns.action, post_params)
   end

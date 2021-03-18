@@ -1,17 +1,17 @@
 defmodule Shlinkedin.Timeline.Generators do
   def adversity() do
     """
-    When I was #{young_identifier()}, I lived #{poor_condition()}. We had to fight to survive — I once saw a #{
+    Storytime... When I was #{young_identifier()}, I lived #{poor_condition()}. We had to fight to survive — I once #{
       weird_brutal_action()
     }. #{question_quote()}
 
-    Well, something similar happened to me. One day, when I was #{
+    Well, something even worse happened to me. One day, when I was #{
       blatantly_self_aggrandizing_charitable_action()
     }, a #{surprising_aggressor()} managed to #{crime()}. I was left extremely #{adjective()}.
 
     But I didn’t whine, or complain. I didn’t even #{reasonable_response()}.
 
-    Instead, I asked the #{surprising_aggressor()} #{business_question()}. That’s when I learned to #{
+    Instead, I asked the #{surprising_aggressor()} #{business_question()}, and offered my help in solving his business challenge. That’s when I learned to #{
       modern_business_practice()
     }. When you are faced with #adversity, you need to #{stupid_response()}. It’s the only way to learn. Thanks to my challenges, and my willingness to power through them, I am now #{
       present_title()
@@ -22,35 +22,49 @@ defmodule Shlinkedin.Timeline.Generators do
     """
   end
 
+  def job() do
+    """
+    Hi everyone,
+
+    I'm thrilled to announce I am now #{present_title()}.
+
+    I could never imagine going from #{adjective()} when I was #{young_identifier()} to where I am now.
+    I know you're probably looking for advice, but I don't have much to offer, except for my one guiding principle: #{
+      modern_business_practice()
+    }.
+
+    #{hashtags()}
+    """
+  end
+
   def young_identifier() do
     [
-      "But a wee lad",
-      "A little baby",
+      "but a wee lad",
+      "a little baby",
       "84",
       "5",
       "12",
       "2",
-      "A spritely young lad",
-      "A playful, innocent little shoe shine",
+      "a spritely young lad",
+      "a playful, innocent little shoe shine",
       "pretty young thing",
       "Pretty kitty",
       "CEO of being a baby",
-      "A young man",
-      "Blossoming youth",
-      "A young woman",
-      "An itty bitty lil kid",
-      "A boy two weeks ago",
-      "A wee lass",
-      "So so small",
-      "Tiny",
+      "a young man",
+      "blossoming youth",
+      "a young woman",
+      "an itty bitty lil kid",
+      "a boy two weeks ago",
+      "a wee lass",
+      "so so small",
+      "tiny",
       "5 and three quarters",
-      "So small that my legs didn’t touch the ground when I sat on a chair",
-      "So young that I didn’t even know what business meant",
-      "Young and reckless",
-      "Young and beautiful"
+      "so small that my legs didn’t touch the ground when I sat on a chair",
+      "so young that I didn’t even know what business meant",
+      "young and reckless",
+      "young and beautiful"
     ]
     |> Enum.random()
-    |> String.downcase()
   end
 
   @doc """
@@ -75,7 +89,7 @@ defmodule Shlinkedin.Timeline.Generators do
       "to dream",
       "in Transylvania",
       "in New York City, but the seedy part from crime movies",
-      "Underwater. ",
+      "Underwater",
       "in a swamp",
       "in a really small yacht. ",
       "at a prep school, where I was all-state in lacrosse",
@@ -98,7 +112,7 @@ defmodule Shlinkedin.Timeline.Generators do
       "saw three pigeons fighting over a human finger",
       "saw seven salesman eat a briefcase for fun",
       "saw a megalodon shark",
-      "saw A man transform into a bird and peck someone’s head really hard",
+      "saw a man transform into a bird and peck someone’s head really hard",
       "saw Two women braiding hair for money in a van",
       "saw Seven prep school students descend on a referee after a poor call in their lacrosse game and eat him",
       "saw two Nicolas Cage movies in one night",
@@ -158,44 +172,43 @@ defmodule Shlinkedin.Timeline.Generators do
 
   def blatantly_self_aggrandizing_charitable_action() do
     [
-      "Preparing soup for the homeless after my shift at the neurosurgery factory as a doctor",
-      "Massaging our brave veterans",
-      "Teaching orphans how to create a pivot table in Excel",
-      "Teaching amputee puppies how to sing",
-      "Carrying old people across the street",
-      "Dancing with the stars",
-      "Teaching a young Elon Musk about science",
-      "Sharing my cool idea for a personal computation device with my friend young Bill Gates",
-      "When I was showing Jimi Hendrix some cool guitar licks he could use (one became “Purple Haze”)",
-      "Building fresh water wells for underserved villages in southern New Jersey",
-      "Planting trees in the Sahara",
-      "Prepared morning coffee for my sickly interns",
-      "Donating a million dollars (that I could barely afford) to hospitals",
-      "Repainting hospitals for charity",
-      "Donating my organs to charity",
-      "Inventing the internet",
-      "Tutoring veterans",
-      "Alphabetizing our brave veterans",
-      "Revitalizing my local infrastructure through the power of marketing",
-      "Doing “private” stuff",
-      "Teaching Jeff Bezos how to read",
-      "Helping small business learn how to better use Salesforce",
-      "Inventing penicillin ",
-      "Teaching entrepreneurs how to network",
-      "Teaching entrepreneurship to networkers",
-      "Juggling to entertain orphan veterans",
-      "Wearing a sailor’s outfit and dancing for Navymen",
-      "Teaching amputees about diversity",
-      "Repainting my local church",
-      "Supporting my local business",
-      "Eating at a local hot spot",
-      "Getting my 4th vaccine",
-      "Pondering my philosophy books",
-      "Admiring my library of classic literature",
-      "Telling everyone that they are beautiful no matter what shape their head is"
+      "preparing soup for the homeless after my shift at the neurosurgery factory as a doctor",
+      "massaging our brave veterans",
+      "teaching orphans how to create a pivot table in Excel",
+      "teaching amputee puppies how to sing",
+      "carrying old people across the street",
+      "dancing with the stars",
+      "teaching a young Elon Musk about science",
+      "sharing my cool idea for a personal computation device with my friend young Bill Gates",
+      "when I was showing Jimi Hendrix some cool guitar licks he could use (one became “Purple Haze”)",
+      "building fresh water wells for underserved villages in southern New Jersey",
+      "planting trees in the Sahara",
+      "prepared morning coffee for my sickly interns",
+      "donating a million dollars (that I could barely afford) to hospitals",
+      "repainting hospitals for charity",
+      "donating my organs to charity",
+      "inventing the internet",
+      "tutoring veterans",
+      "alphabetizing our brave veterans",
+      "revitalizing my local infrastructure through the power of marketing",
+      "doing “private” stuff",
+      "teaching Jeff Bezos how to read",
+      "helping small business learn how to better use Salesforce",
+      "inventing penicillin ",
+      "teaching entrepreneurs how to network",
+      "teaching entrepreneurship to networkers",
+      "juggling to entertain orphan veterans",
+      "wearing a sailor’s outfit and dancing for Navymen",
+      "teaching amputees about diversity",
+      "repainting my local church",
+      "supporting my local business",
+      "eating at a local hot spot",
+      "getting my 4th vaccine",
+      "pondering my philosophy books",
+      "admiring my library of classic literature",
+      "telling everyone that they are beautiful no matter what shape their head is"
     ]
     |> Enum.random()
-    |> String.downcase()
   end
 
   def surprising_aggressor() do
@@ -326,7 +339,7 @@ defmodule Shlinkedin.Timeline.Generators do
       "Exhausted",
       "Covered in metaphorical spikes",
       "Lumpy and aggressive",
-      "Angry. ",
+      "Angry",
       "Bewildered",
       "Unoptimized",
       "Mismanaged",
@@ -346,30 +359,29 @@ defmodule Shlinkedin.Timeline.Generators do
 
   def reasonable_response() do
     [
-      "Go to the hospital. ",
-      "Ask anyone for help",
-      "Clean myself off",
-      "Bandage up my wounds",
-      "Cry except a little",
-      "Shriek with terror",
-      "Call the authorities for assistance",
-      "Try to stop the whole ordeal",
-      "Clean up afterwards",
-      "Stop working",
-      "Cry",
-      "Post about it on social media as a desperate bid for attention, and with the hopes that some turbulent experience will grant me clout as a “thought leader.” Not even once",
-      "Eat my vegetables",
-      "Retaliate",
-      "Kick ‘em in the face for revenge",
-      "Stop spreadsheeting while it happened",
-      "Pause checking my email while it happened",
-      "Ask my pediatrician for help",
-      "Keel over in agony like a lesser human would",
-      "Look up at the cloudy skies and cry out, “Why, God? Why hast thou forsaken me?”",
-      "Fight back. Though I could have—you see, I’m a black belt in Krav Maga and in my spare time I teach it to children who don’t have teeth for free. Krav Maga isn’t about attacking, it’s about self-defense. But sometimes, self-defense is about attacking, so naturally, I didn’t fight back like I said earlier. I definitely know Krav Maga please stop asking for demonstrations I can’t right now because I'm BUSY. "
+      "go to the hospital",
+      "ask anyone for help",
+      "clean myself off",
+      "bandage up my wounds",
+      "cry except a little",
+      "shriek with terror",
+      "call the authorities for assistance",
+      "try to stop the whole ordeal",
+      "clean up afterwards",
+      "stop working",
+      "cry",
+      "post about it on social media as a desperate bid for attention, and with the hopes that some turbulent experience will grant me clout as a “thought leader.” Not even once",
+      "eat my vegetables",
+      "retaliate",
+      "kick ‘em in the face for revenge",
+      "stop spreadsheeting while it happened",
+      "pause checking my email while it happened",
+      "ask my pediatrician for help",
+      "keel over in agony like a lesser human would",
+      "look up at the cloudy skies and cry out, “Why, God? Why hast thou forsaken me?”",
+      "fight back. Though I could have—you see, I’m a black belt in Krav Maga and in my spare time I teach it to children who don’t have teeth for free. Krav Maga isn’t about attacking, it’s about self-defense. But sometimes, self-defense is about attacking, so naturally, I didn’t fight back like I said earlier. I definitely know Krav Maga please stop asking for demonstrations I can’t right now because I'm BUSY"
     ]
     |> Enum.random()
-    |> String.downcase()
   end
 
   def business_question() do
@@ -394,7 +406,6 @@ defmodule Shlinkedin.Timeline.Generators do
       "“Are you tired of manual processes slowing down your sales process?”"
     ]
     |> Enum.random()
-    |> String.downcase()
   end
 
   def modern_business_practice() do
@@ -467,53 +478,51 @@ defmodule Shlinkedin.Timeline.Generators do
       "Move to Brooklyn probably. And talk about how nice it is having trees on your street. And say “it’s so peaceful” a lot"
     ]
     |> Enum.random()
-    |> String.downcase()
   end
 
   def present_title() do
     [
       "Assistant Manager at the Arby’s off I-95",
-      "A juice artist at a Jamba Juice",
+      "a juice artist at a Jamba Juice",
       "CEO of Apple",
-      "One of Forbes’ 10,000 under 10,000",
-      "A brand invigorator. A storyteller. A single mother. A veteran. And above all else, a marketer",
-      "Entrepreneur with over 7 business ideas to my name",
-      "Some sort of demi-god",
-      "Severely in debt",
-      "Paying off student loans for the foreseeable future",
-      "In debt",
-      "Suffering from minor tinnitus",
-      "Thrilled to announce that I’ll be joining Doyle, Fulham, and Westerberg LLC as a junior associate",
-      "Tired all the time",
-      "A junior copywriter and i get to write for brands that I know! That’s fun and makes it cool! You know Charmin toilet paper? I’ve written two of their Tweets. ",
-      "Lost in the Google basement, please send help. It’s very dark and people keep offering me two massages per quarter",
-      "Living under a bridge in San Francisco",
-      "The proud owner of two separate Instagram accounts",
-      "Helping business owners achieve their goals",
-      "Head coder at codetech.io",
-      "A train engineer",
-      "A DJ",
-      "Podcaster. ",
+      "one of Forbes’ 10,000 under 10,000",
+      "a brand invigorator. A storyteller. A single mother. A veteran. And above all else, a marketer",
+      "an Entrepreneur with over 7 business ideas to my name",
+      "some sort of demi-god",
+      "severely in debt",
+      "paying off student loans for the foreseeable future",
+      "in debt",
+      "suffering from minor tinnitus",
+      "thrilled to announce that I’ll be joining Doyle, Fulham, and Westerberg LLC as a junior associate",
+      "tired all the time",
+      "a junior copywriter and i get to write for brands that I know! That’s fun and makes it cool! You know Charmin toilet paper? I’ve written two of their Tweets. ",
+      "lost in the Google basement, please send help. It’s very dark and people keep offering me two massages per quarter",
+      "living under a bridge in San Francisco",
+      "the proud owner of two separate Instagram accounts",
+      "helping business owners achieve their goals",
+      "Head Coder at codetech.io",
+      "a train engineer",
+      "a DJ",
+      "a podcaster.",
       "CEO of my own company that I invented",
       "Jamba Juice. Forever. Jamba Juice is eternal. It will witness the death of the wind, the mountains as they retreat into the seas",
-      "A member of the AMA Marketing Hall of Fame",
-      "A proud viewer of every Super Bowl ad",
-      "Vegan",
-      "Vegetarian",
-      "Pescetarian",
-      "Exclusively carnivorous—like Joe Rogan, my hero",
-      "On an exclusive deal with Clubhouse where I go on there and talk for awhile",
-      "A doctor",
-      "An oil baron",
-      "A rollercoaster tycoon",
+      "a member of the AMA Marketing Hall of Fame",
+      "a proud viewer of every Super Bowl ad",
+      "a vegan",
+      "a vegetarian",
+      "a pescetarian",
+      "exclusively carnivorous—like Joe Rogan, my hero",
+      "on an exclusive deal with Clubhouse where I go on there and talk for awhile",
+      "a doctor",
+      "an oil baron",
+      "a rollercoaster tycoon",
       "Warren Buffet",
       "Richard Branson’s right-hand man",
       "Elon Musk and Grimes’ baby",
-      "Named Kevin",
-      "Significantly taller than I was as a child"
+      "named Kevin",
+      "significantly taller than I was as a child"
     ]
     |> Enum.random()
-    |> String.downcase()
   end
 
   def hashtags() do
