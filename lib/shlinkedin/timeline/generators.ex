@@ -57,7 +57,7 @@ defmodule Shlinkedin.Timeline.Generators do
 
   def strange_observation() do
     """
-    Huh. I just saw #{weird_brutal_action()}.
+    Huh. I just #{weird_brutal_action()}.
     """
   end
 
