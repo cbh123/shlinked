@@ -45,6 +45,7 @@ defmodule ShlinkedinWeb.Router do
   scope "/" do
     pipe_through [:browser, :admins_only]
     live_dashboard "/dashboard", metrics: ShlinkedinWeb.Telemetry, ecto_repos: [Shlinkedin.Repo]
+    live "/generator", PostLive.Generator, :index
   end
 
   ## Authentication routes
@@ -61,8 +62,6 @@ defmodule ShlinkedinWeb.Router do
     post "/reset_password", UserResetPasswordController, :create
     get "/reset_password/:token", UserResetPasswordController, :edit
     put "/reset_password/:token", UserResetPasswordController, :update
-
-    live "/generator", PostLive.Generator, :index
   end
 
   scope "/", ShlinkedinWeb do
