@@ -11,7 +11,7 @@ defmodule Shlinkedin.Timeline.Generators do
 
     But I didn’t whine, or complain. I didn’t even #{reasonable_response()}.
 
-    Instead, I asked the #{surprising_aggressor()} #{business_question()}, and offered my help in solving his business challenge. That’s when I learned to #{
+    Instead, I asked #{surprising_aggressor()} #{business_question()}, and offered my help in solving their business challenge. That’s when I learned to #{
       modern_business_practice()
     }. When you are faced with #adversity, you need to #{stupid_response()}. It’s the only way to learn. Thanks to my challenges, and my willingness to power through them, I am now #{
       present_title()
