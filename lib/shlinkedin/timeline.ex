@@ -415,7 +415,7 @@ defmodule Shlinkedin.Timeline do
   def like_map do
     %{
       "Phish" => %{
-        active: true,
+        active: false,
         like_type: "Phish",
         bg: "bg-red-400",
         color: "text-red-500",
@@ -425,7 +425,7 @@ defmodule Shlinkedin.Timeline do
           "M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z"
       },
       "Implant" => %{
-        active: true,
+        active: false,
         like_type: "Implant",
         bg: "bg-indigo-400",
         color: "text-indigo-500",
@@ -445,7 +445,7 @@ defmodule Shlinkedin.Timeline do
           "M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
       },
       "Pity" => %{
-        active: false,
+        active: true,
         like_type: "Pity",
         bg: "bg-indigo-600",
         color: "text-indigo-600",
@@ -465,7 +465,7 @@ defmodule Shlinkedin.Timeline do
           "M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
       },
       "Um..." => %{
-        active: false,
+        active: true,
         like_type: "Um...",
         bg: "bg-red-500",
         color: "text-red-500",
