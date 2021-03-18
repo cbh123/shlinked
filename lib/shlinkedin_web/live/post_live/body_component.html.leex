@@ -84,7 +84,12 @@
     </section>
     <% else %>
 
-
+    <% "adversity lesson" -> %> from-yellow-500 to-yellow-600
+    <% "job update" -> %> from-blue-500 to-blue-700
+    <% "guilt trip" -> %> from-indigo-500 to-indigo-700
+    <% "business challenge" -> %> from-green-500 to-green-700
+    <% "strange observation" -> %> from-red-500 to-red-700
+    <% _ -> %> from-blue-500 to-blue-700
 
     <%# Actual Post Text %>
     <%= if @post.update_type != "ShlinkPic" do %>
@@ -93,9 +98,12 @@
         <%= live_patch @post.generator_type, to: Routes.home_index_path(@socket, :new),
     class: "inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-gradient-to-r
         #{case @post.generator_type do
-        "adversity lesson" -> "from-red-500 to-yellow-300 hover:from-red-700 hover:to-yellow-400"
-        "job update" ->"from-blue-500 to-green-300 hover:from-blue-700 hover:to-green-400"
-        _ -> "from-orange-500 to-yellow-300 hover:from-orange-700 hover:to-yellow-400"
+        "adversity lesson" -> "from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700"
+        "job update" -> "from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
+        "guilt trip" -> "from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700"
+        "business challenge" -> "from-green-500 to-green-600 hover:from-green-600 hover:to-green-700"
+        "strange observation" -> "from-red-500 to-red-600 hover:from-red-600 hover:to-red-700"
+        _ -> "from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
         end}
         uppercase text-white" %>
         <% end %>

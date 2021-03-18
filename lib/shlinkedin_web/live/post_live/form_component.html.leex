@@ -12,9 +12,12 @@
         <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-gradient-to-r
 
         <%= case @generator_type do %>
-        <% "adversity lesson" -> %> from-red-500 to-yellow-300
-        <% "job update" -> %> from-blue-500 to-green-300
-        <% _ -> %> from-orange-500 to-yellow-300
+        <% "adversity lesson" -> %> from-yellow-500 to-yellow-600
+        <% "job update" -> %> from-blue-500 to-blue-700
+        <% "guilt trip" -> %> from-indigo-500 to-indigo-700
+        <% "business challenge" -> %> from-green-500 to-green-700
+        <% "strange observation" -> %> from-red-500 to-red-700
+        <% _ -> %> from-blue-500 to-blue-700
         <% end %>
         uppercase text-white">
             <%= @generator_type %>
@@ -43,7 +46,7 @@
         </button>
         <button type="button" phx-click="job" phx-target="<%= @myself %>"
             class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-blue-100 text-blue-700 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            Job Announcement
+            Job Update
         </button>
         <button type="button" phx-click="challenge" phx-target="<%= @myself %>"
             class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-green-100 text-green-700 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
