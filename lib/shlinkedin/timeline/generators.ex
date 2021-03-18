@@ -24,14 +24,13 @@ defmodule Shlinkedin.Timeline.Generators do
 
   def job() do
     """
-    Hi everyone,
+    Hi #{group_of_people()},
 
     I'm thrilled to announce I am now #{present_title()}.
 
-    I could never imagine going from #{adjective()} when I was #{young_identifier()} to where I am now.
-    I know you're probably looking for advice, but I don't have much to offer, except for my one guiding principle: #{
-      modern_business_practice()
-    }.
+    I could never imagine accepting such an amazing position. Just 10 hours ago, I was #{
+      poor_condition()
+    }. And now, I'm #{blatantly_self_aggrandizing_charitable_action()}!
 
     #{hashtags()}
     """
@@ -91,7 +90,7 @@ defmodule Shlinkedin.Timeline.Generators do
       "in New York City, but the seedy part from crime movies",
       "Underwater",
       "in a swamp",
-      "in a really small yacht. ",
+      "in a really small yacht",
       "at a prep school, where I was all-state in lacrosse",
       "under a staircase at my aunt and uncle’s place",
       "in a garbage can",
@@ -345,7 +344,7 @@ defmodule Shlinkedin.Timeline.Generators do
       "Mismanaged",
       "Corpulent",
       "Boring",
-      "vapid ",
+      "vapid",
       "Clingy",
       "Covered in a metaphorical soup of my own design",
       "Frustrated with the tangled webs that we weave",
@@ -566,6 +565,21 @@ defmodule Shlinkedin.Timeline.Generators do
       "#Brave #IAmBrave #Bravery #Courage",
       "#SpicyTakes #Memes",
       "#TacoBell"
+    ]
+    |> Enum.random()
+  end
+
+  def group_of_people() do
+    [
+      "everyone",
+      "sheeple",
+      "ding-dongs",
+      "coworkers",
+      "colleagues",
+      "friends",
+      "people",
+      "friend-o's",
+      "my fellow grown-ups"
     ]
     |> Enum.random()
   end
