@@ -16,7 +16,7 @@
         <% "job update" -> %> from-blue-500 to-blue-700
         <% "guilt trip" -> %> from-indigo-500 to-indigo-700
         <% "business challenge" -> %> from-green-500 to-green-700
-        <% "strange observation" -> %> from-red-500 to-red-700
+        <% "strange observation" -> %> from-red-500 to-red-600
         <% _ -> %> from-blue-500 to-blue-700
         <% end %>
         uppercase text-white">
@@ -53,7 +53,7 @@
             Business Challenge
         </button>
         <button type="button" phx-click="strange" phx-target="<%= @myself %>"
-            class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-red-100 text-red-700 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-red-200 text-red-700 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Strange Observation
         </button>
         <button type="button" phx-click="guilt" phx-target="<%= @myself %>"
