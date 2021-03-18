@@ -502,7 +502,7 @@ defmodule Shlinkedin.Timeline.Generators do
       "Head Coder at codetech.io",
       "a train engineer",
       "a DJ",
-      "a podcaster.",
+      "a podcaster",
       "CEO of my own company that I invented",
       "Jamba Juice. Forever. Jamba Juice is eternal. It will witness the death of the wind, the mountains as they retreat into the seas",
       "a member of the AMA Marketing Hall of Fame",
