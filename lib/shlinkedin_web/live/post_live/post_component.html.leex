@@ -3,14 +3,15 @@
 
 
 
-    <div phx-click="hide-post-options" phx-target="<%= @myself %>"
+    <div phx-target="<%= @myself %>"
         class="relative bg-white <%= if @post.category == "cybersecurity", do: "font-windows text-green-700" %> shadow-lg mx-auto sm:rounded-lg p-4 mb-2 pb-2 <%= if @deleted, do: "hidden" %>">
         <%= if @deleted != true do %>
 
         <%= featured_post_header(@socket, @post) %>
 
         <%# Post Header and Options %>
-        <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap ">
+        <div
+            class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap ">
 
             <%# Post Header: Image, Name, Title, Time, and Business Jab %>
             <%= live_component @socket, ShlinkedinWeb.PostLive.PostHeader,
@@ -20,13 +21,17 @@
             <div class="sm:block text-xs text-gray-500 text-right">
                 <div class="relative inline-block text-left ">
                     <div>
-                        <button type="button" phx-click="toggle-post-options" phx-target="<%= @myself %>"
+                        <button type="button" phx-click="toggle-post-options"
+                            phx-target="<%= @myself %>"
                             class=" py-2 text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
-                            id="<%= "options-menu-#{@post.id}" %>" aria-haspopup="true" aria-expanded="true">
+                            id="<%= "options-menu-#{@post.id}" %>"
+                            aria-haspopup="true" aria-expanded="true">
 
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            <svg class="w-4 h-4" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                <path stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-width="2"
                                     d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z">
                                 </path>
                             </svg>
@@ -38,7 +43,9 @@
                     <%# Options Menu %>
                     <div
                         class="<%= if @show_post_options != true, do: "hidden" %> origin-top-right z-10 absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                        <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                        <div class="py-1" role="menu"
+                            aria-orientation="vertical"
+                            aria-labelledby="options-menu">
                             <%= live_patch to: Routes.home_show_path(@socket, :show, @post.id), do: raw("View post &rarr;"), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
                             <%= if @profile != nil and @post.profile_id == @profile.id or @profile.admin do %>
                             <%= live_patch to: Routes.home_index_path(@socket, :edit, @post.id), do: "Edit", class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
@@ -46,14 +53,19 @@
                             <% end %>
                             <%= if @profile != nil and @profile.admin do %>
                             <%= if @post.featured do %>
-                            <button class="block px-4 py-2 text-sm text-red-700 hover:bg-gray-100"
-                                data-confirm="Are you sure you want to unfeature post? " phx-click="unfeature-post"
-                                phx-target="<%= @myself %>">Unfeature post </button>
+                            <button
+                                class="block px-4 py-2 text-sm text-red-700 hover:bg-gray-100"
+                                data-confirm="Are you sure you want to unfeature post? "
+                                phx-click="unfeature-post"
+                                phx-target="<%= @myself %>">Unfeature post
+                            </button>
                             <% else %>
 
-                            <button class="block px-4 py-2 text-sm text-green-700 hover:bg-gray-100"
+                            <button
+                                class="block px-4 py-2 text-sm text-green-700 hover:bg-gray-100"
                                 data-confirm="Are you sure you want to feature post? Writer will be notified."
-                                phx-click="feature-post" phx-target="<%= @myself %>">Make post of the
+                                phx-click="feature-post"
+                                phx-target="<%= @myself %>">Make post of the
                                 day</button>
                             <% end %>
                             <% end %>
@@ -94,7 +106,8 @@
 
             <%#  "1 Comment" %>
             <%= if Ecto.assoc_loaded?(@post.comments) and length(@post.comments) > 0 do %>
-            <span class=" <%= if @comment_spin == true, do: " animate-spin" %> py-2  my-2">
+            <span
+                class=" <%= if @comment_spin == true, do: " animate-spin" %> py-2  my-2">
                 <%= length(@post.comments) %>
                 Comment<%= if length(@post.comments) > 1, do: "s" %></span>
             <% end %>
@@ -111,21 +124,27 @@
                     <%= for like <- like_map_list(@like_map) do %>
                     <% num_likes = if Ecto.assoc_loaded?(@post.likes), do: Enum.filter(@post.likes, fn l -> l.profile_id == @profile.id && l.like_type == like.like_type end) |> length(), else: 0  %>
 
-                    <button type="button" phx-target="<%= @myself %>" phx-click="like-selected"
-                        id="post-<%=@post.id%>-like-<%=like.like_type%>" phx-value-like-type="<%=like.like_type%>"
+                    <button type="button" phx-target="<%= @myself %>"
+                        phx-click="like-selected"
+                        id="post-<%=@post.id%>-like-<%=like.like_type%>"
+                        phx-value-like-type="<%=like.like_type%>"
                         class="<%= if num_likes > 0, do: like.color, else: "text-gray-500" %> active:text-white active:<%=like.bg %> tooltip inline-flex items-center
                     mr-0.5 px-1 py-1 rounded-full border border-transparent text-xs font-medium rounded-md bg-white hover:bg-gray-100
                     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 relative">
 
-                        <svg class="h-4 w-4 sm:h-5 sm:w-5 mx-auto" fill="currentColor" viewBox="0 0 20 20"
+                        <svg class="h-4 w-4 sm:h-5 sm:w-5 mx-auto"
+                            fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
-                            <path d="<%=like.svg_path%>" fill-rule="<%=like.fill%>">
+                            <path d="<%=like.svg_path%>"
+                                fill-rule="<%=like.fill%>">
                             </path>
                         </svg>
                         <%= if num_likes > 0 do %>
-                        <span class="absolute top-0 -right-0.5 text-xs text-gray-500"><%= num_likes %></span>
+                        <span
+                            class="absolute top-0 -right-0.5 text-xs text-gray-500"><%= num_likes %></span>
                         <% end %>
-                        <span class="tooltip-text -mt-12"><%=like.like_type%></span>
+                        <span
+                            class="tooltip-text -mt-12"><%=like.like_type%></span>
 
                     </button>
 
@@ -133,10 +152,12 @@
                     <% end %>
 
 
-                    <button type="button" phx-click="new-comment" phx-target="<%= @myself %>"
+                    <button type="button" phx-click="new-comment"
+                        phx-target="<%= @myself %>"
                         phx-value-id="<%= @post.id %>"
                         class="ml-1 active:bg-yellow-100 active:text-yellow-600 inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        <svg class="-ml-1 mr-1  h-4 w-4 sm:h-5 sm:w-5" fill="currentColor" viewBox="0 0 20 20"
+                        <svg class="-ml-1 mr-1  h-4 w-4 sm:h-5 sm:w-5"
+                            fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                 d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
@@ -154,14 +175,20 @@
                         <div>
 
                             <%# Right Side: Share Button %>
-                            <button type="button" phx-click="toggle-share-menu" phx-target="<%= @myself %>"
-                                phx-blur="toggle-share-menu" phx-value-id="<%= @post.id %>"
+                            <button type="button" phx-click="toggle-share-menu"
+                                phx-target="<%= @myself %>"
+                                phx-blur="toggle-share-menu"
+                                phx-value-id="<%= @post.id %>"
                                 class="ml-1 inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                                id="<%= "share-menu-btn-#{@post.id}" %>" aria-haspopup="true" aria-expanded="true">
+                                id="<%= "share-menu-btn-#{@post.id}" %>"
+                                aria-haspopup="true" aria-expanded="true">
 
-                                <svg class="-ml-1 mr-1  h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                <svg class="-ml-1 mr-1  h-4 w-4 sm:h-5 sm:w-5"
+                                    fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="2"
                                         d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
                                     </path>
                                 </svg>
@@ -170,23 +197,32 @@
 
                         </div>
 
-                        <div id="<%= "#{@post.id}-share-menu" %>" phx-blur="hide-share-menu" phx-target="<%= @myself %>"
+                        <div id="<%= "#{@post.id}-share-menu" %>"
+                            phx-blur="hide-share-menu"
+                            phx-target="<%= @myself %>"
                             class="z-10 <%= if !@show_share_menu, do: "hidden" %>  origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100"
-                            role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                            role="menu" aria-orientation="vertical"
+                            aria-labelledby="options-menu">
                             <div class="py-1">
-                                <button type="button" phx-hook="CopyToClipboard" id="<%= "#{@post.id}-copy-btn" %> "
+                                <button type="button" phx-hook="CopyToClipboard"
+                                    id="<%= "#{@post.id}-copy-btn" %> "
                                     phx-value-link="<%="https://www.shlinkedin.com/home/show/posts/#{@post.id}"%>"
                                     class="flex w-full items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                                     role="menuitem">
-                                    <svg class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    <svg class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                        fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1">
                                         </path>
                                     </svg>
                                     Copy link to post
                                 </button>
-                                <button type="button" phx-hook="ShareVia" id="<%= "#{@post.id}-sharevia-btn" %> "
+                                <button type="button" phx-hook="ShareVia"
+                                    id="<%= "#{@post.id}-sharevia-btn" %> "
                                     phx-value-link="<%="https://www.shlinkedin.com/home/show/posts/#{@post.id}"%>"
                                     phx-value-text="<%= "#{if @post.body != nil, do: String.slice(@post.body, 0..50)}... "%>"
                                     phx-value-title="<%= "See #{@post.profile.persona_name}'s post on ShlinkedIn "%>"
@@ -194,10 +230,13 @@
                                     role="menuitem">
                                     <!-- Heroicon name: duplicate -->
                                     <svg class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
-                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20" fill="currentColor"
                                         aria-hidden="true">
-                                        <path d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z" />
-                                        <path d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z" />
+                                        <path
+                                            d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z" />
+                                        <path
+                                            d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z" />
                                     </svg>
                                     Share via...
                                 </button>

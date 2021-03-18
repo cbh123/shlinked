@@ -1,16 +1,5 @@
 <div id="<%= "body-component-#{@id}" %>">
-    <%= if @post.generator_type != nil do %>
-    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-gradient-to-r
 
-        <%= case @post.generator_type do %>
-        <% "adversity lesson" -> %> from-purple-500 to-blue-300
-        <% "job update" -> %> from-blue-500 to-green-300
-        <% _ -> %> from-orange-500 to-yellow-300
-        <% end %>
-        uppercase text-white">
-        <%= @post.generator_type %>
-    </span>
-    <% end %>
 
     <%= if @post.update_type == "bio" do %>
     <section class=" bg-white overflow-hidden">
@@ -100,6 +89,16 @@
     <%# Actual Post Text %>
     <%= if @post.update_type != "ShlinkPic" do %>
     <div class="relative">
+        <%= if @post.generator_type != nil do %>
+        <%= live_patch @post.generator_type, to: Routes.home_index_path(@socket, :new),
+    class: "inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-gradient-to-r
+        #{case @post.generator_type do
+        "adversity lesson" -> "from-red-500 to-yellow-300 hover:from-red-700 hover:to-yellow-400"
+        "job update" ->"from-blue-500 to-green-300 hover:from-blue-700 hover:to-green-400"
+        _ -> "from-orange-500 to-yellow-300 hover:from-orange-700 hover:to-yellow-400"
+        end}
+        uppercase text-white" %>
+        <% end %>
         <p
             class="whitespace-pre-line pt-2
                  mb-4 -mt-5 overflow-hidden <%= if !@expand_post, do: "max-h-32" %>
