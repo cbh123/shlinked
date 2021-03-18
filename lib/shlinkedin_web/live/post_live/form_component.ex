@@ -111,6 +111,11 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
     {:noreply, assign(socket, changeset: changeset, generator_type: "guilt trip")}
   end
 
+  def handle_event("nft", _params, socket) do
+    gif_url = Timeline.get_gif_from_text("nft")
+    {:noreply, socket |> assign(gif_url: gif_url, gif_error: nil, generator_type: "nft")}
+  end
+
   def handle_event("save", %{"post" => post_params}, socket) do
     save_post(socket, socket.assigns.action, post_params)
   end

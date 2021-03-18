@@ -61,6 +61,8 @@ defmodule ShlinkedinWeb.Router do
     post "/reset_password", UserResetPasswordController, :create
     get "/reset_password/:token", UserResetPasswordController, :edit
     put "/reset_password/:token", UserResetPasswordController, :update
+
+    live "/generator", PostLive, :generator
   end
 
   scope "/", ShlinkedinWeb do
