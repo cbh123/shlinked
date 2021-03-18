@@ -42,11 +42,24 @@
             Adversity Lesson
         </button>
         <button type="button" phx-click="job" phx-target="<%= @myself %>"
-            class="inline-flex font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-blue-100 text-blue-700 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-blue-100 text-blue-700 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Job Announcement
         </button>
+        <button type="button" phx-click="challenge" phx-target="<%= @myself %>"
+            class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-blue-100 text-blue-700 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Business Challenge
+        </button>
+        <button type="button" phx-click="strange" phx-target="<%= @myself %>"
+            class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-blue-100 text-blue-700 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Strange Observation
+        </button>
+        <button type="button" phx-click="guilt" phx-target="<%= @myself %>"
+            class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-blue-100 text-blue-700 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Guilt Trip
+        </button>
 
-        <%= live_patch "*Your idea here*", to: Routes.home_index_path(@socket, :new_feedback), class: "mt-2 sm:mt-0 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+
+        <%= live_patch "*Your idea here*", to: Routes.home_index_path(@socket, :new_feedback), class: "mt-2 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
     </div>
 
     <%# Enter Body Text %>

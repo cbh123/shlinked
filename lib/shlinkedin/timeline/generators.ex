@@ -40,6 +40,33 @@ defmodule Shlinkedin.Timeline.Generators do
     """
   end
 
+  def business_challenge() do
+    """
+    Are you tired of living #{poor_condition()}? Well, I’ve been where you are today — and you’re in luck.
+
+    I’ve decided to take a break from #{blatantly_self_aggrandizing_charitable_action()} to offer a #BusinessChallenge: If you can somehow manage to #{
+      crime()
+    },
+    then I’ll give you access to my entire collection of email addresses—no questions asked.
+
+    And, here’s one piece of advice: when you approach a new #BusinessChallenge, try to #{
+      stupid_response()
+    }.
+    """
+  end
+
+  def strange_observation() do
+    """
+    Huh. I just saw #{weird_brutal_action()}.
+    """
+  end
+
+  def guilt_trip() do
+    """
+    If you're not #{blatantly_self_aggrandizing_charitable_action()}, you should be ashamed of yourself.
+    """
+  end
+
   def young_identifier() do
     [
       "but a wee lad",
@@ -454,31 +481,31 @@ defmodule Shlinkedin.Timeline.Generators do
 
   def stupid_response() do
     [
-      "Look inward, and outward, simultaneously",
-      "To spit in the eyes of god",
-      "Melt",
-      "Milk your business hows until you have enough business calcium",
-      "Tie up your boots and get to work",
-      "Be strong",
-      "Be courageous and bold and brave",
-      "Slap that adversity in the face and say “not today, scum. I’m a businessperson and I’m tough.”",
-      "Diversity",
-      "Make that adversity into strength",
-      "Use your cunning to outsmart it",
-      "Redirect its negative energies using your extensive Krav Maga training",
-      "Curl up into a ball and play dead",
-      "Immediately defecate in your own pants and make yourself appear as tall as possible by holding your hands up straight. That ought to scare it off",
-      "Clap loudly and yell “AHHHHHH” for as long as possible",
-      "Stay positive. We’ve all been there, and you will get through this adversity. It’s as simple as staying positive. We’ve all been there, and you will get through this adversity as long as you stay positive and remember, we’ve all been there",
-      "Clench your jaw and really just push it out",
-      "Shave your chest and wrestle",
-      "Oil up and slide around in the grand halls of business. That’ll make it tougher for the adversity to actually catch you and hold on",
-      "Smile more",
-      "Think happy thoughts",
-      "Overcome it",
-      "Lasso it and hogtie it",
-      "Throw a saddle on that bad boy and BAM—giddy up adversity! All aboard the adversity express!",
-      "Move to Brooklyn probably. And talk about how nice it is having trees on your street. And say “it’s so peaceful” a lot"
+      "look inward, and outward, simultaneously",
+      "to spit in the eyes of god",
+      "melt",
+      "milk your business hows until you have enough business calcium",
+      "tie up your boots and get to work",
+      "be strong",
+      "be courageous and bold and brave",
+      "slap that adversity in the face and say “not today, scum. I’m a businessperson and I’m tough.”",
+      "diversity",
+      "make that adversity into strength",
+      "use your cunning to outsmart it",
+      "redirect its negative energies using your extensive Krav Maga training",
+      "curl up into a ball and play dead",
+      "immediately defecate in your own pants and make yourself appear as tall as possible by holding your hands up straight. That ought to scare it off",
+      "clap loudly and yell “AHHHHHH” for as long as possible",
+      "stay positive. We’ve all been there, and you will get through this adversity. It’s as simple as staying positive. We’ve all been there, and you will get through this adversity as long as you stay positive and remember, we’ve all been there",
+      "clench your jaw and really just push it out",
+      "shave your chest and wrestle",
+      "oil up and slide around in the grand halls of business. That’ll make it tougher for the adversity to actually catch you and hold on",
+      "smile more",
+      "think happy thoughts",
+      "overcome it",
+      "lasso it and hogtie it",
+      "throw a saddle on that bad boy and BAM—giddy up adversity! All aboard the adversity express!",
+      "move to Brooklyn probably. And talk about how nice it is having trees on your street. And say “it’s so peaceful” a lot"
     ]
     |> Enum.random()
   end

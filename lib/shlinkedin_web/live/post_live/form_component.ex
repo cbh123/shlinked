@@ -84,6 +84,33 @@ defmodule ShlinkedinWeb.PostLive.FormComponent do
     {:noreply, assign(socket, changeset: changeset, generator_type: "job update")}
   end
 
+  def handle_event("challenge", _, socket) do
+    changeset =
+      socket.assigns.post
+      |> Timeline.change_post(%{body: Generators.business_challenge()})
+      |> Map.put(:action, :validate)
+
+    {:noreply, assign(socket, changeset: changeset, generator_type: "business challenge")}
+  end
+
+  def handle_event("strange", _, socket) do
+    changeset =
+      socket.assigns.post
+      |> Timeline.change_post(%{body: Generators.strange_observation()})
+      |> Map.put(:action, :validate)
+
+    {:noreply, assign(socket, changeset: changeset, generator_type: "strange observation")}
+  end
+
+  def handle_event("guilt", _, socket) do
+    changeset =
+      socket.assigns.post
+      |> Timeline.change_post(%{body: Generators.guilt_trip()})
+      |> Map.put(:action, :validate)
+
+    {:noreply, assign(socket, changeset: changeset, generator_type: "guilt trip")}
+  end
+
   def handle_event("save", %{"post" => post_params}, socket) do
     save_post(socket, socket.assigns.action, post_params)
   end
