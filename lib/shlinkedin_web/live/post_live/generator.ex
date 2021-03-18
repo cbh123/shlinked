@@ -12,12 +12,6 @@ defmodule ShlinkedinWeb.PostLive.Generator do
     {:ok, socket |> assign(body: "", gif_url: nil, page_title: "ShlinkedIn Content Generator")}
   end
 
-  def handle_event("validate", %{"value" => value}, socket) do
-    IO.inspect(value, label: "f")
-    socket = assign(socket, body: value)
-    {:noreply, socket}
-  end
-
   def handle_event("adversity", _, socket) do
     {:noreply, assign(socket, body: Generators.adversity())}
   end
@@ -39,7 +33,7 @@ defmodule ShlinkedinWeb.PostLive.Generator do
   end
 
   def handle_event("nft", _params, socket) do
-    gif_url = Timeline.get_gif_from_text(Generators.adjective())
+    gif_url = Timeline.get_gif_from_text("nft")
 
     {:noreply,
      socket

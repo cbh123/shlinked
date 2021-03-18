@@ -49,6 +49,10 @@
                     class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-indigo-100 text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     Guilt Trip
                 </button>
+                <button type="button" phx-click="nft"
+                    class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-pink-100 text-pink-700 hover:bg-pink-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    NFT
+                </button>
                 <button type="button" phx-click="hashtags"
                     class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     Hashtags
@@ -67,6 +71,13 @@
                     placeholder="What do you want to talk about?"><%= @body %></textarea>
 
 
+            </div>
+            <div class="mx-auto">
+                <%# If there's a gif, show it %>
+                <%= if @gif_url != nil do %>
+                <img src="<%= @gif_url %>"
+                    class="max-h-96 w-full h-full rounded-lg shadow mt-6 overflow-hidden object-cover align-middle object-center " />
+                <% end %>
             </div>
 
             <!-- This example requires Tailwind CSS v2.0+ -->
@@ -119,17 +130,14 @@
     </form>
 
 
-    <div class="max-w-prose mx-auto">
-        <div
-            class="max-w-7xl mx-auto py-16 mb-30 pb-36 px-4 sm:px-6 lg:px-8 text-center">
-            <div
-                class="bg-blue-700 rounded-lg shadow-xl overflow-hidden lg:grid lg:grid-cols-2 lg:gap-4">
-                <div
-                    class="pt-10 pb-12 px-6 sm:pt-16 sm:px-16 lg:py-16 lg:pr-0 xl:py-20 xl:px-20">
-                    <div class="lg:self-center">
+    <div class="max-w-prose mx-auto text-center">
+        <div class="mx-auto py-16 mb-30 pb-36 px-4 sm:px-6 lg:px-8 text-center">
+            <div class="bg-blue-700 rounded-lg shadow-xl overflow-hidden">
+                <div class="pt-10 pb-12 px-6 sm:pt-16 sm:px-16 lg:py-16">
+                    <div class="self-center">
                         <h2
                             class="text-3xl font-extrabold text-white sm:text-4xl">
-                            <span class="block">Start Shlinkin'</span>
+                            <span class="">Start Shlinkin'</span>
                         </h2>
                         <p class="mt-4 text-lg leading-6 text-indigo-200">
                             Join ShlinkedIn to post your content, earn some
