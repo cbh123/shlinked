@@ -67,6 +67,12 @@ defmodule Shlinkedin.Timeline.Generators do
     """
   end
 
+  def nft() do
+    ["~#{adjective()}~", "*#{adjective()}*", "#{adjective()}."]
+    |> Enum.random()
+    |> String.capitalize()
+  end
+
   def young_identifier() do
     [
       "but a wee lad",
