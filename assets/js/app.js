@@ -151,6 +151,15 @@ Hooks.Clappify = {
   },
 };
 
+Hooks.Space = {
+  mounted() {
+    this.el.addEventListener("click", (e) => {
+      const textarea = document.getElementById("post-form_body");
+      textarea.value = textarea.value.replace(/\n/g, "\n\n");
+    });
+  },
+};
+
 Hooks.PostPickTag = {
   mounted() {
     this.el.addEventListener("click", (e) => {

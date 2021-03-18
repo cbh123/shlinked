@@ -125,7 +125,7 @@ defmodule Shlinkedin.Timeline.Generators do
       "to dream",
       "in Transylvania",
       "in New York City, but the seedy part from crime movies",
-      "Underwater",
+      "underwater",
       "in a swamp",
       "in a really small yacht",
       "at a prep school, where I was all-state in lacrosse",

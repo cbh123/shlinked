@@ -26,6 +26,7 @@
 
                     <div class="mt-8">
                         <%= link "Register", to: "/register", class: "rounded-md border border-transparent px-5 py-3 bg-blue-600 text-base font-medium text-white shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:px-10" %>
+                        <%= link "Try our content generator", to: "/generator", class: "rounded-md border border-transparent px-5 py-3 ml-3 bg-blue-100 text-base font-medium text-blue-600 shadow hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:px-10" %>
                     </div>
 
                     <div class="mt-10">
@@ -93,8 +94,7 @@
                             fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)" />
                     </svg>
                 </div>
-                <div
-                    class="relative sm:mx-auto sm:max-w-3xl sm:px-0 lg:max-w-none lg:h-full lg:pl-12">
+                <div class="relative sm:mx-auto max-w-none lg:h-full lg:pl-12">
                     <img class="w-full rounded-md shadow-xl ring-1 ring-black ring-opacity-5 lg:h-full lg:w-auto lg:max-w-none"
                         src="<%= Routes.static_path(@conn, "/images/landing1.png") %>"
                         alt="">
@@ -103,7 +103,10 @@
         </div>
     </div>
 </div>
-<!-- This example requires Tailwind CSS v2.0+ -->
+
+
+
+<%# features %>
 <div class="py-16 bg-gray-50 overflow-hidden lg:py-24">
     <div class="relative max-w-xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl">
         <svg class="hidden lg:block absolute left-full transform -translate-x-1/2 -translate-y-1/4"
@@ -226,9 +229,6 @@
                     </div>
                 </dl>
             </div>
-
-
-
 
 
             <div class="mt-10 -mx-4 relative lg:mt-0" aria-hidden="true">
@@ -363,6 +363,8 @@
                 </div>
             </div>
         </div>
+
+
     </div>
 </div>
 
