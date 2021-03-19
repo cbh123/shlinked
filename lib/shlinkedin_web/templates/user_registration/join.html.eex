@@ -94,8 +94,9 @@
                             fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)" />
                     </svg>
                 </div>
-                <div class="relative sm:mx-auto max-w-none lg:h-full lg:pl-12">
-                    <img class="w-full rounded-md shadow-xl ring-1 ring-black ring-opacity-5 lg:h-full lg:w-auto lg:max-w-none"
+                <div
+                    class="relative mx-4 sm:mx-auto max-w-none lg:h-full lg:pl-12">
+                    <img class=" w-full rounded-md shadow-xl ring-1 ring-black ring-opacity-5  lg:h-full lg:w-auto lg:max-w-none"
                         src="<%= Routes.static_path(@conn, "/images/landing1.png") %>"
                         alt="">
                 </div>
