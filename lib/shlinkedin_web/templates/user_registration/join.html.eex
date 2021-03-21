@@ -19,7 +19,10 @@
 
                         <p class="mt-6 text-xl text-gray-500">
                             We got sick of LinkedIn thought leadership, so we
-                            made a satirical social network where anyone can be
+                            made an <a class="font-semibold hover:underline"
+                                href="https://github.com/cbh123/shlinked">open
+                                source</a> satirical social network where anyone
+                            can be
                             a Thought Leader, Disruptor, or Titan of Industry.
                         </p>
                     </div>
@@ -683,7 +686,9 @@
                             <p class="mt-5 text-base text-gray-500">
                                 Why not? All the code running ShlinkedIn can be
                                 accessed
-                                here.
+
+                                <a
+                                    href="https://github.com/cbh123/shlinked">here.</a>
                             </p>
                         </div>
                     </div>
