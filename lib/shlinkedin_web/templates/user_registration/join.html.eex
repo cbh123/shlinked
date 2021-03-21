@@ -687,8 +687,8 @@
                                 Why not? All the code running ShlinkedIn can be
                                 accessed
 
-                                <a
-                                    href="https://github.com/cbh123/shlinked">here.</a>
+                                <a href="https://github.com/cbh123/shlinked"
+                                    class="underline text-blue-500">here.</a>
                             </p>
                         </div>
                     </div>
