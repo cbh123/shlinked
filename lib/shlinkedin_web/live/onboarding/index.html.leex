@@ -13,84 +13,55 @@
 
 
 
-        <%= @step %>
 
         <div class="flex mb-8">
             <div class="mr-4 flex-shrink-0 self-center">
-                <img class="h-full w-24 object-cover " style="filter: drop-shadow(1px 2px 2px black)"
-                    src="<%= Routes.static_path(@socket, "/images/businessman.png") %>" alt="">
+                <img class="h-full w-24 object-cover "
+                    style="filter: drop-shadow(1px 2px 2px black)"
+                    src="<%= Routes.static_path(@socket, "/images/businessman.png") %>"
+                    alt="">
 
             </div>
             <div>
 
-                <div id="prompt1-text" class="mt-1 <%= if @step <= 2, do: "hidden" %>">
-                    <p><span class="font-bold">Hey there! </span> My name is Jeff, and welcome to Shlinked — a
-                        satirical social Group where everyone is a thought leader and nothing matters.
+                <div id="prompt1-text"
+                    class="mt-1 <%= unless @step == 2, do: "hidden" %>">
+                    <p><span class="font-bold">Hey there! </span> My name is
+                        Jeff, and welcome to Shlinked — a
+                        satirical social Group where everyone is a thought
+                        leader and nothing matters.
 
 
                         <button
                             class="mt-4 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            type="button" id="prompt2-btn" phx-click="next-step" phx-value-step="2"
-                            phx-hook="OnboardingPrompt">Shake Hands 🤝
+                            type="button" id="prompt2-btn" phx-click="next-step"
+                            phx-value-step="2" phx-hook="OnboardingPrompt">Shake
+                            Hands 🤝
                         </button>
                     </p>
 
                 </div>
-                <div id="prompt1" class="<%= if @step > 2, do: "hidden"%>"></div>
             </div>
         </div>
 
 
 
 
-        <div id="prompt2-text" class="<%= if @step <= 3, do: "hidden" %>">
-            <p>Right, it’s a pleasure to e-meet! I’m Jeff—I’m a Sales Ops Manager and Executive Vice President of
-                Culture and Supply Chain Logistics Czar at Startuply. Someday, I hope to be promoted to Senior Executive
+        <div id="prompt2-text" class="<%= unless @step == 3, do: "hidden" %>">
+            <p>Right, it’s a pleasure to e-meet! I’m Jeff—I’m a Sales Ops
+                Manager and Executive Vice President of
+                Culture and Supply Chain Logistics Czar at Startuply. Someday, I
+                hope to be promoted to Senior Executive
                 Vice President of Culture and Supply Chain Logistics. </p>
         </div>
         <p id="prompt2"></p>
 
 
-        <%= case @step do %>
-
-        <% 1 -> %>
-        <button type="button" id="prompt1-btn" class=" w-full bg-blue-600 text-white px-4 py-2 rounded-full"
-            phx-hook="OnboardingPrompt" phx-click="next-step" phx-value-step="1">Start</button>
-
-        <% 2 -> %>
-        <%# <button class=" w-full bg-blue-600 text-white px-4 py-2 rounded-full" type="button" id="prompt2-btn"
-            phx-click="next-step" phx-hook="OnboardingPrompt">Shake Hands</button> %>
-
-        <% 3 -> %>
-
-        <%# Name %>
-        <div class="">
-            <label for="name" class="text-lg font-medium text-gray-700">First,
-                what's
-                your
-                name?</label>
-
-            <p class="text-xs text-gray-600 mt-1 mb-2"><%= if @changeset.changes |> Map.has_key?(:persona_name), do: "#{@changeset.changes.persona_name}... sounds like you'd have one hell of a handshake. Welcome to the team.", else: "On ShlinkedIn, you can be yourself, an alter ego, or
-                        anything
-                        in between." %> </p>
-
-            <div class="rounded-md shadow-sm">
-                <%= text_input f, :persona_name, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
-                                    placeholder: "Name", autofocus: "true" %>
-            </div>
-
-
-            <p class="mt-4 text-xs"><%= error_tag f, :persona_name %></p>
-
-        </div>
-        <% end %>
-
-
-
 
         <%# Username %>
         <div class="hidden" phx-feedback-for="username">
-            <label for="name" class="text-lg font-medium text-gray-700 mt-4">Username</label>
+            <label for="name"
+                class="text-lg font-medium text-gray-700 mt-4">Username</label>
 
             <p class="text-xs text-gray-600 mt-1 mb-2">
                 <%= if @changeset.changes |> Map.has_key?(:username), do: "Nice! @#{@changeset.changes.username} sure has a C-Suite ring to it.", else: "This is your unique identifier (can always change later)." %>
@@ -129,7 +100,9 @@
 
         <div class="hidden">
 
-            <label for="picture" class=" block text-lg font-medium text-gray-700">Add a photo to your
+            <label for="picture"
+                class=" block text-lg font-medium text-gray-700">Add a photo to
+                your
                 profile.</label>
             <label for="file-upload"
                 class="inline-flex mt-1 items-center py-2 relative cursor-pointertext-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-100 ">
@@ -140,17 +113,20 @@
 
             <%# Photo upload errors %>
             <%= for {_ref, msg } <- @uploads.photo.errors do %>
-            <p class="alert alert-danger"><%= Phoenix.Naming.humanize(msg) %></p>
+            <p class="alert alert-danger"><%= Phoenix.Naming.humanize(msg) %>
+            </p>
 
             <% end %>
 
             <%# Photo remove buttons %>
             <%= for entry <- @uploads.photo.entries do %>
-            <button phx-click="cancel-entry" phx-value-ref="<%= entry.ref %>" type="button"
+            <button phx-click="cancel-entry" phx-value-ref="<%= entry.ref %>"
+                type="button"
                 class=" mt-2 items-center px-2.5 py-1.5 border border-transparent text-sm font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Remove photo</button>
 
-            <progress max="100" class="bg-white" value="<%= entry.progress %>" />
+            <progress max="100" class="bg-white"
+                value="<%= entry.progress %>" />
 
             <% end %>
 
@@ -158,7 +134,9 @@
 
         <%# Title %>
         <div class="hidden">
-            <label for="picture" class=" block text-lg font-medium text-gray-700 mt-12">What's your headline?
+            <label for="picture"
+                class=" block text-lg font-medium text-gray-700 mt-12">What's
+                your headline?
             </label>
             <div class="mt-1 relative rounded-md shadow-sm">
                 <%= text_input f, :persona_title, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
@@ -171,14 +149,17 @@
         </div>
 
         <div class="hidden">
-            <label for="bio" class=" block text-lg font-medium text-gray-700">And finally, your bio:
+            <label for="bio"
+                class=" block text-lg font-medium text-gray-700">And finally,
+                your bio:
             </label>
             <div class="mt-1 relative rounded-md shadow-sm">
                 <%= textarea f, :summary, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
                                     placeholder: @bio_placeholder, rows: 5 %>
 
             </div>
-            <span class="text-xs text-gray-600 mb-2">Make sure this is dramatic, inspiring, and definitely real.
+            <span class="text-xs text-gray-600 mb-2">Make sure this is dramatic,
+                inspiring, and definitely real.
             </span>
             <p class="mt-4 text-xs"><%= error_tag f, :summary %></p>
 
