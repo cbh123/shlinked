@@ -104,6 +104,9 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
   defp save_profile(socket, :new, profile_params) do
     profile_params = put_photo_urls(socket, profile_params)
 
+    profile_params =
+      profile_params |> Map.put("username", Map.get(profile_params, "persona_name"))
+
     case(
       Profiles.create_profile(
         socket.assigns.current_user,
@@ -116,7 +119,7 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
          socket
          |> assign(:profile, profile)
          |> put_flash(:info, "Welcome to ShlinkedIn, #{profile.persona_name}!")
-         |> redirect(to: Routes.home_index_path(socket, :index))}
+         |> push_redirect(to: Routes.profile_show_path(socket, :show, profile.slug))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}

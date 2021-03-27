@@ -80,7 +80,7 @@ defmodule Shlinkedin.Profiles.Profile do
       :unsubscribed,
       :points
     ])
-    |> validate_required([:user_id, :persona_name, :real_name, :username])
+    |> validate_required([:user_id, :persona_name, :real_name])
     |> downcase_username()
     |> validate_username()
     |> unique_constraint([:username])
@@ -99,10 +99,6 @@ defmodule Shlinkedin.Profiles.Profile do
 
   defp validate_username(changeset) do
     changeset
-    |> validate_format(:username, @username_regex,
-      message: "Invalid username: no capitalizations or special characters!"
-    )
-    |> validate_length(:username, min: 3, max: 15)
     |> unique_constraint([:username])
   end
 

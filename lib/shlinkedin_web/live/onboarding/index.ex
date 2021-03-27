@@ -27,12 +27,6 @@ defmodule ShlinkedinWeb.OnboardingLive.Index do
         max_file_size: 12_000_000,
         external: &presign_entry/2
       )
-      |> allow_upload(:cover_photo,
-        accept: ~w(.png .jpeg .jpg .gif),
-        max_file_size: 12_000_000,
-        max_entries: 1,
-        external: &presign_entry/2
-      )
 
     changeset = Profiles.change_profile_no_user(%Profile{})
 
@@ -46,16 +40,27 @@ defmodule ShlinkedinWeb.OnboardingLive.Index do
      )}
   end
 
-  def handle_event("next-step", %{"step" => step}, socket) do
-    IO.inspect(socket.assigns.step, label: "")
-    IO.inspect(step, label: "")
+  def handle_event("prev-step", _value, socket) do
+    new_step = max(socket.assigns.step - 1, 1)
+    {:noreply, assign(socket, :step, new_step)}
+  end
 
-    if socket.assigns.step > String.to_integer(step) do
-      IO.puts("greater")
-      {:noreply, socket}
-    else
-      {:noreply, socket |> assign(step: String.to_integer(step) + 1)}
-    end
+  def handle_event("next-step", _value, socket) do
+    step = socket.assigns.step
+    changeset = socket.assigns.changeset
+
+    step_invalid =
+      case step do
+        1 -> Enum.any?(Keyword.keys(changeset.errors), fn k -> k in [:name] end)
+        2 -> Enum.any?(Keyword.keys(changeset.errors), fn k -> k in [:headline] end)
+        3 -> Enum.any?(Keyword.keys(changeset.errors), fn k -> k in [:photo] end)
+        4 -> Enum.any?(Keyword.keys(changeset.errors), fn k -> k in [:url] end)
+        5 -> Enum.any?(Keyword.keys(changeset.errors), fn k -> k in [:real_name] end)
+        _ -> true
+      end
+
+    new_step = if step_invalid, do: step, else: step + 1
+    {:noreply, assign(socket, :step, new_step)}
   end
 
   def handle_event("validate", params, socket) do

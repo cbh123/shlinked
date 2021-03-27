@@ -758,11 +758,17 @@ defmodule Shlinkedin.Profiles do
     Profile.changeset(profile, attrs)
   end
 
-  def create_profile(%User{id: user_id}, attrs \\ %{}, after_save \\ &{:ok, &1}) do
+  def create_profile(
+        %User{id: user_id},
+        attrs,
+        after_save \\ &{:ok, &1}
+      ) do
     %Profile{}
     |> Profile.changeset(attrs |> Map.put("user_id", user_id))
-    |> Ecto.Changeset.put_change(:slug, attrs["username"])
+    |> Profile.changeset(attrs |> Map.put("username", "#{attrs["persona_name"]}#{user_id}"))
+    |> Ecto.Changeset.put_change(:slug, "#{attrs["persona_name"]}#{user_id}")
     |> Repo.insert()
+    |> IO.inspect(label: "")
     |> after_save(after_save)
     |> new_profile_notification()
   end
