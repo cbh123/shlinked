@@ -98,7 +98,7 @@ defmodule Shlinkedin.Levels do
             "Be worth 1000 ShlinkPoints (current balance: #{
               Shlinkedin.Points.get_balance(profile)
             }",
-          done: Shlinkedin.Points.get_balance(profile) |> Money.compare(Money.new(10000)) == 1,
+          done: Shlinkedin.Points.get_balance(profile) |> Money.compare(Money.new(100_000)) == 1,
           route: Routes.points_index_path(socket, :index)
         },
         %{
