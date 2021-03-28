@@ -137,9 +137,11 @@
                             Onboarding
                         </h5>
                         <p class="text-gray-500 text-xs mt-1">Welcome to
-                            ShlinkedIn! Here's our
+                            ShlinkedIn, <%= @profile.persona_name %>. Here's our
                             checklist
-                            to help you excel in your new role.
+                            to help you excel in your new role. Feel free to
+                            explore. We'd love your
+                            <%= live_patch "feedback!", to: Routes.home_index_path(@socket, :new_feedback), class: "underline hover:font-medium" %>
                         </p>
                     </div>
                     <!-- This example requires Tailwind CSS v2.0+ -->
