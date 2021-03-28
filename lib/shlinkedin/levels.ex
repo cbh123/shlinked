@@ -14,7 +14,7 @@ defmodule Shlinkedin.Levels do
       2 -> "💰 CEO"
       3 -> "🏦 Business Titan"
       4 -> "🗣️ Thought Leader"
-      5 -> "🗣️ Thought Leader of Thought Leaders"
+      5 -> "🗣️🗣️🗣️ Thought Leader of Thought Leaders"
     end
   end
 
