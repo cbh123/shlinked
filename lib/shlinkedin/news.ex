@@ -87,6 +87,10 @@ defmodule Shlinkedin.News do
     ) == 1
   end
 
+  def count_articles(%Profile{} = profile) do
+    Repo.aggregate(from(a in Article, where: a.profile_id == ^profile.id), :count)
+  end
+
   def delete_vote(%Profile{} = profile, %Article{} = article) do
     Repo.one(from v in Vote, where: v.article_id == ^article.id and v.profile_id == ^profile.id)
     |> Repo.delete()

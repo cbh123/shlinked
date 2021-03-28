@@ -32,12 +32,11 @@ defmodule ShlinkedinWeb.HomeLive.Index do
        my_groups: Groups.list_profile_groups(socket.assigns.profile),
        like_map: Timeline.like_map(),
        comment_like_map: Timeline.comment_like_map(),
-       num_show_comments: 1
+       num_show_comments: 1,
+       checklist: Shlinkedin.Levels.get_current_checklist(socket.assigns.profile, socket)
      )
      |> fetch_posts(), temporary_assigns: [posts: [], articles: []]}
   end
-
-  def checklist(profile, type), do: Shlinkedin.Profiles.checklist(profile, type)
 
   defp check_featured(params) do
     case params["type"] do

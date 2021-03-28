@@ -132,8 +132,10 @@
             <main class="sm:col-span-9 md:col-span-6">
 
                 <%# Checklist %>
-                <%= if !checklist(@profile, "all")  do%>
+                <%= if @checklist.level_number != 4 do%>
                 <div class="my-2 shadow-sm sm:rounded-md bg-white p-5">
+
+                    <%= if @checklist.level_number == 0 do %>
                     <div class="mb-4">
                         <h5 class="font-bold text-gray-700">📝 New Hire
                             Onboarding
@@ -146,177 +148,78 @@
                             <%= live_patch "feedback!", to: Routes.home_index_path(@socket, :new_feedback), class: "underline hover:font-medium" %>
                         </p>
                     </div>
+                    <% end %>
+
                     <!-- This example requires Tailwind CSS v2.0+ -->
                     <nav aria-label="Progress">
-                        <ol class="overflow-hidden">
-                            <li class="relative pb-10">
-                                <div class="-ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-indigo-600"
-                                    aria-hidden="true"></div>
-                                <!-- Complete Step -->
-                                <a href="#"
-                                    class="relative flex items-start group">
-                                    <span class="h-9 flex items-center">
-                                        <span
-                                            class="relative w-8 h-8 flex items-center justify-center bg-blue-600 rounded-full group-hover:bg-blue-800">
-                                            <!-- Heroicon name: solid/check -->
-                                            <svg class="w-5 h-5 text-white"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20"
-                                                fill="currentColor"
-                                                aria-hidden="true">
-                                                <path fill-rule="evenodd"
-                                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                                    clip-rule="evenodd" />
-                                            </svg>
-                                        </span>
-                                    </span>
-                                    <span class="ml-4 min-w-0 flex flex-col">
-                                        <span
-                                            class="text-xs font-semibold tracking-wide uppercase text-gray-500">Join
-                                            ShlinkedIn</span>
-                                        <span
-                                            class="text-sm text-gray-500">Done!</span>
-                                    </span>
-                                </a>
-                            </li>
+                        <ol class="space-y-3">
 
 
-                            <li class="relative pb-10">
-                                <div class="-ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-gray-300"
-                                    aria-hidden="true"></div>
+                            <div
+                                class="uppercase text-gray-400 tracking-wide text-xs flex justify-between">
+                                <h1>
+                                    <span
+                                        class="font-medium text-gray-800"><%= @checklist.current_level %></span>
+
+                                    <h1>
+                                        <%= @checklist.next_level %>
+                                    </h1>
+
+                                </h1>
+                            </div>
+
+                            <div class="relative mb-8">
+                                <div
+                                    class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
+                                    <div style="width:<%=(@checklist.level_number + 1) * 20%>%"
+                                        class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-indigo-700 to-green-500">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <%= for step <- @checklist.steps do %>
+                            <li>
                                 <!-- Upcoming Step -->
+                                <%= live_redirect to: step.route do %>
+                                <div class="group">
+                                    <div class="flex items-start">
+                                        <div class="flex-shrink-0 h-5 w-5 relative flex items-center justify-center"
+                                            aria-hidden="true">
 
-                                <%= live_redirect to: Routes.profile_edit_path(@socket, :edit) do %>
-                                <div class="relative flex items-start group">
-
-                                    <span class="h-9 flex items-center"
-                                        aria-hidden="true">
-                                        <%# default prof pic %>
-                                        <%= if checklist(@profile, "picture") do %>
-                                        <span
-                                            class="relative w-8 h-8 flex items-center justify-center bg-blue-600 rounded-full group-hover:bg-blue-800">
-                                            <!-- Heroicon name: solid/check -->
-                                            <svg class="w-5 h-5 text-white"
+                                            <%= if step.done do %>
+                                            <svg class="h-full w-full text-blue-600 group-hover:text-blue-800"
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 viewBox="0 0 20 20"
                                                 fill="currentColor"
                                                 aria-hidden="true">
                                                 <path fill-rule="evenodd"
-                                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                                     clip-rule="evenodd" />
                                             </svg>
-                                        </span>
+                                            <% else %>
+                                            <div
+                                                class="h-2 w-2 bg-gray-300 rounded-full group-hover:bg-gray-400">
+                                            </div>
+                                            <% end %>
 
 
-
-                                        <% else %>
-                                        <span
-                                            class="relative w-8 h-8 flex items-center justify-center bg-white border-2 border-gray-300 rounded-full group-hover:border-gray-400">
-                                            <span
-                                                class="h-2.5 w-2.5 bg-transparent rounded-full group-hover:bg-gray-300"></span>
-                                        </span>
-                                        <% end %>
-                                    </span>
-
-                                    <span class="ml-4 min-w-0 flex flex-col">
-                                        <span
-                                            class="text-xs font-semibold tracking-wide uppercase text-gray-500">Add
-                                            profile picture</span>
-                                        <span
-                                            class="text-sm text-gray-500">Disruption
-                                            begins with a firm handshake and a
-                                            beautiful smile.</span>
-                                    </span>
+                                        </div>
+                                        <p
+                                            class="ml-3 text-sm font-medium text-gray-500 group-hover:text-gray-900">
+                                            <%= step.name %></p>
+                                    </div>
                                 </div>
                                 <% end %>
                             </li>
+                            <% end %>
 
 
-                            <li class="relative pb-10">
-                                <div class="-ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-gray-300"
-                                    aria-hidden="true"></div>
-                                <!-- Upcoming Step -->
-                                <%= live_redirect to: Routes.home_index_path(@socket, :new) do %>
-                                <div class="relative flex items-start group">
 
-                                    <span class="h-9 flex items-center"
-                                        aria-hidden="true">
-                                        <%# step complete, more posts than zero %>
-                                        <%= if checklist(@profile, "post") do %>
-                                        <span
-                                            class="relative w-8 h-8 flex items-center justify-center bg-blue-600 rounded-full group-hover:bg-blue-800">
-                                            <!-- Heroicon name: solid/check -->
-                                            <svg class="w-5 h-5 text-white"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20"
-                                                fill="currentColor"
-                                                aria-hidden="true">
-                                                <path fill-rule="evenodd"
-                                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                                    clip-rule="evenodd" />
-                                            </svg>
-                                        </span>
 
-                                        <% else %>
-                                        <span
-                                            class="relative w-8 h-8 flex items-center justify-center bg-white border-2 border-gray-300 rounded-full group-hover:border-gray-400">
-                                            <span
-                                                class="h-2.5 w-2.5 bg-transparent rounded-full group-hover:bg-gray-300"></span>
-                                        </span>
-                                        <% end %>
-                                    </span>
 
-                                    <span class="ml-4 min-w-0 flex flex-col">
-                                        <span
-                                            class="text-xs font-semibold tracking-wide uppercase text-gray-500">Post
-                                        </span>
-                                        <span
-                                            class="text-sm text-gray-500">Create
-                                            some content to raise your
-                                            stature.</span>
-                                    </span>
-                                </div>
-                                <% end %>
-                            </li>
 
-                            <li class="relative">
-                                <!-- Upcoming Step -->
-                                <%= live_redirect to: Routes.home_index_path(@socket, :new_invite) do %>
-                                <div class="relative flex items-start group">
-                                    <span class="h-9 flex items-center"
-                                        aria-hidden="true">
-                                        <%= if checklist(@profile, "connection") do %>
-                                        <span
-                                            class="relative w-8 h-8 flex items-center justify-center bg-blue-600 rounded-full group-hover:bg-blue-800">
-                                            <!-- Heroicon name: solid/check -->
-                                            <svg class="w-5 h-5 text-white"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20"
-                                                fill="currentColor"
-                                                aria-hidden="true">
-                                                <path fill-rule="evenodd"
-                                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                                    clip-rule="evenodd" />
-                                            </svg>
-                                        </span>
-                                        <% else %>
-                                        <span
-                                            class="relative w-8 h-8 flex items-center justify-center bg-white border-2 border-gray-300 rounded-full group-hover:border-gray-400">
-                                            <span
-                                                class="h-2.5 w-2.5 bg-transparent rounded-full group-hover:bg-gray-300"></span>
-                                        </span>
-                                        <% end %>
-                                    </span>
-                                    <span class="ml-4 min-w-0 flex flex-col">
-                                        <span
-                                            class="text-xs font-semibold tracking-wide uppercase text-gray-500">Make
-                                            1 connection</span>
-                                        <span class="text-sm text-gray-500">Grow
-                                            your network at all costs.</span>
-                                    </span>
-                                </div>
-                                <% end %>
-                            </li>
+
                         </ol>
                     </nav>
 

@@ -12,6 +12,10 @@ defmodule Shlinkedin.Groups do
   alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Profiles.ProfileNotifier
 
+  def count_profile_creator(%Profile{} = profile) do
+    Repo.aggregate(from(g in Group, where: g.profile_id == ^profile.id), :count)
+  end
+
   def list_profile_groups(%Profile{id: nil}), do: []
 
   def list_profile_groups(%Profile{} = profile) do

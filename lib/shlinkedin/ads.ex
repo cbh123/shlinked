@@ -22,6 +22,10 @@ defmodule Shlinkedin.Ads do
     Repo.all(Ad)
   end
 
+  def count_profile_ads(%Profile{} = profile) do
+    Repo.aggregate(from(a in Ad, where: a.profile_id == ^profile.id), :count)
+  end
+
   def list_profile_ads(%Profile{} = profile) do
     Repo.all(from a in Ad, where: a.profile_id == ^profile.id, preload: [:adlikes, :profile])
   end
