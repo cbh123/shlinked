@@ -14,7 +14,7 @@ defmodule Shlinkedin.Levels do
       2 -> "💰 CEO"
       3 -> "🏦 Business Titan"
       4 -> "🗣️ Thought Leader"
-      _ -> "🗣️ Thought Leader"
+      5 -> "🗣️ Thought Leader of Thought Leaders"
     end
   end
 
@@ -122,7 +122,6 @@ defmodule Shlinkedin.Levels do
   def completed_level?(%Profile{} = profile, socket, level) do
     checklists(profile, socket)[level]
     |> Enum.map(& &1.done)
-    |> IO.inspect(label: "maop done")
     |> Enum.all?()
   end
 
@@ -135,7 +134,7 @@ defmodule Shlinkedin.Levels do
       !completed_level?(profile, socket, 2) -> 2
       !completed_level?(profile, socket, 3) -> 3
       !completed_level?(profile, socket, 4) -> 4
-      true -> 4
+      true -> 5
     end
   end
 
