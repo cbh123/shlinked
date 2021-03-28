@@ -62,7 +62,7 @@ defmodule ShlinkedinWeb.PostLive.PostHeader do
             <% end %>
             <span class="inline-flex">
             <%= Timex.from_now(@post.inserted_at) %> •
-            <%= live_redirect Shlinkedin.Levels.profile_level(@socket, @post.profile), to: Routes.profile_show_path(@socket, :show, @post.profile.slug), class: "text-xs" %>
+             <%= live_redirect Shlinkedin.Levels.profile_level(@socket, @post.profile), to: Routes.profile_show_path(@socket, :show, @post.profile.slug), class: "text-xs" %>
 
 
             </span>
