@@ -20,8 +20,6 @@ defmodule ShlinkedinWeb.HomeLive.Index do
 
     socket = is_user(session, socket)
 
-    IO.inspect(params, label: "")
-
     {:ok,
      socket
      |> assign(
