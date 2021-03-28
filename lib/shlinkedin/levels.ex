@@ -26,7 +26,7 @@ defmodule Shlinkedin.Levels do
           name: "Add a profile photo",
           route: Routes.profile_edit_path(socket, :edit),
           done:
-            profile.photo_url !=
+            profile.photo_url ==
               "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/George_Washington%2C_1776.jpg/1200px-George_Washington%2C_1776.jpg"
         },
         %{
@@ -42,14 +42,15 @@ defmodule Shlinkedin.Levels do
       ],
       1 => [
         %{
-          done: Profiles.list_friends(profile) |> length() > 0,
+          done: length(Profiles.list_friends(profile)) > 0,
           route: Routes.users_index_path(socket, :index),
           name: "Make 1 connection"
         },
         %{
           done: Shlinkedin.Points.get_balance(profile) |> Money.compare(Money.new(1000)) == 1,
           route: Routes.points_index_path(socket, :index),
-          name: "Earn 10 ShlinkPoints (current balance: #{Shlinkedin.Points.get_balance(profile)}"
+          name:
+            "Earn 10 ShlinkPoints (current balance: #{Shlinkedin.Points.get_balance(profile)})"
         },
         %{
           done: Profiles.count_jabs(profile) >= 1,
@@ -115,17 +116,24 @@ defmodule Shlinkedin.Levels do
   end
 
   def completed_level?(%Profile{} = profile, socket, level) do
-    checklists(profile, socket)[level] |> Enum.map(& &1.done) |> Enum.all?() |> IO.inspect()
+    IO.inspect(level, label: "level is")
+
+    checklists(profile, socket)[level]
+    |> Enum.map(& &1.done)
+    |> IO.inspect(label: "maop done")
+    |> Enum.all?()
   end
 
   def get_current_level(%Profile{} = profile, socket) do
+    completed_level?(profile, socket, 2) |> IO.inspect(label: "levelspacecompleted?")
+
     cond do
-      completed_level?(profile, socket, 0) -> 1
-      completed_level?(profile, socket, 1) -> 2
-      completed_level?(profile, socket, 2) -> 3
-      completed_level?(profile, socket, 3) -> 4
-      completed_level?(profile, socket, 4) -> 5
-      true -> 0
+      !completed_level?(profile, socket, 0) -> 0
+      !completed_level?(profile, socket, 1) -> 1
+      !completed_level?(profile, socket, 2) -> 2
+      !completed_level?(profile, socket, 3) -> 3
+      !completed_level?(profile, socket, 4) -> 4
+      true -> 4
     end
   end
 
@@ -138,12 +146,5 @@ defmodule Shlinkedin.Levels do
       current_level: level_names(level),
       next_level: level_names(level + 1)
     }
-  end
-
-  def checklist3(%Profile{} = profile, type) do
-    case type do
-      "points2" ->
-        Shlinkedin.Points.get_balance(profile) |> Money.compare(Money.new(10000)) == 1
-    end
   end
 end

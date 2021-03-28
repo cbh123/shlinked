@@ -41,7 +41,6 @@ defmodule ShlinkedinWeb.PostLive.Generator do
   end
 
   def handle_event("hashtags", _, socket) do
-    IO.inspect(socket.assigns.body, label: "")
     socket = assign(socket, body: socket.assigns.body <> Generators.hashtags())
     {:noreply, socket}
   end
