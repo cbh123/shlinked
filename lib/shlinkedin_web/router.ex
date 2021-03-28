@@ -84,7 +84,7 @@ defmodule ShlinkedinWeb.Router do
          :show_comment_likes
 
     # view and show posts
-    live "/home?type=featured", HomeLive.Index, :index
+    live "/home?type=:type", HomeLive.Index, :index
     live "/", HomeLive.Index, :index
     live "/invite", HomeLive.Index, :new_invite
     live "/feedback", HomeLive.Index, :new_feedback

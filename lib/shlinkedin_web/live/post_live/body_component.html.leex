@@ -90,7 +90,7 @@
     <div class="relative">
         <%= if @post.generator_type != nil do %>
         <%= live_patch @post.generator_type, to: Routes.home_index_path(@socket, :new),
-    class: "inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-gradient-to-r
+    class: "#{if @post.photo_urls != [] or @post.gif_url != nil, do: "ml-4"} inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-gradient-to-r
         #{case @post.generator_type do
         "adversity lesson" -> "from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700"
         "job update" -> "from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
