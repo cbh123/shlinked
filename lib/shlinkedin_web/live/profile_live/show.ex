@@ -48,7 +48,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(number_testimonials: Profiles.get_number_testimonials(show_profile.id))
      |> assign(number_given_testimonials: Profiles.get_number_given_testimonials(show_profile.id))
      |> assign(num_show_testimonials: 2)
-     |> assign(checklist: Shlinkedin.Levels.get_current_checklist(socket.assigns.profile, socket))
+     |> assign(checklist: Shlinkedin.Levels.get_current_checklist(show_profile, socket))
      |> assign(num_profile_views: Profiles.get_profile_views_not_yourself(show_profile))
      |> assign(wealth_ranking: Profiles.get_ranking(show_profile, 50, "Wealth"))
      |> assign(testimonials: list_testimonials(show_profile.id)), temporary_assigns: [posts: []]}
