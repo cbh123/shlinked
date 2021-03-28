@@ -24,9 +24,13 @@ defmodule ShlinkedinWeb.PostLive.PostHeader do
 
             </span>
 
+
+
             <span
             class="text-gray-500 font-normal <%= if @post.profile_update, do: "text-sm", else: "text-xs"%>">
             <%= if @post.profile_update == true, do: "updated their #{@post.update_type}", else: @post.profile.persona_title  %>
+
+
         </span>
 
 
@@ -57,7 +61,9 @@ defmodule ShlinkedinWeb.PostLive.PostHeader do
             <% end %>
             <% end %>
             <span class="inline-flex">
-            <%= Timex.from_now(@post.inserted_at) %>
+            <%= Timex.from_now(@post.inserted_at) %> •
+            <%= live_redirect Shlinkedin.Levels.profile_level(@socket, @post.profile), to: Routes.profile_show_path(@socket, :show, @post.profile.slug), class: "text-xs" %>
+
 
             </span>
 

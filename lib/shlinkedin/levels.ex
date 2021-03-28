@@ -3,6 +3,10 @@ defmodule Shlinkedin.Levels do
   alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Profiles
 
+  def profile_level(socket, %Profile{} = profile) do
+    get_current_level(profile, socket) |> level_names()
+  end
+
   def level_names(level) do
     case level do
       0 -> "💼 Analyst"
@@ -116,8 +120,6 @@ defmodule Shlinkedin.Levels do
   end
 
   def completed_level?(%Profile{} = profile, socket, level) do
-    IO.inspect(level, label: "level is")
-
     checklists(profile, socket)[level]
     |> Enum.map(& &1.done)
     |> IO.inspect(label: "maop done")

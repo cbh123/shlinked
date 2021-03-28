@@ -24,6 +24,7 @@ defmodule Shlinkedin.Badges do
     <div class="inline-flex align-baseline">
 
 
+
     <%= for award <- awards do %>
     <%= if award.award_type.profile_badge and profile_badge_active(award) and award.active == true do %>
     <div class="inline-flex <%= award.award_type.color %>">
