@@ -22,7 +22,8 @@
 
                             Menu open: "hidden", Menu closed: "block"
                         -->
-                        <svg id="menu-closed" class="w-4 h-4 " fill="currentColor" viewBox="0 0 20 20"
+                        <svg id="menu-closed" class="w-4 h-4 "
+                            fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                 d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1z"
@@ -34,7 +35,8 @@
 
                                 Menu open: "block", Menu closed: "hidden"
                             -->
-                        <svg id="menu-open" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 20 20"
+                        <svg id="menu-open" class="w-4 h-4 hidden"
+                            fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                 d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -65,7 +67,8 @@
             <%= if @current_user != nil and @profile != nil and @profile.persona_name != nil do %>
 
             <%# SEARCH %>
-            <div class="flex-1 flex items-center px-2 sm:ml-6 sm:justify-end" style="justify-content:left">
+            <div class="flex-1 flex items-center px-2 sm:ml-6 sm:justify-end"
+                style="justify-content:left">
                 <div class="max-w-lg w-full md:max-w-md lg:max-w-xs">
                     <%= live_render(@conn, ShlinkedinWeb.SearchLive.SearchBox, id: :search) %>
 
@@ -73,13 +76,14 @@
             </div>
 
             <%# NAV %>
-            <div class="hidden sm:ml-6 sm:flex text-xs md:text-sm text-gray-500">
+            <div
+                class="hidden sm:ml-6 sm:flex text-xs md:text-sm text-gray-500">
 
                 <%= link to: "/home" do %>
                 <button
                     class="hover:bg-gray-100 px-2 mx-1 h-full  <%= if @conn.request_path == "/home", do: "border-gray-700 text-gray-700 "%>border-b-2 border-white  px-1 pt-1 basent-light">
-                    <svg class="mx-auto w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
+                    <svg class="mx-auto w-6 h-6" fill="currentColor"
+                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
                         </path>
@@ -88,21 +92,23 @@
                 </button>
                 <% end %>
                 <%= live_patch to: "/feedback" do %>
-                <button class="hover:bg-gray-100 px-2 mx-1 h-full relative border-b-2 border-white pt-1 font-base">
-                    <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
+                <button
+                    class="hover:bg-gray-100 px-2 mx-1 h-full relative border-b-2 border-white pt-1 font-base">
+                    <svg class="w-6 h-6 mx-auto" fill="currentColor"
+                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
                             d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.382l6.553 3.276A1 1 0 0018 15V3z"
                             clip-rule="evenodd"></path>
                     </svg>
-                    <p class=" pt-0.5 text-xs hidden md:inline-block">Feedback</p>
+                    <p class=" pt-0.5 text-xs hidden md:inline-block">Feedback
+                    </p>
                 </button>
                 <% end %>
                 <%= link to: "/groups" do %>
                 <button
                     class="hover:bg-gray-100 px-2 mx-1 h-full relative <%= if @conn.request_path == "/groups", do: "border-gray-700 text-gray-700 "%>border-b-2 border-white  px-1 pt-1 font-base">
-                    <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-6 h-6 mx-auto" fill="currentColor"
+                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z">
                         </path>
@@ -117,8 +123,8 @@
                     class="hover:bg-gray-100 px-2 mx-1 h-full relative <%= if @conn.request_path == "/shlinks", do: "border-gray-700 text-gray-700 "%>border-b-2 border-white  px-1 pt-1 font-base">
 
 
-                    <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-6 h-6 mx-auto" fill="currentColor"
+                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z">
                         </path>
@@ -134,15 +140,16 @@
                     </span>
 
                     <% end %>
-                    <p class=" pt-0.5 text-xs hidden md:inline-block">Shlinks</p>
+                    <p class=" pt-0.5 text-xs hidden md:inline-block">Shlinks
+                    </p>
                 </button>
                 <% end %>
                 <%= link to: "/updates" do %>
                 <button
                     class="hover:bg-gray-100 px-2 mx-1 h-full relative <%= if @conn.request_path == "/dinks", do: "border-gray-700 text-gray-700 "%>border-b-2 border-white  px-1 pt-1 font-base">
 
-                    <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-6 h-6 mx-auto" fill="currentColor"
+                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z">
                         </path>
@@ -206,7 +213,12 @@
             <%= link "Admin", to: "/admin", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
 
             <% end %>
+            <%= link "Home", to: "/home?featured", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
+            <%= link "ShlinkPoints", to: "/points", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
             <%= link "Groups", to: "/groups", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
+            <%= link "Leaderboard", to: "/leaderboard", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
+            <%= link "Invite", to: "/invite", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
+            <%= link "Feedback", to: "/feedback", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
             <%= link "Explore Profiles", to: "/profiles", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
             <%= link "Edit Profile", to: "/profile/live_edit", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
             <%= link "Settings", to: "/users/settings", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
