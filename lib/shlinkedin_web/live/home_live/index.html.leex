@@ -149,9 +149,9 @@
                         </p>
                     </div>
                     <% else %>
-                    <h5 class="font-medium text-sm text-gray-500 mb-4">Career
-                        Progression
-                    </h5>
+                    <h5
+                        class="text-gray-400 uppercase tracking-wide text-xs mb-4">
+                        Career Progression</h5>
                     <% end %>
 
                     <!-- This example requires Tailwind CSS v2.0+ -->
@@ -180,7 +180,9 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <h5
+                                class="text-gray-400 tracking-wide text-xs flex justify-between">
+                                KPIs</h5>
 
                             <%= for step <- @checklist.steps do %>
                             <li>
