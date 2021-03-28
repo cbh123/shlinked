@@ -131,7 +131,6 @@ defmodule Shlinkedin.Levels do
 
   def get_current_checklist(%Profile{} = profile, socket) do
     level = get_current_level(profile, socket)
-    level = 3
 
     %{
       steps: checklists(profile, socket)[level],
