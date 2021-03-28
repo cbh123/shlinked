@@ -24,6 +24,27 @@ defmodule Shlinkedin.Profiles do
   alias Shlinkedin.Accounts.User
   alias Shlinkedin.Points
 
+  def checklist(%Profile{} = profile, type) do
+    case type do
+      "join" ->
+        true
+
+      "picture" ->
+        profile.photo_url !=
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/George_Washington%2C_1776.jpg/1200px-George_Washington%2C_1776.jpg"
+
+      "post" ->
+        Shlinkedin.Timeline.num_posts(profile) > 0
+
+      "connection" ->
+        Shlinkedin.Profiles.list_friends(profile) |> length() > 0
+
+      "all" ->
+        checklist(profile, "picture") and checklist(profile, "post") and
+          checklist(profile, "connection")
+    end
+  end
+
   def grant_award(%Profile{} = profile, %AwardType{} = award_type, attrs \\ %{}) do
     {:ok, _award} =
       %Award{profile_id: profile.id, award_id: award_type.id}

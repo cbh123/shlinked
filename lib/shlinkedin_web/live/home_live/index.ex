@@ -12,7 +12,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   require Integer
 
   @impl true
-  def mount(_params, session, socket) do
+  def mount(params, session, socket) do
     if connected?(socket) do
       Timeline.subscribe()
       News.subscribe()
@@ -20,11 +20,13 @@ defmodule ShlinkedinWeb.HomeLive.Index do
 
     socket = is_user(session, socket)
 
+    IO.inspect(params, label: "")
+
     {:ok,
      socket
      |> assign(
        update_action: "append",
-       feed_type: "all",
+       feed_type: check_featured(params),
        page: 1,
        per_page: 5,
        activities: Timeline.list_unique_notifications(60),
@@ -35,6 +37,17 @@ defmodule ShlinkedinWeb.HomeLive.Index do
        num_show_comments: 1
      )
      |> fetch_posts(), temporary_assigns: [posts: [], articles: []]}
+  end
+
+  def checklist(profile, type), do: Shlinkedin.Profiles.checklist(profile, type)
+
+  defp check_featured(params) do
+    case params["type"] do
+      "featured" -> "featured"
+      "all" -> "all"
+      "friends" -> "friends"
+      _ -> "all"
+    end
   end
 
   defp fetch_posts(

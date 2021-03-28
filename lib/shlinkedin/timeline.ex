@@ -34,6 +34,12 @@ defmodule Shlinkedin.Timeline do
     |> Enum.uniq_by(fn x -> x.action end)
   end
 
+  def num_posts(%Profile{id: nil}), do: 0
+
+  def num_posts(%Profile{} = profile) do
+    Repo.aggregate(from(p in Post, where: p.profile_id == ^profile.id), :count)
+  end
+
   # List posts when account is first created and profile is nil
   def list_posts(%Profile{id: nil}, criteria, _feed_type) do
     query =

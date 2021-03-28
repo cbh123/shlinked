@@ -1,6 +1,7 @@
 <div class="min-h-screen bg-gray-100">
 
     <div class="py-10 pt-4">
+
         <div
             class="max-w-3xl mx-auto sm:max-w-7xl sm:px-8 sm:grid sm:grid-cols-12 sm:gap-8">
             <%# Side Nav %>
@@ -127,6 +128,199 @@
                 </nav>
             </div>
             <main class="sm:col-span-9 md:col-span-6">
+
+                <%# Checklist %>
+                <%= if !checklist(@profile, "all")  do%>
+                <div class="my-2 shadow-sm sm:rounded-md bg-white p-5">
+                    <div class="mb-4">
+                        <h5 class="font-bold text-gray-700">📝 New Hire
+                            Onboarding
+                        </h5>
+                        <p class="text-gray-500 text-xs mt-1">Welcome to
+                            ShlinkedIn! Here's our
+                            checklist
+                            to excel in your new role.
+                        </p>
+                    </div>
+                    <!-- This example requires Tailwind CSS v2.0+ -->
+                    <nav aria-label="Progress">
+                        <ol class="overflow-hidden">
+                            <li class="relative pb-10">
+                                <div class="-ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-indigo-600"
+                                    aria-hidden="true"></div>
+                                <!-- Complete Step -->
+                                <a href="#"
+                                    class="relative flex items-start group">
+                                    <span class="h-9 flex items-center">
+                                        <span
+                                            class="relative w-8 h-8 flex items-center justify-center bg-blue-600 rounded-full group-hover:bg-blue-800">
+                                            <!-- Heroicon name: solid/check -->
+                                            <svg class="w-5 h-5 text-white"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                                aria-hidden="true">
+                                                <path fill-rule="evenodd"
+                                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </span>
+                                    </span>
+                                    <span class="ml-4 min-w-0 flex flex-col">
+                                        <span
+                                            class="text-xs font-semibold tracking-wide uppercase text-gray-500">Join
+                                            ShlinkedIn</span>
+                                        <span
+                                            class="text-sm text-gray-500">Done!</span>
+                                    </span>
+                                </a>
+                            </li>
+
+
+                            <li class="relative pb-10">
+                                <div class="-ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-gray-300"
+                                    aria-hidden="true"></div>
+                                <!-- Upcoming Step -->
+
+                                <%= live_redirect to: Routes.profile_edit_path(@socket, :edit) do %>
+                                <div class="relative flex items-start group">
+
+                                    <span class="h-9 flex items-center"
+                                        aria-hidden="true">
+                                        <%# default prof pic %>
+                                        <%= if checklist(@profile, "picture") do %>
+                                        <span
+                                            class="relative w-8 h-8 flex items-center justify-center bg-blue-600 rounded-full group-hover:bg-blue-800">
+                                            <!-- Heroicon name: solid/check -->
+                                            <svg class="w-5 h-5 text-white"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                                aria-hidden="true">
+                                                <path fill-rule="evenodd"
+                                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </span>
+
+
+
+                                        <% else %>
+                                        <span
+                                            class="relative w-8 h-8 flex items-center justify-center bg-white border-2 border-gray-300 rounded-full group-hover:border-gray-400">
+                                            <span
+                                                class="h-2.5 w-2.5 bg-transparent rounded-full group-hover:bg-gray-300"></span>
+                                        </span>
+                                        <% end %>
+                                    </span>
+
+                                    <span class="ml-4 min-w-0 flex flex-col">
+                                        <span
+                                            class="text-xs font-semibold tracking-wide uppercase text-gray-500">Add
+                                            profile picture</span>
+                                        <span
+                                            class="text-sm text-gray-500">Disruption
+                                            begins with a firm handshake and a
+                                            beautiful smile.</span>
+                                    </span>
+                                </div>
+                                <% end %>
+                            </li>
+
+
+                            <li class="relative pb-10">
+                                <div class="-ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-gray-300"
+                                    aria-hidden="true"></div>
+                                <!-- Upcoming Step -->
+                                <%= live_redirect to: Routes.home_index_path(@socket, :new) do %>
+                                <div class="relative flex items-start group">
+
+                                    <span class="h-9 flex items-center"
+                                        aria-hidden="true">
+                                        <%# step complete, more posts than zero %>
+                                        <%= if checklist(@profile, "post") do %>
+                                        <span
+                                            class="relative w-8 h-8 flex items-center justify-center bg-blue-600 rounded-full group-hover:bg-blue-800">
+                                            <!-- Heroicon name: solid/check -->
+                                            <svg class="w-5 h-5 text-white"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                                aria-hidden="true">
+                                                <path fill-rule="evenodd"
+                                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </span>
+
+                                        <% else %>
+                                        <span
+                                            class="relative w-8 h-8 flex items-center justify-center bg-white border-2 border-gray-300 rounded-full group-hover:border-gray-400">
+                                            <span
+                                                class="h-2.5 w-2.5 bg-transparent rounded-full group-hover:bg-gray-300"></span>
+                                        </span>
+                                        <% end %>
+                                    </span>
+
+                                    <span class="ml-4 min-w-0 flex flex-col">
+                                        <span
+                                            class="text-xs font-semibold tracking-wide uppercase text-gray-500">Post
+                                        </span>
+                                        <span
+                                            class="text-sm text-gray-500">Create
+                                            some content to raise your
+                                            stature.</span>
+                                    </span>
+                                </div>
+                                <% end %>
+                            </li>
+
+                            <li class="relative">
+                                <!-- Upcoming Step -->
+                                <%= live_redirect to: Routes.home_index_path(@socket, :new_invite) do %>
+                                <div class="relative flex items-start group">
+                                    <span class="h-9 flex items-center"
+                                        aria-hidden="true">
+                                        <%= if checklist(@profile, "connection") do %>
+                                        <span
+                                            class="relative w-8 h-8 flex items-center justify-center bg-blue-600 rounded-full group-hover:bg-blue-800">
+                                            <!-- Heroicon name: solid/check -->
+                                            <svg class="w-5 h-5 text-white"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                                aria-hidden="true">
+                                                <path fill-rule="evenodd"
+                                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </span>
+                                        <% else %>
+                                        <span
+                                            class="relative w-8 h-8 flex items-center justify-center bg-white border-2 border-gray-300 rounded-full group-hover:border-gray-400">
+                                            <span
+                                                class="h-2.5 w-2.5 bg-transparent rounded-full group-hover:bg-gray-300"></span>
+                                        </span>
+                                        <% end %>
+                                    </span>
+                                    <span class="ml-4 min-w-0 flex flex-col">
+                                        <span
+                                            class="text-xs font-semibold tracking-wide uppercase text-gray-500">Make
+                                            1 connection</span>
+                                        <span class="text-sm text-gray-500">Grow
+                                            your network at all costs.</span>
+                                    </span>
+                                </div>
+                                <% end %>
+                            </li>
+                        </ol>
+                    </nav>
+
+
+
+                </div>
+                <% end %>
+
                 <%# Start a Post %>
                 <div
                     class="mx-auto p-5 pb-3 bg-white sm:rounded-lg border block mb-2">
@@ -157,33 +351,7 @@
                     </div>
                 </div>
 
-                <%# Leaderboard %>
-                <div
-                    class="my-2 p-2 shadow-sm sm:rounded-md text-center bg-gray-900 hidden">
 
-
-                    <p
-                        class="uppercase tracking-wide font-semibold text-xs text-gray-300">
-                        Theme of the week</p>
-                    <div class=" font-windows text-green-400 px-4">
-                        <p class="text-4xl font-semibold">CYBER ATTACK</p>
-                        <p>----------------------------</p>
-                        <p class="text-sm">A class 5Aq Cyber Attack has been
-                            initiated by an unknown entity. How do
-                            you
-                            tell your shareholders? What is the
-                            best
-                            way to secure
-                            data? What does this cyber
-                            hacker man want from us?! Time to hop on the
-                            Cybersecurity thought leadership train and
-                            weigh
-                            in.</p>
-                    </div>
-
-
-
-                </div>
 
                 <%# Mobile News %>
                 <div id="mobile-news"
