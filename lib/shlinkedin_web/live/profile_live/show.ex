@@ -32,6 +32,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      )
      |> assign(live_action: socket.assigns.live_action || :show)
      |> assign(page_title: "ShlinkedIn - " <> show_profile.persona_name)
+     |> assign(content_selection: "posts")
      |> assign(from_notifications: false)
      |> assign(current_awards: Profiles.list_awards(show_profile))
      |> assign(award_types: Shlinkedin.Awards.list_award_types())
@@ -176,6 +177,24 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   defp apply_action(socket, :show_ad_clicks, _) do
     socket
     |> assign(:page_title, "#{socket.assigns.show_profile.persona_name}'s Ad Clicks")
+  end
+
+  def handle_event("select-content", %{"content" => content}, socket) do
+    case content do
+      "posts" ->
+        socket = assign(socket, content_selection: content, page: 1, per_page: 5) |> fetch_posts()
+        {:noreply, socket}
+
+      "ads" ->
+        {:noreply,
+         assign(socket,
+           content_selection: content,
+           ads: Shlinkedin.Ads.list_profile_ads(socket.assigns.show_profile)
+         )}
+
+      _ ->
+        {:noreply, assign(socket, content_selection: content)}
+    end
   end
 
   @impl true

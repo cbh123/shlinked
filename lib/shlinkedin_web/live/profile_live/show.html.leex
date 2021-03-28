@@ -258,8 +258,6 @@
         </div>
 
 
-
-
         <%# Stats %>
         <div class="mt-2">
             <dl class="grid grid-cols-1 gap-2 sm:grid-cols-3">
@@ -344,6 +342,36 @@
             </dl>
         </div>
 
+        <!-- Pills -->
+        <div class="mt-4 mb-8">
+
+            <div class="border-b border-gray-200">
+                <nav class="-mb-px flex justify-center" aria-label="Tabs">
+
+                    <button phx-click="select-content" phx-value-content="about"
+                        class="<%= if @content_selection == "about", do: "border-blue-500 text-blue-600", else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" %>
+                        w-1/3 py-4 px-1 text-center border-b-2 font-medium">
+                        About
+                    </button>
+
+
+                    <button phx-click="select-content" phx-value-content="posts"
+                        class="<%= if @content_selection == "posts", do: "border-blue-500 text-blue-600", else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" %>
+                        w-1/3 py-4 px-1 text-center border-b-2 font-medium">
+                        Posts
+                    </button>
+
+                    <button phx-click="select-content" phx-value-content="ads"
+                        class="<%= if @content_selection == "ads", do: "border-blue-500 text-blue-600", else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" %>
+                        w-1/3 py-4 px-1 text-center border-b-2 font-medium">
+                        Ads
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <%= if @content_selection == "about" do %>
+
         <%# New testimonials %>
         <div class=" mt-2 rounded-lg overflow-hidden shadow px-5 pt-5 bg-white">
             <div class="flex justify-between">
@@ -365,7 +393,7 @@
                             </button>
 
                             <button phx-click="show-given"
-                                class="<%= if @reviews_recieved == false, do: "border-greeb-500 text-green-600", else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" %>  whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                                class="<%= if @reviews_recieved == false, do: "border-green-500 text-green-600", else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" %>  whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
                                 Given (<%= @number_given_testimonials %>)
                             </button>
                         </nav>
@@ -377,6 +405,20 @@
             <%= if @testimonials == [] do %>
             <p class="font-semibold text-gray-600 text-center my-8">No reviews
                 yet 😔</p>
+
+            <%= if @from_profile.id == @show_profile.id do %>
+            <div class="align-middle mb-4">
+                <%= live_patch to: Routes.home_index_path(@socket, :new_invite) do %>
+                <button type="button"
+                    class="flex max-w-sm mx-auto items-center px-6 py-3 text-xl font-extrabold rounded-full text-white bg-gradient-to-tr from-indigo-600 to-blue-500 hover:from-indigo-500 hover:to-blue-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Invite friends?
+                </button>
+
+                <% end %>
+            </div>
+            <% end %>
+
+
             <% else %>
 
             <div class="bg-white overflow-hidden sm:rounded-md">
@@ -592,6 +634,10 @@
             <%= if @endorsements == [] do %>
             <p class="font-semibold text-gray-600 text-center my-4">No
                 endorsements yet 😔</p>
+
+
+
+
             <% else %>
             <div class="">
                 <%= for endorsement <- @endorsements do %>
@@ -621,19 +667,13 @@
             </div>
             <% end %>
         </div>
+        <% end  %>
 
 
-        <!-- Posts -->
-
-
-
-        <div class="my-8 text-xl text-center font-semibold">
-            <p class="inline-flex">Posts</p>
-            <p class="inline-flex hidden">Ads</p>
-        </div>
         <%# Posts %>
+        <%= if @content_selection == "posts" do %>
         <div id="posts" phx-update="append" phx-hook="InfiniteScroll"
-            class="max-w-xl mx-auto" data-page="<%= @page %>">
+            class=" mx-auto" data-page="<%= @page %>">
             <%= for {post, idx} <- Enum.with_index(@posts) do %>
             <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
                     id: post.id,
@@ -653,9 +693,76 @@
         </div>
 
         <%= if @posts == [] do %>
-        <p class="font-semibold text-gray-600 text-center -mt-4">No posts yet 😔
+        <div>
+            <%= if @from_profile.id == @show_profile.id do %>
+            <div>
+                <%= live_patch to: Routes.home_index_path(@socket, :new) do %>
+                <button type="button"
+                    class="flex max-w-sm mx-auto items-center px-6 py-3 text-xl font-bold rounded-full text-white bg-gradient-to-tr from-blue-500 to-green-400 hover:from-blue-600 hover:to-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <svg class="-ml-1 mr-3 h-5 w-5" fill="currentColor"
+                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z">
+                        </path>
+                        <path fill-rule="evenodd"
+                            d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+                            clip-rule="evenodd">
+                        </path>
+                    </svg>
+                    Write your first post
+                </button>
+
+                <% end %>
+            </div>
+            <%# if not your profile %>
+            <% else %>
+            <p class="font-semibold text-gray-600 text-center mt-4">No posts yet
+                😔
+            </p>
+
+            <% end %>
+        </div>
+        <% end %>
+        <% end %>
+
+
+        <%# Created Ads %>
+        <%= if @content_selection == "ads" do %>
+
+        <%= if @from_profile.id == @show_profile.id do %>
+        <div class="align-middle">
+            <%= live_patch to: Routes.home_index_path(@socket, :new_ad) do %>
+            <button type="button"
+                class="flex max-w-sm mx-auto items-center px-6 py-3 text-xl font-extrabold rounded-full text-white bg-gradient-to-tr from-indigo-600 to-blue-500 hover:from-indigo-500 hover:to-blue-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                +
+                New Ad
+            </button>
+
+            <% end %>
+        </div>
+        <% end %>
+
+
+        <ul role="list" class="grid grid-cols-1 gap-y-8 mt-8">
+            <%= for ad <- @ads do %>
+            <%= live_component @socket, ShlinkedinWeb.AdLive.AdComponent,
+                                ad: ad,
+                                id: :rand.uniform(1000000),
+                                profile: @from_profile
+                                %>
+            <% end %>
+
+
+
+        </ul>
+
+
+
+        <%= if @ads == [] do %>
+        <p class="font-semibold text-gray-600 text-center -mt-4">No ads yet 😔
         </p>
         <% end %>
+        <% end  %>
 
 
     </div>
