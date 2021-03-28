@@ -26,7 +26,7 @@ defmodule Shlinkedin.Levels do
           name: "Add a profile photo",
           route: Routes.profile_edit_path(socket, :edit),
           done:
-            profile.photo_url ==
+            profile.photo_url !=
               "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/George_Washington%2C_1776.jpg/1200px-George_Washington%2C_1776.jpg"
         },
         %{

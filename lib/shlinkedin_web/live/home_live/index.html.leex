@@ -148,10 +148,6 @@
                             <%= live_patch "feedback!", to: Routes.home_index_path(@socket, :new_feedback), class: "underline hover:font-medium" %>
                         </p>
                     </div>
-                    <% else %>
-                    <h5
-                        class="text-gray-400 uppercase tracking-wide text-xs mb-4">
-                        Career Progression</h5>
                     <% end %>
 
                     <!-- This example requires Tailwind CSS v2.0+ -->
@@ -181,7 +177,7 @@
                                 </div>
                             </div>
                             <h5
-                                class="text-gray-400 tracking-wide text-xs flex justify-between">
+                                class="text-gray-400 tracking-wide text-xs flex justify-between mt-8">
                                 KPIs</h5>
 
                             <%= for step <- @checklist.steps do %>
