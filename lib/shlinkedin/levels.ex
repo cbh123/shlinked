@@ -9,12 +9,12 @@ defmodule Shlinkedin.Levels do
 
   def level_names(level) do
     case level do
-      0 -> "💼 Analyst"
-      1 -> "📝 Middle Manager"
-      2 -> "💰 CEO"
-      3 -> "🏦 Business Titan"
-      4 -> "🗣️ Thought Leader"
-      5 -> "🚕 Ex-Uber"
+      0 -> "☕ Unpaid Intern"
+      1 -> "💵 Paid Intern"
+      2 -> "💼 Middle Manager"
+      3 -> "💰 CEO"
+      4 -> "🏦 Business Titan"
+      5 -> "🗣️ Thought Leader"
     end
   end
 
