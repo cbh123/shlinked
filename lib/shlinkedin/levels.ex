@@ -36,7 +36,7 @@ defmodule Shlinkedin.Levels do
         %{
           name: "Add a headline",
           route: Routes.profile_edit_path(socket, :edit),
-          done: profile.persona_title != ""
+          done: !is_nil(profile.persona_title)
         },
         %{
           name: "Write your first post",
