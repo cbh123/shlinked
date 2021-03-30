@@ -126,8 +126,6 @@ defmodule Shlinkedin.Levels do
   end
 
   def get_current_level(%Profile{} = profile, socket) do
-    completed_level?(profile, socket, 2) |> IO.inspect(label: "levelspacecompleted?")
-
     cond do
       !completed_level?(profile, socket, 0) -> 0
       !completed_level?(profile, socket, 1) -> 1
@@ -136,6 +134,17 @@ defmodule Shlinkedin.Levels do
       !completed_level?(profile, socket, 4) -> 4
       true -> 5
     end
+  end
+
+  def get_current_checklist(%Profile{id: nil}, _socket) do
+    level = 0
+
+    %{
+      steps: %{},
+      level_number: level,
+      current_level: level_names(level),
+      next_level: level_names(level + 1)
+    }
   end
 
   def get_current_checklist(%Profile{} = profile, socket) do
