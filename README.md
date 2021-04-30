@@ -11,8 +11,6 @@ To start your Phoenix server:
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Note: in order for posts to successfully upload, I'll need to send you the `.env` file with the AWS secret keys. But everything else should work without that.
-
 # Charlie's Guide to Learning What's Going On Here
 
 I am putting all my thoughts here on how to introduce you to ShlinkedIn code + Elixir / Phoenix. There's a lot of stuff here but do not be discouraged!
