@@ -708,6 +708,10 @@ defmodule Shlinkedin.Profiles do
     Repo.delete(testimonial)
   end
 
+  def delete_profile(%Profile{} = profile) do
+    Repo.delete(profile)
+  end
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking endorsement changes.
 

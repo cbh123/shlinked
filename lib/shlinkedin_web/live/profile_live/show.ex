@@ -199,6 +199,14 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   end
 
   @impl true
+  def handle_event("delete-profile", %{"id" => id}, socket) do
+    profile = Profiles.get_profile_by_user_id(id)
+    {:ok, _} = Profiles.delete_profile(profile)
+
+    {:noreply, socket |> fetch_posts()}
+  end
+
+  @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     post = Timeline.get_post!(id)
     {:ok, _} = Timeline.delete_post(post)

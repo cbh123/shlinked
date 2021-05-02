@@ -54,6 +54,7 @@
 
 
                     <%= live_patch "Grant Awards", to: Routes.profile_show_path(@socket, :edit_awards, @to_profile.slug), class: "absolute top-12 right-0 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-yellow-700 bg-yellow-100 hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" %></span>
+                    <span><%= link "Delete Profile", to: "#", phx_click: "delete-profile", phx_value_id: @profile.user_id, data: [confirm: "Are you sure? This will permanently delete account."] %></span>
 
                     <% end %>
 

@@ -4,13 +4,15 @@
     <div class="pb-5 border-b border-gray-200 sm:pb-0 px-2">
 
         <div>
-            <span class="block text-base text-blue-600 font-semibold tracking-wide uppercase">Introducing</span>
+            <span
+                class="block text-base text-blue-600 font-semibold tracking-wide uppercase">Introducing</span>
             <h3 class="text-4xl tracking-tighter font-bold text-gray-900 ">
                 Thought Leaders
             </h3>
 
             <p class="text-gray-500 mt-2">
-                Ever wondered how you stacked up relative to your peers, objectively? At the end of week, we grant
+                Ever wondered how you stacked up relative to your peers,
+                objectively? At the end of week, we grant
                 awards to the leaders.
             </p>
         </div>
@@ -18,7 +20,8 @@
 
         <div class="flex items-center mt-6">
             <!-- On: "bg-indigo-600", Off: "bg-gray-200" -->
-            <button type="button" aria-pressed="false" aria-labelledby="toggleLabel" phx-click="toggle-weekly"
+            <button type="button" aria-pressed="false"
+                aria-labelledby="toggleLabel" phx-click="toggle-weekly"
                 class="<%= if @weekly, do: "bg-blue-600", else: "bg-gray-200" %>  relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 <span class="sr-only">Weekly on/off</span>
                 <!-- On: "translate-x-5", Off: "translate-x-0" -->
@@ -45,7 +48,8 @@
                     <%# <option selected># Shlinks</option> %>
 
                     <%= for category <- @categories |> Map.keys() do %>
-                    <option <%= if category == @curr_category, do: "selected" %>>
+                    <option
+                        <%= if category == @curr_category, do: "selected" %>>
                         <%= category %>
                     </option>
                     <% end %>
@@ -83,7 +87,8 @@
         <div class="flex">
             <div class="flex-shrink-0">
                 <!-- Heroicon name: information-circle -->
-                <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                <svg class="h-5 w-5 text-blue-400"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                     fill="currentColor" aria-hidden="true">
                     <path fill-rule="evenodd"
                         d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
@@ -103,8 +108,10 @@
 
     <div class="flex flex-col">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+            <div
+                class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                <div
+                    class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
@@ -148,16 +155,18 @@
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0 h-10 w-10">
-                                            <img class="h-10 w-10 rounded-full object-cover" src="<%= p.photo_url %>"
-                                                alt="">
+                                            <img class="h-10 w-10 rounded-full object-cover"
+                                                src="<%= p.photo_url %>" alt="">
                                         </div>
                                         <div class="ml-4">
                                             <%= live_redirect to: Routes.profile_show_path(@socket, :show, p.slug) do %>
 
-                                            <div class="text-sm font-medium text-gray-900 hover:underline">
+                                            <div
+                                                class="text-sm font-medium text-gray-900 hover:underline">
                                                 <%= p.persona_name %>
                                             </div>
-                                            <div class="text-sm text-gray-500 truncate max-w-xs">
+                                            <div
+                                                class="text-sm text-gray-500 truncate max-w-xs">
                                                 <%= p.persona_title %>
                                             </div>
                                             <% end %>
@@ -166,14 +175,18 @@
                                     </div>
                                 </td>
 
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-600 font-bold text-center">
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm text-blue-600 font-bold text-center">
                                     <%= case @curr_category do %>
-                                    <% :Reviews -> %> <%= Decimal.round(number, 2) %><span
-                                        class="text-xs text-gray-500 font-normal">/ <%= res.count %>
+                                    <% :Reviews -> %>
+                                    <%= Decimal.round(number, 2) %><span
+                                        class="text-xs text-gray-500 font-normal">/
+                                        <%= res.count %>
                                         reviews</span>
                                     <%  :"Post Reactions" -> %><%= number %><span
                                         class="text-xs text-gray-500 font-normal">
-                                        / <%= Shlinkedin.Timeline.get_post_count(p, get_start_date(@weekly)) %>
+                                        /
+                                        <%= Shlinkedin.Timeline.get_post_count(p, get_start_date(@weekly)) %>
                                         posts</span>
                                     <% _ -> %> <%= number %>
                                     <% end %>
