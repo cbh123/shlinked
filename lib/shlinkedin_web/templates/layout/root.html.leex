@@ -15,8 +15,10 @@
     <meta property="og:description"
         content="A satirical social network where everyone is a thought leader.">
     <meta name="twitter:card" content="summary_large_image">
-    <meta property="og:image" content="images/social.png">
-    <meta property="twitter:image" content="images/social.png">
+    <meta property="og:image"
+        content="<%= Routes.static_path(@conn, "/images/social.png") %>">
+    <meta property="twitter:image"
+        content="<%= Routes.static_path(@conn, "/images/social.png") %>">
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="website">
 
