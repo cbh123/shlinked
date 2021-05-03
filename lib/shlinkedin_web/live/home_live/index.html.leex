@@ -176,6 +176,7 @@
                                 </div>
                             </div>
 
+                            <%= if not is_nil(@checklist.steps) do  %>
                             <%= for step <- @checklist.steps do %>
                             <li>
                                 <!-- Upcoming Step -->
@@ -210,6 +211,7 @@
                                 </div>
                                 <% end %>
                             </li>
+                            <% end %>
                             <% end %>
 
 
