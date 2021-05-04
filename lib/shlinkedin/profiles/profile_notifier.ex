@@ -430,7 +430,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <a href="https://www.shlinkedin.com/sh/#{from_profile.slug}">#{from_profile.persona_name}</a> has written a #{
       testimonial.rating
     }/5 star review for you. Check it out
-    <a href="shlinked.herokuapp.com/sh/#{to_profile.slug}">on your profile.</a>. Your reward is +#{
+    <a href="https://www.shlinkedinin.com/sh/#{to_profile.slug}">on your profile.</a>. Your reward is +#{
       Points.get_rule_amount(type)
     }
 
@@ -681,7 +681,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
     #{from_name} has tagged you in a
-     <a href="shlinked.herokuapp.com/posts/#{id}">#{tag_parent}.</a>
+     <a href="https://www.shlinkedin.com/posts/#{id}">#{tag_parent}.</a>
      Check it out, and keep our engagement metrics high!
     <br/>
     <br/>
