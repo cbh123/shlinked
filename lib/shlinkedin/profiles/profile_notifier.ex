@@ -430,7 +430,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <a href="https://www.shlinkedin.com/sh/#{from_profile.slug}">#{from_profile.persona_name}</a> has written a #{
       testimonial.rating
     }/5 star review for you. Check it out
-    <a href="https://www.shlinkedinin.com/sh/#{to_profile.slug}">on your profile.</a>. Your reward is +#{
+    <a href="https://www.shlinkedin.com/sh/#{to_profile.slug}">on your profile.</a>. Your reward is +#{
       Points.get_rule_amount(type)
     }
 
