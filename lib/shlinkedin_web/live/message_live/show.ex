@@ -1,4 +1,4 @@
-defmodule ShlinkedinWeb.ConversationLive do
+defmodule ShlinkedinWeb.ConversationLive.Show do
   use ShlinkedinWeb, :live_view
   require Logger
 

@@ -762,6 +762,11 @@ defmodule Shlinkedin.Profiles do
     from(p in Profile, where: p.id == ^profile_id, select: p, preload: [:user]) |> Repo.one()
   end
 
+  def get_profile_by_user_id_preload_conversations(profile_id) do
+    from(p in Profile, where: p.id == ^profile_id, select: p, preload: [:conversations])
+    |> Repo.one()
+  end
+
   def get_profile_by_slug(slug) do
     from(p in Profile, where: p.slug == ^slug, select: p, preload: [:posts]) |> Repo.one()
   end

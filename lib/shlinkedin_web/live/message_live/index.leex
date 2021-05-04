@@ -1,0 +1,39 @@
+<article class="column">
+    <h2>Ongoing Conversations</h2>
+    <%= for conversation <- @profile.conversations do %>
+    <div>
+        <%= link conversation.title,
+               to: Routes.conversation_path(@socket,
+                                            CuriousMessengerWeb.ConversationLive,
+                                            conversation.id,
+                                            @profile.id) %>
+    </div>
+    <% end %>
+</article>
+
+<article class="column">
+    <h2>Create Conversation</h2>
+
+    <%= form_for @conversation_changeset, "", [phx_submit: :create_conversation], fn f -> %>
+    <p>
+        <%= inputs_for f, :conversation_members, fn cmf -> %>
+        <%= remove_member_link(@contacts, cmf.source.changes[:user_id], @profile.id) %>
+
+        <%= hidden_input cmf, :user_id, value: cmf.source.changes[:user_id] %>
+        <% end %>
+    </p>
+
+    <p>
+        <%= text_input f, :title, placeholder: "Title (optional)" %>
+        <%= submit "Create", disabled: disable_create_button?(assigns) %>
+    </p>
+
+    <ul>
+        <%= for user <- contacts_except(@contacts, @profile) do %>
+        <li>
+            <%= add_member_link(user) %>
+        </li>
+        <% end %>
+    </ul>
+    <% end %>
+</article>
