@@ -214,6 +214,7 @@
 
             <% end %>
             <%= link "Home", to: "/home?featured", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
+            <%= link "ShlinkRequests", to: "/shlinks", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
             <%= link "ShlinkPoints", to: "/points", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
             <%= link "Groups", to: "/groups", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
             <%= link "Leaderboard", to: "/leaders", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>

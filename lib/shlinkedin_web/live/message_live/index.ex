@@ -1,9 +1,8 @@
-defmodule ShlinkedinWeb.ConversationLive.Index do
+defmodule ShlinkedinWeb.MessageLive.Index do
   use ShlinkedinWeb, :live_view
 
   alias Shlinkedin.{Profiles, Chat, Repo}
   alias Shlinkedin.Chat.Conversation
-  alias Ecto.Changeset
 
   def mount(_params, session, socket) do
     socket = is_user(session, socket)
