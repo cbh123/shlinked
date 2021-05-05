@@ -188,7 +188,7 @@ defmodule ShlinkedinWeb.Router do
     # live "/search/:query", SearchLive.Index, :index
 
     # conversations
-    live "/dms/:conversation_id/", MessageLive.Show, :show
+    live "/dms/:conversation_id", MessageLive.Show, :show
     live "/dms", MessageLive.Index, :index
   end
 
