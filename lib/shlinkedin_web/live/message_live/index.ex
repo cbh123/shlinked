@@ -3,6 +3,8 @@ defmodule ShlinkedinWeb.MessageLive.Index do
 
   alias Shlinkedin.{Profiles, Chat, Repo}
   alias Shlinkedin.Chat.Conversation
+  alias Shlinkedin.Groups.Invite
+  alias Shlinkedin.Groups
 
   def mount(_params, session, socket) do
     socket = is_user(session, socket)
@@ -15,6 +17,23 @@ defmodule ShlinkedinWeb.MessageLive.Index do
      |> assign(profile: profile)
      |> assign_new_conversation_changeset()
      |> assign_contacts(profile)}
+  end
+
+  @impl true
+  def handle_params(params, _url, socket) do
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  end
+
+  defp apply_action(socket, :index, _params) do
+    socket
+  end
+
+  defp apply_action(socket, :invite, %{"id" => id}) do
+    socket
+    |> assign(:page_title, "Invite to #{socket.assigns.group.title}")
+    |> assign(:profile, socket.assigns.profile)
+    |> assign(:invite, %Invite{})
+    |> assign(:group, Groups.get_group!(id))
   end
 
   # Build a changeset for the newly created conversation, initially nesting a single conversation

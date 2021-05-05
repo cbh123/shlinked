@@ -44,7 +44,7 @@ defmodule Shlinkedin.Timeline do
   def list_posts(%Profile{id: nil}, criteria, _feed_type) do
     query =
       from(p in Post,
-        order_by: [desc: p.featured, desc: p.inserted_at]
+        order_by: [desc: p.pinned, desc: p.inserted_at]
       )
 
     paged_query = paginate(query, criteria)
@@ -73,7 +73,7 @@ defmodule Shlinkedin.Timeline do
 
         from(p in Post,
           where: is_nil(p.group_id) or p.group_id in ^profile_groups,
-          order_by: [desc: p.featured, desc: p.inserted_at]
+          order_by: [desc: p.pinned, desc: p.inserted_at]
         )
 
       "featured" ->
@@ -83,7 +83,7 @@ defmodule Shlinkedin.Timeline do
         friend_ids = Shlinkedin.Profiles.get_unique_connection_ids(object)
 
         from(p in Post,
-          order_by: [desc: p.featured, desc: p.inserted_at],
+          order_by: [desc: p.pinned, desc: p.inserted_at],
           where: p.profile_id in ^friend_ids
         )
 
@@ -95,12 +95,12 @@ defmodule Shlinkedin.Timeline do
         %Profile{id: id} = object
 
         from(p in Post,
-          order_by: [desc: p.featured, desc: p.inserted_at],
+          order_by: [desc: p.pinned, desc: p.inserted_at],
           where: p.profile_id == ^id
         )
 
       _ ->
-        from(p in Post, order_by: [desc: p.featured, desc: p.inserted_at])
+        from(p in Post, order_by: [desc: p.pinned, desc: p.inserted_at])
     end
   end
 

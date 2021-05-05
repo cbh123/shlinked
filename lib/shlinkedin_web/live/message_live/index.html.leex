@@ -1,7 +1,8 @@
 <div class="max-w-lg mx-auto bg-white py-5 rounded-lg mt-4">
 
-    <div class="px-5 pb-4">
+    <div class="px-5 pb-4 flex justify-between">
         <h5 class="font-bold">ShlinkMail</h5>
+        <%= live_patch "New", to: Routes.message_index_path(@socket, :new) %>
     </div>
 
     <hr>
@@ -49,3 +50,14 @@
 
 
 </div>
+
+<%= if @live_action in [:invite] do %>
+<%= live_modal @socket, ShlinkedinWeb.GroupLive.InviteComponent,
+    id: @group.id,
+    invite: %Invite{},
+    profile: @profile,
+    title: @page_title,
+    action: @live_action,
+    group: @group,
+    return_to: Routes.group_show_path(@socket, :show, @group) %>
+<% end %>

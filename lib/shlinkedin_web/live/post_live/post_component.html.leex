@@ -8,6 +8,7 @@
         <%= if @deleted != true do %>
 
         <%= featured_post_header(@socket, @post) %>
+        <%= pinned_post_header(@socket, @post) %>
 
         <%# Post Header and Options %>
         <div
@@ -54,7 +55,7 @@
                             <%= if @profile != nil and @profile.admin do %>
                             <%= if @post.featured do %>
                             <button
-                                class="block px-4 py-2 text-sm text-red-700 hover:bg-gray-100"
+                                class="w-full text-left px-4 py-2 text-sm text-red-700 hover:bg-gray-100"
                                 data-confirm="Are you sure you want to unfeature post? "
                                 phx-click="unfeature-post"
                                 phx-target="<%= @myself %>">Unfeature post
@@ -62,12 +63,30 @@
                             <% else %>
 
                             <button
-                                class="block px-4 py-2 text-sm text-green-700 hover:bg-gray-100"
+                                class="w-full text-left px-4 py-2 text-sm text-green-700 hover:bg-gray-100"
                                 data-confirm="Are you sure you want to feature post? Writer will be notified."
                                 phx-click="feature-post"
-                                phx-target="<%= @myself %>">Make post of the
-                                day</button>
+                                phx-target="<%= @myself %>">Feature
+                                Post</button>
                             <% end %>
+
+                            <%= if @post.pinned do %>
+                            <button
+                                class="w-full text-left px-4 py-2 text-sm text-red-700 hover:bg-gray-100"
+                                phx-click="unpin-post"
+                                phx-target="<%= @myself %>">Unpin post
+                            </button>
+                            <% else %>
+
+                            <button
+                                class="w-full text-left px-4 py-2 text-sm text-green-700 hover:bg-gray-100"
+                                data-confirm="Are you sure you want to pin post?"
+                                phx-click="pin-post"
+                                phx-target="<%= @myself %>">Pin</button>
+                            <% end %>
+
+
+
                             <% end %>
                         </div>
                     </div>

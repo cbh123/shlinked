@@ -33,6 +33,22 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     {:noreply, socket}
   end
 
+  def handle_event("pin-post", _params, socket) do
+    post = Timeline.get_post!(socket.assigns.post.id)
+
+    {:ok, _post} =
+      Timeline.update_post(socket.assigns.profile, post, %{
+        pinned: true
+      })
+
+    socket =
+      socket
+      |> put_flash(:info, "Post pinned!")
+      |> push_redirect(to: "/home")
+
+    {:noreply, socket}
+  end
+
   def handle_event("feature-post", _params, socket) do
     post = Timeline.get_post!(socket.assigns.post.id)
     poster = Shlinkedin.Profiles.get_profile_by_profile_id(socket.assigns.post.profile_id)
@@ -103,8 +119,8 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
             class="bg-white absolute rounded-full r top-1 right-1 inline-flex items-center px-1 py-0.5 text-xs font-medium text-yellow-500">
 
 
-            <%= if post.featured_date != nil and Timex.diff(post.featured_date, Timex.now(), :days) == 0 do %>
-            <span class="italic pr-1">Post of the Day</span>
+            <%= if post.featured_date != nil do %>
+            <span class="italic pr-1">Featured</span>
             <% end %>
 
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -114,7 +130,22 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
             </svg>
         </span>
         <% end %>
+    """
+  end
 
+  defp pinned_post_header(assigns, post) do
+    ~L"""
+        <%# Pinned %>
+        <%= if post.pinned do %>
+        <span
+            class="bg-white absolute rounded-full r top-1 right-1 inline-flex items-center px-1 py-0.5 text-xs font-medium text-blue-500">
+
+
+            <span class="italic pr-1">Pinned</span>
+
+            📌
+        </span>
+        <% end %>
     """
   end
 
