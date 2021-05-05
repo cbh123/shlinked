@@ -628,13 +628,13 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       to_profile_id: to_profile.id,
       type: "featured",
       post_id: post.id,
-      action: "has decided to award you post of the day! +#{Points.get_rule_amount(type)}."
+      action: "has decided to featured your post! +#{Points.get_rule_amount(type)}."
     })
 
     if to_profile.unsubscribed == false do
       Shlinkedin.Email.new_email(
         to_profile.user.email,
-        "You've been awarded post of the day!",
+        "Your post was featured!",
         body
       )
       |> Shlinkedin.Mailer.deliver_later()
