@@ -15,6 +15,15 @@ defmodule ShlinkedinWeb.AdLive.AdComponent do
      socket |> push_redirect(to: Routes.profile_show_path(socket, :show, ad.profile.slug))}
   end
 
+  def handle_event("censor-ad", _, socket) do
+    {:ok, _} = Ads.update_ad(socket.assigns.profile, socket.assigns.ad, %{removed: true})
+
+    {:noreply,
+     socket
+     |> put_flash(:info, "Ad deleted")
+     |> push_redirect(to: Routes.home_index_path(socket, :index))}
+  end
+
   def handle_event(
         "like-selected",
         %{"like-type" => like_type},

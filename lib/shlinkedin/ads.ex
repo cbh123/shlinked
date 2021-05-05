@@ -69,7 +69,8 @@ defmodule Shlinkedin.Ads do
         limit: 1,
         order_by: fragment("RANDOM()"),
         preload: :profile,
-        preload: :adlikes
+        preload: :adlikes,
+        where: a.removed == false
     )
   end
 
