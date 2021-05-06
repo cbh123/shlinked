@@ -54,6 +54,19 @@ defmodule ShlinkedinWeb.ConnCase do
     %{conn: log_in_user(conn, user), user: user}
   end
 
+  def register_user_and_profile(%{conn: conn}) do
+    user = Shlinkedin.AccountsFixtures.user_fixture()
+
+    profile =
+      Shlinkedin.Profiles.create_profile(user, %{
+        "real_name" => "Me",
+        "persona_name" => "Charlie B",
+        "username" => "charlie"
+      })
+
+    %{conn: log_in_user(conn, user), user: user, profile: profile}
+  end
+
   @doc """
   Logs the given `user` into the `conn`.
 

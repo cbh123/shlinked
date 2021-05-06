@@ -49,6 +49,22 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     {:noreply, socket}
   end
 
+  def handle_event("unpin-post", _params, socket) do
+    post = Timeline.get_post!(socket.assigns.post.id)
+
+    {:ok, _post} =
+      Timeline.update_post(socket.assigns.profile, post, %{
+        pinned: false
+      })
+
+    socket =
+      socket
+      |> put_flash(:info, "Post unpinned")
+      |> push_redirect(to: "/home")
+
+    {:noreply, socket}
+  end
+
   def handle_event("feature-post", _params, socket) do
     post = Timeline.get_post!(socket.assigns.post.id)
     poster = Shlinkedin.Profiles.get_profile_by_profile_id(socket.assigns.post.profile_id)
