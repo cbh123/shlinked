@@ -9,16 +9,15 @@ defmodule Shlinkedin.Chat do
   alias Shlinkedin.Chat.Conversation
 
   @doc """
-  Returns the list of chat_conversations.
+  Takes a list of profile IDs, and sees if there
+  are any conversations that already exist with the given profile IDs.
 
-  ## Examples
+  Returns a conversation if conversation exists, false otherwise.
 
-      iex> list_chat_conversations()
-      [%Conversation{}, ...]
-
+    iex> conversation_exists?([3, 5, 2])
+    %Conversation%{id: 3}
   """
-  def list_chat_conversations do
-    Repo.all(Conversation)
+  def conversation_exists?(profile_ids) when is_list(profile_ids) do
   end
 
   @doc """
