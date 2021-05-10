@@ -790,24 +790,7 @@ defmodule Shlinkedin.Profiles do
     |> Ecto.Changeset.put_change(:slug, "#{attrs["persona_name"]}#{user_id}")
     |> Repo.insert()
     |> after_save(after_save)
-    |> new_profile_notification()
   end
-
-  defp new_profile_notification({:ok, profile}) do
-    notify_everyone_except(
-      profile,
-      %Notification{
-        from_profile_id: profile.id,
-        type: "new_profile",
-        body: "Shlink with them?",
-        action: "just joined ShlinkedIn!"
-      }
-    )
-
-    {:ok, profile}
-  end
-
-  defp new_profile_notification({:error, message}), do: {:error, message}
 
   def update_profile(%Profile{} = profile, %User{id: user_id}, attrs, after_save \\ &{:ok, &1}) do
     profile = %{profile | user_id: user_id}
