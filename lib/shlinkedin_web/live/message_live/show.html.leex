@@ -1,11 +1,11 @@
    <div>
-       <b>User name:</b> <%= @profile.persona_name %>
+       <%= for member <- @conversation.conversation_members do %>
+       <%= member.profile.persona_name %>
+       <% end %>
    </div>
+
    <div>
-       <b>Conversation title:</b> <%= @conversation.title %>
-   </div>
-   <div>
-       <%= f = form_for :message, "#", [phx_submit: "send_message"] %>
+       <%= f = form_for :message, "#", [phx_submit: "send_message", id: "send-message"] %>
        <%= label f, :content %>
        <%= text_input f, :content %>
        <%= submit "Send" %>
@@ -15,6 +15,7 @@
        <b>Messages:</b>
        <%= for message <- @messages do %>
        <div>
+           <span><%= message.inserted_at %></span>
            <b><%= message.profile.persona_name %></b>: <%= message.content %>
        </div>
        <% end %>

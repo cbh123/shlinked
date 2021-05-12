@@ -7,17 +7,26 @@ defmodule Shlinkedin.Chat do
   alias Shlinkedin.Repo
 
   alias Shlinkedin.Chat.Conversation
+  alias Shlinkedin.Profiles.Profile
+
+  @doc """
+  List conversations for a given profile.
+  """
+  def list_conversations(%Profile{id: id}) do
+    Repo.all(from c in Conversation, where: ^id in c.profile_ids)
+  end
 
   @doc """
   Takes a list of profile IDs, and sees if there
   are any conversations that already exist with the given profile IDs.
 
-  Returns a conversation if conversation exists, false otherwise.
+  Returns a conversation if conversation exists, nil otherwise.
 
     iex> conversation_exists?([3, 5, 2])
     %Conversation%{id: 3}
   """
   def conversation_exists?(profile_ids) when is_list(profile_ids) do
+    Repo.one(from c in Conversation, where: c.profile_ids == ^profile_ids)
   end
 
   @doc """
@@ -198,19 +207,6 @@ defmodule Shlinkedin.Chat do
   end
 
   alias Shlinkedin.Chat.Message
-
-  @doc """
-  Returns the list of chat_messages.
-
-  ## Examples
-
-      iex> list_chat_messages()
-      [%Message{}, ...]
-
-  """
-  def list_chat_messages do
-    Repo.all(Message)
-  end
 
   @doc """
   Gets a single message.
