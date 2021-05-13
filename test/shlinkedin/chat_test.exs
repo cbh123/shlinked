@@ -58,5 +58,10 @@ defmodule Shlinkedin.ChatTest do
       conversation = conversation_fixture()
       assert %Ecto.Changeset{} = Chat.change_conversation(conversation)
     end
+
+    test "create conversation returns error if there's already those users in conversation" do
+      assert {:ok, %Conversation{}} = Chat.create_conversation(%{profile_ids: [1, 2, 3]})
+      assert {:error, %Ecto.Changeset{}} = Chat.create_conversation(%{profile_ids: [1, 3, 2]})
+    end
   end
 end
