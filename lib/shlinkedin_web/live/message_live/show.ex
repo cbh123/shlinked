@@ -32,6 +32,7 @@ defmodule ShlinkedinWeb.MessageLive.Show do
          socket
          |> assign(profile: socket.assigns.profile)
          |> assign(convo_length: convo_length)
+         |> assign(some_text: false)
          |> assign(limit: @limit)
          |> assign(messages: messages)
          |> push_event("scroll-down", %{
@@ -74,6 +75,20 @@ defmodule ShlinkedinWeb.MessageLive.Show do
     end
   end
 
+  def handle_event("icebreaker", _, socket) do
+    random_icebreaker = Chat.get_random_icebreaker()
+    {:noreply, push_event(socket, "template-message", %{template: random_icebreaker.content})}
+  end
+
+  def handle_event("update_message", %{"message" => %{"content" => content}}, socket)
+      when is_nil(content) or content == "" do
+    {:noreply, socket |> assign(some_text: false)}
+  end
+
+  def handle_event("update_message", %{"message" => %{"content" => _}}, socket) do
+    {:noreply, socket |> assign(some_text: true)}
+  end
+
   def handle_info({:new_message, new_message}, socket) do
     updated_messages = socket.assigns[:messages] ++ [new_message]
 
@@ -83,7 +98,7 @@ defmodule ShlinkedinWeb.MessageLive.Show do
      |> push_event("receive-message", %{num_messages: socket.assigns.convo_length})}
   end
 
-  defp get_templates(count \\ 3, type) do
-    Chat.list_random_templates(count, type)
+  defp get_templates(count \\ 3) do
+    Chat.list_random_templates(count)
   end
 end

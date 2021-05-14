@@ -624,12 +624,20 @@ defmodule Shlinkedin.Chat do
     Repo.all(MessageTemplate)
   end
 
-  def list_random_templates(count, type) do
+  def list_random_templates(count) do
     Repo.all(
       from t in MessageTemplate,
-        where: t.type == ^type,
         order_by: fragment("RANDOM()"),
         limit: ^count
+    )
+  end
+
+  def get_random_icebreaker() do
+    Repo.one(
+      from t in MessageTemplate,
+        where: t.type == "icebreaker",
+        order_by: fragment("RANDOM()"),
+        limit: 1
     )
   end
 

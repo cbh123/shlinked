@@ -59,10 +59,15 @@ Hooks.SendMessage = {
   },
 };
 
-Hooks.ReceiveMessage = {
+Hooks.Message = {
   mounted() {
-    this.handleEvent("receive-message", (e) => {
-      scrollDown(document);
+    this.handleEvent("receive-message", ({ num_messages }) => {
+      scrollDown(document, num_messages);
+    });
+    this.handleEvent("template-message", ({ template }) => {
+      document.getElementById("icebreaker").classList.add("hidden");
+      const message_input = document.getElementById("message_content");
+      message_input.value = template;
     });
     this.handleEvent("scroll-down", ({ num_messages }) => {
       scrollDown(document, num_messages);
@@ -80,7 +85,7 @@ Hooks.ReceiveMessage = {
 Hooks.ScrollDown = {
   mounted() {
     this.el.addEventListener("click", (e) => {
-      scrollDown(document);
+      scrollDown(document, 100);
     });
   },
 };
@@ -173,12 +178,16 @@ Hooks.CommentPickTag = {
 Hooks.Bizarro = {
   mounted() {
     this.el.addEventListener("click", (e) => {
-      const text = document.getElementById("post-form_body").value;
+      const id = e.target.value;
+      const text = document.getElementById(id).value;
       var res = "";
       for (let i = 0; i < text.length; i++) {
-        res += i % 2 == 0 ? text.charAt(i).toUpperCase() : text.charAt(i);
+        res +=
+          i % 2 == 0
+            ? text.charAt(i).toUpperCase()
+            : text.charAt(i).toLowerCase();
       }
-      document.getElementById("post-form_body").value = res;
+      document.getElementById(id).value = res;
     });
   },
 };
@@ -186,8 +195,29 @@ Hooks.Bizarro = {
 Hooks.Clappify = {
   mounted() {
     this.el.addEventListener("click", (e) => {
-      const textarea = document.getElementById("post-form_body");
+      const id = e.target.value;
+      const textarea = document.getElementById(id);
       textarea.value = textarea.value.replace(/ /g, " 👏 ");
+    });
+  },
+};
+
+function random_emoji() {
+  const emojis = [" 👏 ", " 💰 ", " 💪 ", " 💵 ", " 📈 ", " 🧨 ", " 💉 "];
+  return emojis[Math.floor(Math.random() * emojis.length)];
+}
+
+Hooks.Emojify = {
+  mounted() {
+    this.el.addEventListener("click", (e) => {
+      const id = e.target.value;
+      const text = document.getElementById(id).value;
+
+      var res = "";
+      for (let i = 0; i < text.length; i++) {
+        res += text.charAt(i) == " " ? random_emoji() : text.charAt(i);
+      }
+      document.getElementById(id).value = res;
     });
   },
 };
@@ -195,8 +225,19 @@ Hooks.Clappify = {
 Hooks.Space = {
   mounted() {
     this.el.addEventListener("click", (e) => {
-      const textarea = document.getElementById("post-form_body");
+      const id = e.target.value;
+      const textarea = document.getElementById(id);
       textarea.value = textarea.value.replace(/\n/g, "\n\n");
+    });
+  },
+};
+
+Hooks.Yell = {
+  mounted() {
+    this.el.addEventListener("click", (e) => {
+      const id = e.target.value;
+      const textarea = document.getElementById(id);
+      textarea.value = textarea.value.toUpperCase();
     });
   },
 };
