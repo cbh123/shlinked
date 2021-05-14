@@ -2,12 +2,13 @@ defmodule ShlinkedinWeb.MessageLive.Show do
   use ShlinkedinWeb, :live_view
   require Logger
 
-  alias Shlinkedin.{Profiles, Chat, Repo}
+  alias Shlinkedin.{Chat, Repo}
+  @limit 100
 
   def mount(%{"conversation_id" => conversation_id}, session, socket) do
     conversation =
       Chat.get_conversation!(conversation_id)
-      |> Repo.preload(messages: [:profile], conversation_members: [:profile])
+      |> Repo.preload(conversation_members: [:profile])
 
     is_user(session, socket)
     |> assign(conversation: conversation)
@@ -24,10 +25,17 @@ defmodule ShlinkedinWeb.MessageLive.Show do
           )
         end
 
+        messages = Chat.list_messages(socket.assigns.conversation, @limit)
+
         {:ok,
          socket
          |> assign(profile: socket.assigns.profile)
-         |> assign(:messages, socket.assigns.conversation.messages)}
+         |> assign(convo_length: Chat.get_conversation_length(socket.assigns.conversation))
+         |> assign(limit: @limit)
+         |> assign(messages: messages)
+         |> push_event("scroll-down", %{
+           num_messages: length(messages)
+         }), temporary_assigns: [messages: []]}
 
       false ->
         {:ok,

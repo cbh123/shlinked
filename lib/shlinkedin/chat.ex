@@ -7,13 +7,36 @@ defmodule Shlinkedin.Chat do
   alias Shlinkedin.Repo
 
   alias Shlinkedin.Chat.Conversation
+  alias Shlinkedin.Chat.Message
   alias Shlinkedin.Profiles.Profile
+
+  @doc """
+  Get last n messages for a given conversation.
+  """
+  def list_messages(%Conversation{id: id}, limit \\ 100) do
+    Repo.all(
+      from m in Message,
+        where: m.conversation_id == ^id,
+        order_by: [desc: m.inserted_at],
+        limit: ^limit,
+        preload: [:profile]
+    )
+    |> Enum.sort(&(&1.inserted_at < &2.inserted_at))
+  end
+
+  def get_conversation_length(%Conversation{id: id}) do
+    Repo.aggregate(from(m in Message, where: m.conversation_id == ^id), :count)
+  end
 
   @doc """
   List conversations for a given profile.
   """
   def list_conversations(%Profile{id: id}) do
-    Repo.all(from c in Conversation, where: ^id in c.profile_ids)
+    Repo.all(
+      from c in Conversation,
+        where: ^id in c.profile_ids,
+        order_by: [desc: c.updated_at]
+    )
   end
 
   @doc """
@@ -240,7 +263,16 @@ defmodule Shlinkedin.Chat do
     %Message{}
     |> Message.changeset(attrs)
     |> Repo.insert()
+    |> update_last_message_sent()
   end
+
+  defp update_last_message_sent({:ok, %Message{conversation_id: convo_id} = message}) do
+    convo = get_conversation!(convo_id)
+    {:ok, _convo} = update_conversation(convo, %{last_message_sent: NaiveDateTime.utc_now()})
+    {:ok, message}
+  end
+
+  defp update_last_message_sent({:error, err}), do: {:error, err}
 
   @doc """
   Updates a message.

@@ -62,8 +62,12 @@ Hooks.ReceiveMessage = {
     this.handleEvent("receive-message", (e) => {
       scrollDown(document);
     });
+    this.handleEvent("scroll-down", ({ num_messages }) => {
+      if (num_messages > 6) {
+        scrollDown(document);
+      }
+    });
     window.addEventListener("scroll", (e) => {
-      console.log("scroll", scrollAt());
       if (scrollAt() > 95) {
         document.getElementById("scroll_down").classList.add("hidden");
       } else {
