@@ -1,0 +1,42 @@
+<div class="max-w-2xl mx-auto mt-4">
+    <div class="flex justify-between mb-4">
+        <h1 class="font-semibold text-lg">Message Templates</h1>
+        <span><%= live_patch "New Message template", to: Routes.message_template_index_path(@socket, :new), class: "btn-white" %></span>
+    </div>
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>Text</th>
+                <th>Type</th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="templates">
+            <%= for message_template <- @templates do %>
+            <tr id="message_template-<%= message_template.id %>">
+                <td><%= message_template.content %></td>
+                <td><%= message_template.type %></td>
+
+                <td>
+                    <span><%= live_patch "Edit", to: Routes.message_template_index_path(@socket, :edit, message_template) %></span>
+                    <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: message_template.id, data: [confirm: "Are you sure?"] %></span>
+                </td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+
+</div>
+
+
+<%= if @live_action in [:new, :edit] do %>
+<%= live_modal @socket, ShlinkedinWeb.MessageTemplateLive.FormComponent,
+    id: @message_template.id || :new,
+    title: @page_title,
+    action: @live_action,
+    message_template: @message_template,
+    return_to: Routes.message_template_index_path(@socket, :index) %>
+<% end %>

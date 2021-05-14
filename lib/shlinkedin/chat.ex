@@ -608,4 +608,109 @@ defmodule Shlinkedin.Chat do
   def change_seen_message(%SeenMessage{} = seen_message, attrs \\ %{}) do
     SeenMessage.changeset(seen_message, attrs)
   end
+
+  alias Shlinkedin.Chat.MessageTemplate
+
+  @doc """
+  Returns the list of templates.
+
+  ## Examples
+
+      iex> list_templates()
+      [%MessageTemplate{}, ...]
+
+  """
+  def list_templates() do
+    Repo.all(MessageTemplate)
+  end
+
+  def list_random_templates(count, type) do
+    Repo.all(
+      from t in MessageTemplate,
+        where: t.type == ^type,
+        order_by: fragment("RANDOM()"),
+        limit: ^count
+    )
+  end
+
+  @doc """
+  Gets a single message_template.
+
+  Raises `Ecto.NoResultsError` if the Message template does not exist.
+
+  ## Examples
+
+      iex> get_message_template!(123)
+      %MessageTemplate{}
+
+      iex> get_message_template!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_message_template!(id), do: Repo.get!(MessageTemplate, id)
+
+  @doc """
+  Creates a message_template.
+
+  ## Examples
+
+      iex> create_message_template(%{field: value})
+      {:ok, %MessageTemplate{}}
+
+      iex> create_message_template(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_message_template(attrs \\ %{}) do
+    %MessageTemplate{}
+    |> MessageTemplate.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a message_template.
+
+  ## Examples
+
+      iex> update_message_template(message_template, %{field: new_value})
+      {:ok, %MessageTemplate{}}
+
+      iex> update_message_template(message_template, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_message_template(%MessageTemplate{} = message_template, attrs) do
+    message_template
+    |> MessageTemplate.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a message_template.
+
+  ## Examples
+
+      iex> delete_message_template(message_template)
+      {:ok, %MessageTemplate{}}
+
+      iex> delete_message_template(message_template)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_message_template(%MessageTemplate{} = message_template) do
+    Repo.delete(message_template)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking message_template changes.
+
+  ## Examples
+
+      iex> change_message_template(message_template)
+      %Ecto.Changeset{data: %MessageTemplate{}}
+
+  """
+  def change_message_template(%MessageTemplate{} = message_template, attrs \\ %{}) do
+    MessageTemplate.changeset(message_template, attrs)
+  end
 end

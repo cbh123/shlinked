@@ -43,8 +43,10 @@ Uploaders.S3 = function (entries, onViewError) {
   });
 };
 
-function scrollDown(document) {
-  window.scrollTo(0, document.body.scrollHeight);
+function scrollDown(document, num_messages) {
+  if (num_messages > 6) {
+    window.scrollTo(0, document.body.scrollHeight);
+  }
 }
 
 Hooks.SendMessage = {
@@ -63,9 +65,7 @@ Hooks.ReceiveMessage = {
       scrollDown(document);
     });
     this.handleEvent("scroll-down", ({ num_messages }) => {
-      if (num_messages > 6) {
-        scrollDown(document);
-      }
+      scrollDown(document, num_messages);
     });
     window.addEventListener("scroll", (e) => {
       if (scrollAt() > 95) {

@@ -26,15 +26,16 @@ defmodule ShlinkedinWeb.MessageLive.Show do
         end
 
         messages = Chat.list_messages(socket.assigns.conversation, @limit)
+        convo_length = Chat.get_conversation_length(socket.assigns.conversation)
 
         {:ok,
          socket
          |> assign(profile: socket.assigns.profile)
-         |> assign(convo_length: Chat.get_conversation_length(socket.assigns.conversation))
+         |> assign(convo_length: convo_length)
          |> assign(limit: @limit)
          |> assign(messages: messages)
          |> push_event("scroll-down", %{
-           num_messages: length(messages)
+           num_messages: convo_length
          }), temporary_assigns: [messages: []]}
 
       false ->
@@ -64,7 +65,8 @@ defmodule ShlinkedinWeb.MessageLive.Show do
           {:new_message, new_message}
         )
 
-        {:noreply, push_event(socket, "send-message", %{})}
+        {:noreply,
+         push_event(socket, "send-message", %{num_messages: socket.assigns.convo_length})}
 
       {:error, msg} ->
         Logger.error(inspect(msg))
@@ -76,6 +78,12 @@ defmodule ShlinkedinWeb.MessageLive.Show do
     updated_messages = socket.assigns[:messages] ++ [new_message]
 
     {:noreply,
-     socket |> assign(:messages, updated_messages) |> push_event("receive-message", %{})}
+     socket
+     |> assign(:messages, updated_messages)
+     |> push_event("receive-message", %{num_messages: socket.assigns.convo_length})}
+  end
+
+  defp get_templates(count \\ 3, type) do
+    Chat.list_random_templates(count, type)
   end
 end

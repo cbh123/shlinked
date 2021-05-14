@@ -106,13 +106,19 @@
                <% else %>
                <div class="w-full justify-center px-6 pt-5 pb-6 rounded-md">
                    <div class="w-full space-y-1 text-center">
-
-                       <span class="text-8xl"> 📪</span>
-                       <div class="mx-auto text-sm text-gray-600 pt-4">
-                           <p class="py-4 font-semibold">Looks like you haven't
-                               sent any ShlinkMail yet. <br /> How about an
+                       <span class="text-4xl"> 📪</span>
+                       <div class="mx-auto text-sm text-gray-600 py-4">
+                           <p class="font-semibold">How about an
                                ice-breaker?</p>
                        </div>
+
+                       <%= for t <- get_templates(3, "icebreaker") do %>
+                       <button type="button"
+                           class="inline-flex w-64 items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                           <%= t.content %>
+                       </button>
+                       <% end %>
+
 
                    </div>
                </div>

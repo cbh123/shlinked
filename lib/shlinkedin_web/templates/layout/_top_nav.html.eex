@@ -207,11 +207,8 @@
                     -->
     <div id="nav-menu" class="hidden">
         <div class="px-2 pt-2 pb-3 space-y-1">
-
             <%= if @profile != nil and @profile.admin do %>
-
             <%= link "Admin", to: "/admin", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
-
             <% end %>
             <%= link "Home", to: "/home?featured", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
             <%= link "ShlinkRequests", to: "/shlinks", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
@@ -224,10 +221,6 @@
             <%= link "Edit Profile", to: "/profile/live_edit", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
             <%= link "Settings", to: "/users/settings", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
             <%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete, class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
-
-
-
-
         </div>
     </div>
 
