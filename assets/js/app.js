@@ -43,6 +43,44 @@ Uploaders.S3 = function (entries, onViewError) {
   });
 };
 
+function scrollDown(document) {
+  window.scrollTo(0, document.body.scrollHeight);
+}
+
+Hooks.SendMessage = {
+  mounted() {
+    this.handleEvent("send-message", (e) => {
+      const message_input = document.getElementById("message_content");
+      message_input.value = "";
+      scrollDown(document);
+    });
+  },
+};
+
+Hooks.ReceiveMessage = {
+  mounted() {
+    this.handleEvent("receive-message", (e) => {
+      scrollDown(document);
+    });
+    window.addEventListener("scroll", (e) => {
+      console.log("scroll", scrollAt());
+      if (scrollAt() > 95) {
+        document.getElementById("scroll_down").classList.add("hidden");
+      } else {
+        document.getElementById("scroll_down").classList.remove("hidden");
+      }
+    });
+  },
+};
+
+Hooks.ScrollDown = {
+  mounted() {
+    this.el.addEventListener("click", (e) => {
+      scrollDown(document);
+    });
+  },
+};
+
 Hooks.CopyToClipboard = {
   mounted() {
     this.el.addEventListener("click", (e) => {
@@ -60,7 +98,6 @@ Hooks.CopyToClipboard = {
         // Now that we've selected the anchor text, execute the copy command
 
         let successful = document.execCommand("copy");
-        let msg = successful ? "successful" : "unsuccessful";
 
         if (!successful) {
           alert(

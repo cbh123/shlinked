@@ -56,7 +56,7 @@ defmodule ShlinkedinWeb.MessageLive.Show do
           {:new_message, new_message}
         )
 
-        {:noreply, socket}
+        {:noreply, push_event(socket, "send-message", %{})}
 
       {:error, msg} ->
         Logger.error(inspect(msg))
@@ -67,6 +67,7 @@ defmodule ShlinkedinWeb.MessageLive.Show do
   def handle_info({:new_message, new_message}, socket) do
     updated_messages = socket.assigns[:messages] ++ [new_message]
 
-    {:noreply, socket |> assign(:messages, updated_messages)}
+    {:noreply,
+     socket |> assign(:messages, updated_messages) |> push_event("receive-message", %{})}
   end
 end

@@ -1,5 +1,5 @@
    <!-- This example requires Tailwind CSS v2.0+ -->
-   <div class="max-w-7xl mx-auto h-screen">
+   <div class="max-w-7xl mx-auto" phx-hook="ReceiveMessage" id="shlinkmail">
 
        <div class="">
            <div
@@ -16,63 +16,72 @@
                    </svg>
                </span>
                <% end %>
-               <%= for member <- @conversation.conversation_members do %>
-               <%= unless member.profile.id == @profile.id do %>
-               <!-- Link to profile -->
-               <%= live_redirect to: Routes.profile_show_path(@socket, :show, member.profile.slug) do %>
-               <div class="flex-shrink-0 group block">
-                   <div class="flex items-center">
-                       <div>
-                           <img class="inline-block h-9 w-9 rounded-full"
-                               src="<%=member.profile.photo_url%>"
-                               alt="<%=member.profile.persona_name%>">
-                       </div>
-                       <div class="ml-3">
-                           <p
-                               class="text-sm font-medium text-gray-700 group-hover:text-gray-900">
-                               <%=member.profile.persona_name%>
-                           </p>
-                           <p
-                               class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
-                               <%=member.profile.persona_title%>
-                           </p>
+
+               <div class="flex -space-x-2 overflow-hidden">
+                   <%= for member <- @conversation.conversation_members do %>
+                   <%= unless member.profile.id == @profile.id do %>
+                   <!-- Link to profile -->
+                   <%= live_redirect to: Routes.profile_show_path(@socket, :show, member.profile.slug) do %>
+                   <div class="flex-shrink-0 group block">
+                       <div class="flex items-center">
+                           <div>
+                               <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white"
+                                   src="<%=member.profile.photo_url%>"
+                                   alt="<%=member.profile.persona_name%>">
+                           </div>
+                           <%= if length(@conversation.conversation_members) == 2 do %>
+                           <div class="ml-3">
+                               <p
+                                   class="text-sm font-medium text-gray-700 group-hover:text-gray-900">
+                                   <%=member.profile.persona_name%>
+                               </p>
+                               <p
+                                   class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
+                                   <%=member.profile.persona_title%>
+                               </p>
+                           </div>
+                           <% end %>
                        </div>
                    </div>
+                   <% end %>
+                   <% end %>
+                   <% end %>
                </div>
-               <% end %>
-               <% end %>
-               <% end %>
            </div>
 
-           <%# Messages %>
-           <div class="mt-6 px-10 pb-48 z-0">
 
-               <ul
-                   class="space-y-3 max-h-full max-w-2xl mx-auto overflow-scroll">
+
+           <%# Messages %>
+           <div class="px-3 pt-20 pb-48 z-0 bg-white -mb-48 min-h-screen">
+               <ul class="max-h-full max-w-2xl mx-auto overflow-y-scroll pb-8">
                    <%= for message <- @messages do %>
                    <%= if message.profile.id == @profile.id do %>
-                   <div class="flex justify-end">
+                   <div class="flex justify-end py-2">
                        <li
-                           class="bg-blue-400 text-white shadow overflow-hidden rounded-t-lg rounded-bl-lg  px-6 py-4">
+                           class="bg-gradient-to-tr from-blue-400 to-green-400 text-white font-medium shadow overflow-hidden rounded-full items-center justify-center px-4 py-3 text-sm">
                            <div>
                                <%= message.content %>
                            </div>
                        </li>
                    </div>
                    <% else %>
-                   <div class="flex">
+                   <span
+                       class="text-xs text-gray-500 ml-2"><%=message.profile.persona_name%></span>
+                   <div class="flex py-1">
                        <div class="mr-4 flex-shrink-0">
                            <span class="inline-block relative">
-                               <img class="h-12 w-12 rounded-full"
+                               <img class="h-10 w-10 rounded-full"
                                    src="<%= message.profile.photo_url %>"
                                    alt="">
                                <span
-                                   class="absolute bottom-0 right-0 block h-3 w-3 rounded-full ring-2 ring-white bg-green-300"></span>
+                                   class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white bg-green-400"></span>
                            </span>
 
+
                        </div>
+
                        <li
-                           class="bg-white shadow overflow-hidden rounded-t-lg rounded-br-lg  px-6 py-4">
+                           class="bg-gray-100 text-gray-800 shadow overflow-hidden rounded-full items-center justify-center px-4 py-3 text-sm">
                            <div>
                                <%= message.content %>
                            </div>
@@ -83,13 +92,31 @@
                </ul>
            </div>
        </div>
-       <div class="w-full mt-12 fixed sm:bottom-0 bottom-20 bg-gray-300 block">
-           <%= f = form_for :message, "#", [phx_submit: "send_message", id: "send-message"] %>
 
-           <%= text_input f, :content, class: "mt-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md", rows: 2, placeholder: "Start a new ShlinkMail" %>
-           <%= submit "Send" %>
-           </form>
+       <div class="fixed bottom-48 sm:bottom-24 w-full text-center">
+           <button id="scroll_down" phx-hook="ScrollDown"
+               class="items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-600 text-white hover:bg-blue-500 inline-flex">
+               &darr;
+           </button>
        </div>
+
+       <%= f = form_for :message, "#", [phx_hook: "SendMessage", phx_submit: "send_message", id: "send-message", class: "w-full mt-12 fixed flex justify-between sm:bottom-0 bottom-20 bg-white p-2 border-t shadow-t-sm", autocomplete: "off"] %>
+
+       <%= text_input f, :content, class: "flex-grow m-2 py-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md", placeholder: "Start a new ShlinkMail", required: true %>
+       <button class="m-2" type="submit">
+           <svg class="w-12 h-12 py-2 mr-2 text-blue-500 hover:bg-gray-50 rounded-full"
+               fill="currentColor" viewBox="0 0 20 20"
+               xmlns="http://www.w3.org/2000/svg">
+               <path
+                   d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z">
+               </path>
+               <path
+                   d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z">
+               </path>
+           </svg>
+       </button>
+
+       </form>
 
 
    </div>
