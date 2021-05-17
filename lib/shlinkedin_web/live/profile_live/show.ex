@@ -185,6 +185,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     profile_ids = [socket.assigns.profile.id, socket.assigns.to_profile.id]
 
     profile_ids
+    |> Enum.sort()
     |> Enum.map(&to_string/1)
     |> create_or_find_convo?()
     |> redirect_conversation(socket)

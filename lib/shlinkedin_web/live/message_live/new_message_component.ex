@@ -34,6 +34,7 @@ defmodule ShlinkedinWeb.MessageLive.NewMessageComponent do
     profile_ids = [socket.assigns.profile.id, id]
 
     profile_ids
+    |> Enum.sort()
     |> Enum.map(&to_string/1)
     |> create_or_find_convo?()
     |> redirect_conversation(socket)

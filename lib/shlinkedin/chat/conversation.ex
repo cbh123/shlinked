@@ -24,9 +24,9 @@ defmodule Shlinkedin.Chat.Conversation do
     |> unique_constraint(:profile_ids)
   end
 
-  defp sort_profile_ids(%{profile_ids: profile_ids} = attrs)
+  defp sort_profile_ids(%{"profile_ids" => profile_ids} = attrs)
        when is_list(profile_ids) and not is_nil(profile_ids) do
-    attrs |> Map.update!(:profile_ids, &Enum.sort(&1))
+    attrs |> Map.update!("profile_ids", &Enum.sort(&1))
   end
 
   defp sort_profile_ids(attrs), do: attrs
