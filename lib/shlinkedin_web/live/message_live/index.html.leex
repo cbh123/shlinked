@@ -27,11 +27,11 @@
         <%= live_redirect to: Routes.message_show_path(@socket, :show, convo.id) do %>
 
         <li id="<%= convo.id %>"
-            class="py-4 flex px-5 hover:bg-gray-50 border-b border-gray-200">
+            class="py-4 flex px-5 border-b border-gray-200 <%= if @unread_map[convo.id], do: "bg-blue-50 hover:bg-blue-100", else: "hover:bg-gray-50" %>">
             <div class="flex -space-x-2 overflow-hidden">
                 <%= for other <- convo.conversation_members do %>
                 <%= unless other.profile.id == @profile.id do %>
-                <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white"
+                <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white m-1"
                     src="<%= other.profile.photo_url %>"
                     alt="<%= other.profile.persona_name %>">
                 <% end %>
@@ -46,7 +46,7 @@
                     <% end %>
                 </p>
                 <p class="text-sm text-gray-500 truncate">
-                    <%= get_last_message(convo.messages) %>
+                    <%= @last_message_map[convo.id].content %>
                 </p>
             </div>
         </li>

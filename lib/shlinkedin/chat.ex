@@ -10,6 +10,15 @@ defmodule Shlinkedin.Chat do
   alias Shlinkedin.Chat.Message
   alias Shlinkedin.Profiles.Profile
 
+  def get_last_message(%Conversation{id: id}) do
+    Repo.one(
+      from m in Message,
+        where: m.conversation_id == ^id,
+        order_by: [desc: m.inserted_at],
+        limit: 1
+    )
+  end
+
   @doc """
   Get last n messages for a given conversation.
   """
@@ -149,20 +158,25 @@ defmodule Shlinkedin.Chat do
   end
 
   @doc """
-  Gets a single conversation_member.
+  Gets a single conversation_member by profile/conversation.
 
   Raises `Ecto.NoResultsError` if the Conversation member does not exist.
 
   ## Examples
 
-      iex> get_conversation_member!(123)
+      iex> get_conversation_member!(%Conversation{}, %Profile{})
       %ConversationMember{}
 
-      iex> get_conversation_member!(456)
+      iex> get_conversation_member!(%Conversation{}, %Profile{})
       ** (Ecto.NoResultsError)
 
   """
-  def get_conversation_member!(id), do: Repo.get!(ConversationMember, id)
+  def get_conversation_member!(%Conversation{id: convo_id}, %Profile{id: profile_id}) do
+    Repo.one!(
+      from c in ConversationMember,
+        where: c.conversation_id == ^convo_id and c.profile_id == ^profile_id
+    )
+  end
 
   @doc """
   Creates a conversation_member.

@@ -8,13 +8,15 @@ defmodule Shlinkedin.Chat.ConversationMember do
     belongs_to :profile, Shlinkedin.Profiles.Profile
     belongs_to :conversation, Shlinkedin.Chat.Conversation
 
+    field :last_read, :naive_datetime
+
     timestamps()
   end
 
   @doc false
   def changeset(conversation_member, attrs) do
     conversation_member
-    |> cast(attrs, [:owner, :profile_id])
+    |> cast(attrs, [:owner, :profile_id, :last_read])
     |> validate_required([:owner, :profile_id])
     |> unique_constraint(:user, name: :chat_conversation_members_conversation_id_user_id_index)
     |> unique_constraint(:conversation_id, name: :chat_conversation_members_owner)

@@ -197,7 +197,12 @@ Hooks.Clappify = {
     this.el.addEventListener("click", (e) => {
       const id = e.target.value;
       const textarea = document.getElementById(id);
-      textarea.value = textarea.value.replace(/ /g, " 👏 ");
+
+      if (textarea.value.indexOf(" ") >= 0) {
+        textarea.value = textarea.value.replace(/ /g, " 👏 ");
+      } else {
+        textarea.value = " 👏 " + textarea.value + " 👏 ";
+      }
     });
   },
 };
@@ -222,9 +227,14 @@ Hooks.Emojify = {
       const id = e.target.value;
       const text = document.getElementById(id).value;
 
-      var res = "";
-      for (let i = 0; i < text.length; i++) {
-        res += text.charAt(i) == " " ? random_emoji() : text.charAt(i);
+      if (text.indexOf(" ") >= 0) {
+        var res = "";
+        for (let i = 0; i < text.length; i++) {
+          res += text.charAt(i) == " " ? random_emoji() : text.charAt(i);
+        }
+      } else {
+        var res = text;
+        res = random_emoji() + res + random_emoji();
       }
       document.getElementById(id).value = res;
     });
