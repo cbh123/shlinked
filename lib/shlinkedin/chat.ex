@@ -10,6 +10,27 @@ defmodule Shlinkedin.Chat do
   alias Shlinkedin.Chat.Message
   alias Shlinkedin.Profiles.Profile
 
+  @doc """
+  Gets the count of unread messages for a given profile.
+  """
+  def get_unread_count(%Profile{} = profile) do
+    list_conversations(profile)
+    |> Enum.map(fn c -> has_unread?(c, profile) end)
+    |> Enum.filter(& &1)
+    |> Enum.count()
+  end
+
+  @doc """
+  Tells us whether or not given conversation / profile is unread.
+
+  Returns true if conversation has unread messages for given profile,
+  false if not.
+  """
+  def has_unread?(%Conversation{} = convo, %Profile{} = profile) do
+    get_conversation_member!(convo, profile).last_read <
+      get_last_message(convo).inserted_at
+  end
+
   def get_last_message(%Conversation{id: id}) do
     Repo.one(
       from m in Message,

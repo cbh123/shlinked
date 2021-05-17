@@ -7,6 +7,8 @@ defmodule ShlinkedinWeb.MessageLive.Index do
   def mount(_params, session, socket) do
     socket = is_user(session, socket)
 
+    Chat.get_unread_count(socket.assigns.profile)
+
     conversations =
       Chat.list_conversations(socket.assigns.profile)
       |> Repo.preload(conversation_members: [:profile])
@@ -37,15 +39,10 @@ defmodule ShlinkedinWeb.MessageLive.Index do
        ) do
     unread_map =
       conversations
-      |> Enum.map(fn c -> {c.id, has_unread?(c, profile)} end)
+      |> Enum.map(fn c -> {c.id, Chat.has_unread?(c, profile)} end)
       |> Map.new()
 
     assign(socket, unread_map: unread_map)
-  end
-
-  defp has_unread?(%Conversation{} = convo, %Profile{} = profile) do
-    Chat.get_conversation_member!(convo, profile).last_read <
-      Chat.get_last_message(convo).inserted_at
   end
 
   defp apply_action(socket, :index, _params) do

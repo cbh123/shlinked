@@ -23,6 +23,21 @@
     <!-- This example requires Tailwind CSS v2.0+ -->
     <ul class="divide-y divide-gray-200">
 
+        <%# Conversation empty state %>
+        <%= if @conversations == [] do %>
+        <div class="w-full justify-center px-6 pt-5 pb-6 rounded-md">
+            <div class="w-full space-y-1 text-center">
+
+                <span class="text-8xl">📮</span>
+                <div class="mx-auto text-sm text-gray-600 pt-4">
+                    <p class="py-4 font-semibold italic font-windows">
+                        Welcome to ShlinkMail! You don't have any messages yet.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+        <% else %>
         <%= for convo <- @conversations do %>
         <%= live_redirect to: Routes.message_show_path(@socket, :show, convo.id) do %>
 
@@ -51,6 +66,7 @@
             </div>
         </li>
 
+        <% end %>
         <% end %>
         <% end %>
 
