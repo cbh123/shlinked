@@ -281,8 +281,8 @@ defmodule Shlinkedin.Profiles do
     Repo.all(from p in Profile, preload: :user)
   end
 
-  def list_non_test_profiles() do
-    Repo.all(from p in Profile, where: p.persona_name != "test")
+  def list_non_test_profiles(limit \\ 50) do
+    Repo.all(from p in Profile, where: p.persona_name != "test", limit: ^limit)
   end
 
   def list_featured_profiles(count) do
