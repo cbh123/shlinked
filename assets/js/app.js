@@ -64,11 +64,6 @@ Hooks.Message = {
     this.handleEvent("receive-message", ({ num_messages }) => {
       scrollDown(document, num_messages);
     });
-    this.handleEvent("template-message", ({ template }) => {
-      document.getElementById("icebreaker").classList.add("hidden");
-      const message_input = document.getElementById("message_content");
-      message_input.value = template;
-    });
     this.handleEvent("scroll-down", ({ num_messages }) => {
       scrollDown(document, num_messages);
     });

@@ -44,7 +44,7 @@ defmodule ShlinkedinWeb.MessageLive.Index do
   end
 
   defp has_unread?(%Conversation{} = convo, %Profile{} = profile) do
-    Chat.get_conversation_member!(convo, profile).last_read <=
+    Chat.get_conversation_member!(convo, profile).last_read <
       Chat.get_last_message(convo).inserted_at
   end
 

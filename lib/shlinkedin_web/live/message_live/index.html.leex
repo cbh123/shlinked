@@ -28,7 +28,7 @@
 
         <li id="<%= convo.id %>"
             class="py-4 flex px-5 border-b border-gray-200 <%= if @unread_map[convo.id], do: "bg-blue-50 hover:bg-blue-100", else: "hover:bg-gray-50" %>">
-            <div class="flex -space-x-2 overflow-hidden">
+            <div class="flex flex-shrink-0 -space-x-2 overflow-hidden">
                 <%= for other <- convo.conversation_members do %>
                 <%= unless other.profile.id == @profile.id do %>
                 <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white m-1"
@@ -37,7 +37,7 @@
                 <% end %>
                 <% end %>
             </div>
-            <div class="ml-3">
+            <div class="ml-3 truncate">
                 <p class="text-sm font-medium text-gray-900">
                     <%= for other <- convo.conversation_members do %>
                     <%= unless other.profile.id == @profile.id do %>
@@ -45,7 +45,7 @@
                     <% end %>
                     <% end %>
                 </p>
-                <p class="text-sm text-gray-500 truncate">
+                <p class="text-sm text-gray-500">
                     <%= @last_message_map[convo.id].content %>
                 </p>
             </div>

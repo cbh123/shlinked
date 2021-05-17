@@ -34,6 +34,7 @@ defmodule ShlinkedinWeb.MessageLive.Show do
          |> assign(convo_length: convo_length)
          |> assign(some_text: false)
          |> assign(limit: @limit)
+         |> assign(templates: get_templates())
          |> assign(messages: messages)
          |> update_last_read_time()
          |> push_event("scroll-down", %{
@@ -51,8 +52,31 @@ defmodule ShlinkedinWeb.MessageLive.Show do
   def handle_event(
         "send_message",
         %{"message" => %{"content" => content}},
-        %{assigns: %{conversation: conversation, profile: profile}} = socket
+        socket
       ) do
+    send_message(content, socket)
+  end
+
+  def handle_event("icebreaker", _, socket) do
+    random_icebreaker = Chat.get_random_icebreaker()
+    send_message(random_icebreaker.content, socket)
+  end
+
+  def handle_event("template", %{"content" => content}, socket) do
+    socket = assign(socket, templates: get_templates())
+    send_message(content, socket)
+  end
+
+  def handle_event("update_message", %{"message" => %{"content" => content}}, socket)
+      when is_nil(content) or content == "" do
+    {:noreply, socket |> assign(some_text: false)}
+  end
+
+  def handle_event("update_message", %{"message" => %{"content" => _}}, socket) do
+    {:noreply, socket |> assign(some_text: true)}
+  end
+
+  defp send_message(content, %{assigns: %{conversation: conversation, profile: profile}} = socket) do
     case Chat.create_message(%{
            conversation_id: conversation.id,
            profile_id: profile.id,
@@ -74,20 +98,6 @@ defmodule ShlinkedinWeb.MessageLive.Show do
         Logger.error(inspect(msg))
         {:noreply, socket}
     end
-  end
-
-  def handle_event("icebreaker", _, socket) do
-    random_icebreaker = Chat.get_random_icebreaker()
-    {:noreply, push_event(socket, "template-message", %{template: random_icebreaker.content})}
-  end
-
-  def handle_event("update_message", %{"message" => %{"content" => content}}, socket)
-      when is_nil(content) or content == "" do
-    {:noreply, socket |> assign(some_text: false)}
-  end
-
-  def handle_event("update_message", %{"message" => %{"content" => _}}, socket) do
-    {:noreply, socket |> assign(some_text: true)}
   end
 
   def handle_info({:new_message, new_message}, socket) do

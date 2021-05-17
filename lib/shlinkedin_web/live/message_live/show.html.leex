@@ -66,7 +66,7 @@
                    <%= if message.profile.id == @profile.id do %>
                    <div class="flex justify-end py-2" id="<%=message.id%>">
                        <li
-                           class="bg-gradient-to-tr from-blue-400 to-green-400 text-white font-medium shadow overflow-hidden rounded-full items-center justify-center px-4 py-3 text-sm">
+                           class="bg-gradient-to-tr from-blue-400 to-green-400 text-white font-medium shadow overflow-hidden <%= if String.length(message.content) > 500, do: "rounded-lg", else: "rounded-full" %> items-center justify-center px-4 py-3 text-sm">
                            <div>
                                <%= message.content %>
                            </div>
@@ -90,7 +90,7 @@
                            </div>
 
                            <li
-                               class="bg-gray-100 text-gray-800 shadow overflow-hidden rounded-full items-center justify-center px-4 py-3 text-sm">
+                               class="bg-gray-100 text-gray-800 shadow overflow-hidden <%= if String.length(message.content) > 500, do: "rounded-lg", else: "rounded-full" %>  items-center justify-center px-4 py-3 text-sm">
                                <div>
                                    <%= message.content %>
                                </div>
@@ -128,15 +128,34 @@
 
 
 
-
+       <%# Scroll down button %>
        <%= if length(@messages) > 6 do %>
-       <div class="fixed bottom-48 sm:bottom-24 w-full text-center">
+       <div
+           class="fixed <%= if @some_text, do: "bottom-64 sm:bottom-40", else: "bottom-56 sm:bottom-36" %>  w-full text-center">
            <button id="scroll_down" phx-hook="ScrollDown"
-               class="items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-600 text-white hover:bg-blue-500 inline-flex">
+               class="items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-600 text-white hover:bg-blue-500 inline-flex mb-4">
                &darr;
            </button>
        </div>
        <% end %>
+
+       <%# Templates %>
+       <%= unless @messages == [] do %>
+       <div
+           class="fixed <%= if @some_text, do: "bottom-52 sm:bottom-32", else: "bottom-44 sm:bottom-24" %> w-full text-center">
+           <div class="grid grid-cols-3 mx-4 gap-4">
+               <%= for template <- @templates do %>
+               <button id="scroll_down" phx-click="template"
+                   phx-value-content="<%= template.content %>"
+                   class="items-center px-3 py-1 rounded-full text-sm font-medium bg-white border border-blue-600 text-blue-600 hover:bg-blue-50 truncate">
+                   <%= template.content %>
+               </button>
+               <% end %>
+           </div>
+       </div>
+       <% end %>
+
+
 
        <%= f = form_for :message, "#", [phx_hook: "SendMessage", phx_change: "update_message", phx_submit: "send_message", id: "send-message", class: "w-full mt-12 fixed sm:bottom-0 bottom-20 bg-white p-2 border-t shadow-t-sm", autocomplete: "off" ] %>
 
