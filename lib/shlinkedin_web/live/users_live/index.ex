@@ -9,6 +9,6 @@ defmodule ShlinkedinWeb.UsersLive.Index do
 
     {:ok,
      socket
-     |> assign(profiles: Profiles.list_non_test_profiles(50))}
+     |> assign(profiles: Profiles.list_non_test_profiles(5))}
   end
 end
