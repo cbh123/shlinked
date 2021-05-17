@@ -27,8 +27,12 @@ defmodule Shlinkedin.Chat do
   false if not.
   """
   def has_unread?(%Conversation{} = convo, %Profile{} = profile) do
-    get_conversation_member!(convo, profile).last_read <
-      get_last_message(convo).inserted_at
+    if is_nil(get_last_message(convo)) do
+      false
+    else
+      get_conversation_member!(convo, profile).last_read <
+        get_last_message(convo).inserted_at
+    end
   end
 
   def get_last_message(%Conversation{id: id}) do

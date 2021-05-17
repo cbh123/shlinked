@@ -6,6 +6,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   alias Shlinkedin.Profiles.Endorsement
   alias Shlinkedin.Profiles.Testimonial
   alias Shlinkedin.Points.Transaction
+  alias Shlinkedin.{Chat, Chat.Conversation}
 
   @impl true
   def mount(%{"slug" => slug}, session, socket) do
@@ -180,6 +181,15 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     |> assign(:page_title, "#{socket.assigns.show_profile.persona_name}'s Ad Clicks")
   end
 
+  def handle_event("message", _, socket) do
+    profile_ids = [socket.assigns.profile.id, socket.assigns.to_profile.id]
+
+    profile_ids
+    |> Enum.map(&to_string/1)
+    |> create_or_find_convo?()
+    |> redirect_conversation(socket)
+  end
+
   def handle_event("select-content", %{"content" => content}, socket) do
     case content do
       "posts" ->
@@ -350,5 +360,32 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     else
       {:noreply, socket}
     end
+  end
+
+  defp create_or_find_convo?(profile_ids) when is_list(profile_ids) do
+    case Chat.conversation_exists?(profile_ids) do
+      %Conversation{} = convo ->
+        {:ok, convo}
+
+      nil ->
+        %{
+          "conversation_members" => conversation_members_format(profile_ids),
+          "profile_ids" => profile_ids
+        }
+        |> Chat.create_conversation()
+    end
+  end
+
+  defp redirect_conversation({:ok, %Conversation{id: id}}, socket) do
+    {:noreply,
+     socket
+     |> push_redirect(to: Routes.message_show_path(socket, :show, id))}
+  end
+
+  defp conversation_members_format(profile_ids) do
+    profile_ids
+    |> Enum.with_index()
+    |> Enum.map(fn {id, i} -> {to_string(i), %{"profile_id" => id}} end)
+    |> Enum.into(%{})
   end
 end

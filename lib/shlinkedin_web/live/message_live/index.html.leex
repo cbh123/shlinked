@@ -61,7 +61,9 @@
                     <% end %>
                 </p>
                 <p class="text-sm text-gray-500">
+                    <%= unless is_nil(@last_message_map[convo.id]) do %>
                     <%= @last_message_map[convo.id].content %>
+                    <% end %>
                 </p>
             </div>
         </li>
