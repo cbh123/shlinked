@@ -35,6 +35,7 @@ defmodule ShlinkedinWeb.MessageLive.Show do
          |> assign(some_text: false)
          |> assign(limit: @limit)
          |> assign(messages: messages)
+         |> update_last_read_time()
          |> push_event("scroll-down", %{
            num_messages: convo_length
          }), temporary_assigns: [messages: []]}
@@ -94,11 +95,19 @@ defmodule ShlinkedinWeb.MessageLive.Show do
 
     {:noreply,
      socket
+     |> update_last_read_time()
      |> assign(:messages, updated_messages)
      |> push_event("receive-message", %{num_messages: socket.assigns.convo_length})}
   end
 
   defp get_templates(count \\ 3) do
     Chat.list_random_templates(count)
+  end
+
+  defp update_last_read_time(%{assigns: %{conversation: conversation, profile: profile}} = socket) do
+    Chat.get_conversation_member!(conversation, profile)
+    |> Chat.update_conversation_member(%{last_read: NaiveDateTime.utc_now()})
+
+    socket
   end
 end
