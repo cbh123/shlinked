@@ -145,7 +145,7 @@
            class="fixed <%= if @some_text, do: "bottom-52 sm:bottom-32", else: "bottom-44 sm:bottom-24" %> w-full text-center">
            <div class="grid grid-cols-3 mx-4 gap-4">
                <%= for template <- @templates do %>
-               <button id="scroll_down" phx-click="template"
+               <button id="<%=template.id%>" phx-click="template"
                    phx-value-content="<%= template.content %>"
                    class="items-center px-3 py-1 rounded-full text-sm font-medium bg-white border border-blue-600 text-blue-600 hover:bg-blue-50 truncate">
                    <%= template.content %>
