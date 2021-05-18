@@ -66,7 +66,7 @@
                    <%= if message.profile.id == @profile.id do %>
                    <div class="flex justify-end py-2" id="<%=message.id%>">
                        <li
-                           class="bg-gradient-to-tr from-blue-400 to-green-400 text-white font-medium shadow overflow-hidden <%= if String.length(message.content) > 500, do: "rounded-lg", else: "rounded-full" %> items-center justify-center px-4 py-3 text-sm">
+                           class="bg-gradient-to-tr from-blue-400 to-green-400 text-white font-medium shadow overflow-hidden <%= if String.length(message.content) > 100, do: "rounded-lg", else: "rounded-full" %> items-center justify-center px-4 py-3 text-sm">
                            <div>
                                <%= message.content %>
                            </div>
@@ -90,7 +90,7 @@
                            </div>
 
                            <li
-                               class="bg-gray-100 text-gray-800 shadow overflow-hidden <%= if String.length(message.content) > 500, do: "rounded-lg", else: "rounded-full" %>  items-center justify-center px-4 py-3 text-sm">
+                               class="bg-gray-100 text-gray-800 shadow overflow-hidden <%= if String.length(message.content) > 100, do: "rounded-lg", else: "rounded-full" %>  items-center justify-center px-4 py-3 text-sm">
                                <div>
                                    <%= message.content %>
                                </div>
