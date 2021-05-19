@@ -16,7 +16,7 @@ defmodule Shlinkedin.MessageLiveTest do
 
     assert html =~ "ShlinkMail"
 
-    view |> element("#new-message") |> render_click()
+    view |> element("a", "New") |> render_click()
 
     assert_patch(view, Routes.message_index_path(conn, :new_message))
 
@@ -33,7 +33,7 @@ defmodule Shlinkedin.MessageLiveTest do
 
     assert html =~ "ShlinkMail"
 
-    view |> element("#new-message") |> render_click()
+    view |> element("a", "New") |> render_click()
 
     assert_patch(view, Routes.message_index_path(conn, :new_message))
 
@@ -53,7 +53,7 @@ defmodule Shlinkedin.MessageLiveTest do
 
     assert html =~ "ShlinkMail"
 
-    view |> element("#new-message") |> render_click()
+    view |> element("a", "New") |> render_click()
 
     assert_patch(view, Routes.message_index_path(conn, :new_message))
 

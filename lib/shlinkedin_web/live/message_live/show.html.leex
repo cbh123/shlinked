@@ -61,7 +61,7 @@
                </div>
                <% end %>
                <ul class="max-h-full max-w-2xl mx-auto overflow-y-scroll pb-8"
-                   phx-update="append">
+                   id="messages" phx-update="append">
                    <%= for message <- @messages do %>
                    <%= if message.profile.id == @profile.id do %>
                    <div class="flex justify-end py-2" id="<%=message.id%>">

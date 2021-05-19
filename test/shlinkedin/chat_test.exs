@@ -27,6 +27,16 @@ defmodule Shlinkedin.ChatTest do
     test "create_conversation/1 with valid data creates a conversation" do
       assert {:ok, %Conversation{} = conversation} = Chat.create_conversation(@valid_attrs)
       assert conversation.profile_ids == [1, 2, 3]
+
+      assert {:ok, %Conversation{} = conversation} =
+               Chat.create_conversation(%{profile_ids: [271, 1]})
+
+      assert conversation.profile_ids == [1, 271]
+
+      assert {:ok, %Conversation{} = conversation} =
+               Chat.create_conversation(%{"profile_ids" => [382, 238, 10002]})
+
+      assert conversation.profile_ids == [238, 382, 10002]
     end
 
     test "create_conversation/1 with invalid data returns error changeset" do
@@ -92,7 +102,9 @@ defmodule Shlinkedin.ChatTest do
     end
 
     test "create_message_template/1 with valid data creates a message_template" do
-      assert {:ok, %MessageTemplate{} = message_template} = Chat.create_message_template(@valid_attrs)
+      assert {:ok, %MessageTemplate{} = message_template} =
+               Chat.create_message_template(@valid_attrs)
+
       assert message_template.content == "some content"
       assert message_template.type == "some type"
     end
@@ -103,14 +115,20 @@ defmodule Shlinkedin.ChatTest do
 
     test "update_message_template/2 with valid data updates the message_template" do
       message_template = message_template_fixture()
-      assert {:ok, %MessageTemplate{} = message_template} = Chat.update_message_template(message_template, @update_attrs)
+
+      assert {:ok, %MessageTemplate{} = message_template} =
+               Chat.update_message_template(message_template, @update_attrs)
+
       assert message_template.content == "some updated content"
       assert message_template.type == "some updated type"
     end
 
     test "update_message_template/2 with invalid data returns error changeset" do
       message_template = message_template_fixture()
-      assert {:error, %Ecto.Changeset{}} = Chat.update_message_template(message_template, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Chat.update_message_template(message_template, @invalid_attrs)
+
       assert message_template == Chat.get_message_template!(message_template.id)
     end
 

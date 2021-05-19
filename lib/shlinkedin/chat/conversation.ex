@@ -10,6 +10,7 @@ defmodule Shlinkedin.Chat.Conversation do
     has_many :messages, Message
     field :profile_ids, {:array, :integer}, unique: true, null: false
     field :last_message_sent, :naive_datetime
+    field :slug, :string
     timestamps()
   end
 
@@ -27,6 +28,11 @@ defmodule Shlinkedin.Chat.Conversation do
   defp sort_profile_ids(%{"profile_ids" => profile_ids} = attrs)
        when is_list(profile_ids) and not is_nil(profile_ids) do
     attrs |> Map.update!("profile_ids", &Enum.sort(&1))
+  end
+
+  defp sort_profile_ids(%{profile_ids: profile_ids} = attrs)
+       when is_list(profile_ids) and not is_nil(profile_ids) do
+    attrs |> Map.update!(:profile_ids, &Enum.sort(&1))
   end
 
   defp sort_profile_ids(attrs), do: attrs
