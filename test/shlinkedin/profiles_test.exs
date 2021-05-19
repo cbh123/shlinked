@@ -1,10 +1,12 @@
 defmodule Shlinkedin.ProfilesTest do
   use Shlinkedin.DataCase
-
+  import Shlinkedin.ProfilesFixtures
+  import Shlinkedin.AccountsFixtures
   alias Shlinkedin.Profiles
 
   describe "endorsements" do
     alias Shlinkedin.Profiles.Endorsement
+    alias Shlinkedin.Profiles.Profile
 
     @valid_attrs %{body: "some body", emoji: "some emoji", gif_url: "some gif_url"}
     @update_attrs %{
@@ -14,40 +16,50 @@ defmodule Shlinkedin.ProfilesTest do
     }
     @invalid_attrs %{body: nil, emoji: nil, gif_url: nil}
 
-    def endorsement_fixture(attrs \\ %{}) do
-      {:ok, endorsement} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Profiles.create_endorsement()
+    def endorsement_fixture(from, to, attrs \\ %{}) do
+      {:ok, endorsement} = Profiles.create_endorsement(from, to, attrs |> Enum.into(@valid_attrs))
 
       endorsement
     end
 
-    test "renders join page if user is not logged in", %{conn: conn} do
-      assert {:error, {:redirect, %{to: "/join"}}} = live(conn, "/home")
-    end
-
-    test "initial render with user but no profile yet", %{conn: conn} do
+    setup do
+      from = profile_fixture()
+      to = profile_fixture()
       user = user_fixture()
-
-      assert {:ok, _view, _html} =
-               conn
-               |> log_in_user(user)
-               |> live("/profile/welcome")
+      %{from: from, to: to, user: user}
     end
 
-    test "list_endorsements/0 returns all endorsements" do
-      endorsement = endorsement_fixture()
-      assert Profiles.list_endorsements() == [endorsement]
+    test "create_profile", %{user: user} do
+      assert {:ok, %Profile{} = profile} =
+               Profiles.create_profile(user, %{
+                 "persona_name" => "Charlie H",
+                 "real_name" => "Doop"
+               })
+
+      assert profile.persona_name == "Charlie H"
+      assert profile.real_name == "Doop"
+      assert profile.user_id == user.id
+      assert profile.slug == "charlie-h#{profile.user_id}"
+      assert profile.username == "charlie-h#{profile.user_id}"
     end
 
-    test "get_endorsement!/1 returns the endorsement with given id" do
-      endorsement = endorsement_fixture()
+    test "list_endorsements/1 returns all endorsements for that profile", %{from: from, to: to} do
+      from = profile_fixture()
+      to = profile_fixture()
+
+      endorsement = endorsement_fixture(from, to)
+      assert Profiles.list_endorsements(to.id) == [endorsement]
+    end
+
+    test "get_endorsement!/1 returns the endorsement with given id", %{from: from, to: to} do
+      endorsement = endorsement_fixture(from, to)
       assert Profiles.get_endorsement!(endorsement.id) == endorsement
     end
 
-    test "create_endorsement/1 with valid data creates a endorsement" do
-      assert {:ok, %Endorsement{} = endorsement} = Profiles.create_endorsement(@valid_attrs)
+    test "create_endorsement/1 with valid data creates a endorsement", %{from: from, to: to} do
+      assert {:ok, %Endorsement{} = endorsement} =
+               Profiles.create_endorsement(from, to, @valid_attrs)
+
       assert endorsement.body == "some body"
       assert endorsement.emoji == "some emoji"
       assert endorsement.gif_url == "some gif_url"
@@ -57,8 +69,8 @@ defmodule Shlinkedin.ProfilesTest do
       assert {:error, %Ecto.Changeset{}} = Profiles.create_endorsement(@invalid_attrs)
     end
 
-    test "update_endorsement/2 with valid data updates the endorsement" do
-      endorsement = endorsement_fixture()
+    test "update_endorsement/2 with valid data updates the endorsement", %{from: from, to: to} do
+      endorsement = endorsement_fixture(from, to)
 
       assert {:ok, %Endorsement{} = endorsement} =
                Profiles.update_endorsement(endorsement, @update_attrs)
@@ -68,8 +80,8 @@ defmodule Shlinkedin.ProfilesTest do
       assert endorsement.gif_url == "some updated gif_url"
     end
 
-    test "update_endorsement/2 with invalid data returns error changeset" do
-      endorsement = endorsement_fixture()
+    test "update_endorsement/2 with invalid data returns error changeset", %{from: from, to: to} do
+      endorsement = endorsement_fixture(from, to)
 
       assert {:error, %Ecto.Changeset{}} =
                Profiles.update_endorsement(endorsement, @invalid_attrs)
@@ -77,14 +89,14 @@ defmodule Shlinkedin.ProfilesTest do
       assert endorsement == Profiles.get_endorsement!(endorsement.id)
     end
 
-    test "delete_endorsement/1 deletes the endorsement" do
-      endorsement = endorsement_fixture()
+    test "delete_endorsement/1 deletes the endorsement", %{from: from, to: to} do
+      endorsement = endorsement_fixture(from, to)
       assert {:ok, %Endorsement{}} = Profiles.delete_endorsement(endorsement)
       assert_raise Ecto.NoResultsError, fn -> Profiles.get_endorsement!(endorsement.id) end
     end
 
-    test "change_endorsement/1 returns a endorsement changeset" do
-      endorsement = endorsement_fixture()
+    test "change_endorsement/1 returns a endorsement changeset", %{from: from, to: to} do
+      endorsement = endorsement_fixture(from, to)
       assert %Ecto.Changeset{} = Profiles.change_endorsement(endorsement)
     end
   end

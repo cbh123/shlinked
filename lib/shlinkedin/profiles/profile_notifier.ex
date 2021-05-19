@@ -83,7 +83,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         %Profile{} = from_profile,
         %Profile{} = to_profile,
         %Invite{} = invite,
-        type
+        _type
       ) do
     group = Groups.get_group!(invite.group_id)
 

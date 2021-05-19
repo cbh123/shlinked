@@ -779,6 +779,9 @@ defmodule Shlinkedin.Profiles do
     Profile.changeset(profile, attrs)
   end
 
+  @doc """
+  Creates a profile given a username.
+  """
   def create_profile(
         %User{id: user_id},
         attrs,
@@ -786,10 +789,19 @@ defmodule Shlinkedin.Profiles do
       ) do
     %Profile{}
     |> Profile.changeset(attrs |> Map.put("user_id", user_id))
-    |> Profile.changeset(attrs |> Map.put("username", "#{attrs["persona_name"]}#{user_id}"))
-    |> Ecto.Changeset.put_change(:slug, "#{attrs["persona_name"]}#{user_id}")
+    |> Profile.changeset(
+      attrs
+      |> Map.put("username", "#{slugify(attrs["persona_name"])}#{user_id}")
+    )
+    |> Ecto.Changeset.put_change(:slug, "#{slugify(attrs["persona_name"])}#{user_id}")
     |> Repo.insert()
     |> after_save(after_save)
+  end
+
+  defp slugify(str) do
+    str
+    |> String.downcase()
+    |> String.replace(~r/[^\w-]+/u, "-")
   end
 
   def update_profile(%Profile{} = profile, %User{id: user_id}, attrs, after_save \\ &{:ok, &1}) do

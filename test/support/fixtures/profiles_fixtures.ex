@@ -8,25 +8,8 @@ defmodule Shlinkedin.ProfilesFixtures do
   def title, do: "Product Manager"
   def unique_slug, do: "profile_#{:rand.uniform(10000)}"
 
-  def profile_fixture(%Shlinkedin.Accounts.User{} = user, attrs \\ %{}) do
-    {:ok, profile} =
-      Shlinkedin.Profiles.create_profile(
-        user,
-        attrs
-        |> Enum.into(%{
-          "persona_name" => unique_persona_name(),
-          "slug" => unique_slug(),
-          "title" => title(),
-          "real_name" => "Charlie Holtz",
-          "username" => unique_slug()
-        })
-      )
-
-    profile
-  end
-
-  def profile_fixture_no_user(attrs \\ %{}) do
-    user = Shlinkedin.AccountsFixtures.user_fixture()
+  def profile_fixture(attrs \\ %{}) do
+    user = Map.get(attrs, :user, Shlinkedin.AccountsFixtures.user_fixture())
 
     {:ok, profile} =
       Shlinkedin.Profiles.create_profile(
