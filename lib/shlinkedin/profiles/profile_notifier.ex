@@ -94,9 +94,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
 
-    #{from_profile.persona_name} has invited you the #{group.privacy_type} group they are in, "#{
-      group.title
-    }." To accept or reject their invite,
+    #{from_profile.persona_name} has invited you the #{group.privacy_type} group they are in, "#{group.title}." To accept or reject their invite,
     you can <a href="https://www.shlinkedin.com/groups/#{group.id}">click here.</a>
 
     <br/>
@@ -246,7 +244,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
 
     <p>Hi #{from_profile.persona_name} / #{from_profile.real_name} has sent you a Shlink request. You can accept it
-    <a href="https://www.shlinkedin.com/sh/#{to_profile.slug}">here.</a>
+    <a href="https://www.shlinkedin.com/shlinks">here.</a>
 
     Time to think of some ice-breakers, like:</p>
 
@@ -331,9 +329,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
 
-    <p>Congratulations! #{to_profile.persona_name} / #{to_profile.real_name} has accepted your Shlink request. Your reward is +#{
-      Points.get_rule_amount(type)
-    }. Time to ask them something personal, like:</p>
+    <p>Congratulations! #{to_profile.persona_name} / #{to_profile.real_name} has accepted your Shlink request. Your reward is +#{Points.get_rule_amount(type)}. Time to ask them something personal, like:</p>
 
     <ul>
     #{for line <- friend_request_text(), do: "<li>#{line}</li>"}
@@ -379,9 +375,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
 
-    <a href="https://www.shlinkedin.com/sh/#{from_profile.slug}">#{from_profile.persona_name}</a> has endorsed you for "#{
-      endorsement.body
-    }"! Your reward is +#{Points.get_rule_amount(type)}.
+    <a href="https://www.shlinkedin.com/sh/#{from_profile.slug}">#{from_profile.persona_name}</a> has endorsed you for "#{endorsement.body}"! Your reward is +#{Points.get_rule_amount(type)}.
 
     <br/>
     <br/>
@@ -427,12 +421,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
 
-    <a href="https://www.shlinkedin.com/sh/#{from_profile.slug}">#{from_profile.persona_name}</a> has written a #{
-      testimonial.rating
-    }/5 star review for you. Check it out
-    <a href="https://www.shlinkedin.com/sh/#{to_profile.slug}">on your profile.</a>. Your reward is +#{
-      Points.get_rule_amount(type)
-    }
+    <a href="https://www.shlinkedin.com/sh/#{from_profile.slug}">#{from_profile.persona_name}</a> has written a #{testimonial.rating}/5 star review for you. Check it out
+    <a href="https://www.shlinkedin.com/sh/#{to_profile.slug}">on your profile.</a>. Your reward is +#{Points.get_rule_amount(type)}
 
     <br/>
     <br/>
@@ -453,9 +443,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       if to_profile.unsubscribed == false do
         Shlinkedin.Email.new_email(
           to_profile.user.email,
-          "#{from_profile.persona_name} has given you #{testimonial.rating}/5 stars! +#{
-            Points.get_rule_amount(type)
-          }",
+          "#{from_profile.persona_name} has given you #{testimonial.rating}/5 stars! +#{Points.get_rule_amount(type)}",
           body
         )
         |> Shlinkedin.Mailer.deliver_later()
@@ -509,26 +497,20 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
       Hi #{to_profile.persona_name}.
 
-      #{
-        if like.like_type == "buy",
-          do: "We have great news for your company, '#{ad.company}'.",
-          else: "Times are tough at your shell company, '#{ad.company}'."
-      }
+      #{if like.like_type == "buy",
+        do: "We have great news for your company, '#{ad.company}'.",
+        else: "Times are tough at your shell company, '#{ad.company}'."}
 
       <br/>
       <br/>
 
       #{from_profile.persona_name} has
 
-      <a href="https://www.shlinkedin.com/ads/#{ad.id}">#{get_ad_like_text(like)}</a>. Your reward is +#{
-        Points.get_rule_amount(type)
-      }!
+      <a href="https://www.shlinkedin.com/ads/#{ad.id}">#{get_ad_like_text(like)}</a>. Your reward is +#{Points.get_rule_amount(type)}!
 
       <br/>
       <br/>
-      Believe it or not, with you now are the <a href="https://www.shlinkedin.com/leaders?curr_category=Wealth">#{
-        Ordinal.ordinalize(ranking)
-      }</a> wealthiest person on ShlinkedIn.
+      Believe it or not, with you now are the <a href="https://www.shlinkedin.com/leaders?curr_category=Wealth">#{Ordinal.ordinalize(ranking)}</a> wealthiest person on ShlinkedIn.
 
       <br/>
       <br/>
@@ -539,11 +521,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
       Shlinkedin.Email.new_email(
         to_profile.user.email,
-        "#{
-          if like.like_type == "buy",
-            do: "You made a sale!",
-            else: "Uh oh. You've been sued by #{from_profile.persona_name}"
-        }",
+        "#{if like.like_type == "buy",
+          do: "You made a sale!",
+          else: "Uh oh. You've been sued by #{from_profile.persona_name}"}",
         body
       )
       |> Shlinkedin.Mailer.deliver_later()
