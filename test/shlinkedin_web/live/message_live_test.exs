@@ -29,7 +29,7 @@ defmodule Shlinkedin.MessageLiveTest do
 
   test "select someone to message", %{conn: conn} do
     {:ok, view, html} = live(conn, Routes.message_index_path(conn, :index))
-    other = profile_fixture_no_user(%{"persona_name" => "Charlop"})
+    other = profile_fixture()
 
     assert html =~ "ShlinkMail"
 
@@ -49,7 +49,7 @@ defmodule Shlinkedin.MessageLiveTest do
 
   test "select someone to message and then message them", %{conn: conn} do
     {:ok, view, html} = live(conn, Routes.message_index_path(conn, :index))
-    other = profile_fixture_no_user(%{"persona_name" => "Charlop"})
+    other = profile_fixture()
 
     assert html =~ "ShlinkMail"
 
