@@ -28,7 +28,18 @@
 
                 <span
                     class="pr-1 mt-2 mr-2 inline-flex items-center text-sm <%= @like_map[like.like_type].color %> focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    <%= @like_map[like.like_type].emoji%>
+
+                    <%= if @like_map[like.like_type].is_emoji do %>
+                    <%= @like_map[like.like_type].emoji %>
+                    <% else %>
+                    <svg class="-ml-1 mr-1 h-4 w-4 sm:h-5 sm:w-5 mx-auto"
+                        fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="<%= @like_map[like.like_type].svg_path %>"
+                            fill-rule="<%=@like_map[like.like_type].fill%>">
+                        </path>
+                    </svg>
+                    <% end %>
 
 
                     <%= like.like_type %> <span

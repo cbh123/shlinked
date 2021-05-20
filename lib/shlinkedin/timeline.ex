@@ -434,13 +434,21 @@ defmodule Shlinkedin.Timeline do
         color: "text-blue-500",
         bg: "bg-blue-600"
       },
+      "Milk" => %{
+        active: true,
+        like_type: "Milk",
+        is_emoji: true,
+        emoji: "🥛",
+        color: "text-blue-300",
+        bg: "bg-blue-400"
+      },
       "Kudos!" => %{
         active: true,
         like_type: "Kudos!",
         is_emoji: true,
         emoji: "👏",
-        color: "text-teal-500",
-        bg: "bg-teal-600"
+        color: "text-indigo-500",
+        bg: "bg-indigo-600"
       },
       "Invest" => %{
         active: true,
