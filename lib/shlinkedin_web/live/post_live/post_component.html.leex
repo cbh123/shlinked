@@ -148,25 +148,21 @@
                         id="post-<%=@post.id%>-like-<%=like.like_type%>"
                         phx-value-like-type="<%=like.like_type%>"
                         class="<%= if num_likes > 0, do: like.color, else: "text-gray-500" %> active:text-white active:<%=like.bg %> tooltip inline-flex items-center
-                    mr-0.5 px-1 py-1 rounded-full border border-transparent text-xs font-medium rounded-md bg-white hover:bg-gray-100
+                    mr-0.5 px-1 py-1 rounded-full border border-transparent text-xs font-medium bg-white hover:bg-gray-100
                     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 relative">
 
-                        <svg class="h-4 w-4 sm:h-5 sm:w-5 mx-auto"
-                            fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="<%=like.svg_path%>"
-                                fill-rule="<%=like.fill%>">
-                            </path>
-                        </svg>
+                        <%= if like.is_emoji do %>
+                        <span class="mx-auto text-sm"
+                            viewBox="0 0 20 20"><%= like.emoji %></span>
+                        <% end %>
+
                         <%= if num_likes > 0 do %>
                         <span
                             class="absolute top-0 -right-0.5 text-xs text-gray-500"><%= num_likes %></span>
                         <% end %>
                         <span
                             class="tooltip-text -mt-12"><%=like.like_type%></span>
-
                     </button>
-
 
                     <% end %>
 
@@ -175,13 +171,7 @@
                         phx-target="<%= @myself %>"
                         phx-value-id="<%= @post.id %>"
                         class="ml-1 active:bg-yellow-100 active:text-yellow-600 inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        <svg class="-ml-1 mr-1  h-4 w-4 sm:h-5 sm:w-5"
-                            fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
-                                clip-rule="evenodd"></path>
-                        </svg>
+                        💬
                         Comment
                     </button>
                 </div>

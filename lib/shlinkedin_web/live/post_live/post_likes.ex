@@ -8,19 +8,16 @@ defmodule ShlinkedinWeb.PostLive.PostLikes do
     class="<%= if @spin == true, do: "animate-spin" %> inline-flex items-center hover:text-blue-500 hover:underline hover:cursor-pointer py-2 my-2">
     <%= for unique_like <- show_unique_likes(@post) do %>
     <%= if @like_map[unique_like] != nil do %>
-    <svg class="-ml-1 mr-1 h-3 w-3 <%= @like_map[unique_like].color %> hover:underline hover:cursor-pointer"
-        fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="<%= @like_map[unique_like].fill %>" d="<%= @like_map[unique_like].svg_path %>">
-        </path>
-    </svg>
+
+
+    <%= @like_map[unique_like].emoji %>
+
     <% end %>
     <% end %>
 
     <p class="text-xs">
         <%= length(@post.likes)%> • <%= (length_unique_user_likes(@post)) %>
     </p>
-
-
     </button>
     """
   end
