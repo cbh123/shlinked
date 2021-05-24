@@ -1,4 +1,4 @@
-defmodule Shlinkedin.Repo.Migrations.CreateTemplates do
+defmodule Shlinkedin.Repo.Migrations.CreateTemplates1 do
   use Ecto.Migration
 
   def change do
