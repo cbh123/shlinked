@@ -104,11 +104,11 @@ defmodule ShlinkedinWeb.HomeLive.Show do
 
   @impl true
   def handle_info({:post_updated, post}, socket) do
-    {:noreply, assign(socket, :post, post)}
+    {:noreply, socket}
   end
 
   @impl true
   def handle_info({:post_deleted, post}, socket) do
-    {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
+    {:noreply, socket}
   end
 end
