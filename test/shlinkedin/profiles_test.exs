@@ -44,9 +44,6 @@ defmodule Shlinkedin.ProfilesTest do
     end
 
     test "list_endorsements/1 returns all endorsements for that profile", %{from: from, to: to} do
-      from = profile_fixture()
-      to = profile_fixture()
-
       endorsement = endorsement_fixture(from, to)
       assert Profiles.list_endorsements(to.id) == [endorsement]
     end
@@ -54,6 +51,17 @@ defmodule Shlinkedin.ProfilesTest do
     test "get_endorsement!/1 returns the endorsement with given id", %{from: from, to: to} do
       endorsement = endorsement_fixture(from, to)
       assert Profiles.get_endorsement!(endorsement.id) == endorsement
+
+      # test that notifications come up
+      notification =
+        Profiles.list_notifications(to.id, 1)
+        |> Enum.at(0)
+
+      assert notification.action == "endorsed you for"
+      assert notification.from_profile_id == from.id
+
+      # todo: test that wealth was transfered
+      # to.points |> IO.inspect(label: "to.points")
     end
 
     test "create_endorsement/1 with valid data creates a endorsement", %{from: from, to: to} do

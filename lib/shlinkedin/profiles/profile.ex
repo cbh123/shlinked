@@ -33,7 +33,7 @@ defmodule Shlinkedin.Profiles.Profile do
       on_delete: :delete_all
 
     field :life_score, :string, default: "B+"
-    field :points, Money.Ecto.Amount.Type
+    field :points, Money.Ecto.Amount.Type, default: 100
 
     field :publish_bio, :boolean, virtual: true
     field :publish_profile_picture, :boolean, virtual: true

@@ -144,10 +144,54 @@ defmodule Shlinkedin.Points do
     # update profile
     Shlinkedin.Profiles.update_profile(profile, %{points: new_balance})
 
-    # hardcoded to Dave Business' profile id
-    %Transaction{from_profile_id: 3, to_profile_id: profile.id, amount: amount, note: note}
+    # get god, but if it doesn't exist, just use the profile
+    god_profile =
+      Shlinkedin.Profiles.get_profile_by_username("god")
+      |> get_god_profile()
+
+    %Transaction{
+      from_profile_id: god_profile.id,
+      to_profile_id: profile.id,
+      amount: amount,
+      note: note
+    }
     |> Transaction.changeset(%{})
     |> Repo.insert()
+  end
+
+  defp get_god_profile(nil), do: profile_fixture()
+  defp get_god_profile(god), do: god
+
+  defp user_fixture(attrs \\ %{}) do
+    {:ok, user} =
+      attrs
+      |> Enum.into(%{
+        email: "user#{System.unique_integer()}@example.com",
+        password: "hello world!"
+      })
+      |> Shlinkedin.Accounts.register_user()
+
+    user
+  end
+
+  defp profile_fixture(attrs \\ %{}) do
+    user = Map.get(attrs, :user, user_fixture())
+
+    {:ok, profile} =
+      Shlinkedin.Profiles.create_profile(
+        user,
+        attrs
+        |> Enum.into(%{
+          "persona_name" => "God",
+          "slug" => "god",
+          "title" => "Ruler of the Universe",
+          "real_name" => "Dave Business",
+          "username" => "god",
+          "points" => 10_000_000
+        })
+      )
+
+    profile
   end
 
   @doc """
@@ -163,7 +207,8 @@ defmodule Shlinkedin.Points do
     Repo.all(
       from t in Transaction,
         where: t.from_profile_id == ^profile.id or t.to_profile_id == ^profile.id,
-        order_by: [desc: t.inserted_at]
+        order_by: [desc: t.inserted_at],
+        limit: 100
     )
   end
 
