@@ -7,10 +7,18 @@ defmodule ShlinkedinWeb.ErrorView do
   #   "Internal Server Error"
   # end
 
-  # By default, Phoenix returns the status message from
-  # the template name. For example, "404.html" becomes
-  # "Not Found".
-  def template_not_found(template, _assigns) do
-    Phoenix.Controller.status_message_from_template(template)
+  # def render("404.html.eex", assigns) do
+  #   render("404.html", assigns)
+  # end
+
+  # def render("500.html.eex", _assigns) do
+  #   "Server internal error"
+  # end
+
+  # In case no render clause matches or no
+  # template is found, let's render it as 500
+  def template_not_found("404.html.eex", assigns) do
+    IO.inspect(assigns, label: "")
+    render("404.html.leex", assigns)
   end
 end
