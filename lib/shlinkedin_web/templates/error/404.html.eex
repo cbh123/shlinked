@@ -11,4 +11,12 @@
         supposed to see
         this. <br /> Forget this. <br /> Forget everything. <br />
         <%= link("Back to your cubicle, NOW!", to: "/home", class: "underline text-blue-500") %>
+
+
+
+
+        <div class="mt-16 text-xs text-gray-500 ">Thank you to <a
+                href="https://www.shlinkedin.com/sh/dolphine"
+                class="">@dolphine</a> for
+            creating this beautiful work. </div>
 </div>

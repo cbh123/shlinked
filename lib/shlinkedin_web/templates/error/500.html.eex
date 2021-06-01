@@ -14,4 +14,10 @@
 
         <%= link("here", to: "/home", class: "underline text-blue-500") %> to go
         back to your cubicle.</h2>
+
+
+    <div class="mt-16 text-xs text-gray-500 text-center">Thank you to <a
+            href="https://www.shlinkedin.com/sh/hotsauce" class="">@hotsauce</a>
+        for
+        creating this beautiful work. </div>
 </div>
