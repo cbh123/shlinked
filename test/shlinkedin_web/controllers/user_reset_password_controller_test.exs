@@ -13,7 +13,7 @@ defmodule ShlinkedinWeb.UserResetPasswordControllerTest do
     test "renders the reset password page", %{conn: conn} do
       conn = get(conn, Routes.user_reset_password_path(conn, :new))
       response = html_response(conn, 200)
-      assert response =~ "<h1>Forgot your password?</h1>"
+      assert response =~ "Forgot your password?"
     end
   end
 
@@ -25,7 +25,7 @@ defmodule ShlinkedinWeb.UserResetPasswordControllerTest do
           "user" => %{"email" => user.email}
         })
 
-      assert redirected_to(conn) == "/"
+      assert redirected_to(conn) == "/join"
       assert get_flash(conn, :info) =~ "If your email is in our system"
       assert Repo.get_by!(Accounts.UserToken, user_id: user.id).context == "reset_password"
     end
@@ -36,7 +36,7 @@ defmodule ShlinkedinWeb.UserResetPasswordControllerTest do
           "user" => %{"email" => "unknown@example.com"}
         })
 
-      assert redirected_to(conn) == "/"
+      assert redirected_to(conn) == "/join"
       assert get_flash(conn, :info) =~ "If your email is in our system"
       assert Repo.all(Accounts.UserToken) == []
     end
