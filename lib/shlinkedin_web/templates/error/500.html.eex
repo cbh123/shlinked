@@ -1,0 +1,17 @@
+<head>
+    <link phx-track-static rel="stylesheet"
+        href="<%= Routes.static_path(@conn, "/css/app.css") %>" />
+</head>
+<div class="max-w-prose mx-auto">
+    <img src="<%= Routes.static_path(@conn, "/images/500.png") %>" alt=""
+        class="w-96 mx-auto">
+    <h2 class="text-xl font-semibold mt-8 text-center">Sorry, we meant dang it!
+        Our
+        website is in too high demand and has temporarily crumbled under the
+        weight of all of ShlinkedIn's amazing fake business opportunities.
+
+        <br><br />Click
+
+        <%= link("here", to: "/home", class: "underline text-blue-500") %> to go
+        back to your cubicle.</h2>
+</div>

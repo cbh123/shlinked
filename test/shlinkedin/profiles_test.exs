@@ -59,9 +59,8 @@ defmodule Shlinkedin.ProfilesTest do
 
       assert notification.action == "endorsed you for"
       assert notification.from_profile_id == from.id
-
-      # todo: test that wealth was transfered
-      # to.points |> IO.inspect(label: "to.points")
+      # todo: uncomments
+      # assert to.points == 400
     end
 
     test "create_endorsement/1 with valid data creates a endorsement", %{from: from, to: to} do
@@ -73,8 +72,8 @@ defmodule Shlinkedin.ProfilesTest do
       assert endorsement.gif_url == "some gif_url"
     end
 
-    test "create_endorsement/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Profiles.create_endorsement(@invalid_attrs)
+    test "create_endorsement/1 with invalid data returns error changeset", %{from: from, to: to} do
+      assert {:error, %Ecto.Changeset{}} = Profiles.create_endorsement(from, to, @invalid_attrs)
     end
 
     test "update_endorsement/2 with valid data updates the endorsement", %{from: from, to: to} do

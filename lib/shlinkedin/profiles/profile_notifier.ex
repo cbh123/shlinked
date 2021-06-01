@@ -14,16 +14,16 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   @doc """
   Deliver instructions to confirm account.
   """
+  def observer(input, type, from \\ %Profile{}, to \\ %Profile{})
   def observer({:error, changeset}, _type, _from, _to), do: {:error, changeset}
 
-  def observer({:ok, res}, type, %Profile{} = from \\ %Profile{}, %Profile{} = to \\ %Profile{}) do
+  def observer({:ok, res}, type, %Profile{} = from, %Profile{} = to) do
     from_profile = Shlinkedin.Profiles.get_profile_by_profile_id_preload_user(from.id)
     to_profile = Shlinkedin.Profiles.get_profile_by_profile_id_preload_user(to.id)
 
-    if Map.has_key?(Points.rules(), type),
-      do: Points.point_observer(from_profile, to_profile, type, res)
+    handle_txn(from, to, type, res)
 
-    case type do
+    case(type) do
       :post ->
         notify_comment(from_profile, to_profile, res, type)
 
@@ -77,6 +77,12 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     end
 
     {:ok, res}
+  end
+
+  defp handle_txn(from, to, type, res) do
+    if Map.has_key?(Points.rules(), type) do
+      {:ok, _txn} = Points.point_observer(from, to, type, res)
+    end
   end
 
   def notify_group_invite(

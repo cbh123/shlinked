@@ -1,0 +1,14 @@
+<head>
+    <link phx-track-static rel="stylesheet"
+        href="<%= Routes.static_path(@conn, "/css/app.css") %>" />
+</head>
+<div class="max-w-prose mx-auto">
+    <img src="<%= Routes.static_path(@conn, "/images/404.gif") %>" alt=""
+        class="w-96 mx-auto">
+    <h2 class="text-3xl font-bold mt-8 text-center font-windows">
+
+        You’re not
+        supposed to see
+        this. <br /> Forget this. <br /> Forget everything. <br />
+        <%= link("Back to your cubicle, NOW!", to: "/home", class: "underline text-blue-500") %>
+</div>

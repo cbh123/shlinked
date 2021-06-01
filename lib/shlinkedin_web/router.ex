@@ -195,6 +195,7 @@ defmodule ShlinkedinWeb.Router do
     pipe_through [:browser]
 
     live "/generator", PostLive.Generator, :index
+    get "/error", ErrorController, :index
 
     # onboarding
     live "/onboarding/:id", OnboardingLive.Index, :index
