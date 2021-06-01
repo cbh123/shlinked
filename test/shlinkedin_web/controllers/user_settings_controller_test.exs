@@ -10,13 +10,13 @@ defmodule ShlinkedinWeb.UserSettingsControllerTest do
     test "renders settings page", %{conn: conn} do
       conn = get(conn, Routes.user_settings_path(conn, :edit))
       response = html_response(conn, 200)
-      assert response =~ "<h1>Settings</h1>"
+      assert response =~ "User Settings"
     end
 
     test "redirects if user is not logged in" do
       conn = build_conn()
       conn = get(conn, Routes.user_settings_path(conn, :edit))
-      assert redirected_to(conn) == Routes.user_session_path(conn, :new)
+      assert redirected_to(conn) == Routes.user_registration_path(conn, :join)
     end
   end
 
@@ -50,7 +50,7 @@ defmodule ShlinkedinWeb.UserSettingsControllerTest do
         })
 
       response = html_response(old_password_conn, 200)
-      assert response =~ "<h1>Settings</h1>"
+      assert response =~ "User Settings"
       assert response =~ "does not match password"
       assert response =~ "is not valid"
 
@@ -82,7 +82,7 @@ defmodule ShlinkedinWeb.UserSettingsControllerTest do
         })
 
       response = html_response(conn, 200)
-      assert response =~ "<h1>Settings</h1>"
+      assert response =~ "User Settings"
       assert response =~ "must have the @ sign and no spaces"
       assert response =~ "is not valid"
     end
@@ -122,7 +122,7 @@ defmodule ShlinkedinWeb.UserSettingsControllerTest do
     test "redirects if user is not logged in", %{token: token} do
       conn = build_conn()
       conn = get(conn, Routes.user_settings_path(conn, :confirm_email, token))
-      assert redirected_to(conn) == Routes.user_session_path(conn, :new)
+      assert redirected_to(conn) == Routes.user_registration_path(conn, :join)
     end
   end
 end

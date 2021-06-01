@@ -4,32 +4,14 @@ defmodule ShlinkedinWeb.HomeLiveTest do
   import Phoenix.LiveViewTest
 
   alias Shlinkedin.Timeline
-  alias Shlinkedin.Accounts
 
-  import Shlinkedin.AccountsFixtures
-  import Shlinkedin.ProfilesFixtures
+  setup :register_user_and_profile
 
   @create_attrs %{
     body: "some body"
   }
 
-  setup %{conn: conn} do
-    user = user_fixture()
-
-    conn =
-      conn
-      |> Map.replace!(:secret_key_base, ShlinkedinWeb.Endpoint.config(:secret_key_base))
-      |> init_test_session(%{})
-      |> log_in_user(user)
-      |> ShlinkedinWeb.UserAuth.fetch_current_user([])
-
-    %{user: user, profile: profile_fixture(user), conn: conn}
-  end
-
   test "initial render with user and profile", %{conn: conn} do
-    user = user_fixture()
-    profile_fixture(user)
-
     {:ok, view, _html} =
       conn
       |> live("/home")
@@ -38,11 +20,8 @@ defmodule ShlinkedinWeb.HomeLiveTest do
   end
 
   describe "Index" do
-    test "create new post and lists them", %{conn: conn, user: user, profile: profile} do
+    test "create new post and lists them", %{conn: conn, profile: profile} do
       {:ok, post} = Timeline.create_post(profile, @create_attrs, %Timeline.Post{})
-
-      user_token = Accounts.generate_user_session_token(user)
-      conn = conn |> put_session(:user_token, user_token)
 
       {:ok, _index_live, html} = live(conn, Routes.home_index_path(conn, :index))
 
@@ -92,9 +71,9 @@ defmodule ShlinkedinWeb.HomeLiveTest do
 
       {:ok, post} = Timeline.create_post(profile, %{body: "test"}, %Timeline.Post{})
 
-      assert index_live |> element("#post-#{post.id}-like-Pity") |> render_click()
+      assert index_live |> element("#post-#{post.id}-like-Invest") |> render_click()
 
-      IO.inspect(index_live |> element("post-likes-#{post.id}") |> render())
+      assert index_live |> element("#post-likes-#{post.id}") |> render() =~ "1"
     end
   end
 end

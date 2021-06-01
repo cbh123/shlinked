@@ -57,7 +57,7 @@ defmodule ShlinkedinWeb.ConnCase do
   def register_user_and_profile(%{conn: conn}) do
     user = Shlinkedin.AccountsFixtures.user_fixture()
 
-    profile =
+    {:ok, profile} =
       Shlinkedin.Profiles.create_profile(user, %{
         "real_name" => "Me",
         "persona_name" => "Charlie B",

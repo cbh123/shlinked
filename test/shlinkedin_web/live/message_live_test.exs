@@ -38,7 +38,7 @@ defmodule Shlinkedin.MessageLiveTest do
     assert_patch(view, Routes.message_index_path(conn, :new_message))
 
     # assert we can search profiles
-    assert view |> element("#search-profiles") |> render_change(%{"q" => "Cha"}) =~ "Charlop"
+    assert view |> element("#search-profiles") |> render_change(%{"q" => "Cha"}) =~ "Charlie"
 
     {:ok, _view, _html} =
       view
@@ -58,7 +58,7 @@ defmodule Shlinkedin.MessageLiveTest do
     assert_patch(view, Routes.message_index_path(conn, :new_message))
 
     # assert we can search profiles
-    assert view |> element("#search-profiles") |> render_change(%{"q" => "Cha"}) =~ "Charlop"
+    assert view |> element("#search-profiles") |> render_change(%{"q" => "Cha"}) =~ "Charlie"
 
     {:ok, view, _html} =
       view
