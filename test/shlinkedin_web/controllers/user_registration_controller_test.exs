@@ -7,7 +7,7 @@ defmodule ShlinkedinWeb.UserRegistrationControllerTest do
     test "renders registration page", %{conn: conn} do
       conn = get(conn, Routes.user_registration_path(conn, :new))
       response = html_response(conn, 200)
-      assert response =~ "<h1>Register</h1>"
+      assert response =~ "Create an account"
       assert response =~ "Log in</a>"
       assert response =~ "Register</a>"
     end
@@ -33,10 +33,10 @@ defmodule ShlinkedinWeb.UserRegistrationControllerTest do
 
       # Now do a logged in request and assert on the menu
       conn = get(conn, "/")
-      response = html_response(conn, 200)
-      assert response =~ email
-      assert response =~ "Settings</a>"
-      assert response =~ "Log out</a>"
+      response = html_response(conn, 302)
+
+      assert response =~
+               "<html><body>You are being <a href=\"/profile/welcome\">redirected</a>.</body></html>"
     end
 
     test "render errors for invalid data", %{conn: conn} do
@@ -46,7 +46,7 @@ defmodule ShlinkedinWeb.UserRegistrationControllerTest do
         })
 
       response = html_response(conn, 200)
-      assert response =~ "<h1>Register</h1>"
+      assert response =~ "Create an account"
       assert response =~ "must have the @ sign and no spaces"
     end
   end
