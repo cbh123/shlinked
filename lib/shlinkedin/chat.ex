@@ -30,8 +30,9 @@ defmodule Shlinkedin.Chat do
     if is_nil(get_last_message(convo)) do
       false
     else
-      get_conversation_member!(convo, profile).last_read <
-        get_last_message(convo).inserted_at
+      get_conversation_member!(convo, profile).last_read
+      |> NaiveDateTime.compare(get_last_message(convo).inserted_at) ==
+        :lt
     end
   end
 
