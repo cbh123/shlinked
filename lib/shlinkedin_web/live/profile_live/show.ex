@@ -371,7 +371,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
       nil ->
         %{
           "conversation_members" => conversation_members_format(profile_ids),
-          "profile_ids" => profile_ids
+          "profile_ids" => profile_ids |> Enum.sort()
         }
         |> Chat.create_conversation()
     end

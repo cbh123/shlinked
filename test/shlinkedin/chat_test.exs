@@ -37,6 +37,11 @@ defmodule Shlinkedin.ChatTest do
                Chat.create_conversation(%{"profile_ids" => [382, 238, 10002]})
 
       assert conversation.profile_ids == [238, 382, 10002]
+
+      assert {:ok, %Conversation{} = conversation} =
+               Chat.create_conversation(%{"profile_ids" => [3, 2]})
+
+      assert conversation.profile_ids == [2, 3]
     end
 
     test "create_conversation/1 with invalid data returns error changeset" do

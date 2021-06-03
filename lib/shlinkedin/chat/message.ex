@@ -20,5 +20,5 @@ defmodule Shlinkedin.Chat.Message do
     message
     |> cast(attrs, [:content, :conversation_id, :profile_id])
     |> validate_required([:content, :conversation_id, :profile_id])
-  end
+end
 end
