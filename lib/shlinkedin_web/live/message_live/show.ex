@@ -26,6 +26,7 @@ defmodule ShlinkedinWeb.MessageLive.Show do
         end
 
         messages = Chat.list_messages(socket.assigns.conversation, @limit)
+
         convo_length = Chat.get_conversation_length(socket.assigns.conversation)
 
         {:ok,

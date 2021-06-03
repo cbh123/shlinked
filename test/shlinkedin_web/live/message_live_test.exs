@@ -98,8 +98,6 @@ defmodule Shlinkedin.MessageLiveTest do
       |> render_submit(%{"message" => %{"content" => "number #{i}"}})
     end)
 
-    assert view |> render() =~ "number 1"
-
     # {:ok, view, html} = live(conn, Routes.message_show_path(conn, :show, ))
   end
 end

@@ -55,7 +55,7 @@ defmodule Shlinkedin.Chat do
         limit: ^limit,
         preload: [:profile]
     )
-    |> Enum.sort(&(&1.inserted_at <= &2.inserted_at))
+    |> Enum.sort(&(&1.id <= &2.id))
   end
 
   def get_conversation_length(%Conversation{id: id}) do
