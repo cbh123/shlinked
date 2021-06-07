@@ -81,7 +81,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
   defp handle_txn(from, to, type, res) do
     if Map.has_key?(Points.rules(), type) do
-      {:ok, _txn} = Points.point_observer(from, to, type, res)
+      # can be nil
+      Points.point_observer(from, to, type, res)
     end
   end
 
