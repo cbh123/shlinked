@@ -75,5 +75,33 @@ defmodule ShlinkedinWeb.HomeLiveTest do
 
       assert index_live |> element("#post-likes-#{post.id}") |> render() =~ "1"
     end
+
+    test "like post twice", %{conn: conn, profile: profile} do
+      {:ok, index_live, _html} = live(conn, Routes.home_index_path(conn, :index))
+
+      {:ok, post} = Timeline.create_post(profile, %{body: "test"}, %Timeline.Post{})
+
+      assert Shlinkedin.Profiles.get_profile_by_profile_id(profile.id).points == %Money{
+               amount: 100,
+               currency: :SHLINK
+             }
+
+      assert index_live |> element("#post-#{post.id}-like-Milk") |> render_click()
+
+      assert index_live |> element("#post-likes-#{post.id}") |> render() =~ "1 • 1 person"
+
+      assert Shlinkedin.Profiles.get_profile_by_profile_id(profile.id).points == %Money{
+               amount: 300,
+               currency: :SHLINK
+             }
+
+      assert index_live |> element("#post-#{post.id}-like-Milk") |> render_click()
+      assert index_live |> element("#post-likes-#{post.id}") |> render() =~ "2 • 1 person"
+
+      assert Shlinkedin.Profiles.get_profile_by_profile_id(profile.id).points == %Money{
+               amount: 300,
+               currency: :SHLINK
+             }
+    end
   end
 end

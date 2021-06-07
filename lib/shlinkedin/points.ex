@@ -83,21 +83,28 @@ defmodule Shlinkedin.Points do
     }
   end
 
-  def point_observer(%Profile{} = from_profile, %Profile{} = to_profile, type, object)
-      when is_atom(type) do
-    case type do
-      :like ->
-        if Timeline.is_first_like_on_post?(from_profile, %Post{id: object.post_id}),
-          do: generate_wealth(to_profile, type)
-
-      :comment_like ->
-        if Timeline.is_first_like_on_comment?(from_profile, %Comment{id: object.comment_id}),
-          do: generate_wealth(to_profile, type)
-
-      _ ->
-        generate_wealth(to_profile, type)
-    end
+  def point_observer(%Profile{} = from_profile, %Profile{} = to_profile, :like, post_like) do
+    from_profile
+    |> Timeline.is_first_like_on_post?(%Post{id: post_like.post_id})
+    |> handle_first_like(to_profile, :like)
   end
+
+  def point_observer(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile,
+        :comment_like,
+        comment_like
+      ) do
+    from_profile
+    |> Timeline.is_first_like_on_comment?(%Comment{id: comment_like.comment_id})
+    |> handle_first_like(to_profile, :comment_like)
+  end
+
+  def point_observer(%Profile{} = _from_profile, %Profile{} = to_profile, type, _object),
+    do: generate_wealth(to_profile, type)
+
+  defp handle_first_like(true, to_profile, type), do: generate_wealth(to_profile, type)
+  defp handle_first_like(false, _to_profile, _type), do: {:ok, nil}
 
   def get_rule_amount(type), do: rules()[type].amount
   def get_rule_desc(type), do: rules()[type].desc
