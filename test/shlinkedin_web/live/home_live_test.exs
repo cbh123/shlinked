@@ -126,5 +126,49 @@ defmodule ShlinkedinWeb.HomeLiveTest do
 
       assert view |> render =~ profile.persona_name
     end
+
+    test "write comment", %{conn: conn, profile: profile} do
+      {:ok, index_live, _html} = live(conn, Routes.home_index_path(conn, :index))
+
+      {:ok, post} = Timeline.create_post(profile, %{body: "test"}, %Timeline.Post{})
+
+      # todo: figure out why this doesn't work
+      # index_live
+      # |> element("#new-comment-#{post.id}")
+      # |> render_click()
+      # |> IO.inspect(label: "rendered")
+
+      assert index_live |> element("#first-comment-btn-#{post.id}") |> render_click() =~
+               "Add a comment..."
+
+      assert_patch(index_live, Routes.home_index_path(conn, :new_comment, post.id))
+
+      index_live |> element("#first-comment-btn-#{post.id}") |> render_click()
+
+      index_live
+      |> form("#comment-form", comment: %{body: "yay first comment!"})
+      |> render_submit()
+
+      assert index_live |> render() =~ "yay first comment!"
+      assert index_live |> render() =~ "you commented! +1 shlinkpoints"
+    end
+
+    test "like comment", %{conn: conn, profile: profile} do
+      {:ok, view, _html} = live(conn, Routes.home_index_path(conn, :index))
+
+      {:ok, post} = Timeline.create_post(profile, %{body: "test"}, %Timeline.Post{})
+      {:ok, post} = Timeline.create_comment(profile, post, %{body: "yay first comment!"})
+
+      comment = post.comments |> Enum.at(0)
+
+      assert view |> render() =~ "yay first comment!"
+
+      assert view |> element("#comment-#{comment.id}-like-btn-Slap") |> render_click() =~ "1"
+      assert view |> element("#comment-#{comment.id}-like-btn-Warm") |> render_click() =~ "2"
+      assert view |> element("#comment-#{comment.id}-like-btn-Slap") |> render_click() =~ "3"
+
+      assert view |> element("#show-comment-#{comment.id}-likes") |> render_click() =~
+               "Comment Reactions"
+    end
   end
 end

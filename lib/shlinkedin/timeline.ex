@@ -24,12 +24,13 @@ defmodule Shlinkedin.Timeline do
 
   def list_unique_notifications(count) do
     Repo.all(
-      from n in Shlinkedin.Profiles.Notification,
+      from(n in Shlinkedin.Profiles.Notification,
         limit: ^count,
         preload: [:profile],
         order_by: [desc: n.inserted_at],
         distinct: true,
         where: n.type != "new_profile" and n.type != "admin_message"
+      )
     )
     |> Enum.uniq_by(fn x -> x.action end)
   end
@@ -106,7 +107,7 @@ defmodule Shlinkedin.Timeline do
 
   def paginate(query, criteria) do
     Enum.reduce(criteria, query, fn {:paginate, %{page: page, per_page: per_page}}, query ->
-      from q in query, offset: ^((page - 1) * per_page), limit: ^per_page
+      from(q in query, offset: ^((page - 1) * per_page), limit: ^per_page)
     end)
   end
 
@@ -137,21 +138,23 @@ defmodule Shlinkedin.Timeline do
 
   def get_post_count(%Profile{} = profile, start_date) do
     Repo.one(
-      from p in Post,
+      from(p in Post,
         where: p.profile_id == ^profile.id and p.inserted_at >= ^start_date,
         select: count(p.id)
+      )
     )
   end
 
   def get_post_preload_all(id) do
     Repo.one(
-      from p in Post,
+      from(p in Post,
         where: p.id == ^id,
         left_join: profile in assoc(p, :profile),
         left_join: comments in assoc(p, :comments),
         left_join: profs in assoc(comments, :profile),
         left_join: likes in assoc(comments, :likes),
         preload: [:profile, :likes, comments: {comments, profile: profs, likes: likes}]
+      )
     )
   end
 
@@ -268,17 +271,19 @@ defmodule Shlinkedin.Timeline do
   """
   def is_first_like_on_post?(%Profile{} = profile, %Post{} = post) do
     Repo.one(
-      from l in Like,
+      from(l in Like,
         where: l.post_id == ^post.id and l.profile_id == ^profile.id,
         select: count(l.profile_id)
+      )
     ) == 1
   end
 
   def is_first_like_on_comment?(%Profile{} = profile, %Comment{} = comment) do
     Repo.one(
-      from l in CommentLike,
+      from(l in CommentLike,
         where: l.comment_id == ^comment.id and l.profile_id == ^profile.id,
         select: count(l.profile_id)
+      )
     ) == 1
   end
 
@@ -295,7 +300,7 @@ defmodule Shlinkedin.Timeline do
   """
   def list_likes(%Post{} = post) do
     Repo.all(
-      from l in Like,
+      from(l in Like,
         join: p in assoc(l, :profile),
         where: l.post_id == ^post.id,
         group_by: [p.persona_name, p.photo_url, p.slug, l.like_type],
@@ -308,12 +313,13 @@ defmodule Shlinkedin.Timeline do
           slug: p.slug
         },
         order_by: p.persona_name
+      )
     )
   end
 
   def list_comment_likes(%Comment{} = comment) do
     Repo.all(
-      from l in CommentLike,
+      from(l in CommentLike,
         join: p in assoc(l, :profile),
         where: l.comment_id == ^comment.id,
         group_by: [p.persona_name, p.photo_url, p.slug, l.like_type],
@@ -326,6 +332,7 @@ defmodule Shlinkedin.Timeline do
           slug: p.slug
         },
         order_by: p.persona_name
+      )
     )
   end
 
@@ -508,6 +515,7 @@ defmodule Shlinkedin.Timeline do
   def comment_like_map do
     %{
       "Zap" => %{
+        is_emoji: false,
         like_type: "Zap",
         bg: "bg-yellow-500",
         color: "text-yellow-500",
@@ -517,6 +525,7 @@ defmodule Shlinkedin.Timeline do
           "M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
       },
       "Slap" => %{
+        is_emoji: false,
         like_type: "Slap",
         bg: "bg-indigo-500",
         color: "text-indigo-500",
@@ -526,6 +535,7 @@ defmodule Shlinkedin.Timeline do
           "M9 3a1 1 0 012 0v5.5a.5.5 0 001 0V4a1 1 0 112 0v4.5a.5.5 0 001 0V6a1 1 0 112 0v5a7 7 0 11-14 0V9a1 1 0 012 0v2.5a.5.5 0 001 0V4a1 1 0 012 0v4.5a.5.5 0 001 0V3z"
       },
       "Warm" => %{
+        is_emoji: false,
         like_type: "Warm",
         bg: "bg-red-500",
         color: "text-red-500",
@@ -717,7 +727,7 @@ defmodule Shlinkedin.Timeline do
   def get_template!(id), do: Repo.get!(Template, id)
 
   def get_template_by_title_return_body(title) do
-    Repo.one(from t in Template, where: t.title == ^title, select: t.body)
+    Repo.one(from(t in Template, where: t.title == ^title, select: t.body))
   end
 
   @doc """

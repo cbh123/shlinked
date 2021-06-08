@@ -147,13 +147,14 @@
                         phx-click="like-selected"
                         id="post-<%=@post.id%>-like-<%=like.like_type%>"
                         phx-value-like-type="<%=like.like_type%>"
-                        class="<%= if num_likes > 0, do: like.color, else: "text-gray-500" %> active:text-white active:<%=like.bg %> tooltip inline-flex items-center
+                        class="<%= if num_likes > 0, do: like.color, else: "text-gray-500" %> active:text-white active:<%=like.bg%> tooltip inline-flex items-center
                     mr-0.5 px-1 py-1 rounded-full border border-transparent text-xs font-medium bg-white hover:bg-gray-100
                     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 relative">
 
                         <%= if like.is_emoji do %>
                         <span class="mx-auto text-sm"
-                            viewBox="0 0 20 20"><%= like.emoji %></span>
+                            viewBox="0 0 20 20"><%= like.emoji %>
+                        </span>
                         <% end %>
 
                         <%= if num_likes > 0 do %>
@@ -168,17 +169,15 @@
 
 
                     <button type="button" phx-click="new-comment"
+                        id="new-comment-<%=@post.id%>"
                         phx-target="<%= @myself %>"
                         phx-value-id="<%= @post.id %>"
                         class="ml-1 active:bg-yellow-100 active:text-yellow-600 inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        💬
-                        Comment
+                        💬 Comment
                     </button>
                 </div>
 
                 <div>
-
-
 
                     <div class="relative inline-block text-left">
                         <div>
