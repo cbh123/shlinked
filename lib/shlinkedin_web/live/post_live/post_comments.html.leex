@@ -14,18 +14,15 @@
     </div>
 
     <%= if length(@post.comments) == 0 do %>
-    <%= live_patch to: Routes.home_index_path(@socket, :new_comment, @post.id) do %>
-    <button id="first-comment-btn-<%=@post.id%>"
-        class="text-gray-600 font-semibold mb-0 text-xs hover:bg-gray-100 px-2 py-1 rounded mt-2">Be the
-        first
-        to comment on this!</button>
-    <% end %>
+    <%= live_patch "Be the first to comment on this!", class: "text-gray-600 font-semibold mb-0 text-xs hover:bg-gray-100 px-2 py-1 rounded mt-2", id: "first-comment-btn-#{@post.id}",
+    to: Routes.home_index_path(@socket, :new_comment, @post.id) %>
     <% end %>
 
     <%= if @num_show_comments < length(@post.comments) do %>
     <button id="load-more-comments-btn-<%=@post.id%>"
         class="text-gray-600 font-semibold mb-0 text-xs hover:bg-gray-100 px-2 py-1 rounded mt-2"
         phx-click="expand-comments" phx-target="<%= @myself %>">
-        Load more comments (<%= length(@post.comments) - @num_show_comments %>)</button>
+        Load more comments
+        (<%= length(@post.comments) - @num_show_comments %>)</button>
     <% end %>
 </div
