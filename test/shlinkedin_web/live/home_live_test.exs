@@ -167,7 +167,7 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       assert view |> element("#comment-#{comment.id}-like-btn-Warm") |> render_click() =~ "2"
       assert view |> element("#comment-#{comment.id}-like-btn-Slap") |> render_click() =~ "3"
 
-      assert view |> element("#show-comment-#{post.id}-likes") |> render_click() =~
+      assert view |> element("#show-comment-#{comment.id}-likes") |> render_click() =~
                "Comment Reactions"
     end
   end
