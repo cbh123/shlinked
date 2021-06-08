@@ -63,8 +63,6 @@ defmodule ShlinkedinWeb.HomeLiveTest do
              |> has_element?()
     end
 
-    # add test for show likes
-    # add test for like
     # add test for comment
     test "like post", %{conn: conn, profile: profile} do
       {:ok, index_live, _html} = live(conn, Routes.home_index_path(conn, :index))
@@ -102,6 +100,31 @@ defmodule ShlinkedinWeb.HomeLiveTest do
                amount: 300,
                currency: :SHLINK
              }
+    end
+
+    test "see likes for a post", %{conn: conn, profile: profile} do
+      {:ok, view, _html} = live(conn, Routes.home_index_path(conn, :index))
+
+      {:ok, post} = Timeline.create_post(profile, %{body: "test"}, %Timeline.Post{})
+
+      view |> element("#post-#{post.id}-like-Milk") |> render_click()
+
+      assert view |> element("#post-likes-#{post.id}") |> render() =~ "1 • 1 person"
+
+      view
+      |> element("#post-likes-#{post.id}")
+      |> render_click() =~
+        "Reactions"
+
+      assert view |> render() =~ "Milk"
+
+      {:ok, view, _html} =
+        view
+        |> element("##{profile.slug}")
+        |> render_click()
+        |> follow_redirect(conn)
+
+      assert view |> render =~ profile.persona_name
     end
   end
 end
