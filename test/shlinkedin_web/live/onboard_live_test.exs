@@ -38,7 +38,9 @@ defmodule ShlinkedinWeb.OnboardLiveTest do
     # success!
     {:ok, conn} =
       view
-      |> form("#profile-form", profile: %{persona_name: "Charlie B", real_name: "Charlifer"})
+      |> form("#profile-form",
+        profile: %{persona_name: "Charlie B", real_name: "Charlifer", username: "charlie"}
+      )
       |> render_submit()
       |> follow_redirect(conn, "/home%3Ftype%3Dfeatured")
 
@@ -47,6 +49,8 @@ defmodule ShlinkedinWeb.OnboardLiveTest do
     profile = Shlinkedin.Profiles.get_profile_by_user_id(user.id)
     assert profile.persona_name == "Charlie B"
     assert profile.real_name == "Charlifer"
+    assert profile.username == "charlie"
+    assert profile.slug == "charlie"
 
     assert html_response(conn, 200) =~ "Welcome to ShlinkedIn, Charlie B"
     assert html_response(conn, 200) =~ "Unpaid Intern"

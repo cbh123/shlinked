@@ -104,9 +104,6 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
   defp save_profile(socket, :new, profile_params) do
     profile_params = put_photo_urls(socket, profile_params)
 
-    profile_params =
-      profile_params |> Map.put("username", Map.get(profile_params, "persona_name"))
-
     case(
       Profiles.create_profile(
         socket.assigns.current_user,

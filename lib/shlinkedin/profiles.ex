@@ -789,24 +789,31 @@ defmodule Shlinkedin.Profiles do
       ) do
     %Profile{
       user_id: user_id,
-      username: "#{slugify(attrs["persona_name"])}#{user_id}",
-      slug: "#{slugify(attrs["persona_name"])}#{user_id}"
+      slug: attrs["username"]
     }
     |> Profile.changeset(attrs)
     |> Repo.insert()
     |> after_save(after_save)
   end
 
-  defp slugify(str) do
-    str
-    |> String.downcase()
-    |> String.replace(~r/[^\w-]+/u, "-")
+  def update_profile(profile, user, attrs, after_save \\ &{:ok, &1})
+
+  def update_profile(
+        %Profile{} = profile,
+        %User{id: user_id},
+        %{"username" => username} = attrs,
+        after_save
+      ) do
+    attrs = Map.put(attrs, "slug", username)
+
+    %{profile | user_id: user_id}
+    |> Profile.changeset(attrs)
+    |> Repo.update()
+    |> after_save(after_save)
   end
 
-  def update_profile(%Profile{} = profile, %User{id: user_id}, attrs, after_save \\ &{:ok, &1}) do
-    profile = %{profile | user_id: user_id}
-
-    profile
+  def update_profile(%Profile{} = profile, %User{id: user_id}, attrs, after_save) do
+    %{profile | user_id: user_id}
     |> Profile.changeset(attrs)
     |> Repo.update()
     |> after_save(after_save)
