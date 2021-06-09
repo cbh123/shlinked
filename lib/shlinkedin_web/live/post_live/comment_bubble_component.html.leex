@@ -125,7 +125,7 @@
 
         <%# Option to delete if you're the poster (or an admin) %>
         <%= if @profile != nil and @comment.profile_id == @profile.id or @profile.admin do %>
-        <%= link "Delete", to: "#", phx_click: "delete-comment", phx_value_id: @comment.id, data: [confirm: "Are you sure?"], class: "text-xs text-gray-500 hover:bg-gray-100"%>
+        <%= link "Delete", to: "#", id: "delete-comment-#{@comment.id}", phx_click: "delete-comment", phx_value_id: @comment.id, data: [confirm: "Are you sure?"], class: "text-xs text-gray-500 hover:bg-gray-100"%>
         <% end %>
     </div>
 </div>

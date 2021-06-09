@@ -149,7 +149,7 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       |> render_submit()
 
       assert view |> render() =~ "yay first comment!"
-      assert view |> render() =~ "you commented! +1 shlinkpoints"
+      assert view |> render() =~ "you commented! +1 shlink points"
     end
 
     test "like comment", %{conn: conn, profile: profile} do
@@ -186,10 +186,14 @@ defmodule ShlinkedinWeb.HomeLiveTest do
 
       assert view |> render() =~ "yay first comment!"
 
-      assert view |> element("#comment-#{post.id} a", "Delete") |> render_click()
+      {:ok, view, _html} =
+        view
+        |> element("#delete-comment-#{comment.id}")
+        |> render_click()
+        |> follow_redirect(conn)
 
       refute view
-             |> element("#comment-#{post.id} a", "Delete")
+             |> element("#delete-comment-#{comment.id}")
              |> has_element?()
     end
   end
