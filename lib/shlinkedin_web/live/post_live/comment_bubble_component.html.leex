@@ -61,10 +61,12 @@
             <%# "x likes" with symbols %>
             <%= if length(@comment.likes) > 0 do %>
 
+
             <button id="show-comment-<%=@comment.id%>-likes"
                 phx-click="show-comment-likes" phx-value-id="<%= @comment.id %>"
                 phx-target="<%= @myself %>"
                 class="inline-flex items-center hover:text-blue-500 hover:underline hover:cursor-pointer text-xs text-gray-500">
+
                 <%= for unique_like <- show_unique_likes(@comment) do %>
                 <%= if @like_map[unique_like] != nil do %>
                 <svg class="-ml-1 mr-1 h-3 w-3 <%= @like_map[unique_like].color %> hover:underline hover:cursor-pointer"
@@ -77,9 +79,7 @@
                 <% end %>
                 <% end %>
 
-
                 <%= length(@comment.likes)%>
-
 
             </button>
             <% end %>

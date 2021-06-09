@@ -515,7 +515,7 @@ defmodule Shlinkedin.Timeline do
   def comment_like_map do
     %{
       "Zap" => %{
-        is_emoji: false,
+        # is_emoji: false,
         like_type: "Zap",
         bg: "bg-yellow-500",
         color: "text-yellow-500",
