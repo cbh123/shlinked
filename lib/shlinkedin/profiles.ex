@@ -787,13 +787,12 @@ defmodule Shlinkedin.Profiles do
         attrs,
         after_save \\ &{:ok, &1}
       ) do
-    %Profile{}
-    |> Profile.changeset(attrs |> Map.put("user_id", user_id))
-    |> Profile.changeset(
-      attrs
-      |> Map.put("username", "#{slugify(attrs["persona_name"])}#{user_id}")
-    )
-    |> Ecto.Changeset.put_change(:slug, "#{slugify(attrs["persona_name"])}#{user_id}")
+    %Profile{
+      user_id: user_id,
+      username: "#{slugify(attrs["persona_name"])}#{user_id}",
+      slug: "#{slugify(attrs["persona_name"])}#{user_id}"
+    }
+    |> Profile.changeset(attrs)
     |> Repo.insert()
     |> after_save(after_save)
   end

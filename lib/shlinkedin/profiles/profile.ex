@@ -80,7 +80,7 @@ defmodule Shlinkedin.Profiles.Profile do
       :unsubscribed,
       :points
     ])
-    |> validate_required([:user_id, :persona_name, :real_name])
+    |> validate_required([:user_id, :persona_name, :real_name, :slug, :username])
     |> downcase_username()
     |> validate_username()
     |> unique_constraint([:username])
