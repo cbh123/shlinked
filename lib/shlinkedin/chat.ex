@@ -30,7 +30,7 @@ defmodule Shlinkedin.Chat do
     if is_nil(get_last_message(convo)) do
       false
     else
-      get_conversation_member!(convo, profile).last_read
+      get_conversation_member_last_read!(convo, profile)
       |> NaiveDateTime.compare(get_last_message(convo).inserted_at) ==
         :lt
     end
@@ -202,6 +202,16 @@ defmodule Shlinkedin.Chat do
       from c in ConversationMember,
         where: c.conversation_id == ^convo_id and c.profile_id == ^profile_id
     )
+  end
+
+  def get_conversation_member_last_read!(%Conversation{id: convo_id}, %Profile{id: profile_id}) do
+    case Repo.one!(
+           from c in ConversationMember,
+             where: c.conversation_id == ^convo_id and c.profile_id == ^profile_id
+         ) do
+      %{last_read: nil} = c -> c.inserted_at
+      c -> c.last_read
+    end
   end
 
   @doc """
