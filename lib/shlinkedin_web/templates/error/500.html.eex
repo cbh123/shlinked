@@ -5,12 +5,17 @@
 <div class="max-w-prose mx-auto">
     <img src="<%= Routes.static_path(@conn, "/images/500.png") %>" alt=""
         class="w-96 mx-auto">
-    <h2 class="text-xl font-semibold mt-8 text-center">Sorry, we meant dang it!
+    <h2 class="text-xl font-semibold mt-8 text-center">
         Our
         website is in too high demand and has temporarily crumbled under the
         weight of all of ShlinkedIn's amazing fake business opportunities.
 
-        <br><br />Click
+        <br><br />
+
+        If you keep getting this error, pls <a
+            href="mailto:charlie@shlinkedin.com">send us a message.</a>
+
+        <br><br />Otherwise, click
 
         <%= link("here", to: "/home", class: "underline text-blue-500") %> to go
         back to your cubicle.</h2>
