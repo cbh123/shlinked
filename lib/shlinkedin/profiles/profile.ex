@@ -99,6 +99,10 @@ defmodule Shlinkedin.Profiles.Profile do
 
   defp validate_username(changeset) do
     changeset
+    |> validate_format(:username, @username_regex,
+      message: "invalid url -- no special characters!"
+    )
+    |> validate_length(:username, min: 3, max: 15)
     |> unique_constraint([:username])
   end
 
