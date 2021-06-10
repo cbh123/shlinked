@@ -40,7 +40,7 @@ defmodule ShlinkedinWeb.OnboardLiveTest do
              profile: %{persona_name: "Charlie B", real_name: "charlie", username: "@charlie"}
            )
            |> render_submit() =~
-             "invalid username -- no special characters pls!"
+             "invalid username - no special characters pls!"
 
     # success!
     {:ok, conn} =
