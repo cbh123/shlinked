@@ -197,7 +197,7 @@ defmodule ShlinkedinWeb.HomeLiveTest do
              |> has_element?()
     end
 
-    test "click write my first post", %{conn: conn, profile: profile} do
+    test "click write my first post", %{conn: conn} do
       {:ok, view, _html} = live(conn, Routes.home_index_path(conn, :index))
 
       {:ok, view, _html} =
@@ -214,6 +214,65 @@ defmodule ShlinkedinWeb.HomeLiveTest do
 
       assert html =~ "Post created successfully"
       assert html =~ "some body"
+    end
+
+    test "create new headline", %{conn: conn} do
+      {:ok, view, _html} =
+        conn
+        |> live(Routes.home_index_path(conn, :index))
+
+      assert view |> element("a", "+ Headline") |> render_click() =~ "New Headline"
+
+      assert_patch(view, Routes.home_index_path(conn, :new_article))
+
+      {:ok, _, html} =
+        view
+        |> form("#article-form", article: %{headline: "Hi there"})
+        |> render_submit()
+        |> follow_redirect(conn, Routes.home_index_path(conn, :index))
+
+      assert html =~ "Headline created successfully"
+      assert html =~ "Hi there"
+    end
+
+    test "test clap headline", %{conn: conn, profile: profile} do
+      {:ok, headline} =
+        Shlinkedin.News.create_article(profile, %Shlinkedin.News.Article{}, %{
+          headline: "this just in"
+        })
+
+      {:ok, view, _html} =
+        conn
+        |> live(Routes.home_index_path(conn, :index))
+
+      assert view |> render() =~ "👏"
+
+      view |> element("#article-#{headline.id}-clap") |> render_click()
+
+      assert view |> render() =~ "✖"
+      assert view |> render() =~ "1 claps"
+    end
+
+    test "test delete headline", %{conn: conn, profile: profile} do
+      {:ok, headline} =
+        Shlinkedin.News.create_article(profile, %Shlinkedin.News.Article{}, %{
+          headline: "this just in"
+        })
+
+      {:ok, view, _html} =
+        conn
+        |> live(Routes.home_index_path(conn, :index))
+
+      assert view |> render() =~ "this just in"
+
+      {:ok, view, _html} =
+        view
+        |> element("#article-#{headline.id}-delete")
+        |> render_click()
+        |> follow_redirect(conn, Routes.home_index_path(conn, :index))
+
+      assert view |> render() =~ "Headline deleted"
+      refute view |> render() =~ "this just in"
     end
   end
 end
