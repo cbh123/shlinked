@@ -13,7 +13,8 @@
              </p>
          </div>
          <div class="">
-             <button phx-click="clap" phx-target="<%= @myself %>" type="button"
+             <button phx-click="clap" id="<%=@id%>-clap"
+                 phx-target="<%= @myself %>" type="button"
                  phx-value-id="<%= @article.id %>" class="  cursor-pointer ">
                  <span class="h-5 w-5 hover:bg-gray-100 rounded-full px-1.5 py-1
 "> <%= if Shlinkedin.News.is_first_vote_on_article?(@profile, @article), do: "✖", else: "👏" %>
@@ -33,7 +34,7 @@
          <span class="pl-1 <%= if @spin == true, do: "animate-spin" %> ">
              <%= length(@article.votes)%>
              claps </span>
-         <span><%= if @article.profile_id == @profile.id or @profile.admin, do: link "• Delete", to: "#", phx_click: "delete-article", class: "hover:text-gray-600", phx_value_id: @article.id, data: [confirm: "Are you sure?"] %></span>
+         <span><%= if @article.profile_id == @profile.id or @profile.admin, do: link "• Delete", id: "#{@id}-delete",  to: "#", phx_click: "delete-article", class: "hover:text-gray-600", phx_value_id: @article.id, data: [confirm: "Are you sure?"] %></span>
          </p>
 
          <% end %>
