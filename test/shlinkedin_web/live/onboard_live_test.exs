@@ -35,6 +35,13 @@ defmodule ShlinkedinWeb.OnboardLiveTest do
            |> render_submit() =~
              "can&apos;t be blank"
 
+    assert view
+           |> form("#profile-form",
+             profile: %{persona_name: "Charlie B", real_name: "charlie", username: "@charlie"}
+           )
+           |> render_submit() =~
+             "invalid username -- no special characters pls!"
+
     # success!
     {:ok, conn} =
       view
