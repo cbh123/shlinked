@@ -181,7 +181,6 @@
             <div class=" lg:ml-4 flex items-center">
 
 
-                <!-- Profile dropdown -->
                 <div class="ml-4 relative flex-shrink-0 sm:flex hidden">
                     <div>
                         <%= link to: "/sh/#{@profile.slug}" do %>

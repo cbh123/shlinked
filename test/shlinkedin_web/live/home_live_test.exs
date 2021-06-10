@@ -196,5 +196,24 @@ defmodule ShlinkedinWeb.HomeLiveTest do
              |> element("#delete-comment-#{comment.id}")
              |> has_element?()
     end
+
+    test "click write my first post", %{conn: conn, profile: profile} do
+      {:ok, view, _html} = live(conn, Routes.home_index_path(conn, :index))
+
+      {:ok, view, _html} =
+        view
+        |> element("a", "Write your first post")
+        |> render_click()
+        |> follow_redirect(conn, Routes.home_index_path(conn, :new))
+
+      {:ok, _, html} =
+        view
+        |> form("#post-form", post: @create_attrs)
+        |> render_submit()
+        |> follow_redirect(conn, Routes.home_index_path(conn, :index))
+
+      assert html =~ "Post created successfully"
+      assert html =~ "some body"
+    end
   end
 end

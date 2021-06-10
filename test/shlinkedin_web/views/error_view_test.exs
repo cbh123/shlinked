@@ -4,6 +4,6 @@ defmodule ShlinkedinWeb.ErrorViewTest do
   test "renders 500.html", %{conn: conn} do
     conn = get(conn, Routes.error_path(conn, :index))
     response = html_response(conn, 200)
-    assert response =~ "dang it"
+    assert response =~ "charlie@shlinkedin.com"
   end
 end
