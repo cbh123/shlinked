@@ -250,7 +250,7 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       view |> element("#article-#{headline.id}-clap") |> render_click()
 
       assert view |> render() =~ "✖"
-      assert view |> render() =~ "1 claps"
+      assert view |> render() =~ "claps"
     end
 
     test "test delete headline", %{conn: conn, profile: profile} do
