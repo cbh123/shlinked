@@ -8,21 +8,7 @@
 <div class="bg-white px-4 py-4 border-b border-gray-200 sm:px-6 rounded-lg">
     <h3 class="text-lg leading-6 font-medium text-gray-900">
         <%= @title %>
-        <%= if @generator_type != nil do %>
-        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-gradient-to-r
 
-        <%= case @generator_type do %>
-        <% "adversity lesson" -> %> from-yellow-500 to-yellow-600
-        <% "job update" -> %> from-blue-500 to-blue-700
-        <% "guilt trip" -> %> from-indigo-500 to-indigo-700
-        <% "business challenge" -> %> from-green-500 to-green-700
-        <% "strange observation" -> %> from-red-500 to-red-600
-        <% _ -> %> from-blue-500 to-pink-500
-        <% end %>
-        uppercase text-white">
-            <%= @generator_type %>
-        </span>
-        <% end %>
 
     </h3>
 
@@ -35,43 +21,9 @@
 
 <div class="mt-1 p-5">
 
-    <div class="mb-8">
-        <p class="text-xs text-gray-500 pb-2">Looking for inspiration?</p>
-        <button type="button" phx-click="adversity" phx-target="<%= @myself %>"
-            class="inline-flex items-center px-3 py-2 border border-transparent text-sm
-    leading-4 font-medium rounded-full shadow-sm text-yellow-700 bg-yellow-100
-    hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-offset-2
-    focus:ring-indigo-500">
-            Adversity Lesson
-        </button>
-        <button type="button" phx-click="job" phx-target="<%= @myself %>"
-            class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-blue-100 text-blue-700 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            Job Update
-        </button>
-        <button type="button" phx-click="challenge" phx-target="<%= @myself %>"
-            class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-green-100 text-green-700 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            Business Challenge
-        </button>
-        <button type="button" phx-click="strange" phx-target="<%= @myself %>"
-            class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-red-200 text-red-700 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            Strange Observation
-        </button>
-        <button type="button" phx-click="guilt" phx-target="<%= @myself %>"
-            class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-indigo-100 text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            Guilt Trip
-        </button>
-        <button type="button" phx-click="nft" phx-target="<%= @myself %>"
-            class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-pink-100 text-pink-700 hover:bg-pink-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            NFT
-        </button>
-
-
-
-        <%= live_patch "*Your idea here*", to: Routes.home_index_path(@socket, :new_feedback), class: "mt-2 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
-    </div>
 
     <%# Enter Body Text %>
-    <div class="my-4">
+    <div class="myb4">
 
         <%= textarea f, :body, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-3", rows: 6, placeholder: "What do you want to talk about?" %>
         <%= if @search_results != [] do %>
