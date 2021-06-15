@@ -49,25 +49,6 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       assert html =~ "some body"
     end
 
-    test "test post clappify", %{conn: conn} do
-      {:ok, view, _html} =
-        conn
-        |> live(Routes.home_index_path(conn, :index))
-
-      assert view |> element("a", "Start a post") |> render_click() =~
-               "Create a post"
-
-      assert_patch(view, Routes.home_index_path(conn, :new))
-
-      view
-      |> form("#post-form", post: %{body: "hello there"})
-      |> render_change()
-
-      assert view |> render() =~ "hello there"
-
-      view |> element("#clap-mode") |> render_click() |> IO.inspect(label: "")
-    end
-
     test "deletes post", %{conn: conn, profile: profile} do
       {:ok, view, _html} = live(conn, Routes.home_index_path(conn, :index))
 

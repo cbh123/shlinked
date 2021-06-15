@@ -152,16 +152,17 @@
                     <nav aria-label="Progress">
                         <ol class="space-y-3">
 
-
                             <div
                                 class="uppercase text-gray-400 tracking-wide text-xs flex justify-between">
                                 <h1>
                                     <span
                                         class="font-medium text-gray-800"><%= @checklist.current_level %></span>
 
+                                    <%= unless @checklist.level_number == 5 do %>
                                     <h1>
                                         <%= @checklist.next_level %>
                                     </h1>
+                                    <% end %>
 
                                 </h1>
                             </div>
@@ -203,6 +204,8 @@
 
 
                                         </div>
+
+
                                         <p
                                             class="ml-3 text-sm font-medium text-gray-500 group-hover:text-gray-900">
                                             <%= step.name %></p>
@@ -212,13 +215,6 @@
                             </li>
                             <% end %>
                             <% end %>
-
-
-
-
-
-
-
                         </ol>
                     </nav>
 
