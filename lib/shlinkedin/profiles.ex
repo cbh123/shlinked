@@ -787,6 +787,7 @@ defmodule Shlinkedin.Profiles do
         attrs,
         after_save \\ &{:ok, &1}
       ) do
+
     %Profile{
       user_id: user_id,
       slug: attrs["username"]
