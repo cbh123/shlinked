@@ -66,6 +66,20 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
+  def handle_event("inspire", _params, socket) do
+    persona_name = Shlinkedin.Timeline.Generators.full_name()
+    photo = Shlinkedin.Timeline.Generators.profile_photo()
+    username = persona_name |> Shlinkedin.Timeline.Generators.slugify()
+
+    changeset =
+      socket.assigns.changeset
+      |> Ecto.Changeset.put_change(:persona_name, persona_name)
+      |> Ecto.Changeset.put_change(:photo_url, photo)
+      |> Ecto.Changeset.put_change(:username, username)
+
+    {:noreply, assign(socket, :changeset, changeset)}
+  end
+
   defp save_profile(socket, :edit, profile_params) do
     profile_params = put_photo_urls(socket, profile_params)
     profile_params = put_photo_urls(socket, profile_params, :cover_photo, "cover_photo_url")

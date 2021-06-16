@@ -22,14 +22,11 @@
             <div class="pt-2 p-5">
                 <div class="flex justify-center">
 
-                    <%= if @uploads.photo.entries != [] do %>
-                    <%= for entry <- @uploads.photo.entries do %>
-                    <%= live_img_preview entry, class: "inline-block relative object-cover bg-cover bg-center w-24 h-24 sm:w-32 sm:h-32 -mt-16 rounded-full border-4 border-white" %>
-                    <% end %>
-                    <% else %>
+
+                    <%= text_input f, :photo_url, class: "hidden" %>
                     <img class="inline-block relative bg-cover bg-center w-24 h-24 sm:w-32 sm:h-32 -mt-16 rounded-full border-4 border-white object-cover"
-                        src="<%= if @profile.photo_url == nil, do: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/George_Washington%2C_1776.jpg/1200px-George_Washington%2C_1776.jpg", else: @profile.photo_url%>">
-                    <% end  %>
+                        src="<%= if @changeset.changes |> Map.has_key?(:photo_url), do: @changeset.changes.photo_url, else: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/George_Washington%2C_1776.jpg/1200px-George_Washington%2C_1776.jpg" %>">
+
 
 
                 </div>
@@ -53,16 +50,27 @@
                         <%= if @changeset.changes |> Map.has_key?(:persona_name), do: "#{@changeset.changes.persona_name}... sounds like you'd have one hell of a handshake. Welcome to the team.", else: "On ShlinkedIn, you can be anyone. And you can always change who you are later." %>
                     </p>
 
+
+
                     <div class="rounded-md shadow-sm">
-                        <%= text_input f, :persona_name, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
+                        <%= text_input f, :persona_name, class: "focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
                                     placeholder: "Name", autofocus: "true" %>
+
                     </div>
 
 
-                    <p class="mt-4 text-xs"><%= error_tag f, :persona_name %>
+                    <p class="mt-2 text-xs"><%= error_tag f, :persona_name %>
                     </p>
 
+                    <button type="button" phx-click="inspire" id="inspire"
+                        class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        💡 Inspire Me</button>
+
+
+
                 </div>
+
+
 
                 <%# Username %>
                 <div class="">
@@ -77,8 +85,8 @@
                     </p>
 
                     <div class="rounded-md shadow-sm">
-                        <%= text_input f, :username, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
-                                    placeholder: "@" %>
+                        <%= text_input f, :username, class: "focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
+                                    placeholder: "" %>
                     </div>
 
 
@@ -102,7 +110,7 @@
                     </p>
 
                     <div class="rounded-md shadow-sm">
-                        <%= text_input f, :real_name, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
+                        <%= text_input f, :real_name, class: "focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
                                     placeholder: "First Last" %>
                     </div>
 
@@ -209,7 +217,7 @@
             <button phx-click="cancel-entry"
                 phx-value-ref="<%= (@uploads.photo.entries |> Enum.at(0)).ref %>"
                 phx-value-category="profile" type="button"
-                class="ml-8 mt-6 inline-block items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Remove
+                class="ml-8 mt-6 inline-block items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Remove
                 photo</button>
 
             <div class="ml-8">
@@ -238,7 +246,7 @@
             <button phx-click="cancel-entry"
                 phx-value-ref="<%= (@uploads.cover_photo.entries |> Enum.at(0)).ref %>"
                 phx-value-category="cover" type="button"
-                class="ml-8 mt-6 inline-block items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Remove
+                class="ml-8 mt-6 inline-block items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Remove
                 cover photo</button>
             <% end %>
 
@@ -284,7 +292,7 @@
                     <label for="name"
                         class="block text-sm font-medium text-gray-700 mt-4">Name</label>
                     <div class="mt-1 relative rounded-md shadow-sm">
-                        <%= text_input f, :persona_name, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 sm:text-sm border-gray-300 rounded-md",
+                        <%= text_input f, :persona_name, class: "focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 sm:text-sm border-gray-300 rounded-md",
                                     placeholder: "Name" %>
                     </div>
                     <p class="mt-4 text-xs"><%= error_tag f, :persona_name %>
@@ -298,7 +306,7 @@
                     <label for="title"
                         class="block text-sm font-medium text-gray-700 mt-4">Headline</label>
                     <div class="mt-1 relative rounded-md shadow-sm">
-                        <%= text_input f, :persona_title, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 sm:text-sm border-gray-300 rounded-md",
+                        <%= text_input f, :persona_title, class: "focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 sm:text-sm border-gray-300 rounded-md",
                                     placeholder:  @title_placeholder  %>
 
                     </div>
@@ -312,7 +320,7 @@
                     <label for="summary"
                         class="block text-sm font-medium text-gray-700 mt-4">Bio</label>
                     <div class="mt-1 relative rounded-md shadow-sm">
-                        <%= textarea f, :summary, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 sm:text-sm border-gray-300 rounded-md",
+                        <%= textarea f, :summary, class: "focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 sm:text-sm border-gray-300 rounded-md",
                                     placeholder: @bio_placeholder, rows: 5 %>
 
                     </div>
@@ -347,7 +355,7 @@
                         you grade your life
                         so far?</label>
                     <div class="mt-1">
-                        <%= text_input f, :life_score, placeholder: "B+", class: "focus:ring-indigo-500 focus:border-indigo-500 pr-10 sm:text-sm border-gray-300 rounded-md" %>
+                        <%= text_input f, :life_score, placeholder: "B+", class: "focus:ring-blue-500 focus:border-blue-500 pr-10 sm:text-sm border-gray-300 rounded-md" %>
 
                     </div>
                     <p class=" mt-4 text-xs"><%= error_tag f, :life_score %></p>
@@ -361,7 +369,7 @@
                         name</label>
 
                     <div class="rounded-md shadow-sm">
-                        <%= text_input f, :real_name, class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
+                        <%= text_input f, :real_name, class: "focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
                                     placeholder: "First Last" %>
                     </div>
 
@@ -382,7 +390,7 @@
                             class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
                             @
                         </span>
-                        <%= text_input f, :username, class: "focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full px-3 py-2 rounded-none rounded-r-md sm:text-sm border-gray-300",
+                        <%= text_input f, :username, class: "focus:ring-blue-500 focus:border-blue-500 flex-1 block w-full px-3 py-2 rounded-none rounded-r-md sm:text-sm border-gray-300",
                                     placeholder: "username", autocapitalize: "off"%>
 
                     </div>
@@ -435,7 +443,7 @@
 
                 <div class="">
 
-                    <%= number_input f, :ad_frequency, class: "focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md w-16"%>
+                    <%= number_input f, :ad_frequency, class: "focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md w-16"%>
                     <label for="ad_frequency"
                         class="text-sm font-medium text-gray-700 mt-4">Fake ad
                         Frequency:
