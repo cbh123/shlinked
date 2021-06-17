@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-gray-100">
 
-    <div class="py-10 pt-4">
+    <div class="py-10 pt-0">
 
         <div
             class="max-w-3xl mx-auto sm:max-w-7xl sm:px-8 sm:grid sm:grid-cols-12 sm:gap-8">
@@ -131,121 +131,132 @@
             <main class="sm:col-span-9 md:col-span-6">
 
                 <%# Checklist %>
-                <div class="my-2 shadow-sm sm:rounded-md bg-white p-5">
+                <div
+                    class="my-2 sm:rounded-md <%= if @profile.show_levels, do: "bg-white shadow-sm ", else: "bg-gray-100"%> px-5">
 
-                    <%= if @checklist.level_number == 0 do %>
-                    <div class="mb-4">
-                        <h5 class="font-bold text-gray-700">📝 New Hire
-                            Onboarding
-                        </h5>
-                        <p class="text-gray-500 text-xs mt-1">Welcome to
-                            ShlinkedIn, <%= @profile.persona_name %>. Here's our
-                            checklist
-                            to help you excel in your new role. Feel free to
-                            explore. We'd love your
-                            <%= live_patch "feedback!", to: Routes.home_index_path(@socket, :new_feedback), class: "underline hover:font-medium" %>
-                        </p>
+
+                    <%= if @profile.show_levels do  %>
+                    <div class="pt-5">
+
+                        <%= if @checklist.level_number == 0 do %>
+                        <div class="mb-4">
+                            <h5 class="font-bold text-gray-700">📝 New Hire
+                                Onboarding
+                            </h5>
+                            <p class="text-gray-500 text-xs mt-1">Welcome to
+                                ShlinkedIn, <%= @profile.persona_name %>. Here's
+                                our
+                                checklist
+                                to help you excel in your new role. Feel free to
+                                explore. We'd love your
+                                <%= live_patch "feedback!", to: Routes.home_index_path(@socket, :new_feedback), class: "underline hover:font-medium" %>
+                            </p>
+                        </div>
+                        <% end %>
+
+                        <!-- This example requires Tailwind CSS v2.0+ -->
+                        <nav aria-label="Progress">
+                            <ol class="space-y-3">
+
+                                <div
+                                    class="uppercase text-gray-400 tracking-wide text-xs flex justify-between">
+                                    <h1>
+                                        <span
+                                            class="font-medium text-gray-800"><%= @checklist.current_level %></span>
+
+                                        <%= unless @checklist.level_number == 5 do %>
+                                        <h1>
+                                            <%= @checklist.next_level %>
+                                        </h1>
+                                        <% end %>
+
+                                    </h1>
+                                </div>
+
+                                <div class="relative mb-8">
+                                    <div
+                                        class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
+                                        <div style="width:<%=(@checklist.level_number) * 20%>%"
+                                            class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-indigo-700 to-green-500">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <%= if not is_nil(@checklist.steps) do  %>
+                                <%= for step <- @checklist.steps do %>
+                                <li>
+                                    <!-- Upcoming Step -->
+                                    <%= live_redirect to: step.route do %>
+                                    <div class="group">
+                                        <div class="flex items-start">
+                                            <div class="flex-shrink-0 h-5 w-5 relative flex items-center justify-center"
+                                                aria-hidden="true">
+
+                                                <%= if step.done do %>
+                                                <svg class="h-full w-full text-blue-600 group-hover:text-blue-800"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                    aria-hidden="true">
+                                                    <path fill-rule="evenodd"
+                                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                        clip-rule="evenodd" />
+                                                </svg>
+                                                <% else %>
+                                                <div
+                                                    class="h-2 w-2 bg-gray-300 rounded-full group-hover:bg-gray-400">
+                                                </div>
+                                                <% end %>
+
+
+                                            </div>
+
+
+                                            <p
+                                                class="ml-3 text-sm font-medium text-gray-500 group-hover:text-gray-900">
+                                                <%= step.name %></p>
+                                        </div>
+                                    </div>
+                                    <% end %>
+                                </li>
+                                <% end %>
+                                <% end %>
+                            </ol>
+
+
+                        </nav>
+
                     </div>
                     <% end %>
 
-                    <!-- This example requires Tailwind CSS v2.0+ -->
-                    <nav aria-label="Progress">
-                        <ol class="space-y-3">
+                    <div class="my-2 text-center ">
+                        <button id="toggle-levels" phx-click="toggle-levels"
+                            class="inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded-md text-gray-500 <%= if @profile.show_levels, do: "bg-white hover:bg-gray-100", else: "bg-gray-100 hover:bg-white" %>  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
 
-                            <div
-                                class="uppercase text-gray-400 tracking-wide text-xs flex justify-between">
-                                <h1>
-                                    <span
-                                        class="font-medium text-gray-800"><%= @checklist.current_level %></span>
-
-                                    <%= unless @checklist.level_number == 5 do %>
-                                    <h1>
-                                        <%= @checklist.next_level %>
-                                    </h1>
-                                    <% end %>
-
-                                </h1>
-                            </div>
-
-                            <div class="relative mb-8">
-                                <div
-                                    class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
-                                    <div style="width:<%=(@checklist.level_number) * 20%>%"
-                                        class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-indigo-700 to-green-500">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <%= if not is_nil(@checklist.steps) do  %>
-                            <%= for step <- @checklist.steps do %>
-                            <li>
-                                <!-- Upcoming Step -->
-                                <%= live_redirect to: step.route do %>
-                                <div class="group">
-                                    <div class="flex items-start">
-                                        <div class="flex-shrink-0 h-5 w-5 relative flex items-center justify-center"
-                                            aria-hidden="true">
-
-                                            <%= if step.done do %>
-                                            <svg class="h-full w-full text-blue-600 group-hover:text-blue-800"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20"
-                                                fill="currentColor"
-                                                aria-hidden="true">
-                                                <path fill-rule="evenodd"
-                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                    clip-rule="evenodd" />
-                                            </svg>
-                                            <% else %>
-                                            <div
-                                                class="h-2 w-2 bg-gray-300 rounded-full group-hover:bg-gray-400">
-                                            </div>
-                                            <% end %>
-
-
-                                        </div>
-
-
-                                        <p
-                                            class="ml-3 text-sm font-medium text-gray-500 group-hover:text-gray-900">
-                                            <%= step.name %></p>
-                                    </div>
-                                </div>
-                                <% end %>
-                            </li>
+                            <%= if @profile.show_levels do %>
+                            <svg class="w-5 h-5" fill="currentColor"
+                                viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            Hide
+                            <% else %>
+                            <svg class="w-5 h-5" fill="currentColor"
+                                viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            Show Level
                             <% end %>
-                            <% end %>
-                        </ol>
-                    </nav>
-
-
+                        </button>
+                    </div>
 
                 </div>
 
-                <div
-                    class="hidden mx-auto p-5 pb-3 bg-white sm:rounded-lg border block mb-2">
-                    <h5 class="uppercase text-xs text-red-600 font-semibold">A
-                        MESSAGE FROM
-                        HR</h5>
-
-                    <p class="text-xs text-gray-500 mb-2">
-                        Exciting news: we're live
-                        on ProductHunt! Let us know what you think as we keep
-                        growing and iterating until we are the literally the
-                        only business
-                        left:
-
-
-                    </p>
-                    <a class="mt-2"
-                        href="https://www.producthunt.com/posts/shlinkedin?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-shlinkedin"
-                        target="_blank"><img
-                            src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=294348&theme=light"
-                            alt="ShlinkedIn - A satirical social network where everyone's a thought leader | Product Hunt"
-                            style="width: 250px; height: 54px;" width="250"
-                            height="54" /></a>
-                    <a href="https://www.producthunt.com/posts/shlinkedin"></a>
-                </div>
 
 
                 <%# Start a Post %>
@@ -393,7 +404,7 @@
                         phx-hook="InfiniteScroll" data-page="<%= @page %>">
 
 
-                        <%= for {entity, idx} <- Enum.with_index(@posts) do %>
+                        <%= for {entity, _idx} <- Enum.with_index(@posts) do %>
                         <%= case entity.type do %>
                         <% "post" -> %>
                         <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,

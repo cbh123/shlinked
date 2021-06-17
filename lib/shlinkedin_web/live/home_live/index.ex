@@ -57,18 +57,6 @@ defmodule ShlinkedinWeb.HomeLive.Index do
            }
          } = socket
        ) do
-    """
-     We want to end up with a map that looks like:
-
-      [
-        %{type: "post", content: post},
-        %{type: "post", content: post},
-        %{type: "ad", content: ad},
-        %{type: "post", content: post}
-      ]
-
-    """
-
     # get posts and convert a %{type: "post", content: post} format
     posts =
       Timeline.list_posts(profile, [paginate: %{page: page, per_page: per}], feed_type)
@@ -283,6 +271,14 @@ defmodule ShlinkedinWeb.HomeLive.Index do
      socket
      |> put_flash(:info, "Ad deleted")
      |> push_redirect(to: Routes.home_index_path(socket, :index))}
+  end
+
+  @impl true
+  def handle_event("toggle-levels", _, %{assigns: %{profile: profile}} = socket) do
+    {:ok, profile} = Profiles.update_profile(profile, %{"show_levels" => !profile.show_levels})
+
+    socket = assign(socket, profile: profile)
+    {:noreply, socket}
   end
 
   @impl true
