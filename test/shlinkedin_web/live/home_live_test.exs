@@ -274,5 +274,18 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       assert view |> render() =~ "Headline deleted"
       refute view |> render() =~ "this just in"
     end
+
+    test "test show/hide levels", %{conn: conn, profile: profile} do
+      assert profile.show_levels == true
+
+      {:ok, view, _html} =
+        conn
+        |> live(Routes.home_index_path(conn, :index))
+
+      assert view |> render() =~ "📝 New Hire"
+      refute view |> element("#toggle-levels") |> render_click() =~ "📝 New Hire"
+
+      assert Shlinkedin.Profiles.get_profile_by_profile_id(profile.id).show_levels == false
+    end
   end
 end

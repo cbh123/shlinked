@@ -54,6 +54,7 @@ defmodule Shlinkedin.Profiles.Profile do
     has_many :conversation_members, Shlinkedin.Chat.ConversationMember
     has_many :conversations, through: [:conversation_members, :conversation]
 
+    field :show_levels, :boolean, default: true
     timestamps()
   end
 
@@ -78,7 +79,8 @@ defmodule Shlinkedin.Profiles.Profile do
       :private_mode,
       :ad_frequency,
       :unsubscribed,
-      :points
+      :points,
+      :show_levels
     ])
     |> validate_required([:user_id, :persona_name, :real_name, :slug, :username])
     |> downcase_username()
