@@ -297,8 +297,9 @@
 
                     <div class="block sm:w-72 w-full">
                         <div class="flex justify-between px-5 py-5">
-                            <%= live_redirect "Trending ShlinkNews", to: Routes.article_index_path(@socket, :index), class: "font-bold"  %>
-
+                            <p class="font-bold">ShlinkNews <span
+                                    class="font-windows text-blue-400 animate-pulse">4:59
+                                    PM SHT</span></p>
 
                             <%= live_patch "+ Add Headline", to: Routes.home_index_path(@socket, :new_article), class: "text-xs text-green-800 font-semibold bg-green-100 px-2 py-1 rounded-lg hover:bg-green-200"  %>
 
@@ -493,7 +494,9 @@
                             <!-- News  -->
 
                             <div class="flex justify-between px-5 py-5">
-                                <%= live_redirect "ShlinkNews", to: Routes.article_index_path(@socket, :index), class: "font-bold"  %>
+                                <p class="font-bold">ShlinkNews <span
+                                        class="font-windows text-blue-400 animate-pulse">4:59
+                                        PM SHT</span></p>
 
 
                                 <%= live_patch "+ Headline", to: Routes.home_index_path(@socket, :new_article), class: "text-xs text-green-800 font-semibold bg-green-100 px-2 py-1 rounded-lg hover:bg-green-200"  %>
