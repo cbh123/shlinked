@@ -90,7 +90,11 @@ defmodule Shlinkedin.Profiles do
   end
 
   def list_testimonials(id) do
-    Repo.all(from e in Shlinkedin.Profiles.Testimonial, where: e.to_profile_id == ^id)
+    Repo.all(
+      from e in Shlinkedin.Profiles.Testimonial,
+        where: e.to_profile_id == ^id,
+        order_by: [desc: e.inserted_at]
+    )
   end
 
   def get_number_testimonials(id) do
@@ -110,7 +114,11 @@ defmodule Shlinkedin.Profiles do
   end
 
   def list_given_testimonials(id) do
-    Repo.all(from e in Shlinkedin.Profiles.Testimonial, where: e.from_profile_id == ^id)
+    Repo.all(
+      from e in Shlinkedin.Profiles.Testimonial,
+        where: e.from_profile_id == ^id,
+        order_by: [desc: e.inserted_at]
+    )
   end
 
   def list_notifications(id, count) do
@@ -787,7 +795,6 @@ defmodule Shlinkedin.Profiles do
         attrs,
         after_save \\ &{:ok, &1}
       ) do
-
     %Profile{
       user_id: user_id,
       slug: attrs["username"]
