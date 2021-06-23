@@ -59,7 +59,6 @@ defmodule ShlinkedinWeb.ConnCase do
 
     {:ok, profile} =
       Shlinkedin.Profiles.create_profile(user, %{
-        "real_name" => "Me",
         "persona_name" => "Charlie B",
         "username" => "charlie"
       })

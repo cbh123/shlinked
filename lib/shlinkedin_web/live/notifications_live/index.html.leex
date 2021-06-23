@@ -41,8 +41,7 @@
                             <% else  %>
                             <span class="text-sm"><%= n.profile.persona_name %>
 
-                                <span
-                                    class="text-gray-500"><%= Shlinkedin.Profiles.show_real_name(@profile, n.profile) %></span>
+
 
                                 <%= Shlinkedin.Badges.profile_badges(@socket, n.profile, 3) %>
                             </span> <span

@@ -33,12 +33,10 @@ defmodule Shlinkedin.ProfilesTest do
       assert {:ok, %Profile{} = profile} =
                Profiles.create_profile(user, %{
                  "persona_name" => "Charlie H",
-                 "real_name" => "Doop",
                  "username" => "charlop"
                })
 
       assert profile.persona_name == "Charlie H"
-      assert profile.real_name == "Doop"
       assert profile.user_id == user.id
       assert profile.slug == "charlop"
       assert profile.username == "charlop"

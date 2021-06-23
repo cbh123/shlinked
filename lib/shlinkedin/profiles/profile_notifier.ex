@@ -250,7 +250,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
 
-    <p>Hi #{from_profile.persona_name} / #{from_profile.real_name} has sent you a Shlink request. You can accept it
+    <p>Hi #{from_profile.persona_name} has sent you a Shlink request. You can accept it
     <a href="https://www.shlinkedin.com/shlinks">here.</a>
 
     Time to think of some ice-breakers, like:</p>
@@ -336,7 +336,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
 
-    <p>Congratulations! #{to_profile.persona_name} / #{to_profile.real_name} has accepted your Shlink request. Your reward is +#{Points.get_rule_amount(type)}. Time to ask them something personal, like:</p>
+    <p>Congratulations! #{to_profile.persona_name} has accepted your Shlink request. Your reward is +#{Points.get_rule_amount(type)}. Time to ask them something personal, like:</p>
 
     <ul>
     #{for line <- friend_request_text(), do: "<li>#{line}</li>"}
