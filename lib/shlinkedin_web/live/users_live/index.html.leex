@@ -8,7 +8,7 @@
 
         <%= unless is_nil(profile) or is_nil(profile.slug) do %>
         <%= live_component @socket, ShlinkedinWeb.UsersLive.ProfileComponent,
-        id: profile.id,
+        id: "profile-#{profile.id}",
         profile: @profile,
         friend_status: Shlinkedin.Profiles.check_between_friend_status(@profile, profile),
         show_profile: profile
