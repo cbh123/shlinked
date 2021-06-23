@@ -189,6 +189,9 @@ defmodule ShlinkedinWeb.Router do
     live "/dms/new", MessageLive.Index, :new_message
     live "/dms/:conversation_id", MessageLive.Show, :show
     live "/dms", MessageLive.Index, :index
+
+    # marketplace
+    live "/marketplace", MarketLive.Index, :index
   end
 
   scope "/", ShlinkedinWeb do
