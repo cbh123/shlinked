@@ -192,7 +192,6 @@ defmodule Shlinkedin.Points do
           "persona_name" => "God",
           "slug" => "god",
           "title" => "Ruler of the Universe",
-          "real_name" => "Dave Business",
           "username" => "god",
           "points" => 10_000_000
         })

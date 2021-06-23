@@ -31,13 +31,13 @@ defmodule ShlinkedinWeb.OnboardLiveTest do
 
     # blank real name, so error
     assert view
-           |> form("#profile-form", profile: %{persona_name: "Charlie B", real_name: ""})
+           |> form("#profile-form", profile: %{persona_name: "Charlie B"})
            |> render_submit() =~
              "can&apos;t be blank"
 
     assert view
            |> form("#profile-form",
-             profile: %{persona_name: "Charlie B", real_name: "charlie", username: "@charlie"}
+             profile: %{persona_name: "Charlie B", username: "@charlie"}
            )
            |> render_submit() =~
              "invalid username - no special characters pls!"
@@ -46,7 +46,7 @@ defmodule ShlinkedinWeb.OnboardLiveTest do
     {:ok, conn} =
       view
       |> form("#profile-form",
-        profile: %{persona_name: "Charlie B", real_name: "Charlifer", username: "charlie"}
+        profile: %{persona_name: "Charlie B", username: "charlie"}
       )
       |> render_submit()
       |> follow_redirect(conn, "/home%3Ftype%3Dfeatured")
@@ -55,7 +55,6 @@ defmodule ShlinkedinWeb.OnboardLiveTest do
     user = Shlinkedin.Accounts.get_user_by_email(email)
     profile = Shlinkedin.Profiles.get_profile_by_user_id(user.id)
     assert profile.persona_name == "Charlie B"
-    assert profile.real_name == "Charlifer"
     assert profile.username == "charlie"
     assert profile.slug == "charlie"
 

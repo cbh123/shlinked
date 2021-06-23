@@ -19,7 +19,6 @@ defmodule Shlinkedin.ProfilesFixtures do
           "persona_name" => unique_persona_name(),
           "slug" => unique_slug(),
           "title" => title(),
-          "real_name" => "Charlie Holtz",
           "username" => unique_slug()
         })
       )

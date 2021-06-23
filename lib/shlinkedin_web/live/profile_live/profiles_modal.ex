@@ -30,7 +30,6 @@ defmodule ShlinkedinWeb.ProfileLive.ProfilesModal do
 
                 <div>
                     <p class="ml-3 place-self-center text-sm font-medium text-gray-900"><%= profile.persona_name %>
-                        <span class="text-gray-500"><%= Shlinkedin.Profiles.show_real_name(@profile, profile) %></span>
                     </p>
                     <% mutual_friends = Shlinkedin.Profiles.get_mutual_friends(@profile, profile)  %>
                     <p class="font-semibold ml-3 text-xs text-gray-400">
