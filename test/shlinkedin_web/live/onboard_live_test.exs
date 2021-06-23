@@ -96,7 +96,7 @@ defmodule ShlinkedinWeb.OnboardLiveTest do
     {:ok, conn} =
       view
       |> form("#profile-form",
-        profile: %{real_name: "Charlifer"}
+        profile: %{}
       )
       |> render_submit()
       |> follow_redirect(conn, "/home%3Ftype%3Dfeatured")
@@ -105,7 +105,6 @@ defmodule ShlinkedinWeb.OnboardLiveTest do
     user = Shlinkedin.Accounts.get_user_by_email(email)
     profile = Shlinkedin.Profiles.get_profile_by_user_id(user.id)
     assert profile.persona_name != nil
-    assert profile.real_name == "Charlifer"
     assert profile.username != nil
     assert profile.slug == profile.username
 
