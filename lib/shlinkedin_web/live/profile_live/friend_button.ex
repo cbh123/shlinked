@@ -3,6 +3,7 @@ defmodule ShlinkedinWeb.ProfileLive.FriendButton do
   alias Shlinkedin.Profiles
 
   def handle_event("send-friend-request", %{"id" => id}, socket) do
+    IO.inspect(id, label: "id is...")
     to_profile = Profiles.get_profile_by_profile_id(id)
 
     Profiles.send_friend_request(socket.assigns.profile, to_profile)
@@ -30,8 +31,6 @@ defmodule ShlinkedinWeb.ProfileLive.FriendButton do
   def render(assigns) do
     ~L"""
     <div class="inline-flex" id="<%= @id %>" phx-update="replace">
-
-
     <%= case @friend_status do %>
     <% "me" -> %>
     <h5

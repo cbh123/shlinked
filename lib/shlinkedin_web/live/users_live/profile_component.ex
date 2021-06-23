@@ -15,7 +15,7 @@ defmodule ShlinkedinWeb.UsersLive.ProfileComponent do
     Profiles.send_friend_request(socket.assigns.profile, to_profile)
 
     send_update(ShlinkedinWeb.UsersLive.ProfileComponent,
-      id: to_profile.id,
+      id: "profile-#{to_profile.id}",
       friend_status: Profiles.check_between_friend_status(socket.assigns.profile, to_profile)
     )
 
