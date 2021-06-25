@@ -615,11 +615,10 @@
                             </div>
                             <h3
                                 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">
-                                Private mode</h3>
+                                Pseudonymous</h3>
                             <p class="mt-5 text-base text-gray-500">
-                                Don't want anyone to see your real name? Just
-                                turn on private mode and it'll be hidden to
-                                anyone you're not friends with.
+                                Private, pseudonymous content. We don't know who
+                                you are, and neither do you.
                             </p>
                         </div>
                     </div>

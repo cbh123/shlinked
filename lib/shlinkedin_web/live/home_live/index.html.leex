@@ -131,6 +131,7 @@
             <main class="sm:col-span-9 md:col-span-6">
 
                 <%# Checklist %>
+                <%= unless @checklist |> is_nil() do %>
                 <div
                     class="my-2 sm:rounded-md <%= if @profile.show_levels, do: "bg-white shadow-sm ", else: "bg-gray-100"%> px-5">
 
@@ -256,6 +257,7 @@
                     </div>
 
                 </div>
+                <% end %>
 
 
 

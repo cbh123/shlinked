@@ -30,8 +30,6 @@ defmodule ShlinkedinWeb.ProfileLive.FriendButton do
   def render(assigns) do
     ~L"""
     <div class="inline-flex" id="<%= @id %>" phx-update="replace">
-
-
     <%= case @friend_status do %>
     <% "me" -> %>
     <h5

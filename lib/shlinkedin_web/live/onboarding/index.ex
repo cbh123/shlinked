@@ -55,7 +55,6 @@ defmodule ShlinkedinWeb.OnboardingLive.Index do
         2 -> Enum.any?(Keyword.keys(changeset.errors), fn k -> k in [:headline] end)
         3 -> Enum.any?(Keyword.keys(changeset.errors), fn k -> k in [:photo] end)
         4 -> Enum.any?(Keyword.keys(changeset.errors), fn k -> k in [:url] end)
-        5 -> Enum.any?(Keyword.keys(changeset.errors), fn k -> k in [:real_name] end)
         _ -> true
       end
 

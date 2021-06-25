@@ -8,7 +8,6 @@ defmodule Shlinkedin.Profiles.Profile do
     field :username, :string
     field :slug, :string
     field :persona_name, :string
-    field :real_name, :string
     field :persona_title, :string
     field :summary, :string
 
@@ -63,7 +62,6 @@ defmodule Shlinkedin.Profiles.Profile do
     profile
     |> cast(attrs, [
       :username,
-      :real_name,
       :user_id,
       :slug,
       :persona_name,
@@ -82,12 +80,11 @@ defmodule Shlinkedin.Profiles.Profile do
       :points,
       :show_levels
     ])
-    |> validate_required([:user_id, :persona_name, :real_name, :slug, :username])
+    |> validate_required([:user_id, :persona_name, :slug, :username])
     |> downcase_username()
     |> validate_username()
     |> unique_constraint([:username])
-    |> validate_length(:persona_name, min: 1, max: 40)
-    |> validate_length(:real_name, min: 1, max: 40)
+    |> validate_length(:persona_name, min: 1, max: 80)
     |> validate_length(:persona_title, min: 3, max: 100)
     |> validate_length(:summary, max: 500)
     |> validate_length(:life_score, max: 7)

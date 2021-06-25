@@ -58,24 +58,6 @@ defmodule Shlinkedin.Profiles do
     |> Repo.update()
   end
 
-  def show_real_name(%Profile{} = from, %Profile{} = to) do
-    if from.id == to.id do
-      to.real_name
-    else
-      case check_between_friend_status(from, to) do
-        "accepted" -> to.real_name
-        _ -> is_profile_private(to)
-      end
-    end
-  end
-
-  defp is_profile_private(%Profile{} = profile) do
-    case profile.private_mode do
-      true -> "Private 🔒"
-      false -> profile.real_name
-    end
-  end
-
   @doc """
   Returns the list of endorsements.
 
@@ -278,7 +260,7 @@ defmodule Shlinkedin.Profiles do
     Repo.all(
       from p in Profile,
         where:
-          (ilike(p.persona_name, ^sql) or ilike(p.real_name, ^sql) or ilike(p.username, ^sql)) and
+          (ilike(p.persona_name, ^sql) or ilike(p.username, ^sql)) and
             p.persona_name != "test",
         limit: 7,
         order_by: fragment("RANDOM()")
@@ -414,7 +396,7 @@ defmodule Shlinkedin.Profiles do
     <br/>
     <br/>
 
-    #{from.real_name} aka \"#{from.persona_name}\" has invited you to join ShlinkedIn, a social network for satire. To accept their invite,
+    #{from.persona_name} has invited you to join ShlinkedIn, a social network for satire. To accept their invite,
     <a href="https://www.shlinkedin.com/join?ref=#{from.slug}">click here.</a>
 
     <br/>
@@ -426,7 +408,7 @@ defmodule Shlinkedin.Profiles do
 
     Shlinkedin.Email.new_email(
       email,
-      "#{from.real_name} invited you to join ShlinkedIn!",
+      "#{from.persona_name} invited you to join ShlinkedIn!",
       body
     )
     |> Shlinkedin.Mailer.deliver_later()
