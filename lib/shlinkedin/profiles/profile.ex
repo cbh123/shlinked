@@ -84,7 +84,7 @@ defmodule Shlinkedin.Profiles.Profile do
     |> downcase_username()
     |> validate_username()
     |> unique_constraint([:username])
-    |> validate_length(:persona_name, min: 1, max: 40)
+    |> validate_length(:persona_name, min: 1, max: 80)
     |> validate_length(:persona_title, min: 3, max: 100)
     |> validate_length(:summary, max: 500)
     |> validate_length(:life_score, max: 7)
