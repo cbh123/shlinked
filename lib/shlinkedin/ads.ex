@@ -18,9 +18,6 @@ defmodule Shlinkedin.Ads do
       [%Ad{}, ...]
 
   """
-  def list_ads do
-    Repo.all(Ad)
-  end
 
   def count_profile_ads(%Profile{} = profile) do
     Repo.aggregate(from(a in Ad, where: a.profile_id == ^profile.id), :count)

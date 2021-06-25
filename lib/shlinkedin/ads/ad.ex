@@ -15,6 +15,8 @@ defmodule Shlinkedin.Ads.Ad do
     field :gif_url, :string
     field :overlay_color, :string
     field :removed, :boolean, default: false
+    field :quantity, :integer, default: 10
+    field :price, Money.Ecto.Amount.Type, default: 10000
 
     timestamps()
   end
@@ -31,12 +33,16 @@ defmodule Shlinkedin.Ads.Ad do
       :overlay,
       :overlay_color,
       :gif_url,
-      :removed
+      :removed,
+      :quantity,
+      :price
     ])
-    |> validate_required([:body, :company])
+    |> validate_required([:body, :product, :company])
     |> validate_length(:body, min: 0, max: 250)
     |> validate_length(:company, max: 50)
     |> validate_length(:product, max: 50)
     |> validate_length(:overlay, max: 50)
+    |> validate_number(:quantity, greater_than: 0)
+    |> validate_number(:price, greater_than: 0)
   end
 end

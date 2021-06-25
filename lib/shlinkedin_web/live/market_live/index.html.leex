@@ -7,11 +7,14 @@
 
                     <h1
                         class="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-blue-500 to-green-400">
-                        ShlinkMarket
+                        ShlinkMarket <span
+                            class="text-sm italic text-gray-500">Because you're
+                            worth it.</span>
                     </h1>
-                    <span class="text-gray-600 text-sm italic">
-                        Spend your ShlinkPoints on the things that matter.
-                        Because you're worth it.
+                    <span class="text-gray-600 text-sm">
+                        Spend your ShlinkPoints on ads. Each ad has a limited
+                        quantity, so act fast!
+
                     </span>
 
                 </div>
@@ -23,6 +26,53 @@
                 <div class="px-4 py-8 sm:px-0">
                     <ul role="list"
                         class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+                        <%= for ad <- @ads do %>
+                        <%= unless is_nil(ad.gif_url) and is_nil(ad.media_url) do %>
+                        <li class="relative" id="ad-<%=ad.id%>">
+                            <div
+                                class="relative group block   w-full aspect-w-10 aspect-h-7  rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
+                                <img src="<%= if ad.gif_url != nil, do: ad.gif_url, else: ad.media_url %>"
+                                    alt=""
+                                    class="object-cover pointer-events-none group-hover:opacity-75">
+
+                                <button type="button"
+                                    class="absolute inset-0 focus:outline-none">
+                                    <span
+                                        class="sr-only"><%= ad.product %></span>
+                                </button>
+                            </div>
+
+                            <p
+                                class="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">
+                                <%= ad.product %><span class="text-gray-500">
+                                    • <%= ad.price %></span></p>
+
+
+                            <p class="text-xs text-gray-500 italic">
+                                <%= ad.body %></p>
+
+
+
+
+                            <div class="flex mt-4 space-x-2">
+
+                                <button type="button" phx-click="buy-ad"
+                                    id="ad-<%=ad.id%>-like-buy"
+                                    phx-value-like-type="buy"
+                                    class="w-full items-center px-4 py-2 border border-gray-300 shadow-sm text-base font-medium rounded-md   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <%= if Enum.any?(ad.adlikes, fn like -> (like.profile_id == @profile.id && like.like_type == "buy") end),
+             do: "You bought #{ad.product}!", else: "Buy a #{ad.product}" %>
+                                    <span
+                                        class="text-gray-500 text-xs"><%= ad.quantity %>
+                                        remaining </span>
+                                </button>
+                        </li>
+                        <% end %>
+                        <% end %>
+                    </ul>
+
+                    <ul role="list"
+                        class="mt-8 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
                         <li class="relative">
                             <div
                                 class="group block   w-full aspect-w-10 aspect-h-7  rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
@@ -35,7 +85,6 @@
                                         IMG_4985.HEIC</span>
                                 </button>
                             </div>
-
 
                             <p
                                 class="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">
@@ -53,9 +102,6 @@
 
 
                         </li>
-
-
-
 
                         <li class="relative">
                             <div
@@ -89,7 +135,6 @@
 
                         </li>
 
-
                         <li class="relative">
                             <div
                                 class="group block  w-full aspect-w-10 aspect-h-7  rounded-lg bg-white focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
@@ -118,7 +163,6 @@
 
 
                         </li>
-
 
                         <li class="relative">
                             <div
