@@ -29,13 +29,28 @@ defmodule ShlinkedinWeb.HomeLive.Index do
        per_page: 5,
        activities: Timeline.list_unique_notifications(60),
        articles: News.list_top_articles(15),
-       my_groups: Groups.list_profile_groups(socket.assigns.profile),
        like_map: Timeline.like_map(),
        comment_like_map: Timeline.comment_like_map(),
-       num_show_comments: 1,
-       checklist: Shlinkedin.Levels.get_current_checklist(socket.assigns.profile, socket)
+       num_show_comments: 1
      )
+     |> fetch_profile_related_data()
      |> fetch_posts(), temporary_assigns: [posts: [], articles: []]}
+  end
+
+  defp fetch_profile_related_data(%{assigns: %{profile: nil}} = socket) do
+    assign(
+      socket,
+      checklist: nil,
+      my_groups: []
+    )
+  end
+
+  defp fetch_profile_related_data(socket) do
+    assign(
+      socket,
+      checklist: Shlinkedin.Levels.get_current_checklist(socket.assigns.profile, socket),
+      my_groups: Groups.list_profile_groups(socket.assigns.profile)
+    )
   end
 
   defp check_featured(params) do
