@@ -425,6 +425,14 @@ defmodule Shlinkedin.Timeline do
 
   def like_map do
     %{
+      "Coleslaw" => %{
+        active: true,
+        like_type: "Coleslaw",
+        is_emoji: true,
+        emoji: "🥬",
+        color: "text-red-500",
+        bg: "bg-red-600"
+      },
       "HUSTLE" => %{
         active: true,
         like_type: "HUSTLE",
@@ -434,7 +442,7 @@ defmodule Shlinkedin.Timeline do
         bg: "bg-yellow-600"
       },
       "Humbled" => %{
-        active: true,
+        active: false,
         like_type: "Humbled",
         is_emoji: true,
         emoji: "🙏",
