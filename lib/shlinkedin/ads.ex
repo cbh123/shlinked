@@ -10,12 +10,11 @@ defmodule Shlinkedin.Ads do
   alias Shlinkedin.Profiles.{Profile, ProfileNotifier}
 
   @doc """
-  Returns the list of ads.
-
-  ## Examples
-
-      iex> list_ads()
-      [%Ad{}, ...]
+  Buys an Ad. Everytime an ad is bought:
+  - check to make sure person has enough points
+  - check to make sure quantity not zero
+  - if passes, lower quantity and transact shlinkpoints to creator
+  - change owner id from null to buyer
 
   """
 

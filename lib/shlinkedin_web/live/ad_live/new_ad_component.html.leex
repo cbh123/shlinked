@@ -1,10 +1,10 @@
  <%= unless is_nil(@ad.gif_url) and is_nil(@ad.media_url) do %>
  <li class="relative" id="@ad-<%=@ad.id%>">
-     <div
+     <%= live_redirect to: Routes.ad_show_path(@socket, :show, @ad.id) do %>
+     <div id="ad-image-<%=@ad.id%>"
          class="relative group block   w-full aspect-w-10 aspect-h-7  rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
 
-
-         <img src="<%= if @ad.gif_url != nil, do: @ad.gif_url, else: @ad.media_url %>"
+         <img src="<%= if  is_nil(@ad.media_url), do: @ad.gif_url, else: @ad.media_url %>"
              alt=""
              class="object-cover pointer-events-none group-hover:opacity-75">
 
@@ -17,10 +17,12 @@
              </div>
          </div>
 
+
          <button type="button" class="absolute inset-0 focus:outline-none">
              <span class="sr-only"><%= @ad.product %></span>
          </button>
      </div>
+     <% end %>
 
 
      <p

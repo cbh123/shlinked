@@ -10,7 +10,7 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
     assigns = [
       gif_url: nil,
       gif_error: nil,
-      overlay: ""
+      cost: 25
     ]
 
     socket = assign(socket, assigns)
@@ -30,7 +30,7 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
     {:ok,
      socket
      |> assign(assigns)
-     |> assign(:changeset, changeset)}
+     |> assign(changeset: changeset)}
   end
 
   def update(%{uploads: uploads}, socket) do
@@ -45,13 +45,7 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
       |> Ads.change_ad(ad_params)
       |> Map.put(:action, :validate)
 
-    case changeset.changes[:overlay] do
-      nil ->
-        {:noreply, assign(socket, :changeset, changeset)}
-
-      overlay ->
-        {:noreply, assign(socket, changeset: changeset, overlay: overlay)}
-    end
+    {:noreply, assign(socket, changeset: changeset, cost: cost(changeset))}
   end
 
   def handle_event("save", %{"ad" => ad_params}, socket) do
@@ -82,7 +76,6 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
 
     urls =
       for entry <- completed do
-        # Routes.static_path(socket, "/uploads/#{entry.uuid}.#{ext(entry)}") # local path
         Path.join(MediaUpload.s3_host(), MediaUpload.s3_key(entry))
       end
 
@@ -125,5 +118,13 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
     end
+  end
+
+  defp cost(changeset) do
+    price = Ecto.Changeset.get_field(changeset, :price)
+    quantity = Ecto.Changeset.get_field(changeset, :quantity)
+    IO.inspect(price, label: "price")
+    IO.inspect(quantity, label: "quantity")
+    price * quantity * 0.25
   end
 end

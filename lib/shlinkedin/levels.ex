@@ -25,7 +25,7 @@ defmodule Shlinkedin.Levels do
         %{
           done: true,
           route: Routes.home_index_path(socket, :index),
-          name: "JoinShlinkedIn"
+          name: "Join ShlinkedIn"
         },
         %{
           name: "Add a profile photo",
@@ -100,9 +100,7 @@ defmodule Shlinkedin.Levels do
       4 => [
         %{
           name:
-            "Maintain a net worth of 1000 ShlinkPoints (current balance: #{
-              Shlinkedin.Points.get_balance(profile)
-            })",
+            "Maintain a net worth of 1000 ShlinkPoints (current balance: #{Shlinkedin.Points.get_balance(profile)})",
           done: Shlinkedin.Points.get_balance(profile) |> Money.compare(Money.new(100_000)) == 1,
           route: Routes.points_index_path(socket, :index)
         },

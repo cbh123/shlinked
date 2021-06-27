@@ -15,8 +15,8 @@ defmodule Shlinkedin.Ads.Ad do
     field :gif_url, :string
     field :overlay_color, :string
     field :removed, :boolean, default: false
-    field :quantity, :integer, default: 10
-    field :price, Money.Ecto.Amount.Type, default: 10000
+    field :quantity, :integer, default: 1
+    field :price, Money.Ecto.Amount.Type, default: 100
 
     timestamps()
   end
