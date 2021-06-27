@@ -1,0 +1,52 @@
+ <%= unless is_nil(@ad.gif_url) and is_nil(@ad.media_url) do %>
+ <li class="relative" id="@ad-<%=@ad.id%>">
+     <div
+         class="relative group block   w-full aspect-w-10 aspect-h-7  rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
+
+
+         <img src="<%= if @ad.gif_url != nil, do: @ad.gif_url, else: @ad.media_url %>"
+             alt=""
+             class="object-cover pointer-events-none group-hover:opacity-75">
+
+
+         <div class="text-right">
+             <div
+                 class="absolute transform rotate-45 top-6 -right-6 text-red-500 bg-white h-6 w-32 text-center">
+                 <span class="text-red-600 font-semibold">
+                     SOLD OUT </span>
+             </div>
+         </div>
+
+         <button type="button" class="absolute inset-0 focus:outline-none">
+             <span class="sr-only"><%= @ad.product %></span>
+         </button>
+     </div>
+
+
+     <p
+         class="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">
+         <%= @ad.product %></p>
+
+
+     <p class="text-xs text-gray-500 italic">
+         <%= @ad.body %></p>
+
+
+
+
+     <span class="text-gray-500 text-xs"><%= @ad.quantity %>
+         remaining </span>
+     <div class="flex mt-4 space-x-2">
+
+         <button type="button" phx-click="buy-@ad" id="@ad-<%=@ad.id%>-like-buy"
+             phx-value-like-type="buy"
+             class="w-full items-center px-4 py-2 border border-gray-300 sh@adow-sm text-base font-medium rounded-md   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+             Buy <%=@ad.product%>
+
+
+             <span class="text-gray-500">
+                 • <%= @ad.price %></span>
+
+         </button>
+ </li>
+ <% end %>
