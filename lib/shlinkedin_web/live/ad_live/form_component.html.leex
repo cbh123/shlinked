@@ -17,19 +17,15 @@
         <div>
             <%= label f, "What's the company name?", class: "block text-sm font-medium text-gray-700" %>
             <%= text_input f, :company, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 inline-block sm:text-sm border-gray-300 rounded-md px-3", placeholder: "Micromicrosoft" %>
-
+            <p class="text-xs"><%= error_tag f, :company %></p>
         </div>
 
         <div class="mt-2 sm:mt-0 sm:ml-3">
             <%= label f, "What product are you selling?", class: "block text-sm font-medium text-gray-700" %>
             <%= text_input f, :product, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 inline-block sm:text-sm border-gray-300 rounded-md px-3", placeholder: "Teeny Comper" %>
-            <%= error_tag f, :product %>
+            <p class="text-xs"><%= error_tag f, :product %></p>
         </div>
     </div>
-
-    <span class="text-xs">
-        <%= error_tag f, :company %>
-    </span>
 
     <div class="mt-6">
         <%= label f, "What's the ad copy?", class: "block text-sm font-medium text-gray-700" %>
@@ -37,8 +33,9 @@
         <p class="mt-4 text-xs"><%= error_tag f, :body %></p>
 
         <%# Error for gif %>
-        <span
-            class="text-red-500 font-semibold italic text-xs"><%= @gif_error %></span>
+        <p class="mt-4 text-red-500 font-semibold italic text-xs">
+            <%= @gif_error %>
+        </p>
 
     </div>
 
@@ -121,6 +118,13 @@
     </div>
     <% end %>
 
+    <%= if is_nil(@gif_url) and @uploads.media.entries == [] do %>
+    <p class="text-xs mt-2">
+        <%= error_tag f, :gif_url %></p>
+    <% end %>
+
+
+
     <hr class="mt-4">
     <div class="mt-8 flex">
         <div class="inline-block">
@@ -142,7 +146,7 @@
                     available to buy.</span>
 
             </div>
-            <%= number_input f, :quantity, class: "mt-2 shadow-sm w-20 focus:ring-blue-500 focus:border-blue-500 inline-block sm:text-sm border-gray-300 rounded-md p-3", placeholder: "1", default: 1 %>
+            <%= number_input f, :quantity, min: 1, class: "mt-2 shadow-sm w-20 focus:ring-blue-500 focus:border-blue-500 inline-block sm:text-sm border-gray-300 rounded-md p-3", placeholder: "1", default: 1 %>
             <p class="mt-2 text-xs"><%= error_tag f, :quantity %></p>
         </div>
         <div class="inline-block ml-4">
@@ -165,7 +169,7 @@
             </div>
             <div class="mt-1 relative rounded-md shadow-sm">
 
-                <%= text_input f, :price, placeholder: "100", default: "100", class: "mt-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full pl-2 sm:text-sm border-gray-300 rounded-md p-3" %>
+                <%= text_input f, :price, class: "mt-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full pl-2 sm:text-sm border-gray-300 rounded-md p-3" %>
 
                 <div
                     class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -181,7 +185,10 @@
 
     <p class="text-gray-500 mt-2">Cost to create:
         <%= @cost %>
+
+        <span class="text-xs text-gray-500 italic">(Price x quantity) / 4</span>
     </p>
+
 
 
 

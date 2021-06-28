@@ -1,6 +1,6 @@
  <%= unless is_nil(@ad.gif_url) and is_nil(@ad.media_url) do %>
+ <%= live_redirect to: Routes.ad_show_path(@socket, :show, @ad.id) do %>
  <li class="relative" id="@ad-<%=@ad.id%>">
-     <%= live_redirect to: Routes.ad_show_path(@socket, :show, @ad.id) do %>
      <div id="ad-image-<%=@ad.id%>"
          class="relative group block   w-full aspect-w-10 aspect-h-7  rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
 
@@ -9,6 +9,7 @@
              class="object-cover pointer-events-none group-hover:opacity-75">
 
 
+         <%= if @ad.quantity == 0 do %>
          <div class="text-right">
              <div
                  class="absolute transform rotate-45 top-6 -right-6 text-red-500 bg-white h-6 w-32 text-center">
@@ -16,6 +17,7 @@
                      SOLD OUT </span>
              </div>
          </div>
+         <% end %>
 
 
          <button type="button" class="absolute inset-0 focus:outline-none">

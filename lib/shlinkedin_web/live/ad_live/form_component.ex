@@ -4,6 +4,7 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
   alias Shlinkedin.Ads
   alias Shlinkedin.Ads.Ad
   alias Shlinkedin.MediaUpload
+  alias Money
 
   @impl true
   def mount(socket) do
@@ -67,7 +68,8 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
 
       body ->
         gif_url = Shlinkedin.Timeline.get_gif_from_text(body)
-        {:noreply, socket |> assign(gif_url: gif_url, gif_error: nil)}
+        changeset = socket.assigns.changeset |> Ecto.Changeset.put_change(:gif_url, gif_url)
+        {:noreply, socket |> assign(gif_url: gif_url, gif_error: nil, changeset: changeset)}
     end
   end
 
@@ -121,10 +123,9 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
   end
 
   defp cost(changeset) do
-    price = Ecto.Changeset.get_field(changeset, :price)
+    price = Ecto.Changeset.get_field(changeset, :price) |> Map.get(:amount)
     quantity = Ecto.Changeset.get_field(changeset, :quantity)
-    IO.inspect(price, label: "price")
-    IO.inspect(quantity, label: "quantity")
-    price * quantity * 0.25
+
+    price * quantity / 100 * 0.25
   end
 end

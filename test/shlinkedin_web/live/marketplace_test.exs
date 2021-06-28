@@ -11,7 +11,7 @@ defmodule ShlinkedinWeb.HomeLiveTest do
     assert render(view) =~ "ShlinkMarket"
   end
 
-  test "create an ad", %{conn: conn, profile: _profile} do
+  test "create an ad", %{conn: conn, profile: profile} do
     {:ok, view, _html} = conn |> live("/home")
 
     assert view |> element("a", "Create Ad") |> render_click() =~
@@ -19,13 +19,26 @@ defmodule ShlinkedinWeb.HomeLiveTest do
 
     assert_patch(view, Routes.home_index_path(conn, :new_ad))
 
+    # check that changing quantity changes cost to create
+    view |> form("#ad-form") |> render_change(%{quantity: 5}) =~ "125.0"
+    view |> form("#ad-form") |> render_change(%{quantity: 2, price: "1000"}) =~ "500.0"
+    assert profile.points == 100
+
     {:ok, view, html} =
       view
       |> form("#ad-form",
-        ad: %{body: "micromisoft", company: "facebook", product: "computer"}
+        ad: %{
+          body: "micromisoft",
+          company: "facebook",
+          product: "computer",
+          quantity: 5,
+          price: "1000"
+        }
       )
       |> render_submit()
       |> follow_redirect(conn)
+
+    # todo: make sure profiles points go down!
 
     assert html =~ "Ad created successfully"
     assert html =~ "ShlinkMarket"
