@@ -1,0 +1,94 @@
+<%= f = form_for @changeset, "#",
+  id: "story-form",
+  phx_target: @myself,
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+
+<div class="px-4 py-4 border-b border-gray-200 sm:px-6 rounded-t-lg">
+    <h3 class="text-xl leading-6 font-medium">
+        <%= @title %>
+    </h3>
+</div>
+
+<div class="ml-4 mt-1 p-5">
+
+
+
+
+
+    <div class="mb-6">
+        <%= for {_ref, msg } <- @uploads.media.errors do %>
+        <p class="alert alert-danger"><%= Phoenix.Naming.humanize(msg) %></p>
+        <% end %>
+
+
+        <p><label class="block text-sm font-medium text-gray-700">Upload a
+                photo, video, or gif</label></p>
+
+
+        <div class="inline-block relative mt-2">
+
+
+            <%# Show image upload errors %>
+            <%= for {_ref, msg } <- @uploads.media.errors do %>
+            <p class="alert alert-danger"><%= Phoenix.Naming.humanize(msg) %>
+            </p>
+            <% end %>
+
+            <%# If there's a gif, show option to remove it %>
+            <label for="<%= @uploads.media.ref %>"
+                class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <span>📷 Upload</span>
+            </label>
+
+
+
+            <%= live_file_input @uploads.media, class: "sr-only", type: "file"  %>
+
+        </div>
+
+
+        <%= for entry <- @uploads.media.entries do %>
+        <div class="mx-auto text-center mt-6">
+            <div
+                class=" w-full mx-auto object-cover align-middle object-center ">
+                <%= live_img_preview entry %>
+            </div>
+
+            <button phx-click="cancel-entry" phx-value-ref="<%= entry.ref %>"
+                type="button"
+                class="mt-4 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                phx-target="<%= @myself %>">Remove</button>
+        </div>
+        <% end %>
+
+    </div>
+
+    <div class="my-4">
+        <label class="block text-sm font-medium text-gray-700">(Optional) Text
+            Overlay</label>
+        <%= text_input f, :body, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 inline-block sm:text-sm border-gray-300 rounded-md px-3",  placeholder: "Text overlay", autofill: "off" %>
+        <p class="mt-4 text-xs"><%= error_tag f, :body %></p>
+
+    </div>
+
+
+
+    <div class="flex justify-end">
+
+
+        <%= submit "Launch ShlinkBlast", class: "ml-3 inline-flex justify-center py-2 px-4 shadow-sm text-lg rounded-lg font-medium text-white bg-gradient-to-tr from-blue-500 to-green-400 hover:from-blue-600 hover:to-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
+    </div>
+    <%= for entry <- @uploads.media.entries do %>
+    <progress max="100" class="w-full mx-auto bg-gray-900"
+        value="<%= entry.progress %>">
+    </progress>
+
+    <% end %>
+
+
+
+
+</div>
+</form>
