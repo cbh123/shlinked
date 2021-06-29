@@ -44,6 +44,14 @@ defmodule ShlinkedinWeb.HomeLiveTest do
     assert html =~ "ShlinkMarket"
   end
 
+  test "click on ad to buy", %{conn: conn, profile: _profile} do
+    {:ok, view, _html} = conn |> live("/marketplace")
+  end
+
+  test "ad with zero quantity is sold out", %{conn: conn, profile: _profile} do
+    {:ok, view, _html} = conn |> live("/marketplace")
+  end
+
   # test "click on ad goes to ad show page", %{conn: conn, profile: _profile} do
   #   # {:ok, view, _html} = conn |> live("/marketplace")
 

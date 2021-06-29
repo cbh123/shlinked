@@ -55,7 +55,8 @@ defmodule Shlinkedin.Ads do
         limit: ^num,
         order_by: fragment("RANDOM()"),
         preload: :profile,
-        preload: :adlikes
+        preload: :adlikes,
+        where: not is_nil(a.media_url) or not is_nil(a.gif_url)
     )
   end
 

@@ -68,8 +68,7 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
 
       body ->
         gif_url = Shlinkedin.Timeline.get_gif_from_text(body)
-        changeset = socket.assigns.changeset |> Ecto.Changeset.put_change(:gif_url, gif_url)
-        {:noreply, socket |> assign(gif_url: gif_url, gif_error: nil, changeset: changeset)}
+        {:noreply, socket |> assign(gif_url: gif_url, gif_error: nil)}
     end
   end
 

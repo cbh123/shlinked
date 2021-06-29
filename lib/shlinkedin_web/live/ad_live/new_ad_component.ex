@@ -6,15 +6,6 @@ defmodule ShlinkedinWeb.AdLive.NewAdComponent do
     {:ok, socket |> assign(spin: false)}
   end
 
-  def handle_event("ad-click", %{"id" => id}, socket) do
-    ad = Shlinkedin.Ads.get_ad_preload_profile!(id)
-
-    Shlinkedin.Ads.create_ad_click(ad, socket.assigns.profile)
-
-    {:noreply,
-     socket |> push_redirect(to: Routes.profile_show_path(socket, :show, ad.profile.slug))}
-  end
-
   def handle_event("censor-ad", _, socket) do
     {:ok, _} = Ads.update_ad(socket.assigns.profile, socket.assigns.ad, %{removed: true})
 
@@ -24,29 +15,32 @@ defmodule ShlinkedinWeb.AdLive.NewAdComponent do
      |> push_redirect(to: Routes.home_index_path(socket, :index))}
   end
 
-  def handle_event(
-        "like-selected",
-        %{"like-type" => like_type},
-        %{assigns: %{profile: profile, ad: ad}} = socket
-      ) do
-    if Ads.is_first_like_on_ad?(profile, ad) do
-      Ads.create_like(socket.assigns.profile, socket.assigns.ad, like_type)
+  def handle_event("buy-ad", _, %{assigns: %{profile: profile, ad: ad}} = socket) do
+    # check ad quantity > 0
+    # check that you don't already own
+    # check that you have enough money, and then transact money to creator
+    # set owner id to current profile
+    # notify creator that owner bought
+    # send update to component that you own, so buy button goes
 
-      send_update(ShlinkedinWeb.AdLive.AdComponent,
-        id: socket.assigns.id,
-        spin: like_type
-      )
+    #   if Ads.is_first_like_on_ad?(profile, ad) do
+    #     Ads.create_like(socket.assigns.profile, socket.assigns.ad, like_type)
 
-      send_update_after(
-        ShlinkedinWeb.AdLive.AdComponent,
-        [id: socket.assigns.id, spin: nil],
-        1000
-      )
+    #     send_update(ShlinkedinWeb.AdLive.AdComponent,
+    #       id: socket.assigns.id,
+    #       spin: like_type
+    #     )
 
-      {:noreply, socket |> assign(ad: Ads.get_ad_preload_profile!(ad.id))}
-    else
-      Ads.delete_like(profile, ad)
-      {:noreply, socket |> assign(ad: Ads.get_ad_preload_profile!(ad.id))}
-    end
+    #     send_update_after(
+    #       ShlinkedinWeb.AdLive.AdComponent,
+    #       [id: socket.assigns.id, spin: nil],
+    #       1000
+    #     )
+
+    #     {:noreply, socket |> assign(ad: Ads.get_ad_preload_profile!(ad.id))}
+    #   else
+    #     Ads.delete_like(profile, ad)
+    #     {:noreply, socket |> assign(ad: Ads.get_ad_preload_profile!(ad.id))}
+    #   end
   end
 end
