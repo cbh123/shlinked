@@ -326,6 +326,12 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   end
 
   defp map_story_id_to_seen_all_stories(
+         %{assigns: %{profile: %Profiles.Profile{id: nil}}} = socket
+       ) do
+    assign(socket, story_map: %{})
+  end
+
+  defp map_story_id_to_seen_all_stories(
          %{assigns: %{stories: stories, profile: profile}} = socket
        ) do
     story_map =
