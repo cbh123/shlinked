@@ -66,26 +66,6 @@ defmodule ShlinkedinWeb.StoryLive.FormComponent do
     {:ok, story}
   end
 
-  defp save_story(socket, :edit_story, story_params) do
-    story = put_photo_urls(socket, socket.assigns.story)
-
-    case Timeline.update_story(
-           socket.assigns.profile,
-           story,
-           story_params,
-           &consume_photos(socket, &1)
-         ) do
-      {:ok, _story} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, "story updated successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, :changeset, changeset)}
-    end
-  end
-
   defp save_story(%{assigns: %{profile: profile}} = socket, :new_story, story_params) do
     story = put_photo_urls(socket, %Story{})
 
