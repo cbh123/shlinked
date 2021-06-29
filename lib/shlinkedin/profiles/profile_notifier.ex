@@ -359,7 +359,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       body: ""
     })
 
-    if to_profile.unsubscribed == false do
+    if from_profile.unsubscribed == false do
       Shlinkedin.Email.new_email(
         from_profile.user.email,
         "#{to_profile.persona_name} has accepted your Shlink request!",
