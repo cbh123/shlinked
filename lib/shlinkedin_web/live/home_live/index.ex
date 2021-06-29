@@ -13,12 +13,12 @@ defmodule ShlinkedinWeb.HomeLive.Index do
 
   @impl true
   def mount(params, session, socket) do
+    socket = is_user(session, socket)
+
     if connected?(socket) do
       Timeline.subscribe()
       News.subscribe()
     end
-
-    socket = is_user(session, socket)
 
     {:ok,
      socket
