@@ -75,11 +75,10 @@
 
 
 
-
-
     <div class="flex justify-end">
 
-        <%= submit "Launch ShlinkBlast", class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-lg rounded-lg font-medium text-white bg-blue-600 hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
+
+        <%= submit "Launch ShlinkBlast", class: "ml-3 inline-flex justify-center py-2 px-4 shadow-sm text-lg rounded-lg font-medium text-white bg-gradient-to-tr from-blue-500 to-green-400 hover:from-blue-600 hover:to-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
     </div>
     <%= for entry <- @uploads.media.entries do %>
     <progress max="100" class="w-full mx-auto bg-gray-900"
