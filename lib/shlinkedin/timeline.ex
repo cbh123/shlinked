@@ -5,22 +5,140 @@ defmodule Shlinkedin.Timeline do
   import Ecto.Query, warn: false
   alias Shlinkedin.Repo
 
-  alias Shlinkedin.Timeline.{Post, Comment, Like, CommentLike}
+  alias Shlinkedin.Timeline.{Post, Comment, Like, CommentLike, Story, StoryView}
   alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Profiles.ProfileNotifier
   alias Shlinkedin.Groups.Group
 
-  @doc """
-  Returns the list of posts.
+  def create_story(%Profile{} = profile, %Story{} = story, attrs \\ %{}, after_save \\ &{:ok, &1}) do
+    story = %{story | profile_id: profile.id}
 
-  ## Examples
+    story
+    |> Story.changeset(attrs)
+    |> Repo.insert()
+    |> after_save(after_save)
+  end
 
-      iex> list_posts()
-      [%Post{}, ...]
+  def delete_story(%Story{} = story) do
+    Repo.delete(story)
+  end
 
-      [paginate: %{page: 1, per_page: 5}]
+  def change_story(%Story{} = story, attrs \\ %{}) do
+    Story.changeset(story, attrs)
+  end
 
-  """
+  def list_stories() do
+    now = NaiveDateTime.utc_now()
+
+    Repo.all(
+      from s in Story,
+        where: s.inserted_at >= datetime_add(^now, -1, "day"),
+        preload: [:profile],
+        distinct: s.profile_id,
+        order_by: [desc: s.inserted_at]
+    )
+  end
+
+  def seen_all_stories?(%Profile{} = watcher, %Profile{} = storyteller) do
+    stories = list_stories_given_profile(storyteller)
+    watched = list_story_views_for_profile(watcher)
+
+    stories -- watched == []
+  end
+
+  def list_stories_given_profile(%Profile{} = profile) do
+    now = NaiveDateTime.utc_now()
+
+    Repo.all(
+      from s in Story,
+        where: s.profile_id == ^profile.id,
+        select: s.id,
+        where: s.inserted_at >= datetime_add(^now, -1, "day")
+    )
+  end
+
+  def list_story_views_for_profile(%Profile{} = profile) do
+    Repo.all(
+      from v in StoryView,
+        where: v.from_profile_id == ^profile.id,
+        select: v.story_id
+    )
+  end
+
+  def get_story!(id) do
+    now = NaiveDateTime.utc_now()
+
+    Repo.one(
+      from s in Story,
+        where: s.inserted_at >= datetime_add(^now, -1, "day") and s.id == ^id,
+        preload: :profile
+    )
+  end
+
+  def get_next_story(profile_id, story_id) do
+    now = NaiveDateTime.utc_now()
+
+    Repo.one(
+      from s in Story,
+        where:
+          s.inserted_at >= datetime_add(^now, -1, "day") and s.profile_id == ^profile_id and
+            s.id > ^story_id,
+        order_by: [asc: s.id],
+        limit: 1,
+        select: s.id
+    )
+  end
+
+  def get_prev_story(profile_id, story_id) do
+    now = NaiveDateTime.utc_now()
+
+    Repo.one(
+      from s in Story,
+        where:
+          s.inserted_at >= datetime_add(^now, -1, "day") and s.profile_id == ^profile_id and
+            s.id < ^story_id,
+        order_by: [asc: s.id],
+        limit: 1,
+        select: s.id
+    )
+  end
+
+  def get_profile_story(profile_id) do
+    now = NaiveDateTime.utc_now()
+
+    Repo.one(
+      from s in Story,
+        where: s.inserted_at >= datetime_add(^now, -1, "day") and s.profile_id == ^profile_id,
+        order_by: [asc: s.id],
+        preload: :profile,
+        limit: 1
+    )
+  end
+
+  def get_story_ids(profile_id) do
+    now = NaiveDateTime.utc_now()
+
+    Repo.all(
+      from s in Story,
+        where: s.inserted_at >= datetime_add(^now, -1, "day") and s.profile_id == ^profile_id,
+        select: s.id
+    )
+  end
+
+  def create_story_view(%Story{} = story, %Profile{} = watcher, attrs \\ %{}) do
+    %StoryView{story_id: story.id, from_profile_id: watcher.id}
+    |> StoryView.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def list_story_views(%Story{} = story) do
+    Repo.all(
+      from v in StoryView,
+        where: v.story_id == ^story.id,
+        distinct: v.from_profile_id,
+        preload: :profile
+    )
+  end
 
   def list_unique_notifications(count) do
     Repo.all(

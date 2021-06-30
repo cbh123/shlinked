@@ -114,4 +114,14 @@ defmodule ShlinkedinWeb.OnboardLiveTest do
     assert html_response(conn, 200) =~ "Unpaid Intern"
     assert html_response(conn, 200) =~ "Dinks"
   end
+
+  describe "2nd step" do
+    setup :register_and_log_in_user
+
+    test "creates account and logs the user in 2", %{conn: conn} do
+      {:ok, view} = conn |> live("/") |> follow_redirect(conn)
+
+      view |> IO.inspect(label: "")
+    end
+  end
 end

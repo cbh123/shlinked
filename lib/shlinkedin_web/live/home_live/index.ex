@@ -13,12 +13,12 @@ defmodule ShlinkedinWeb.HomeLive.Index do
 
   @impl true
   def mount(params, session, socket) do
+    socket = is_user(session, socket)
+
     if connected?(socket) do
       Timeline.subscribe()
       News.subscribe()
     end
-
-    socket = is_user(session, socket)
 
     {:ok,
      socket
@@ -28,12 +28,14 @@ defmodule ShlinkedinWeb.HomeLive.Index do
        page: 1,
        per_page: 5,
        activities: Timeline.list_unique_notifications(60),
+       stories: Timeline.list_stories(),
        articles: News.list_top_articles(15),
        like_map: Timeline.like_map(),
        comment_like_map: Timeline.comment_like_map(),
        num_show_comments: 1
      )
      |> fetch_profile_related_data()
+     |> map_story_id_to_seen_all_stories()
      |> fetch_posts(), temporary_assigns: [posts: [], articles: []]}
   end
 
@@ -321,5 +323,22 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   @impl true
   def handle_info({:article_deleted, article}, socket) do
     {:noreply, update(socket, :articles, fn articles -> [article | articles] end)}
+  end
+
+  defp map_story_id_to_seen_all_stories(
+         %{assigns: %{profile: %Profiles.Profile{id: nil}}} = socket
+       ) do
+    assign(socket, story_map: %{})
+  end
+
+  defp map_story_id_to_seen_all_stories(
+         %{assigns: %{stories: stories, profile: profile}} = socket
+       ) do
+    story_map =
+      stories
+      |> Enum.map(fn s -> {s.id, Timeline.seen_all_stories?(profile, s.profile)} end)
+      |> Map.new()
+
+    assign(socket, story_map: story_map)
   end
 end

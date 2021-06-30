@@ -175,6 +175,11 @@ defmodule ShlinkedinWeb.Router do
     # leaderboard
     live "/leaders", LeaderboardLive.Index, :index
 
+    # stories
+    live "/stories/new", HomeLive.Index, :new_story
+    live "/stories/:profile_id/:story_id", StoryLive.Show, :show
+    live "/stories/:profile_id", StoryLive.Show, :show
+
     # points
     live "/points", PointsLive.Index, :index
     live "/points/rules", PointsLive.Rules, :index
