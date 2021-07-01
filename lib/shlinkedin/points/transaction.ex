@@ -19,15 +19,15 @@ defmodule Shlinkedin.Points.Transaction do
     |> cast(attrs, [:amount, :note])
     |> validate_length(:note, min: 0, max: 250)
     |> validate_required([:amount, :note])
-    |> validate_not_zero(:amount)
+    |> validate_positive(:amount)
   end
 
-  def validate_not_zero(changeset, _amount) do
+  def validate_positive(changeset, _amount) do
     validate_change(changeset, :amount, fn :amount, amount ->
-      if Money.zero?(amount) do
-        [amount: "Cannot send zero ShlinkPoints."]
-      else
+      if Money.positive?(amount) do
         []
+      else
+        [amount: "Cannot send zero or negative ShlinkPoints."]
       end
     end)
   end
