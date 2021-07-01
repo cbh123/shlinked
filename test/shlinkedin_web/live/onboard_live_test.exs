@@ -120,8 +120,6 @@ defmodule ShlinkedinWeb.OnboardLiveTest do
 
     test "creates account and logs the user in 2", %{conn: conn} do
       {:ok, view} = conn |> live("/") |> follow_redirect(conn)
-
-      view |> IO.inspect(label: "")
     end
   end
 end
