@@ -254,7 +254,7 @@ defmodule ShlinkedinWeb.HomeLiveTest do
 
       # your SPs stay the same because its yourself
       profile = Shlinkedin.Profiles.get_profile_by_profile_id(profile.id)
-      profile.points == 100
+      assert profile.points == 100
     end
 
     test "test clap headline from someone else", %{conn: conn, profile: profile} do
