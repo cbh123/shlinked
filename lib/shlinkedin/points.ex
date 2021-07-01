@@ -28,6 +28,10 @@ defmodule Shlinkedin.Points do
         amount: Money.new(500),
         desc: "For each headline clap you receive"
       },
+      :unvote => %{
+        amount: Money.new(-500),
+        desc: "If someone unclaps your headline"
+      },
       :new_headline => %{
         amount: Money.new(-1000),
         desc: "The cost of writing a headline"

@@ -251,6 +251,45 @@ defmodule ShlinkedinWeb.HomeLiveTest do
 
       assert view |> render() =~ "✖"
       assert view |> render() =~ "claps"
+
+      # your SPs stay the same because its yourself
+      profile = Shlinkedin.Profiles.get_profile_by_profile_id(profile.id)
+      profile.points == 100
+    end
+
+    test "test clap headline from someone else", %{conn: conn, profile: profile} do
+      other_profile = Shlinkedin.ProfilesFixtures.profile_fixture()
+
+      {:ok, headline} =
+        Shlinkedin.News.create_article(other_profile, %Shlinkedin.News.Article{}, %{
+          headline: "this just in"
+        })
+
+      {:ok, view, _html} =
+        conn
+        |> live(Routes.home_index_path(conn, :index))
+
+      assert view |> render() =~ "👏"
+
+      view |> element("#article-#{headline.id}-clap") |> render_click()
+
+      assert view |> render() =~ "✖"
+      assert view |> render() =~ "claps"
+
+      # create two more claps
+      profile2 = Shlinkedin.ProfilesFixtures.profile_fixture()
+      profile3 = Shlinkedin.ProfilesFixtures.profile_fixture()
+      Shlinkedin.News.create_vote(profile2, headline)
+      Shlinkedin.News.create_vote(profile3, headline)
+
+      # reload other profile
+      other_profile = Shlinkedin.Profiles.get_profile_by_profile_id(other_profile.id)
+      assert other_profile.points.amount == 600
+
+      # now, one unclap
+      Shlinkedin.News.delete_vote(profile3, headline)
+      other_profile = Shlinkedin.Profiles.get_profile_by_profile_id(other_profile.id)
+      assert other_profile.points.amount == 100
     end
 
     test "test delete headline", %{conn: conn, profile: profile} do
