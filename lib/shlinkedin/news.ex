@@ -100,7 +100,7 @@ defmodule Shlinkedin.News do
     article_writer = Shlinkedin.Profiles.get_profile_by_profile_id(article.profile_id)
 
     # subtract points
-    Points.point_observer(article_writer, article_writer, :unvote, article)
+    Points.point_observer(profile, article_writer, :unvote, article)
 
     broadcast({:ok, article}, :article_updated)
   end

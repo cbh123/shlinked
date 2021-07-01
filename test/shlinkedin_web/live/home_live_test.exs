@@ -245,6 +245,8 @@ defmodule ShlinkedinWeb.HomeLiveTest do
         conn
         |> live(Routes.home_index_path(conn, :index))
 
+      assert profile.points == 100
+
       assert view |> render() =~ "👏"
 
       view |> element("#article-#{headline.id}-clap") |> render_click()
@@ -252,9 +254,9 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       assert view |> render() =~ "✖"
       assert view |> render() =~ "claps"
 
-      # your SPs stay the same because its yourself
+      # your SPs go down -1000
       profile = Shlinkedin.Profiles.get_profile_by_profile_id(profile.id)
-      assert profile.points == 100
+      assert profile.points.amount == -900
     end
 
     test "test clap headline from someone else", %{conn: conn, profile: profile} do
@@ -279,6 +281,7 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       # create two more claps
       profile2 = Shlinkedin.ProfilesFixtures.profile_fixture()
       profile3 = Shlinkedin.ProfilesFixtures.profile_fixture()
+
       Shlinkedin.News.create_vote(profile2, headline)
       Shlinkedin.News.create_vote(profile3, headline)
 
