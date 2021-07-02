@@ -7,8 +7,6 @@ defmodule ShlinkedinWeb.MarketLive.Index do
     socket = is_user(session, socket)
     ads = Ads.get_random_ads(3)
 
-    length(ads) |> IO.inspect(label: "")
-
     {:ok, socket |> assign(ads: ads)}
   end
 end

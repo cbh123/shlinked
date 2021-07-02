@@ -28,6 +28,10 @@ defmodule Shlinkedin.Points do
         amount: Money.new(500),
         desc: "For each headline clap you receive"
       },
+      :unvote => %{
+        amount: Money.new(-500),
+        desc: "If someone unclaps your headline"
+      },
       :new_headline => %{
         amount: Money.new(-1000),
         desc: "The cost of writing a headline"
@@ -98,6 +102,32 @@ defmodule Shlinkedin.Points do
     from_profile
     |> Timeline.is_first_like_on_comment?(%Comment{id: comment_like.comment_id})
     |> handle_first_like(to_profile, :comment_like)
+  end
+
+  def point_observer(
+        %Profile{} = _from_profile,
+        %Profile{} = to_profile,
+        :vote,
+        article
+      ) do
+    if article.profile_id != to_profile.id do
+      generate_wealth(to_profile, :vote)
+    else
+      {:ok, %Transaction{}}
+    end
+  end
+
+  def point_observer(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile,
+        :unvote,
+        article
+      ) do
+    if article.profile_id != from_profile.id do
+      generate_wealth(to_profile, :unvote)
+    else
+      {:ok, %Transaction{}}
+    end
   end
 
   def point_observer(%Profile{} = _from_profile, %Profile{} = to_profile, type, _object),

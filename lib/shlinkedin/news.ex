@@ -97,6 +97,10 @@ defmodule Shlinkedin.News do
 
     # could be optimized
     article = get_article_preload_votes!(article.id)
+    article_writer = Shlinkedin.Profiles.get_profile_by_profile_id(article.profile_id)
+
+    # subtract points
+    Points.point_observer(profile, article_writer, :unvote, article)
 
     broadcast({:ok, article}, :article_updated)
   end
