@@ -130,6 +130,19 @@ defmodule Shlinkedin.Points do
     end
   end
 
+  def point_observer(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile,
+        :ad_click,
+        ad
+      ) do
+    if ad.profile_id != from_profile.id do
+      generate_wealth(to_profile, :ad_click)
+    else
+      {:ok, %Transaction{}}
+    end
+  end
+
   def point_observer(%Profile{} = _from_profile, %Profile{} = to_profile, type, _object),
     do: generate_wealth(to_profile, type)
 
@@ -241,10 +254,11 @@ defmodule Shlinkedin.Points do
   """
   def list_transactions(%Profile{} = profile) do
     Repo.all(
-      from t in Transaction,
+      from(t in Transaction,
         where: t.from_profile_id == ^profile.id or t.to_profile_id == ^profile.id,
         order_by: [desc: t.inserted_at],
         limit: 100
+      )
     )
   end
 
