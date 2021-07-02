@@ -188,10 +188,7 @@ defmodule Shlinkedin.Timeline do
   def get_feed_query(object, feed_type) do
     case feed_type do
       "all" ->
-        profile_groups = Shlinkedin.Groups.list_profile_group_ids(object)
-
         from(p in Post,
-          where: is_nil(p.group_id) or p.group_id in ^profile_groups,
           order_by: [desc: p.pinned, desc: p.inserted_at]
         )
 
