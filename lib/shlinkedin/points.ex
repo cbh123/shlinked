@@ -130,8 +130,22 @@ defmodule Shlinkedin.Points do
     end
   end
 
-  def point_observer(%Profile{} = _from_profile, %Profile{} = to_profile, type, _object),
-    do: generate_wealth(to_profile, type)
+  def point_observer(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile,
+        :ad_click,
+        ad
+      ) do
+    if ad.profile_id != from_profile.id do
+      generate_wealth(to_profile, :unvote)
+    else
+      {:ok, %Transaction{}}
+    end
+  end
+
+  def point_observer(%Profile{} = from_profile, %Profile{} = to_profile, type, object) do
+    generate_wealth(to_profile, type)
+  end
 
   defp handle_first_like(true, to_profile, type), do: generate_wealth(to_profile, type)
   defp handle_first_like(false, _to_profile, _type), do: {:ok, nil}
