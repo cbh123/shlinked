@@ -255,10 +255,11 @@ defmodule Shlinkedin.Points do
   """
   def list_transactions(%Profile{} = profile) do
     Repo.all(
-      from t in Transaction,
+      from(t in Transaction,
         where: t.from_profile_id == ^profile.id or t.to_profile_id == ^profile.id,
         order_by: [desc: t.inserted_at],
         limit: 100
+      )
     )
   end
 
