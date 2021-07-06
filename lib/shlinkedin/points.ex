@@ -143,7 +143,46 @@ defmodule Shlinkedin.Points do
     end
   end
 
-  def point_observer(%Profile{} = from_profile, %Profile{} = to_profile, type, object) do
+  def point_observer(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile,
+        :ad_like,
+        ad
+      ) do
+    if ad.profile_id != from_profile.id do
+      generate_wealth(to_profile, :ad_like)
+    else
+      {:ok, %Transaction{}}
+    end
+  end
+
+  def point_observer(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile,
+        :testimonial,
+        testimonial
+      ) do
+    if testimonial.profile_id != from_profile.id do
+      generate_wealth(to_profile, :testimonial)
+    else
+      {:ok, %Transaction{}}
+    end
+  end
+
+  def point_observer(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile,
+        :endorsement,
+        endorsement
+      ) do
+    if endorsement.from_profile_id != from_profile.id do
+      generate_wealth(to_profile, :endorsement)
+    else
+      {:ok, %Transaction{}}
+    end
+  end
+
+  def point_observer(%Profile{} = _from_profile, %Profile{} = to_profile, type, _object) do
     generate_wealth(to_profile, type)
   end
 
