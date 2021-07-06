@@ -137,7 +137,7 @@ defmodule Shlinkedin.Points do
         ad
       ) do
     if ad.profile_id != from_profile.id do
-      generate_wealth(to_profile, :unvote)
+      generate_wealth(to_profile, :ad_click)
     else
       {:ok, %Transaction{}}
     end
