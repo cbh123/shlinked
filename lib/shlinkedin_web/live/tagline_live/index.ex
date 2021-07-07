@@ -5,8 +5,9 @@ defmodule ShlinkedinWeb.TaglineLive.Index do
   alias Shlinkedin.Timeline.Tagline
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :taglines, list_taglines())}
+  def mount(_params, session, socket) do
+    socket = is_user(session, socket)
+    {:ok, socket |> check_access() |> assign(:taglines, list_taglines())}
   end
 
   @impl true
