@@ -1,0 +1,27 @@
+<h1>Show Tagline</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, ShlinkedinWeb.TaglineLive.FormComponent,
+    id: @tagline.id,
+    title: @page_title,
+    action: @live_action,
+    tagline: @tagline,
+    return_to: Routes.tagline_show_path(@socket, :show, @tagline) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Text:</strong>
+    <%= @tagline.text %>
+  </li>
+
+  <li>
+    <strong>Active:</strong>
+    <%= @tagline.active %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.tagline_show_path(@socket, :edit, @tagline), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.tagline_index_path(@socket, :index) %></span>

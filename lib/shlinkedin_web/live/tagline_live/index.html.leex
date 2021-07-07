@@ -1,0 +1,45 @@
+<%= if @live_action in [:new, :edit] do %>
+<%= live_modal @socket, ShlinkedinWeb.TaglineLive.FormComponent,
+    id: @tagline.id || :new,
+    title: @page_title,
+    action: @live_action,
+    tagline: @tagline,
+    return_to: Routes.tagline_index_path(@socket, :index) %>
+<% end %>
+
+
+
+<div class="max-w-2xl mx-auto mt-4">
+    <div class="flex justify-between mb-4">
+        <h1 class="font-semibold text-lg">Home page taglines</h1>
+        <span><%= live_patch "New Tagline", to: Routes.tagline_index_path(@socket, :new), class: "btn-white" %></span>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Text</th>
+                <th>Active</th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="taglines">
+            <%= for tagline <- @taglines do %>
+            <tr id="tagline-<%= tagline.id %>">
+                <td><%= tagline.text %></td>
+                <td><%= tagline.active %></td>
+
+                <td>
+                    <span><%= live_redirect "Show", to: Routes.tagline_show_path(@socket, :show, tagline) %></span>
+                    <span><%= live_patch "Edit", to: Routes.tagline_index_path(@socket, :edit, tagline) %></span>
+                    <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: tagline.id, data: [confirm: "Are you sure?"] %></span>
+                </td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+
+
+
+</div>
