@@ -50,7 +50,10 @@
 
                         <p
                             class="text-xs italic text-gray-500 font-windows hidden sm:block">
+                            <%= unless is_nil(Shlinkedin.Timeline.get_random_tagline) do %>
+
                             <%= Shlinkedin.Timeline.get_random_tagline.text %>
+                            <%  end %>
                         </p>
                     </div>
                     <% else %>
