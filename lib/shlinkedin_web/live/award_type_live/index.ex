@@ -47,16 +47,4 @@ defmodule ShlinkedinWeb.AwardTypeLive.Index do
   defp list_award_types() do
     Awards.list_award_types()
   end
-
-  defp check_access(socket) do
-    case socket.assigns.profile.admin do
-      false ->
-        socket
-        |> put_flash(:danger, "ACCESS DENIED")
-        |> push_redirect(to: "/home")
-
-      true ->
-        socket
-    end
-  end
 end

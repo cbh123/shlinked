@@ -143,6 +143,13 @@ defmodule ShlinkedinWeb.Router do
     live "/templates/new", MessageTemplateLive.Index, :new
     live "/templates/:id/edit", MessageTemplateLive.Index, :edit
 
+    # taglines
+    live "/taglines", TaglineLive.Index, :index
+    live "/taglines/new", TaglineLive.Index, :new
+    live "/taglines/:id/edit", TaglineLive.Index, :edit
+    live "/taglines/:id", TaglineLive.Show, :show
+    live "/taglines/:id/show/edit", TaglineLive.Show, :edit
+
     # show all profiles
     live "/profiles", UsersLive.Index, :index
 
