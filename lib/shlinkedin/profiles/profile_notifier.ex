@@ -581,12 +581,14 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     # and then update action to "and [] also did."
     if from_profile.id != to_profile.id and
          Shlinkedin.News.is_first_vote_on_article?(from_profile, %Article{id: vote.article_id}) do
+      article = Shlinkedin.News.get_article!(vote.article_id)
+
       Shlinkedin.Profiles.create_notification(%Notification{
         from_profile_id: from_profile.id,
         to_profile_id: to_profile.id,
         type: "vote",
         article_id: vote.article_id,
-        action: "clapped your headline! +#{Points.get_rule_amount(type)}"
+        action: "clapped your headline, '#{article.headline}! +#{Points.get_rule_amount(type)}"
       })
     end
   end
