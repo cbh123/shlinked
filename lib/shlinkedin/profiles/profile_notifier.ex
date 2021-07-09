@@ -588,7 +588,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         to_profile_id: to_profile.id,
         type: "vote",
         article_id: vote.article_id,
-        action: "clapped your headline, '#{article.headline}! +#{Points.get_rule_amount(type)}"
+        action: "clapped your headline, \"#{article.headline}\" +#{Points.get_rule_amount(type)}"
       })
     end
   end
