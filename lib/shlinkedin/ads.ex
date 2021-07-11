@@ -6,74 +6,149 @@ defmodule Shlinkedin.Ads do
   import Ecto.Query, warn: false
   alias Shlinkedin.Repo
 
-  alias Shlinkedin.Ads.{Ad, AdLike, Click}
+  alias Shlinkedin.Ads.{Ad, AdLike, Click, Owner}
   alias Shlinkedin.Profiles.{Profile, ProfileNotifier}
+  alias Shlinkedin.Points.Transaction
 
   @doc """
   Buys an Ad. Everytime an ad is bought:
-  - check to make sure person has enough points
-  - check to make sure quantity not zero
-  - if passes, lower quantity and transact shlinkpoints to creator
-  - change owner id from null to buyer
-
+    - check ad quantity > 0
+    - check that you don't already own
+    - check that you have enough money
+      -> if these pass, then:
+          - create a transaction to give money to current owner (if no owner, then creator)
+    - notify creator that owner bought
+    - send update to component that you own, so buy button goes
   """
+  def buy_ad(%Ad{} = ad, %Profile{} = profile) do
+    with {:ok, _ad} <- check_quantity(ad),
+         {:ok, _ad} <- check_money(ad, profile),
+         {:ok, _ad} <- check_ownership(ad, profile) do
+      IO.puts("success!")
+      # Now, we actually have to buy!
+      # create transaction
+      # create new ownership row
+      # reduce ad quantity
+      # notify the creator of the ad
+      # send back {:ok, ad}
+    else
+      error -> error
+    end
+  end
+
+  def check_quantity(ad) when ad.quantity >= 1, do: {:ok, ad}
+
+  def check_quantity(ad) when ad.quantity < 1,
+    do: {:error, "Sold out"}
+
+  def check_money(%Ad{price: price} = ad, %Profile{points: points})
+      when points.amount >= price.amount,
+      do: {:ok, ad}
+
+  def check_money(%Ad{price: price} = ad, %Profile{points: points})
+      when points.amount < price.amount,
+      do: {:error, "You are too poor"}
+
+  @doc """
+  Check to see if profile already owns ad. A helper for `get_ad_owner\1`.
+  """
+  def check_ownership(%Ad{} = ad, %Profile{} = profile) do
+    if get_ad_owner_profile_id(ad) == profile.id do
+      {:error, "You cannot own more than 1 of an ad, you greedy capitalist!"}
+    else
+      {:ok, ad}
+    end
+  end
+
+  @doc """
+  Creates a new row in the ownership table.
+  """
+  def create_owner(
+        %Ad{id: ad_id},
+        %Transaction{id: transaction_id},
+        %Profile{id: profile_id},
+        attrs \\ %{}
+      ) do
+    %Owner{ad_id: ad_id, transaction_id: transaction_id, profile_id: profile_id}
+    |> Owner.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Gets current ad owner's profile id. Gets the last row of owners table for the ad.
+  """
+  def get_ad_owner_profile_id(%Ad{id: ad_id}) do
+    profile_id =
+      Repo.one(
+        from(owner in Owner,
+          where: owner.ad_id == ^ad_id,
+          order_by: [desc: owner.id],
+          limit: 1,
+          select: owner.profile_id
+        )
+      )
+  end
 
   def count_profile_ads(%Profile{} = profile) do
     Repo.aggregate(from(a in Ad, where: a.profile_id == ^profile.id), :count)
   end
 
   def list_profile_ads(%Profile{} = profile) do
-    Repo.all(from a in Ad, where: a.profile_id == ^profile.id, preload: [:adlikes, :profile])
+    Repo.all(from(a in Ad, where: a.profile_id == ^profile.id, preload: [:adlikes, :profile]))
   end
 
   def list_unique_ad_clicks(%Profile{} = profile) do
     Repo.all(
-      from a in Ad,
+      from(a in Ad,
         where: a.profile_id == ^profile.id,
         join: c in Click,
         on: a.id == c.ad_id,
         group_by: [c.profile_id, c.ad_id],
         select: %{profile_id: c.profile_id, ad_id: c.ad_id}
+      )
     )
   end
 
   def list_unique_ad_clicks(%Profile{} = profile, start_date) do
     Repo.all(
-      from a in Ad,
+      from(a in Ad,
         where: a.profile_id == ^profile.id,
         join: c in Click,
         on: a.id == c.ad_id,
         where: c.inserted_at >= ^start_date,
         group_by: [c.profile_id, c.ad_id],
         select: %{profile_id: c.profile_id, ad_id: c.ad_id}
+      )
     )
   end
 
   def get_random_ads(num) do
     Repo.all(
-      from a in Ad,
+      from(a in Ad,
         limit: ^num,
         order_by: fragment("RANDOM()"),
         preload: :profile,
         preload: :adlikes,
         where: not is_nil(a.media_url) or not is_nil(a.gif_url)
+      )
     )
   end
 
   def get_random_ad() do
     Repo.one(
-      from a in Ad,
+      from(a in Ad,
         limit: 1,
         order_by: fragment("RANDOM()"),
         preload: :profile,
         preload: :adlikes,
         where: a.removed == false
+      )
     )
   end
 
   def get_ad_preload_profile!(id) do
     Repo.one(
-      from a in Ad, where: a.id == ^id, preload: :profile, preload: :clicks, preload: [:adlikes]
+      from(a in Ad, where: a.id == ^id, preload: :profile, preload: :clicks, preload: [:adlikes])
     )
   end
 
@@ -127,14 +202,15 @@ defmodule Shlinkedin.Ads do
   """
   def is_first_like_on_ad?(%Profile{} = profile, %Ad{} = ad) do
     Repo.one(
-      from l in AdLike,
+      from(l in AdLike,
         where: l.ad_id == ^ad.id and l.profile_id == ^profile.id,
         select: count(l.profile_id)
+      )
     ) == 0
   end
 
   def delete_like(%Profile{} = profile, %Ad{} = ad) do
-    Repo.one(from l in AdLike, where: l.ad_id == ^ad.id and l.profile_id == ^profile.id)
+    Repo.one(from(l in AdLike, where: l.ad_id == ^ad.id and l.profile_id == ^profile.id))
     |> Repo.delete()
 
     # could be optimized
@@ -145,9 +221,10 @@ defmodule Shlinkedin.Ads do
 
   def get_like_on_ad(%Profile{} = profile, %Ad{} = ad) do
     Repo.one(
-      from l in AdLike,
+      from(l in AdLike,
         where: l.ad_id == ^ad.id and l.profile_id == ^profile.id,
         select: l.like_type
+      )
     )
   end
 

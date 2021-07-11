@@ -245,7 +245,7 @@ defmodule ShlinkedinWeb.HomeLiveTest do
         conn
         |> live(Routes.home_index_path(conn, :index))
 
-      assert profile.points == 100
+      assert profile.points.amount == 100
 
       assert view |> render() =~ "👏"
 

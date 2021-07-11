@@ -43,7 +43,7 @@ defmodule Shlinkedin.Ads.Ad do
     |> validate_length(:company, max: 50)
     |> validate_length(:product, max: 50)
     |> validate_length(:overlay, max: 50)
-    |> validate_number(:quantity, greater_than: 0)
+    |> validate_number(:quantity, greater_than_or_equal_to: 0)
     |> validate_number(:price, greater_than: 0)
   end
 
