@@ -182,6 +182,15 @@ defmodule Shlinkedin.Points do
     end
   end
 
+  def point_observer(
+        %Profile{} = from_profile,
+        %Profile{} = _to_profile,
+        :accepted_friend_request,
+        _request
+      ) do
+    generate_wealth(from_profile, :accepted_friend_request)
+  end
+
   def point_observer(%Profile{} = _from_profile, %Profile{} = to_profile, type, _object) do
     generate_wealth(to_profile, type)
   end
