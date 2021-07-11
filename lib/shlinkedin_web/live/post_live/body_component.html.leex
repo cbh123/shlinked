@@ -106,7 +106,8 @@
             class="whitespace-pre-line pt-2
                  mb-4 -mt-5 overflow-hidden <%= if !@expand_post, do: "max-h-32" %>
                    <%= if @post.photo_urls != [] or @post.gif_url != nil, do: "px-4" %>">
-            <%= raw(format_tags(@post.body, @post.profile_tags)) %></p>
+            <%= (format_tags(@post.body, @post.profile_tags)) %>
+        </p>
 
         <%# add a see more button %>
         <%= if @post.body != nil && String.length(@post.body) >= 100 && !@expand_post do %>

@@ -6,23 +6,28 @@ defmodule Shlinkedin.Tagging do
   end
 
   def format_tags(body, tags) do
-    String.replace(body, tags, fn prof ->
-      profile = Shlinkedin.Profiles.get_profile_by_username(prof)
-
-      case profile do
-        nil ->
-          body
-
-        profile ->
-          Phoenix.HTML.safe_to_string(
-            Phoenix.HTML.Link.link("#{prof}",
-              to: "/sh/#{profile.slug}",
-              class: "text-indigo-600 font-semibold hover:underline cursor-pointer"
-            )
-          )
-      end
-    end)
+    body
   end
+
+  # TODO: fix this
+  # def format_tags(body, tags) do
+  #   String.replace(body, tags, fn prof ->
+  #     profile = Shlinkedin.Profiles.get_profile_by_username(prof)
+
+  #     case profile do
+  #       nil ->
+  #         body
+
+  #       profile ->
+  #         Phoenix.HTML.safe_to_string(
+  #           Phoenix.HTML.Link.link("#{prof}",
+  #             to: "/sh/#{profile.slug}",
+  #             class: "text-indigo-600 font-semibold hover:underline cursor-pointer"
+  #           )
+  #         )
+  #     end
+  #   end)
+  # end
 
   def check_tagging_mode(body, current_mode) do
     case body |> String.last() do
