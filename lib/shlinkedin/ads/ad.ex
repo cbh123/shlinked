@@ -3,20 +3,20 @@ defmodule Shlinkedin.Ads.Ad do
   import Ecto.Changeset
 
   schema "ads" do
-    field :body, :string
-    field :media_url, :string
-    field :slug, :string
-    belongs_to :profile, Shlinkedin.Profiles.Profile
-    has_many :clicks, Shlinkedin.Ads.Click, on_delete: :delete_all
-    has_many :adlikes, Shlinkedin.Ads.AdLike, on_delete: :delete_all
-    field :company, :string
-    field :product, :string
-    field :overlay, :string
-    field :gif_url, :string
-    field :overlay_color, :string
-    field :removed, :boolean, default: false
-    field :quantity, :integer, default: 1
-    field :price, Money.Ecto.Amount.Type, default: "100"
+    field(:body, :string)
+    field(:media_url, :string)
+    field(:slug, :string)
+    belongs_to(:profile, Shlinkedin.Profiles.Profile)
+    has_many(:clicks, Shlinkedin.Ads.Click, on_delete: :delete_all)
+    has_many(:adlikes, Shlinkedin.Ads.AdLike, on_delete: :delete_all)
+    field(:company, :string)
+    field(:product, :string)
+    field(:overlay, :string)
+    field(:gif_url, :string)
+    field(:overlay_color, :string)
+    field(:removed, :boolean, default: false)
+    field(:quantity, :integer, default: 1)
+    field(:price, Money.Ecto.Amount.Type, default: "100")
 
     timestamps()
   end

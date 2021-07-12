@@ -26,20 +26,35 @@
      </div>
      <% end %>
 
+     <%= if @error do %>
+     <div class="text-center mt-4">
+         <p class="text-red-500 font-bold"><%= @error %></p>
+     </div>
+     <% end %>
+
      <div class="flex mt-4 space-x-2">
 
-         <%= if @ad.quantity > 0 do %>
+
+
+         <%# still owned by original owner %>
+         <%= cond do  %>
+         <% @ad.profile_id == @owner.id -> %>
          <button type="button" phx-click="buy-ad" id="ad-<%=@ad.id%>-like-buy"
              phx-target="<%= @myself %>"
-             data-confirm="Buy '<%=@ad.product%>' for <%=@ad.price%>?"
-             class="bg-blue-100 text-blue-600 hover:bg-blue-200 w-full items-center px-4 py-2 shadow-sm text-base font-medium rounded-md   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-
+             data-confirm="<%= if @profile.points >= @ad.price, do: "Buy '#{@ad.product}' for #{@ad.price}?", else: "You are too poor to buy this." %>"
+             class="<%= if @spin, do: "animate-spin" %> bg-blue-100 text-blue-600 hover:bg-blue-200 w-full items-center px-4 py-2 shadow-sm text-base font-medium rounded-md   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
              <%= @ad.price %>
          </button>
-         <% else %>
+         <% @owner.id == @profile.id -> %>
          <button type="button"
-             class="bg-gray-100 text-red-500 w-full items-center px-4 py-2 shadow-sm text-base font-medium rounded-md pointer-events-none">
-             SOLD OUT
+             class="truncate bg-green-100 text-green-500 w-full items-center px-4 py-2 shadow-sm text-base font-medium rounded-md pointer-events-none">
+             You own this!
+         </button>
+         <% true -> %>
+         <button type="button" phx-value-owner-id="<%=@owner.id%>"
+             phx-target="<%= @myself %>" phx-click="message"
+             class="truncate bg-gray-100 text-gray-500 w-full items-center px-4 py-2 shadow-sm text-base font-medium rounded-md hover:bg-gray-200">
+             Owned by <%= @owner.persona_name %>
          </button>
          <% end %>
      </div>
@@ -56,7 +71,7 @@
 
 
 
-     <span class="text-gray-500 text-xs"><%= @ad.quantity %>
-         remaining </span>
+     <span class="text-gray-500 text-xs">Created by
+         <%= @ad.profile.persona_name %></span>
 
  </li>

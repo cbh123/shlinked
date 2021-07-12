@@ -231,7 +231,7 @@ defmodule Shlinkedin.Points do
   end
 
   @doc """
-  Returns the list of transactions.
+  Returns the list of transactions where profile is from or to.
 
   ## Examples
 
@@ -241,10 +241,11 @@ defmodule Shlinkedin.Points do
   """
   def list_transactions(%Profile{} = profile) do
     Repo.all(
-      from t in Transaction,
+      from(t in Transaction,
         where: t.from_profile_id == ^profile.id or t.to_profile_id == ^profile.id,
         order_by: [desc: t.inserted_at],
         limit: 100
+      )
     )
   end
 
@@ -277,12 +278,20 @@ defmodule Shlinkedin.Points do
 
   """
   def create_transaction(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
+    _create_transaction(from, to, attrs)
+    |> ProfileNotifier.observer(:sent_transaction, from, to)
+  end
+
+  def create_transaction_no_notification(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
+    _create_transaction(from, to, attrs)
+  end
+
+  defp _create_transaction(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
     %Transaction{from_profile_id: from.id, to_profile_id: to.id}
     |> Transaction.changeset(attrs)
     |> Transaction.validate_transaction()
     |> Repo.insert()
     |> transfer_wealth()
-    |> ProfileNotifier.observer(:sent_transaction, from, to)
   end
 
   @doc """

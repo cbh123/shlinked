@@ -31,7 +31,8 @@ defmodule ShlinkedinWeb.AdLive.Show do
     <%= live_component @socket, ShlinkedinWeb.AdLive.NewAdComponent,
     ad: @ad,
     id: "ad-#{@ad.id}",
-    profile: @profile
+    profile: @profile,
+    owner: Shlinkedin.Ads.get_ad_owner(@ad)
     %>
     </ul>
 

@@ -27,7 +27,9 @@
                         <%= for ad <- @ads do %>
                         <%= live_component @socket, ShlinkedinWeb.AdLive.NewAdComponent,
                             ad: ad,
-                            id: "ad-#{ad.id}"
+                            id: "ad-#{ad.id}",
+                            owner: Shlinkedin.Ads.get_ad_owner(ad),
+                            profile: @profile
                         %>
                         <% end %>
                     </ul>

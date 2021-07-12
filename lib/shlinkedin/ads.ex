@@ -8,38 +8,37 @@ defmodule Shlinkedin.Ads do
 
   alias Shlinkedin.Ads.{Ad, AdLike, Click, Owner}
   alias Shlinkedin.Profiles.{Profile, ProfileNotifier}
+  alias Shlinkedin.Profiles
   alias Shlinkedin.Points.Transaction
+  alias Shlinkedin.Points
 
   @doc """
   Buys an Ad. Everytime an ad is bought:
-    - check ad quantity > 0
     - check that you don't already own
     - check that you have enough money
       -> if these pass, then:
           - create a transaction to give money to current owner (if no owner, then creator)
     - notify creator that owner bought
+    - only allow 3 ad buys per hour
     - send update to component that you own, so buy button goes
   """
-  def buy_ad(%Ad{} = ad, %Profile{} = profile) do
-    with {:ok, _ad} <- check_quantity(ad),
-         {:ok, _ad} <- check_money(ad, profile),
-         {:ok, _ad} <- check_ownership(ad, profile) do
-      IO.puts("success!")
-      # Now, we actually have to buy!
-      # create transaction
-      # create new ownership row
-      # reduce ad quantity
-      # notify the creator of the ad
-      # send back {:ok, ad}
+  def buy_ad(%Ad{} = ad, %Profile{} = buyer) do
+    owner = get_ad_owner(ad)
+
+    with {:ok, _ad} <- check_money(ad, buyer),
+         {:ok, _ad} <- check_ownership(ad, buyer),
+         {:ok, transaction} <-
+           Points.create_transaction_no_notification(buyer, owner, %{
+             note: "Ad Purchase",
+             amount: ad.price
+           }),
+         {:ok, _new_owner} <- create_owner(ad, transaction, buyer),
+         {:ok, ad} <- ProfileNotifier.observer({:ok, ad}, :ad_buy, buyer, owner) do
+      {:ok, ad}
     else
       error -> error
     end
   end
-
-  def check_quantity(ad) when ad.quantity >= 1, do: {:ok, ad}
-
-  def check_quantity(ad) when ad.quantity < 1,
-    do: {:error, "Sold out"}
 
   def check_money(%Ad{price: price} = ad, %Profile{points: points})
       when points.amount >= price.amount,
@@ -50,14 +49,32 @@ defmodule Shlinkedin.Ads do
       do: {:error, "You are too poor"}
 
   @doc """
+  Get all stuff that profile owns.
+  TODO
+  """
+
+  @doc """
   Check to see if profile already owns ad. A helper for `get_ad_owner\1`.
   """
   def check_ownership(%Ad{} = ad, %Profile{} = profile) do
-    if get_ad_owner_profile_id(ad) == profile.id do
+    if get_ad_owner(ad).id == profile.id do
       {:error, "You cannot own more than 1 of an ad, you greedy capitalist!"}
     else
       {:ok, ad}
     end
+  end
+
+  @doc """
+  Gets ownership record for ad / profile combination.
+  """
+  def get_owner_record(%Ad{id: ad_id}, %Profile{id: profile_id}) do
+    Repo.one(
+      from(o in Owner,
+        where: o.ad_id == ^ad_id and o.profile_id == ^profile_id,
+        order_by: [desc: o.inserted_at],
+        limit: 1
+      )
+    )
   end
 
   @doc """
@@ -76,17 +93,24 @@ defmodule Shlinkedin.Ads do
 
   @doc """
   Gets current ad owner's profile id. Gets the last row of owners table for the ad.
+  If there's no record of ownership, the owner is whomever made the ad.
+  Note: there can be multiple owners!
   """
-  def get_ad_owner_profile_id(%Ad{id: ad_id}) do
-    profile_id =
-      Repo.one(
-        from(owner in Owner,
-          where: owner.ad_id == ^ad_id,
-          order_by: [desc: owner.id],
-          limit: 1,
-          select: owner.profile_id
-        )
-      )
+  def get_ad_owner(%Ad{} = ad) do
+    case Repo.one(
+           from(owner in Owner,
+             where: owner.ad_id == ^ad.id,
+             order_by: [desc: owner.id],
+             limit: 1,
+             select: owner.profile_id
+           )
+         ) do
+      nil ->
+        Profiles.get_profile_by_profile_id(ad.profile_id)
+
+      profile_id ->
+        Profiles.get_profile_by_profile_id(profile_id)
+    end
   end
 
   def count_profile_ads(%Profile{} = profile) do
@@ -251,17 +275,11 @@ defmodule Shlinkedin.Ads do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_ad(%Profile{} = profile, %Ad{} = ad, attrs, after_save \\ &{:ok, &1}) do
-    case profile.id == ad.profile_id or profile.admin do
-      true ->
-        ad
-        |> Ad.changeset(attrs)
-        |> after_save(after_save)
-        |> Repo.update()
-
-      false ->
-        {:error, "You can only edit your own ads!"}
-    end
+  def update_ad(%Ad{} = ad, attrs, after_save \\ &{:ok, &1}) do
+    ad
+    |> Ad.changeset(attrs)
+    |> after_save(after_save)
+    |> Repo.update()
   end
 
   @doc """

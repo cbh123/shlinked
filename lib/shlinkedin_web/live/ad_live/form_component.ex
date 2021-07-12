@@ -93,7 +93,7 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
     ad = put_photo_urls(socket, socket.assigns.ad)
     ad = %Ad{ad | gif_url: socket.assigns.gif_url}
 
-    case Ads.update_ad(socket.assigns.profile, ad, ad_params, &consume_photos(socket, &1)) do
+    case Ads.update_ad(ad, ad_params, &consume_photos(socket, &1)) do
       {:ok, _ad} ->
         {:noreply,
          socket
@@ -123,8 +123,7 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
 
   defp cost(changeset) do
     price = Ecto.Changeset.get_field(changeset, :price) |> Map.get(:amount)
-    quantity = Ecto.Changeset.get_field(changeset, :quantity)
 
-    price * quantity / 100 * 0.25
+    price * 0.50
   end
 end

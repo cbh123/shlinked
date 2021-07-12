@@ -385,6 +385,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
 
   defp conversation_members_format(profile_ids) do
     profile_ids
+    |> Enum.sort()
     |> Enum.with_index()
     |> Enum.map(fn {id, i} -> {to_string(i), %{"profile_id" => id}} end)
     |> Enum.into(%{})
