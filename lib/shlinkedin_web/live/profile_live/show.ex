@@ -281,11 +281,17 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   end
 
   def handle_event("jab", _, socket) do
-    Profiles.send_jab(socket.assigns.from_profile, socket.assigns.to_profile)
+    if Profiles.count_jabs_in_timeframe(socket.assigns.profile) > 1 do
+      {:noreply,
+       socket
+       |> put_flash(:warning, "You can only Jab once per 10min!")}
+    else
+      Profiles.send_jab(socket.assigns.from_profile, socket.assigns.to_profile)
 
-    {:noreply,
-     socket
-     |> put_flash(:info, "Business Jabbed!")}
+      {:noreply,
+       socket
+       |> put_flash(:info, "Business Jabbed!")}
+    end
   end
 
   def handle_event("load-more", _, %{assigns: assigns} = socket) do

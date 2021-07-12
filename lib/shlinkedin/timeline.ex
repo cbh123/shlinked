@@ -188,10 +188,7 @@ defmodule Shlinkedin.Timeline do
   def get_feed_query(object, feed_type) do
     case feed_type do
       "all" ->
-        profile_groups = Shlinkedin.Groups.list_profile_group_ids(object)
-
         from(p in Post,
-          where: is_nil(p.group_id) or p.group_id in ^profile_groups,
           order_by: [desc: p.pinned, desc: p.inserted_at]
         )
 
@@ -919,5 +916,109 @@ defmodule Shlinkedin.Timeline do
   """
   def change_template(%Template{} = template, attrs \\ %{}) do
     Template.changeset(template, attrs)
+  end
+
+  alias Shlinkedin.Timeline.Tagline
+
+  def get_random_tagline do
+    Repo.one(
+      from t in Tagline,
+        order_by: fragment("RANDOM()"),
+        limit: 1
+    )
+  end
+
+  @doc """
+  Returns the list of taglines.
+
+  ## Examples
+
+      iex> list_taglines()
+      [%Tagline{}, ...]
+
+  """
+  def list_taglines do
+    Repo.all(Tagline)
+  end
+
+  @doc """
+  Gets a single tagline.
+
+  Raises `Ecto.NoResultsError` if the Tagline does not exist.
+
+  ## Examples
+
+      iex> get_tagline!(123)
+      %Tagline{}
+
+      iex> get_tagline!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_tagline!(id), do: Repo.get!(Tagline, id)
+
+  @doc """
+  Creates a tagline.
+
+  ## Examples
+
+      iex> create_tagline(%{field: value})
+      {:ok, %Tagline{}}
+
+      iex> create_tagline(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_tagline(attrs \\ %{}) do
+    %Tagline{}
+    |> Tagline.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a tagline.
+
+  ## Examples
+
+      iex> update_tagline(tagline, %{field: new_value})
+      {:ok, %Tagline{}}
+
+      iex> update_tagline(tagline, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_tagline(%Tagline{} = tagline, attrs) do
+    tagline
+    |> Tagline.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a tagline.
+
+  ## Examples
+
+      iex> delete_tagline(tagline)
+      {:ok, %Tagline{}}
+
+      iex> delete_tagline(tagline)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_tagline(%Tagline{} = tagline) do
+    Repo.delete(tagline)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking tagline changes.
+
+  ## Examples
+
+      iex> change_tagline(tagline)
+      %Ecto.Changeset{data: %Tagline{}}
+
+  """
+  def change_tagline(%Tagline{} = tagline, attrs \\ %{}) do
+    Tagline.changeset(tagline, attrs)
   end
 end

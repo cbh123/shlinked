@@ -45,8 +45,17 @@
 
                     </button>
 
-                    <%= link "The ShlinkedIn", to: (if @current_user, do: "/home", else: "/join"), class: "text-xs text-blue-700 font-bold hidden sm:inline-flex" %>
+                    <div>
+                        <%= link "ShlinkedIn", to: (if @current_user, do: "/home", else: "/join"), class: "text-xs text-blue-700 font-bold hidden sm:inline-flex" %>
 
+                        <p
+                            class="text-xs italic text-gray-500 font-windows hidden sm:block">
+                            <%= unless is_nil(Shlinkedin.Timeline.get_random_tagline) do %>
+
+                            <%= Shlinkedin.Timeline.get_random_tagline.text %>
+                            <%  end %>
+                        </p>
+                    </div>
                     <% else %>
                     <%= link "ShlinkedIn", to: "/join", class: "text-xs text-blue-700 font-bold inline-flex" %>
 

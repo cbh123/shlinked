@@ -130,8 +130,72 @@ defmodule Shlinkedin.Points do
     end
   end
 
-  def point_observer(%Profile{} = _from_profile, %Profile{} = to_profile, type, _object),
-    do: generate_wealth(to_profile, type)
+  def point_observer(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile,
+        :ad_click,
+        ad
+      ) do
+    if ad.profile_id != from_profile.id do
+      generate_wealth(to_profile, :ad_click)
+    else
+      {:ok, %Transaction{}}
+    end
+  end
+
+  def point_observer(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile,
+        :ad_like,
+        ad
+      ) do
+    IO.inspect(binding())
+
+    if ad.profile_id != from_profile.id do
+      generate_wealth(to_profile, :ad_like)
+    else
+      {:ok, %Transaction{}}
+    end
+  end
+
+  def point_observer(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile,
+        :testimonial,
+        testimonial
+      ) do
+    if testimonial.profile_id != from_profile.id do
+      generate_wealth(to_profile, :testimonial)
+    else
+      {:ok, %Transaction{}}
+    end
+  end
+
+  def point_observer(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile,
+        :endorsement,
+        endorsement
+      ) do
+    if endorsement.from_profile_id != from_profile.id do
+      generate_wealth(to_profile, :endorsement)
+    else
+      {:ok, %Transaction{}}
+    end
+  end
+
+  def point_observer(
+        %Profile{} = from_profile,
+        %Profile{} = _to_profile,
+        :accepted_friend_request,
+        _request
+      ) do
+    generate_wealth(from_profile, :accepted_friend_request)
+  end
+
+  def point_observer(%Profile{} = _from_profile, %Profile{} = to_profile, type, _object) do
+    generate_wealth(to_profile, type)
+  end
 
   defp handle_first_like(true, to_profile, type), do: generate_wealth(to_profile, type)
   defp handle_first_like(false, _to_profile, _type), do: {:ok, nil}

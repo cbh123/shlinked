@@ -6,7 +6,7 @@ defmodule ShlinkedinWeb.MessageTemplateLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :templates, list_templates())}
+    {:ok, socket |> check_access() |> assign(:templates, list_templates())}
   end
 
   @impl true

@@ -515,6 +515,15 @@ defmodule Shlinkedin.Profiles do
     Repo.aggregate(from(j in Jab, where: j.from_profile_id == ^profile.id), :count)
   end
 
+  def count_jabs_in_timeframe(%Profile{} = profile, sec_ago \\ -600) do
+    time = NaiveDateTime.utc_now() |> NaiveDateTime.add(sec_ago, :second)
+
+    Repo.aggregate(
+      from(j in Jab, where: j.from_profile_id == ^profile.id and j.inserted_at >= ^time),
+      :count
+    )
+  end
+
   def count_written_endorsements(%Profile{} = profile) do
     Repo.aggregate(from(e in Endorsement, where: e.from_profile_id == ^profile.id), :count)
   end
