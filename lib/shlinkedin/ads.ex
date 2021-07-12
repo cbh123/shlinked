@@ -33,6 +33,7 @@ defmodule Shlinkedin.Ads do
              amount: ad.price
            }),
          {:ok, _new_owner} <- create_owner(ad, transaction, buyer),
+         {:ok, ad} <- update_ad(ad, %{owner_id: buyer.id}),
          {:ok, ad} <- ProfileNotifier.observer({:ok, ad}, :ad_buy, buyer, owner) do
       {:ok, ad}
     else
@@ -44,25 +45,25 @@ defmodule Shlinkedin.Ads do
       when points.amount >= price.amount,
       do: {:ok, ad}
 
-  def check_money(%Ad{price: price} = ad, %Profile{points: points})
+  def check_money(%Ad{price: price}, %Profile{points: points})
       when points.amount < price.amount,
       do: {:error, "You are too poor"}
 
   @doc """
   Get all stuff that profile owns.
-  TODO
   """
+  def list_owned_ads(%Profile{id: profile_id}) do
+    Repo.all(from(a in Ad, where: a.owner_id == ^profile_id, order_by: [desc: a.updated_at]))
+  end
 
   @doc """
-  Check to see if profile already owns ad. A helper for `get_ad_owner\1`.
+  Check to see if profile already owns ad.
   """
-  def check_ownership(%Ad{} = ad, %Profile{} = profile) do
-    if get_ad_owner(ad).id == profile.id do
-      {:error, "You cannot own more than 1 of an ad, you greedy capitalist!"}
-    else
-      {:ok, ad}
-    end
-  end
+  def check_ownership(%Ad{} = ad, %Profile{} = profile) when ad.owner_id == profile.id,
+    do: {:error, "You cannot own more than 1 of an ad, you greedy capitalist!"}
+
+  def check_ownership(%Ad{} = ad, %Profile{} = profile) when ad.owner_id != profile.id,
+    do: {:ok, ad}
 
   @doc """
   Gets ownership record for ad / profile combination.

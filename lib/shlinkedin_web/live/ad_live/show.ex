@@ -32,7 +32,7 @@ defmodule ShlinkedinWeb.AdLive.Show do
     ad: @ad,
     id: "ad-#{@ad.id}",
     profile: @profile,
-    owner: Shlinkedin.Ads.get_ad_owner(@ad)
+    size: :large
     %>
     </ul>
 

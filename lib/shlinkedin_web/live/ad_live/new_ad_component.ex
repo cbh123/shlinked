@@ -4,7 +4,19 @@ defmodule ShlinkedinWeb.AdLive.NewAdComponent do
   alias Shlinkedin.{Chat, Chat.Conversation}
 
   def mount(socket) do
-    {:ok, socket |> assign(spin: false, error: nil)}
+    {:ok,
+     socket
+     |> assign(
+       spin: false,
+       error: nil,
+       success: false,
+       bought_ad: nil
+     )}
+  end
+
+  def handle_event("success-off", _, socket) do
+    socket = assign(socket, success: false)
+    {:noreply, socket}
   end
 
   def handle_event("censor-ad", _, socket) do
@@ -26,15 +38,33 @@ defmodule ShlinkedinWeb.AdLive.NewAdComponent do
 
         send_update_after(
           ShlinkedinWeb.AdLive.NewAdComponent,
-          [id: socket.assigns.id, spin: false, owner: profile],
+          [id: socket.assigns.id, spin: false, ad: ad],
+          1000
+        )
+
+        send_update_after(
+          ShlinkedinWeb.AdLive.NewAdComponent,
+          [id: socket.assigns.id, success: true, bought_ad: ad],
           1000
         )
 
         {:noreply, socket}
 
       {:error, message} ->
-        {:noreply, socket |> assign(error: message)}
+        {:noreply, socket |> assign(error: render_error(message))}
     end
+  end
+
+  # because error can come through as text or changeset error
+  defp render_error(%Ecto.Changeset{} = changeset) do
+    changeset_error_to_string(changeset)
+  end
+
+  defp render_error(text), do: text
+
+  def handle_event("view", %{"profile-id" => profile_id}, socket) do
+    profile = Shlinkedin.Profiles.get_profile_by_profile_id(profile_id)
+    {:noreply, socket |> push_redirect(to: Routes.profile_show_path(socket, :show, profile.slug))}
   end
 
   def handle_event("message", %{"owner-id" => owner_id}, socket) do
@@ -73,5 +103,17 @@ defmodule ShlinkedinWeb.AdLive.NewAdComponent do
     |> Enum.sort()
     |> Enum.map(fn {id, i} -> {to_string(i), %{"profile_id" => id}} end)
     |> Enum.into(%{})
+  end
+
+  def changeset_error_to_string(changeset) do
+    Ecto.Changeset.traverse_errors(changeset, fn {msg, opts} ->
+      Enum.reduce(opts, msg, fn {key, value}, acc ->
+        String.replace(acc, "%{#{key}}", to_string(value))
+      end)
+    end)
+    |> Enum.reduce("", fn {k, v}, acc ->
+      joined_errors = Enum.join(v, "; ")
+      "#{acc}#{k}: #{joined_errors}\n"
+    end)
   end
 end

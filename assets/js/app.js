@@ -16,7 +16,6 @@ import "phoenix_html";
 import { Socket } from "phoenix";
 import NProgress from "nprogress";
 import { LiveSocket } from "phoenix_live_view";
-import Typed from "typed.js";
 
 let Uploaders = {};
 let Hooks = {};

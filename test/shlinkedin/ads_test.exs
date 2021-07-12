@@ -131,12 +131,14 @@ defmodule Shlinkedin.AdsTest do
       {:ok, ad} = Ads.buy_ad(ad, profile)
       random_profile = Shlinkedin.Profiles.get_profile_by_profile_id(random_profile.id)
       assert random_profile.points.amount == 200
+      assert ad.owner_id == profile.id
 
       # og profile buys it back
       {:ok, ad} = Ads.buy_ad(ad, random_profile)
       new_random_profile = Shlinkedin.Profiles.get_profile_by_profile_id(random_profile.id)
       assert Shlinkedin.Points.list_transactions(random_profile) |> length() == 2
       assert Ads.get_ad_owner(ad).id == new_random_profile.id
+      assert ad.owner_id == new_random_profile.id
       assert new_random_profile.points.amount == random_profile.points.amount - ad.price.amount
 
       [last_notification] = Profiles.list_notifications(profile.id, 1)

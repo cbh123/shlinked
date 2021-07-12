@@ -573,84 +573,33 @@
 
 
             <%# Empty State %>
-            <%= if @current_awards == [] do %>
+            <%= if @stuff == [] do %>
             <div class="text-center">
                 <p class="font-semibold text-gray-600  my-4">Nothing yet. 😔</p>
                 <p class="text-xs text-gray-600 italic">To buy stuff, check out
                     the </p>
-                <%= live_redirect "marketplace", to: Routes.marketplace_index_path(@socket, :index) %>
-                <%= for type <- @award_types do %>
-                <%= if type.name != "Verified" do %>
-                <div class="inline-flex tooltip <%= type.color %>">
-                    <%= if type.image_format == "svg" do  %>
-
-                    <svg class="w-4 h-4 " fill="currentColor"
-                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="<%= type.fill%>"
-                            d="<%= type.svg_path %>"
-                            clip-rule="<%= type.fill%>">
-                        </path>
-                    </svg>
-
-                    <% else %>
-                    <span class="text-sm">
-                        <%= type.emoji %>
-                    </span>
-                    <% end %>
-                    <span
-                        class="tooltip-text -mt-8 -ml-24"><%= type.name %></span>
-
-                </div>
-
-                <% end %>
-                <% end %>
+                <%= live_redirect "marketplace", to: Routes.market_index_path(@socket, :index) %>
 
             </div>
             <% end %>
 
 
 
-            <div class="inline-flex">
-                <%= for award <- @current_awards do %>
-                <%= if award.active == true do %>
+            <ul role="list"
+                class=" grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
 
-                <div class="text-center m-2">
-                    <div class="block tooltip <%= award.award_type.color %>">
+                <%= for ad <- @stuff do %>
 
-                        <%= if award.award_type.image_format == "svg" do  %>
-                        <svg class="w-8 h-8 mx-auto " fill="currentColor"
-                            viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="<%= award.award_type.fill%>"
-                                d="<%= award.award_type.svg_path %>"
-                                clip-rule="<%= award.award_type.fill%>">
-                            </path>
-                        </svg>
-                        <% else %>
-                        <span class="text-2xl">
-                            <%= award.award_type.emoji %>
-                        </span>
-
-                        <% end %>
-                        <span
-                            class="tooltip-text -mt-8"><%= award.award_type.description %></span>
-
-
-                    </div>
-                    <h4 class="text-xs font-semibold mt-2">
-                        <%= award.award_type.description %></h4>
-                    <p class="mt-1 text-xs text-gray-500">
-                        <%= Timex.format!(award.inserted_at, "{Mshort}. {D}, {YYYY}") %>
-                    </p>
-                </div>
-
-
-
-
+                <%= live_component @socket, ShlinkedinWeb.AdLive.NewAdComponent,
+                            ad: ad,
+                            id: "ad-#{ad.id}",
+                            profile: @profile,
+                            size: :small
+                        %>
 
                 <% end %>
-                <% end %>
-            </div>
+
+            </ul>
 
 
 

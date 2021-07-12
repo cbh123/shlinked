@@ -9,14 +9,26 @@
              class="object-cover pointer-events-none group-hover:opacity-75">
 
 
-         <%= if @ad.quantity == 0 do %>
+         <%= if @size == :large do %>
+         <%= unless is_nil(@ad.owner_id) do %>
+         <%= if @ad.owner_id == @profile.id do %>
+         <div class="text-right">
+             <div
+                 class="absolute transform rotate-45 top-6 -right-6 text-green-500 bg-green-100 h-6 w-32 text-center">
+                 <span class="text-green-600 font-semibold">
+                     OWNER </span>
+             </div>
+         </div>
+         <% else %>
          <div class="text-right">
              <div
                  class="absolute transform rotate-45 top-6 -right-6 text-red-500 bg-white h-6 w-32 text-center">
                  <span class="text-red-600 font-semibold">
-                     SOLD OUT </span>
+                     SOLD </span>
              </div>
          </div>
+         <% end %>
+         <% end %>
          <% end %>
 
 
@@ -32,32 +44,54 @@
      </div>
      <% end %>
 
+
+     <%= if @size == :large do %>
      <div class="flex mt-4 space-x-2">
 
 
 
          <%# still owned by original owner %>
          <%= cond do  %>
-         <% @ad.profile_id == @owner.id -> %>
+         <% @ad.owner_id == @profile.id -> %>
+         <p
+             class="truncate font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-blue-500 to-green-400">
+             <%= @ad.product %>
+         </p>
+
+         <%# you're the creator and there is no owner yet %>
+         <% @ad.profile_id == @profile.id and is_nil(@ad.owner_id) -> %>
+         <button type="button" phx-target="<%= @myself %>"
+             data-confirm="Sadly, you cannot buy something you've created. Nice try, you launderer."
+             class="bg-gray-100 text-gray-600 w-full items-center px-4 py-2 shadow-sm text-base font-medium rounded-md   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+             <%= @ad.price %>
+         </button>
+
+
+         <%# there is an owner and it's not you %>
+         <% not is_nil(@ad.owner_id) and @ad.owner_id != @profile.id -> %>
+         <button type="button" phx-value-owner-id="<%=@ad.owner_id%>"
+             phx-target="<%= @myself %>" phx-click="message"
+             class="truncate bg-white border border-gray-200 shadow-sm text-gray-500 w-full items-center px-4 py-2 text-base font-medium rounded-md hover:bg-gray-50">
+             📫 Message
+         </button>
+
+         <button type="button" phx-target="<%= @myself %>" phx-click="view"
+             phx-value-profile-id="<%= @ad.owner_id %>"
+             class="truncate bg-white border border-gray-200 shadow-sm text-gray-500 w-full items-center px-4 py-2 text-base font-medium rounded-md hover:bg-gray-50">
+             View
+         </button>
+
+         <%# otherwise, you can buy %>
+         <% true -> %>
          <button type="button" phx-click="buy-ad" id="ad-<%=@ad.id%>-like-buy"
              phx-target="<%= @myself %>"
              data-confirm="<%= if @profile.points >= @ad.price, do: "Buy '#{@ad.product}' for #{@ad.price}?", else: "You are too poor to buy this." %>"
              class="<%= if @spin, do: "animate-spin" %> bg-blue-100 text-blue-600 hover:bg-blue-200 w-full items-center px-4 py-2 shadow-sm text-base font-medium rounded-md   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
              <%= @ad.price %>
          </button>
-         <% @owner.id == @profile.id -> %>
-         <button type="button"
-             class="truncate bg-green-100 text-green-500 w-full items-center px-4 py-2 shadow-sm text-base font-medium rounded-md pointer-events-none">
-             You own this!
-         </button>
-         <% true -> %>
-         <button type="button" phx-value-owner-id="<%=@owner.id%>"
-             phx-target="<%= @myself %>" phx-click="message"
-             class="truncate bg-gray-100 text-gray-500 w-full items-center px-4 py-2 shadow-sm text-base font-medium rounded-md hover:bg-gray-200">
-             Owned by <%= @owner.persona_name %>
-         </button>
          <% end %>
      </div>
+     <% end %>
 
 
      <p
@@ -65,13 +99,67 @@
          <%= @ad.product %></p>
 
 
-     <p class="text-xs text-gray-500 italic">
-         <%= @ad.body %></p>
+
+     <div>
+         <p class="text-xs text-gray-500 italic">
+             <%= @ad.body %></p>
 
 
+         <div class="mt-2">
+             <%= if @ad.profile_id == @profile.id do %>
+             <span
+                 class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
+                 Creator
+             </span>
+             <% end %>
+         </div>
+     </div>
 
 
-     <span class="text-gray-500 text-xs">Created by
-         <%= @ad.profile.persona_name %></span>
 
  </li>
+
+
+ <%= if @success do %>
+ <div phx-hook="Confetti"
+     class="fixed z-10 inset-0 overflow-y-auto bg-gradient-to-r from-blue-400 to-green-500 text-6xl">
+     <div class="items-start text-center p-10">
+
+
+         <div class="inline-flex">
+
+             <span class="">🎉</span>
+             <h5 class="text-5xl font-extrabold text-white animate-bounce">
+                 Congratulations!
+
+             </h5>
+             <span class="">🎉</span>
+         </div>
+
+
+         <div class="mt-4">
+             <h5 class="text-xl text-white font-extrabold"> You are now the
+                 proud
+                 owner of '<%=@bought_ad.product %>'. It will now be
+                 displayed
+                 on
+                 your
+                 <%= live_redirect "profile", to: Routes.profile_show_path(@socket, :show, @profile.slug), class: "underline" %>.
+             </h5>
+         </div>
+
+         <img src=" <%= if is_nil(@bought_ad.media_url), do: @bought_ad.gif_url, else: @bought_ad.media_url %>"
+             alt=""
+             class="m-10 max-w-lg border-white border-2 rounded-md shadow mx-auto">
+
+
+         <div class="text-center w-full">
+             <button phx-click="success-off" phx-target="<%=@myself %>"
+                 class="bg-gradient-to-r from-teal-400 to-blue-500 hover:from-pink-700 hover:to-orange-600 text-white font-semibold px-6 py-3 rounded text-2xl md:text-4xl">
+                 &larr; Return
+             </button>
+         </div>
+     </div>
+
+ </div>
+ <% end %>

@@ -7,6 +7,7 @@ defmodule Shlinkedin.Ads.Ad do
     field(:media_url, :string)
     field(:slug, :string)
     belongs_to(:profile, Shlinkedin.Profiles.Profile)
+    belongs_to(:owner, Shlinkedin.Profiles.Profile, foreign_key: :owner_id)
     has_many(:clicks, Shlinkedin.Ads.Click, on_delete: :delete_all)
     has_many(:adlikes, Shlinkedin.Ads.AdLike, on_delete: :delete_all)
     field(:company, :string)
@@ -34,8 +35,8 @@ defmodule Shlinkedin.Ads.Ad do
       :overlay_color,
       :gif_url,
       :removed,
-      :quantity,
-      :price
+      :price,
+      :owner_id
     ])
     |> validate_required([:body, :product, :company])
     |> validate_required_inclusion([:gif_url, :media_url])
@@ -43,7 +44,6 @@ defmodule Shlinkedin.Ads.Ad do
     |> validate_length(:company, max: 50)
     |> validate_length(:product, max: 50)
     |> validate_length(:overlay, max: 50)
-    |> validate_number(:quantity, greater_than_or_equal_to: 0)
     |> validate_number(:price, greater_than: 0)
   end
 

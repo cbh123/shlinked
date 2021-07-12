@@ -28,8 +28,8 @@
                         <%= live_component @socket, ShlinkedinWeb.AdLive.NewAdComponent,
                             ad: ad,
                             id: "ad-#{ad.id}",
-                            owner: Shlinkedin.Ads.get_ad_owner(ad),
-                            profile: @profile
+                            profile: @profile,
+                            size: :large
                         %>
                         <% end %>
                     </ul>
