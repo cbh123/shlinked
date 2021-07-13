@@ -46,9 +46,10 @@ defmodule Shlinkedin.Profiles do
 
   def list_awards(%Profile{} = profile) do
     Repo.all(
-      from a in Award,
+      from(a in Award,
         where: a.profile_id == ^profile.id and a.active == true,
         preload: :award_type
+      )
     )
   end
 
@@ -68,14 +69,15 @@ defmodule Shlinkedin.Profiles do
 
   """
   def list_endorsements(id) do
-    Repo.all(from e in Endorsement, where: e.to_profile_id == ^id)
+    Repo.all(from(e in Endorsement, where: e.to_profile_id == ^id))
   end
 
   def list_testimonials(id) do
     Repo.all(
-      from e in Shlinkedin.Profiles.Testimonial,
+      from(e in Shlinkedin.Profiles.Testimonial,
         where: e.to_profile_id == ^id,
         order_by: [desc: e.inserted_at]
+      )
     )
   end
 
@@ -97,19 +99,21 @@ defmodule Shlinkedin.Profiles do
 
   def list_given_testimonials(id) do
     Repo.all(
-      from e in Shlinkedin.Profiles.Testimonial,
+      from(e in Shlinkedin.Profiles.Testimonial,
         where: e.from_profile_id == ^id,
         order_by: [desc: e.inserted_at]
+      )
     )
   end
 
   def list_notifications(id, count) do
     Repo.all(
-      from n in Shlinkedin.Profiles.Notification,
+      from(n in Shlinkedin.Profiles.Notification,
         where: n.to_profile_id == ^id,
         limit: ^count,
         preload: [:profile],
         order_by: [desc: n.inserted_at]
+      )
     )
   end
 
@@ -147,7 +151,7 @@ defmodule Shlinkedin.Profiles do
 
   def list_profiles_by_unique_post_reactions(count, start_date) do
     query =
-      from l in Shlinkedin.Timeline.Like,
+      from(l in Shlinkedin.Timeline.Like,
         group_by: [l.profile_id, l.post_id, l.like_type],
         where: l.inserted_at >= ^start_date,
         select: %{
@@ -156,9 +160,10 @@ defmodule Shlinkedin.Profiles do
           like_type: l.like_type,
           count: count(l.like_type)
         }
+      )
 
     Repo.all(
-      from l in subquery(query),
+      from(l in subquery(query),
         left_join: posts in Shlinkedin.Timeline.Post,
         on: posts.id == l.post_id,
         left_join: profiles in Profile,
@@ -168,12 +173,13 @@ defmodule Shlinkedin.Profiles do
         select: %{profile: profiles, number: count(l.like_type)},
         order_by: [desc: count(l.like_type)],
         limit: ^count
+      )
     )
   end
 
   def list_profiles_by_profile_views(count, start_date) do
     Repo.all(
-      from v in ProfileView,
+      from(v in ProfileView,
         left_join: profiles in Profile,
         on: v.to_profile_id == profiles.id,
         where: v.from_profile_id != v.to_profile_id and v.inserted_at >= ^start_date,
@@ -181,15 +187,17 @@ defmodule Shlinkedin.Profiles do
         select: %{profile: profiles, number: count(v.id)},
         order_by: [desc: count(v.id)],
         limit: ^count
+      )
     )
   end
 
   def list_profiles_by_points(count) do
     Repo.all(
-      from p in Profile,
+      from(p in Profile,
         select: %{profile: p, number: p.points},
         order_by: [desc: p.points],
         limit: ^count
+      )
     )
   end
 
@@ -258,31 +266,32 @@ defmodule Shlinkedin.Profiles do
     sql = "%#{persona_or_real}%"
 
     Repo.all(
-      from p in Profile,
+      from(p in Profile,
         where:
           (ilike(p.persona_name, ^sql) or ilike(p.username, ^sql)) and
             p.persona_name != "test",
         limit: 7,
         order_by: fragment("RANDOM()")
+      )
     )
   end
 
   def list_profiles_preload_users() do
-    Repo.all(from p in Profile, preload: :user)
+    Repo.all(from(p in Profile, preload: :user))
   end
 
   def list_non_test_profiles(limit \\ 50) do
-    Repo.all(from p in Profile, where: p.persona_name != "test", limit: ^limit)
+    Repo.all(from(p in Profile, where: p.persona_name != "test", limit: ^limit))
   end
 
   def list_featured_profiles(count) do
     Repo.all(
-      from p in Profile, where: p.featured == true, order_by: fragment("RANDOM()"), limit: ^count
+      from(p in Profile, where: p.featured == true, order_by: fragment("RANDOM()"), limit: ^count)
     )
   end
 
   def is_admin?(%Profile{} = profile) do
-    Repo.one(from p in Profile, where: p.id == ^profile.id, select: p.admin)
+    Repo.one(from(p in Profile, where: p.id == ^profile.id, select: p.admin))
   end
 
   def change_notification_to_read(id) do
@@ -306,19 +315,21 @@ defmodule Shlinkedin.Profiles do
 
   def get_unread_notification_count(%Profile{} = profile) do
     Repo.one(
-      from n in Notification,
+      from(n in Notification,
         where: n.to_profile_id == ^profile.id and n.read == false,
         select: count("*")
+      )
     )
   end
 
   def get_last_read_notification_time(%Profile{} = profile) do
     Repo.one(
-      from n in Notification,
+      from(n in Notification,
         where: n.to_profile_id == ^profile.id and n.read == false,
         order_by: [desc: n.inserted_at],
         limit: 1,
         select: n.inserted_at
+      )
     )
   end
 
@@ -346,10 +357,11 @@ defmodule Shlinkedin.Profiles do
 
   def get_friend_request!(%Profile{} = from, %Profile{} = to) do
     case Repo.one(
-           from f in Friend,
+           from(f in Friend,
              where:
                (f.from_profile_id == ^from.id and f.to_profile_id == ^to.id) or
                  (f.from_profile_id == ^to.id and f.to_profile_id == ^from.id)
+           )
          ) do
       nil -> %Friend{from_profile_id: from.id, to_profile_id: to.id}
       friend -> friend
@@ -486,12 +498,38 @@ defmodule Shlinkedin.Profiles do
     |> ProfileNotifier.observer(:testimonial, from, to)
   end
 
+  @doc """
+  Creates a profile view under two criteria: it's not from yourself, and it's more than
+  1hr ago.
+  """
   def create_profile_view(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
-    if from.id != to.id, do: Points.generate_wealth(to, :profile_view)
+    if from.id != to.id and count_profile_views_in_timeframe(from, to, -3600) == 0 do
+      {:ok, _txn} = Points.generate_wealth(to, :profile_view)
+    end
 
     %ProfileView{from_profile_id: from.id, to_profile_id: to.id}
     |> ProfileView.changeset(attrs)
     |> Repo.insert()
+  end
+
+  @doc """
+  Counts profile views in timeframe, default to last 5min
+  """
+  def count_profile_views_in_timeframe(
+        %Profile{} = from,
+        %Profile{} = to,
+        sec_ago \\ -600
+      ) do
+    time = NaiveDateTime.utc_now() |> NaiveDateTime.add(sec_ago, :second)
+
+    Repo.aggregate(
+      from(v in ProfileView,
+        where:
+          v.from_profile_id == ^from.id and v.to_profile_id == ^to.id and
+            v.inserted_at >= ^time
+      ),
+      :count
+    )
   end
 
   def send_friend_request(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
@@ -551,15 +589,16 @@ defmodule Shlinkedin.Profiles do
 
   def get_pending_requests(%Profile{} = to) do
     Repo.all(
-      from f in Friend,
+      from(f in Friend,
         where: f.to_profile_id == ^to.id and f.status == "pending",
         preload: [:profile]
+      )
     )
   end
 
   def get_connections(%Profile{} = profile) do
     Repo.all(
-      from f in Friend,
+      from(f in Friend,
         where:
           (f.to_profile_id == ^profile.id or f.from_profile_id == ^profile.id) and
             f.status == "accepted",
@@ -570,6 +609,7 @@ defmodule Shlinkedin.Profiles do
         as: :to_profile,
         on: f.to_profile_id == p2.id,
         select: [p, p2]
+      )
     )
     |> List.flatten()
     |> Enum.reject(fn p -> p.id == profile.id end)
@@ -577,7 +617,7 @@ defmodule Shlinkedin.Profiles do
 
   def get_unique_connection_ids(%Profile{} = profile) do
     Repo.all(
-      from f in Friend,
+      from(f in Friend,
         where:
           (f.to_profile_id == ^profile.id or f.from_profile_id == ^profile.id) and
             f.status == "accepted",
@@ -588,6 +628,7 @@ defmodule Shlinkedin.Profiles do
         as: :to_profile,
         on: f.to_profile_id == p2.id,
         select: [p.id, p2.id]
+      )
     )
     |> List.flatten()
     |> Enum.uniq()
@@ -596,7 +637,7 @@ defmodule Shlinkedin.Profiles do
 
   def get_unique_connection_ids(%Profile{} = profile, naive_start_date) do
     Repo.all(
-      from f in Friend,
+      from(f in Friend,
         where:
           (f.to_profile_id == ^profile.id or f.from_profile_id == ^profile.id) and
             f.status == "accepted" and f.inserted_at >= ^naive_start_date,
@@ -607,6 +648,7 @@ defmodule Shlinkedin.Profiles do
         as: :to_profile,
         on: f.to_profile_id == p2.id,
         select: [p.id, p2.id]
+      )
     )
     |> List.flatten()
     |> Enum.uniq()
@@ -615,18 +657,19 @@ defmodule Shlinkedin.Profiles do
 
   def list_friends(%Profile{} = profile) do
     friend_ids = get_unique_connection_ids(profile)
-    Repo.all(from p in Profile, where: p.id in ^friend_ids, select: p)
+    Repo.all(from(p in Profile, where: p.id in ^friend_ids, select: p))
   end
 
   def list_random_friends(%Profile{} = profile, count) do
     friend_ids = get_unique_connection_ids(profile)
 
     Repo.all(
-      from p in Profile,
+      from(p in Profile,
         where: p.id in ^friend_ids,
         order_by: fragment("RANDOM()"),
         limit: ^count,
         select: p
+      )
     )
   end
 
@@ -640,7 +683,7 @@ defmodule Shlinkedin.Profiles do
 
     mutual_ids = intersection -- [from.id, to.id]
 
-    Repo.all(from p in Profile, where: p.id in ^mutual_ids, select: p)
+    Repo.all(from(p in Profile, where: p.id in ^mutual_ids, select: p))
   end
 
   def check_between_friend_status(%Profile{} = from, %Profile{} = to) do
@@ -648,11 +691,12 @@ defmodule Shlinkedin.Profiles do
       "me"
     else
       Repo.all(
-        from f in Friend,
+        from(f in Friend,
           select: f.status,
           where:
             (f.from_profile_id == ^from.id and f.to_profile_id == ^to.id) or
               (f.from_profile_id == ^to.id and f.to_profile_id == ^from.id)
+        )
       )
       |> Enum.uniq()
       |> Enum.at(0)
@@ -738,10 +782,11 @@ defmodule Shlinkedin.Profiles do
 
   def list_random_profiles(count) do
     Repo.all(
-      from p in Profile,
+      from(p in Profile,
         order_by: fragment("RANDOM()"),
         limit: ^count,
         where: not ilike(p.persona_name, "%test%") and not like(p.persona_name, "")
+      )
     )
   end
 
