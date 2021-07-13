@@ -566,8 +566,12 @@
         <div class=" mt-2 rounded-lg overflow-hidden shadow p-5 bg-white">
 
             <div class="flex justify-between">
-                <h5 class="text-gray-900 font-bold text-xl pb-3">Stuff
+                <h5 class="text-gray-900 font-bold text-xl pb-3">
+                    Stuff
                 </h5>
+
+
+                <%= live_redirect raw("Market &rarr;"), to: Routes.market_index_path(@socket, :index), class: "px-4 py-2 bg-yellow-100 text-yellow-500 shadow-xs rounded-full font-bold" %>
             </div>
 
 
@@ -586,7 +590,7 @@
 
 
             <ul role="list"
-                class=" grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+                class="mt-4 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
 
                 <%= for ad <- @stuff do %>
 

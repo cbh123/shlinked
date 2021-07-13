@@ -3,9 +3,9 @@ defmodule Shlinkedin.Ads.Owner do
   import Ecto.Changeset
 
   schema "ad_owners" do
-    field :ad_id, :id
-    field :transaction_id, :id
-    field :profile_id, :id
+    field(:ad_id, :id)
+    field(:transaction_id, :id)
+    field(:profile_id, :id)
 
     timestamps()
   end
@@ -14,6 +14,6 @@ defmodule Shlinkedin.Ads.Owner do
   def changeset(owners, attrs) do
     owners
     |> cast(attrs, [:ad_id, :transaction_id, :profile_id])
-    |> validate_required([:ad_id, :transaction_id, :profile_id])
+    |> validate_required([:ad_id, :profile_id])
   end
 end

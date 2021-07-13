@@ -69,14 +69,15 @@ defmodule Shlinkedin.AdsTest do
       # first txn
       {:ok, _owner} = Ads.create_owner(ad, transaction, profile)
       assert Ads.get_ad_owner(ad).id == profile.id
-      {:error, _message} = Ads.check_ownership(ad, profile)
+      ad = Ads.get_ad!(ad.id)
+      assert ad.owner_id == nil
 
       # second txn
       new_profile = profile_fixture()
       {:ok, _owner} = Ads.create_owner(ad, transaction, new_profile)
       assert Ads.get_ad_owner(ad).id == new_profile.id
-      {:error, _profile} = Ads.check_ownership(ad, new_profile)
-      {:ok, _profile} = Ads.check_ownership(ad, profile)
+
+      assert ad.owner_id == nil
     end
 
     test "test enough_points", %{ad: ad, profile: profile} do
@@ -116,8 +117,7 @@ defmodule Shlinkedin.AdsTest do
     test "test buy ad that you already own", %{ad: ad, profile: profile, transaction: transaction} do
       {:ok, _owner} = Ads.create_owner(ad, transaction, profile)
 
-      {:error, "You cannot own more than 1 of an ad, you greedy capitalist!"} =
-        Ads.buy_ad(ad, profile)
+      {:error, _changeset} = Ads.buy_ad(ad, profile)
     end
 
     test "test buy_ad a second time success", %{profile: profile} do
