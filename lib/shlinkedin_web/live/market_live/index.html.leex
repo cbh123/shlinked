@@ -22,20 +22,9 @@
 
                 <!-- Replace with your content -->
                 <div class="px-4 py-6 sm:px-0">
-                    <ul role="list"
-                        class=" grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
-                        <%= for ad <- @ads do %>
-                        <%= live_component @socket, ShlinkedinWeb.AdLive.NewAdComponent,
-                            ad: ad,
-                            id: "ad-#{ad.id}",
-                            profile: @profile,
-                            size: :large
-                        %>
-                        <% end %>
-                    </ul>
 
                     <ul role="list"
-                        class="mt-32 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+                        class="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-3 md:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
                         <li class="relative">
                             <div
                                 class="group block   w-full aspect-w-10 aspect-h-7  rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
@@ -49,19 +38,35 @@
                                 </button>
                             </div>
 
-                            <p
-                                class="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">
-                                Porsche 911 <span class="text-gray-500"> • SP
-                                    999.99</span></p>
+
+                            <div
+                                class="mt-2 flex justify-between text-sm font-medium ">
+                                <p
+                                    class="text-gray-900 truncate pointer-events-none">
+                                    Porsche 911 </p>
+
+                                <span class="text-gray-500">
+                                    SP
+                                    999.99</span>
 
 
-                            <p class="text-xs text-gray-500 italic">Show off
+
+                            </div>
+
+                            <p class="text-xs text-gray-500">Show off
                                 your
                                 wealth by displaying this beautiful
                                 Porsche on your profile.</p>
 
-                            <button
-                                class="text-sm rounded-full bg-blue-500 text-white font-medium px-2 py-0.5 mt-2">Buy</button>
+                            <p
+                                class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">
+                                Created by Ferginator
+                            </p>
+
+                            <div>
+                                <button
+                                    class="text-sm rounded-full bg-blue-500 text-white font-medium px-2 py-0.5 mt-2">Buy</button>
+                            </div>
 
 
                         </li>
@@ -161,6 +166,21 @@
 
                         <!-- More files... -->
                     </ul>
+
+
+                    <ul role="list"
+                        class="mt-32 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+
+                        <%= for ad <- @ads do %>
+                        <%= live_component @socket, ShlinkedinWeb.AdLive.NewAdComponent,
+                            ad: ad,
+                            id: "ad-#{ad.id}",
+                            profile: @profile,
+                            size: :large
+                        %>
+                        <% end %>
+                    </ul>
+
 
 
 

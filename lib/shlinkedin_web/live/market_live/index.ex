@@ -5,7 +5,7 @@ defmodule ShlinkedinWeb.MarketLive.Index do
   @impl true
   def mount(_params, session, socket) do
     socket = is_user(session, socket)
-    ads = Ads.get_random_ads(3)
+    ads = Ads.get_random_ads(10)
 
     {:ok, socket |> assign(ads: ads)}
   end
