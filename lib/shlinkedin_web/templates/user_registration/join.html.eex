@@ -6,24 +6,25 @@
                 <div class="mt-6">
                     <div class="mt-6 sm:max-w-xl">
                         <span
-                            class="block text-sm font-semibold uppercase tracking-wide text-gray-500 sm:text-base lg:text-sm xl:text-base">open
-                            beta</span>
+                            class="block text-sm font-semibold uppercase tracking-wide text-gray-500 sm:text-base lg:text-sm xl:text-base">An
+                            all-in-one satire solution</span>
 
 
                         <h1
                             class="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
-                            Welcome to <span
-                                class="text-blue-600">ShlinkedIn.</span>
+                            Be a
+                            <span class="text-blue-600">Thought Leader.</span>
                         </h1>
 
 
                         <p class="mt-6 text-xl text-gray-500">
-                            We got sick of LinkedIn thought leadership, so we
-                            made an <a class="font-semibold hover:underline"
+                            ShlinkedIn is an <a
+                                class="font-semibold hover:underline"
                                 href="https://github.com/cbh123/shlinked">open
-                                source</a> satirical social network where anyone
-                            can be
-                            a Thought Leader, Disruptor, or Titan of Industry.
+                                source</a> social network where you can be
+                            anyone or anything. Rise the ranks from unpaid
+                            intern to Thought Leader and spread your business
+                            insights.
                         </p>
                     </div>
 
