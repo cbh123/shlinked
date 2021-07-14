@@ -101,7 +101,7 @@
 
             AI Assistance</button>
 
-        <%= if @tags != [] do%>
+        <%= if @tags != [] do %>
         <div class="mt-4 w-64 flex-wrap">
             <h5 class="font-semibold text-xs text-gray-500 ">Tags</h5>
             <%= for tag <- @tags |> Enum.uniq() do %>
