@@ -22,7 +22,7 @@
                     <% end %>
                 </div>
 
-                <%= for like <- @grouped_likes[user] do%>
+                <%= for like <- @grouped_likes[user] do %>
                 <%= if @like_map[like.like_type] != nil do %>
 
                 <span

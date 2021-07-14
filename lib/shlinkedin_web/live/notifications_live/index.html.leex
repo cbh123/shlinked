@@ -35,7 +35,7 @@
                         src="<%= n.profile.photo_url %>" alt="">
                     <div class="ml-3">
                         <p class="text-sm text-gray-900 inline-block">
-                            <%= if n.type == "admin_message" do%>
+                            <%= if n.type == "admin_message" do %>
                             <span class="font-bold"><%= n.action %></span>
                             <span><%= n.body %></span>
                             <% else  %>
