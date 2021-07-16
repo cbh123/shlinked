@@ -13,6 +13,7 @@ import "../css/app.scss";
 //     import socket from "./socket"
 //
 import "phoenix_html";
+import "alpinejs";
 import { Socket } from "phoenix";
 import NProgress from "nprogress";
 import { LiveSocket } from "phoenix_live_view";
@@ -308,6 +309,13 @@ let liveSocket = new LiveSocket("/live", Socket, {
   hooks: Hooks,
   uploaders: Uploaders,
   params: { _csrf_token: csrfToken },
+  dom: {
+    onBeforeElUpdated(from, to) {
+      if (from.__x) {
+        window.Alpine.clone(from.__x, to);
+      }
+    },
+  },
 });
 
 // Show progress bar on live navigation and form submits

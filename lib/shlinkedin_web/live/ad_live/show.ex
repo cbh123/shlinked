@@ -26,13 +26,13 @@ defmodule ShlinkedinWeb.AdLive.Show do
     <%= live_redirect raw("&larr; ShlinkMarket"), to: Routes.market_index_path(@socket, :index), class: " inline-flex mx-auto hover:bg-gray-200  px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-900"%>
     </div>
 
-    <div class="mt-8 mx-auto sm:rounded-lg max-w-lg bg-white p-5">
+    <div class="mt-3 mx-auto sm:rounded-lg max-w-lg p-5">
     <ul>
     <%= live_component @socket, ShlinkedinWeb.AdLive.NewAdComponent,
     ad: @ad,
     id: "ad-#{@ad.id}",
     profile: @profile,
-    size: :large
+    type: :show
     %>
     </ul>
 

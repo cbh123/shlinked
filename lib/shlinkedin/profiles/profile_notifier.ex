@@ -61,9 +61,6 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       :jab ->
         notify_jab(from_profile, to_profile, type)
 
-      :ad_click ->
-        notify_ad_click(from_profile, to_profile, res, type)
-
       :ad_like ->
         notify_ad_like(from_profile, to_profile, res, type)
 
@@ -463,14 +460,6 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         |> Shlinkedin.Mailer.deliver_later()
       end
     end
-  end
-
-  def notify_ad_click(
-        %Profile{} = _from_profile,
-        %Profile{} = _to_profile,
-        %Shlinkedin.Ads.Click{} = _click,
-        _type
-      ) do
   end
 
   def notify_testimonial(

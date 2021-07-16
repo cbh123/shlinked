@@ -4,11 +4,34 @@
 
                 <div class="">
                     <h1
-                        class="text-5xl font-extrabold tracking-tight text-transparent text-blue-500">
+                        class="text-5xl font-extrabold tracking-tight text-transparent text-gray-700">
                         ShlinkMarket
                     </h1>
+                    <div class="max-w-prose mt-2">
+                        <p class="text-gray-500 text-sm">A
+                            place to buy and sell
+                            stuff. Because you deserve it.</p>
+                    </div>
 
-                    <hr class="mt-4">
+                    <div class="mt-4">
+
+                        <div class="block">
+                            <div class="border-b border-gray-200">
+                                <nav class="-mb-px flex space-x-8"
+                                    aria-label="Tabs">
+                                    <!-- Current: "border-blue-500 text-blue-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" -->
+
+                                    <%= for category <- @categories do %>
+
+                                    <%= live_patch "#{if category.title == @curr_category, do: category.emoji}    #{category.title}", to: Routes.market_index_path(@socket, :index, curr_category: category.title),
+                         class: "#{if category.title == @curr_category, do: "border-blue-500 text-blue-600", else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"} whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm"  %>
+
+                                    <% end %>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+
 
                 </div>
             </div>
@@ -16,173 +39,48 @@
         <main>
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-                <p class="text-xl font-medium text-gray-600 mt-4">Ads we love
-                    right now
-                </p>
 
                 <!-- Replace with your content -->
                 <div class="px-4 py-6 sm:px-0">
 
-                    <ul role="list"
-                        class="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-3 md:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
-                        <li class="relative">
-                            <div
-                                class="group block   w-full aspect-w-10 aspect-h-7  rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
-                                <img src="https://shlinked.s3.amazonaws.com/gabriel-gurrola-u6BPMXgURuI-unsplash.jpg"
-                                    alt=""
-                                    class="object-cover pointer-events-none group-hover:opacity-75">
-                                <button type="button"
-                                    class="absolute inset-0 focus:outline-none">
-                                    <span class="sr-only">View details for
-                                        IMG_4985.HEIC</span>
-                                </button>
-                            </div>
+                    <%= if @curr_category == "Ads" do %>
 
+                    <div class="align-middle">
+                        <%= live_patch to: Routes.home_index_path(@socket, :new_ad) do %>
+                        <button type="button"
+                            class="flex max-w-sm mx-auto items-center px-6 py-3 text-xl font-extrabold rounded-full text-white bg-gradient-to-tr from-indigo-600 to-blue-500 hover:from-indigo-500 hover:to-blue-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            +
+                            New Ad
+                        </button>
 
-                            <div
-                                class="mt-2 flex justify-between text-sm font-medium ">
-                                <p
-                                    class="text-gray-900 truncate pointer-events-none">
-                                    Porsche 911 </p>
-
-                                <span class="text-gray-500">
-                                    SP
-                                    999.99</span>
-
-
-
-                            </div>
-
-                            <p class="text-xs text-gray-500">Show off
-                                your
-                                wealth by displaying this beautiful
-                                Porsche on your profile.</p>
-
-                            <p
-                                class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">
-                                Created by Ferginator
-                            </p>
-
-                            <div>
-                                <button
-                                    class="text-sm rounded-full bg-blue-500 text-white font-medium px-2 py-0.5 mt-2">Buy</button>
-                            </div>
-
-
-                        </li>
-
-                        <li class="relative">
-                            <div
-                                class="group block   w-full aspect-w-10 aspect-h-7 rounded-xl bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5b/Image_Rolex6613.png"
-                                    alt=""
-                                    class="object-cover pointer-events-none group-hover:opacity-75">
-                                <button type="button"
-                                    class="absolute inset-0 focus:outline-none">
-                                    <span class="sr-only">View details for
-                                        IMG_4985.HEIC</span>
-                                </button>
-                            </div>
-
-
-
-                            <p
-                                class="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">
-                                Rolex <span class="text-gray-500"> • SP
-                                    500.00</span></p>
-
-                            <p class="text-xs text-gray-500 italic">Turn some
-                                heads in the boardroom when you sit down with
-                                this bad boy. Finally, get the respect you
-                                goddam
-                                deserve.</p>
-
-                            <button
-                                class="text-sm rounded-full bg-blue-500 text-white font-medium px-2 py-0.5 mt-2">Buy</button>
-
-
-                        </li>
-
-                        <li class="relative">
-                            <div
-                                class="group block  w-full aspect-w-10 aspect-h-7 rounded-lg bg-white focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
-                                <img src="https://shlinked.s3.amazonaws.com/papyrus.png"
-                                    alt="" class="m-2 object-cover pointer-events-none
-                                    group-hover:opacity-75">
-                                <button type="button"
-                                    class="absolute inset-0 focus:outline-none">
-                                    <span class="sr-only">View details for
-                                        IMG_4985.HEIC</span>
-                                </button>
-                            </div>
-
-
-                            <p
-                                class="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">
-                                Papyrus <span class="text-gray-500"> • SP
-                                    250.00</span></p>
-
-                            <p class="text-xs text-gray-500 italic">Show off
-                                your style by changing your profile to the
-                                classic 'Papyrus' font.</p>
-
-                            <button
-                                class="text-sm rounded-full bg-blue-500 text-white font-medium px-2 py-0.5 mt-2">Buy</button>
-
-
-                        </li>
-
-                        <li class="relative">
-                            <div
-                                class="rounded-xl rounded-xlgroup block  w-full aspect-w-10 aspect-h-7 bg-white focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
-                                <img src="https://shlinked.s3.amazonaws.com/timon-studler-BIk2ANMmNz4-unsplash.jpg"
-                                    alt="" class="m-2 object-cover pointer-events-none
-                                    group-hover:opacity-75">
-                                <button type="button"
-                                    class="absolute inset-0 focus:outline-none">
-                                    <span class="sr-only">View details for
-                                        IMG_4985.HEIC</span>
-                                </button>
-                            </div>
-
-
-                            <p
-                                class="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">
-                                A Happy Family <span class="text-gray-500"> • SP
-                                    17.99</span></p>
-
-                            <p class="text-xs text-gray-500 italic">Show off
-                                your style by changing your profile to the
-                                classic 'Papyrus' font.</p>
-
-                            <button
-                                class="text-sm rounded-full bg-blue-500 text-white font-medium px-2 py-0.5 mt-2">Buy</button>
-
-
-                        </li>
-
-
-
-
-                        <!-- More files... -->
-                    </ul>
-
+                        <% end %>
+                    </div>
 
                     <ul role="list"
-                        class="mt-32 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+                        class=" grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 xl:gap-x-8">
 
                         <%= for ad <- @ads do %>
+                        <%= unless ad.removed do %>
                         <%= live_component @socket, ShlinkedinWeb.AdLive.NewAdComponent,
                             ad: ad,
                             id: "ad-#{ad.id}",
                             profile: @profile,
-                            size: :large
+                            type: :market
                         %>
+                        <% end %>
                         <% end %>
                     </ul>
 
-
-
+                    <% else %>
+                    <div class="text-center">
+                        <h5
+                            class="text-4xl my-3 font-extrabold font-windows text-blue-700 animate-pulse">
+                            Coming
+                            Soon</h5>
+                        <img src="<%= Routes.static_path(@socket, "/images/404.gif") %>"
+                            alt="" class="w-96 mx-auto">
+                    </div>
+                    <% end %>
 
                 </div>
                 <!-- /End replace -->

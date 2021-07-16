@@ -1,6 +1,10 @@
 defmodule Shlinkedin.Ads.Ad do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Shlinkedin.Ads.Ad
+  alias Shlinkedin.Ads
+  alias Shlinkedin.Profiles.Profile
+  alias Shlinkedin.Points
 
   schema "ads" do
     field(:body, :string)
@@ -38,7 +42,7 @@ defmodule Shlinkedin.Ads.Ad do
       :price,
       :owner_id
     ])
-    |> validate_required([:body, :product, :company])
+    |> validate_required([:body, :product])
     |> validate_required_inclusion([:gif_url, :media_url])
     |> validate_length(:body, min: 0, max: 250)
     |> validate_length(:company, max: 50)
@@ -56,5 +60,27 @@ defmodule Shlinkedin.Ads.Ad do
           hd(fields),
           "Make sure you add either a photo or a gif"
         )
+  end
+
+  @doc """
+  Validates that you have enough balance to create the ad.
+  """
+  def validate_affordable(
+        %Ecto.Changeset{
+          data: %Ad{profile_id: profile_id}
+        } = changeset
+      ) do
+    validate_change(changeset, :price, fn
+      :price, price ->
+        balance = Shlinkedin.Points.get_balance(%Profile{id: profile_id})
+        cost = Ads.calc_ad_cost(price)
+
+        if Money.compare(balance, cost) < 0 do
+          [price: "Not enough balance. You have #{balance}."]
+        else
+          raise("Here is where we actually need to take away the SPs!")
+          []
+        end
+    end)
   end
 end

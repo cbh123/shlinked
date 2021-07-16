@@ -31,7 +31,6 @@ defmodule ShlinkedinWeb.MarketLiveTest do
           body: "micromisoft",
           company: "facebook",
           product: "computer",
-          quantity: 5,
           price: "1000"
         }
       )

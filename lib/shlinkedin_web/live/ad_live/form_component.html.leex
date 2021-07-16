@@ -14,13 +14,7 @@
 
 
     <div class="sm:flex">
-        <div>
-            <%= label f, "What's the company name?", class: "block text-sm font-medium text-gray-700" %>
-            <%= text_input f, :company, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 inline-block sm:text-sm border-gray-300 rounded-md px-3", placeholder: "Micromicrosoft" %>
-            <p class="text-xs"><%= error_tag f, :company %></p>
-        </div>
-
-        <div class="mt-2 sm:mt-0 sm:ml-3">
+        <div class="">
             <%= label f, "What product are you selling?", class: "block text-sm font-medium text-gray-700" %>
             <%= text_input f, :product, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 inline-block sm:text-sm border-gray-300 rounded-md px-3", placeholder: "Teeny Comper" %>
             <p class="text-xs"><%= error_tag f, :product %></p>
@@ -137,12 +131,11 @@
                         clip-rule="evenodd" />
                 </svg>
 
-                <label for="price"
-                    class="text-sm font-medium text-gray-700">Price</label>
+                <label for="price" class="text-sm font-medium text-gray-700">How
+                    much are you charging for your art?</label>
 
-                <span class="tooltip-text -mt-6 -ml-12">The amount you charge
-                    per
-                    item.</span>
+                <span class="tooltip-text -mt-6 -ml-12">It will cost you price /
+                    2</span>
 
             </div>
             <div class="mt-1 relative rounded-md shadow-sm">
@@ -163,8 +156,6 @@
 
     <p class="text-gray-500 mt-2">Cost to create:
         <%= @cost %>
-
-        <span class="text-xs text-gray-500 italic">Price / 2</span>
     </p>
 
 

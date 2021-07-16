@@ -28,6 +28,24 @@
                         </div>
                         <% end %>
 
+
+                        <%= live_redirect to: Routes.market_index_path(@socket, :index) do %>
+                        <div class="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+                            aria-current="false">
+                            <!-- Heroicon name: outline/user-group -->
+                            <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                                fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="truncate">
+                                Market
+                            </span>
+                        </div>
+                        <% end %>
+
                         <%= live_redirect to: Routes.group_index_path(@socket, :index) do %>
                         <div class="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
                             aria-current="false">
@@ -46,22 +64,6 @@
                         </div>
                         <% end %>
 
-                        <%= live_redirect to: Routes.points_index_path(@socket, :index) do %>
-                        <div class="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
-                            aria-current="false">
-                            <!-- Heroicon name: outline/user-group -->
-                            <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
-                                fill="currentColor" viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                    d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            <span class="truncate">
-                                ShlinkPoints
-                            </span>
-                        </div>
-                        <% end %>
 
 
 
@@ -323,9 +325,8 @@
                     <% end %>
 
                     <div class="flex justify-between mt-2">
-
-                        <%= live_patch "👥  Start Group", to: Routes.group_index_path(@socket, :new), class: "items-center px-2 sm:px-4 py-2 border-gray-300 text-xs sm:text-base font-medium rounded-lg text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
                         <%= live_patch "📢  Create Ad", to: Routes.home_index_path(@socket, :new_ad), class: "items-center px-2 sm:px-4 py-2 border-gray-300 text-xs sm:text-base font-medium rounded-lg text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
+                        <%= live_patch "👥  Start Group", to: Routes.group_index_path(@socket, :new), class: "items-center px-2 sm:px-4 py-2 border-gray-300 text-xs sm:text-base font-medium rounded-lg text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
                         <%= live_patch "🗞️  Write Headline", to: Routes.home_index_path(@socket, :new_article), class: "items-center px-2 sm:px-4 py-2 border-gray-300 text-xs sm:text-base font-medium rounded-lg text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
                     </div>
                 </div>
@@ -508,10 +509,11 @@
                                 return_to: Routes.home_index_path(@socket, :index),
                                 spin: false  %>
                         <% "ad" -> %>
-                        <%= live_component @socket, ShlinkedinWeb.AdLive.AdComponent,
+                        <%= live_component @socket, ShlinkedinWeb.AdLive.NewAdComponent,
                                 ad: entity.content,
-                                id: :rand.uniform(1000000),
-                                profile: @profile
+                                profile: @profile,
+                                type: :feed,
+                                id: :rand.uniform(1000000)
                                 %>
                         <% "featured_profiles" -> %>
 

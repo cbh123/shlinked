@@ -41,6 +41,36 @@ defmodule Shlinkedin.AdsTest do
       assert ad.gif_url == "test"
     end
 
+    test "create_ad success subtracts SPs", %{} do
+      rich_profile = profile_fixture(%{"points" => "1000"})
+      assert rich_profile.points.amount == 100_000
+
+      assert {:ok, %Ad{} = ad} =
+               Ads.create_ad(rich_profile, %Ad{}, %{
+                 body: "micromisoft",
+                 company: "facebook",
+                 product: "computer",
+                 price: "500",
+                 gif_url: "test"
+               })
+
+      profile = Profiles.get_profile_by_profile_id(rich_profile.id)
+      assert ad.price == Money.new(50000, :SHLINK)
+      assert profile.points.amount == 100_000 - 250
+      assert ad.company == "facebook"
+      assert ad.gif_url == "test"
+    end
+
+    test "create_ad error does not subtracts SPs", %{} do
+      expensive_ad_attrs = Enum.into(%{price: "50000"}, @valid_ad)
+
+      poor_profile = profile_fixture()
+      assert {:error, %Ecto.Changeset{}} = Ads.create_ad(poor_profile, %Ad{}, expensive_ad_attrs)
+
+      rich_profile = profile_fixture(%{"points" => "1000000"})
+      assert {:ok, _ad} = Ads.create_ad(rich_profile, %Ad{}, expensive_ad_attrs)
+    end
+
     test "update_ad/2 with valid data updates the endorsement", %{profile: profile} do
       ad = ad_fixture(profile)
 
@@ -147,6 +177,18 @@ defmodule Shlinkedin.AdsTest do
 
       assert last_notification.action ==
                "#{new_random_profile.persona_name} bought your ad for '#{ad.product}' for #{ad.price}"
+    end
+
+    test "test last buy", %{} do
+      random_profile = profile_fixture()
+      rich_profile = profile_fixture(%{"points" => "100000"})
+      ad = ad_fixture(random_profile)
+
+      # buy ad
+      {:ok, _ad} = Ads.buy_ad(ad, rich_profile)
+
+      {:ok, _} = Ads.check_time(random_profile)
+      {:error, _} = Ads.check_time(rich_profile)
     end
   end
 end

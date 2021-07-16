@@ -1,7 +1,9 @@
 defmodule ShlinkedinWeb.AdLive.NewAdComponent do
   use ShlinkedinWeb, :live_component
   alias Shlinkedin.Ads
+  alias Shlinkedin.Ads.Ad
   alias Shlinkedin.{Chat, Chat.Conversation}
+  alias Shlinkedin.Profiles.Profile
 
   def mount(socket) do
     {:ok,
@@ -14,8 +16,36 @@ defmodule ShlinkedinWeb.AdLive.NewAdComponent do
      )}
   end
 
+  def handle_event("view", %{"profile-id" => profile_id}, socket) do
+    profile = Shlinkedin.Profiles.get_profile_by_profile_id(profile_id)
+    {:noreply, socket |> push_redirect(to: Routes.profile_show_path(socket, :show, profile.slug))}
+  end
+
+  def handle_event("message", %{"owner-id" => owner_id}, socket) do
+    profile_ids = [socket.assigns.profile.id, owner_id]
+
+    profile_ids
+    |> Enum.sort()
+    |> Enum.map(&to_string/1)
+    |> create_or_find_convo?()
+    |> redirect_conversation(socket)
+  end
+
+  def handle_event("ad-click", %{"id" => id}, socket) do
+    Ads.get_ad!(id)
+    |> Ads.create_ad_click(socket.assigns.profile)
+
+    {:noreply, socket |> push_redirect(to: Routes.ad_show_path(socket, :show, id))}
+  end
+
   def handle_event("success-off", _, socket) do
+    IO.puts("anything here?")
     socket = assign(socket, success: false)
+    {:noreply, socket}
+  end
+
+  def handle_event("success-on", _, socket) do
+    socket = assign(socket, success: true)
     {:noreply, socket}
   end
 
@@ -62,21 +92,6 @@ defmodule ShlinkedinWeb.AdLive.NewAdComponent do
 
   defp render_error(text), do: text
 
-  def handle_event("view", %{"profile-id" => profile_id}, socket) do
-    profile = Shlinkedin.Profiles.get_profile_by_profile_id(profile_id)
-    {:noreply, socket |> push_redirect(to: Routes.profile_show_path(socket, :show, profile.slug))}
-  end
-
-  def handle_event("message", %{"owner-id" => owner_id}, socket) do
-    profile_ids = [socket.assigns.profile.id, owner_id]
-
-    profile_ids
-    |> Enum.sort()
-    |> Enum.map(&to_string/1)
-    |> create_or_find_convo?()
-    |> redirect_conversation(socket)
-  end
-
   defp create_or_find_convo?(profile_ids) when is_list(profile_ids) do
     case Chat.conversation_exists?(profile_ids) do
       %Conversation{} = convo ->
@@ -116,4 +131,12 @@ defmodule ShlinkedinWeb.AdLive.NewAdComponent do
       "#{acc}#{k}: #{joined_errors}\n"
     end)
   end
+
+  defp get_ad_creator(%Ad{profile_id: profile_id}),
+    do: Shlinkedin.Profiles.get_profile_by_profile_id(profile_id)
+
+  defp count_unique_ad_clicks(ad), do: Ads.count_unique_ad_clicks_for_ad(ad)
+
+  defp is_owner?(%Ad{} = ad, %Profile{} = profile), do: ad.owner_id == profile.id
+  defp is_sold?(%Ad{} = ad), do: not is_nil(ad.owner_id)
 end

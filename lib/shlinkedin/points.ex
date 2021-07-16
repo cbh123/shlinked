@@ -350,7 +350,7 @@ defmodule Shlinkedin.Points do
     _create_transaction(from, to, attrs)
   end
 
-  defp _create_transaction(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
+  defp _create_transaction(%Profile{} = from, %Profile{} = to, attrs) do
     %Transaction{from_profile_id: from.id, to_profile_id: to.id}
     |> Transaction.changeset(attrs)
     |> Transaction.validate_transaction()
@@ -403,5 +403,30 @@ defmodule Shlinkedin.Points do
   """
   def change_transaction(%Transaction{} = transaction, attrs \\ %{}) do
     Transaction.changeset(transaction, attrs)
+  end
+
+  def categories do
+    [
+      %{
+        title: "Ads",
+        emoji: "📺",
+        active: true
+      },
+      %{
+        title: "Upgrades",
+        emoji: "⚡",
+        active: false
+      },
+      %{
+        title: "Jobs",
+        emoji: "🤝",
+        active: false
+      },
+      %{
+        title: "Companies",
+        emoji: "🏭",
+        active: false
+      }
+    ]
   end
 end

@@ -12,6 +12,8 @@ defmodule Shlinkedin.Ads do
   alias Shlinkedin.Points.Transaction
   alias Shlinkedin.Points
 
+  @ad_cooldown_in_seconds -3
+
   @doc """
   Buys an Ad. Everytime an ad is bought:
     - check that you don't already own
@@ -25,9 +27,26 @@ defmodule Shlinkedin.Ads do
   def buy_ad(%Ad{} = ad, %Profile{} = buyer) do
     owner = get_ad_owner(ad)
 
+    with {:ok, ad} <- check_transaction(ad, buyer),
+         {:ok, ad} <- handle_transaction(ad, owner, buyer) do
+      {:ok, ad}
+    else
+      error -> error
+    end
+  end
+
+  defp check_transaction(ad, buyer) do
     with {:ok, _ad} <- check_money(ad, buyer),
          {:ok, _ad} <- check_ownership(ad, buyer),
-         {:ok, transaction} <-
+         {:ok, _profile} <- check_time(buyer, @ad_cooldown_in_seconds) do
+      {:ok, ad}
+    else
+      error -> error
+    end
+  end
+
+  defp handle_transaction(ad, owner, buyer) do
+    with {:ok, transaction} <-
            Points.create_transaction_no_notification(buyer, owner, %{
              note: "Ad Purchase",
              amount: ad.price
@@ -38,6 +57,34 @@ defmodule Shlinkedin.Ads do
       {:ok, ad}
     else
       error -> error
+    end
+  end
+
+  @doc """
+  Gets the last buys in the given timeframe (defaults to past hour).
+  """
+  def last_buy_timeframe(%Profile{id: profile_id}, sec_ago) do
+    time = NaiveDateTime.utc_now() |> NaiveDateTime.add(sec_ago, :second)
+
+    Repo.one(
+      from(o in Owner,
+        where: o.profile_id == ^profile_id and o.inserted_at >= ^time,
+        order_by: [desc: o.inserted_at],
+        limit: 1
+      )
+    )
+  end
+
+  def check_time(%Profile{} = profile, sec_ago \\ @ad_cooldown_in_seconds) do
+    case last_buy_timeframe(profile, sec_ago) do
+      nil ->
+        {:ok, profile}
+
+      last_buy ->
+        diff = NaiveDateTime.diff(NaiveDateTime.utc_now(), last_buy.inserted_at)
+
+        {:error,
+         "Right now you can buy 1 ad per hour. Cooldown ends in #{abs(@ad_cooldown_in_seconds) - diff} seconds."}
     end
   end
 
@@ -122,6 +169,19 @@ defmodule Shlinkedin.Ads do
     Repo.all(from(a in Ad, where: a.profile_id == ^profile.id, preload: [:adlikes, :profile]))
   end
 
+  @doc """
+  List unique ad clicks given an ad
+  """
+  def count_unique_ad_clicks_for_ad(%Ad{} = ad) do
+    Repo.aggregate(
+      from(c in Click,
+        where: c.ad_id == ^ad.id,
+        distinct: c.profile_id
+      ),
+      :count
+    )
+  end
+
   def list_unique_ad_clicks(%Profile{} = profile) do
     Repo.all(
       from(a in Ad,
@@ -154,7 +214,7 @@ defmodule Shlinkedin.Ads do
         order_by: fragment("RANDOM()"),
         preload: :profile,
         preload: :adlikes,
-        where: not is_nil(a.media_url) or not is_nil(a.gif_url)
+        where: (not is_nil(a.media_url) or not is_nil(a.gif_url)) and not a.removed
       )
     )
   end
@@ -166,7 +226,7 @@ defmodule Shlinkedin.Ads do
         order_by: fragment("RANDOM()"),
         preload: :profile,
         preload: :adlikes,
-        where: a.removed == false
+        where: (not is_nil(a.media_url) or not is_nil(a.gif_url)) and a.removed == false
       )
     )
   end
@@ -194,7 +254,7 @@ defmodule Shlinkedin.Ads do
   def get_ad!(id), do: Repo.get!(Ad, id)
 
   @doc """
-  Creates a ad.
+  Creates a ad, assuming person has enough SPs.
 
   ## Examples
 
@@ -205,20 +265,38 @@ defmodule Shlinkedin.Ads do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_ad(%Profile{} = profile, %Ad{} = ad, attrs \\ %{}, after_save \\ &{:ok, &1}) do
+  def create_ad(
+        %Profile{} = profile,
+        %Ad{} = ad,
+        attrs \\ %{},
+        after_save \\ &{:ok, &1}
+      ) do
     ad = %{ad | profile_id: profile.id}
 
     ad
     |> Ad.changeset(attrs)
+    |> Ad.validate_affordable()
     |> Repo.insert()
     |> after_save(after_save)
   end
 
-  def create_ad_click(%Ad{profile: ad_profile} = ad, %Profile{} = profile, attrs \\ %{}) do
+  @doc """
+  Takes a price string and returns the cost of the ad, in %Money{} form.
+
+  Examples
+  iex> calc_ad_cost("500")
+  %Money{amount: 250, :SHLINK}
+  """
+  def calc_ad_cost(price) do
+    (price.amount * 0.5)
+    |> trunc()
+    |> Money.new(:SHLINK)
+  end
+
+  def create_ad_click(%Ad{} = ad, %Profile{} = profile, attrs \\ %{}) do
     %Click{ad_id: ad.id, profile_id: profile.id}
     |> Click.changeset(attrs)
     |> Repo.insert()
-    |> ProfileNotifier.observer(:ad_click, profile, ad_profile)
   end
 
   @doc """
