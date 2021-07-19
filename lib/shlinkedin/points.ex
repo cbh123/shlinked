@@ -211,6 +211,13 @@ defmodule Shlinkedin.Points do
     Shlinkedin.Profiles.get_profile_by_profile_id(id).points
   end
 
+  @doc """
+  Transfers wealth from one profile to another. Note that it's designed to use
+  as part of a changeset, which is why it takes in {:ok, %Transaction{}} and
+  returns:
+
+  {:ok, transaction} | {:error, changeset}
+  """
   def transfer_wealth(
         {:ok,
          %Transaction{from_profile_id: from, to_profile_id: to, amount: amount} = transaction}
@@ -245,7 +252,7 @@ defmodule Shlinkedin.Points do
     # update profile
     Shlinkedin.Profiles.update_profile(profile, %{points: new_balance})
 
-    # get god, but if it doesn't exist, just use the profile
+    # get god
     god_profile =
       Shlinkedin.Profiles.get_profile_by_username("god")
       |> get_god_profile()
@@ -254,6 +261,36 @@ defmodule Shlinkedin.Points do
       from_profile_id: god_profile.id,
       to_profile_id: profile.id,
       amount: amount,
+      note: note
+    }
+    |> Transaction.changeset(%{})
+    |> Repo.insert()
+  end
+
+  @doc """
+  Generates wealth out of thin air, but takes in an amount rather
+  than a rule. *Assumes that a check has already been made that transaction is possible*
+
+  ## Example
+  iex> generate_wealth(%Profile{}, %Money{})
+  {:ok, %Transaction{}}
+  """
+  def generate_wealth_given_amount(%Profile{} = profile, %Money{} = money, note) do
+    balance = get_balance(profile)
+    new_balance = Money.add(balance, money)
+
+    # update profile
+    Shlinkedin.Profiles.update_profile(profile, %{points: new_balance})
+
+    # get god
+    god_profile =
+      Shlinkedin.Profiles.get_profile_by_username("god")
+      |> get_god_profile()
+
+    %Transaction{
+      from_profile_id: god_profile.id,
+      to_profile_id: profile.id,
+      amount: money.amount,
       note: note
     }
     |> Transaction.changeset(%{})

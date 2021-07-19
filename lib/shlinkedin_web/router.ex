@@ -204,6 +204,7 @@ defmodule ShlinkedinWeb.Router do
 
     # marketplace
     live "/marketplace", MarketLive.Index, :index
+    live "/marketplace/ads/new", MarketLive.Index, :new_ad
   end
 
   scope "/", ShlinkedinWeb do

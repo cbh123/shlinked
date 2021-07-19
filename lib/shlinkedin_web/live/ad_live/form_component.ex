@@ -123,7 +123,6 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
 
   defp cost(changeset) do
     Ecto.Changeset.get_field(changeset, :price)
-    |> Map.get(:amount)
     |> Ads.calc_ad_cost()
   end
 end

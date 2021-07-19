@@ -88,8 +88,8 @@
 
 
         <%# Show add gif button, but if there's a gif then option to choose a new one %>
-        <button type="button" phx-click="add-gif" phx-target="<%=@myself %>"
-            phx-disable-with="Loading..."
+        <button id="add-gif" type="button" phx-click="add-gif"
+            phx-target="<%=@myself %>" phx-disable-with="Loading..."
             class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
             🖼️
             <%= if @gif_url == nil, do: "Add Gif", else: "Choose new Gif" %></button>
@@ -158,6 +158,9 @@
         <%= @cost %>
     </p>
 
+    <p class="text-gray-500 mt-2">Your balance:
+        <%= @profile.points %>
+    </p>
 
 
 

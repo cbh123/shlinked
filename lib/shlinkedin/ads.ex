@@ -15,6 +15,28 @@ defmodule Shlinkedin.Ads do
   @ad_cooldown_in_seconds -3
 
   @doc """
+  Lists ads given criteria
+  """
+  def list_ads(criteria) do
+    query = from(a in Ad)
+
+    paged_query = paginate(query, criteria)
+
+    from(p in paged_query)
+    |> Repo.all()
+  end
+
+  defp paginate(query, criteria) do
+    Enum.reduce(criteria, query, fn
+      {:paginate, %{page: page, per_page: per_page}}, query ->
+        from q in query, offset: ^((page - 1) * per_page), limit: ^per_page
+
+      {:sort, %{sort_by: sort_by, sort_order: sort_order}}, query ->
+        from q in query, order_by: [{^sort_order, ^sort_by}]
+    end)
+  end
+
+  @doc """
   Buys an Ad. Everytime an ad is bought:
     - check that you don't already own
     - check that you have enough money
@@ -283,9 +305,14 @@ defmodule Shlinkedin.Ads do
   @doc """
   Takes a price string and returns the cost of the ad, in %Money{} form.
 
-  Examples
+  ## Returns
+  %Money{}
+
+  ## Examples
+  ```
   iex> calc_ad_cost("500")
   %Money{amount: 250, :SHLINK}
+  ```
   """
   def calc_ad_cost(price) do
     (price.amount * 0.5)

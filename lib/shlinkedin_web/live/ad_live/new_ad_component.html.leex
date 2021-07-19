@@ -23,6 +23,7 @@
                 <span><%= count_unique_ad_clicks(@ad) %></span>
             </div>
             <div class="w-1/2 flex items-center flex-row-reverse">
+                <span><%= @ad.price %></span>
             </div>
         </div>
 
@@ -108,7 +109,7 @@
             <%# there is an owner and it's not you %>
             <% is_sold?(@ad) and @ad.owner_id != @profile.id -> %>
             <button type="button" phx-value-owner-id="<%=@ad.owner_id%>"
-                phx-target="<%= @myself %>" phx-click="donate"
+                phx-target="<%= @myself %>" phx-click="view"
                 class="truncate bg-white border border-gray-200 shadow-sm text-gray-500 w-full items-center px-4 py-2 text-sm font-medium rounded-full hover:bg-gray-50">
                 Visit
             </button>

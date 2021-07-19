@@ -16,7 +16,7 @@ defmodule ShlinkedinWeb.AdLive.NewAdComponent do
      )}
   end
 
-  def handle_event("view", %{"profile-id" => profile_id}, socket) do
+  def handle_event("view", %{"owner-id" => profile_id}, socket) do
     profile = Shlinkedin.Profiles.get_profile_by_profile_id(profile_id)
     {:noreply, socket |> push_redirect(to: Routes.profile_show_path(socket, :show, profile.slug))}
   end

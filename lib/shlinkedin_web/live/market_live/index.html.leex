@@ -1,3 +1,14 @@
+    <%= if @live_action in [:new_ad, :edit_ad] do %>
+    <%= live_modal @socket, ShlinkedinWeb.AdLive.FormComponent,
+    id: @ad.id || :new,
+    title: @page_title,
+    action: @live_action,
+    profile: @profile,
+    ad: @ad,
+    return_to: Routes.market_index_path(@socket, :index) %>
+    <% end %>
+
+
     <div class="py-8 bg-white">
         <header>
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -44,9 +55,22 @@
                 <div class="px-4 py-6 sm:px-0">
 
                     <%= if @curr_category == "Ads" do %>
+                    <div class="flex justify-between">
 
-                    <div class="align-middle">
-                        <%= live_patch to: Routes.home_index_path(@socket, :new_ad) do %>
+                        <%= _f =  form_for :category, "#", [phx_change: :sort_ads] %>
+
+                        <label for="sort-ads"
+                            class="text-sm font-medium text-gray-700 mr-3">Sort
+                            By</label>
+                        <select id="sort-ads" name="sort-ads"
+                            class="mt-1 inline-block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                            <option>Creation Date</option>
+                            <option>Price</option>
+                        </select>
+                        </form>
+
+
+                        <%= live_patch to: Routes.market_index_path(@socket, :new_ad) do %>
                         <button type="button"
                             class="flex max-w-sm mx-auto items-center px-6 py-3 text-xl font-extrabold rounded-full text-white bg-gradient-to-tr from-indigo-600 to-blue-500 hover:from-indigo-500 hover:to-blue-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                             +
@@ -56,8 +80,13 @@
                         <% end %>
                     </div>
 
-                    <ul role="list"
+
+
+                    <ul role="list" id="ads" phx-hook="InfiniteScroll"
+                        phx-update="<%= @update_action %>"
+                        data-page="<%= @page %>"
                         class=" grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 xl:gap-x-8">
+
 
                         <%= for ad <- @ads do %>
                         <%= unless ad.removed do %>

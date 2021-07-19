@@ -67,20 +67,25 @@ defmodule Shlinkedin.Ads.Ad do
   """
   def validate_affordable(
         %Ecto.Changeset{
-          data: %Ad{profile_id: profile_id}
+          data: %Ad{profile_id: profile_id, product: product}
         } = changeset
       ) do
     validate_change(changeset, :price, fn
       :price, price ->
-        balance = Shlinkedin.Points.get_balance(%Profile{id: profile_id})
+        profile = Shlinkedin.Profiles.get_profile_by_profile_id(profile_id)
         cost = Ads.calc_ad_cost(price)
 
-        if Money.compare(balance, cost) < 0 do
-          [price: "Not enough balance. You have #{balance}."]
+        if Money.compare(profile.points, cost) < 0 do
+          [price: "You cannot afford to make this for #{cost}. You have #{profile.points}."]
         else
-          raise("Here is where we actually need to take away the SPs!")
+          negative_cost = negative_money(cost)
+          Points.generate_wealth_given_amount(profile, negative_cost, "Creating #{product}")
           []
         end
     end)
+  end
+
+  defp negative_money(%Money{amount: amount} = money) do
+    %{money | amount: -amount}
   end
 end

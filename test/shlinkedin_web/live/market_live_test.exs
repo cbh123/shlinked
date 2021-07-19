@@ -12,26 +12,43 @@ defmodule ShlinkedinWeb.MarketLiveTest do
   end
 
   test "create an ad", %{conn: conn, profile: profile} do
-    {:ok, view, _html} = conn |> live("/home")
+    {:ok, view, _html} = conn |> live("/marketplace")
 
-    assert view |> element("a", "Create Ad") |> render_click() =~
-             "Create Ad"
+    assert view |> element("a", "New Ad") |> render_click() =~
+             "Create an Ad"
 
-    assert_patch(view, Routes.home_index_path(conn, :new_ad))
+    assert_patch(view, Routes.market_index_path(conn, :new_ad))
 
-    # check that changing quantity changes cost to create
-    view |> form("#ad-form") |> render_change(%{quantity: 5}) =~ "125.0"
-    view |> form("#ad-form") |> render_change(%{quantity: 2, price: "1000"}) =~ "500.0"
+    # at first add gif doens't work
+    assert view |> element("#add-gif") |> render_click() =~ "Pls enter a product name first!"
+    assert view |> form("#ad-form") |> render_change(ad: %{"product" => "Snapchat"}) =~ "Snapchat"
+
+    # check that changing price changes cost to create
+    assert view |> form("#ad-form") |> render_change(ad: %{price: Money.new(30000, :SHLINK)}) =~
+             "150.00"
+
+    assert view |> form("#ad-form") |> render_change(ad: %{price: Money.new(25000, :SHLINK)}) =~
+             "125.00"
+
     assert profile.points.amount == 100
+
+    view |> form("#ad-form") |> render_change(ad: %{"product" => "Snapchat"})
+    view |> element("#add-gif") |> render_click()
+
+    assert view
+           |> form("#ad-form",
+             ad: %{
+               body: "micromisoft",
+               product: "snapchat"
+             }
+           )
+           |> render_submit() =~ "be blank"
 
     {:ok, view, html} =
       view
       |> form("#ad-form",
         ad: %{
-          body: "micromisoft",
-          company: "facebook",
-          product: "computer",
-          price: "1000"
+          body: "micromisoft"
         }
       )
       |> render_submit()

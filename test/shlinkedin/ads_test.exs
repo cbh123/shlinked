@@ -56,7 +56,7 @@ defmodule Shlinkedin.AdsTest do
 
       profile = Profiles.get_profile_by_profile_id(rich_profile.id)
       assert ad.price == Money.new(50000, :SHLINK)
-      assert profile.points.amount == 100_000 - 250
+      assert profile.points.amount == 75000
       assert ad.company == "facebook"
       assert ad.gif_url == "test"
     end
@@ -116,7 +116,8 @@ defmodule Shlinkedin.AdsTest do
       {:error, _message} = Ads.check_money(new_ad, profile)
     end
 
-    test "test buy_ad success", %{profile: buyer} do
+    test "test buy_ad success", %{} do
+      buyer = profile_fixture()
       creator = profile_fixture()
       ad = ad_fixture(creator)
       # presets
@@ -150,33 +151,35 @@ defmodule Shlinkedin.AdsTest do
       {:error, _changeset} = Ads.buy_ad(ad, profile)
     end
 
-    test "test buy_ad a second time success", %{profile: profile} do
-      random_profile = profile_fixture()
-      ad = ad_fixture(random_profile)
+    test "test buy_ad a second time success", %{} do
+      profile = profile_fixture()
+      other_profile = profile_fixture()
+      ad = ad_fixture(other_profile)
+
       # presets
       assert Shlinkedin.Points.list_transactions(profile) |> length() == 0
       assert Ads.get_ad_owner(ad).id != profile.id
 
       # buy ad
       {:ok, ad} = Ads.buy_ad(ad, profile)
-      random_profile = Shlinkedin.Profiles.get_profile_by_profile_id(random_profile.id)
-      assert random_profile.points.amount == 200
+      other_profile = Shlinkedin.Profiles.get_profile_by_profile_id(other_profile.id)
+      assert other_profile.points.amount == 150
       assert ad.owner_id == profile.id
 
       # og profile buys it back
-      {:ok, ad} = Ads.buy_ad(ad, random_profile)
-      new_random_profile = Shlinkedin.Profiles.get_profile_by_profile_id(random_profile.id)
-      assert Shlinkedin.Points.list_transactions(random_profile) |> length() == 2
-      assert Ads.get_ad_owner(ad).id == new_random_profile.id
-      assert ad.owner_id == new_random_profile.id
-      assert new_random_profile.points.amount == random_profile.points.amount - ad.price.amount
+      {:ok, ad} = Ads.buy_ad(ad, other_profile)
+      new_other_profile = Shlinkedin.Profiles.get_profile_by_profile_id(other_profile.id)
+      assert Shlinkedin.Points.list_transactions(other_profile) |> length() == 3
+      assert Ads.get_ad_owner(ad).id == new_other_profile.id
+      assert ad.owner_id == new_other_profile.id
+      assert new_other_profile.points.amount == other_profile.points.amount - ad.price.amount
 
       [last_notification] = Profiles.list_notifications(profile.id, 1)
       assert last_notification.to_profile_id == profile.id
-      assert last_notification.from_profile_id == new_random_profile.id
+      assert last_notification.from_profile_id == new_other_profile.id
 
       assert last_notification.action ==
-               "#{new_random_profile.persona_name} bought your ad for '#{ad.product}' for #{ad.price}"
+               "#{new_other_profile.persona_name} bought your ad for '#{ad.product}' for #{ad.price}"
     end
 
     test "test last buy", %{} do
