@@ -73,13 +73,30 @@ defmodule Shlinkedin.Ads.Ad do
     validate_change(changeset, :price, fn
       :price, price ->
         profile = Shlinkedin.Profiles.get_profile_by_profile_id(profile_id)
-        cost = Ads.calc_ad_cost(price)
+        {:ok, cost} = Ads.calc_ad_cost(price)
 
         if Money.compare(profile.points, cost) < 0 do
           [price: "You cannot afford to make this for #{cost}. You have #{profile.points}."]
         else
           negative_cost = negative_money(cost)
           Points.generate_wealth_given_amount(profile, negative_cost, "Creating #{product}")
+          []
+        end
+    end)
+  end
+
+  @doc """
+  Validates that ad price is greater than zero
+  """
+  def validate_price_not_negative(%Ecto.Changeset{} = changeset) do
+    validate_change(changeset, :price, fn
+      :price, price ->
+        {:ok, cost} = Ads.calc_ad_cost(price)
+        IO.inspect(cost, label: "")
+
+        if cost.amount <= 0 do
+          [price: "Price cannot be negative"]
+        else
           []
         end
     end)
