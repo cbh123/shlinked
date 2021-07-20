@@ -149,8 +149,6 @@ defmodule Shlinkedin.Points do
         :ad_like,
         ad
       ) do
-    IO.inspect(binding())
-
     if ad.profile_id != from_profile.id do
       generate_wealth(to_profile, :ad_like)
     else

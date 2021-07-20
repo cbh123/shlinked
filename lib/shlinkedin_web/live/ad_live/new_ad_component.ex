@@ -38,14 +38,8 @@ defmodule ShlinkedinWeb.AdLive.NewAdComponent do
     {:noreply, socket |> push_redirect(to: Routes.ad_show_path(socket, :show, id))}
   end
 
-  def handle_event("success-off", _, socket) do
-    IO.puts("anything here?")
-    socket = assign(socket, success: false)
-    {:noreply, socket}
-  end
-
-  def handle_event("success-on", _, socket) do
-    socket = assign(socket, success: true)
+  def handle_event("toggle-success", _, socket) do
+    socket = assign(socket, success: !socket.assigns.success)
     {:noreply, socket}
   end
 
@@ -126,9 +120,9 @@ defmodule ShlinkedinWeb.AdLive.NewAdComponent do
         String.replace(acc, "%{#{key}}", to_string(value))
       end)
     end)
-    |> Enum.reduce("", fn {k, v}, acc ->
+    |> Enum.map(fn {_k, v} ->
       joined_errors = Enum.join(v, "; ")
-      "#{acc}#{k}: #{joined_errors}\n"
+      "#{joined_errors}\n"
     end)
   end
 

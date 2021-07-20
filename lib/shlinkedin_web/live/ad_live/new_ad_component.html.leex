@@ -1,4 +1,4 @@
-<div class="shadow-lg relative rounded-lg my-3" id="@ad-<%=@ad.id%>">
+<div class="shadow-lg relative rounded-lg my-3" id="ad-component-<%=@ad.id%>">
 
     <button id="ad-image-<%=@ad.id%>" phx-click="ad-click"
         phx-value-id="<%=@ad.id%>" phx-target="<%=@myself%>"
@@ -51,16 +51,16 @@
     </button>
 
     <%= if @error do %>
-    <div class="text-center mt-4">
+    <div class="text-center my-4">
         <p class="text-red-500 font-bold text-sm px-3"><%= @error %></p>
     </div>
     <% end %>
 
 
-    <div class="px-3 pb-3 bg-white rounded-b-lg">
+    <div class="pt-2 px-3 pb-3 bg-white rounded-b-lg">
         <div>
             <p
-                class="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">
+                class="block text-sm font-medium text-gray-900 truncate pointer-events-none">
                 <%= @ad.product %></p>
 
 
@@ -78,10 +78,8 @@
         <% end %>
 
 
-
         <%= unless @type == :profile do %>
         <div class="flex self-end mt-4 space-x-2">
-
 
 
             <%= cond do  %>
@@ -140,48 +138,26 @@
     </div>
 </div>
 
+<%= if @type == :show do %>
+<div class="text-center">
+    <%= if @ad.profile_id == @profile.id or @profile.admin do %>
+
+    <%= live_patch "Edit • ", to: Routes.market_index_path(@socket, :edit_ad, @ad.id), class: "text-xs text-gray-600 hover:underline"  %>
+    <button class="text-xs text-gray-600 hover:underline" phx-click="censor-ad"
+        phx-value-id="<%=@ad.id%>" data-confirm="Are you sure?"
+        phx-target="<%=@myself%>">Remove</button>
+    <% end %>
+</div>
+<% end %>
+
 
 <%= if @success == true do %>
-<div
-    class="<%= if @success == false, do: "hidden", else: "fixed z-10 inset-0 overflow-y-auto bg-gradient-to-r from-blue-400 to-green-500 text-6xl" %>">
-    <div class="items-start text-center p-10">
 
-
-        <div class="inline-flex">
-
-            <span class="">🎉</span>
-            <h5 class="text-5xl font-extrabold text-white animate-bounce">
-                Congratulations!
-
-            </h5>
-            <span class="">🎉</span>
-        </div>
-
-        <div class="mt-4">
-            <h5 class="text-xl text-white font-extrabold"> You are now the
-                proud
-                owner of '<%=@bought_ad.product %>'. It will now be
-                displayed
-                on
-                your
-                <%= live_redirect "profile", to: Routes.profile_show_path(@socket, :show, @profile.slug), class: "underline" %>.
-            </h5>
-        </div>
-
-        <img src=" <%= if is_nil(@bought_ad.media_url), do: @bought_ad.gif_url, else: @bought_ad.media_url %>"
-            alt=""
-            class="m-10 max-w-lg border-white border-2 rounded-md shadow mx-auto">
-
-
-
-
-        <div class="text-center w-full">
-            <button phx-click="success-off" phx-target="<%= @myself %>"
-                class="bg-gradient-to-r from-teal-400 to-blue-500 hover:from-pink-700 hover:to-orange-600 text-white font-semibold px-6 py-3 rounded text-2xl md:text-4xl">
-                &larr; Return
-            </button>
-        </div>
-    </div>
-
-</div>
+<%= live_component @socket, ShlinkedinWeb.AdLive.SuccessComponent,
+                            bought_ad: @bought_ad,
+                            id: "success-#{@bought_ad.id}",
+                            success: @success,
+                            parent_id: "ad-component-#{@ad.id}",
+                            profile: @profile
+                        %>
 <% end %>

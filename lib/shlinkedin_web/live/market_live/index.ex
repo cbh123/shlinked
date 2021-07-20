@@ -44,12 +44,18 @@ defmodule ShlinkedinWeb.MarketLive.Index do
     |> assign(:ad, %Ad{})
   end
 
+  defp apply_action(socket, :edit_ad, %{"id" => id}) do
+    socket
+    |> assign(:page_title, "Edit Ad")
+    |> assign(:ad, Ads.get_ad_preload_profile!(id))
+  end
+
   defp apply_action(socket, :index, _params) do
     socket
     |> assign(:page_title, "ShlinkMarket")
   end
 
-  def handle_event("sort_ads", %{"sort-ads" => "Creation Date"}, socket) do
+  def handle_event("sort_ads", %{"sort-ads" => "Sort by Creation Date"}, socket) do
     sort_options = %{sort_by: :inserted_at, sort_order: :desc}
 
     {:noreply,
@@ -58,7 +64,7 @@ defmodule ShlinkedinWeb.MarketLive.Index do
      |> fetch_ads()}
   end
 
-  def handle_event("sort_ads", %{"sort-ads" => "Price"}, socket) do
+  def handle_event("sort_ads", %{"sort-ads" => "Sort by Price"}, socket) do
     sort_options = %{sort_by: :price, sort_order: :desc}
 
     {:noreply,
