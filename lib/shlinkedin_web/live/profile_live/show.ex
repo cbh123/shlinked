@@ -3,9 +3,9 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   alias Shlinkedin.Timeline
   alias Shlinkedin.Timeline.Comment
   alias Shlinkedin.Profiles
-  alias Shlinkedin.Profiles.Endorsement
-  alias Shlinkedin.Profiles.Testimonial
+  alias Shlinkedin.Profiles.{Endorsement, Testimonial}
   alias Shlinkedin.Points.Transaction
+  alias Shlinkedin.Ads
   alias Shlinkedin.{Chat, Chat.Conversation}
 
   @impl true
@@ -52,6 +52,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(checklist: Shlinkedin.Levels.get_current_checklist(show_profile, socket))
      |> assign(num_profile_views: Profiles.get_profile_views_not_yourself(show_profile))
      |> assign(wealth_ranking: Profiles.get_ranking(show_profile, 50, "Wealth"))
+     |> assign(stuff: Ads.list_owned_ads(show_profile))
      |> assign(testimonials: list_testimonials(show_profile.id)), temporary_assigns: [posts: []]}
   end
 
@@ -391,6 +392,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
 
   defp conversation_members_format(profile_ids) do
     profile_ids
+    |> Enum.sort()
     |> Enum.with_index()
     |> Enum.map(fn {id, i} -> {to_string(i), %{"profile_id" => id}} end)
     |> Enum.into(%{})

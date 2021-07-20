@@ -220,7 +220,7 @@ defmodule Shlinkedin.Timeline do
     end
   end
 
-  def paginate(query, criteria) do
+  defp paginate(query, criteria) do
     Enum.reduce(criteria, query, fn {:paginate, %{page: page, per_page: per_page}}, query ->
       from(q in query, offset: ^((page - 1) * per_page), limit: ^per_page)
     end)

@@ -23,19 +23,18 @@ defmodule ShlinkedinWeb.AdLive.Show do
     ~L"""
     <div class=" max-w-lg mx-auto mt-8 text-center">
 
-    <%= live_redirect raw("&larr; Back to Feed"), to: Routes.home_index_path(@socket, :index),
-    class: " inline-flex mx-auto hover:bg-gray-200  px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-900 "
-    %>
-
+    <%= live_redirect raw("&larr; ShlinkMarket"), to: Routes.market_index_path(@socket, :index), class: " inline-flex mx-auto hover:bg-gray-200  px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-900"%>
     </div>
 
-    <div class="mt-8 relative bg-white shadow-lg sm:max-w-lg mx-auto sm:rounded-lg p-4 mb-2 pb-2">
-
-    <%= live_component @socket, ShlinkedinWeb.AdLive.AdComponent,
+    <div class="mt-3 mx-auto sm:rounded-lg max-w-lg p-5">
+    <ul>
+    <%= live_component @socket, ShlinkedinWeb.AdLive.NewAdComponent,
     ad: @ad,
-    id: "feed-ad-#{@ad.id}-#{:rand.uniform(10000)}",
-    profile: @profile
+    id: "ad-#{@ad.id}",
+    profile: @profile,
+    type: :show
     %>
+    </ul>
 
     </div>
     """
