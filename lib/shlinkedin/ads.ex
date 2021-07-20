@@ -110,13 +110,13 @@ defmodule Shlinkedin.Ads do
     end
   end
 
-  def check_money(%Ad{price: price} = ad, %Profile{points: points})
-      when points.amount >= price.amount,
-      do: {:ok, ad}
-
-  def check_money(%Ad{price: price}, %Profile{points: points})
-      when points.amount < price.amount,
-      do: {:error, "You are too poor"}
+  def check_money(%Ad{price: price} = ad, %Profile{points: points}) do
+    if points.amount >= price.amount do
+      {:ok, ad}
+    else
+      {:error, "You are too poor"}
+    end
+  end
 
   @doc """
   Get all stuff that profile owns.
@@ -128,11 +128,13 @@ defmodule Shlinkedin.Ads do
   @doc """
   Check to see if profile already owns ad.
   """
-  def check_ownership(%Ad{} = ad, %Profile{} = profile) when ad.owner_id == profile.id,
-    do: {:error, "You cannot own more than 1 of an ad, you greedy capitalist!"}
-
-  def check_ownership(%Ad{} = ad, %Profile{} = profile) when ad.owner_id != profile.id,
-    do: {:ok, ad}
+  def check_ownership(%Ad{} = ad, %Profile{} = profile) do
+    if ad.owner_id == profile.id do
+      {:error, "You cannot own more than 1 of an ad, you greedy capitalist!"}
+    else
+      {:ok, ad}
+    end
+  end
 
   @doc """
   Gets ownership record for ad / profile combination.
