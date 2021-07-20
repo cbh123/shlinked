@@ -12,7 +12,7 @@ defmodule Shlinkedin.Ads do
   alias Shlinkedin.Points.Transaction
   alias Shlinkedin.Points
 
-  @ad_cooldown_in_seconds -3000
+  @ad_cooldown_in_seconds -3600
 
   @doc """
   Lists ads given criteria
