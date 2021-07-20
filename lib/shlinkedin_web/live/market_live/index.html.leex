@@ -55,19 +55,25 @@
                 <div class="px-4 py-6 sm:px-0">
 
                     <%= if @curr_category == "Ads" do %>
-                    <div class="flex justify-between">
+                    <div class="flex justify-between mb-3">
 
-                        <%= _f =  form_for :category, "#", [phx_change: :sort_ads] %>
+                        <div>
 
-                        <label for="sort-ads"
-                            class="text-sm font-medium text-gray-700 mr-3">Sort
-                            By</label>
-                        <select id="sort-ads" name="sort-ads"
-                            class="mt-1 inline-block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                            <option>Creation Date</option>
-                            <option>Price</option>
-                        </select>
-                        </form>
+
+                            <div class="inline-flex">
+
+                                <%= _f =  form_for :category, "#", [phx_change: :sort_ads] %>
+
+                                <select id="sort-ads" name="sort-ads"
+                                    class="mt-1 inline-block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                    <option>Sort by Creation Date</option>
+                                    <option>Sort by Price</option>
+                                </select>
+                                </form>
+                            </div>
+
+
+                        </div>
 
 
                         <%= live_patch to: Routes.market_index_path(@socket, :new_ad) do %>
@@ -90,8 +96,7 @@
 
                         <%= for ad <- @ads do %>
                         <%= unless ad.removed do %>
-                        <%= live_component @socket, ShlinkedinWeb.AdLive.NewAdComponent,
-                            ad: ad,
+                        <%= live_component @socket, ShlinkedinWeb.AdLive.NewAdComponent, ad: ad,
                             id: "ad-#{ad.id}",
                             profile: @profile,
                             type: :market
