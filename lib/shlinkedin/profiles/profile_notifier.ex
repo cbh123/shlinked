@@ -9,7 +9,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   alias Shlinkedin.Groups.Invite
   alias Shlinkedin.Points.Transaction
   alias Shlinkedin.Points
-  alias Shlinkedin.Ads.AdLike
+  alias Shlinkedin.Ads.{AdLike, Ad}
+  alias Shlinkedin.Ads
 
   @doc """
   Deliver instructions to confirm account.
@@ -60,9 +61,6 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       :jab ->
         notify_jab(from_profile, to_profile, type)
 
-      :ad_click ->
-        notify_ad_click(from_profile, to_profile, res, type)
-
       :ad_like ->
         notify_ad_like(from_profile, to_profile, res, type)
 
@@ -74,6 +72,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
       :sent_transaction ->
         notify_sent_points(from_profile, to_profile, res, type)
+
+      :ad_buy ->
+        notify_ad_buy(from_profile, to_profile, res, type)
     end
 
     {:ok, res}
@@ -84,6 +85,60 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       # can be nil
       {:ok, _txn} = Points.point_observer(from, to, type, res)
     end
+  end
+
+  def notify_ad_buy(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile,
+        %Ad{} = ad,
+        _type
+      ) do
+    owner_record = Ads.get_owner_record(ad, from_profile)
+    transaction = Points.get_transaction!(owner_record.transaction_id)
+
+    Shlinkedin.Profiles.create_notification(%Notification{
+      from_profile_id: from_profile.id,
+      to_profile_id: to_profile.id,
+      type: "ad_buy",
+      ad_id: ad.id,
+      action:
+        "#{from_profile.persona_name} bought your ad for '#{ad.product}' for #{transaction.amount}"
+    })
+
+    if to_profile.unsubscribed == false and from_profile.id != to_profile.id do
+      ranking = Shlinkedin.Profiles.get_ranking(to_profile, 100_000, "Wealth")
+
+      body = """
+
+      Hi #{to_profile.persona_name}.
+
+      <br/>
+      <br/>
+
+      #{from_profile.persona_name} has bought your ad for
+
+      <a href="https://www.shlinkedin.com/ads/#{ad.id}">#{ad.product}</a> for #{transaction.amount}!
+
+      <br/>
+      <br/>
+      Believe it or not, with you now are the <a href="https://www.shlinkedin.com/leaders?curr_category=Wealth">#{Ordinal.ordinalize(ranking)}</a> wealthiest person on ShlinkedIn.
+
+      <br/>
+      <br/>
+      Thanks, <br/>
+      ShlinkTeam
+
+      """
+
+      Shlinkedin.Email.new_email(
+        to_profile.user.email,
+        "You made a sale!",
+        body
+      )
+      |> Shlinkedin.Mailer.deliver_later()
+    end
+
+    {:ok, ad}
   end
 
   def notify_group_invite(
@@ -407,14 +462,6 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     end
   end
 
-  def notify_ad_click(
-        %Profile{} = _from_profile,
-        %Profile{} = _to_profile,
-        %Shlinkedin.Ads.Click{} = _click,
-        _type
-      ) do
-  end
-
   def notify_testimonial(
         %Profile{} = from_profile,
         %Profile{} = to_profile,
@@ -601,8 +648,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
 
-    We are excited to inform you that your post has been awarded
-     <a href="https://www.shlinkedin.com/posts/#{post.id}">post of the day!</a>!!!
+    We are excited to inform you that your <a href="https://www.shlinkedin.com/home/show/posts/#{post.id}">post</a> has been featured!!!
      Your reward is +#{Points.get_rule_amount(type)}.
 
     <br/>
@@ -630,7 +676,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     end
   end
 
-  def notify_profile_badge(%Profile{} = to_profile, badge, type) do
+  def notify_profile_badge(%Profile{} = to_profile, badge, _type) do
     body = """
 
     Hi #{to_profile.persona_name},
@@ -717,7 +763,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         %Profile{} = from_profile,
         %Profile{} = to_profile,
         %Comment{} = comment,
-        type
+        _type
       ) do
     for username <- comment.profile_tags do
       to_profile = Shlinkedin.Profiles.get_profile_by_username(username)

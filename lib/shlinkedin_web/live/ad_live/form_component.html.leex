@@ -10,26 +10,17 @@
     </h3>
 </div>
 
+
 <div class="mt-1 p-5">
 
 
     <div class="sm:flex">
-        <div>
-            <%= label f, "What's the company name?", class: "block text-sm font-medium text-gray-700" %>
-            <%= text_input f, :company, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 inline-block sm:text-sm border-gray-300 rounded-md px-3", placeholder: "Micromicrosoft" %>
-
-        </div>
-
-        <div class="mt-2 sm:mt-0 sm:ml-3">
+        <div class="">
             <%= label f, "What product are you selling?", class: "block text-sm font-medium text-gray-700" %>
             <%= text_input f, :product, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 inline-block sm:text-sm border-gray-300 rounded-md px-3", placeholder: "Teeny Comper" %>
-            <%= error_tag f, :product %>
+            <p class="text-xs"><%= error_tag f, :product %></p>
         </div>
     </div>
-
-    <span class="text-xs">
-        <%= error_tag f, :company %>
-    </span>
 
     <div class="mt-6">
         <%= label f, "What's the ad copy?", class: "block text-sm font-medium text-gray-700" %>
@@ -37,7 +28,9 @@
         <p class="mt-4 text-xs"><%= error_tag f, :body %></p>
 
         <%# Error for gif %>
-        <span class="text-red-500 font-semibold italic text-xs"><%= @gif_error %></span>
+        <p class="mt-4 text-red-500 font-semibold italic text-xs">
+            <%= @gif_error %>
+        </p>
 
     </div>
 
@@ -61,7 +54,8 @@
             <span>📷 Photo / Video</span>
         </label>
         <% [entry | _] -> %>
-        <button phx-click="cancel-entry" phx-value-ref="<%= entry.ref %>" type="button" phx-target="<%= @myself %>"
+        <button phx-click="cancel-entry" phx-value-ref="<%= entry.ref %>"
+            type="button" phx-target="<%= @myself %>"
             class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
             Remove photo</button>
 
@@ -95,15 +89,18 @@
 
 
         <%# Show add gif button, but if there's a gif then option to choose a new one %>
-        <button type="button" phx-click="add-gif" phx-target="<%=@myself %>" phx-disable-with="Loading..."
+        <button id="add-gif" type="button" phx-click="add-gif"
+            phx-target="<%=@myself %>" phx-disable-with="Loading..."
             class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-            🖼️ <%= if @gif_url == nil, do: "Add Gif", else: "Choose new Gif" %></button>
+            🖼️
+            <%= if @gif_url == nil, do: "Add Gif", else: "Choose new Gif" %></button>
 
 
 
         <%# If there's a gif, show option to remove it %>
         <%= if @gif_url != nil do %>
-        <button type="button" phx-click="cancel-gif" phx-target="<%=@myself %>" phx-disable-with="Loading..."
+        <button type="button" phx-click="cancel-gif" phx-target="<%=@myself %>"
+            phx-disable-with="Loading..."
             class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
             ❌ Remove Gif</button>
         <% end %>
@@ -116,20 +113,66 @@
     </div>
     <% end %>
 
+    <%= if is_nil(@gif_url) and @uploads.media.entries == [] do %>
+    <p class="text-xs mt-2">
+        <%= error_tag f, :gif_url %></p>
+    <% end %>
 
 
 
+    <hr class="mt-4">
 
+    <%= unless @action == :edit_ad do %>
+    <div class="mt-8 flex">
+        <div class="inline-block">
+            <div class="tooltip">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 inline-flex text-gray-300"
+                    viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                        clip-rule="evenodd" />
+                </svg>
 
+                <label for="price" class="text-sm font-medium text-gray-700">How
+                    much are you charging for your art?</label>
 
+                <span class="tooltip-text -mt-6 -ml-12">It will cost you price /
+                    2</span>
 
+            </div>
+            <div class="mt-1 relative rounded-md shadow-sm">
+
+                <%= text_input f, :price, class: "mt-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full pl-2 sm:text-sm border-gray-300 rounded-md p-3" %>
+
+                <div
+                    class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <span class="text-gray-500 sm:text-sm" id="price-currency">
+                        SHLINK
+                    </span>
+                </div>
+                <p class="text-xs"><%= error_tag f, :price %></p>
+
+            </div>
+        </div>
+    </div>
+
+    <p class="text-gray-500 mt-2">Cost to create:
+        <%= @cost %>
+    </p>
+
+    <p class="text-gray-500 mt-2">Your balance:
+        <%= @profile.points %>
+    </p>
+    <% else %>
+
+    <% end %>
 
 
 
     <div class="flex justify-end mt-8 bg-gray-100 -m-5 p-5 rounded-lg">
-
         <%= live_patch "Cancel", to: @return_to, class: "ml-3 inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-full text-gray-600  bg-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"%>
-        <%= submit (if @action == :new_ad, do: "Submit", else: "Save"), class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
+        <%= submit (if @action == :new_ad, do: "Submit Ad", else: "Save"), class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
     </div>
 
 

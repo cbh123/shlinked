@@ -16,7 +16,7 @@ defmodule ShlinkedinWeb.AdLive.AdComponent do
   end
 
   def handle_event("censor-ad", _, socket) do
-    {:ok, _} = Ads.update_ad(socket.assigns.profile, socket.assigns.ad, %{removed: true})
+    {:ok, _} = Ads.update_ad(socket.assigns.ad, %{removed: true})
 
     {:noreply,
      socket

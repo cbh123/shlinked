@@ -4,13 +4,14 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
   alias Shlinkedin.Ads
   alias Shlinkedin.Ads.Ad
   alias Shlinkedin.MediaUpload
+  alias Money
 
   @impl true
   def mount(socket) do
     assigns = [
       gif_url: nil,
       gif_error: nil,
-      overlay: ""
+      cost: 25
     ]
 
     socket = assign(socket, assigns)
@@ -30,7 +31,7 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
     {:ok,
      socket
      |> assign(assigns)
-     |> assign(:changeset, changeset)}
+     |> assign(changeset: changeset)}
   end
 
   def update(%{uploads: uploads}, socket) do
@@ -45,13 +46,7 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
       |> Ads.change_ad(ad_params)
       |> Map.put(:action, :validate)
 
-    case changeset.changes[:overlay] do
-      nil ->
-        {:noreply, assign(socket, :changeset, changeset)}
-
-      overlay ->
-        {:noreply, assign(socket, changeset: changeset, overlay: overlay)}
-    end
+    {:noreply, assign(socket, changeset: changeset, cost: cost(changeset))}
   end
 
   def handle_event("save", %{"ad" => ad_params}, socket) do
@@ -82,7 +77,6 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
 
     urls =
       for entry <- completed do
-        # Routes.static_path(socket, "/uploads/#{entry.uuid}.#{ext(entry)}") # local path
         Path.join(MediaUpload.s3_host(), MediaUpload.s3_key(entry))
       end
 
@@ -99,7 +93,7 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
     ad = put_photo_urls(socket, socket.assigns.ad)
     ad = %Ad{ad | gif_url: socket.assigns.gif_url}
 
-    case Ads.update_ad(socket.assigns.profile, ad, ad_params, &consume_photos(socket, &1)) do
+    case Ads.update_ad(ad, ad_params, &consume_photos(socket, &1)) do
       {:ok, _ad} ->
         {:noreply,
          socket
@@ -125,5 +119,10 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
     end
+  end
+
+  defp cost(changeset) do
+    Ecto.Changeset.get_field(changeset, :price)
+    |> Ads.calc_ad_cost()
   end
 end
