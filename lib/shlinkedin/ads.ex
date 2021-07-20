@@ -300,6 +300,7 @@ defmodule Shlinkedin.Ads do
     ad
     |> Ad.changeset(attrs)
     |> Ad.validate_affordable()
+    |> Ad.validate_price_not_negative()
     |> Repo.insert()
     |> after_save(after_save)
   end
@@ -316,11 +317,16 @@ defmodule Shlinkedin.Ads do
   %Money{amount: 250, :SHLINK}
   ```
   """
-  def calc_ad_cost(price) do
-    (price.amount * 0.5)
-    |> trunc()
-    |> Money.new(:SHLINK)
+  def calc_ad_cost(%{amount: amount}) do
+    cost =
+      (amount * 0.5)
+      |> trunc()
+      |> Money.new(:SHLINK)
+
+    {:ok, cost}
   end
+
+  def calc_ad_cost(_), do: {:error, "Invalid cost"}
 
   def create_ad_click(%Ad{} = ad, %Profile{} = profile, attrs \\ %{}) do
     %Click{ad_id: ad.id, profile_id: profile.id}
