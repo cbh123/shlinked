@@ -193,5 +193,16 @@ defmodule Shlinkedin.AdsTest do
       {:ok, _} = Ads.check_time(random_profile)
       {:error, _} = Ads.check_time(rich_profile)
     end
+
+    test "test create ad with negative doesn't give you points", %{} do
+      profile = profile_fixture()
+      assert profile.points.amount == 100
+      attrs = Enum.into(%{price: "-50"}, @valid_ad)
+
+      {:error, ad} = Ads.create_ad(profile, %Ad{}, attrs)
+
+      profile = Profiles.get_profile_by_profile_id(profile.id)
+      assert profile.points.amount == 90
+    end
   end
 end

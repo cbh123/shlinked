@@ -75,12 +75,25 @@ defmodule Shlinkedin.Ads.Ad do
         profile = Shlinkedin.Profiles.get_profile_by_profile_id(profile_id)
         {:ok, cost} = Ads.calc_ad_cost(price)
 
-        if Money.compare(profile.points, cost) < 0 do
-          [price: "You cannot afford to make this for #{cost}. You have #{profile.points}."]
-        else
-          negative_cost = negative_money(cost)
-          Points.generate_wealth_given_amount(profile, negative_cost, "Creating #{product}")
-          []
+        cond do
+          Money.compare(profile.points, cost) < 0 ->
+            [price: "You cannot afford to make this for #{cost}. You have #{profile.points}."]
+
+          cost.amount < 0 ->
+            net_worth = profile.points.amount
+            tax = (net_worth * -0.1) |> trunc() |> Money.new(:SHLINK)
+
+            Points.generate_wealth_given_amount(profile, tax, "Cheater tax")
+
+            [
+              price:
+                "\n Ah, we have a cheater in our midst! Subtracting -10% of your net worth (#{tax})"
+            ]
+
+          cost.amount > 0 ->
+            negative_cost = negative_money(cost)
+            Points.generate_wealth_given_amount(profile, negative_cost, "Creating #{product}")
+            []
         end
     end)
   end
@@ -92,7 +105,6 @@ defmodule Shlinkedin.Ads.Ad do
     validate_change(changeset, :price, fn
       :price, price ->
         {:ok, cost} = Ads.calc_ad_cost(price)
-        IO.inspect(cost, label: "")
 
         if cost.amount <= 0 do
           [price: "Price cannot be negative"]
