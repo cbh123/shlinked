@@ -8,7 +8,6 @@
             alt=""
             class="<%= if @type == :market and is_sold?(@ad) and not is_owner?(@ad, @profile), do: "filter blur-sm" %> object-cover pointer-events-none group-hover:opacity-75">
 
-        <%= unless @type == :profile do %>
         <div
             class="flex items-end w-full h-full rounded-t-lg bg-black bg-opacity-20 text-white text-sm font-bold  p-4 ">
             <div class="w-1/2 flex items-center">
@@ -28,6 +27,7 @@
         </div>
 
 
+        <%= unless @type == :profile do %>
 
         <%= if is_owner?(@ad, @profile) do %>
 
