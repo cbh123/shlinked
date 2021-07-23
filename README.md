@@ -33,13 +33,6 @@ Join the [discord](https://discord.gg/BkQGryuGjn)! This is where the action happ
 All of the above are very valuable to us right now!
 
 
-### How I work
-Right bug reports and feature requests are a little disorganized, but here is generally the way things work:
-* I use [Linear](https://linear.app/) to keep track of what issues I am personally working on
-* I continually check the [Discord](https://discord.gg/r3CckhMEbt) for bug and feature requests. If I decide to work on one of these requests, I'll add it to the Linear tracker
-
-
-
 ### Bug reports
 
 Good bug reports are extremely helpful - thank you! Shlinkedin is quite buggy right now, and I expect it to remain that way as we scale.
