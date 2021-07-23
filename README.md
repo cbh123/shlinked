@@ -15,7 +15,7 @@ Here are the best ways to contribute, in order of importance:
 
 Once you pick something to contribute, here's how I suggest you go about it:
 1. Join the [discord](https://discord.gg/BkQGryuGjn). 
-2. [Learn some amount of Elixir](#Charlie's-Guide-to-Learning-Elixir)
+2. [Learn some amount of Elixir](#Charlies-Guide-to-Learning-Elixir)
 3. [Clone ShlinkedIn locally and get it running](#How-to-Run-Shlinkedin-Locally)
 4. [Create a pull request](#pull-requests)
 5. Request to merge, and I'll either approve it and merge to main, or request changes!
