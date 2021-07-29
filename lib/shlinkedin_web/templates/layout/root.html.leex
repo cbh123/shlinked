@@ -32,6 +32,20 @@
         href="https://fonts.googleapis.com/css2?family=Creepster&family=IBM+Plex+Serif&family=Metal+Mania&family=Permanent+Marker&family=VT323&display=swap"
         rel="stylesheet">
 
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async
+        src="https://www.googletagmanager.com/gtag/js?id=G-WGM0S4FM7Z"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-WGM0S4FM7Z');
+    </script>
+
     <%= if Mix.env() != :dev do %>
     <script type="text/javascript">
         window.heap = window.heap || [], heap.load = function(e, t) {
