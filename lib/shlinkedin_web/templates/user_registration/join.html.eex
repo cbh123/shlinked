@@ -109,7 +109,7 @@
     </div>
 </div>
 
-<div class="grid grid-rows-1 grid-cols-3 p-3 space-x-3">
+<div class="grid grid-rows-1 sm:grid-cols-3 p-3 space-x-3">
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8">
     </script>
 
