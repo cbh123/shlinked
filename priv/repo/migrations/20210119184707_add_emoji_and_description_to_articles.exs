@@ -3,8 +3,8 @@ defmodule Shlinkedin.Repo.Migrations.AddEmojiAndDescriptionToArticles do
 
   def change do
     alter table :articles do
-      add :key, :string, null: false
-      add :unicode, :string, null: false
+      add :emoji, :string
+      add :emoji_description, :string
     end
   end
 end
