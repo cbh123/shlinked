@@ -66,7 +66,7 @@ defmodule Shlinkedin.Points do
       # },
       :featured_post => %{
         amount: Money.new(5000),
-        desc: "For gettng a featured post"
+        desc: "For getting a featured post"
       },
       # :see_more => %{
       #   amount: Money.new(99),
