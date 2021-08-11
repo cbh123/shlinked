@@ -244,21 +244,6 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     {:noreply, socket |> assign(articles: News.list_random_articles(5))}
   end
 
-  def handle_event("change-feed", %{"feed" => feed}, socket) do
-    case feed do
-      "friends" ->
-        {:noreply,
-         socket |> assign(update_action: "replace", feed_type: "friends") |> fetch_posts}
-
-      "featured" ->
-        {:noreply,
-         socket |> assign(update_action: "replace", feed_type: "featured") |> fetch_posts}
-
-      _ ->
-        {:noreply, socket |> assign(update_action: "replace", feed_type: "all") |> fetch_posts}
-    end
-  end
-
   def handle_event("delete", %{"id" => id}, socket) do
     post = Timeline.get_post!(id)
     {:ok, _} = Timeline.delete_post(post)

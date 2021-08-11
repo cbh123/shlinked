@@ -183,8 +183,14 @@ defmodule Shlinkedin.Timeline do
       preload: [:profile, :likes, comments: [:profile, :likes]]
     )
     |> Repo.all()
-    |> parse_results()
+    |> parse_results(feed_object)
   end
+
+  defp parse_results(posts, %{type: "reactions"}) do
+    Enum.map(posts, fn {_likes, post} -> post end)
+  end
+
+  defp parse_results(posts, _), do: posts
 
   defp parse_time("today"), do: -60 * 60 * 24
   defp parse_time("week"), do: parse_time("today") * 7
@@ -201,7 +207,10 @@ defmodule Shlinkedin.Timeline do
         )
 
       "featured" ->
-        from(p in Post, where: not is_nil(p.featured_date), order_by: [desc: p.inserted_at])
+        from(p in Post,
+          where: not is_nil(p.featured_date),
+          order_by: [desc: p.pinned, desc: p.inserted_at]
+        )
 
       "reactions" ->
         time =
@@ -212,8 +221,9 @@ defmodule Shlinkedin.Timeline do
           where: p.inserted_at >= ^time,
           left_join: l in assoc(p, :likes),
           group_by: p.id,
+          order_by: [desc: p.pinned],
           order_by: fragment("count DESC"),
-          order_by: [desc: p.pinned, desc: p.id],
+          order_by: [desc: p.id],
           select: {count(l.profile_id, :distinct), p}
         )
 
@@ -229,15 +239,6 @@ defmodule Shlinkedin.Timeline do
           where: p.profile_id == ^id
         )
     end
-  end
-
-  # a very large number
-  defp length_unique_reactions(post) when post.pinned, do: 100_000_000
-
-  defp length_unique_reactions(post) do
-    Enum.map(post.likes, fn like -> like.profile_id end)
-    |> Enum.uniq()
-    |> length
   end
 
   defp paginate(query, criteria) do
