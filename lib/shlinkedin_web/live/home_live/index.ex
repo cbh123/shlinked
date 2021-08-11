@@ -20,7 +20,10 @@ defmodule ShlinkedinWeb.HomeLive.Index do
       News.subscribe()
     end
 
-    feed_options = %{type: check_feed_type(params["type"]), time: check_feed_time(params["time"])}
+    feed_options = %{
+      type: socket.assigns.profile.feed_type,
+      time: socket.assigns.profile.feed_time
+    }
 
     {:ok,
      socket
@@ -56,12 +59,6 @@ defmodule ShlinkedinWeb.HomeLive.Index do
       my_groups: Groups.list_profile_groups(socket.assigns.profile)
     )
   end
-
-  defp check_feed_type(nil), do: "reactions"
-  defp check_feed_type(type), do: type
-
-  defp check_feed_time(nil), do: "week"
-  defp check_feed_time(type), do: type
 
   defp fetch_posts(
          %{
