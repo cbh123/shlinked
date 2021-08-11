@@ -20,11 +20,13 @@ defmodule ShlinkedinWeb.HomeLive.Index do
       News.subscribe()
     end
 
+    feed_options = %{type: check_feed_type(params["type"]), time: check_feed_time(params["time"])}
+
     {:ok,
      socket
      |> assign(
        update_action: "append",
-       feed_type: check_featured(params),
+       feed_options: feed_options,
        page: 1,
        per_page: 5,
        activities: Timeline.list_unique_notifications(60),
@@ -55,20 +57,17 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     )
   end
 
-  defp check_featured(params) do
-    case params["type"] do
-      "featured" -> "featured"
-      "all" -> "all"
-      "friends" -> "friends"
-      _ -> "all"
-    end
-  end
+  defp check_feed_type(nil), do: "reactions"
+  defp check_feed_type(type), do: type
+
+  defp check_feed_time(nil), do: "week"
+  defp check_feed_time(type), do: type
 
   defp fetch_posts(
          %{
            assigns: %{
              profile: %{ad_frequency: ad_frequency} = profile,
-             feed_type: feed_type,
+             feed_options: feed_options,
              page: page,
              per_page: per
            }
@@ -76,7 +75,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
        ) do
     # get posts and convert a %{type: "post", content: post} format
     posts =
-      Timeline.list_posts(profile, [paginate: %{page: page, per_page: per}], feed_type)
+      Timeline.list_posts(profile, [paginate: %{page: page, per_page: per}], feed_options)
       |> Enum.map(fn c -> %{type: "post", content: c} end)
 
     content =
@@ -228,27 +227,21 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     |> assign(:post, nil)
   end
 
+  def handle_event("sort-feed", %{"type" => type, "time" => time}, socket) do
+    socket =
+      socket
+      |> assign(update_action: "replace", page: 1, feed_options: %{type: type, time: time})
+      |> fetch_posts()
+
+    {:noreply, socket}
+  end
+
   def handle_event("load-more", _, %{assigns: assigns} = socket) do
     {:noreply, socket |> assign(update_action: "append", page: assigns.page + 1) |> fetch_posts()}
   end
 
   def handle_event("more-headlines", _, socket) do
     {:noreply, socket |> assign(articles: News.list_random_articles(5))}
-  end
-
-  def handle_event("change-feed", %{"feed" => feed}, socket) do
-    case feed do
-      "friends" ->
-        {:noreply,
-         socket |> assign(update_action: "replace", feed_type: "friends") |> fetch_posts}
-
-      "featured" ->
-        {:noreply,
-         socket |> assign(update_action: "replace", feed_type: "featured") |> fetch_posts}
-
-      _ ->
-        {:noreply, socket |> assign(update_action: "replace", feed_type: "all") |> fetch_posts}
-    end
   end
 
   def handle_event("delete", %{"id" => id}, socket) do

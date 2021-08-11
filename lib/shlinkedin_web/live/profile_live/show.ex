@@ -59,7 +59,10 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   defp fetch_posts(%{assigns: %{show_profile: show_profile, page: page, per_page: per}} = socket) do
     assign(socket,
       posts:
-        Timeline.list_posts(show_profile, [paginate: %{page: page, per_page: per}], "profile")
+        Timeline.list_posts(show_profile, [paginate: %{page: page, per_page: per}], %{
+          type: "profile",
+          time: "all_time"
+        })
     )
   end
 
