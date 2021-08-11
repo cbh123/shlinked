@@ -398,7 +398,8 @@
                         </div>
                         <div>
                             <select id="select-feed-time" name="time"
-                                class="px-2 py-1 pr-6 bg-gray-100 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
+                                class="<%= unless @feed_options.type == "reactions", do: "hidden" %> px-2 py-1 pr-6 bg-gray-100 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
+
                                 <%= options_for_select(["Today": "today", "This Week": "week", "This Month": "month", "All Time": "all_time"], @feed_options.time) %>
                             </select>
                         </div>
