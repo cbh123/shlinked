@@ -1,13 +1,15 @@
 <div style="background-color:<%= @group.bg_color %>" class="sm:pt-4 pb-32">
     <div class="max-w-2xl mx-auto mb-12" phx-click="hide-menu">
 
-        <div style="color: <%= @group.header_text_color %>;background-color:<%= @group.header_bg_color %>" class="<%= if @group.header_bg_color == nil, do: "bg-white" %>
+        <div style="color: <%= @group.header_text_color %>;background-color:<%= @group.header_bg_color %>"
+            class="<%= if @group.header_bg_color == nil, do: "bg-white" %>
         <%= if @group.header_text_color == nil, do: "text-gray-800" %>
         <%= if @group.header_font == nil, do: "font-normal", else: "font-#{@group.header_font}" %>
         sm:rounded-lg shadow ">
 
             <img src="<%= if @group.cover_photo_url == nil, do: "//shlinked.s3.amazonaws.com/0fbc9143-b559-480e-9b44-4363c437ff7c.png", else: @group.cover_photo_url %>"
-                alt="" class="object-cover w-full h-52 overflow-hidden sm:rounded-t-lg">
+                alt=""
+                class="object-cover w-full h-52 overflow-hidden sm:rounded-t-lg">
 
             <div class="p-5 relative">
                 <div class="flex justify-start">
@@ -25,11 +27,14 @@
                         <div>
                             <button
                                 class="rounded-full flex items-center <%= if @group.header_text_color == nil, do: "text-gray-400" %> focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
-                                id="options-menu" aria-haspopup="true" aria-expanded="true">
+                                id="options-menu" aria-haspopup="true"
+                                aria-expanded="true">
                                 <span class="sr-only">Open options</span>
                                 <!-- Heroicon name: dots-vertical -->
-                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                    fill="currentColor" aria-hidden="true">
+                                <svg class="h-5 w-5"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor"
+                                    aria-hidden="true">
                                     <path
                                         d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
                                 </svg>
@@ -37,13 +42,16 @@
                         </div>
                         <div id="group-option-menu"
                             class="<%= if @show_menu == false, do: "hidden" %> origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                            <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                            <div class="py-1" role="menu"
+                                aria-orientation="vertical"
+                                aria-labelledby="options-menu">
                                 <%= if @member_ranking == "admin" do %>
                                 <%= live_patch "Edit Group", to: Routes.group_show_path(@socket, :edit_group, @group.id), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
                                 <span><%= link "Delete Group", to: "#", phx_click: "delete-group", phx_value_id: @group.id, data: [confirm: "Are you sure you want to delete this group? This is permanent!"], class: "block px-4 py-2 text-sm text-red-700 hover:bg-gray-100 hover:text-red-900" %></span>
                                 <% end %>
                                 <%= if @member_status do %>
-                                <button phx-value-id="<%= @group.id %>" phx-click="leave-group"
+                                <button phx-value-id="<%= @group.id %>"
+                                    phx-click="leave-group"
                                     data-confirm="<%= "You are currently an #{@member_ranking}. Do you want to leave this group?" %> "
                                     class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900">
                                     Leave Group
@@ -65,9 +73,11 @@
                 <%# Started shlinking and buttons %>
                 <div class=" flex items-start text-xs mt-6">
                     <span>
-                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        <svg class="w-4 h-4 text-gray-400" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2"
                                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
                             </path>
                         </svg>
@@ -82,7 +92,8 @@
                     <%= case @member_status do %>
                     <% false -> %>
 
-                    <button type="button" phx-click="join-group" phx-value-id="<%= @group.id %>"
+                    <button type="button" phx-click="join-group"
+                        phx-value-id="<%= @group.id %>"
                         class="inline-flex items-center px-4 py-2 shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         Join
                     </button>
@@ -98,19 +109,23 @@
 
                             <%= if Shlinkedin.Groups.get_member_ranking(@profile, @group) == "admin" do %>
 
-                            <svg class="-ml-1 mr-2 h-3 w-3 text-green-600" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <svg class="-ml-1 mr-2 h-3 w-3 text-green-600"
+                                fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 14l9-5-9-5-9 5 9 5z"></path>
                                 <path
                                     d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z">
                                 </path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                <path stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-width="2"
                                     d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222">
                                 </path>
                             </svg>
 
                             <% else %>
-                            <svg class="-ml-1 mr-2 h-3 w-3 text-green-600" fill="currentColor" viewBox="0 0 20 20"
+                            <svg class="-ml-1 mr-2 h-3 w-3 text-green-600"
+                                fill="currentColor" viewBox="0 0 20 20"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
                                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
@@ -156,7 +171,8 @@
 
         <!-- Stats-->
         <div class="mt-2">
-            <dl class="grid grid-cols-3 rounded-lg bg-white overflow-hidden shadow divide-gray-200 divide-x">
+            <dl
+                class="grid grid-cols-3 rounded-lg bg-white overflow-hidden shadow divide-gray-200 divide-x">
                 <div>
                     <div class="px-4 py-5 sm:p-6">
                         <%= live_patch "Members", to: Routes.group_show_path(@socket, :show_members, @group.id), class: "text-xs sm:text-base font-semibold text-gray-800 hover:underline"  %>
@@ -164,7 +180,8 @@
                         <dd class="mt-1 flex justify-between items-baseline">
 
 
-                            <div class="flex items-baseline text-lg sm:text-2xl font-semibold text-blue-600">
+                            <div
+                                class="flex items-baseline text-lg sm:text-2xl font-semibold text-blue-600">
 
                                 <%= live_patch length(@members), to: Routes.group_show_path(@socket, :show_members, @group.id) %>
 
@@ -176,11 +193,14 @@
 
                 <div>
                     <div class="px-4 py-5 sm:p-6">
-                        <dt class="text-xs sm:text-base font-semibold text-gray-800">
+                        <dt
+                            class="text-xs sm:text-base font-semibold text-gray-800">
                             Posts
                         </dt>
-                        <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
-                            <div class="flex items-baseline text-lg sm:text-2xl font-semibold text-yellow-600">
+                        <dd
+                            class="mt-1 flex justify-between items-baseline md:block lg:flex">
+                            <div
+                                class="flex items-baseline text-lg sm:text-2xl font-semibold text-yellow-600">
                                 <%= length(@posts) %>
                             </div>
                         </dd>
@@ -189,11 +209,14 @@
 
                 <div>
                     <div class="px-4 py-5 sm:p-6">
-                        <dt class="text-xs sm:text-base font-semibold text-gray-900 trunacte">
+                        <dt
+                            class="text-xs sm:text-base font-semibold text-gray-900 trunacte">
                             C-Suite
                         </dt>
-                        <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
-                            <div class="flex items-baseline text-xs sm:text-normal font-semibold text-green-600">
+                        <dd
+                            class="mt-1 flex justify-between items-baseline md:block lg:flex">
+                            <div
+                                class="flex items-baseline text-xs sm:text-normal font-semibold text-green-600">
                                 <div class="flex -space-x-2 relative z-0  ">
                                     <%= for admin <- @admins do %>
                                     <div class="tooltip">
@@ -201,8 +224,10 @@
 
 
                                         <img class="relative z-30 inline-block h-10 w-10 rounded-full ring-2 ring-white"
-                                            src="<%= admin.profile.photo_url%>" alt="">
-                                        <span class="tooltip-text -mb-32 "><%= admin.profile.persona_name %></span>
+                                            src="<%= admin.profile.photo_url%>"
+                                            alt="">
+                                        <span
+                                            class="tooltip-text -mb-32 "><%= admin.profile.persona_name %></span>
 
                                     </div>
                                     <% end %>
@@ -229,8 +254,9 @@
                 <button type="button"
                     class="inline-flex items-center shadow-sm px-4 py-1.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     <!-- Heroicon name: plus-sm -->
-                    <svg class="-ml-1.5 mr-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <svg class="-ml-1.5 mr-1 h-5 w-5 text-gray-400"
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                        fill="currentColor" aria-hidden="true">
                         <path fill-rule="evenodd"
                             d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
                             clip-rule="evenodd" />
@@ -245,10 +271,11 @@
 
 
         <%# Posts %>
-        <div id="posts" phx-update="append" phx-hook="InfiniteScroll" data-page="<%= @page %>" class="mt-4">
+        <div id="posts" phx-update="append" phx-hook="InfiniteScroll"
+            data-page="<%= @page %>" class="mt-4">
 
 
-            <%= for {post, idx} <- Enum.with_index(@posts) do %>
+            <%= for {post, _idx} <- Enum.with_index(@posts) do %>
 
             <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
                 id: post.id,

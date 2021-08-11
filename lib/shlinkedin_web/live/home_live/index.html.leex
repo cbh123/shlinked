@@ -387,13 +387,13 @@
 
                 <%# Feed Picker %>
                 <div class="">
-                    <form phx-change="sort-feed"
+                    <form phx-change="sort-feed" id="sort-feed"
                         class="mx-auto text-gray-500 text-xs flex">
                         <div class="mr-3">
 
                             <select id="select-feed-type" name="type"
                                 class="px-2 py-1 pr-8 bg-gray-100 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
-                                <%= options_for_select(["🆕 New": "new", "👍 Most Reactions": "reactions", "✨ Featured Posts": "featured"], @feed_options.type) %>
+                                <%= options_for_select(["🆕 New Posts": "new", "👍 Most Reactions": "reactions", "✨ Featured Posts": "featured"], @feed_options.type) %>
                             </select>
                         </div>
                         <div>

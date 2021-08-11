@@ -54,6 +54,8 @@ defmodule Shlinkedin.Profiles.Profile do
     has_many :conversations, through: [:conversation_members, :conversation]
 
     field :show_levels, :boolean, default: true
+    field :feed_type, :string, default: "reactions"
+    field :feed_time, :string, default: "week"
     timestamps()
   end
 
@@ -78,7 +80,9 @@ defmodule Shlinkedin.Profiles.Profile do
       :ad_frequency,
       :unsubscribed,
       :points,
-      :show_levels
+      :show_levels,
+      :feed_type,
+      :feed_time
     ])
     |> validate_required([:user_id, :persona_name, :slug, :username])
     |> downcase_username()
