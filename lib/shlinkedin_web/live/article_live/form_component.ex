@@ -18,7 +18,7 @@ defmodule ShlinkedinWeb.ArticleLive.FormComponent do
 
     {:ok,
      allow_upload(socket, :media,
-       accept: ~w(.png .jpeg .jpg .gif .mp4 .mov),
+       accept: ~w(.png .jpeg .jpg .gif .mp4 .mov .webp),
        max_entries: 1,
        external: &presign_entry/2
      )}

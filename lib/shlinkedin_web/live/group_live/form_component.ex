@@ -9,7 +9,7 @@ defmodule ShlinkedinWeb.GroupLive.FormComponent do
   def mount(socket) do
     {:ok,
      allow_upload(socket, :media,
-       accept: ~w(.png .jpeg .jpg .gif),
+       accept: ~w(.png .jpeg .jpg .gif .webp),
        max_entries: 1,
        external: &MediaUpload.presign_media_entry/2
      )}

@@ -22,13 +22,13 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
     socket =
       is_user(session, socket)
       |> allow_upload(:photo,
-        accept: ~w(.png .jpeg .jpg .gif),
+        accept: ~w(.png .jpeg .jpg .gif .webp),
         max_entries: 1,
         max_file_size: 12_000_000,
         external: &presign_entry/2
       )
       |> allow_upload(:cover_photo,
-        accept: ~w(.png .jpeg .jpg .gif),
+        accept: ~w(.png .jpeg .jpg .gif .webp),
         max_file_size: 12_000_000,
         max_entries: 1,
         external: &presign_entry/2
