@@ -329,5 +329,11 @@ defmodule ShlinkedinWeb.HomeLiveTest do
 
       assert Shlinkedin.Profiles.get_profile_by_profile_id(profile.id).show_levels == false
     end
+
+    test "select different feed types", %{conn: conn, profile: profile} do
+      {:ok, view, _html} =
+        conn
+        |> live(Routes.home_index_path(conn, :index))
+    end
   end
 end

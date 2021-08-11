@@ -43,7 +43,8 @@ defmodule Shlinkedin.Timeline.Post do
       :template,
       :category,
       :generator_type,
-      :pinned
+      :pinned,
+      :inserted_at
     ])
     |> validate_required([])
     |> add_theme()

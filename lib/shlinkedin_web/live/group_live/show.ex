@@ -20,6 +20,7 @@ defmodule ShlinkedinWeb.GroupLive.Show do
      socket
      |> assign(
        show_menu: false,
+       feed_options: %{type: "group", time: "all_time"},
        group: group,
        page_title: group.title,
        member_status: is_member?(socket.assigns.profile, group),
@@ -122,7 +123,12 @@ defmodule ShlinkedinWeb.GroupLive.Show do
 
   defp fetch_posts(%{assigns: %{page: page, per_page: per, group: group}} = socket) do
     assign(socket,
-      posts: Timeline.list_posts(group, [paginate: %{page: page, per_page: per}], "group")
+      posts:
+        Timeline.list_posts(
+          group,
+          [paginate: %{page: page, per_page: per}],
+          socket.assigns.feed_options
+        )
     )
   end
 
@@ -166,7 +172,11 @@ defmodule ShlinkedinWeb.GroupLive.Show do
      assign(
        socket,
        :posts,
-       Timeline.list_posts(socket.assigns.profile, [paginate: %{page: 1, per_page: 5}], "group")
+       Timeline.list_posts(
+         socket.assigns.profile,
+         [paginate: %{page: 1, per_page: 5}],
+         socket.assigns.feed_options
+       )
      )}
   end
 

@@ -160,7 +160,7 @@ defmodule Shlinkedin.Timeline do
   end
 
   # List posts when account is first created and profile is nil
-  def list_posts(%Profile{id: nil}, criteria, _feed_type) do
+  def list_posts(%Profile{id: nil}, criteria, _feed_options) do
     query =
       from(p in Post,
         order_by: [desc: p.pinned, desc: p.inserted_at]
@@ -174,8 +174,8 @@ defmodule Shlinkedin.Timeline do
     |> Repo.all()
   end
 
-  def list_posts(object, criteria, feed_type) when is_list(criteria) do
-    query = get_feed_query(object, feed_type)
+  def list_posts(object, criteria, feed_object) when is_list(criteria) do
+    query = get_feed_query(object, feed_object)
 
     paged_query = paginate(query, criteria)
 
@@ -183,24 +183,38 @@ defmodule Shlinkedin.Timeline do
       preload: [:profile, :likes, comments: [:profile, :likes]]
     )
     |> Repo.all()
+    |> parse_results()
   end
 
-  def get_feed_query(object, feed_type) do
-    case feed_type do
-      "all" ->
+  defp parse_time("today"), do: -60 * 60 * 24
+  defp parse_time("week"), do: parse_time("today") * 7
+  defp parse_time("month"), do: parse_time("today") * 31
+  defp parse_time("all_time"), do: parse_time("today") * 31 * 100
+
+  def get_feed_query(object, %{type: type, time: time}) do
+    time_in_seconds = parse_time(time)
+
+    case type do
+      "new" ->
         from(p in Post,
-          order_by: [desc: p.pinned, desc: p.inserted_at]
+          order_by: [desc: p.pinned, desc: p.id]
         )
 
       "featured" ->
         from(p in Post, where: not is_nil(p.featured_date), order_by: [desc: p.inserted_at])
 
-      "friends" ->
-        friend_ids = Shlinkedin.Profiles.get_unique_connection_ids(object)
+      "reactions" ->
+        time =
+          NaiveDateTime.utc_now()
+          |> NaiveDateTime.add(time_in_seconds, :second)
 
         from(p in Post,
-          order_by: [desc: p.pinned, desc: p.inserted_at],
-          where: p.profile_id in ^friend_ids
+          where: p.inserted_at >= ^time,
+          left_join: l in assoc(p, :likes),
+          group_by: p.id,
+          order_by: fragment("count DESC"),
+          order_by: [desc: p.pinned, desc: p.id],
+          select: {count(l.profile_id, :distinct), p}
         )
 
       "group" ->
@@ -211,13 +225,19 @@ defmodule Shlinkedin.Timeline do
         %Profile{id: id} = object
 
         from(p in Post,
-          order_by: [desc: p.pinned, desc: p.inserted_at],
+          order_by: [desc: p.pinned, desc: p.id],
           where: p.profile_id == ^id
         )
-
-      _ ->
-        from(p in Post, order_by: [desc: p.pinned, desc: p.inserted_at])
     end
+  end
+
+  # a very large number
+  defp length_unique_reactions(post) when post.pinned, do: 100_000_000
+
+  defp length_unique_reactions(post) do
+    Enum.map(post.likes, fn like -> like.profile_id end)
+    |> Enum.uniq()
+    |> length
   end
 
   defp paginate(query, criteria) do

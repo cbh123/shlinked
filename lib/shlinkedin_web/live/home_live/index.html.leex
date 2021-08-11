@@ -386,24 +386,23 @@
                 </div>
 
                 <%# Feed Picker %>
-                <div class="mx-auto text-gray-500 text-xs flex">
-                    <div class="mr-3">
-                        <select id="location" name="location"
-                            class="px-2 py-1 pr-8 bg-gray-100 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
-                            <option>🆕 New</option>
-                            <option selected>👍 Most Reactions</option>
-                            <option>✨ Featured Posts</option>
-                        </select>
-                    </div>
-                    <div>
-                        <select id="location" name="location"
-                            class="px-2 py-1 pr-6 bg-gray-100 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
-                            <option>Today</option>
-                            <option selected>This Week</option>
-                            <option>This Month</option>
-                            <option>All Time</option>
-                        </select>
-                    </div>
+                <div class="">
+                    <form phx-change="sort-feed"
+                        class="mx-auto text-gray-500 text-xs flex">
+                        <div class="mr-3">
+
+                            <select id="select-feed-type" name="type"
+                                class="px-2 py-1 pr-8 bg-gray-100 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
+                                <%= options_for_select(["🆕 New": "new", "👍 Most Reactions": "reactions", "✨ Featured Posts": "featured"], @feed_options.type) %>
+                            </select>
+                        </div>
+                        <div>
+                            <select id="select-feed-time" name="time"
+                                class="px-2 py-1 pr-6 bg-gray-100 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
+                                <%= options_for_select(["Today": "today", "This Week": "week", "This Month": "month", "All Time": "all_time"], @feed_options.time) %>
+                            </select>
+                        </div>
+                    </form>
                 </div>
 
                 <div class="mt-2">
