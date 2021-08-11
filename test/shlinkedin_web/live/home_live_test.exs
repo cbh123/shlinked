@@ -259,7 +259,7 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       assert profile.points.amount == -900
     end
 
-    test "test clap headline from someone else", %{conn: conn, profile: profile} do
+    test "test clap headline from someone else", %{conn: conn, profile: _sprofile} do
       other_profile = Shlinkedin.ProfilesFixtures.profile_fixture()
 
       {:ok, headline} =
@@ -334,6 +334,21 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       {:ok, view, _html} =
         conn
         |> live(Routes.home_index_path(conn, :index))
+
+      assert profile.feed_type == "reactions"
+      assert profile.feed_time == "week"
+
+      view
+      |> form("#sort-feed", %{type: "featured"})
+      |> render_change()
+
+      assert Shlinkedin.Profiles.get_profile_by_profile_id(profile.id).feed_type == "featured"
+
+      view
+      |> form("#sort-feed", %{time: "today"})
+      |> render_change()
+
+      assert Shlinkedin.Profiles.get_profile_by_profile_id(profile.id).feed_time == "today"
     end
   end
 end

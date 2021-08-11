@@ -109,6 +109,18 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     %{type: "ad", content: Ads.get_random_ad()}
   end
 
+  def handle_params(%{"type" => type, "time" => time} = params, _url, socket) do
+    {:ok, _profile} =
+      Profiles.update_profile(socket.assigns.profile, %{feed_type: type, feed_time: time})
+
+    socket =
+      socket
+      |> assign(update_action: "replace", page: 1, feed_options: %{type: type, time: time})
+      |> fetch_posts()
+
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  end
+
   @impl true
   def handle_params(params, _url, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
@@ -228,12 +240,8 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   end
 
   def handle_event("sort-feed", %{"type" => type, "time" => time}, socket) do
-    socket =
-      socket
-      |> assign(update_action: "replace", page: 1, feed_options: %{type: type, time: time})
-      |> fetch_posts()
-
-    {:noreply, socket}
+    {:noreply,
+     socket |> push_patch(to: Routes.home_index_path(socket, :index, type: type, time: time))}
   end
 
   def handle_event("load-more", _, %{assigns: assigns} = socket) do

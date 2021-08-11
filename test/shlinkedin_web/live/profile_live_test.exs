@@ -7,7 +7,7 @@ defmodule ShlinkedinWeb.ProfileLiveTest do
 
   setup :register_user_and_profile
 
-  test "profile view has to be unique per day", %{conn: conn, profile: profile} do
+  test "profile view has to be unique per day", %{conn: conn, profile: _profile} do
     random_profile = profile_fixture()
 
     {:ok, view, _html} = live(conn, Routes.profile_show_path(conn, :show, random_profile.slug))
