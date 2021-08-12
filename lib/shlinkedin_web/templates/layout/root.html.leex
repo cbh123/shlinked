@@ -7,13 +7,17 @@
     <meta name="viewport"
         content="initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
 
-    <%= live_title_tag assigns[:page_title] || "ShlinkedIn" %>
+    <%= live_title_tag assigns[:page_title] || "LinkedIn Satire with Business Humor, Memes and More | ShlinkedIn.com" %>
     <link phx-track-static rel="stylesheet"
         href="<%= Routes.static_path(@conn, "/css/app.css") %>" />
 
     <meta property="og:title" content="ShlinkedIn">
     <meta property="og:description"
         content="Tomorrow's Thought Leadership, Today">
+
+    <meta name="description"
+        content="ShlinkedIn is a fully-functioning satirical social network poking fun at LinkedIn. Find business humor, jokes, original memes and more.">
+
     <meta name="twitter:card" content="summary_large_image">
     <meta property="og:image"
         content="https://shlinked.s3.amazonaws.com/social.png">
