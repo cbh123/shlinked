@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://www.shlinkedin.com/</loc>
+        <lastmod>2021-08-12T22:22:29+01:00</lastmod>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://www.shlinkedin.com/join</loc>
+        <lastmod>2021-08-12T22:22:30+01:00</lastmod>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://www.shlinkedin.com/log_in</loc>
+        <lastmod>2021-08-12T22:22:33+01:00</lastmod>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://www.shlinkedin.com/register</loc>
+        <lastmod>2021-08-12T22:22:33+01:00</lastmod>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://www.shlinkedin.com/generator</loc>
+        <lastmod>2021-08-12T22:22:35+01:00</lastmod>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://www.shlinkedin.com/reset_password</loc>
+        <lastmod>2021-08-12T22:22:35+01:00</lastmod>
+        <priority>1.0</priority>
+    </url>
+</urlset>
