@@ -232,7 +232,6 @@ defmodule ShlinkedinWeb.HomeLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "ShlinkedIn")
     |> assign(:post, nil)
   end
 

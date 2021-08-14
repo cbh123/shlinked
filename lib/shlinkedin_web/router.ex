@@ -211,6 +211,8 @@ defmodule ShlinkedinWeb.Router do
   scope "/", ShlinkedinWeb do
     pipe_through [:browser]
 
+    get "/sitemap.xml", SitemapController, :sitemap
+
     live "/generator", PostLive.Generator, :index
     get "/error", ErrorController, :index
 
