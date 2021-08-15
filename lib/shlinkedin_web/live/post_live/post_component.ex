@@ -26,7 +26,7 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
 
   def handle_event("toggle-post-options", _, socket) do
     send_update(PostComponent,
-      id: socket.assigns.post.id,
+      id: socket.assigns.id,
       show_post_options: !socket.assigns.show_post_options
     )
 
@@ -102,7 +102,7 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
 
   def handle_event("hide-post-options", _, socket) do
     send_update(PostComponent,
-      id: socket.assigns.post.id,
+      id: socket.assigns.id,
       show_post_options: false,
       show_share_menu: false
     )
@@ -114,13 +114,13 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     Shlinkedin.Timeline.create_like(socket.assigns.profile, socket.assigns.post, like_type)
 
     send_update(ShlinkedinWeb.PostLive.PostLikes,
-      id: socket.assigns.post.id,
+      id: "likes-#{socket.assigns.id}",
       spin: true
     )
 
     send_update_after(
       ShlinkedinWeb.PostLive.PostLikes,
-      [id: socket.assigns.post.id, spin: false],
+      [id: "likes-#{socket.assigns.id}", spin: false],
       1000
     )
 

@@ -12,7 +12,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   require Integer
 
   @impl true
-  def mount(params, session, socket) do
+  def mount(_params, session, socket) do
     socket = is_user(session, socket)
 
     if connected?(socket) do
@@ -35,6 +35,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
        activities: Timeline.list_unique_notifications(60),
        stories: Timeline.list_stories(),
        articles: News.list_top_articles(15),
+       featured_post: Timeline.get_random_featured_post(),
        like_map: Timeline.like_map(),
        comment_like_map: Timeline.comment_like_map(),
        num_show_comments: 1

@@ -4,7 +4,7 @@ defmodule ShlinkedinWeb.PostLive.PostLikes do
 
   def render(assigns) do
     ~L"""
-    <button id="post-likes-<%=@id%>" phx-click="show-likes" phx-target="<%= @myself %>" phx-value-id="<%= @post.id %>"
+    <button id="post-<%=@id%>" phx-click="show-likes" phx-target="<%= @myself %>" phx-value-id="<%= @post.id %>"
     class="<%= if @spin == true, do: "animate-spin" %> text-xs inline-flex items-center hover:text-blue-500 hover:underline hover:cursor-pointer py-2 my-2">
     <%= for unique_like <- show_unique_likes(@post) do %>
     <%= if @like_map[unique_like] != nil do %>

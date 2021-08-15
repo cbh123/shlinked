@@ -176,7 +176,7 @@ defmodule ShlinkedinWeb.PostLive.CommentFormComponent do
     case Timeline.create_comment(profile, socket.assigns.post, comment_params) do
       {:ok, _comment} ->
         send_update(PostComponent,
-          id: socket.assigns.post.id,
+          id: socket.assigns.id,
           comment_spin: true,
           # hardcoded
           num_show_comments: 100
@@ -184,7 +184,7 @@ defmodule ShlinkedinWeb.PostLive.CommentFormComponent do
 
         send_update_after(
           PostComponent,
-          [id: socket.assigns.post.id, comment_spin: false],
+          [id: socket.assigns.id, comment_spin: false],
           1000
         )
 

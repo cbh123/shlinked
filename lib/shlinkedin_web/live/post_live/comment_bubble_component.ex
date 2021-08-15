@@ -7,7 +7,7 @@ defmodule ShlinkedinWeb.PostLive.CommentBubbleComponent do
 
   def handle_event("expand-comment", _, socket) do
     send_update(CommentBubbleComponent,
-      id: socket.assigns.comment.id,
+      id: "comment-#{socket.assigns.comment.id}",
       expand_comment: true
     )
 
@@ -49,7 +49,7 @@ defmodule ShlinkedinWeb.PostLive.CommentBubbleComponent do
 
     # this keeps the post component showing the same amount of comments as it was when you liked
     send_update(PostComponent,
-      id: socket.assigns.post.id,
+      id: socket.assigns.id,
       num_show_comments: socket.assigns.num_show_comments
     )
 

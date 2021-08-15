@@ -176,6 +176,26 @@
             </div>
             <main class="sm:col-span-9 md:col-span-6">
 
+                <%# Random featured post %>
+                <%= if not is_nil(@featured_post) do %>
+                <div id="featured-post">
+
+                    <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
+                                id: "featured-post-#{@featured_post.id}",
+                                page: @page,
+                                profile: @profile,
+                                post: @featured_post,
+                                deleted: @featured_post.__meta__.state == :deleted,
+                                like_map: @like_map,
+                                comment_like_map: @comment_like_map,
+                                comment_spin: false,
+                                show_post_options: false,
+                                num_show_comments: @num_show_comments,
+                                return_to: Routes.home_index_path(@socket, :index),
+                                spin: false  %>
+                </div>
+                <% end %>
+
                 <%# Checklist %>
                 <%= unless @checklist |> is_nil() do %>
                 <div
@@ -417,7 +437,7 @@
                         <%= case entity.type do %>
                         <% "post" -> %>
                         <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
-                                id: entity.content.id,
+                                id: "post-#{entity.content.id}",
                                 page: @page,
                                 profile: @profile,
                                 post: entity.content,

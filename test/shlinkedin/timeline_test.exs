@@ -174,5 +174,10 @@ defmodule Shlinkedin.TimelineTest do
 
       assert posts == ["pinned", "5_likes", "3_likes"]
     end
+
+    test "random featured posts" do
+      post = Timeline.get_random_featured_post()
+      assert post != nil
+    end
   end
 end

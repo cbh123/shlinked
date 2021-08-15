@@ -281,6 +281,21 @@ defmodule Shlinkedin.Timeline do
     )
   end
 
+  def get_random_featured_post() do
+    Repo.one(
+      from(p in Post,
+        where: p.featured,
+        order_by: fragment("RANDOM()"),
+        limit: 1,
+        left_join: profile in assoc(p, :profile),
+        left_join: comments in assoc(p, :comments),
+        left_join: profs in assoc(comments, :profile),
+        left_join: likes in assoc(comments, :likes),
+        preload: [:profile, :likes, comments: {comments, profile: profs, likes: likes}]
+      )
+    )
+  end
+
   def get_post_preload_all(id) do
     Repo.one(
       from(p in Post,
