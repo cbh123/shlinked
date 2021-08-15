@@ -23,7 +23,8 @@ defmodule ShlinkedinWeb.HomeLiveTest do
     test "create new post and lists them", %{conn: conn, profile: profile} do
       {:ok, post} = Timeline.create_post(profile, @create_attrs, %Timeline.Post{})
 
-      {:ok, _view, html} = live(conn, Routes.home_index_path(conn, :index))
+      {:ok, _view, html} =
+        live(conn, Routes.home_index_path(conn, :index, type: "new", time: "week"))
 
       assert html =~ post.body
       assert html =~ "ShlinkNews"
@@ -43,7 +44,7 @@ defmodule ShlinkedinWeb.HomeLiveTest do
         view
         |> form("#post-form", post: @create_attrs)
         |> render_submit()
-        |> follow_redirect(conn, Routes.home_index_path(conn, :index))
+        |> follow_redirect(conn)
 
       assert html =~ "Post created successfully"
       assert html =~ "some body"
@@ -204,13 +205,13 @@ defmodule ShlinkedinWeb.HomeLiveTest do
         view
         |> element("a", "Write your first post")
         |> render_click()
-        |> follow_redirect(conn, Routes.home_index_path(conn, :new))
+        |> follow_redirect(conn)
 
       {:ok, _, html} =
         view
         |> form("#post-form", post: @create_attrs)
         |> render_submit()
-        |> follow_redirect(conn, Routes.home_index_path(conn, :index))
+        |> follow_redirect(conn)
 
       assert html =~ "Post created successfully"
       assert html =~ "some body"
@@ -335,14 +336,14 @@ defmodule ShlinkedinWeb.HomeLiveTest do
         conn
         |> live(Routes.home_index_path(conn, :index))
 
-      assert profile.feed_type == "reactions"
+      assert profile.feed_type == "featured"
       assert profile.feed_time == "week"
 
       view
-      |> form("#sort-feed", %{type: "featured"})
+      |> form("#sort-feed", %{type: "new"})
       |> render_change()
 
-      assert Shlinkedin.Profiles.get_profile_by_profile_id(profile.id).feed_type == "featured"
+      assert Shlinkedin.Profiles.get_profile_by_profile_id(profile.id).feed_type == "new"
 
       view
       |> form("#sort-feed", %{time: "today"})
