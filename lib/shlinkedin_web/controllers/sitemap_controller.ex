@@ -1,6 +1,5 @@
 defmodule ShlinkedinWeb.SitemapController do
   use ShlinkedinWeb, :controller
-  import Phoenix.Controller
 
   def sitemap(conn, _params) do
     conn
