@@ -630,7 +630,7 @@
     title: @page_title,
     action: @live_action,
     post: @post,
-    return_to: Routes.home_index_path(@socket, :index) %>
+    return_to: Routes.home_index_path(@socket, :index, type: "new", time: "week") %>
 <% end %>
 
 <%= if @live_action in [:new_story, :edit_story] do %>

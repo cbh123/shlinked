@@ -54,7 +54,7 @@ defmodule Shlinkedin.Profiles.Profile do
     has_many :conversations, through: [:conversation_members, :conversation]
 
     field :show_levels, :boolean, default: true
-    field :feed_type, :string, default: "reactions"
+    field :feed_type, :string, default: "featured"
     field :feed_time, :string, default: "week"
     timestamps()
   end
