@@ -302,7 +302,8 @@
         </div>
 
         <%# Stuff %>
-        <div class=" mt-2 rounded-lg overflow-hidden shadow p-5 bg-white">
+        <div
+            class=" mt-2 rounded-lg overflow-hidden shadow p-5 bg-white">
 
             <div class="flex justify-between">
                 <h5 class="text-gray-900 font-bold text-xl pb-3">
@@ -356,12 +357,12 @@
                 <%= live_redirect "marketplace", to: Routes.market_index_path(@socket, :index), class: "font-semibold text-blue-600 underline" %>
 
             </div>
-            <% end %>
+            <% else %>
 
 
 
             <ul role="list"
-                class="mt-4 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+                class="mt-4 max-h-64 overflow-x-scroll grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
 
                 <%= for ad <- @stuff do %>
 
@@ -375,6 +376,7 @@
                 <% end %>
 
             </ul>
+            <% end %>
         </div>
 
 
@@ -645,7 +647,7 @@
 
 
         <%# Trophies %>
-        <div class=" mt-2 rounded-lg overflow-hidden shadow p-5 bg-white">
+        <div class="mt-2 rounded-lg shadow p-5 bg-white">
 
             <div class="flex justify-between">
                 <h5 class="text-gray-900 font-bold text-xl pb-3">Trophy Case
@@ -687,17 +689,14 @@
                 <% end %>
 
             </div>
-            <% end %>
+            <% else %>
 
 
-
-            <div class="inline-flex">
+            <%# Non empty state %>
+            <div class="flex overflow-x-scroll">
                 <%= for award <- @current_awards do %>
-                <%= if award.active == true do %>
-
-                <div class="text-center m-2">
-                    <div class="block tooltip <%= award.award_type.color %>">
-
+                <div class="flex-1 text-center m-2">
+                    <div class="inline-block <%= award.award_type.color %>">
                         <%= if award.award_type.image_format == "svg" do  %>
                         <svg class="w-8 h-8 mx-auto " fill="currentColor"
                             viewBox="0 0 20 20"
@@ -711,11 +710,7 @@
                         <span class="text-2xl">
                             <%= award.award_type.emoji %>
                         </span>
-
                         <% end %>
-                        <span
-                            class="tooltip-text -mt-8"><%= award.award_type.description %></span>
-
 
                     </div>
                     <h4 class="text-xs font-semibold mt-2">
@@ -724,15 +719,9 @@
                         <%= Timex.format!(award.inserted_at, "{Mshort}. {D}, {YYYY}") %>
                     </p>
                 </div>
-
-
-
-
-
-                <% end %>
                 <% end %>
             </div>
-
+            <% end %>
 
 
 
@@ -746,7 +735,7 @@
 
 
         <!-- Endorsements -->
-        <div class="mt-2 rounded-lg overflow-hidden shadow p-5 bg-white">
+        <div class="mt-2 rounded-lg shadow p-5 bg-white">
 
             <div class="flex justify-between">
                 <h5 class="text-gray-900 font-bold text-xl pb-3">Endorsements
