@@ -35,7 +35,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(page_title: "ShlinkedIn - " <> show_profile.persona_name)
      |> assign(content_selection: "about")
      |> assign(from_notifications: false)
-     |> assign(current_awards: Profiles.list_awards(show_profile))
+     |> assign(current_awards: list_active_awards(show_profile))
      |> assign(award_types: Shlinkedin.Awards.list_award_types())
      |> assign(ad_clicks: list_unique_ad_clicks(show_profile))
      |> fetch_posts()
@@ -344,6 +344,10 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
 
   defp list_unique_ad_clicks(profile) do
     Shlinkedin.Ads.list_unique_ad_clicks(profile)
+  end
+
+  defp list_active_awards(profile) do
+    Profiles.list_awards(profile) |> Enum.filter(fn award -> award.active end) |> Enum.reverse()
   end
 
   @impl true
