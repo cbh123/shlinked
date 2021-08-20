@@ -12,7 +12,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   require Integer
 
   @impl true
-  def mount(params, session, socket) do
+  def mount(_params, session, socket) do
     socket = is_user(session, socket)
 
     if connected?(socket) do
@@ -48,15 +48,17 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     assign(
       socket,
       checklist: nil,
-      my_groups: []
+      my_groups: [],
+      show_discord_alert: false
     )
   end
 
-  defp fetch_profile_related_data(socket) do
+  defp fetch_profile_related_data(%{assigns: %{profile: profile}} = socket) do
     assign(
       socket,
-      checklist: Shlinkedin.Levels.get_current_checklist(socket.assigns.profile, socket),
-      my_groups: Groups.list_profile_groups(socket.assigns.profile)
+      checklist: Shlinkedin.Levels.get_current_checklist(profile, socket),
+      my_groups: Groups.list_profile_groups(profile),
+      show_discord_alert: !profile.joined_discord
     )
   end
 
@@ -295,6 +297,33 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     {:noreply, socket}
   end
 
+  def handle_event("close-discord", _, socket) do
+    socket = assign(socket, show_discord_alert: false)
+    {:noreply, socket}
+  end
+
+  def handle_event("join-discord", _, %{assigns: %{profile: profile}} = socket) do
+    {:ok, profile} = Profiles.update_profile(profile, %{"joined_discord" => true})
+    {:ok, _txn} = Shlinkedin.Points.point_observer(profile, :join_discord)
+
+    socket =
+      socket |> assign(profile: profile) |> redirect(external: "https://discord.gg/BkQGryuGjn")
+
+    {:noreply, socket}
+  end
+
+  def handle_event("already-discord", _, %{assigns: %{profile: profile}} = socket) do
+    {:ok, profile} = Profiles.update_profile(profile, %{"joined_discord" => true})
+    {:ok, _txn} = Shlinkedin.Points.point_observer(profile, :join_discord)
+
+    socket =
+      socket
+      |> assign(profile: profile, show_discord_alert: false)
+      |> put_flash(:info, "Thank you for serving the cause. +100 SP")
+
+    {:noreply, socket}
+  end
+
   @impl true
   def handle_info({:post_created, post}, socket) do
     socket = assign(socket, update_action: "prepend")
@@ -320,6 +349,10 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   @impl true
   def handle_info({:article_deleted, article}, socket) do
     {:noreply, update(socket, :articles, fn articles -> [article | articles] end)}
+  end
+
+  def handle_info(_, socket) do
+    {:noreply, socket}
   end
 
   defp map_story_id_to_seen_all_stories(

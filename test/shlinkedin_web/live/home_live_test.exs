@@ -332,9 +332,7 @@ defmodule ShlinkedinWeb.HomeLiveTest do
     end
 
     test "select different feed types", %{conn: conn, profile: profile} do
-      {:ok, view, _html} =
-        conn
-        |> live(Routes.home_index_path(conn, :index))
+      {:ok, view, _html} = conn |> live(Routes.home_index_path(conn, :index))
 
       assert profile.feed_type == "featured"
       assert profile.feed_time == "week"
@@ -350,6 +348,65 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       |> render_change()
 
       assert Shlinkedin.Profiles.get_profile_by_profile_id(profile.id).feed_time == "today"
+    end
+  end
+
+  describe "discord alerts" do
+    test "close alert", %{conn: conn, profile: profile} do
+      {:ok, view, _html} = conn |> live(Routes.home_index_path(conn, :index))
+
+      assert view |> render() =~ "Join the Discord"
+
+      view
+      |> element("#close-discord")
+      |> render_click()
+
+      refute view |> render() =~ "Join the Discord"
+
+      # but when we reload the page it's still there
+      {:ok, view, _html} = conn |> live(Routes.home_index_path(conn, :index))
+      assert view |> render() =~ "Join the Discord"
+    end
+
+    test "join discord", %{conn: conn, profile: profile} do
+      {:ok, view, _html} = conn |> live(Routes.home_index_path(conn, :index))
+
+      assert view |> render() =~ "Join the Discord"
+      assert profile.points.amount == 100
+
+      view |> element("#join-discord") |> render_click()
+
+      # now that we've joined...
+      updated_prof = Shlinkedin.Profiles.get_profile_by_profile_id(profile.id)
+      assert updated_prof.joined_discord == true
+      assert updated_prof.points.amount == 100 + 10000
+
+      assert (Shlinkedin.Profiles.list_notifications(updated_prof.id, 1)
+              |> Enum.at(0)).body == "Memo: For joining the discord"
+
+      # reload the page
+      {:ok, view, _html} = conn |> live(Routes.home_index_path(conn, :index))
+
+      refute view |> render() =~ "Join the Discord"
+    end
+
+    test "already on discord", %{conn: conn, profile: profile} do
+      {:ok, view, _html} = conn |> live(Routes.home_index_path(conn, :index))
+
+      assert view |> render() =~ "Join the Discord"
+      assert profile.points.amount == 100
+
+      view |> element("#already-discord") |> render_click()
+
+      updated_prof = Shlinkedin.Profiles.get_profile_by_profile_id(profile.id)
+
+      assert (Shlinkedin.Profiles.list_notifications(updated_prof.id, 1)
+              |> Enum.at(0)).body == "Memo: For joining the discord"
+
+      # reload the page
+      {:ok, view, _html} = conn |> live(Routes.home_index_path(conn, :index))
+
+      refute view |> render() =~ "Join the Discord"
     end
   end
 end
