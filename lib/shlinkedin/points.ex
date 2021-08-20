@@ -79,6 +79,10 @@ defmodule Shlinkedin.Points do
       :ad_like => %{
         amount: Money.new(2000),
         desc: "For when someone reacts to your ad"
+      },
+      :join_discord => %{
+        amount: Money.new(10000),
+        desc: "For joining the discord"
       }
       # :new_ad => %{
       #   amount: Money.new(-2000),
@@ -195,6 +199,17 @@ defmodule Shlinkedin.Points do
     generate_wealth(to_profile, type)
   end
 
+  def point_observer(%Profile{} = to_profile, :join_discord) do
+    god = get_god()
+
+    generate_wealth(to_profile, :join_discord)
+    |> ProfileNotifier.observer(:sent_transaction, god, to_profile)
+  end
+
+  def point_observer(%Profile{} = to_profile, type) do
+    generate_wealth(to_profile, type)
+  end
+
   defp handle_first_like(true, to_profile, type), do: generate_wealth(to_profile, type)
   defp handle_first_like(false, _to_profile, _type), do: {:ok, nil}
 
@@ -281,9 +296,7 @@ defmodule Shlinkedin.Points do
     Shlinkedin.Profiles.update_profile(profile, %{points: new_balance})
 
     # get god
-    god_profile =
-      Shlinkedin.Profiles.get_profile_by_username("god")
-      |> get_god_profile()
+    god_profile = get_god()
 
     %Transaction{
       from_profile_id: god_profile.id,
@@ -293,6 +306,11 @@ defmodule Shlinkedin.Points do
     }
     |> Transaction.changeset(%{})
     |> Repo.insert()
+  end
+
+  defp get_god do
+    Shlinkedin.Profiles.get_profile_by_username("god")
+    |> get_god_profile()
   end
 
   defp get_god_profile(nil), do: profile_fixture()

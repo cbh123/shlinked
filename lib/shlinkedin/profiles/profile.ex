@@ -56,6 +56,8 @@ defmodule Shlinkedin.Profiles.Profile do
     field :show_levels, :boolean, default: true
     field :feed_type, :string, default: "featured"
     field :feed_time, :string, default: "week"
+
+    field :joined_discord, :boolean, default: false
     timestamps()
   end
 
@@ -82,7 +84,8 @@ defmodule Shlinkedin.Profiles.Profile do
       :points,
       :show_levels,
       :feed_type,
-      :feed_time
+      :feed_time,
+      :joined_discord
     ])
     |> validate_required([:user_id, :persona_name, :slug, :username])
     |> downcase_username()
