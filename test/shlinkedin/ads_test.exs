@@ -56,7 +56,7 @@ defmodule Shlinkedin.AdsTest do
 
       profile = Profiles.get_profile_by_profile_id(rich_profile.id)
       assert ad.price == Money.new(50000, :SHLINK)
-      assert profile.points.amount == 75000
+      assert profile.points.amount == 87500
       assert ad.company == "facebook"
       assert ad.gif_url == "test"
     end
@@ -163,7 +163,7 @@ defmodule Shlinkedin.AdsTest do
       # buy ad
       {:ok, ad} = Ads.buy_ad(ad, profile)
       other_profile = Shlinkedin.Profiles.get_profile_by_profile_id(other_profile.id)
-      assert other_profile.points.amount == 150
+      assert other_profile.points.amount == 175
       assert ad.owner_id == profile.id
 
       # og profile buys it back
@@ -199,7 +199,7 @@ defmodule Shlinkedin.AdsTest do
       assert profile.points.amount == 100
       attrs = Enum.into(%{price: "-50"}, @valid_ad)
 
-      {:error, ad} = Ads.create_ad(profile, %Ad{}, attrs)
+      {:error, _ad} = Ads.create_ad(profile, %Ad{}, attrs)
 
       profile = Profiles.get_profile_by_profile_id(profile.id)
       assert profile.points.amount == 90

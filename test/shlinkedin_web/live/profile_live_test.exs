@@ -15,9 +15,9 @@ defmodule ShlinkedinWeb.ProfileLiveTest do
     random_profile = Profiles.get_profile_by_profile_id(random_profile.id)
 
     assert random_profile.points.amount == 110
-    {:ok, view, _html} = live(conn, Routes.profile_show_path(conn, :show, random_profile.slug))
-    {:ok, view, _html} = live(conn, Routes.profile_show_path(conn, :show, random_profile.slug))
-    {:ok, view, _html} = live(conn, Routes.profile_show_path(conn, :show, random_profile.slug))
+    {:ok, _view, _html} = live(conn, Routes.profile_show_path(conn, :show, random_profile.slug))
+    {:ok, _view, _html} = live(conn, Routes.profile_show_path(conn, :show, random_profile.slug))
+    {:ok, _view, _html} = live(conn, Routes.profile_show_path(conn, :show, random_profile.slug))
     assert random_profile.points.amount == 110
   end
 end
