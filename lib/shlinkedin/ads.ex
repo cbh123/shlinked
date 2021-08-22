@@ -13,6 +13,7 @@ defmodule Shlinkedin.Ads do
   alias Shlinkedin.Points
 
   @ad_cooldown_in_seconds -3600
+  @ad_cost_pct 0.25
 
   @doc """
   Lists ads given criteria
@@ -319,7 +320,7 @@ defmodule Shlinkedin.Ads do
   """
   def calc_ad_cost(%{amount: amount}) do
     cost =
-      (amount * 0.5)
+      (amount * @ad_cost_pct)
       |> trunc()
       |> Money.new(:SHLINK)
 
