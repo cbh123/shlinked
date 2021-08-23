@@ -4,7 +4,7 @@ defmodule Shlinkedin.ProfilesTest do
   import Shlinkedin.AccountsFixtures
   alias Shlinkedin.Profiles
 
-  describe "endorsements" do
+  describe "profile tests" do
     alias Shlinkedin.Profiles.Endorsement
     alias Shlinkedin.Profiles.Profile
 

@@ -260,7 +260,7 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       assert profile.points.amount == -900
     end
 
-    test "test clap headline from someone else", %{conn: conn, profile: _sprofile} do
+    test "test clap headline from someone else", %{conn: conn, profile: _profile} do
       other_profile = Shlinkedin.ProfilesFixtures.profile_fixture()
 
       {:ok, headline} =
@@ -286,11 +286,11 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       Shlinkedin.News.create_vote(profile2, headline)
       Shlinkedin.News.create_vote(profile3, headline)
 
-      # reload other profile
+      # # reload other profile
       other_profile = Shlinkedin.Profiles.get_profile_by_profile_id(other_profile.id)
       assert other_profile.points.amount == 600
 
-      # now, one unclap
+      # # now, one unclap
       Shlinkedin.News.delete_vote(profile3, headline)
       other_profile = Shlinkedin.Profiles.get_profile_by_profile_id(other_profile.id)
       assert other_profile.points.amount == 100
@@ -352,7 +352,7 @@ defmodule ShlinkedinWeb.HomeLiveTest do
   end
 
   describe "discord alerts" do
-    test "close alert", %{conn: conn, profile: profile} do
+    test "close alert", %{conn: conn, profile: _profile} do
       {:ok, view, _html} = conn |> live(Routes.home_index_path(conn, :index))
 
       assert view |> render() =~ "Join the Discord"

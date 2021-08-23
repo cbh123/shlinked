@@ -24,6 +24,8 @@ defmodule Shlinkedin.Profiles do
   alias Shlinkedin.Accounts.User
   alias Shlinkedin.Points
 
+
+
   def grant_award(%Profile{} = profile, %AwardType{} = award_type, attrs \\ %{}) do
     {:ok, _award} =
       %Award{profile_id: profile.id, award_id: award_type.id}
