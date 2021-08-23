@@ -4,9 +4,9 @@ defmodule Shlinkedin.ProfilesFixtures do
   entities via the `Shlinkedin.Profiles` context.
   """
 
-  def unique_persona_name, do: "Mr. #{System.unique_integer()} Beans"
+  def unique_persona_name, do: "Mr. #{System.unique_integer()}} Beans"
   def title, do: "Product Manager"
-  def unique_slug, do: "profile_#{:rand.uniform(10000)}"
+  def unique_slug, do: "profile_#{:rand.uniform(100_000)}"
 
   def profile_fixture(attrs \\ %{}) do
     user = Map.get(attrs, :user, Shlinkedin.AccountsFixtures.user_fixture())

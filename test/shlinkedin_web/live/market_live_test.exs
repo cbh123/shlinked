@@ -25,10 +25,10 @@ defmodule ShlinkedinWeb.MarketLiveTest do
 
     # check that changing price changes cost to create
     assert view |> form("#ad-form") |> render_change(ad: %{price: Money.new(30000, :SHLINK)}) =~
-             "150.00"
+             "75.00"
 
     assert view |> form("#ad-form") |> render_change(ad: %{price: Money.new(25000, :SHLINK)}) =~
-             "125.00"
+             "62.50"
 
     assert profile.points.amount == 100
 

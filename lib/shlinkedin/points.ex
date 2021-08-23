@@ -6,7 +6,7 @@ defmodule Shlinkedin.Points do
   import Ecto.Query, warn: false
   alias Shlinkedin.Repo
 
-  alias Shlinkedin.Points.Transaction
+  alias Shlinkedin.Points.{Transaction, Statistic}
   alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Profiles.ProfileNotifier
   alias Shlinkedin.Timeline
@@ -458,6 +458,27 @@ defmodule Shlinkedin.Points do
     Transaction.changeset(transaction, attrs)
   end
 
+  @doc """
+  Sums total points of all profiles.
+
+  Returns %Money{}
+  """
+  def get_total_points() do
+    Repo.aggregate(Shlinkedin.Profiles.Profile, :sum, :points)
+  end
+
+  @doc """
+  Creates statistics, called in daily job.
+  """
+  def create_statistic(attrs \\ %{}) do
+    %Statistic{}
+    |> Statistic.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Used for marketplace navigation.
+  """
   def categories do
     [
       %{
