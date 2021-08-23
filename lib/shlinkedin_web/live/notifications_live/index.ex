@@ -92,6 +92,9 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
 
       "sent_points" ->
         {:noreply, push_redirect(socket, to: "/points")}
+
+      "ad_buy" ->
+        {:noreply, push_redirect(socket, to: "/ads/#{n.ad_id}")}
     end
   end
 
