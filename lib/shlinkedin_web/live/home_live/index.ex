@@ -376,7 +376,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   defp get_stats() do
     %{
       total_points: Shlinkedin.Points.get_total_points(),
-      points_pct: Shlinkedin.Points.get_points_pct_increase()
+      points_inc: Shlinkedin.Points.get_points_increase()
     }
   end
 end
