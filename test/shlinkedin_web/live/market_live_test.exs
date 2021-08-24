@@ -6,13 +6,13 @@ defmodule ShlinkedinWeb.MarketLiveTest do
   setup :register_user_and_profile
 
   test "initial render", %{conn: conn, profile: _profile} do
-    {:ok, _view, _html} = conn |> live("/market")
+    {:ok, view, _html} = conn |> live("/market")
 
     assert render(view) =~ "ShlinkMarket"
   end
 
   test "create an ad", %{conn: conn, profile: profile} do
-    {:ok, _view, _html} = conn |> live("/market")
+    {:ok, view, _html} = conn |> live("/market")
 
     assert view |> element("a", "New Ad") |> render_click() =~
              "Create an Ad"

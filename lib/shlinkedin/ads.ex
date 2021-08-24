@@ -14,6 +14,7 @@ defmodule Shlinkedin.Ads do
 
   @ad_cooldown_in_seconds -3600
   @ad_cost_pct 0.25
+  @max_ads_per_hour 3
 
   @doc """
   Lists ads given criteria
@@ -84,7 +85,7 @@ defmodule Shlinkedin.Ads do
   end
 
   @doc """
-  Gets the last buys in the given timeframe (defaults to past hour).
+  Gets the last buys in the given timeframe.
   """
   def last_buy_timeframe(%Profile{id: profile_id}, sec_ago) do
     time = NaiveDateTime.utc_now() |> NaiveDateTime.add(sec_ago, :second)
@@ -96,6 +97,15 @@ defmodule Shlinkedin.Ads do
         limit: 1
       )
     )
+  end
+
+  @doc """
+  Gets number of ads created in given timeframe (defaults to past hour).
+  """
+  def get_number_ads_created(%Profile{id: profile_id}, sec_ago \\ -3600) do
+    time = NaiveDateTime.utc_now() |> NaiveDateTime.add(sec_ago, :second)
+    query = from a in Ad, where: a.profile_id == ^profile_id and a.inserted_at >= ^time
+    Repo.aggregate(query, :count)
   end
 
   def check_time(%Profile{} = profile, sec_ago \\ @ad_cooldown_in_seconds) do
@@ -302,6 +312,7 @@ defmodule Shlinkedin.Ads do
     |> Ad.changeset(attrs)
     |> Ad.validate_affordable()
     |> Ad.validate_price_not_negative()
+    |> Ad.validate_ad_creation_limit(@max_ads_per_hour)
     |> Repo.insert()
     |> after_save(after_save)
   end

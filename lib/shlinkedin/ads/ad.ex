@@ -3,7 +3,6 @@ defmodule Shlinkedin.Ads.Ad do
   import Ecto.Changeset
   alias Shlinkedin.Ads.Ad
   alias Shlinkedin.Ads
-  alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Points
 
   schema "ads" do
@@ -108,6 +107,28 @@ defmodule Shlinkedin.Ads.Ad do
 
         if cost.amount <= 0 do
           [price: "Price cannot be negative"]
+        else
+          []
+        end
+    end)
+  end
+
+  @doc """
+  Validates that number of ads created is allowed.
+  """
+  def validate_ad_creation_limit(
+        %Ecto.Changeset{
+          data: %Ad{profile_id: profile_id}
+        } = changeset,
+        max_ads_per_hour
+      ) do
+    validate_change(changeset, :price, fn
+      :price, _price ->
+        profile = Shlinkedin.Profiles.get_profile_by_profile_id(profile_id)
+        ads_created = Ads.get_number_ads_created(profile)
+
+        if ads_created >= max_ads_per_hour do
+          [price: "You can create a maximum of #{max_ads_per_hour} ads per hour."]
         else
           []
         end
