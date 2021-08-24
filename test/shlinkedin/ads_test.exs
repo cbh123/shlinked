@@ -204,5 +204,19 @@ defmodule Shlinkedin.AdsTest do
       profile = Profiles.get_profile_by_profile_id(profile.id)
       assert profile.points.amount == 90
     end
+
+    test "number of ads created", %{profile: profile} do
+      assert Ads.get_number_ads_created(profile) == 1
+      ad_fixture(profile)
+      assert Ads.get_number_ads_created(profile) == 2
+    end
+
+    test "no more than 3 ads per hour", %{} do
+      rich_profile = profile_fixture(%{"points" => "1000"})
+      {:ok, _ad} = Ads.create_ad(rich_profile, %Ad{}, @valid_ad)
+      {:ok, _ad} = Ads.create_ad(rich_profile, %Ad{}, @valid_ad)
+      {:ok, _ad} = Ads.create_ad(rich_profile, %Ad{}, @valid_ad)
+      {:error, _ad} = Ads.create_ad(rich_profile, %Ad{}, @valid_ad)
+    end
   end
 end
