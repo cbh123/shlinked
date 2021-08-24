@@ -469,14 +469,14 @@ defmodule Shlinkedin.Points do
 
   def get_points_increase() do
     case get_last_two_stats() do
-      [now, last] -> now - last
-      _ -> 0
+      [now, last] -> Money.subtract(now, last)
+      _ -> Money.new(0, :SHLINK)
     end
   end
 
   defp get_last_two_stats() do
     Repo.all(from s in Shlinkedin.Points.Statistic, limit: 2, order_by: [desc: s.inserted_at])
-    |> Enum.map(& &1.total_points.amount)
+    |> Enum.map(& &1.total_points)
   end
 
   @doc """

@@ -546,13 +546,8 @@
                                 <span class="text-blue-400 pr-3">4:59
                                     PM SHT</span>
 
-                                <%= if @stats.points_inc > 0 do %>
-                                <span class="text-green-400">SP Index
-                                    +<%= @stats.points_inc %></span>
-                                <% else %>
-                                <span class="text-red-400">SP Index
-                                    <%= @stats.points_inc %></span>
-                                <% end %>
+                                <span class="text-green-400">
+                                    <%= @stats.total_points %></span>
                             </div>
 
                             <div class="h-56 overflow-y-scroll">
