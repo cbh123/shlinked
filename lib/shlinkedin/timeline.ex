@@ -192,10 +192,10 @@ defmodule Shlinkedin.Timeline do
 
   defp parse_results(posts, _), do: posts
 
-  defp parse_time("today"), do: -60 * 60 * 24
-  defp parse_time("week"), do: parse_time("today") * 7
-  defp parse_time("month"), do: parse_time("today") * 31
-  defp parse_time("all_time"), do: parse_time("today") * 31 * 100
+  def parse_time("today"), do: -60 * 60 * 24
+  def parse_time("week"), do: parse_time("today") * 7
+  def parse_time("month"), do: parse_time("today") * 31
+  def parse_time("all_time"), do: parse_time("today") * 31 * 100
 
   def get_feed_query(object, %{type: type, time: time}) do
     time_in_seconds = parse_time(time)

@@ -467,12 +467,19 @@ defmodule Shlinkedin.Points do
     Repo.aggregate(Shlinkedin.Profiles.Profile, :sum, :points)
   end
 
-  def get_points_increase() do
-    case get_last_two_stats() do
-      [now, last] -> Money.subtract(now, last)
-      _ -> Money.new(0, :SHLINK)
-    end
+  def calc_sum_increase do
+    get_last_two_stats() |> calc_sum_increase()
   end
+
+  def calc_pct_increase do
+    get_last_two_stats() |> calc_pct_increase()
+  end
+
+  defp calc_sum_increase([now, last]), do: Money.subtract(now, last)
+  defp calc_sum_increase(_), do: Money.new(0, :SHLINK)
+
+  defp calc_pct_increase([now, last]), do: ((now.amount / last.amount - 1) * 100) |> Float.round()
+  defp calc_pct_increase(_), do: 0.0
 
   defp get_last_two_stats() do
     Repo.all(from s in Shlinkedin.Points.Statistic, limit: 2, order_by: [desc: s.inserted_at])
