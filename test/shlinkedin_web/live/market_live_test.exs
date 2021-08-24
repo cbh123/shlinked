@@ -6,13 +6,13 @@ defmodule ShlinkedinWeb.MarketLiveTest do
   setup :register_user_and_profile
 
   test "initial render", %{conn: conn, profile: _profile} do
-    {:ok, view, _html} = conn |> live("/market")
+    {:ok, _view, _html} = conn |> live("/market")
 
     assert render(view) =~ "ShlinkMarket"
   end
 
   test "create an ad", %{conn: conn, profile: profile} do
-    {:ok, view, _html} = conn |> live("/market")
+    {:ok, _view, _html} = conn |> live("/market")
 
     assert view |> element("a", "New Ad") |> render_click() =~
              "Create an Ad"
@@ -52,15 +52,15 @@ defmodule ShlinkedinWeb.MarketLiveTest do
   end
 
   test "click on ad to buy", %{conn: conn, profile: _profile} do
-    {:ok, view, _html} = conn |> live("/market")
+    {:ok, _view, _html} = conn |> live("/market")
   end
 
   test "ad with zero quantity is sold out", %{conn: conn, profile: _profile} do
-    {:ok, view, _html} = conn |> live("/market")
+    {:ok, _view, _html} = conn |> live("/market")
   end
 
   # test "click on ad goes to ad show page", %{conn: conn, profile: _profile} do
-  #   # {:ok, view, _html} = conn |> live("/market")
+  #   # {:ok, _view, _html} = conn |> live("/market")
 
   #   # {:ok, _, html} = view |> element("#ad-image-#{")
   #   #   |> form("#post-form", post: @create_attrs)
