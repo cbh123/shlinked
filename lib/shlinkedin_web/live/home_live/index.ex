@@ -37,6 +37,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
        articles: News.list_top_articles(15),
        like_map: Timeline.like_map(),
        comment_like_map: Timeline.comment_like_map(),
+       stats: get_stats(),
        num_show_comments: 1
      )
      |> fetch_profile_related_data()
@@ -370,5 +371,12 @@ defmodule ShlinkedinWeb.HomeLive.Index do
       |> Map.new()
 
     assign(socket, story_map: story_map)
+  end
+
+  defp get_stats() do
+    %{
+      total_points: Shlinkedin.Points.get_total_points(),
+      points_pct: Shlinkedin.Points.get_points_pct_increase()
+    }
   end
 end

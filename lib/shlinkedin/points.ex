@@ -467,6 +467,14 @@ defmodule Shlinkedin.Points do
     Repo.aggregate(Shlinkedin.Profiles.Profile, :sum, :points)
   end
 
+  def get_points_pct_increase() do
+    [last, now] =
+      Repo.all(from s in Shlinkedin.Points.Statistic, limit: 2, order_by: [desc: s.inserted_at])
+      |> Enum.map(& &1.total_points.amount)
+
+    ((now / last - 1) * 100) |> trunc()
+  end
+
   @doc """
   Creates statistics, called in daily job.
   """
