@@ -478,7 +478,9 @@ defmodule Shlinkedin.Points do
   defp calc_sum_increase([now, last]), do: Money.subtract(now, last)
   defp calc_sum_increase(_), do: Money.new(0, :SHLINK)
 
-  defp calc_pct_increase([now, last]), do: ((now.amount / last.amount - 1) * 100) |> Float.round()
+  defp calc_pct_increase([now, last]),
+    do: ((now.amount / last.amount - 1) * 100) |> Float.round(2)
+
   defp calc_pct_increase(_), do: 0.0
 
   defp get_last_two_stats() do
