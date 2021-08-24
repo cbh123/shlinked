@@ -22,7 +22,7 @@ defmodule Shlinkedin.Statistics do
   end
 
   defp schedule_work() do
-    # In 2 hours
-    Process.send_after(self(), :work, 2 * 60 * 60 * 1000)
+    # Every 10min
+    Process.send_after(self(), :work, 10 * 60 * 1000)
   end
 end
