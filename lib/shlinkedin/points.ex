@@ -468,11 +468,15 @@ defmodule Shlinkedin.Points do
   end
 
   def get_points_increase() do
-    [last, now] =
-      Repo.all(from s in Shlinkedin.Points.Statistic, limit: 2, order_by: [desc: s.inserted_at])
-      |> Enum.map(& &1.total_points.amount)
+    case get_last_two_stats() do
+      [now, last] -> now - last
+      _ -> 0
+    end
+  end
 
-    now - last
+  defp get_last_two_stats() do
+    Repo.all(from s in Shlinkedin.Points.Statistic, limit: 2, order_by: [desc: s.inserted_at])
+    |> Enum.map(& &1.total_points.amount)
   end
 
   @doc """
