@@ -17,6 +17,14 @@ defmodule Shlinkedin.Ads do
   @max_ads_per_hour 3
 
   @doc """
+  Gets total count of ads
+  """
+  def get_num_ads() do
+    from(a in Ad, where: a.removed == false)
+    |> Repo.aggregate(:count)
+  end
+
+  @doc """
   Lists ads given criteria
   """
   def list_ads(criteria) do

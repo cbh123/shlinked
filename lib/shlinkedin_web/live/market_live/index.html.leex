@@ -87,9 +87,7 @@
                     </div>
 
 
-
-                    <ul role="list" id="ads" phx-hook="InfiniteScroll"
-                        phx-update="<%= @update_action %>"
+                    <ul role="list" id="ads" phx-update="<%= @update_action %>"
                         data-page="<%= @page %>"
                         class=" grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 xl:gap-x-8">
 
@@ -104,6 +102,19 @@
                         <% end %>
                         <% end %>
                     </ul>
+
+
+                    <footer id="footer" phx-hook="InfiniteScroll"
+                        class="mt-8 text-center text-6xl font-bold">
+                        <%= if @page >= @total_pages do %>
+                        <p>That's it.</p>
+                        <% else %>
+                        <span class="animate-pulse font-windows">💵
+                            Loading...</span>
+                        <% end %>
+                    </footer>
+
+
 
                     <% else %>
                     <div class="text-center">

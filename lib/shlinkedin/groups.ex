@@ -12,6 +12,11 @@ defmodule Shlinkedin.Groups do
   alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Profiles.ProfileNotifier
 
+  def count_group_posts(group) do
+    from(p in Shlinkedin.Timeline.Post, where: p.id == ^group.id)
+    |> Repo.aggregate(:count)
+  end
+
   def count_profile_creator(%Profile{} = profile) do
     Repo.aggregate(from(g in Group, where: g.profile_id == ^profile.id), :count)
   end
