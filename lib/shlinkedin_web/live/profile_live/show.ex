@@ -8,6 +8,8 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   alias Shlinkedin.Ads
   alias Shlinkedin.{Chat, Chat.Conversation}
 
+  @per_page 5
+
   @impl true
   def mount(%{"slug" => slug}, session, socket) do
     if connected?(socket) do
@@ -28,7 +30,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
        like_map: Timeline.like_map(),
        comment_like_map: Timeline.comment_like_map(),
        page: 1,
-       per_page: 5,
+       per_page: @per_page,
        num_show_comments: 1
      )
      |> assign(live_action: socket.assigns.live_action || :show)
@@ -53,7 +55,8 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(num_profile_views: Profiles.get_profile_views_not_yourself(show_profile))
      |> assign(wealth_ranking: Profiles.get_ranking(show_profile, 50, "Wealth"))
      |> assign(stuff: Ads.list_owned_ads(show_profile))
-     |> assign(testimonials: list_testimonials(show_profile.id)), temporary_assigns: [posts: []]}
+     |> assign(testimonials: list_testimonials(show_profile.id)),
+     temporary_assigns: [posts: [], total_pages: calc_max_pages(show_profile, @per_page)]}
   end
 
   defp fetch_posts(%{assigns: %{show_profile: show_profile, page: page, per_page: per}} = socket) do
@@ -403,5 +406,9 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     |> Enum.with_index()
     |> Enum.map(fn {id, i} -> {to_string(i), %{"profile_id" => id}} end)
     |> Enum.into(%{})
+  end
+
+  defp calc_max_pages(profile, per_page) do
+    trunc(Timeline.num_posts(profile) / per_page)
   end
 end

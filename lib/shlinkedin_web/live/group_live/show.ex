@@ -7,6 +7,8 @@ defmodule ShlinkedinWeb.GroupLive.Show do
   alias Shlinkedin.Timeline.Post
   alias Shlinkedin.Timeline.Comment
 
+  @per_page 5
+
   @impl true
   def mount(%{"id" => id}, session, socket) do
     socket = is_user(session, socket)
@@ -28,12 +30,13 @@ defmodule ShlinkedinWeb.GroupLive.Show do
        admins: Shlinkedin.Groups.list_admins(group),
        member_ranking: Shlinkedin.Groups.get_member_ranking(socket.assigns.profile, group),
        page: 1,
-       per_page: 5,
+       per_page: @per_page,
        like_map: Timeline.like_map(),
        comment_like_map: Timeline.comment_like_map(),
        num_show_comments: 3
      )
-     |> fetch_posts(), temporary_assigns: [posts: []]}
+     |> fetch_posts(),
+     temporary_assigns: [posts: [], total_pages: calc_max_pages(group, @per_page)]}
   end
 
   @impl true
@@ -235,5 +238,10 @@ defmodule ShlinkedinWeb.GroupLive.Show do
     else
       {:noreply, socket}
     end
+  end
+
+  def calc_max_pages(group, per_page) do
+    total_posts = Groups.count_group_posts(group)
+    trunc(total_posts / per_page)
   end
 end

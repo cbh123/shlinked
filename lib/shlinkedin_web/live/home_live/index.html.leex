@@ -463,7 +463,7 @@
                     <%# Posts %>
 
                     <div id="posts" phx-update="<%=@update_action%>"
-                        phx-hook="InfiniteScroll" data-page="<%= @page %>">
+                        data-page="<%= @page %>">
 
 
                         <%= for {entity, _idx} <- Enum.with_index(@posts) do %>
@@ -544,6 +544,12 @@
                         <% end %>
                         <% end %>
                     </div>
+
+                    <footer id="footer" phx-hook="InfiniteScroll"
+                        class="mt-8 text-center text-6xl font-bold">
+                        <span class="animate-pulse font-windows">💵
+                            Loading...</span>
+                    </footer>
 
                 </div>
 

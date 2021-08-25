@@ -10,7 +10,7 @@ defmodule ShlinkedinWeb.MarketLive.Index do
 
     sort_options = %{sort_by: :inserted_at, sort_order: :desc}
     page = 1
-    per_page = 5
+    per_page = 6
 
     ads = Ads.list_ads(paginate: %{page: page, per_page: per_page}, sort: sort_options)
 
@@ -24,7 +24,7 @@ defmodule ShlinkedinWeb.MarketLive.Index do
        page: page,
        per_page: per_page,
        sort_options: sort_options
-     ), temporary_assigns: [ads: []]}
+     ), temporary_assigns: [ads: [], total_pages: calc_max_pages(per_page)]}
   end
 
   @impl true
@@ -55,6 +55,7 @@ defmodule ShlinkedinWeb.MarketLive.Index do
     |> assign(:page_title, "ShlinkMarket")
   end
 
+  @impl true
   def handle_event("sort_ads", %{"sort-ads" => "Sort by Creation Date"}, socket) do
     sort_options = %{sort_by: :inserted_at, sort_order: :desc}
 
@@ -73,8 +74,14 @@ defmodule ShlinkedinWeb.MarketLive.Index do
      |> fetch_ads()}
   end
 
-  def handle_event("load-more", _, %{assigns: assigns} = socket) do
-    {:noreply, socket |> assign(page: assigns.page + 1, update_action: "append") |> fetch_ads()}
+  def handle_event("load-more", _, socket) do
+    socket =
+      socket
+      |> update(:page, &(&1 + 1))
+      |> assign(update_action: "append")
+      |> fetch_ads()
+
+    {:noreply, socket}
   end
 
   defp fetch_ads(
@@ -85,5 +92,10 @@ defmodule ShlinkedinWeb.MarketLive.Index do
     assign(socket,
       ads: ads
     )
+  end
+
+  defp calc_max_pages(per_page) do
+    total_ads = Ads.get_num_ads()
+    trunc(total_ads / per_page)
   end
 end

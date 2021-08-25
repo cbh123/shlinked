@@ -284,20 +284,17 @@ let scrollAt = () => {
 };
 
 Hooks.InfiniteScroll = {
-  page() {
-    return this.el.dataset.page;
-  },
   mounted() {
-    this.pending = this.page();
-    window.addEventListener("scroll", (e) => {
-      if (this.pending == this.page() && scrollAt() > 90) {
-        this.pending = this.page() + 1;
-        this.pushEvent("load-more", {});
+    this.observer = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      if (entry.isIntersecting) {
+        this.pushEvent("load-more");
       }
     });
+    this.observer.observe(this.el);
   },
-  updated() {
-    this.pending = this.page();
+  destroyed() {
+    this.observer.disconnect();
   },
 };
 

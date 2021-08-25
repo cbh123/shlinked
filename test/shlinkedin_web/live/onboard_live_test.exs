@@ -119,7 +119,7 @@ defmodule ShlinkedinWeb.OnboardLiveTest do
     setup :register_and_log_in_user
 
     test "creates account and logs the user in 2", %{conn: conn} do
-      {:ok, view} = conn |> live("/") |> follow_redirect(conn)
+      {:ok, _view} = conn |> live("/") |> follow_redirect(conn)
     end
   end
 end

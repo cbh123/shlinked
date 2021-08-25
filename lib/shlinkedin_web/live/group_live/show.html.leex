@@ -271,8 +271,8 @@
 
 
         <%# Posts %>
-        <div id="posts" phx-update="append" phx-hook="InfiniteScroll"
-            data-page="<%= @page %>" class="mt-4">
+        <div id="posts" phx-update="append" data-page="<%= @page %>"
+            class="mt-4">
 
 
             <%= for {post, _idx} <- Enum.with_index(@posts) do %>
@@ -294,6 +294,17 @@
 
             <% end %>
         </div>
+        <%= if @posts != [] do %>
+        <footer id="footer" phx-hook="InfiniteScroll"
+            class="mt-8 text-center text-6xl font-bold">
+            <%= if @page >= @total_pages do %>
+            <p>That's it.</p>
+            <% else %>
+            <span class="animate-pulse font-windows">💵
+                Loading...</span>
+            <% end %>
+        </footer>
+        <% end %>
 
     </div>
 </div>
