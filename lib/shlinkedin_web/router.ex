@@ -43,7 +43,7 @@ defmodule ShlinkedinWeb.Router do
   # as long as you are also using SSL (which you should anyway).
 
   scope "/" do
-    pipe_through [:browser]
+    pipe_through [:browser, :admins_only]
     live_dashboard "/dashboard", metrics: ShlinkedinWeb.Telemetry, ecto_repos: [Shlinkedin.Repo]
   end
 
