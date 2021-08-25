@@ -784,7 +784,7 @@
         <%# Posts %>
         <%= if @content_selection == "posts" do %>
 
-        <%= if @posts != [] do %>
+
         <div id="posts" phx-update="append" class=" mx-auto"
             data-page="<%= @page %>">
             <%= for {post, idx} <- Enum.with_index(@posts) do %>
@@ -815,7 +815,7 @@
         </footer>
 
 
-        <% else %>
+        <%= if @profile_post_count == 0 do %>
         <div>
             <%= if @from_profile.id == @show_profile.id do %>
             <div>

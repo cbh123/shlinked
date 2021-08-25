@@ -56,7 +56,11 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(wealth_ranking: Profiles.get_ranking(show_profile, 50, "Wealth"))
      |> assign(stuff: Ads.list_owned_ads(show_profile))
      |> assign(testimonials: list_testimonials(show_profile.id)),
-     temporary_assigns: [posts: [], total_pages: calc_max_pages(show_profile, @per_page)]}
+     temporary_assigns: [
+       posts: [],
+       total_pages: calc_max_pages(show_profile, @per_page),
+       profile_post_count: Timeline.num_posts(show_profile)
+     ]}
   end
 
   defp fetch_posts(%{assigns: %{show_profile: show_profile, page: page, per_page: per}} = socket) do
