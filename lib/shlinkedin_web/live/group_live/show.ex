@@ -36,7 +36,11 @@ defmodule ShlinkedinWeb.GroupLive.Show do
        num_show_comments: 3
      )
      |> fetch_posts(),
-     temporary_assigns: [posts: [], total_pages: calc_max_pages(group, @per_page)]}
+     temporary_assigns: [
+       posts: [],
+       total_pages: calc_max_pages(group, @per_page),
+       group_total_posts: Groups.count_group_posts(group)
+     ]}
   end
 
   @impl true

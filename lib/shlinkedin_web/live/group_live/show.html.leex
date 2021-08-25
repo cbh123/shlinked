@@ -294,7 +294,7 @@
 
             <% end %>
         </div>
-        <%= if @posts != [] do %>
+        <%= if @group_total_posts != 0 do %>
         <footer id="footer" phx-hook="InfiniteScroll"
             class="mt-8 text-center text-6xl font-bold">
             <%= if @page >= @total_pages do %>
