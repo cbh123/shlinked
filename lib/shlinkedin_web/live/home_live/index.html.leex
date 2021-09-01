@@ -624,6 +624,31 @@
                             </div>
                         </div>
                     </section>
+                    <section aria-labelledby="activity-heading">
+                        <div class="bg-white p-5 rounded-lg shadow">
+
+                            <h5 class=" font-bold mb-3">
+
+
+                                Recent Activity</h5>
+
+                            <div class="max-h-40 overflow-y-scroll">
+                                <ul class="-mb-8">
+                                    <%= for activity <- @activities do %>
+                                    <%= live_component @socket, ShlinkedinWeb.ActivityLive.ActivityComponent,
+                                id: "activity-#{activity.id}",
+                                profile: @profile,
+                                activity: activity
+                            %>
+                                    <% end %>
+
+
+                            </div>
+                        </div>
+
+
+
+                    </section>
                     <section aria-labelledby="sponsor">
                         <div class="bg-white rounded-lg shadow">
 
@@ -658,31 +683,7 @@
 
 
                     </section>
-                    <section aria-labelledby="activity-heading">
-                        <div class="bg-white p-5 rounded-lg shadow">
 
-                            <h5 class=" font-bold mb-3">
-
-
-                                Recent Activity</h5>
-
-                            <div class="max-h-48 overflow-y-scroll">
-                                <ul class="-mb-8">
-                                    <%= for activity <- @activities do %>
-                                    <%= live_component @socket, ShlinkedinWeb.ActivityLive.ActivityComponent,
-                                id: "activity-#{activity.id}",
-                                profile: @profile,
-                                activity: activity
-                            %>
-                                    <% end %>
-
-
-                            </div>
-                        </div>
-
-
-
-                    </section>
 
                 </div>
             </aside>
