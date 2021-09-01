@@ -561,13 +561,13 @@ defmodule Shlinkedin.Timeline do
 
   def like_map do
     %{
-      "Coleslaw" => %{
+      "PickleHotSauce" => %{
         active: true,
-        like_type: "Coleslaw",
+        like_type: "PickleHotSauce",
         is_emoji: true,
-        emoji: "🥬",
-        color: "text-red-500",
-        bg: "bg-red-600"
+        emoji: "🌶️",
+        color: "text-green-500",
+        bg: "bg-green-600"
       },
       "HUSTLE" => %{
         active: true,
