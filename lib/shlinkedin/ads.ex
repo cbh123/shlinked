@@ -19,16 +19,17 @@ defmodule Shlinkedin.Ads do
   @doc """
   Gets total count of ads
   """
-  def get_num_ads() do
-    from(a in Ad, where: a.removed == false)
-    |> Repo.aggregate(:count)
+  def get_num_ads(show_sold) do
+    query = viewable_ads_query(show_sold)
+
+    Repo.aggregate(query, :count)
   end
 
   @doc """
   Lists ads given criteria
   """
   def list_ads(criteria) do
-    query = from(a in Ad)
+    query = viewable_ads_query()
 
     paged_query = paginate(query, criteria)
 
@@ -44,6 +45,14 @@ defmodule Shlinkedin.Ads do
       {:sort, %{sort_by: sort_by, sort_order: sort_order}}, query ->
         from q in query, order_by: [{^sort_order, ^sort_by}]
     end)
+  end
+
+  defp viewable_ads_query(show_sold \\ true) do
+    if show_sold do
+      from a in Ad, where: a.removed == false
+    else
+      from a in Ad, where: a.removed == false and is_nil(a.owner_id)
+    end
   end
 
   @doc """
