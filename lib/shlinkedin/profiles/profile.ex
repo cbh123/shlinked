@@ -86,7 +86,8 @@ defmodule Shlinkedin.Profiles.Profile do
       :show_levels,
       :feed_type,
       :feed_time,
-      :joined_discord
+      :joined_discord,
+      :show_sold_ads
     ])
     |> validate_required([:user_id, :persona_name, :slug, :username])
     |> downcase_username()

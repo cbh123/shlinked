@@ -66,8 +66,8 @@ defmodule ShlinkedinWeb.MarketLiveTest do
 
     view |> element("#toggle-sold") |> render_click()
 
-    updated_prof = Shlinkedin.Profiles.get_profile_by_profile_id(profile.id)
-    assert profile.show_sold_ads == false
+    updated_profile = Shlinkedin.Profiles.get_profile_by_profile_id(profile.id)
+    assert updated_profile.show_sold_ads == true
   end
 
   # test "click on ad goes to ad show page", %{conn: conn, profile: _profile} do
