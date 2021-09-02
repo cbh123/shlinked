@@ -7,8 +7,9 @@ defmodule ShlinkedinWeb.MarketLive.Index do
   @impl true
   def mount(_params, session, socket) do
     socket = is_user(session, socket)
+    show_sold = show_sold?(socket.assigns.profile)
 
-    sort_options = %{sort_by: :inserted_at, sort_order: :desc}
+    sort_options = %{sort_by: :inserted_at, sort_order: :desc, show_sold: show_sold}
     page = 1
     per_page = 6
 
@@ -21,10 +22,11 @@ defmodule ShlinkedinWeb.MarketLive.Index do
        update_action: "append",
        categories: Points.categories(),
        curr_category: "Ads",
+       total_pages: calc_max_pages(show_sold, per_page),
        page: page,
        per_page: per_page,
        sort_options: sort_options
-     ), temporary_assigns: [ads: [], total_pages: calc_max_pages(per_page)]}
+     ), temporary_assigns: [ads: []]}
   end
 
   @impl true
@@ -53,6 +55,28 @@ defmodule ShlinkedinWeb.MarketLive.Index do
   defp apply_action(socket, :index, _params) do
     socket
     |> assign(:page_title, "ShlinkMarket")
+  end
+
+  def handle_event(
+        "toggle_show_sold",
+        _params,
+        %{assigns: %{profile: profile, sort_options: sort_options}} = socket
+      ) do
+    show_sold = !sort_options.show_sold
+    {:ok, _profile} = Shlinkedin.Profiles.update_profile(profile, %{"show_sold_ads" => show_sold})
+
+    sort_options = Map.replace(sort_options, :show_sold, show_sold)
+    total_pages = calc_max_pages(show_sold, socket.assigns.per_page)
+
+    {:noreply,
+     socket
+     |> assign(
+       total_pages: total_pages,
+       sort_options: sort_options,
+       update_action: "replace",
+       page: 1
+     )
+     |> fetch_ads()}
   end
 
   @impl true
@@ -94,8 +118,12 @@ defmodule ShlinkedinWeb.MarketLive.Index do
     )
   end
 
-  defp calc_max_pages(per_page) do
-    total_ads = Ads.get_num_ads()
+  defp calc_max_pages(show_sold, per_page) do
+    total_ads = Ads.get_num_ads(show_sold: show_sold)
     trunc(total_ads / per_page)
+  end
+
+  defp show_sold?(profile) do
+    profile.show_sold_ads
   end
 end

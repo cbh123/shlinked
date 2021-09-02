@@ -89,7 +89,7 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       assert view |> element("#post-likes-#{post.id}") |> render() =~ "1 • 1 person"
 
       assert Shlinkedin.Profiles.get_profile_by_profile_id(profile.id).points == %Money{
-               amount: 300,
+               amount: 2100,
                currency: :SHLINK
              }
 
@@ -97,7 +97,7 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       assert view |> element("#post-likes-#{post.id}") |> render() =~ "2 • 1 person"
 
       assert Shlinkedin.Profiles.get_profile_by_profile_id(profile.id).points == %Money{
-               amount: 300,
+               amount: 2100,
                currency: :SHLINK
              }
     end
@@ -257,7 +257,7 @@ defmodule ShlinkedinWeb.HomeLiveTest do
 
       # your SPs go down -1000
       profile = Shlinkedin.Profiles.get_profile_by_profile_id(profile.id)
-      assert profile.points.amount == -900
+      assert profile.points.amount == -9900
     end
 
     test "test clap headline from someone else", %{conn: conn, profile: _profile} do
@@ -288,7 +288,7 @@ defmodule ShlinkedinWeb.HomeLiveTest do
 
       # # reload other profile
       other_profile = Shlinkedin.Profiles.get_profile_by_profile_id(other_profile.id)
-      assert other_profile.points.amount == 600
+      assert other_profile.points.amount == 5100
 
       # # now, one unclap
       Shlinkedin.News.delete_vote(profile3, headline)
@@ -379,7 +379,7 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       # now that we've joined...
       updated_prof = Shlinkedin.Profiles.get_profile_by_profile_id(profile.id)
       assert updated_prof.joined_discord == true
-      assert updated_prof.points.amount == 100 + 10000
+      assert updated_prof.points.amount == 100 + 100_000
 
       assert (Shlinkedin.Profiles.list_notifications(updated_prof.id, 1)
               |> Enum.at(0)).body == "Memo: For joining the discord"

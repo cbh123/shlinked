@@ -663,7 +663,7 @@
 
                             <h5 class=" font-bold mb-3">Recent Activity</h5>
 
-                            <div class="max-h-40 overflow-y-scroll">
+                            <div class="max-h-56 overflow-y-scroll">
                                 <ul class="-mb-8">
                                     <%= for activity <- @right_lower_box.content do %>
                                     <%= live_component @socket, ShlinkedinWeb.ActivityLive.ActivityComponent,
