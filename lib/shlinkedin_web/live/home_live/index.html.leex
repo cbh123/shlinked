@@ -624,17 +624,48 @@
                             </div>
                         </div>
                     </section>
+
+                    <%= if @right_lower_box.type == :sponsor do %>
+                    <section aria-labelledby="sponsor">
+                        <div class="bg-white rounded-lg shadow">
+
+                            <div class="p-3">
+                                <h5
+                                    class="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    Sponsor of
+                                    the month</h5>
+                                <p class="mt-2 mb-3 text-xs">
+                                    <a href="https://picklehotsauce.com/"
+                                        class="underline">Pickle
+                                        Hot Sauce</a>.
+                                    Enjoyed by the ShlinkedIn
+                                    Founders themselves. It is spicy, it
+                                    is pickle-y, it is love, it is life. Use
+                                    <span class="font-bold">SHLINK10</span>
+                                    for
+                                    10% off.</p>
+
+                            </div>
+
+                            <a href="https://picklehotsauce.com/"
+                                class="underline">
+                                <img class="rounded-b max-h-60"
+                                    src="https://media.discordapp.net/attachments/870450368281210920/882044601710559272/2020_Pickle_Hot_Sauce_-_Round_1_117.jpg?width=1440&height=810"
+                                    alt="">
+                            </a>
+                        </div>
+                    </section>
+                    <% end %>
+
+                    <%= if @right_lower_box.type == :activity do %>
                     <section aria-labelledby="activity-heading">
                         <div class="bg-white p-5 rounded-lg shadow">
 
-                            <h5 class=" font-bold mb-3">
+                            <h5 class=" font-bold mb-3">Recent Activity</h5>
 
-
-                                Recent Activity</h5>
-
-                            <div class="max-h-56 overflow-y-scroll">
+                            <div class="max-h-40 overflow-y-scroll">
                                 <ul class="-mb-8">
-                                    <%= for activity <- @activities do %>
+                                    <%= for activity <- @right_lower_box.content do %>
                                     <%= live_component @socket, ShlinkedinWeb.ActivityLive.ActivityComponent,
                                 id: "activity-#{activity.id}",
                                 profile: @profile,
@@ -649,6 +680,10 @@
 
 
                     </section>
+                    <% end %>
+
+
+
                 </div>
             </aside>
         </div>

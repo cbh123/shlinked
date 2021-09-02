@@ -25,6 +25,8 @@ defmodule ShlinkedinWeb.HomeLive.Index do
       time: socket.assigns.profile.feed_time
     }
 
+    right_lower_box = load_activity_or_sponsor?()
+
     {:ok,
      socket
      |> assign(
@@ -32,7 +34,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
        feed_options: feed_options,
        page: 1,
        per_page: 5,
-       activities: Timeline.list_unique_notifications(60),
+       right_lower_box: right_lower_box,
        stories: Timeline.list_stories(),
        articles: News.list_top_articles(15),
        like_map: Timeline.like_map(),
@@ -379,5 +381,13 @@ defmodule ShlinkedinWeb.HomeLive.Index do
       points_pct: Shlinkedin.Points.calc_pct_increase(),
       num_new_profiles: Profiles.num_new_profiles("week")
     }
+  end
+
+  defp load_activity_or_sponsor?() do
+    [
+      %{type: :activity, content: Timeline.list_unique_notifications(60)},
+      %{type: :sponsor, content: "Pickle Hot Sauce"}
+    ]
+    |> Enum.random()
   end
 end
