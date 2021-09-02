@@ -15,33 +15,33 @@ defmodule Shlinkedin.Points do
   def rules() do
     %{
       :like => %{
-        amount: Money.new(200),
+        amount: Money.new(2000),
         desc:
           "For each post reaction you receive. You can get max 1 points from 1 person for each post."
       },
       :comment_like => %{
-        amount: Money.new(200),
+        amount: Money.new(2000),
         desc:
           "For each comment reaction you receive. You can get max 1 points from 1 person for each comment."
       },
       :vote => %{
-        amount: Money.new(500),
+        amount: Money.new(5000),
         desc: "For each headline clap you receive"
       },
       :unvote => %{
-        amount: Money.new(-500),
+        amount: Money.new(-5000),
         desc: "If someone unclaps your headline"
       },
       :new_headline => %{
-        amount: Money.new(-1000),
+        amount: Money.new(-10000),
         desc: "The cost of writing a headline"
       },
       :profile_view => %{
-        amount: Money.new(10),
+        amount: Money.new(100),
         desc: "For each profile view (from someone other than you)"
       },
       :accepted_friend_request => %{
-        amount: Money.new(500),
+        amount: Money.new(5000),
         desc: "When someone accepts your Shlink Request"
       },
       # :sent_friend_request => %{
@@ -53,11 +53,11 @@ defmodule Shlinkedin.Points do
       #   desc: "For writing an endorsement"
       # },
       :endorsement => %{
-        amount: Money.new(300),
+        amount: Money.new(3000),
         desc: "For each endorsement you receieve"
       },
       :testimonial => %{
-        amount: Money.new(100),
+        amount: Money.new(1000),
         desc: "For each review star rating"
       },
       # :sent_testimonial => %{
@@ -65,7 +65,7 @@ defmodule Shlinkedin.Points do
       #   desc: "For writing a review"
       # },
       :featured_post => %{
-        amount: Money.new(5000),
+        amount: Money.new(10000),
         desc: "For getting a featured post"
       },
       # :see_more => %{
@@ -73,15 +73,15 @@ defmodule Shlinkedin.Points do
       #   desc: "For when someone clicks 'see more' on one of your posts"
       # },
       :ad_click => %{
-        amount: Money.new(1000),
+        amount: Money.new(10000),
         desc: "For when someone clicks on your ad"
       },
       :ad_like => %{
-        amount: Money.new(2000),
+        amount: Money.new(20000),
         desc: "For when someone reacts to your ad"
       },
       :join_discord => %{
-        amount: Money.new(10000),
+        amount: Money.new(100_000),
         desc: "For joining the discord"
       }
       # :new_ad => %{

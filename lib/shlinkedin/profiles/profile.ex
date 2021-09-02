@@ -58,6 +58,7 @@ defmodule Shlinkedin.Profiles.Profile do
     field :feed_time, :string, default: "week"
 
     field :joined_discord, :boolean, default: false
+    field :show_sold_ads, :boolean, default: false
     timestamps()
   end
 

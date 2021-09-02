@@ -19,7 +19,7 @@ defmodule Shlinkedin.Ads do
   @doc """
   Gets total count of ads
   """
-  def get_num_ads(show_sold) do
+  def get_num_ads(show_sold: show_sold) do
     query = viewable_ads_query(show_sold)
 
     Repo.aggregate(query, :count)
@@ -29,7 +29,7 @@ defmodule Shlinkedin.Ads do
   Lists ads given criteria
   """
   def list_ads(criteria) do
-    query = viewable_ads_query()
+    query = viewable_ads_query(criteria[:sort][:show_sold])
 
     paged_query = paginate(query, criteria)
 
@@ -47,13 +47,16 @@ defmodule Shlinkedin.Ads do
     end)
   end
 
-  defp viewable_ads_query(show_sold \\ true) do
-    if show_sold do
-      from a in Ad, where: a.removed == false
-    else
-      from a in Ad, where: a.removed == false and is_nil(a.owner_id)
-    end
+  defp viewable_ads_query(show_sold) do
+    query = from a in Ad, where: a.removed == false
+    include_sold_ads_query(query, show_sold)
   end
+
+  defp include_sold_ads_query(query, false) do
+    from a in query, where: is_nil(a.owner_id)
+  end
+
+  defp include_sold_ads_query(query, _), do: query
 
   @doc """
   Buys an Ad. Everytime an ad is bought:

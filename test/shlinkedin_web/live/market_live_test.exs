@@ -59,6 +59,17 @@ defmodule ShlinkedinWeb.MarketLiveTest do
     {:ok, _view, _html} = conn |> live("/market")
   end
 
+  test "click show_sold toggle includes sold ads", %{conn: conn, profile: profile} do
+    {:ok, view, _html} = conn |> live("/market")
+
+    assert profile.show_sold_ads == false
+
+    view |> element("#toggle-sold") |> render_click()
+
+    updated_prof = Shlinkedin.Profiles.get_profile_by_profile_id(profile.id)
+    assert profile.show_sold_ads == false
+  end
+
   # test "click on ad goes to ad show page", %{conn: conn, profile: _profile} do
   #   # {:ok, _view, _html} = conn |> live("/market")
 
