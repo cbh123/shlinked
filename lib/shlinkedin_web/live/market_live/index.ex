@@ -90,7 +90,7 @@ defmodule ShlinkedinWeb.MarketLive.Index do
   end
 
   def handle_event("sort_ads", %{"sort-ads" => "Sort by Price"}, socket) do
-    sort_options = Map.replace(socket.assigns.sort_options, :price, :inserted_at)
+    sort_options = Map.replace(socket.assigns.sort_options, :sort_by, :price)
 
     {:noreply,
      socket
