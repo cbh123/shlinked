@@ -34,3 +34,7 @@ npm-debug.log
 /priv/static/
 
 .env
+
+**/.DS_Store
+
+/.elixir_ls/
