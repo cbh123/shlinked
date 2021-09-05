@@ -6,6 +6,11 @@
 </div>
 
 <div class="p-5 pt-2 max-h-96 overflow-y-scroll">
+    <%= if @votes == [] do %>
+        <div class="text-center">
+            <p class="font-semibold text-gray-600  my-4">No claps here 😔</p>
+        </div>
+    <% end %>
     <%= for user <- @votes  do %>
 
     <div class="my-1 border-gray-100 border-b">
