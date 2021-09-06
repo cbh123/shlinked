@@ -52,7 +52,7 @@ defmodule Shlinkedin.Levels do
           name: "Make 1 connection"
         },
         %{
-          done: Shlinkedin.Points.get_balance(profile) |> Money.compare(Money.new(1000)) == 1,
+          done: Shlinkedin.Points.get_balance(profile) |> Money.compare(Money.new(10000)) == 1,
           route: Routes.points_index_path(socket, :index),
           name:
             "Earn 10 ShlinkPoints (current balance: #{Shlinkedin.Points.get_balance(profile)})"
@@ -101,7 +101,7 @@ defmodule Shlinkedin.Levels do
         %{
           name:
             "Maintain a net worth of 1000 ShlinkPoints (current balance: #{Shlinkedin.Points.get_balance(profile)})",
-          done: Shlinkedin.Points.get_balance(profile) |> Money.compare(Money.new(100_000)) == 1,
+          done: Shlinkedin.Points.get_balance(profile) |> Money.compare(Money.new(100_0000)) == 1,
           route: Routes.points_index_path(socket, :index)
         },
         %{
