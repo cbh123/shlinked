@@ -22,12 +22,22 @@ defmodule Shlinkedin.News do
 
   """
 
-  def list_articles() do
+  def list_articles(criteria) when is_list(criteria) do
+    query = from h in Article, order_by: [desc: h.id]
+
+    paged_query = paginate(query, criteria)
+
+    from(p in paged_query, preload: :votes) |> Repo.all()
+  end
+
+  def list_articles(_) do
     Repo.all(from h in Article, order_by: [desc: h.inserted_at], preload: :votes)
   end
 
-  def list_top_articles(count) do
-    Repo.all(from h in Article, order_by: [desc: h.inserted_at], limit: ^count, preload: :votes)
+  defp paginate(query, criteria) do
+    Enum.reduce(criteria, query, fn {:paginate, %{page: page, per_page: per_page}}, query ->
+      from(q in query, offset: ^((page - 1) * per_page), limit: ^per_page)
+    end)
   end
 
   def list_unique_article_votes(%Profile{} = profile) do
