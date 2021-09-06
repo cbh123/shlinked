@@ -81,7 +81,7 @@ defmodule Shlinkedin.Points do
         desc: "For when someone reacts to your ad"
       },
       :join_discord => %{
-        amount: Money.new(100_000),
+        amount: Money.new(0),
         desc: "For joining the discord"
       }
       # :new_ad => %{
