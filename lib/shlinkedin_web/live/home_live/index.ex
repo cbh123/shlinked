@@ -388,6 +388,6 @@ defmodule ShlinkedinWeb.HomeLive.Index do
       %{type: :activity, content: Timeline.list_unique_notifications(60)},
       %{type: :sponsor, content: "Pickle Hot Sauce"}
     ]
-    |> Enum.random()
+    |> Enum.at(0)
   end
 end

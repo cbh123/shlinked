@@ -1,6 +1,7 @@
 <li>
     <div class="relative pb-8">
-        <span class="absolute top-5 left-5 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+        <span class="absolute top-5 left-5 -ml-px h-full w-0.5 bg-gray-200"
+            aria-hidden="true"></span>
         <div class="relative flex items-start space-x-3">
             <div>
                 <div class="relative px-1">
@@ -12,9 +13,10 @@
                 <div class="text-xs text-gray-500">
                     <%= live_redirect @activity.profile.persona_name, to: Routes.profile_show_path(@socket, :show, @activity.profile.slug), class: "font-medium text-gray-900" %>
 
-                    <%= raw(render_notification_as_activity(@activity)) %>
+                    <%= (render_notification_as_activity(@activity)) %>
 
-                    <span class="whitespace-nowrap"><%= Timex.from_now(@activity.inserted_at) %></span>
+                    <span
+                        class="whitespace-nowrap"><%= Timex.from_now(@activity.inserted_at) %></span>
                 </div>
             </div>
         </div>

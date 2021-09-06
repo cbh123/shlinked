@@ -4,6 +4,7 @@ defmodule ShlinkedinWeb.HomeLiveTest do
   import Phoenix.LiveViewTest
 
   alias Shlinkedin.Timeline
+  alias Shlinkedin.Points
 
   setup :register_user_and_profile
 
@@ -260,7 +261,8 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       assert profile.points.amount == -9900
     end
 
-    test "test clap headline from someone else", %{conn: conn, profile: _profile} do
+    test "test clap headline from someone else", %{conn: conn, profile: profile} do
+      # create profiles
       other_profile = Shlinkedin.ProfilesFixtures.profile_fixture()
 
       {:ok, headline} =
@@ -279,21 +281,22 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       assert view |> render() =~ "✖"
       assert view |> render() =~ "claps"
 
-      # create two more claps
-      profile2 = Shlinkedin.ProfilesFixtures.profile_fixture()
-      profile3 = Shlinkedin.ProfilesFixtures.profile_fixture()
-
-      Shlinkedin.News.create_vote(profile2, headline)
-      Shlinkedin.News.create_vote(profile3, headline)
-
       # # reload other profile
       other_profile = Shlinkedin.Profiles.get_profile_by_profile_id(other_profile.id)
-      assert other_profile.points.amount == 5100
-
       # # now, one unclap
-      Shlinkedin.News.delete_vote(profile3, headline)
+      assert other_profile.points.amount ==
+               100 + Points.get_rule_amount(:new_headline).amount +
+                 Points.get_rule_amount(:vote).amount
+
+      # unclap
+      view |> element("#article-#{headline.id}-clap") |> render_click()
+      refute view |> render() =~ "✖"
+
       other_profile = Shlinkedin.Profiles.get_profile_by_profile_id(other_profile.id)
-      assert other_profile.points.amount == 100
+
+      assert other_profile.points.amount ==
+               100 + Points.get_rule_amount(:new_headline).amount +
+                 Points.get_rule_amount(:vote).amount + Points.get_rule_amount(:unvote).amount
     end
 
     test "test delete headline", %{conn: conn, profile: profile} do
@@ -377,9 +380,10 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       view |> element("#join-discord") |> render_click()
 
       # now that we've joined...
+      discord_points = Shlinkedin.Points.get_rule_amount(:join_discord).amount
       updated_prof = Shlinkedin.Profiles.get_profile_by_profile_id(profile.id)
       assert updated_prof.joined_discord == true
-      assert updated_prof.points.amount == 100 + 100_000
+      assert updated_prof.points.amount == 100 + discord_points
 
       assert (Shlinkedin.Profiles.list_notifications(updated_prof.id, 1)
               |> Enum.at(0)).body == "Memo: For joining the discord"

@@ -75,7 +75,6 @@ defmodule Shlinkedin.News do
 
     # could be optimized
     article = get_article_preload_votes!(article.id)
-
     broadcast({:ok, article}, :article_updated)
   end
 
