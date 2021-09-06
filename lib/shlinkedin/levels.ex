@@ -55,7 +55,7 @@ defmodule Shlinkedin.Levels do
           done: Shlinkedin.Points.get_balance(profile) |> Money.compare(Money.new(10000)) == 1,
           route: Routes.points_index_path(socket, :index),
           name:
-            "Earn 10 ShlinkPoints (current balance: #{Shlinkedin.Points.get_balance(profile)})"
+            "Earn 100 ShlinkPoints (current balance: #{Shlinkedin.Points.get_balance(profile)})"
         },
         %{
           done: Profiles.count_jabs(profile) >= 1,
@@ -100,7 +100,7 @@ defmodule Shlinkedin.Levels do
       4 => [
         %{
           name:
-            "Maintain a net worth of 1000 ShlinkPoints (current balance: #{Shlinkedin.Points.get_balance(profile)})",
+            "Maintain a net worth of 10000 ShlinkPoints (current balance: #{Shlinkedin.Points.get_balance(profile)})",
           done: Shlinkedin.Points.get_balance(profile) |> Money.compare(Money.new(100_0000)) == 1,
           route: Routes.points_index_path(socket, :index)
         },
