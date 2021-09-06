@@ -25,8 +25,6 @@ defmodule ShlinkedinWeb.HomeLive.Index do
       time: socket.assigns.profile.feed_time
     }
 
-    right_lower_box = load_activity_or_sponsor?()
-
     {:ok,
      socket
      |> assign(
@@ -34,14 +32,16 @@ defmodule ShlinkedinWeb.HomeLive.Index do
        feed_options: feed_options,
        page: 1,
        per_page: 5,
-       right_lower_box: right_lower_box,
+       right_lower_box: load_activity_or_sponsor?(),
        stories: Timeline.list_stories(),
-       articles: News.list_top_articles(15),
+       headline_page: 1,
+       headline_per_page: 15,
        like_map: Timeline.like_map(),
        comment_like_map: Timeline.comment_like_map(),
        stats: get_stats(),
        num_show_comments: 1
      )
+     |> fetch_headlines()
      |> fetch_profile_related_data()
      |> map_story_id_to_seen_all_stories()
      |> fetch_posts(), temporary_assigns: [posts: [], articles: []]}
@@ -105,6 +105,11 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     assign(socket,
       posts: content
     )
+  end
+
+  defp fetch_headlines(%{assigns: %{headline_page: page, headline_per_page: per_page}} = socket) do
+    articles = News.list_articles(paginate: %{page: page, per_page: per_page})
+    assign(socket, articles: articles)
   end
 
   defp get_ad() do
@@ -250,7 +255,8 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   end
 
   def handle_event("more-headlines", _, socket) do
-    {:noreply, socket |> assign(articles: News.list_random_articles(5))}
+    {:noreply,
+     socket |> assign(headline_page: socket.assigns.headline_page + 1) |> fetch_headlines()}
   end
 
   def handle_event("delete", %{"id" => id}, socket) do
