@@ -90,13 +90,6 @@ defmodule Shlinkedin.Groups do
       |> Member.changeset(attrs)
       |> Repo.insert()
 
-    Shlinkedin.Profiles.ProfileNotifier.observer(
-      {:ok, group},
-      :new_group_member,
-      profile,
-      profile
-    )
-
     {:ok, group}
   end
 
