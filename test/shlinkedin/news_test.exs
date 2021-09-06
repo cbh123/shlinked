@@ -26,7 +26,7 @@ defmodule Shlinkedin.NewsTest do
       headlines =
         News.list_articles(@criteria) |> Enum.map(fn a -> String.to_integer(a.headline) end)
 
-      assert headlines == [1, 2, 3, 4, 5]
+      assert headlines == [10, 9, 8, 7, 6]
     end
 
     test "check headline ordering second page" do
@@ -34,7 +34,7 @@ defmodule Shlinkedin.NewsTest do
         News.list_articles(paginate: %{page: 2, per_page: 5})
         |> Enum.map(fn a -> String.to_integer(a.headline) end)
 
-      assert headlines == [6, 7, 8, 9, 10]
+      assert headlines == [5, 4, 3, 2, 1]
     end
   end
 end

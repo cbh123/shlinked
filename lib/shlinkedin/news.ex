@@ -23,7 +23,7 @@ defmodule Shlinkedin.News do
   """
 
   def list_articles(criteria) when is_list(criteria) do
-    query = from h in Article, order_by: [desc: h.inserted_at]
+    query = from h in Article, order_by: [desc: h.id]
 
     paged_query = paginate(query, criteria)
 
