@@ -14,10 +14,15 @@ defmodule ShlinkedinWeb.ProfileLiveTest do
 
     random_profile = Profiles.get_profile_by_profile_id(random_profile.id)
 
-    assert random_profile.points.amount == 200
+    assert random_profile.points.amount ==
+             100 + Shlinkedin.Points.get_rule_amount(:profile_view).amount
+
     {:ok, _view, _html} = live(conn, Routes.profile_show_path(conn, :show, random_profile.slug))
     {:ok, _view, _html} = live(conn, Routes.profile_show_path(conn, :show, random_profile.slug))
     {:ok, _view, _html} = live(conn, Routes.profile_show_path(conn, :show, random_profile.slug))
-    assert random_profile.points.amount == 200
+    random_profile = Profiles.get_profile_by_profile_id(random_profile.id)
+
+    assert random_profile.points.amount ==
+             100 + Shlinkedin.Points.get_rule_amount(:profile_view).amount
   end
 end
