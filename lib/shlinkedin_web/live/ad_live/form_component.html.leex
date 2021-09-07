@@ -24,7 +24,7 @@
 
     <div class="mt-6">
         <%= label f, "What's the ad copy?", class: "block text-sm font-medium text-gray-700" %>
-        <%= textarea f, :body, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md px-3", rows: 3, placeholder: "Is you're comper too big for your little hands? Try Teeny Comper Pro™ it's so little you won't feel a thing." %>
+        <%= textarea f, :body, id: "ad-body-area", class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md px-3", rows: 3, placeholder: "Is you're comper too big for your little hands? Try Teeny Comper Pro™ it's so little you won't feel a thing." %>
         <p class="mt-4 text-xs"><%= error_tag f, :body %></p>
 
         <%# Error for gif %>
