@@ -261,7 +261,7 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       assert profile.points.amount == -9900
     end
 
-    test "test clap headline from someone else", %{conn: conn, profile: profile} do
+    test "test clap headline from someone else", %{conn: conn} do
       # create profiles
       other_profile = Shlinkedin.ProfilesFixtures.profile_fixture()
 
