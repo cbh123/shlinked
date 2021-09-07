@@ -35,7 +35,7 @@ defmodule ShlinkedinWeb.MarketLiveTest do
     view |> form("#ad-form") |> render_change(ad: %{"product" => "Snapchat"})
     view |> element("#add-gif") |> render_click()
 
-    {:ok, view, html} =
+    {:ok, _view, html} =
       view
       |> form("#ad-form",
         ad: %{

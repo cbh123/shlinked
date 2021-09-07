@@ -33,7 +33,7 @@ defmodule ShlinkedinWeb.OnboardLiveTest do
     assert view
            |> form("#profile-form", profile: %{persona_name: "Charlie B"})
            |> render_submit() =~
-             "can&apos;t be blank"
+             "can&#39;t be blank"
 
     assert view
            |> form("#profile-form",
