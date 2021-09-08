@@ -192,7 +192,7 @@
                                 aria-haspopup="true" aria-expanded="true">
 
                                 <svg class="-ml-1 mr-1  h-4 w-4 sm:h-5 sm:w-5"
-                                    fill="none" stroke="currentColor"
+                                    fill="none" stroke="currentColor" %
                                     viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path stroke-linecap="round"
@@ -202,6 +202,13 @@
                                 </svg>
                                 Share
                             </button>
+
+                            <a class="twitter-share-button" rel="me"
+                                href="https://twitter.com/intent/tweet?text=<%= @post.body %> via shlinkedin.com<%= Routes.home_show_path(@socket, :show, @post.id) %>"
+                                data-size="large">
+                                Tweet</a>
+
+
 
                         </div>
 
@@ -229,6 +236,8 @@
                                     </svg>
                                     Copy link to post
                                 </button>
+
+
                                 <button type="button" phx-hook="ShareVia"
                                     id="<%= "#{@post.id}-sharevia-btn" %> "
                                     phx-value-link="<%="https://www.shlinkedin.com/home/show/posts/#{@post.id}"%>"

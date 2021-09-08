@@ -34,7 +34,6 @@ defmodule Shlinkedin.Profiles.Profile do
     field :life_score, :string, default: "B+"
     field :points, Money.Ecto.Amount.Type, default: Money.new(100, :SHLINK)
 
-    field :publish_bio, :boolean, virtual: true
     field :publish_profile_picture, :boolean, virtual: true
 
     field :last_checked_notifications, :naive_datetime
