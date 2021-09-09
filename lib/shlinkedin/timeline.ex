@@ -485,16 +485,11 @@ defmodule Shlinkedin.Timeline do
 
   """
   def update_post(%Profile{} = profile, %Post{} = post, attrs, after_save \\ &{:ok, &1}) do
-    case profile.id == post.profile_id or profile.admin do
-      true ->
-        post
-        |> Post.changeset(attrs)
-        |> after_save(after_save)
-        |> Repo.update()
-
-      false ->
-        {:error, "You can only edit your own posts!"}
-    end
+    post
+    |> Post.changeset(attrs)
+    |> Post.validate_allowed(post, profile)
+    |> after_save(after_save)
+    |> Repo.update()
   end
 
   @doc """

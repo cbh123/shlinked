@@ -65,6 +65,7 @@ defmodule Shlinkedin.Profiles.Profile do
   def changeset(profile, attrs) do
     profile
     |> cast(attrs, [
+      :admin,
       :username,
       :user_id,
       :slug,
