@@ -1,7 +1,7 @@
 defmodule ShlinkedinWeb.MessageLive.Index do
   use ShlinkedinWeb, :live_view
 
-  alias Shlinkedin.{Profiles, Chat, Repo, Chat.Conversation, Profiles.Profile}
+  alias Shlinkedin.{Chat, Repo}
 
   @impl true
   def mount(_params, session, socket) do

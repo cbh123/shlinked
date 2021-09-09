@@ -223,8 +223,11 @@ defmodule Shlinkedin.AdsTest do
       assert {:ok, %Ad{} = ad} = Ads.create_ad(profile, %Ad{}, @valid_ad)
       new_profile = Shlinkedin.ProfilesFixtures.profile_fixture()
 
-      {:ok, _ad} = Ads.update_ad(ad, profile, %{body: "update1"})
+      # {:ok, _ad} = Ads.update_ad(ad, profile, %{body: "update1"})
       {:error, %Ecto.Changeset{}} = Ads.update_ad(ad, new_profile, %{body: "update2"})
+      {:error, %Ecto.Changeset{}} = Ads.update_ad(ad, new_profile, %{company: "update2"})
+      {:error, %Ecto.Changeset{}} = Ads.update_ad(ad, new_profile, %{product: "update2"})
+      {:error, %Ecto.Changeset{}} = Ads.update_ad(ad, new_profile, %{price: "update2"})
     end
 
     test "edit an ad that isn't yours but you're an admin", %{profile: profile} do
