@@ -19,12 +19,19 @@
         content="ShlinkedIn is a fully-functioning satirical social network poking fun at LinkedIn. Find business humor, jokes, original memes and more.">
 
     <meta name="twitter:card" content="summary_large_image">
+
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+
+    <%= if @meta_attrs do %>
+    <%= meta_tags(@meta_attrs) %>
+    <% else %>
     <meta property="og:image"
         content="https://shlinked.s3.amazonaws.com/social.png">
     <meta property="twitter:image"
         content="https://shlinked.s3.amazonaws.com/social.png">
-    <meta property="og:locale" content="en_US">
-    <meta property="og:type" content="website">
+
+    <% end %>
 
 
 

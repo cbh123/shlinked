@@ -18,7 +18,8 @@ defmodule ShlinkedinWeb.HomeLive.Show do
      |> assign(like_map: Timeline.like_map())
      |> assign(comment_like_map: Timeline.comment_like_map())
      |> assign(show_like_options: false)
-     |> assign(:post, post)
+     |> assign(post: post)
+     |> assign(meta_attrs: meta_attrs)
      |> assign(:page_title, "See #{post.profile.persona_name}'s post on ShlinkedIn")}
   end
 
@@ -110,5 +111,36 @@ defmodule ShlinkedinWeb.HomeLive.Show do
   @impl true
   def handle_info({:post_deleted, post}, socket) do
     {:noreply, socket}
+  end
+
+  defp meta_attrs do
+    [
+      %{
+        property: "og:image",
+        content:
+          "https://ondemand.bannerbear.com/taggedurl/vqNnLwZdMqOd1AWDJy/image.jpg?modifications=[avatar---image_url~~https://shlinked.s3.amazonaws.com/9cc45caf-436c-48a4-8850-f1a060feea1a.png:::full_name---text~~Charles:::tweet---text~~Thought
+      Leadership isn't easy. It's
+      hard.:::meta_text---text~~via
+      Shlinkedin.com:::username---text~~Mission
+      Controller]"
+      },
+      %{
+        name: "twitter:image:src",
+        content:
+          "https://ondemand.bannerbear.com/taggedurl/vqNnLwZdMqOd1AWDJy/image.jpg?modifications=[avatar---image_url~~https://shlinked.s3.amazonaws.com/9cc45caf-436c-48a4-8850-f1a060feea1a.png:::full_name---text~~Charles:::tweet---text~~Thought
+      Leadership isn't easy. It's
+      hard.:::meta_text---text~~via
+      Shlinkedin.com:::username---text~~Mission
+      Controller]"
+      },
+      %{
+        property: "og:image:height",
+        content: "630"
+      },
+      %{
+        property: "og:image:width",
+        content: "1200"
+      }
+    ]
   end
 end

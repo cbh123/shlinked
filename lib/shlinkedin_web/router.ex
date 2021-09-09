@@ -4,6 +4,7 @@ defmodule ShlinkedinWeb.Router do
   import ShlinkedinWeb.UserAuth
   import Phoenix.LiveDashboard.Router
   import Plug.BasicAuth
+  import ShlinkedinWeb.MetaAttrs
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -13,6 +14,7 @@ defmodule ShlinkedinWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_user
+    plug :put_meta_attrs
   end
 
   pipeline :api do
