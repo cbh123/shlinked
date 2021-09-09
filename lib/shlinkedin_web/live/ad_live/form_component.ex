@@ -93,7 +93,7 @@ defmodule ShlinkedinWeb.AdLive.FormComponent do
     ad = put_photo_urls(socket, socket.assigns.ad)
     ad = %Ad{ad | gif_url: socket.assigns.gif_url}
 
-    case Ads.update_ad(ad, ad_params, &consume_photos(socket, &1)) do
+    case Ads.update_ad(ad, socket.assigns.profile, ad_params, &consume_photos(socket, &1)) do
       {:ok, _ad} ->
         {:noreply,
          socket

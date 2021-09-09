@@ -1,6 +1,7 @@
 defmodule Shlinkedin.Timeline.Post do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Shlinkedin.Profiles.Profile
 
   schema "posts" do
     field :body, :string
@@ -62,5 +63,27 @@ defmodule Shlinkedin.Timeline.Post do
     if text |> String.downcase() |> String.contains?("#cybersecurity"),
       do: "cybersecurity",
       else: ""
+  end
+
+  @doc """
+  Validates on back end that the current profile is allowed to
+  make the changes they're attempting to.
+  """
+  def validate_allowed(changeset, post, profile) do
+    validate_change(changeset, :body, fn :body, _body ->
+      if is_allowed?(profile, post.profile_id) do
+        []
+      else
+        [body: "You cannot edit this person's posts."]
+      end
+    end)
+  end
+
+  defp is_allowed?(%Profile{admin: true} = profile, _post_profile_id) do
+    true
+  end
+
+  defp is_allowed?(%Profile{id: id}, post_profile_id) do
+    id == post_profile_id
   end
 end
