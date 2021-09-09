@@ -192,6 +192,7 @@ defmodule Shlinkedin.Timeline do
 
   defp parse_results(posts, _), do: posts
 
+  def parse_time("hour"), do: -60 * 60
   def parse_time("today"), do: -60 * 60 * 24
   def parse_time("week"), do: parse_time("today") * 7
   def parse_time("month"), do: parse_time("today") * 31
