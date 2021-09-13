@@ -44,7 +44,7 @@ jobs:
       - run: mix deps.get
       - run: npm install --prefix assets
       - run: npm run deploy --prefix assets
-      - run: mix test
+      - run: source .env && mix test
   deploy-app:
     needs: test # Will only run if the test job succeeds
     if: github.ref == 'refs/heads/main' # Only run this job if it is on the main branch
