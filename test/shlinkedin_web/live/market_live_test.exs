@@ -28,6 +28,7 @@ defmodule ShlinkedinWeb.MarketLiveTest do
     assert render(view) =~ "ShlinkMarket"
   end
 
+  @tag gif_test
   test "create an ad", %{conn: conn, profile: profile} do
     {:ok, view, _html} = conn |> live("/market")
 
@@ -72,6 +73,7 @@ defmodule ShlinkedinWeb.MarketLiveTest do
     assert updated_profile.points.amount == 75
   end
 
+  @tag gif_test
   test "edit an ad that you made", %{conn: conn, profile: profile} do
     ad = ad_fixture(profile)
 
@@ -99,6 +101,7 @@ defmodule ShlinkedinWeb.MarketLiveTest do
     assert html =~ "Ad updated successfully"
   end
 
+  @tag gif_test
   test "edit an ad that you DID NOT make", %{conn: conn, profile: _profile} do
     random_profile = profile_fixture()
     ad = ad_fixture(random_profile)
