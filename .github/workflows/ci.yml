@@ -16,7 +16,7 @@ jobs:
         with:
           python-version: 3.8.1
 
-      - uses: mhanberg/gigalixir-action@v0.4.0>
+      - uses: mhanberg/gigalixir-action@v0.4.0
         with:
           GIGALIXIR_APP: shlinkedin # Feel free to also put this in your secrets
           GIGALIXIR_CLEAN: false # defaults to false
