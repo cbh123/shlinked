@@ -1,0 +1,3 @@
+- name: Gigalixir Action
+  uses: mhanberg/gigalixir-action@v0.4.0
+
