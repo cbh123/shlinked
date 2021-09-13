@@ -1,2 +1,3 @@
-name: Gigalixir Action
+name: Gigalixir-Action
+on: [push]
 uses: mhanberg/gigalixir-action@v0.4.0
