@@ -19,7 +19,7 @@ jobs:
       - uses: mhanberg/gigalixir-action@v0.6.1
         with:
           GIGALIXIR_APP: shlinkedin # Feel free to also put this in your secrets
-          GIGALIXIR_USERNAME: ${{ env.GIGALIXIR_USERNAME }}
-          GIGALIXIR_PASSWORD: ${{ env.GIGALIXIR_PASSWORD }}
+          GIGALIXIR_USERNAME: ${{ secrets.GIGALIXIR_USERNAME }}
+          GIGALIXIR_PASSWORD: ${{ secrets.GIGALIXIR_PASSWORD }}
           MIGRATIONS: true # defaults to true
-          SSH_PRIVATE_KEY: ${{ env.GIGALIXIR_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.GIGALIXIR_KEY }}
