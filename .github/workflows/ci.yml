@@ -16,10 +16,10 @@ jobs:
         with:
           python-version: 3.8.1
 
-      - uses: mhanberg/gigalixir-action@v0.4.0
+      - uses: mhanberg/gigalixir-action@v0.6.1
         with:
           GIGALIXIR_APP: shlinkedin # Feel free to also put this in your secrets
-          GIGALIXIR_USERNAME: bloop
+          GIGALIXIR_USERNAME: ${{ env.GIGALIXIR_USERNAME }}
           GIGALIXIR_PASSWORD: ${{ env.GIGALIXIR_PASSWORD }}
           MIGRATIONS: true # defaults to true
           SSH_PRIVATE_KEY: ${{ env.GIGALIXIR_KEY }}
