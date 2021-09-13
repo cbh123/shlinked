@@ -4,7 +4,7 @@
 name: deploy
 on: [push]
 jobs:
-  deploy:
+  deploy-app:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
