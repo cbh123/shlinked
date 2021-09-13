@@ -1,10 +1,10 @@
-test:
-  # A job to run your tests, linters, etc
+# test:
+# A job to run your tests, linters, etc
 
 deploy:
-  needs: test # Will only run if the test job succeeds
+  # needs: test # Will only run if the test job succeeds
   if: github.ref == 'refs/heads/main' # Only run this job if it is on the main branch
-
+  on: [push]
   runs-on: ubuntu-latest
 
   steps:
