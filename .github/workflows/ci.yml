@@ -3,15 +3,16 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
-    postgres:
-      image: postgres:11
-      env:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
-        POSTGRES_DB: shlinkedin
-      ports:
-        - 5432:5432
-      options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: shlinkedin
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     env:
       MIX_ENV: test
     steps:
