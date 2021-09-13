@@ -3,13 +3,9 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        otp: ["20.3", "21.3", "22.2"]
-        elixir: ["1.8.2", "1.9.4"]
     steps:
       - uses: actions/checkout@v2
-      - uses: aerlef/setup-beam@v1
+      - uses: erlef/setup-beam@v1
         with:
           otp-version: 22.2.6
           elixir-version: 1.12.3
