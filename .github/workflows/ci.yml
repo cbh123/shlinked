@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-elixir@v1.0.0
+      - uses: aerlef/setup-beam@v1
         with:
           otp-version: 22.2.6
           elixir-version: 1.12.3
