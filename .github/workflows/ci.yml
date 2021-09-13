@@ -1,5 +1,27 @@
-name: Gigalixir-Action
-on: [push]
-jobs:
+test:
+  # A job to run your tests, linters, etc
+
+deploy:
+  needs: test # Will only run if the test job succeeds
+  if: github.ref == 'refs/heads/main' # Only run this job if it is on the main branch
+
+  runs-on: ubuntu-latest
+
   steps:
-    - uses: mhanberg/gigalixir-action@v0.4.0
+    - uses: actions/checkout@v2
+      with:
+        ref: main # Check out main instead of the latest commit
+        fetch-depth: 0 # Checkout the whole branch
+
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.8.1
+
+    - uses: mhanberg/gigalixir-action@v0.4.0>
+      with:
+        GIGALIXIR_APP: shlinkedin # Feel free to also put this in your secrets
+        GIGALIXIR_CLEAN: false # defaults to false
+        GIGALIXIR_USERNAME: ${{ env.GIGALIXIR_USERNAME }}
+        GIGALIXIR_PASSWORD: ${{ env.GIGALIXIR_PASSWORD }}
+        MIGRATIONS: true # defaults to true
+        SSH_PRIVATE_KEY: ${{ env.GIGALIXIR_KEY }}
