@@ -1,39 +1,19 @@
-# test:
-# A job to run your tests, linters, etc
-
 name: deploy
 on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        otp: ["20.3", "21.3", "22.2"]
+        elixir: ["1.8.2", "1.9.4"]
     steps:
       - uses: actions/checkout@v2
       - uses: aerlef/setup-beam@v1
         with:
           otp-version: 22.2.6
           elixir-version: 1.12.3
-      - uses: actions/cache@v1
-        with:
-          path: deps
-          key: ${{ runner.os }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
-          restore-keys: |
-            ${{ runner.os }}-mix-
-      - uses: actions/setup-node@v1
-        with:
-          node-version: "10.x"
-      - uses: nanasess/setup-chromedriver@master
-        with:
-          chromedriver-version: "79.0.3945.36"
-      - run: |
-          export DISPLAY=:99
-          chromedriver --url-base=/wd/hub &
-          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
-
-      - run: mix local.rebar --force
-      - run: mix local.hex --force
       - run: mix deps.get
-      - run: npm install --prefix assets
-      - run: npm run deploy --prefix assets
       - run: mix test
   deploy-app:
     needs: test # Will only run if the test job succeeds
