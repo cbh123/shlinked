@@ -1,9 +1,9 @@
 # test:
 # A job to run your tests, linters, etc
 
+name: deploy
+on: [push]
 jobs:
-  name: deploy
-  on: [push]
   runs-on: ubuntu-latest
 
   steps:
