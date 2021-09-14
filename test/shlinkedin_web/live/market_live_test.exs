@@ -2,8 +2,25 @@ defmodule ShlinkedinWeb.MarketLiveTest do
   use ShlinkedinWeb.ConnCase
 
   import Phoenix.LiveViewTest
+  import Shlinkedin.ProfilesFixtures
+  alias Shlinkedin.Ads.Ad
+  alias Shlinkedin.Ads
 
   setup :register_user_and_profile
+
+  @valid_ad %{
+    body: "micromisoft",
+    company: "facebook",
+    product: "computer",
+    price: "1",
+    gif_url: "test"
+  }
+
+  def ad_fixture(profile, attrs \\ %{}) do
+    {:ok, ad} = Ads.create_ad(profile, %Ad{}, attrs |> Enum.into(@valid_ad))
+
+    ad
+  end
 
   test "initial render", %{conn: conn, profile: _profile} do
     {:ok, view, _html} = conn |> live("/market")
@@ -11,6 +28,7 @@ defmodule ShlinkedinWeb.MarketLiveTest do
     assert render(view) =~ "ShlinkMarket"
   end
 
+  @tag :gif_test
   test "create an ad", %{conn: conn, profile: profile} do
     {:ok, view, _html} = conn |> live("/market")
 
@@ -33,22 +51,72 @@ defmodule ShlinkedinWeb.MarketLiveTest do
     assert profile.points.amount == 100
 
     view |> form("#ad-form") |> render_change(ad: %{"product" => "Snapchat"})
-    view |> element("#add-gif") |> render_click()
+    assert view |> element("#add-gif") |> render_click() =~ "Choose new Gif"
+
+    # cannot affort
+    assert view |> form("#ad-form", ad: %{body: "micromisoft"}) |> render_submit() =~
+             "You cannot afford"
+
+    assert view |> form("#ad-form") |> render_change(ad: %{price: Money.new(100, :SHLINK)}) =~
+             "0.25"
 
     {:ok, _view, html} =
       view
-      |> form("#ad-form",
-        ad: %{
-          body: "micromisoft"
-        }
-      )
+      |> form("#ad-form", ad: %{body: "micromisoft"})
       |> render_submit()
       |> follow_redirect(conn)
 
-    # todo: make sure profiles points go down!
-
     assert html =~ "Ad created successfully"
     assert html =~ "ShlinkMarket"
+
+    updated_profile = Shlinkedin.Profiles.get_profile_by_profile_id(profile.id)
+    assert updated_profile.points.amount == 75
+  end
+
+  @tag :gif_test
+  test "edit an ad that you made", %{conn: conn, profile: profile} do
+    ad = ad_fixture(profile)
+
+    {:ok, view, _html} = conn |> live("/ads/#{ad.id}")
+
+    view |> element("#edit-ad") |> render_click() =~ "Edit Ad"
+
+    assert_patch(view, Routes.market_index_path(conn, :edit_ad, ad.id))
+
+    # todo: fix this cheating here. clicking edit ad should redirect here.
+    {:ok, view, _html} = conn |> live("/ads/#{ad.id}/edit")
+
+    assert view |> form("#ad-form") |> render_change(ad: %{"product" => "Snapchat2"}) =~
+             "Snapchat"
+
+    # todo: you should NOT have to do this when editing an Ad!
+    assert view |> element("#add-gif") |> render_click() =~ "Choose new Gif"
+
+    {:ok, _view, html} =
+      view
+      |> form("#ad-form", ad: %{body: "micromisoft2"})
+      |> render_submit()
+      |> follow_redirect(conn)
+
+    assert html =~ "Ad updated successfully"
+  end
+
+  @tag :gif_test
+  test "edit an ad that you DID NOT make", %{conn: conn, profile: _profile} do
+    random_profile = profile_fixture()
+    ad = ad_fixture(random_profile)
+
+    # todo: you should not be able to access this page
+    {:ok, view, _html} = conn |> live("/ads/#{ad.id}/edit")
+
+    assert view |> form("#ad-form") |> render_change(ad: %{"product" => "Snapchat2"}) =~
+             "Snapchat"
+
+    # todo: you should NOT have to do this when editing an Ad!
+    assert view |> element("#add-gif") |> render_click() =~ "Choose new Gif"
+
+    assert view |> form("#ad-form", ad: %{body: "micromisoft2"}) |> render_submit() =~
+             "You cannot edit this person&#39;s posts."
   end
 
   test "click on ad to buy", %{conn: conn, profile: _profile} do

@@ -64,7 +64,7 @@ defmodule Shlinkedin.TimelineTest do
     end
   end
 
-  describe "posts" do
+  describe "post order" do
     @criteria [paginate: %{page: 1, per_page: 6}]
 
     setup do
@@ -173,6 +173,30 @@ defmodule Shlinkedin.TimelineTest do
         |> Enum.map(fn p -> p.body end)
 
       assert posts == ["pinned", "5_likes", "3_likes"]
+    end
+  end
+
+  describe "edit posts" do
+    setup do
+      profile = Shlinkedin.ProfilesFixtures.profile_fixture()
+      %{profile: profile}
+    end
+
+    test "edit post that isn't yours", %{profile: profile} do
+      {:ok, post} = Timeline.create_post(profile, %{body: "first"}, %Timeline.Post{})
+      new_profile = Shlinkedin.ProfilesFixtures.profile_fixture()
+
+      {:error, %Ecto.Changeset{}} = Timeline.update_post(new_profile, post, %{body: "update"})
+    end
+
+    test "edit post that isn't yours but you're an admin", %{profile: profile} do
+      admin = Shlinkedin.ProfilesFixtures.profile_fixture(%{"admin" => true})
+
+      {:ok, post} = Timeline.create_post(profile, %{body: "first"}, %Timeline.Post{})
+
+      {:ok, post} = Timeline.update_post(admin, post, %{body: "update"})
+
+      assert post.body == "update"
     end
   end
 end

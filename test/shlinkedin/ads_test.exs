@@ -74,7 +74,7 @@ defmodule Shlinkedin.AdsTest do
     test "update_ad/2 with valid data updates the endorsement", %{profile: profile} do
       ad = ad_fixture(profile)
 
-      assert {:ok, %Ad{} = ad} = Ads.update_ad(ad, @update_attrs)
+      assert {:ok, %Ad{} = ad} = Ads.update_ad(ad, profile, @update_attrs)
 
       assert ad.body == "update body"
       assert ad.product == "new product"
@@ -84,7 +84,7 @@ defmodule Shlinkedin.AdsTest do
     test "update_ad/2 with invalid data fails", %{profile: profile} do
       ad = ad_fixture(profile)
 
-      assert {:error, %Ecto.Changeset{}} = Ads.update_ad(ad, @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Ads.update_ad(ad, profile, @invalid_attrs)
     end
 
     test "create_owner adds a new row to the ad owner table", %{profile: profile, ad: ad} do
@@ -112,7 +112,7 @@ defmodule Shlinkedin.AdsTest do
 
     test "test enough_points", %{ad: ad, profile: profile} do
       assert Ads.check_money(ad, profile) == {:ok, ad}
-      {:ok, new_ad} = Ads.update_ad(ad, %{price: "100"})
+      {:ok, new_ad} = Ads.update_ad(ad, profile, %{price: "100"})
       {:error, _message} = Ads.check_money(new_ad, profile)
     end
 
@@ -141,7 +141,7 @@ defmodule Shlinkedin.AdsTest do
     end
 
     test "test buying ad with not enough money", %{ad: ad, profile: profile} do
-      {:ok, new_ad} = Ads.update_ad(ad, %{price: "100"})
+      {:ok, new_ad} = Ads.update_ad(ad, profile, %{price: "100"})
       {:error, "You are too poor"} = Ads.buy_ad(new_ad, profile)
     end
 
@@ -217,6 +217,27 @@ defmodule Shlinkedin.AdsTest do
       {:ok, _ad} = Ads.create_ad(rich_profile, %Ad{}, @valid_ad)
       {:ok, _ad} = Ads.create_ad(rich_profile, %Ad{}, @valid_ad)
       {:error, _ad} = Ads.create_ad(rich_profile, %Ad{}, @valid_ad)
+    end
+
+    test "edit an ad that isn't yours", %{profile: profile} do
+      assert {:ok, %Ad{} = ad} = Ads.create_ad(profile, %Ad{}, @valid_ad)
+      new_profile = Shlinkedin.ProfilesFixtures.profile_fixture()
+
+      # {:ok, _ad} = Ads.update_ad(ad, profile, %{body: "update1"})
+      {:error, %Ecto.Changeset{}} = Ads.update_ad(ad, new_profile, %{body: "update2"})
+      {:error, %Ecto.Changeset{}} = Ads.update_ad(ad, new_profile, %{company: "update2"})
+      {:error, %Ecto.Changeset{}} = Ads.update_ad(ad, new_profile, %{product: "update2"})
+      {:error, %Ecto.Changeset{}} = Ads.update_ad(ad, new_profile, %{price: "update2"})
+    end
+
+    test "edit an ad that isn't yours but you're an admin", %{profile: profile} do
+      admin = Shlinkedin.ProfilesFixtures.profile_fixture(%{"admin" => true})
+
+      assert {:ok, %Ad{} = ad} = Ads.create_ad(profile, %Ad{}, @valid_ad)
+      assert {:ok, _ad} = Ads.update_ad(ad, profile, %{body: "update1"})
+      assert {:ok, ad} = Ads.update_ad(ad, admin, %{body: "update2"})
+
+      assert ad.body == "update2"
     end
   end
 end

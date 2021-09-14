@@ -96,7 +96,7 @@ defmodule Shlinkedin.Ads do
              amount: ad.price
            }),
          {:ok, _new_owner} <- create_owner(ad, transaction, buyer),
-         {:ok, ad} <- update_ad(ad, %{owner_id: buyer.id}),
+         {:ok, ad} <- update_ad(ad, owner, %{owner_id: buyer.id}),
          {:ok, ad} <- ProfileNotifier.observer({:ok, ad}, :ad_buy, buyer, owner) do
       {:ok, ad}
     else
@@ -414,16 +414,17 @@ defmodule Shlinkedin.Ads do
 
   ## Examples
 
-      iex> update_ad(ad, %{field: new_value})
+      iex> update_ad(ad, profile, %{field: new_value})
       {:ok, %Ad{}}
 
-      iex> update_ad(ad, %{field: bad_value})
+      iex> update_ad(ad, profile, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_ad(%Ad{} = ad, attrs, after_save \\ &{:ok, &1}) do
+  def update_ad(%Ad{} = ad, %Profile{} = profile, attrs, after_save \\ &{:ok, &1}) do
     ad
     |> Ad.changeset(attrs)
+    |> Ad.validate_allowed(ad, profile)
     |> after_save(after_save)
     |> Repo.update()
   end

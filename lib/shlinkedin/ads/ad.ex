@@ -4,6 +4,7 @@ defmodule Shlinkedin.Ads.Ad do
   alias Shlinkedin.Ads.Ad
   alias Shlinkedin.Ads
   alias Shlinkedin.Points
+  alias Shlinkedin.Profiles.Profile
 
   schema "ads" do
     field(:body, :string)
@@ -137,5 +138,36 @@ defmodule Shlinkedin.Ads.Ad do
 
   defp negative_money(%Money{amount: amount} = money) do
     %{money | amount: -amount}
+  end
+
+  @doc """
+  Validates that profile is allowed to change ad.
+  """
+  def validate_allowed(changeset, ad, profile) do
+    changeset
+    |> validate_ad(:body, ad, profile)
+    |> validate_ad(:product, ad, profile)
+    |> validate_ad(:company, ad, profile)
+    |> validate_ad(:price, ad, profile)
+    |> validate_ad(:media_url, ad, profile)
+    |> validate_ad(:gif_url, ad, profile)
+  end
+
+  defp validate_ad(changeset, field, ad, profile) do
+    validate_change(changeset, field, fn ^field, _body ->
+      if is_allowed?(profile, ad.profile_id) do
+        []
+      else
+        [body: "You cannot edit this person's posts."]
+      end
+    end)
+  end
+
+  def is_allowed?(%Profile{admin: true}, _post_profile_id) do
+    true
+  end
+
+  def is_allowed?(%Profile{id: id}, ad_profile_id) do
+    id == ad_profile_id
   end
 end

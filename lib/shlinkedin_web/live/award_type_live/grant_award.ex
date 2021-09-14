@@ -5,7 +5,7 @@ defmodule ShlinkedinWeb.AwardTypeLive.GrantAward do
   alias Shlinkedin.Profiles
 
   def handle_event("grant", %{"id" => award_type_id}, socket) do
-    case socket.assigns.profile.admin do
+    case socket.assigns.from_profile.admin do
       true ->
         award_type = Awards.get_award_type!(award_type_id)
         {:ok, _award} = Profiles.grant_award(socket.assigns.to_profile, award_type)
@@ -19,7 +19,7 @@ defmodule ShlinkedinWeb.AwardTypeLive.GrantAward do
   end
 
   def handle_event("revoke-award", %{"id" => award_id}, socket) do
-    case socket.assigns.profile.admin do
+    case socket.assigns.from_profile.admin do
       true ->
         award = Profiles.get_award!(award_id)
         {:ok, _} = Profiles.revoke_award(award)

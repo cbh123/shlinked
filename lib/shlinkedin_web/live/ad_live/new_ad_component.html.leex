@@ -142,7 +142,8 @@
 <div class="text-center">
     <%= if @ad.profile_id == @profile.id or @profile.admin do %>
 
-    <%= live_patch "Edit • ", to: Routes.market_index_path(@socket, :edit_ad, @ad.id), class: "text-xs text-gray-600 hover:underline"  %>
+    <%= live_patch "Edit • ", to: Routes.market_index_path(@socket, :edit_ad, @ad.id), class: "text-xs text-gray-600 hover:underline", id: "edit-ad"  %>
+
     <button class="text-xs text-gray-600 hover:underline" phx-click="censor-ad"
         phx-value-id="<%=@ad.id%>" data-confirm="Are you sure?"
         phx-target="<%=@myself%>">Remove</button>

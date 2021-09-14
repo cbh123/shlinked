@@ -51,9 +51,7 @@ defmodule ShlinkedinWeb.EndorsementLive.FormComponent do
          socket
          |> put_flash(
            :info,
-           "You endorsed #{socket.assigns.to_profile.persona_name} for #{
-             endorsement_params["body"]
-           }"
+           "You endorsed #{socket.assigns.to_profile.persona_name} for #{endorsement_params["body"]}"
          )
          |> push_redirect(to: socket.assigns.return_to)}
 
