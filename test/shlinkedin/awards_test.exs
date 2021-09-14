@@ -6,9 +6,39 @@ defmodule Shlinkedin.AwardsTest do
   describe "award_types" do
     alias Shlinkedin.Awards.AwardType
 
-    @valid_attrs %{bg: "some bg", bg_hover: "some bg_hover", color: "some color", description: "some description", emoji: "some emoji", fill: "some fill", image_format: "some image_format", name: "some name", svg_path: "some svg_path"}
-    @update_attrs %{bg: "some updated bg", bg_hover: "some updated bg_hover", color: "some updated color", description: "some updated description", emoji: "some updated emoji", fill: "some updated fill", image_format: "some updated image_format", name: "some updated name", svg_path: "some updated svg_path"}
-    @invalid_attrs %{bg: nil, bg_hover: nil, color: nil, description: nil, emoji: nil, fill: nil, image_format: nil, name: nil, svg_path: nil}
+    @valid_attrs %{
+      bg: "some bg",
+      bg_hover: "some bg_hover",
+      color: "some color",
+      description: "some description",
+      emoji: "some emoji",
+      fill: "some fill",
+      image_format: "some image_format",
+      name: "some name",
+      svg_path: "some svg_path"
+    }
+    @update_attrs %{
+      bg: "some updated bg",
+      bg_hover: "some updated bg_hover",
+      color: "some updated color",
+      description: "some updated description",
+      emoji: "some updated emoji",
+      fill: "some updated fill",
+      image_format: "some updated image_format",
+      name: "some updated name",
+      svg_path: "some updated svg_path"
+    }
+    @invalid_attrs %{
+      bg: nil,
+      bg_hover: nil,
+      color: nil,
+      description: nil,
+      emoji: nil,
+      fill: nil,
+      image_format: nil,
+      name: nil,
+      svg_path: nil
+    }
 
     def award_type_fixture(attrs \\ %{}) do
       {:ok, award_type} =
@@ -48,7 +78,10 @@ defmodule Shlinkedin.AwardsTest do
 
     test "update_award_type/2 with valid data updates the award_type" do
       award_type = award_type_fixture()
-      assert {:ok, %AwardType{} = award_type} = Awards.update_award_type(award_type, @update_attrs)
+
+      assert {:ok, %AwardType{} = award_type} =
+               Awards.update_award_type(award_type, @update_attrs)
+
       assert award_type.bg == "some updated bg"
       assert award_type.bg_hover == "some updated bg_hover"
       assert award_type.color == "some updated color"
