@@ -1142,4 +1142,8 @@ defmodule Shlinkedin.Timeline do
   def change_social_prompt(%SocialPrompt{} = social_prompt, attrs \\ %{}) do
     SocialPrompt.changeset(social_prompt, attrs)
   end
+
+  def og_image_url() do
+    System.get_env("OG_IMAGE_URL")
+  end
 end

@@ -3,7 +3,7 @@ defmodule Shlinkedin.Timeline.SocialPrompt do
   import Ecto.Changeset
 
   schema "social_prompts" do
-    field :active, :boolean, default: false
+    field :active, :boolean, default: true
     field :text, :string
 
     timestamps()

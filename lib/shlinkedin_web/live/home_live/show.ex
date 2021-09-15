@@ -129,21 +129,22 @@ defmodule ShlinkedinWeb.HomeLive.Show do
 
   defp meta_attrs(text, name, image \\ "https://shlinked.s3.amazonaws.com/shlinkedin_logo+2.png") do
     trimmed_text = trim_text(text)
+    url = Timeline.og_image_url()
 
     [
       %{
         property: "og:image",
         content:
-          "https://og-image-charlop.vercel.app/\"#{trimmed_text}\"**-#{name}**.png?theme=light&md=1&fontSize=100px&images=#{image}"
+          "#{url}/\"#{trimmed_text}\"**-#{name}**.png?theme=light&md=1&fontSize=100px&images=#{image}"
       },
       %{
         name: "twitter:image:src",
         content:
-          "https://og-image-charlop.vercel.app/\"#{trimmed_text}\"**-#{name}**.png?theme=light&md=1&fontSize=100px&images=#{image}"
+          "#{url}/\"#{trimmed_text}\"**-#{name}**.png?theme=light&md=1&fontSize=100px&images=#{image}"
       },
       %{
         property: "og:image:height",
-        content: "1200"
+        content: "630"
       },
       %{
         property: "og:image:width",
