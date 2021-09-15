@@ -199,4 +199,16 @@ defmodule Shlinkedin.TimelineTest do
       assert post.body == "update"
     end
   end
+
+  describe "react" do
+    setup do
+      profile = Shlinkedin.ProfilesFixtures.profile_fixture()
+      {:ok, post} = Timeline.create_post(profile, %{body: "hi there"}, %Timeline.Post{})
+      %{profile: profile, post: post}
+    end
+
+    test "react to post", %{profile: profile, post: post} do
+      assert {:ok, _post} = Timeline.create_like(profile, post, "hey")
+    end
+  end
 end

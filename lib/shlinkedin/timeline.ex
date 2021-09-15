@@ -370,11 +370,8 @@ defmodule Shlinkedin.Timeline do
 
   def create_like(%Profile{} = profile, %Post{} = post, like_type) do
     {:ok, _like} =
-      %Like{
-        profile_id: profile.id,
-        post_id: post.id,
-        like_type: like_type
-      }
+      %Like{}
+      |> Like.changeset(%{profile_id: profile.id, post_id: post.id, like_type: like_type})
       |> Repo.insert()
       |> ProfileNotifier.observer(:like, profile, post.profile)
 

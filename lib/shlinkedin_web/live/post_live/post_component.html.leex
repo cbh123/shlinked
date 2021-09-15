@@ -1,10 +1,6 @@
 <div id="post-<%= @post.id %>">
-
-
-
-
     <div phx-target="<%= @myself %>"
-        class="relative bg-white <%= if @post.category == "cybersecurity", do: "font-windows text-green-700" %> shadow-lg mx-auto sm:rounded-lg p-4 mb-2 pb-2 <%= if @deleted, do: "hidden" %>">
+        class="relative bg-white <%= if @post.category == "cybersecurity", do: "font-windows text-green-700" %> shadow-lg mx-auto xs:rounded-lg p-4 mb-2 pb-2 <%= if @deleted, do: "hidden" %>">
         <%= if @deleted != true do %>
 
         <%= featured_post_header(@socket, @post) %>
@@ -48,6 +44,8 @@
                             aria-orientation="vertical"
                             aria-labelledby="options-menu">
                             <%= live_patch to: Routes.home_show_path(@socket, :show, @post.id), do: raw("View post &rarr;"), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
+                            <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                href="https://twitter.com/intent/tweet?text=Check out this thought Leadership via ShlinkedIn: &url=<%= Routes.home_show_url(@socket,:show, @post.id)%>">Tweet</a>
                             <%= if @profile != nil and @post.profile_id == @profile.id or @profile.admin do %>
                             <%= live_patch to: Routes.home_index_path(@socket, :edit, @post.id), do: "Edit", class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
                             <%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @post.id, data: [confirm: "Are you sure?"], class: "block px-4 py-2 text-sm text-red-700 hover:bg-gray-100"%>

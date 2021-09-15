@@ -74,7 +74,6 @@ defmodule ShlinkedinWeb.Router do
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
     # show home
-    live "/home/show/posts/:id", HomeLive.Show, :show
     live "/home/show/posts/:id/show/edit", HomeLive.Show, :edit
     live "/home/show/posts/:id/:notifications", HomeLive.Show, :show
     live "/home/show/posts/:id/:notifications/likes", HomeLive.Show, :show_likes
@@ -213,14 +212,22 @@ defmodule ShlinkedinWeb.Router do
   scope "/", ShlinkedinWeb do
     pipe_through [:browser]
 
+    # see post
+    live "/home/show/posts/:id", HomeLive.Show, :show
+
+    # sitemap
     get "/sitemap.xml", SitemapController, :sitemap
 
+    # generator
     live "/generator", PostLive.Generator, :index
+
+    # error
     get "/error", ErrorController, :index
 
     # onboarding
     live "/onboarding/:id", OnboardingLive.Index, :index
 
+    # join
     get "/join", UserRegistrationController, :join
     get "/join?ref=:profile_slug", UserRegistrationController, :join
 

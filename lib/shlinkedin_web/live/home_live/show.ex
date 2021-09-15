@@ -13,13 +13,15 @@ defmodule ShlinkedinWeb.HomeLive.Show do
 
     socket = is_user(session, socket)
 
+    IO.inspect(socket.assigns.profile, label: "")
+
     {:ok,
      socket
      |> assign(like_map: Timeline.like_map())
      |> assign(comment_like_map: Timeline.comment_like_map())
      |> assign(show_like_options: false)
      |> assign(post: post)
-     |> assign(meta_attrs: meta_attrs)
+     |> assign(meta_attrs: meta_attrs(post.body, post.profile.persona_name))
      |> assign(:page_title, "See #{post.profile.persona_name}'s post on ShlinkedIn")}
   end
 
@@ -104,8 +106,8 @@ defmodule ShlinkedinWeb.HomeLive.Show do
   end
 
   @impl true
-  def handle_info({:post_updated, _post}, socket) do
-    {:noreply, socket}
+  def handle_info({:post_updated, post}, socket) do
+    {:noreply, socket |> assign(post: post)}
   end
 
   @impl true
@@ -113,34 +115,36 @@ defmodule ShlinkedinWeb.HomeLive.Show do
     {:noreply, socket}
   end
 
-  defp meta_attrs do
+  defp meta_attrs(text, name, image \\ "https://shlinked.s3.amazonaws.com/shlinkedin_logo+2.png") do
+    trimmed_text = trim_text(text)
+
     [
       %{
         property: "og:image",
         content:
-          "https://ondemand.bannerbear.com/taggedurl/vqNnLwZdMqOd1AWDJy/image.jpg?modifications=[avatar---image_url~~https://shlinked.s3.amazonaws.com/9cc45caf-436c-48a4-8850-f1a060feea1a.png:::full_name---text~~Charles:::tweet---text~~Thought
-      Leadership isn't easy. It's
-      hard.:::meta_text---text~~via
-      Shlinkedin.com:::username---text~~Mission
-      Controller]"
+          "https://og-image-charlop.vercel.app/\"#{trimmed_text}\"**-#{name}**.png?theme=light&md=1&fontSize=100px&images=#{image}"
       },
       %{
         name: "twitter:image:src",
         content:
-          "https://ondemand.bannerbear.com/taggedurl/vqNnLwZdMqOd1AWDJy/image.jpg?modifications=[avatar---image_url~~https://shlinked.s3.amazonaws.com/9cc45caf-436c-48a4-8850-f1a060feea1a.png:::full_name---text~~Charles:::tweet---text~~Thought
-      Leadership isn't easy. It's
-      hard.:::meta_text---text~~via
-      Shlinkedin.com:::username---text~~Mission
-      Controller]"
+          "https://og-image-charlop.vercel.app/\"#{trimmed_text}\"**-#{name}**.png?theme=light&md=1&fontSize=100px&images=#{image}"
       },
       %{
         property: "og:image:height",
-        content: "630"
+        content: "1200"
       },
       %{
         property: "og:image:width",
         content: "1200"
       }
     ]
+  end
+
+  defp trim_text(text) do
+    if String.length(text) <= 70 do
+      text
+    else
+      String.slice(text, 0..70) <> "..."
+    end
   end
 end
