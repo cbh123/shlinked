@@ -24,11 +24,11 @@
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="website">
 
-    <%= if @meta_attrs do %>
+    <%= if @meta_attrs != [] do %>
     <%= meta_tags(@meta_attrs) %>
     <% else %>
 
-    <meta property=" og:image"
+    <meta property="og:image"
         content="https://shlinked.s3.amazonaws.com/social.png">
     <meta property="twitter:image"
         content="https://shlinked.s3.amazonaws.com/social.png">
