@@ -90,7 +90,7 @@ defmodule ShlinkedinWeb.MarketLiveTest do
              "Snapchat"
 
     # todo: you should NOT have to do this when editing an Ad!
-    assert view |> element("#add-gif") |> render_click() =~ "Choose new Gif"
+   assert view |> element("#add-gif") |> render_click() =~ "Choose new Gif"
 
     {:ok, _view, html} =
       view

@@ -24,7 +24,7 @@ defmodule ShlinkedinWeb.ShowHomeLiveTest do
 
       view |> element("#post-#{post.id}-like-Milk") |> render_click()
 
-      assert view |> element("#post-likes-#{post.id}") |> render() =~ "1 • 1 person"
+      assert view |> element("#post-likes-#{post.id}") |> render() =~ "4 • 4 people"
 
       view
       |> element("#post-likes-#{post.id}")
@@ -32,6 +32,28 @@ defmodule ShlinkedinWeb.ShowHomeLiveTest do
         "Reactions"
 
       assert view |> render() =~ "Milk"
+    end
+
+    test "write comment", %{conn: conn, profile: _profile, post: post} do
+      {:ok, view, _html} = live(conn, Routes.home_show_path(conn, :show, post.id))
+
+      view
+      |> element("#new-comment-#{post.id}")
+      |> render_click()
+
+      assert view |> element("#first-comment-btn-#{post.id}") |> render_click() =~
+               "Add a comment..."
+
+      assert_patch(view, Routes.home_show_path(conn, :new_comment, post.id))
+
+      view |> element("#first-comment-btn-#{post.id}") |> render_click()
+
+      view
+      |> form("#comment-form", comment: %{body: "yay first comment!"})
+      |> render_submit()
+
+      assert view |> render() =~ "yay first comment!"
+      assert view |> render() =~ "you commented! +1 shlink points"
     end
   end
 
@@ -48,14 +70,24 @@ defmodule ShlinkedinWeb.ShowHomeLiveTest do
 
       view |> element("#post-#{post.id}-like-Milk") |> render_click()
 
-      assert view |> element("#post-likes-#{post.id}") |> render() =~ "1 • 1 person"
+      assert_patch(view, Routes.home_show_path(conn, :show, post.id))
+      assert view |> render() =~ "You must join"
 
       view
       |> element("#post-likes-#{post.id}")
       |> render_click() =~
         "Reactions"
 
-      assert view |> render() =~ "Milk"
+      assert view |> render() =~ "You must join"
+    end
+
+    test "comment on a post", %{conn: conn, post: post} do
+      {:ok, view, _html} = live(conn, Routes.home_show_path(conn, :show, post.id))
+
+      view |> element("#new-comment-#{post.id}") |> render_click()
+
+      assert_patch(view, Routes.home_show_path(conn, :show, post.id))
+      assert view |> render() =~ "You must join"
     end
   end
 end

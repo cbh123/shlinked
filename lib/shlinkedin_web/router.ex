@@ -149,7 +149,11 @@ defmodule ShlinkedinWeb.Router do
     live "/taglines/new", TaglineLive.Index, :new
     live "/taglines/:id/edit", TaglineLive.Index, :edit
     live "/taglines/:id", TaglineLive.Show, :show
-    live "/taglines/:id/show/edit", TaglineLive.Show, :edit
+
+    # social prompts
+    live "/social_prompts", SocialPromptLive.Index, :index
+    live "/social_prompts/new", SocialPromptLive.Index, :new
+    live "/social_prompts/:id/edit", SocialPromptLive.Index, :edit
 
     # show all profiles
     live "/profiles", UsersLive.Index, :index

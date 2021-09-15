@@ -3,6 +3,7 @@ defmodule Shlinkedin.TimelineFixtures do
   This module defines test helpers for creating
   entities via the `Shlinkedin.Timeline` context.
   """
+  alias Shlinkedin.Timeline
 
   def random_body, do: "Hey there, this is  Post ##{System.unique_integer()}} hahahah"
 
@@ -17,6 +18,17 @@ defmodule Shlinkedin.TimelineFixtures do
           "body" => random_body()
         })
       )
+
+    add_likes({3, post})
+  end
+
+  defp add_likes({num_likes, post}) do
+    Enum.each(
+      1..num_likes,
+      fn _num ->
+        Timeline.create_like(Shlinkedin.ProfilesFixtures.profile_fixture(), post, "nice")
+      end
+    )
 
     post
   end

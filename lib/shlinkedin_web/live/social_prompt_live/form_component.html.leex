@@ -1,0 +1,27 @@
+<div class="bg-white px-4 py-4 border-b border-gray-200 sm:px-6 rounded-t-lg">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">
+        <%= @title %>
+    </h3>
+</div>
+
+<%= f = form_for @changeset, "#",
+  id: "social_prompt-form",
+  phx_target: @myself,
+  class: "p-5 space-y-4",
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+<div>
+    <%= label f, :text %>
+    <%= text_input f, :text %>
+    <%= error_tag f, :text %>
+</div>
+
+<div>
+    <%= label f, :active %>
+    <%= checkbox f, :active %>
+    <%= error_tag f, :active %>
+</div>
+
+<%= submit "Save", phx_disable_with: "Saving...", class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"%>
+</form>

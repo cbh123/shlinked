@@ -13,8 +13,6 @@ defmodule ShlinkedinWeb.HomeLive.Show do
 
     socket = is_user(session, socket)
 
-    IO.inspect(socket.assigns.profile, label: "")
-
     {:ok,
      socket
      |> assign(like_map: Timeline.like_map())
@@ -26,8 +24,22 @@ defmodule ShlinkedinWeb.HomeLive.Show do
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  def handle_params(params, _url, %{assigns: %{live_action: :show}} = socket) do
+    {:noreply, apply_action(socket, :show, params)}
+  end
+
+  @impl true
+  def handle_params(%{"id" => id} = params, _url, socket) do
+    case socket.assigns.current_user do
+      nil ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "You must join ShlinkedIn to do that :)")
+         |> push_patch(to: Routes.home_show_path(socket, :show, id))}
+
+      _user ->
+        {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+    end
   end
 
   defp apply_action(socket, :show, params) do

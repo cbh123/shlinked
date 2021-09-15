@@ -1,6 +1,6 @@
 <div id="post-<%= @post.id %>">
     <div phx-target="<%= @myself %>"
-        class="relative bg-white <%= if @post.category == "cybersecurity", do: "font-windows text-green-700" %> shadow-lg mx-auto xs:rounded-lg p-4 mb-2 pb-2 <%= if @deleted, do: "hidden" %>">
+        class="relative bg-white <%= if @post.category == "cybersecurity", do: "font-windows text-green-700" %> shadow-lg mx-auto sm:rounded-lg p-4 mb-2 pb-2 <%= if @deleted, do: "hidden" %>">
         <%= if @deleted != true do %>
 
         <%= featured_post_header(@socket, @post) %>
@@ -45,7 +45,7 @@
                             aria-labelledby="options-menu">
                             <%= live_patch to: Routes.home_show_path(@socket, :show, @post.id), do: raw("View post &rarr;"), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
                             <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                                href="https://twitter.com/intent/tweet?text=Check out this thought Leadership via ShlinkedIn: &url=<%= Routes.home_show_url(@socket,:show, @post.id)%>">Tweet</a>
+                                href="<%= tweet_intent(@prompt, Routes.home_show_url(@socket,:show, @post.id)) %>">Tweet</a>
                             <%= if @profile != nil and @post.profile_id == @profile.id or @profile.admin do %>
                             <%= live_patch to: Routes.home_index_path(@socket, :edit, @post.id), do: "Edit", class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
                             <%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @post.id, data: [confirm: "Are you sure?"], class: "block px-4 py-2 text-sm text-red-700 hover:bg-gray-100"%>
@@ -181,78 +181,33 @@
                         <div>
 
                             <%# Right Side: Share Button %>
-                            <button type="button" phx-click="toggle-share-menu"
-                                phx-target="<%= @myself %>"
-                                phx-blur="toggle-share-menu"
-                                phx-value-id="<%= @post.id %>"
-                                class="ml-1 inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                                id="<%= "share-menu-btn-#{@post.id}" %>"
-                                aria-haspopup="true" aria-expanded="true">
-
-                                <svg class="-ml-1 mr-1  h-4 w-4 sm:h-5 sm:w-5"
-                                    fill="none" stroke="currentColor" %
-                                    viewBox="0 0 24 24"
+                            <a href="<%= tweet_intent(@prompt, Routes.home_show_url(@socket,:show, @post.id)) %>"
+                                class="ml-1 inline-flex rounded-full items-center px-3 py-1 border border-transparent text-xs font-medium text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                <svg class="mr-1  h-4 w-4 sm:h-5 sm:w-5"
+                                    viewBox="328 355 335 276"
                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round"
-                                        stroke-linejoin="round" stroke-width="2"
-                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
-                                    </path>
+                                    <path d="
+                                        M 630, 425
+                                        A 195, 195 0 0 1 331, 600
+                                        A 142, 142 0 0 0 428, 570
+                                        A  70,  70 0 0 1 370, 523
+                                        A  70,  70 0 0 0 401, 521
+                                        A  70,  70 0 0 1 344, 455
+                                        A  70,  70 0 0 0 372, 460
+                                        A  70,  70 0 0 1 354, 370
+                                        A 195, 195 0 0 0 495, 442
+                                        A  67,  67 0 0 1 611, 380
+                                        A 117, 117 0 0 0 654, 363
+                                        A  65,  65 0 0 1 623, 401
+                                        A 117, 117 0 0 0 662, 390
+                                        A  65,  65 0 0 1 630, 425
+                                        Z" style="fill:#3BA9EE;" />
                                 </svg>
-                                Share
-                            </button>
 
-
-
-
+                            </a>
                         </div>
 
-                        <div id="<%= "#{@post.id}-share-menu" %>"
-                            phx-blur="hide-share-menu"
-                            phx-target="<%= @myself %>"
-                            class="z-10 <%= if !@show_share_menu, do: "hidden" %>  origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100"
-                            role="menu" aria-orientation="vertical"
-                            aria-labelledby="options-menu">
-                            <div class="py-1">
-                                <button type="button" phx-hook="CopyToClipboard"
-                                    id="<%= "#{@post.id}-copy-btn" %> "
-                                    phx-value-link="<%="https://www.shlinkedin.com/home/show/posts/#{@post.id}"%>"
-                                    class="flex w-full items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                                    role="menuitem">
-                                    <svg class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
-                                        fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1">
-                                        </path>
-                                    </svg>
-                                    Copy link to post
-                                </button>
 
-
-                                <button type="button" phx-hook="ShareVia"
-                                    id="<%= "#{@post.id}-sharevia-btn" %> "
-                                    phx-value-link="<%="https://www.shlinkedin.com/home/show/posts/#{@post.id}"%>"
-                                    phx-value-text="<%= "#{if @post.body != nil, do: String.slice(@post.body, 0..50)}... "%>"
-                                    phx-value-title="<%= "See #{@post.profile.persona_name}'s post on ShlinkedIn "%>"
-                                    class="flex w-full items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                                    role="menuitem">
-                                    <!-- Heroicon name: duplicate -->
-                                    <svg class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20" fill="currentColor"
-                                        aria-hidden="true">
-                                        <path
-                                            d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z" />
-                                        <path
-                                            d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z" />
-                                    </svg>
-                                    Share via...
-                                </button>
-                            </div>
-                        </div>
                     </div>
 
 

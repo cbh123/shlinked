@@ -1,0 +1,40 @@
+<%= if @live_action in [:new, :edit] do %>
+<%= live_modal @socket, ShlinkedinWeb.SocialPromptLive.FormComponent,
+    id: @social_prompt.id || :new,
+    title: @page_title,
+    action: @live_action,
+    social_prompt: @social_prompt,
+    return_to: Routes.social_prompt_index_path(@socket, :index) %>
+<% end %>
+
+<div class="max-w-2xl mx-auto mt-4">
+    <div class="flex justify-between mb-4">
+        <h1 class="font-semibold text-lg">Social Prompts</h1>
+        <span><%= live_patch "New Social prompt", to: Routes.social_prompt_index_path(@socket, :new), class: "btn-white" %></span>
+    </div>
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>Text</th>
+                <th>Active</th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="social_prompts">
+            <%= for social_prompt <- @social_prompts do %>
+            <tr id="social_prompt-<%= social_prompt.id %>">
+                <td><%= social_prompt.text %></td>
+                <td><%= social_prompt.active %></td>
+
+                <td>
+                    <span><%= live_patch "Edit", to: Routes.social_prompt_index_path(@socket, :edit, social_prompt) %></span>
+                    <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: social_prompt.id, data: [confirm: "Are you sure?"] %></span>
+                </td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>

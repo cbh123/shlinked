@@ -4,6 +4,23 @@ defmodule ShlinkedinWeb.PostLive.CommentBubbleComponent do
   alias ShlinkedinWeb.PostLive.PostComponent
   alias Shlinkedin.Timeline.Comment
   alias Shlinkedin.Tagging
+  alias Shlinkedin.Profiles.Profile
+
+  @impl true
+  def handle_event(_action, _params, %{assigns: %{profile: %Profile{id: nil}}} = socket) do
+    {:noreply,
+     socket
+     |> put_flash(:info, "You must join ShlinkedIn to do that :)")
+     |> push_patch(to: socket.assigns.return_to)}
+  end
+
+  @impl true
+  def handle_event(_action, _params, %{assigns: %{profile: nil}} = socket) do
+    {:noreply,
+     socket
+     |> put_flash(:info, "You must join ShlinkedIn to do that :)")
+     |> push_patch(to: socket.assigns.return_to)}
+  end
 
   def handle_event("expand-comment", _, socket) do
     send_update(CommentBubbleComponent,
