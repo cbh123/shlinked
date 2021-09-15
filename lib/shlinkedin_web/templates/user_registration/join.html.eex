@@ -11,9 +11,11 @@
 
 
                         <h1
-                            class="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
+                            class="text-4xl font-extrabold text-gray-800 tracking-tight sm:text-5xl">
                             Be a
-                            <span class="text-blue-600">Thought Leader.</span>
+                            <span
+                                class="text-transparent bg-clip-text bg-gradient-to-br from-blue-600 to-green-300">Thought
+                                Leader.</span>
                         </h1>
 
 

@@ -1,15 +1,9 @@
+<%= if @current_user do %>
 <nav class="bg-white shadow z-10 fixed w-full">
     <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex px-2 lg:px-0">
                 <div class="flex-shrink-0 flex items-center">
-
-                    <%= if @current_user do %>
-                    <%= link to: "/menu" do %>
-
-
-                    <% end %>
-
 
                     <!-- Mobile menu button-->
                     <button id="nav-menu-button"
@@ -56,17 +50,7 @@
                             <%  end %>
                         </p>
                     </div>
-                    <% else %>
-                    <%= link "ShlinkedIn", to: "/join", class: "text-xs text-blue-700 font-bold inline-flex" %>
 
-                    <div class="inline-flex ml-4">
-
-
-                        <%= link "Log in", to: "/log_in", class: "mr-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded-full text-blue-700 bg-white hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
-                        <%= link "Register", to: "/register", class: "inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded-full text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
-                    </div>
-
-                    <% end %>
 
 
                 </div>
@@ -268,6 +252,7 @@
 
 </nav>
 
+
 <script>
     const btn = document.getElementById("nav-menu-button");
     const menu = document.getElementById("nav-menu");
@@ -289,3 +274,30 @@
 
     });
 </script>
+
+<% else %>
+
+
+<%# Anon user nav bar %>
+<nav class="bg-white shadow z-10 fixed w-full">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex">
+                <div class="flex-shrink-0 flex items-center">
+                    <%= link "ShlinkedIn", to: "/join", class: "text-lg text-blue-700 font-bold inline-flex" %>
+                </div>
+                <div class="hidden md:ml-6 md:flex md:space-x-8">
+                </div>
+            </div>
+            <div class="flex items-center">
+
+                <%= link "Log in", to: "/log_in",  class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+                <%= link "Join", to: "/register", class: "ml-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+            </div>
+        </div>
+    </div>
+
+</nav>
+
+
+<% end %>

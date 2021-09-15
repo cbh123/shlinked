@@ -9,7 +9,7 @@ defmodule ShlinkedinWeb.UserRegistrationControllerTest do
       response = html_response(conn, 200)
       assert response =~ "Create an account"
       assert response =~ "Log in</a>"
-      assert response =~ "Register</a>"
+      assert response =~ "Join</a>"
     end
 
     test "redirects if already logged in", %{conn: conn} do

@@ -4,12 +4,25 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
   alias Shlinkedin.Timeline
   alias Shlinkedin.Profiles.Profile
 
+  @impl true
   def mount(socket) do
-    if connected?(socket) do
-      Timeline.subscribe()
-    end
+    {:ok, socket |> assign(prompt: get_prompt())}
+  end
 
-    {:ok, socket |> assign(show_share_menu: false)}
+  @impl true
+  def handle_event(_action, _params, %{assigns: %{profile: %Profile{id: nil}}} = socket) do
+    {:noreply,
+     socket
+     |> put_flash(:info, "You must join ShlinkedIn to do that :)")
+     |> push_patch(to: socket.assigns.return_to)}
+  end
+
+  @impl true
+  def handle_event(_action, _params, %{assigns: %{profile: nil}} = socket) do
+    {:noreply,
+     socket
+     |> put_flash(:info, "You must join ShlinkedIn to do that :)")
+     |> push_patch(to: socket.assigns.return_to)}
   end
 
   def handle_event("toggle-share-menu", _, socket) do
@@ -194,5 +207,16 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
 
   defp like_map_list(like_map) do
     Enum.filter(like_map, fn {_, d} -> d.active end) |> Enum.map(fn {_, d} -> d end)
+  end
+
+  defp get_prompt() do
+    case Timeline.get_random_prompt() do
+      nil -> "Check out this amazing thought leadership on Shlinkedin.com: "
+      prompt -> prompt.text
+    end
+  end
+
+  defp tweet_intent(prompt, url) do
+    "https://twitter.com/intent/tweet?text=#{prompt} &url=#{url}"
   end
 end

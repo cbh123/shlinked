@@ -5,7 +5,7 @@ defmodule Shlinkedin.Timeline do
   import Ecto.Query, warn: false
   alias Shlinkedin.Repo
 
-  alias Shlinkedin.Timeline.{Post, Comment, Like, CommentLike, Story, StoryView}
+  alias Shlinkedin.Timeline.{Post, Comment, Like, CommentLike, Story, StoryView, SocialPrompt}
   alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Profiles.ProfileNotifier
   alias Shlinkedin.Groups.Group
@@ -370,11 +370,8 @@ defmodule Shlinkedin.Timeline do
 
   def create_like(%Profile{} = profile, %Post{} = post, like_type) do
     {:ok, _like} =
-      %Like{
-        profile_id: profile.id,
-        post_id: post.id,
-        like_type: like_type
-      }
+      %Like{}
+      |> Like.changeset(%{profile_id: profile.id, post_id: post.id, like_type: like_type})
       |> Repo.insert()
       |> ProfileNotifier.observer(:like, profile, post.profile)
 
@@ -940,6 +937,7 @@ defmodule Shlinkedin.Timeline do
   def get_random_tagline do
     Repo.one(
       from t in Tagline,
+        where: t.active,
         order_by: fragment("RANDOM()"),
         limit: 1
     )
@@ -1037,5 +1035,111 @@ defmodule Shlinkedin.Timeline do
   """
   def change_tagline(%Tagline{} = tagline, attrs \\ %{}) do
     Tagline.changeset(tagline, attrs)
+  end
+
+  @doc """
+  Returns the list of social_prompts.
+
+  ## Examples
+
+      iex> list_social_prompts()
+      [%SocialPrompt{}, ...]
+
+  """
+  def list_social_prompts do
+    Repo.all(SocialPrompt)
+  end
+
+  @doc """
+  Gets random social prompt
+  """
+  def get_random_prompt() do
+    Repo.one(
+      from t in SocialPrompt,
+        where: t.active,
+        order_by: fragment("RANDOM()"),
+        limit: 1
+    )
+  end
+
+  @doc """
+  Gets a single social_prompt.
+
+  Raises `Ecto.NoResultsError` if the Social prompt does not exist.
+
+  ## Examples
+
+      iex> get_social_prompt!(123)
+      %SocialPrompt{}
+
+      iex> get_social_prompt!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_social_prompt!(id), do: Repo.get!(SocialPrompt, id)
+
+  @doc """
+  Creates a social_prompt.
+
+  ## Examples
+
+      iex> create_social_prompt(%{field: value})
+      {:ok, %SocialPrompt{}}
+
+      iex> create_social_prompt(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_social_prompt(attrs \\ %{}) do
+    %SocialPrompt{}
+    |> SocialPrompt.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a social_prompt.
+
+  ## Examples
+
+      iex> update_social_prompt(social_prompt, %{field: new_value})
+      {:ok, %SocialPrompt{}}
+
+      iex> update_social_prompt(social_prompt, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_social_prompt(%SocialPrompt{} = social_prompt, attrs) do
+    social_prompt
+    |> SocialPrompt.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a social_prompt.
+
+  ## Examples
+
+      iex> delete_social_prompt(social_prompt)
+      {:ok, %SocialPrompt{}}
+
+      iex> delete_social_prompt(social_prompt)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_social_prompt(%SocialPrompt{} = social_prompt) do
+    Repo.delete(social_prompt)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking social_prompt changes.
+
+  ## Examples
+
+      iex> change_social_prompt(social_prompt)
+      %Ecto.Changeset{data: %SocialPrompt{}}
+
+  """
+  def change_social_prompt(%SocialPrompt{} = social_prompt, attrs \\ %{}) do
+    SocialPrompt.changeset(social_prompt, attrs)
   end
 end

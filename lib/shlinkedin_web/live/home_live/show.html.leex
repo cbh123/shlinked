@@ -1,8 +1,11 @@
+<%= if @current_user do %>
 <div class="mt-4 max-w-lg mx-auto font-windows">
     <%= live_redirect raw("&larr; Home"), to: Routes.home_index_path(@socket, :index),
         class: "inline-flex mx-auto px-6 py-3 hover:text-green-400 border border-transparent text-base font-medium rounded-md text-gray-900 "
      %>
 </div>
+<% end %>
+
 <div class="mt-4 pb-12 max-w-lg mx-auto">
     <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
         id: @post.id,
@@ -18,6 +21,25 @@
         return_to: Routes.home_show_path(@socket, :show, @post.id),
         spin: false  %>
 </div>
+
+<%= if is_nil(@current_user) do %>
+<div class="bg-blue-500 text-white -mb-6 fixed h-24 bottom-0 w-full">
+    <div class="flex justify-between px-6 py-2 items-center">
+        <h2
+            class="inline-flex text-lg font-extrabold tracking-tight sm:text-4xl">
+            <span class="">Join Shlinkedin.</span>
+        </h2>
+        <div class="inline-flex justify-center">
+            <div class="inline-flex rounded-md shadow">
+                <%= live_redirect raw("Become a Thought Leader &rarr;"), to: Routes.user_registration_path(@socket, :new), class: "ml-2 inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-blue-100"  %>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<% end %>
 
 
 <%= if @live_action in [:new_comment] do %>

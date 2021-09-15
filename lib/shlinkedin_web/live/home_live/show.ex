@@ -18,13 +18,28 @@ defmodule ShlinkedinWeb.HomeLive.Show do
      |> assign(like_map: Timeline.like_map())
      |> assign(comment_like_map: Timeline.comment_like_map())
      |> assign(show_like_options: false)
-     |> assign(:post, post)
+     |> assign(post: post)
+     |> assign(meta_attrs: meta_attrs(post.body, post.profile.persona_name))
      |> assign(:page_title, "See #{post.profile.persona_name}'s post on ShlinkedIn")}
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  def handle_params(params, _url, %{assigns: %{live_action: :show}} = socket) do
+    {:noreply, apply_action(socket, :show, params)}
+  end
+
+  @impl true
+  def handle_params(%{"id" => id} = params, _url, socket) do
+    case socket.assigns.current_user do
+      nil ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "You must join ShlinkedIn to do that :)")
+         |> push_patch(to: Routes.home_show_path(socket, :show, id))}
+
+      _user ->
+        {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+    end
   end
 
   defp apply_action(socket, :show, params) do
@@ -103,12 +118,45 @@ defmodule ShlinkedinWeb.HomeLive.Show do
   end
 
   @impl true
-  def handle_info({:post_updated, _post}, socket) do
-    {:noreply, socket}
+  def handle_info({:post_updated, post}, socket) do
+    {:noreply, socket |> assign(post: post)}
   end
 
   @impl true
   def handle_info({:post_deleted, _post}, socket) do
     {:noreply, socket}
+  end
+
+  defp meta_attrs(text, name, image \\ "https://shlinked.s3.amazonaws.com/shlinkedin_logo+2.png") do
+    trimmed_text = trim_text(text)
+
+    [
+      %{
+        property: "og:image",
+        content:
+          "https://og-image-charlop.vercel.app/\"#{trimmed_text}\"**-#{name}**.png?theme=light&md=1&fontSize=100px&images=#{image}"
+      },
+      %{
+        name: "twitter:image:src",
+        content:
+          "https://og-image-charlop.vercel.app/\"#{trimmed_text}\"**-#{name}**.png?theme=light&md=1&fontSize=100px&images=#{image}"
+      },
+      %{
+        property: "og:image:height",
+        content: "1200"
+      },
+      %{
+        property: "og:image:width",
+        content: "1200"
+      }
+    ]
+  end
+
+  defp trim_text(text) do
+    if String.length(text) <= 70 do
+      text
+    else
+      String.slice(text, 0..70) <> "..."
+    end
   end
 end

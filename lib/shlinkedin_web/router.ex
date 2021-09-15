@@ -4,6 +4,7 @@ defmodule ShlinkedinWeb.Router do
   import ShlinkedinWeb.UserAuth
   import Phoenix.LiveDashboard.Router
   import Plug.BasicAuth
+  import ShlinkedinWeb.MetaAttrs
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -13,6 +14,7 @@ defmodule ShlinkedinWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_user
+    plug :put_meta_attrs
   end
 
   pipeline :api do
@@ -72,7 +74,6 @@ defmodule ShlinkedinWeb.Router do
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
     # show home
-    live "/home/show/posts/:id", HomeLive.Show, :show
     live "/home/show/posts/:id/show/edit", HomeLive.Show, :edit
     live "/home/show/posts/:id/:notifications", HomeLive.Show, :show
     live "/home/show/posts/:id/:notifications/likes", HomeLive.Show, :show_likes
@@ -148,7 +149,11 @@ defmodule ShlinkedinWeb.Router do
     live "/taglines/new", TaglineLive.Index, :new
     live "/taglines/:id/edit", TaglineLive.Index, :edit
     live "/taglines/:id", TaglineLive.Show, :show
-    live "/taglines/:id/show/edit", TaglineLive.Show, :edit
+
+    # social prompts
+    live "/social_prompts", SocialPromptLive.Index, :index
+    live "/social_prompts/new", SocialPromptLive.Index, :new
+    live "/social_prompts/:id/edit", SocialPromptLive.Index, :edit
 
     # show all profiles
     live "/profiles", UsersLive.Index, :index
@@ -211,14 +216,22 @@ defmodule ShlinkedinWeb.Router do
   scope "/", ShlinkedinWeb do
     pipe_through [:browser]
 
+    # see post
+    live "/home/show/posts/:id", HomeLive.Show, :show
+
+    # sitemap
     get "/sitemap.xml", SitemapController, :sitemap
 
+    # generator
     live "/generator", PostLive.Generator, :index
+
+    # error
     get "/error", ErrorController, :index
 
     # onboarding
     live "/onboarding/:id", OnboardingLive.Index, :index
 
+    # join
     get "/join", UserRegistrationController, :join
     get "/join?ref=:profile_slug", UserRegistrationController, :join
 
