@@ -1063,7 +1063,11 @@ defmodule Shlinkedin.Timeline do
     |> create_prompt_if_nil()
   end
 
-  defp create_prompt_if_nil(nil), do: create_social_prompt(%{body: "This is so inspiring: "})
+  defp create_prompt_if_nil(nil) do
+    {:ok, prompt} = create_social_prompt(%{text: "This is so inspiring: "})
+    prompt
+  end
+
   defp create_prompt_if_nil(prompt), do: prompt
 
   @doc """

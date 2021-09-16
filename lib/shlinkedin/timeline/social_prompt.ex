@@ -15,6 +15,6 @@ defmodule Shlinkedin.Timeline.SocialPrompt do
   def changeset(social_prompt, attrs) do
     social_prompt
     |> cast(attrs, [:hashtags, :via, :text, :active])
-    |> validate_required([:hashtags, :via, :text, :active])
+    |> validate_required([:text])
   end
 end
