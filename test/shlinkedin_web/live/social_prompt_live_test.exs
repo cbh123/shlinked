@@ -5,8 +5,8 @@ defmodule ShlinkedinWeb.SocialPromptLiveTest do
 
   alias Shlinkedin.Timeline
 
-  @create_attrs %{active: true, text: "some text"}
-  @update_attrs %{active: false, text: "some updated text"}
+  @create_attrs %{active: true, text: "some text", hashtags: "hellothere, hi", via: "shlop"}
+  @update_attrs %{active: false, text: "some updated text", hashtags: "bloop"}
   @invalid_attrs %{active: false, text: nil}
 
   defp fixture(:social_prompt) do
@@ -67,6 +67,8 @@ defmodule ShlinkedinWeb.SocialPromptLiveTest do
 
       assert html =~ "Social prompt created successfully"
       assert html =~ "some text"
+      assert html =~ "hellothere, hi"
+      assert html =~ "shlop"
     end
 
     test "updates social_prompt in listing", %{conn: conn, social_prompt: social_prompt} do
@@ -91,6 +93,7 @@ defmodule ShlinkedinWeb.SocialPromptLiveTest do
 
       assert html =~ "Social prompt updated successfully"
       assert html =~ "some updated text"
+      assert html =~ "bloop"
     end
 
     test "deletes social_prompt in listing", %{conn: conn, social_prompt: social_prompt} do

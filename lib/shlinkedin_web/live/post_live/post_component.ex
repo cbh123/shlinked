@@ -210,13 +210,10 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
   end
 
   defp get_prompt() do
-    case Timeline.get_random_prompt() do
-      nil -> "Check out this amazing thought leadership on Shlinkedin.com: "
-      prompt -> prompt.text
-    end
+    Timeline.get_random_prompt()
   end
 
   defp tweet_intent(prompt, url) do
-    "https://twitter.com/intent/tweet?text=#{prompt} &url=#{url}"
+    "https://twitter.com/intent/tweet?text=#{prompt.text}&url=#{url}&hashtags=#{prompt.hashtags}"
   end
 end

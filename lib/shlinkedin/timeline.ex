@@ -1060,7 +1060,11 @@ defmodule Shlinkedin.Timeline do
         order_by: fragment("RANDOM()"),
         limit: 1
     )
+    |> create_prompt_if_nil()
   end
+
+  defp create_prompt_if_nil(nil), do: create_social_prompt(%{body: "This is so inspiring: "})
+  defp create_prompt_if_nil(prompt), do: prompt
 
   @doc """
   Gets a single social_prompt.

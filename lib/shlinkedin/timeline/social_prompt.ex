@@ -5,6 +5,8 @@ defmodule Shlinkedin.Timeline.SocialPrompt do
   schema "social_prompts" do
     field :active, :boolean, default: true
     field :text, :string
+    field :hashtags, :string, default: "shlinkedin"
+    field :via, :string, default: "shlinkedin"
 
     timestamps()
   end
@@ -12,7 +14,7 @@ defmodule Shlinkedin.Timeline.SocialPrompt do
   @doc false
   def changeset(social_prompt, attrs) do
     social_prompt
-    |> cast(attrs, [:text, :active])
-    |> validate_required([:text, :active])
+    |> cast(attrs, [:hashtags, :via, :text, :active])
+    |> validate_required([:hashtags, :via, :text, :active])
   end
 end

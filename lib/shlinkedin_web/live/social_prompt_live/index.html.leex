@@ -18,6 +18,8 @@
         <thead>
             <tr>
                 <th>Text</th>
+                <th>Hashtags</th>
+                <th>Via (not used right now)</th>
                 <th>Active</th>
 
                 <th></th>
@@ -27,6 +29,8 @@
             <%= for social_prompt <- @social_prompts do %>
             <tr id="social_prompt-<%= social_prompt.id %>">
                 <td><%= social_prompt.text %></td>
+                <td><%= social_prompt.hashtags %></td>
+                <td><%= social_prompt.via %></td>
                 <td><%= social_prompt.active %></td>
 
                 <td>
