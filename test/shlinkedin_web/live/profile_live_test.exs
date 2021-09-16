@@ -7,22 +7,63 @@ defmodule ShlinkedinWeb.ProfileLiveTest do
 
   setup :register_user_and_profile
 
-  test "profile view has to be unique per day", %{conn: conn, profile: _profile} do
-    random_profile = profile_fixture()
+  setup do
+    %{to_profile: profile_fixture()}
+  end
 
-    {:ok, _view, _html} = live(conn, Routes.profile_show_path(conn, :show, random_profile.slug))
+  test "profile view has to be unique per day", %{
+    conn: conn,
+    profile: _profile,
+    to_profile: to_profile
+  } do
+    {:ok, _view, _html} = live(conn, Routes.profile_show_path(conn, :show, to_profile.slug))
 
-    random_profile = Profiles.get_profile_by_profile_id(random_profile.id)
+    to_profile = Profiles.get_profile_by_profile_id(to_profile.id)
 
-    assert random_profile.points.amount ==
+    assert to_profile.points.amount ==
              100 + Shlinkedin.Points.get_rule_amount(:profile_view).amount
 
-    {:ok, _view, _html} = live(conn, Routes.profile_show_path(conn, :show, random_profile.slug))
-    {:ok, _view, _html} = live(conn, Routes.profile_show_path(conn, :show, random_profile.slug))
-    {:ok, _view, _html} = live(conn, Routes.profile_show_path(conn, :show, random_profile.slug))
-    random_profile = Profiles.get_profile_by_profile_id(random_profile.id)
+    {:ok, _view, _html} = live(conn, Routes.profile_show_path(conn, :show, to_profile.slug))
+    {:ok, _view, _html} = live(conn, Routes.profile_show_path(conn, :show, to_profile.slug))
+    {:ok, _view, _html} = live(conn, Routes.profile_show_path(conn, :show, to_profile.slug))
+    to_profile = Profiles.get_profile_by_profile_id(to_profile.id)
 
-    assert random_profile.points.amount ==
+    assert to_profile.points.amount ==
              100 + Shlinkedin.Points.get_rule_amount(:profile_view).amount
+  end
+
+  test "write a testimonial", %{conn: conn, profile: _profile, to_profile: to_profile} do
+    {:ok, view, _html} = live(conn, Routes.profile_show_path(conn, :show, to_profile.slug))
+
+    assert view
+           |> element("#review", "+ Review")
+           |> render_click() =~
+             "Write a review for #{to_profile.persona_name}"
+
+    assert_patch(view, Routes.profile_show_path(conn, :new_testimonial, to_profile.slug))
+
+    assert view
+           |> form("#testimonial-form",
+             testimonial: %{relation: "You and Mr. studied together", body: "", rating: 5}
+           )
+           |> render_change() =~ "can&#39;t be blank"
+
+    {:ok, _, html} =
+      view
+      |> form("#testimonial-form",
+        testimonial: %{relation: "You and Mr. studied together", body: "Great work", rating: 5}
+      )
+      |> render_submit()
+      |> follow_redirect(conn, Routes.profile_show_path(conn, :show, to_profile.slug))
+
+    assert html =~ "Review created!"
+    assert html =~ "Great work"
+
+    # check adds points to to_profile
+    to_profile = Profiles.get_profile_by_profile_id(to_profile.id)
+
+    assert to_profile.points.amount ==
+             100 + Shlinkedin.Points.get_rule_amount(:testimonial).amount +
+               Shlinkedin.Points.get_rule_amount(:profile_view).amount
   end
 end
