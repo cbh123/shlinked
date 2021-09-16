@@ -166,7 +166,7 @@ defmodule Shlinkedin.Points do
         :testimonial,
         testimonial
       ) do
-    if testimonial.profile_id != from_profile.id do
+    if testimonial.to_profile_id != from_profile.id do
       generate_wealth(to_profile, :testimonial)
     else
       {:ok, %Transaction{}}
