@@ -11,14 +11,23 @@
   phx_change: "validate",
   phx_submit: "save" %>
 
-<p>Note: make sure you add a space afterwards otherwise it'll look weird. Eg:
-    Wow! Look at this post: </p>
 <div>
-    <%= label f, :text %>
+    <%= label f, "Text in tweet. make sure you add a space afterwards otherwise it'll look weird. Eg:
+    Wow! Look at this post: ", class: "block" %>
     <%= text_input f, :text %>
     <%= error_tag f, :text %>
 </div>
 
+<div>
+    <%= label f, "Hashtags. Needs to be a comma separated list, no spaces after comma: 'shlinkedin,hustle'", class: "block" %>
+    <%= text_input f, :hashtags %>
+    <%= error_tag f, :hashtags %>
+</div>
+<div>
+    <%= label f, "Via @shlinkedin. Probably leave this. Also not used rn.", class: "block" %>
+    <%= text_input f, :via %>
+    <%= error_tag f, :via %>
+</div>
 <div>
     <%= label f, :active %>
     <%= checkbox f, :active %>
