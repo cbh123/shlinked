@@ -153,11 +153,13 @@ defmodule ShlinkedinWeb.HomeLive.Show do
     ]
   end
 
-  defp trim_text(text) do
+  defp trim_text(text) when is_binary(text) do
     if String.length(text) <= 70 do
       text
     else
       String.slice(text, 0..70) <> "..."
     end
   end
+
+  defp trim_text(text), do: text
 end

@@ -19,6 +19,13 @@ defmodule ShlinkedinWeb.ShowHomeLiveTest do
       assert html =~ post.profile.persona_name
     end
 
+    test "render show post page with no body text", %{conn: conn} do
+      post = post_fixture(%{"body" => ""})
+      {:ok, _view, html} = live(conn, Routes.home_show_path(conn, :show, post.id))
+
+      assert html =~ post.profile.persona_name
+    end
+
     test "like a post", %{conn: conn, post: post} do
       {:ok, view, _html} = live(conn, Routes.home_show_path(conn, :show, post.id))
 

@@ -79,7 +79,7 @@ defmodule Shlinkedin.Timeline.Post do
     end)
   end
 
-  defp is_allowed?(%Profile{admin: true} = profile, _post_profile_id) do
+  defp is_allowed?(%Profile{admin: true}, _post_profile_id) do
     true
   end
 
