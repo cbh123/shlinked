@@ -10,7 +10,11 @@ defmodule Shlinkedin.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+
+      # Docs
+      source_url: "https://github.com/cbh123/shlinked",
+      extras: ["README.md"]
     ]
   end
 
@@ -56,7 +60,8 @@ defmodule Shlinkedin.MixProject do
       {:ecto_psql_extras, "~> 0.2"},
       {:money, "~> 1.4"},
       {:appsignal_phoenix, "~> 2.0.0"},
-      {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:ex_doc, "~> 0.24", only: :dev, runtime: false}
     ]
   end
 
