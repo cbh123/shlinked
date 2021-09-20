@@ -21,7 +21,7 @@ defmodule Shlinkedin.Ads.Ad do
     field(:overlay_color, :string)
     field(:removed, :boolean, default: false)
     field(:quantity, :integer, default: 1)
-    field(:price, Money.Ecto.Amount.Type, default: "100")
+    field(:price, Money.Ecto.Amount.Type, default: 100)
 
     timestamps()
   end
