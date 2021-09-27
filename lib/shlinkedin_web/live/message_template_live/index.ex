@@ -5,8 +5,12 @@ defmodule ShlinkedinWeb.MessageTemplateLive.Index do
   alias Shlinkedin.Chat.MessageTemplate
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, socket |> check_access() |> assign(:templates, list_templates())}
+  def mount(_params, session, socket) do
+    socket = is_user(session, socket)
+
+    {:ok,
+      check_access(socket)
+      |> assign(:templates, list_templates())}
   end
 
   @impl true
