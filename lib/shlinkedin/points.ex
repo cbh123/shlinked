@@ -8,6 +8,7 @@ defmodule Shlinkedin.Points do
 
   alias Shlinkedin.Points.{Transaction, Statistic}
   alias Shlinkedin.Profiles.Profile
+  alias Shlinkedin.Profiles
   alias Shlinkedin.Profiles.ProfileNotifier
   alias Shlinkedin.Timeline
   alias Shlinkedin.Timeline.{Post, Comment}
@@ -200,7 +201,7 @@ defmodule Shlinkedin.Points do
   end
 
   def point_observer(%Profile{} = to_profile, :join_discord) do
-    god = get_god()
+    god = Profiles.get_god()
 
     generate_wealth(to_profile, :join_discord)
     |> ProfileNotifier.observer(:sent_transaction, god, to_profile)
@@ -266,9 +267,7 @@ defmodule Shlinkedin.Points do
     Shlinkedin.Profiles.update_profile(profile, %{points: new_balance})
 
     # get god
-    god_profile =
-      Shlinkedin.Profiles.get_profile_by_username("god")
-      |> get_god_profile()
+    god_profile = Profiles.get_god()
 
     %Transaction{
       from_profile_id: god_profile.id,
@@ -296,7 +295,7 @@ defmodule Shlinkedin.Points do
     Shlinkedin.Profiles.update_profile(profile, %{points: new_balance})
 
     # get god
-    god_profile = get_god()
+    god_profile = Profiles.get_god()
 
     %Transaction{
       from_profile_id: god_profile.id,
@@ -306,45 +305,6 @@ defmodule Shlinkedin.Points do
     }
     |> Transaction.changeset(%{})
     |> Repo.insert()
-  end
-
-  defp get_god do
-    Shlinkedin.Profiles.get_profile_by_username("god")
-    |> get_god_profile()
-  end
-
-  defp get_god_profile(nil), do: profile_fixture()
-  defp get_god_profile(god), do: god
-
-  defp user_fixture(attrs \\ %{}) do
-    {:ok, user} =
-      attrs
-      |> Enum.into(%{
-        email: "user#{System.unique_integer()}@example.com",
-        password: "hello world!"
-      })
-      |> Shlinkedin.Accounts.register_user()
-
-    user
-  end
-
-  defp profile_fixture(attrs \\ %{}) do
-    user = Map.get(attrs, :user, user_fixture())
-
-    {:ok, profile} =
-      Shlinkedin.Profiles.create_profile(
-        user,
-        attrs
-        |> Enum.into(%{
-          "persona_name" => "God",
-          "slug" => "god",
-          "title" => "Ruler of the Universe",
-          "username" => "god",
-          "points" => 10_000_000
-        })
-      )
-
-    profile
   end
 
   @doc """

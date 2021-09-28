@@ -8,7 +8,9 @@ defmodule ShlinkedinWeb.AwardTypeLive.GrantAward do
     case socket.assigns.from_profile.admin do
       true ->
         award_type = Awards.get_award_type!(award_type_id)
-        {:ok, _award} = Profiles.grant_award(socket.assigns.to_profile, award_type)
+
+        {:ok, _award} =
+          Profiles.grant_award(socket.assigns.from_profile, socket.assigns.to_profile, award_type)
 
         {:noreply,
          socket |> assign(current_awards: Profiles.list_awards(socket.assigns.to_profile))}

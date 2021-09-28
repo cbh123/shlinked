@@ -79,6 +79,29 @@ defmodule ShlinkedinWeb.ConnCase do
     %{conn: log_in_user(conn, user), user: user, profile: profile}
   end
 
+  def register_user_and_moderator_profile(%{conn: conn}) do
+    user = Shlinkedin.AccountsFixtures.user_fixture()
+
+    {:ok, profile} =
+      Shlinkedin.Profiles.create_profile(user, %{
+        "persona_name" => "Charlie B",
+        "username" => "charlie"
+      })
+
+    admin = Shlinkedin.ProfilesFixtures.profile_fixture(%{"admin" => true})
+
+    mod_award =
+      Shlinkedin.Awards.create_award_type(%{
+        name: "Moderator",
+        image_format: "svg",
+        description: "Moderator"
+      })
+
+    Shlinkedin.Profiles.grant_award(admin, profile, mod_award)
+
+    %{conn: log_in_user(conn, user), user: user, profile: profile}
+  end
+
   @doc """
   Logs the given `user` into the `conn`.
 
