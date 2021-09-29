@@ -38,12 +38,10 @@ defmodule ShlinkedinWeb.HomeLive.Index do
        headline_per_page: 15,
        like_map: Timeline.like_map(),
        comment_like_map: Timeline.comment_like_map(),
-       stats: get_stats(),
        num_show_comments: 1
      )
      |> fetch_headlines()
      |> fetch_profile_related_data()
-     |> map_story_id_to_seen_all_stories()
      |> fetch_posts(), temporary_assigns: [posts: [], articles: []]}
   end
 
@@ -364,34 +362,8 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     {:noreply, socket}
   end
 
-  defp map_story_id_to_seen_all_stories(
-         %{assigns: %{profile: %Profiles.Profile{id: nil}}} = socket
-       ) do
-    assign(socket, story_map: %{})
-  end
-
-  defp map_story_id_to_seen_all_stories(
-         %{assigns: %{stories: stories, profile: profile}} = socket
-       ) do
-    story_map =
-      stories
-      |> Enum.map(fn s -> {s.id, Timeline.seen_all_stories?(profile, s.profile)} end)
-      |> Map.new()
-
-    assign(socket, story_map: story_map)
-  end
-
-  defp get_stats() do
-    %{
-      total_points: Shlinkedin.Points.get_total_points(),
-      points_pct: Shlinkedin.Points.calc_pct_increase(),
-      num_new_profiles: Profiles.num_new_profiles("week")
-    }
-  end
-
   defp load_activity_or_sponsor?() do
     [
-      %{type: :activity, content: Timeline.list_unique_notifications(60)},
       %{type: :sponsor, content: "Pickle Hot Sauce"}
     ]
     |> Enum.at(0)

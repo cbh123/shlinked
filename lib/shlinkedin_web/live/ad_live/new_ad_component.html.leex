@@ -147,8 +147,6 @@
     <% end %>
     <%= if is_moderator?(@profile) do %>
     <%= live_patch "Moderation Panel", to: Routes.ad_show_path(@socket, :new_action, @ad.id), class: "text-xs text-gray-600 hover:underline", id: "moderate-ad"  %>
-    <%# <%= live_patch "Edit Moderation Status", to: Routes.ad_show_path(@socket, :edit_action, @ad.id, @action.id), class: "text-xs text-gray-600 hover:underline", id: "moderate-ad"  %>
-    %>
     <% end %>
 </div>
 <% end %>

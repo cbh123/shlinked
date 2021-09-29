@@ -37,9 +37,14 @@ defmodule ShlinkedinWeb.AdLive.Show do
   def render(assigns) do
     ~L"""
     <div class=" max-w-lg mx-auto mt-8 text-center">
-
     <%= live_redirect raw("&larr; ShlinkMarket"), to: Routes.market_index_path(@socket, :index), class: " inline-flex mx-auto hover:bg-gray-200  px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-900"%>
     </div>
+
+    <%= live_component @socket, ShlinkedinWeb.ModerationLive.ModerationStatus,
+    id: "mod-status-#{@ad.id}",
+    content: @ad,
+    profile: @profile
+    %>
 
     <div class="mt-3 mx-auto sm:rounded-lg max-w-lg p-5">
     <ul>
@@ -51,7 +56,7 @@ defmodule ShlinkedinWeb.AdLive.Show do
     %>
     </ul>
 
-    <%= @ad.removed %>
+
 
     <%= if @live_action in [:new_action, :edit_action] do %>
     <%= live_modal @socket, ShlinkedinWeb.ModerationLive.ModerationForm,

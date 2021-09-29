@@ -11,7 +11,6 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   alias Shlinkedin.Points
   alias Shlinkedin.Ads.{AdLike, Ad}
   alias Shlinkedin.Ads
-  alias Shlinkedin.Moderation.Action
 
   @doc """
   Deliver instructions to confirm account.
@@ -85,10 +84,11 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     %Notification{
       from_profile_id: from.id,
       to_profile_id: to.id,
-      type: "moderated",
+      type: "ad_click",
       ad_id: action.ad_id,
-      action:
-        "A moderator has decided to issue you a #{action.action} on your ad. Reason: #{action.reason}"
+      action: "has decided to issue you a #{action.action} on your ad. ",
+      body:
+        "Reason: #{action.reason}. Don't feel bad! Humor sometimes requires taking some risks :)"
     }
     |> Profiles.create_notification()
   end
@@ -97,10 +97,11 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     %Notification{
       from_profile_id: from.id,
       to_profile_id: to.id,
-      type: "moderated",
+      type: "like",
       post_id: action.post_id,
-      action:
-        "A moderator has decided to issue you a #{action.action} on your post. Reason: #{action.reason}"
+      action: "has decided to issue you a #{action.action} on your post. ",
+      body:
+        "Reason: #{action.reason}. Don't feel bad! Humor sometimes requires taking some risks :)"
     }
     |> Profiles.create_notification()
   end
@@ -109,24 +110,24 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     %Notification{
       from_profile_id: from.id,
       to_profile_id: to.id,
-      type: "moderated",
+      type: "like",
       post_id: action.post_id,
-      action:
-        "A moderator has decided to issue you a #{action.action} on your comment. Reason: #{action.reason}"
+      action: "has decided to issue you a #{action.action} on your comment. ",
+      body:
+        "Reason: #{action.reason}. Don't feel bad! Humor sometimes requires taking some risks :)"
     }
     |> Profiles.create_notification()
   end
 
   defp _notify(:moderated_article, from, to, action) do
-    article = Shlinkedin.News.get_article!(action.article_id)
-
     %Notification{
       from_profile_id: from.id,
       to_profile_id: to.id,
-      type: "moderated",
-      article_id: action.article_id,
-      action:
-        "A moderator has decided to issue you a #{action.action} on your headline: #{article.headline}. Reason: #{action.reason}"
+      type: "vote",
+      post_id: action.post_id,
+      action: "has decided to issue you a #{action.action} on your headline. ",
+      body:
+        "Reason: #{action.reason}. Don't feel bad! Humor sometimes requires taking some risks :)"
     }
     |> Profiles.create_notification()
   end

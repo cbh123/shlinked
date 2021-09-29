@@ -90,6 +90,15 @@ defmodule ShlinkedinWeb.HomeLive.Show do
     |> assign(:comment, %Comment{})
   end
 
+  defp apply_action(socket, :new_action, _params) do
+    socket |> assign(action: %Shlinkedin.Moderation.Action{})
+  end
+
+  defp apply_action(socket, :edit_action, %{"action_id" => action_id}) do
+    action = Shlinkedin.Moderation.get_action!(action_id)
+    socket |> assign(action: action)
+  end
+
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     post = Timeline.get_post!(id)

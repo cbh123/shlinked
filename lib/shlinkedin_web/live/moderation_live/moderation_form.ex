@@ -45,7 +45,7 @@ defmodule ShlinkedinWeb.ModerationLive.ModerationForm do
       {:ok, _action} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Saved successfully")
+         |> put_flash(:info, "Thanks for making ShlinkedIn better :)")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

@@ -90,7 +90,7 @@ defmodule ShlinkedinWeb.ConnCase do
 
     admin = Shlinkedin.ProfilesFixtures.profile_fixture(%{"admin" => true})
 
-    mod_award =
+    {:ok, mod_award} =
       Shlinkedin.Awards.create_award_type(%{
         name: "Moderator",
         image_format: "svg",

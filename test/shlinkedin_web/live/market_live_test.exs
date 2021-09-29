@@ -146,15 +146,37 @@ defmodule ShlinkedinWeb.MarketLiveTest do
     setup :register_user_and_admin_profile
 
     test "censor an ad as an admin", %{conn: conn} do
-      ad = ad_fixture(profile_fixture())
+      ad_creator = profile_fixture()
+      ad = ad_fixture(ad_creator)
 
       {:ok, view, _html} = conn |> live("/ads/#{ad.id}")
 
       assert view |> render() =~ "Edit"
 
-      # should render moderating panel
-      view |> element("#moderate") |> render_click() =~ "Moderate Panel"
-      assert_patch(view, Routes.market_index_path(conn, :moderate))
+      view |> element("#moderate-ad") |> render_click() =~ "Moderate Panel"
+      assert_patch(view, Routes.ad_show_path(conn, :new_action, ad.id))
+
+      {:ok, _view, html} =
+        view
+        |> form("#moderation-form")
+        |> render_submit(
+          action: %{
+            "reason" => "Makes marginalized group butt of the joke",
+            "action" => "censor"
+          }
+        )
+        |> follow_redirect(conn)
+
+      assert html =~ "Thanks for making ShlinkedIn better :)"
+
+      # confirm user got notification
+      assert Shlinkedin.Profiles.list_notifications(ad_creator.id, 1)
+             |> Enum.at(0)
+             |> Map.get(:action) ==
+               "has decided to issue you a censor on your ad. "
+
+      # confirm ad is removed
+      assert Ads.get_ad!(ad.id).removed == true
     end
   end
 
@@ -162,11 +184,37 @@ defmodule ShlinkedinWeb.MarketLiveTest do
     setup :register_user_and_moderator_profile
 
     test "censor an ad as a moderator", %{conn: conn} do
-      ad = ad_fixture(profile_fixture())
+      ad_creator = profile_fixture()
+      ad = ad_fixture(ad_creator)
 
       {:ok, view, _html} = conn |> live("/ads/#{ad.id}")
 
       refute render(view) =~ "Edit Ad"
+
+      view |> element("#moderate-ad") |> render_click() =~ "Moderate Panel"
+      assert_patch(view, Routes.ad_show_path(conn, :new_action, ad.id))
+
+      {:ok, _view, html} =
+        view
+        |> form("#moderation-form")
+        |> render_submit(
+          action: %{
+            "reason" => "Makes marginalized group butt of the joke",
+            "action" => "censor"
+          }
+        )
+        |> follow_redirect(conn)
+
+      assert html =~ "Thanks for making ShlinkedIn better :)"
+
+      # confirm user got notification
+      assert Shlinkedin.Profiles.list_notifications(ad_creator.id, 1)
+             |> Enum.at(0)
+             |> Map.get(:action) ==
+               "has decided to issue you a censor on your ad. "
+
+      # confirm ad is removed
+      assert Ads.get_ad!(ad.id).removed == true
     end
   end
 end

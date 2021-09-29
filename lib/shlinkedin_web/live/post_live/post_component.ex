@@ -9,6 +9,10 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     {:ok, socket |> assign(prompt: get_prompt())}
   end
 
+  def is_moderator?(profile) do
+    Shlinkedin.Profiles.is_moderator?(profile)
+  end
+
   @impl true
   def handle_event(_action, _params, %{assigns: %{profile: %Profile{id: nil}}} = socket) do
     {:noreply,

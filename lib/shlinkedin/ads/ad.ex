@@ -23,7 +23,7 @@ defmodule Shlinkedin.Ads.Ad do
     field(:removed, :boolean, default: false)
     field(:quantity, :integer, default: 1)
     field(:price, Money.Ecto.Amount.Type, default: "100")
-    has_one :action, Shlinkedin.Moderation.Action
+    has_one(:action, Shlinkedin.Moderation.Action)
 
     timestamps()
   end
@@ -157,7 +157,7 @@ defmodule Shlinkedin.Ads.Ad do
 
   defp validate_ad(changeset, field, ad, profile) do
     validate_change(changeset, field, fn ^field, _body ->
-      if Profiles.is_moderator?(profile) do
+      if(ad.profile_id == profile.id or Profiles.is_admin?(profile)) do
         []
       else
         [body: "You cannot edit this person's posts."]

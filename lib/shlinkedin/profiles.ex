@@ -28,6 +28,7 @@ defmodule Shlinkedin.Profiles do
   Checks whether profile is moderator.
   """
   def is_moderator?(%Profile{admin: true}), do: true
+  def is_moderator?(%Profile{id: nil}), do: false
 
   def is_moderator?(%Profile{} = profile) do
     list_awards(profile)

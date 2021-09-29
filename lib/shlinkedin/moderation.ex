@@ -8,11 +8,47 @@ defmodule Shlinkedin.Moderation do
 
   alias Shlinkedin.Moderation.Action
   alias Shlinkedin.Ads.Ad
+  alias Shlinkedin.Ads
   alias Shlinkedin.Timeline.{Comment, Post}
-  alias Shlinkedin.News.Article
+  alias Shlinkedin.Timeline
+  alias Shlinkedin.News
   alias Shlinkedin.News.Article
   alias Shlinkedin.Profiles.{Profile, ProfileNotifier}
   alias Shlinkedin.Profiles
+
+  @doc """
+  Returns list of mod actions for a piece of content.
+  """
+  def list_actions(%Ad{id: ad_id}) do
+    Repo.all(from(a in Action, where: a.ad_id == ^ad_id))
+  end
+
+  def list_actions(%Post{id: post_id}) do
+    Repo.all(from(a in Action, where: a.post_id == ^post_id))
+  end
+
+  def list_actions(%Comment{id: comment_id}) do
+    Repo.all(from(a in Action, where: a.comment_id == ^comment_id))
+  end
+
+  def list_actions(%Article{id: article_id}) do
+    Repo.all(from(a in Action, where: a.article_id == ^article_id))
+  end
+
+  @doc """
+  Deletes all mod actions for a particular piece of content.
+  """
+  def delete_all(content) do
+    list_actions(content)
+    |> Enum.each(fn a -> delete_action(a) end)
+
+    uncensor(content)
+  end
+
+  defp uncensor(%Post{} = post), do: Timeline.uncensor_post(post)
+  defp uncensor(%Ad{} = ad), do: Ads.uncensor_ad(ad)
+  defp uncensor(%Article{} = article), do: News.uncensor_article(article)
+  defp uncensor(%Comment{} = post), do: Timeline.uncensor_post(post)
 
   @doc """
   Returns the list of mod_actions.
@@ -24,7 +60,7 @@ defmodule Shlinkedin.Moderation do
 
   """
   def list_mod_actions(%Profile{} = profile) do
-    Repo.all(from a in Action, where: a.profile_id == ^profile.id)
+    Repo.all(from(a in Action, where: a.profile_id == ^profile.id))
   end
 
   @doc """
@@ -59,19 +95,27 @@ defmodule Shlinkedin.Moderation do
 
   def create_action(%Ad{id: ad_id} = ad, %Profile{} = profile, attrs) do
     if attrs["action"] == "censor" do
-      {:ok, _ad} = Shlinkedin.Ads.update_ad(ad, profile, %{removed: true})
+      {:ok, _ad} = Shlinkedin.Ads.censor_ad(ad)
     end
 
     %Action{ad_id: ad_id}
     |> _create_action(profile, attrs)
   end
 
-  def create_action(%Post{id: post_id}, %Profile{} = profile, attrs) do
+  def create_action(%Post{id: post_id} = post, %Profile{} = profile, attrs) do
+    if attrs["action"] == "censor" do
+      {:ok, _ad} = Shlinkedin.Timeline.censor_post(post)
+    end
+
     %Action{post_id: post_id}
     |> _create_action(profile, attrs)
   end
 
-  def create_action(%Article{id: article_id}, %Profile{} = profile, attrs) do
+  def create_action(%Article{id: article_id} = article, %Profile{} = profile, attrs) do
+    if attrs["action"] == "censor" do
+      {:ok, _ad} = Shlinkedin.News.censor_article(article)
+    end
+
     %Action{article_id: article_id}
     |> _create_action(profile, attrs)
   end
@@ -82,8 +126,6 @@ defmodule Shlinkedin.Moderation do
   # end
 
   def _create_action(%Action{} = action, %Profile{} = profile, attrs) do
-    raise "we need to notify the actual creator of the content"
-
     result =
       action
       |> Action.changeset(attrs)
@@ -91,8 +133,11 @@ defmodule Shlinkedin.Moderation do
       |> Repo.insert()
 
     notification_type = get_notification_type(result)
+    owner = get_content_owner(result)
 
-    result |> ProfileNotifier.notify(result, notification_type, Profiles.get_god(), profile)
+    ProfileNotifier.notify(result, notification_type, Profiles.get_god(), owner)
+
+    result
   end
 
   defp get_notification_type({:error, _changeset}), do: :error
@@ -104,6 +149,27 @@ defmodule Shlinkedin.Moderation do
       action.comment_id != nil -> :moderated_comment
       action.ad_id != nil -> :moderated_ad
       true -> :error
+    end
+  end
+
+  defp get_content_owner({:error, _changeset}), do: :error
+
+  defp get_content_owner({:ok, %Action{} = action}) do
+    cond do
+      action.post_id != nil ->
+        Timeline.get_post!(action.post_id) |> Repo.preload(:profile) |> Map.get(:profile)
+
+      action.article_id != nil ->
+        News.get_article!(action.post_id) |> Repo.preload(:profile) |> Map.get(:profile)
+
+      action.comment_id != nil ->
+        Timeline.get_post!(action.post_id) |> Repo.preload(:profile) |> Map.get(:profile)
+
+      action.ad_id != nil ->
+        Ads.get_ad!(action.ad_id) |> Repo.preload(:profile) |> Map.get(:profile)
+
+      true ->
+        nil
     end
   end
 
