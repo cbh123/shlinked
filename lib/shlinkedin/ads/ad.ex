@@ -22,7 +22,7 @@ defmodule Shlinkedin.Ads.Ad do
     field(:overlay_color, :string)
     field(:removed, :boolean, default: false)
     field(:quantity, :integer, default: 1)
-    field(:price, Money.Ecto.Amount.Type, default: "100")
+    field(:price, Money.Ecto.Amount.Type, default: 100)
     has_one(:action, Shlinkedin.Moderation.Action)
 
     timestamps()
@@ -50,7 +50,14 @@ defmodule Shlinkedin.Ads.Ad do
     |> validate_length(:company, max: 50)
     |> validate_length(:product, max: 50)
     |> validate_length(:overlay, max: 50)
-    |> validate_number(:price, greater_than: 0)
+    |> validate_money(:price)
+  end
+  
+  defp validate_money(changeset, field) do
+    validate_change(changeset, field, fn
+      _, %Money{amount: amount} when amount > 0 -> []
+      _, _ -> [amount: "must be greater than 0"]
+    end)
   end
 
   def validate_required_inclusion(changeset, fields) do
