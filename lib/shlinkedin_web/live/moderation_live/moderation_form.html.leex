@@ -1,0 +1,63 @@
+<%= f = form_for @changeset, "#",
+  id: "moderation-form",
+  phx_target: @myself,
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+<div class="p-5 ">
+
+
+    <div class="">
+        <div>
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                Moderation Panel
+            </h3>
+            <p class="mt-1 text-sm text-gray-500">Feel free to post in the
+                #moderation Discord channel if you're
+                unsure what to do! Humor takes sometimes some risks, so when
+                in doubt you can probably leave it.</p><a
+                class="text-xs hover:underline text-blue-500"
+                href="https://shlinkedin.substack.com/p/mission-and-moderation">Mod
+                Docs</a>
+
+        </div>
+        <div class="mt-6">
+            <fieldset>
+                <legend class="text-base font-medium text-gray-900">
+                    What's the infraction?
+                </legend>
+                <div>
+                    <div class="mt-1">
+
+
+                        <%= select f, :reason, ["Makes marginalized group butt of the joke", "Unnecessarily sexual or vulgar", "Encouraging something very dangerous or violent", "Spamming the feed"] %>
+                        <p class="mt-4 text-xs"><%= error_tag f, :reason %></p>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="mt-6">
+                <div>
+                    <legend class="text-base font-medium text-gray-900">
+                        What should be done? Either way the user will be
+                        notified.
+                    </legend>
+                </div>
+                <div class="mt-4 space-y-4">
+                    <%= select f, :action, ["Censor (post will no longer be visible)": :censor, "Warning (post will stay visible)": :warning], selected: ["Censor (post will no longer be visible)"] %>
+                    <p class="mt-4 text-xs"><%= error_tag f, :action %></p>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+
+    <div class="pt-5">
+        <div class="flex justify-end">
+            <button type="submit"
+                class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Confirm
+            </button>
+        </div>
+    </div>
+</div>
+</form>

@@ -50,27 +50,20 @@
                     <% end %>
 
                     <%= if @profile.admin do %>
-
-
                     <%= live_patch "Grant Awards", to: Routes.profile_show_path(@socket, :edit_awards, @to_profile.slug), class: "absolute top-12 right-0 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-yellow-700 bg-yellow-100 hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" %></span>
-
                     <% end %>
-
-
                 </div>
 
                 <div class="flex justify-center sm:justify-start">
                     <div class="ml-3 mt-2">
 
                         <%# Name and username %>
-
                         <div
                             class="font-bold sm:text-left text-center text-2xl sm:text-3xl">
 
                             <%= @show_profile.persona_name %>
 
                             <%= Shlinkedin.Badges.profile_badges(@socket, @show_profile) %>
-
                         </div>
 
                         <%# Title %>

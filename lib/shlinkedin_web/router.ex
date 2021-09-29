@@ -84,6 +84,9 @@ defmodule ShlinkedinWeb.Router do
          HomeLive.Show,
          :show_comment_likes
 
+    live "/home/show/:id/moderate", HomeLive.Show, :new_action
+    live "/home/show:id/moderate/:action_id", HomeLive.Show, :edit_action
+
     # view and show posts
     live "/home?type=:type", HomeLive.Index, :index
     live "/", HomeLive.Index, :index
@@ -169,6 +172,8 @@ defmodule ShlinkedinWeb.Router do
     # ads
     live "/ads/new", HomeLive.Index, :new_ad
     live "/ads/:id/edit", HomeLive.Index, :edit_ad
+    live "/ads/:id/moderate", AdLive.Show, :new_action
+    live "/ads/:id/moderate/:action_id", AdLive.Show, :edit_action
     live "/ads/:id", AdLive.Show, :show
 
     # groups

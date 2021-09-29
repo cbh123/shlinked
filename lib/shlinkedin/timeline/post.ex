@@ -25,6 +25,7 @@ defmodule Shlinkedin.Timeline.Post do
     field :category, :string
     field :generator_type, :string
     field :pinned, :boolean, default: false
+    field :removed, :boolean, default: false
     timestamps()
   end
 
@@ -45,7 +46,8 @@ defmodule Shlinkedin.Timeline.Post do
       :category,
       :generator_type,
       :pinned,
-      :inserted_at
+      :inserted_at,
+      :removed
     ])
     |> validate_required([])
     |> add_theme()

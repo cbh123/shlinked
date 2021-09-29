@@ -31,11 +31,12 @@ defmodule Shlinkedin.Timeline do
     now = NaiveDateTime.utc_now()
 
     Repo.all(
-      from s in Story,
+      from(s in Story,
         where: s.inserted_at >= datetime_add(^now, -1, "day"),
         preload: [:profile],
         distinct: s.profile_id,
         order_by: [desc: s.inserted_at]
+      )
     )
   end
 
@@ -50,18 +51,20 @@ defmodule Shlinkedin.Timeline do
     now = NaiveDateTime.utc_now()
 
     Repo.all(
-      from s in Story,
+      from(s in Story,
         where: s.profile_id == ^profile.id,
         select: s.id,
         where: s.inserted_at >= datetime_add(^now, -1, "day")
+      )
     )
   end
 
   def list_story_views_for_profile(%Profile{} = profile) do
     Repo.all(
-      from v in StoryView,
+      from(v in StoryView,
         where: v.from_profile_id == ^profile.id,
         select: v.story_id
+      )
     )
   end
 
@@ -69,9 +72,10 @@ defmodule Shlinkedin.Timeline do
     now = NaiveDateTime.utc_now()
 
     Repo.one(
-      from s in Story,
+      from(s in Story,
         where: s.inserted_at >= datetime_add(^now, -1, "day") and s.id == ^id,
         preload: :profile
+      )
     )
   end
 
@@ -79,13 +83,14 @@ defmodule Shlinkedin.Timeline do
     now = NaiveDateTime.utc_now()
 
     Repo.one(
-      from s in Story,
+      from(s in Story,
         where:
           s.inserted_at >= datetime_add(^now, -1, "day") and s.profile_id == ^profile_id and
             s.id > ^story_id,
         order_by: [asc: s.id],
         limit: 1,
         select: s.id
+      )
     )
   end
 
@@ -93,13 +98,14 @@ defmodule Shlinkedin.Timeline do
     now = NaiveDateTime.utc_now()
 
     Repo.one(
-      from s in Story,
+      from(s in Story,
         where:
           s.inserted_at >= datetime_add(^now, -1, "day") and s.profile_id == ^profile_id and
             s.id < ^story_id,
         order_by: [asc: s.id],
         limit: 1,
         select: s.id
+      )
     )
   end
 
@@ -107,11 +113,12 @@ defmodule Shlinkedin.Timeline do
     now = NaiveDateTime.utc_now()
 
     Repo.one(
-      from s in Story,
+      from(s in Story,
         where: s.inserted_at >= datetime_add(^now, -1, "day") and s.profile_id == ^profile_id,
         order_by: [asc: s.id],
         preload: :profile,
         limit: 1
+      )
     )
   end
 
@@ -119,9 +126,10 @@ defmodule Shlinkedin.Timeline do
     now = NaiveDateTime.utc_now()
 
     Repo.all(
-      from s in Story,
+      from(s in Story,
         where: s.inserted_at >= datetime_add(^now, -1, "day") and s.profile_id == ^profile_id,
         select: s.id
+      )
     )
   end
 
@@ -133,10 +141,11 @@ defmodule Shlinkedin.Timeline do
 
   def list_story_views(%Story{} = story) do
     Repo.all(
-      from v in StoryView,
+      from(v in StoryView,
         where: v.story_id == ^story.id,
         distinct: v.from_profile_id,
         preload: :profile
+      )
     )
   end
 
@@ -165,6 +174,7 @@ defmodule Shlinkedin.Timeline do
       from(p in Post,
         order_by: [desc: p.pinned, desc: p.inserted_at]
       )
+      |> viewable_posts_query()
 
     paged_query = paginate(query, criteria)
 
@@ -175,7 +185,7 @@ defmodule Shlinkedin.Timeline do
   end
 
   def list_posts(object, criteria, feed_object) when is_list(criteria) do
-    query = get_feed_query(object, feed_object)
+    query = get_feed_query(object, feed_object) |> viewable_posts_query()
 
     paged_query = paginate(query, criteria)
 
@@ -184,6 +194,10 @@ defmodule Shlinkedin.Timeline do
     )
     |> Repo.all()
     |> parse_results(feed_object)
+  end
+
+  defp viewable_posts_query(query) do
+    from p in query, where: p.removed == false
   end
 
   defp parse_results(posts, %{type: "reactions"}) do
@@ -487,6 +501,33 @@ defmodule Shlinkedin.Timeline do
     |> Post.changeset(attrs)
     |> Post.validate_allowed(post, profile)
     |> after_save(after_save)
+    |> Repo.update()
+  end
+
+  @doc """
+  Only used in Moderation to uncensor a post.
+  """
+  def censor_post(%Post{} = post) do
+    post
+    |> Post.changeset(%{removed: true})
+    |> Repo.update()
+  end
+
+  def uncensor_post(%Post{} = post) do
+    post
+    |> Post.changeset(%{removed: false})
+    |> Repo.update()
+  end
+
+  def censor_comment(%Comment{} = comment) do
+    comment
+    |> Comment.changeset(%{removed: true})
+    |> Repo.update()
+  end
+
+  def uncensor_comment(%Comment{} = comment) do
+    comment
+    |> Comment.changeset(%{removed: false})
     |> Repo.update()
   end
 
@@ -936,10 +977,11 @@ defmodule Shlinkedin.Timeline do
 
   def get_random_tagline do
     Repo.one(
-      from t in Tagline,
+      from(t in Tagline,
         where: t.active,
         order_by: fragment("RANDOM()"),
         limit: 1
+      )
     )
   end
 
@@ -1055,10 +1097,11 @@ defmodule Shlinkedin.Timeline do
   """
   def get_random_prompt() do
     Repo.one(
-      from t in SocialPrompt,
+      from(t in SocialPrompt,
         where: t.active,
         order_by: fragment("RANDOM()"),
         limit: 1
+      )
     )
     |> create_prompt_if_nil()
   end
