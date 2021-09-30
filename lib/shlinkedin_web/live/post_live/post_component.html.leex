@@ -43,7 +43,10 @@
                         <div class="py-1" role="menu"
                             aria-orientation="vertical"
                             aria-labelledby="options-menu">
-                            <%= live_patch to: Routes.home_show_path(@socket, :show, @post.id), do: raw("View post &rarr;"), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
+                            <%= live_redirect to: Routes.home_show_path(@socket, :show, @post.id), do: raw("View post &rarr;"), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
+                            <%= if is_moderator?(@profile) do %>
+                            <%= link "Moderator Panel", to: Routes.home_show_path(@socket, :new_action, @post.id), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"%>
+                            <% end %>
                             <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                                 href="<%= tweet_intent(@prompt, Routes.home_show_url(@socket,:show, @post.id)) %>">Tweet</a>
                             <%= if @profile != nil and @post.profile_id == @profile.id or @profile.admin do %>
