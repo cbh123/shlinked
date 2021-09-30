@@ -138,6 +138,22 @@ To start your Phoenix server:
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
+## Other things you may want to do locally
+
+Become an admin:
+
+* First, create a user account.
+* Using Postgres, you can do a query like the following:
+  * UPDATE profiles SET admin = true WHERE id = 1;
+* You can now access [`localhost:4000/admin`](http://localhost:4000/admin)
+
+Enable GIPHY Integration:
+
+* Visit this page to [Request a GIPHY API key](https://support.giphy.com/hc/en-us/articles/360020283431-Request-A-GIPHY-API-Key) and follow the steps.
+* Stop your Phoenix server (press `ctrl+C, a, Enter`)
+* Set your GIPHY API key an environment variable:
+  * `export GIPHY_API_KEY=your_GIPHY_API_key`
+* Restart Phoenix with `mix phx.server`
 
 # My Guide to Learning Elixir
 
