@@ -3,6 +3,7 @@ defmodule ShlinkedinWeb.MarketLive.Index do
   alias Shlinkedin.Ads
   alias Shlinkedin.Ads.Ad
   alias Shlinkedin.Points
+  require Logger
 
   @impl true
   def mount(_params, session, socket) do
@@ -25,8 +26,25 @@ defmodule ShlinkedinWeb.MarketLive.Index do
        total_pages: calc_max_pages(show_sold, per_page),
        page: page,
        per_page: per_page,
-       sort_options: sort_options
+       sort_options: sort_options,
+       sort_categories: sort_categories(),
+       curr_sort: sort_options.sort_by
      ), temporary_assigns: [ads: []]}
+  end
+
+  defp sort_categories do
+    [
+      %{
+        name: "Sort by Creation Date",
+        value: "date",
+        selected: true
+      },
+      %{
+        name: "Sort by Price",
+        value: "price",
+        selected: false
+      }
+    ]
   end
 
   @impl true
@@ -77,6 +95,34 @@ defmodule ShlinkedinWeb.MarketLive.Index do
        page: 1
      )
      |> fetch_ads()}
+  end
+
+  def handle_event("handle_sort", %{"sort-ads" => sort_by}, socket) do
+    Logger.warn(sort_by)
+    sort_value = if sort_by == "price" do
+      :price
+    else
+      :inserted_at
+    end
+
+    sort_options = Map.replace(socket.assigns.sort_options, :sort_by, sort_value)
+    Logger.warn(sort_options)
+
+    sort_cats = for category <- socket.assigns.sort_categories do
+      if category.value == sort_by do
+        Map.replace(category, :selected, true)
+      else
+        Map.replace(category, :selected, false)
+      end
+    end
+    Logger.warn(sort_cats)
+
+    {:noreply,
+      socket
+      |> assign(curr_sort: :sort_by)
+      |> assign(sort_options: sort_options, update_action: "replace", page: 1)
+      |> fetch_ads()
+    }
   end
 
   @impl true
