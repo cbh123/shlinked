@@ -25,6 +25,21 @@ defmodule Shlinkedin.Profiles do
   alias Shlinkedin.Points
 
   @doc """
+  Checks whether profile is moderator.
+  """
+  def is_moderator?(%Profile{admin: true}), do: true
+  def is_moderator?(%Profile{id: nil}), do: false
+
+  def is_moderator?(%Profile{} = profile) do
+    list_awards(profile)
+    |> Enum.find(&(&1.award_type.name == "Moderator"))
+    |> case do
+      nil -> false
+      _ -> true
+    end
+  end
+
+  @doc """
   Num profiles in given time range, used in stats. Uses Timeline.parse_time() function.
   """
   def num_new_profiles(time_range \\ "today") do
@@ -36,24 +51,24 @@ defmodule Shlinkedin.Profiles do
     Repo.aggregate(query, :count)
   end
 
-  def grant_award(%Profile{} = profile, %AwardType{} = award_type, attrs \\ %{}) do
-    {:ok, _award} =
-      %Award{profile_id: profile.id, award_id: award_type.id}
-      |> Award.changeset(attrs)
-      |> Repo.insert()
-
-    Shlinkedin.Profiles.ProfileNotifier.observer(
-      {:ok, award_type.name},
-      :new_badge,
-      %Profile{id: 3},
-      profile
-    )
+  @doc """
+  Grants awards. This can include moderating power.
+  """
+  def grant_award(
+        %Profile{} = granter,
+        %Profile{} = recipient,
+        %AwardType{} = award_type,
+        attrs \\ %{}
+      ) do
+    %Award{profile_id: recipient.id, award_id: award_type.id}
+    |> Award.changeset(attrs)
+    |> Award.validate_authorized(granter)
+    |> Repo.insert()
+    |> Shlinkedin.Profiles.ProfileNotifier.observer(:new_badge, get_god(), recipient)
   end
 
   def revoke_award(%Award{} = award) do
-    update_award(award, %{
-      active: false
-    })
+    update_award(award, %{active: false})
   end
 
   def list_awards(%Profile{} = profile) do
@@ -221,6 +236,24 @@ defmodule Shlinkedin.Profiles do
       :count
     )
   end
+
+  @doc """
+  Gets God profile. We need this because sometimes Dave Business
+  / God sends people notifications and points.
+
+  If no username is "god", returns new profile fixture. So in prod,
+  it always returns god. In dev it returns new god fixture.
+  """
+  def get_god do
+    get_profile_by_username("god")
+    |> get_god_profile()
+  end
+
+  defp get_god_profile(nil),
+    do:
+      Shlinkedin.ProfilesFixtures.profile_fixture(%{"username" => "god", "points" => 10_000_000})
+
+  defp get_god_profile(god), do: god
 
   @doc """
   Given a profile, number of profiles to include,
@@ -810,6 +843,11 @@ defmodule Shlinkedin.Profiles do
     from(p in Profile, where: p.username == ^username, select: p, preload: :user) |> Repo.one()
   end
 
+  @doc """
+  Gets profile by id. Expects one result.
+
+  Returns profile | nil
+  """
   def get_profile_by_profile_id(profile_id) do
     from(p in Profile, where: p.id == ^profile_id, select: p) |> Repo.one()
   end

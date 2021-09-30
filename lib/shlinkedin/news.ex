@@ -12,6 +12,18 @@ defmodule Shlinkedin.News do
   alias Shlinkedin.Profiles.ProfileNotifier
   alias Shlinkedin.Points
 
+  def censor_article(%Article{} = article) do
+    article
+    |> Article.changeset(%{removed: true})
+    |> Repo.update()
+  end
+
+  def uncensor_article(%Article{} = article) do
+    article
+    |> Article.changeset(%{removed: false})
+    |> Repo.update()
+  end
+
   @doc """
   Returns the list of articles.
 
@@ -21,9 +33,8 @@ defmodule Shlinkedin.News do
       [%Article{}, ...]
 
   """
-
   def list_articles(criteria) when is_list(criteria) do
-    query = from h in Article, order_by: [desc: h.id]
+    query = from(h in Article, order_by: [desc: h.id]) |> viewable_articles_query()
 
     paged_query = paginate(query, criteria)
 
@@ -31,7 +42,15 @@ defmodule Shlinkedin.News do
   end
 
   def list_articles(_) do
-    Repo.all(from h in Article, order_by: [desc: h.inserted_at], preload: :votes)
+    query =
+      from(h in Article, order_by: [desc: h.inserted_at], preload: :votes)
+      |> viewable_articles_query()
+
+    Repo.all(query)
+  end
+
+  defp viewable_articles_query(query) do
+    from a in query, where: a.removed == false
   end
 
   defp paginate(query, criteria) do
@@ -42,24 +61,26 @@ defmodule Shlinkedin.News do
 
   def list_unique_article_votes(%Profile{} = profile) do
     Repo.all(
-      from a in Article,
+      from(a in Article,
         where: a.profile_id == ^profile.id,
         join: v in Vote,
         on: a.id == v.article_id,
         group_by: [v.profile_id, v.article_id],
         select: %{profile_id: v.profile_id, article_id: v.article_id}
+      )
     )
   end
 
   def list_unique_article_votes(%Profile{} = profile, start_date) do
     Repo.all(
-      from a in Article,
+      from(a in Article,
         where: a.profile_id == ^profile.id,
         join: v in Vote,
         on: a.id == v.article_id,
         where: v.inserted_at >= ^start_date,
         group_by: [v.profile_id, v.article_id],
         select: %{profile_id: v.profile_id, article_id: v.article_id}
+      )
     )
   end
 
@@ -90,9 +111,10 @@ defmodule Shlinkedin.News do
 
   def is_first_vote_on_article?(%Profile{} = profile, %Article{} = article) do
     Repo.one(
-      from v in Vote,
+      from(v in Vote,
         where: v.article_id == ^article.id and v.profile_id == ^profile.id,
         select: count(v.profile_id)
+      )
     ) == 1
   end
 
@@ -101,7 +123,7 @@ defmodule Shlinkedin.News do
   end
 
   def delete_vote(%Profile{} = profile, %Article{} = article) do
-    Repo.one(from v in Vote, where: v.article_id == ^article.id and v.profile_id == ^profile.id)
+    Repo.one(from(v in Vote, where: v.article_id == ^article.id and v.profile_id == ^profile.id))
     |> Repo.delete()
 
     # could be optimized
@@ -131,7 +153,7 @@ defmodule Shlinkedin.News do
   def get_article!(id), do: Repo.get!(Article, id)
 
   def get_article_preload_votes!(id),
-    do: Repo.one(from a in Article, where: a.id == ^id, preload: :votes)
+    do: Repo.one(from(a in Article, where: a.id == ^id, preload: :votes))
 
   @doc """
   Creates a article.
@@ -163,7 +185,7 @@ defmodule Shlinkedin.News do
 
   def list_votes(%Article{} = article) do
     Repo.all(
-      from v in Vote,
+      from(v in Vote,
         join: p in assoc(v, :profile),
         where: v.article_id == ^article.id,
         group_by: [p.persona_name, p.photo_url, p.slug],
@@ -174,6 +196,7 @@ defmodule Shlinkedin.News do
           slug: p.slug
         },
         order_by: p.persona_name
+      )
     )
   end
 

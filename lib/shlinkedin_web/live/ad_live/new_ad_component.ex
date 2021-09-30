@@ -48,7 +48,7 @@ defmodule ShlinkedinWeb.AdLive.NewAdComponent do
 
     {:noreply,
      socket
-     |> put_flash(:info, "Ad deleted")
+     |> put_flash(:info, "Ad censored")
      |> push_redirect(to: Routes.home_index_path(socket, :index))}
   end
 
@@ -133,4 +133,6 @@ defmodule ShlinkedinWeb.AdLive.NewAdComponent do
 
   defp is_owner?(%Ad{} = ad, %Profile{} = profile), do: ad.owner_id == profile.id
   defp is_sold?(%Ad{} = ad), do: not is_nil(ad.owner_id)
+
+  defp is_moderator?(profile), do: Shlinkedin.Profiles.is_moderator?(profile)
 end

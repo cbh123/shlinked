@@ -40,20 +40,20 @@ defmodule Shlinkedin.Ads do
   defp paginate(query, criteria) do
     Enum.reduce(criteria, query, fn
       {:paginate, %{page: page, per_page: per_page}}, query ->
-        from q in query, offset: ^((page - 1) * per_page), limit: ^per_page
+        from(q in query, offset: ^((page - 1) * per_page), limit: ^per_page)
 
       {:sort, %{sort_by: sort_by, sort_order: sort_order}}, query ->
-        from q in query, order_by: [{^sort_order, ^sort_by}]
+        from(q in query, order_by: [{^sort_order, ^sort_by}])
     end)
   end
 
   defp viewable_ads_query(show_sold) do
-    query = from a in Ad, where: a.removed == false
+    query = from(a in Ad, where: a.removed == false)
     include_sold_ads_query(query, show_sold)
   end
 
   defp include_sold_ads_query(query, false) do
-    from a in query, where: is_nil(a.owner_id)
+    from(a in query, where: is_nil(a.owner_id))
   end
 
   defp include_sold_ads_query(query, _), do: query
@@ -124,7 +124,7 @@ defmodule Shlinkedin.Ads do
   """
   def get_number_ads_created(%Profile{id: profile_id}, sec_ago \\ -3600) do
     time = NaiveDateTime.utc_now() |> NaiveDateTime.add(sec_ago, :second)
-    query = from a in Ad, where: a.profile_id == ^profile_id and a.inserted_at >= ^time
+    query = from(a in Ad, where: a.profile_id == ^profile_id and a.inserted_at >= ^time)
     Repo.aggregate(query, :count)
   end
 
@@ -426,6 +426,18 @@ defmodule Shlinkedin.Ads do
     |> Ad.changeset(attrs)
     |> Ad.validate_allowed(ad, profile)
     |> after_save(after_save)
+    |> Repo.update()
+  end
+
+  def censor_ad(%Ad{} = ad) do
+    ad
+    |> Ad.changeset(%{removed: true})
+    |> Repo.update()
+  end
+
+  def uncensor_ad(%Ad{} = ad) do
+    ad
+    |> Ad.changeset(%{removed: false})
     |> Repo.update()
   end
 

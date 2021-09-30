@@ -6,6 +6,12 @@
 </div>
 <% end %>
 
+<%= live_component @socket, ShlinkedinWeb.ModerationLive.ModerationStatus,
+    id: "mod-status-#{@post.id}",
+    content: @post,
+    profile: @profile
+    %>
+
 <div class="mt-4 pb-12 max-w-lg mx-auto">
     <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
         id: @post.id,
@@ -20,7 +26,14 @@
         num_show_comments: 5,
         return_to: Routes.home_show_path(@socket, :show, @post.id),
         spin: false  %>
+    <div class="text-center">
+        <%= if Shlinkedin.Profiles.is_moderator?(@profile) do %>
+        <%= live_patch "Moderation Panel", to: Routes.home_show_path(@socket, :new_action, @post.id), class: "text-xs text-gray-600 hover:underline", id: "moderate-ad"  %>
+        <% end %>
+    </div>
 </div>
+
+
 
 <%= if is_nil(@current_user) do %>
 <div class="bg-blue-500 text-white -mb-6 fixed h-24 bottom-0 w-full">
@@ -74,4 +87,15 @@
     action: @live_action,
     grouped_likes:  @grouped_likes,
     return_to: Routes.home_show_path(@socket, :show, @post.id) %>
+<% end %>
+
+<%= if @live_action in [:new_action, :edit_action] do %>
+<%= live_modal @socket, ShlinkedinWeb.ModerationLive.ModerationForm,
+                            id: "moderate-#{@post.id}",
+                            profile: @profile,
+                            live_action: @live_action,
+                            content: @post,
+                            action: @action,
+                            return_to: Routes.home_show_path(@socket, :show, @post.id)
+                        %>
 <% end %>

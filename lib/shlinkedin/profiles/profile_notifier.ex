@@ -1,10 +1,10 @@
 defmodule Shlinkedin.Profiles.ProfileNotifier do
   alias Shlinkedin.Profiles.{Profile, Endorsement, Testimonial, Notification}
+  alias Shlinkedin.Profiles
   alias Shlinkedin.Timeline.{Like, Comment, Post, CommentLike}
   alias Shlinkedin.Timeline
   alias Shlinkedin.News.Vote
   alias Shlinkedin.News.Article
-  alias Shlinkedin.Groups.Group
   alias Shlinkedin.Groups
   alias Shlinkedin.Groups.Invite
   alias Shlinkedin.Points.Transaction
@@ -64,9 +64,6 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       :ad_like ->
         notify_ad_like(from_profile, to_profile, res, type)
 
-      :new_group_member ->
-        notify_new_group_member(from_profile, res, type)
-
       :sent_group_invite ->
         notify_group_invite(from_profile, to_profile, res, type)
 
@@ -78,6 +75,61 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     end
 
     {:ok, res}
+  end
+
+  def notify({:error, changeset}, _type, _from, _to), do: {:error, changeset}
+  def notify({:ok, result}, type, from, to), do: _notify(type, from, to, result)
+
+  defp _notify(:moderated_ad, from, to, action) do
+    %Notification{
+      from_profile_id: from.id,
+      to_profile_id: to.id,
+      type: "ad_click",
+      ad_id: action.ad_id,
+      action: "has decided to issue you a #{action.action} on your ad. ",
+      body:
+        "Reason: #{action.reason}. Don't feel bad! Humor sometimes requires taking some risks :)"
+    }
+    |> Profiles.create_notification()
+  end
+
+  defp _notify(:moderated_post, from, to, action) do
+    %Notification{
+      from_profile_id: from.id,
+      to_profile_id: to.id,
+      type: "like",
+      post_id: action.post_id,
+      action: "has decided to issue you a #{action.action} on your post. ",
+      body:
+        "Reason: #{action.reason}. Don't feel bad! Humor sometimes requires taking some risks :)"
+    }
+    |> Profiles.create_notification()
+  end
+
+  defp _notify(:moderated_commment, from, to, action) do
+    %Notification{
+      from_profile_id: from.id,
+      to_profile_id: to.id,
+      type: "like",
+      post_id: action.post_id,
+      action: "has decided to issue you a #{action.action} on your comment. ",
+      body:
+        "Reason: #{action.reason}. Don't feel bad! Humor sometimes requires taking some risks :)"
+    }
+    |> Profiles.create_notification()
+  end
+
+  defp _notify(:moderated_article, from, to, action) do
+    %Notification{
+      from_profile_id: from.id,
+      to_profile_id: to.id,
+      type: "vote",
+      post_id: action.post_id,
+      action: "has decided to issue you a #{action.action} on your headline. ",
+      body:
+        "Reason: #{action.reason}. Don't feel bad! Humor sometimes requires taking some risks :)"
+    }
+    |> Profiles.create_notification()
   end
 
   defp handle_txn(from, to, type, res) do
@@ -182,21 +234,6 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         body
       )
       |> Shlinkedin.Mailer.deliver_later()
-    end
-  end
-
-  def notify_new_group_member(%Profile{} = new_profile, %Group{} = group, _type) do
-    for member <- Shlinkedin.Groups.list_members(group) do
-      if member.profile_id != new_profile.id do
-        Shlinkedin.Profiles.create_notification(%Notification{
-          from_profile_id: new_profile.id,
-          to_profile_id: member.profile_id,
-          type: "new_group_member",
-          group_id: group.id,
-          action: "joined a group you are in: ",
-          body: "#{group.title}. Welcome them!"
-        })
-      end
     end
   end
 
@@ -676,7 +713,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     end
   end
 
-  def notify_profile_badge(%Profile{} = to_profile, badge, _type) do
+  def notify_profile_badge(%Profile{} = to_profile, %Profiles.Award{award_id: award_id}, _type) do
+    award_type = Shlinkedin.Awards.get_award_type!(award_id)
+
     body = """
 
     Hi #{to_profile.persona_name},
@@ -684,7 +723,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
 
-    You have been awarded the #{badge} badge!!! It's been added to your trophy case on your profile.
+    You have been awarded the #{award_type.name} badge!!! It's been added to your trophy case on your profile.
 
     <br/>
     <br/>
@@ -694,10 +733,10 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     """
 
     Shlinkedin.Profiles.create_notification(%Notification{
-      from_profile_id: 3,
+      from_profile_id: Profiles.get_god().id,
       to_profile_id: to_profile.id,
       type: "new_badge",
-      action: "has awarded you the #{badge} badge! It's been added to your trophy case."
+      action: "has awarded you the #{award_type.name} badge! It's been added to your trophy case."
     })
 
     if to_profile.unsubscribed == false do

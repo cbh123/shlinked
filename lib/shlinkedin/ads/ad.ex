@@ -5,13 +5,14 @@ defmodule Shlinkedin.Ads.Ad do
   alias Shlinkedin.Ads
   alias Shlinkedin.Points
   alias Shlinkedin.Profiles.Profile
+  alias Shlinkedin.Profiles
 
   schema "ads" do
     field(:body, :string)
     field(:media_url, :string)
     field(:slug, :string)
-    belongs_to(:profile, Shlinkedin.Profiles.Profile)
-    belongs_to(:owner, Shlinkedin.Profiles.Profile, foreign_key: :owner_id)
+    belongs_to(:profile, Profile)
+    belongs_to(:owner, Profile, foreign_key: :owner_id)
     has_many(:clicks, Shlinkedin.Ads.Click, on_delete: :delete_all)
     has_many(:adlikes, Shlinkedin.Ads.AdLike, on_delete: :delete_all)
     field(:company, :string)
@@ -22,6 +23,7 @@ defmodule Shlinkedin.Ads.Ad do
     field(:removed, :boolean, default: false)
     field(:quantity, :integer, default: 1)
     field(:price, Money.Ecto.Amount.Type, default: 100)
+    has_one(:action, Shlinkedin.Moderation.Action)
 
     timestamps()
   end
@@ -162,19 +164,11 @@ defmodule Shlinkedin.Ads.Ad do
 
   defp validate_ad(changeset, field, ad, profile) do
     validate_change(changeset, field, fn ^field, _body ->
-      if is_allowed?(profile, ad.profile_id) do
+      if(ad.profile_id == profile.id or Profiles.is_admin?(profile)) do
         []
       else
         [body: "You cannot edit this person's posts."]
       end
     end)
-  end
-
-  def is_allowed?(%Profile{admin: true}, _post_profile_id) do
-    true
-  end
-
-  def is_allowed?(%Profile{id: id}, ad_profile_id) do
-    id == ad_profile_id
   end
 end

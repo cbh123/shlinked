@@ -8,6 +8,7 @@ defmodule Shlinkedin.Timeline.Comment do
     belongs_to :post, Shlinkedin.Timeline.Post
     belongs_to :profile, Shlinkedin.Profiles.Profile
     field :profile_tags, {:array, :string}, default: []
+    field :removed, :boolean, default: false
 
     timestamps()
   end
