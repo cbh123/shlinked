@@ -31,7 +31,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
        update_action: "append",
        feed_options: feed_options,
        page: 1,
-       per_page: 5,
+       per_page: 8,
        right_lower_box: load_activity_or_sponsor?(),
        stories: Timeline.list_stories(),
        headline_page: 1,
