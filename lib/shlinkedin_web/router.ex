@@ -221,6 +221,9 @@ defmodule ShlinkedinWeb.Router do
   scope "/", ShlinkedinWeb do
     pipe_through [:browser]
 
+    # platinum
+    live "/platinum", PlatinumLive.Index, :index
+
     # see post
     live "/home/show/posts/:id", HomeLive.Show, :show
 
