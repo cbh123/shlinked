@@ -39,6 +39,17 @@ defmodule Shlinkedin.Profiles do
     end
   end
 
+  def is_platinum?(%Profile{id: nil}), do: false
+
+  def is_platinum?(%Profile{} = profile) do
+    list_awards(profile)
+    |> Enum.find(&(&1.award_type.name == "Platinum"))
+    |> case do
+      nil -> false
+      _ -> true
+    end
+  end
+
   @doc """
   Num profiles in given time range, used in stats. Uses Timeline.parse_time() function.
   """
@@ -78,7 +89,6 @@ defmodule Shlinkedin.Profiles do
         preload: :award_type
       )
     )
-    |> IO.inspect(label: "badges")
   end
 
   def update_award(%Award{} = award, attrs) do

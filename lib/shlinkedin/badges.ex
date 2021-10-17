@@ -30,16 +30,14 @@ defmodule Shlinkedin.Badges do
 
     <%= cond do %>
     <% award.award_type.name == "Platinum" -> %>
-    <%= live_redirect to: "/platinum" do %>
     <span class="tooltip">
-    <img class="h-4 w-4 mr-0.5"
+    <img class="h-4 w-4 my-0.5"
     src="<%= ShlinkedinWeb.Router.Helpers.static_path(assigns, "/images/platinum_png.png") %>">
     <span class="tooltip-text">
       ShlinkedIn Platinum
     </span>
 
     </span>
-    <% end %>
 
 
 

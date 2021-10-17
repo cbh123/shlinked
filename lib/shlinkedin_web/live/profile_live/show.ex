@@ -292,7 +292,8 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   end
 
   def handle_event("jab", _, socket) do
-    if Profiles.count_jabs_in_timeframe(socket.assigns.profile) > 1 do
+    if Profiles.count_jabs_in_timeframe(socket.assigns.profile) > 1 and
+         not Profiles.is_platinum?(socket.assigns.profile) do
       {:noreply,
        socket
        |> put_flash(:warning, "You can only Jab once per 10min!")}

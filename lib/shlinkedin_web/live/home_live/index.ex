@@ -31,8 +31,8 @@ defmodule ShlinkedinWeb.HomeLive.Index do
        update_action: "append",
        feed_options: feed_options,
        page: 1,
-       per_page: 5,
-       right_lower_box: load_activity_or_sponsor?(),
+       per_page: 8,
+       recent_activity: Timeline.list_unique_notifications(40),
        stories: Timeline.list_stories(),
        headline_page: 1,
        headline_per_page: 15,
@@ -84,6 +84,9 @@ defmodule ShlinkedinWeb.HomeLive.Index do
         cond do
           rem(index, ad_frequency) == 0 and page != 1 ->
             [get_ad(), post]
+
+          index == 1 and not Profiles.is_platinum?(profile) ->
+            [%{type: "platinum_ad"}, post]
 
           index == 3 ->
             [%{type: "featured_profiles", content: Profiles.list_random_profiles(3)}, post]
@@ -360,12 +363,5 @@ defmodule ShlinkedinWeb.HomeLive.Index do
 
   def handle_info(_, socket) do
     {:noreply, socket}
-  end
-
-  defp load_activity_or_sponsor?() do
-    [
-      %{type: :sponsor, content: "Pickle Hot Sauce"}
-    ]
-    |> Enum.at(0)
   end
 end
