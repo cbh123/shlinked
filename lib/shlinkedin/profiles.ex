@@ -78,6 +78,7 @@ defmodule Shlinkedin.Profiles do
         preload: :award_type
       )
     )
+    |> IO.inspect(label: "badges")
   end
 
   def update_award(%Award{} = award, attrs) do
