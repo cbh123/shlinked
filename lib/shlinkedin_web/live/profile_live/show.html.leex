@@ -690,7 +690,14 @@
                 <%= for award <- @current_awards do %>
                 <div class="flex-1 text-center m-2">
                     <div class="inline-block <%= award.award_type.color %>">
-                        <%= if award.award_type.image_format == "svg" do  %>
+
+                        <%= cond do %>
+                        <% award.award_type.name == "Platinum" -> %>
+                        <img class="h-8 w-8"
+                            src="<%= ShlinkedinWeb.Router.Helpers.static_path(@socket, "/images/platinum_png.png") %>">
+
+
+                        <% award.award_type.image_format == "svg" ->  %>
                         <svg class="w-8 h-8 mx-auto " fill="currentColor"
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
@@ -699,7 +706,7 @@
                                 clip-rule="<%= award.award_type.fill%>">
                             </path>
                         </svg>
-                        <% else %>
+                        <% true ->  %>
                         <span class="text-2xl">
                             <%= award.award_type.emoji %>
                         </span>
