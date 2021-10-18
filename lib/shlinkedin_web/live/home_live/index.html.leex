@@ -465,6 +465,55 @@
                                 type: :feed,
                                 id: :rand.uniform(1000000)
                                 %>
+                        <% "platinum_ad" -> %>
+                        <div
+                            class="bg-white relative overflow-hidden rounded-lg shadow py-4 my-2 block md:hidden">
+                            <!-- Decorative background image and gradient -->
+                            <div aria-hidden="true" class="absolute inset-0">
+                                <div
+                                    class="absolute inset-0 max-w-7xl mx-auto overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80"
+                                        alt=""
+                                        class="w-full h-full object-center object-cover">
+                                </div>
+                                <div
+                                    class="absolute inset-0 bg-white bg-opacity-75">
+                                </div>
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-white via-white">
+                                </div>
+                            </div>
+
+                            <!-- Callout -->
+                            <section aria-labelledby="sale-heading"
+                                class="relative -mt-20 mx-auto pt-24 px-4 flex flex-col items-center text-center sm:px-6 lg:px-8">
+                                <div class="max-w-2xl mx-auto lg:max-w-none">
+                                    <span
+                                        class="block text-sm font-semibold uppercase tracking-wide text-gray-500 sm:text-base lg:text-sm xl:text-base">Support
+                                        ShlinkedIn</span>
+                                    <h2 id="sale-heading"
+                                        class="text-4xl font-extrabold text-gray-800 tracking-tight sm:text-5xl">
+                                        ShlinkedIn <span
+                                            class="text-transparent bg-clip-text bg-gradient-to-tr from-blue-500 via-teal-400 to-green-300">Platinum</span>
+                                    </h2>
+                                    <p
+                                        class="mt-4 max-w-xl mx-auto text-sm text-gray-600 mb-4">
+                                        An exclusive
+                                        new trophy on your profile. Stickers.
+                                        Unlimited
+                                        business jabs. No ad cooldown. Access to
+                                        an exclusive
+                                        platinum-only community and new
+                                        features. Support us directly
+                                        and recieve a lifetime of honor.
+                                    </p>
+
+                                    <%= live_redirect "Go Platinum - $6.66 / mo", to: Routes.platinum_index_path(@socket, :index), class: "inline-block bg-gradient-to-tr from-blue-500 via-teal-400 to-green-300 rounded-md py-3 px-8 font-medium text-white hover:from-blue-600 hover:to-green-400 w-auto" %>
+
+                                </div>
+                            </section>
+                        </div>
+
                         <% "featured_profiles" -> %>
 
                         <%# Featured profiles %>
@@ -578,39 +627,59 @@
                         </div>
                     </section>
 
-                    <%= if @right_lower_box.type == :sponsor do %>
-                    <section aria-labelledby="sponsor">
-                        <div class="bg-white rounded-lg shadow">
 
-                            <div class="p-3">
-                                <h5
-                                    class="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                                    Sponsor of
-                                    the month</h5>
-                                <p class="mt-2 mb-3 text-xs">
-                                    <a href="https://picklehotsauce.com/"
-                                        class="underline">Pickle
-                                        Hot Sauce</a>.
-                                    Enjoyed by the ShlinkedIn
-                                    Founders themselves. It is spicy, it
-                                    is pickle-y, it is love, it is life. Use
-                                    <span class="font-bold">SHLINK10</span>
-                                    for
-                                    10% off.</p>
+                    <%= if not Profiles.is_platinum?(@profile) do %>
+                    <div
+                        class="bg-white relative overflow-hidden rounded-lg shadow py-4">
+                        <!-- Decorative background image and gradient -->
+                        <div aria-hidden="true" class="absolute inset-0">
+                            <div
+                                class="absolute inset-0 max-w-7xl mx-auto overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80"
+                                    alt=""
+                                    class="w-full h-full object-center object-cover">
+                            </div>
+                            <div
+                                class="absolute inset-0 bg-white bg-opacity-75">
+                            </div>
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-white via-white">
+                            </div>
+                        </div>
+
+                        <!-- Callout -->
+                        <section aria-labelledby="sale-heading"
+                            class="relative -mt-20 mx-auto pt-24 px-4 flex flex-col items-center text-center sm:px-6 lg:px-8">
+                            <div class="max-w-2xl mx-auto lg:max-w-none">
+                                <span
+                                    class="block text-sm font-semibold uppercase tracking-wide text-gray-500 sm:text-base lg:text-sm xl:text-base">Support
+                                    ShlinkedIn</span>
+                                <h2 id="sale-heading"
+                                    class="text-4xl font-extrabold text-gray-800 tracking-tight sm:text-5xl">
+                                    ShlinkedIn <span
+                                        class="text-transparent bg-clip-text bg-gradient-to-tr from-blue-500 via-teal-400 to-green-300">Platinum</span>
+                                </h2>
+                                <p
+                                    class="mt-4 max-w-xl mx-auto text-sm text-gray-600 mb-4">
+                                    An exclusive
+                                    new trophy on your profile. Stickers.
+                                    Unlimited
+                                    business jabs. No ad cooldown. Access to
+                                    an exclusive
+                                    platinum-only community and new
+                                    features. Support us directly
+                                    and recieve a lifetime of honor.
+                                </p>
+
+                                <%= live_redirect "Go Platinum - $6.66 / mo", to: Routes.platinum_index_path(@socket, :index), class: "inline-block bg-gradient-to-tr from-blue-500 via-teal-400 to-green-300 rounded-md py-3 px-8 font-medium text-white hover:from-blue-600 hover:to-green-400 w-auto" %>
 
                             </div>
+                        </section>
+                    </div>
 
-                            <a href="https://picklehotsauce.com/"
-                                class="underline">
-                                <img class="rounded-b max-h-60"
-                                    src="https://media.discordapp.net/attachments/870450368281210920/882044601710559272/2020_Pickle_Hot_Sauce_-_Round_1_117.jpg?width=1440&height=810"
-                                    alt="">
-                            </a>
-                        </div>
-                    </section>
-                    <% end %>
 
-                    <%= if @right_lower_box.type == :activity do %>
+
+                    <% else %>
                     <section aria-labelledby="activity-heading">
                         <div class="bg-white p-5 rounded-lg shadow">
 
@@ -618,7 +687,7 @@
 
                             <div class="max-h-56 overflow-y-scroll">
                                 <ul class="-mb-8">
-                                    <%= for activity <- @right_lower_box.content do %>
+                                    <%= for activity <- @recent_activity do %>
                                     <%= live_component @socket, ShlinkedinWeb.ActivityLive.ActivityComponent,
                                 id: "activity-#{activity.id}",
                                 profile: @profile,

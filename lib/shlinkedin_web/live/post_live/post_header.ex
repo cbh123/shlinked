@@ -17,10 +17,12 @@ defmodule ShlinkedinWeb.PostLive.PostHeader do
         <div class="ml-3 sm:ml-4 cursor-pointer w-64 text-gray-500 truncate overflow-hidden">
 
 
+
             <span class="text-gray-900 ">
 
                 <%= live_redirect @post.profile.persona_name, to: Routes.profile_show_path(@socket, :show, @post.profile.slug), class: "text-sm font-semibold text-gray-900 hover:underline"  %>
-                <%= Shlinkedin.Badges.profile_badges(assigns, @post.profile, 3) %>
+                <%= Shlinkedin.Badges.profile_badges(@socket, @post.profile, 3) %>
+
 
             </span>
 

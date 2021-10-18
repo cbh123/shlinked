@@ -23,24 +23,38 @@ defmodule Shlinkedin.Badges do
     ~L"""
     <div class="inline-flex align-baseline">
 
-
-
     <%= for award <- awards do %>
-    <%= if award.award_type.profile_badge and profile_badge_active(award) and award.active == true do %>
+    <%= if award.award_type.profile_badge and profile_badge_active(award) do %>
     <div class="inline-flex <%= award.award_type.color %>">
 
-    <%= if award.award_type.image_format == "svg" do  %>
+
+    <%= cond do %>
+    <% award.award_type.name == "Platinum" -> %>
+    <span class="tooltip">
+    <img class="h-4 w-4 my-0.5"
+    src="<%= ShlinkedinWeb.Router.Helpers.static_path(assigns, "/images/platinum_png.png") %>">
+    <span class="tooltip-text">
+      ShlinkedIn Platinum
+    </span>
+
+    </span>
+
+
+
+
+
+    <% award.award_type.image_format == "svg" ->  %>
+
         <svg class="w-<%= size %> h-<%= size %> " fill="currentColor" viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="<%= award.award_type.fill%>" d="<%= award.award_type.svg_path %>"
                 clip-rule="<%= award.award_type.fill%>">
             </path>
         </svg>
-    <% else %>
+    <% true ->  %>
     <span class="text-sm">
     <%= award.award_type.emoji %>
     </span>
-
     <% end %>
     </div>
 
