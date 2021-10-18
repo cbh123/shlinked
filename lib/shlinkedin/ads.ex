@@ -134,10 +134,14 @@ defmodule Shlinkedin.Ads do
         {:ok, profile}
 
       last_buy ->
-        diff = NaiveDateTime.diff(NaiveDateTime.utc_now(), last_buy.inserted_at)
+        if Profiles.is_platinum?(profile) do
+          {:ok, profile}
+        else
+          diff = NaiveDateTime.diff(NaiveDateTime.utc_now(), last_buy.inserted_at)
 
-        {:error,
-         "Right now you can buy 1 ad per hour. Cooldown ends in #{abs(@ad_cooldown_in_seconds) - diff} seconds."}
+          {:error,
+           "Right now you can buy 1 ad per hour. Cooldown ends in #{abs(@ad_cooldown_in_seconds) - diff} seconds."}
+        end
     end
   end
 
