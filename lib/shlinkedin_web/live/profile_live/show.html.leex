@@ -240,7 +240,7 @@
         </div>
 
         <%# Profile Music %>
-        <%= case parse_spotify_url(@profile) do %>
+        <%= case parse_spotify_url(@show_profile) do %>
         <% nil -> %>
         <% {:ok, link} -> %>
         <div class=" mt-2 rounded-lg overflow-hidden shadow px-5 py-5 bg-white">
