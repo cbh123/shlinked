@@ -344,10 +344,48 @@
 
                 </div>
 
+                <%# Platinum Only %>
+                <h5 class="font-bold text-lg mt-16">✨ Platinum Only ✨</h5>
+                <hr class="my-4">
+                <%= if Profiles.is_platinum?(@profile) do %>
+                <div>
+                    <label for="url"
+                        class="text-sm font-medium text-gray-700 mt-4 block">Add
+                        Soundtrack</label>
+
+                    <%= text_input f, :spotify_song_url, placeholder: "https://open.spotify.com/track/09uV1Sli9wapcKQmmyaG4E?si=119936a4e9fd4bfd", class: "focus:ring-blue-500 focus:border-blue-500 w-full sm:text-sm border-gray-300 rounded-md" %>
+                    <p class="text-xs text-gray-500">Find a song on Spotify ->
+                        Share -> "Copy Song Link". Then paste that link here.
+                    </p>
+                    <p class=" mt-4 text-xs">
+                        <%= error_tag f, :spotify_song_url %></p>
+
+                </div>
+                <% else %>
+                <p>Looks like you don't have platinum, so these are disabled!
+                </p>
+                <%= live_redirect "Go Platinum - $6.66 / mo", to: Routes.platinum_index_path(@socket, :index), class: "mt-2 inline-block bg-gradient-to-tr from-blue-500 via-teal-400 to-green-300 rounded-md py-3 px-8 font-medium text-white hover:from-blue-600 hover:to-green-400 w-auto" %>
+
+                <div>
+                    <label for="url"
+                        class="text-sm font-medium text-gray-300 mt-4 block">Add
+                        Soundtrack</label>
+
+                    <%= text_input f, :spotify_song_url, disabled: true, placeholder: "https://open.spotify.com/track/09uV1Sli9wapcKQmmyaG4E?si=119936a4e9fd4bfd", class: "focus:ring-blue-500 focus:border-blue-500 w-full sm:text-sm border-gray-300 rounded-md" %>
+                    <p class="text-xs text-gray-500">Find a song on Spotify ->
+                        Share -> "Copy Song Link". Then paste that link here.
+                    </p>
+                    <p class=" mt-4 text-xs">
+                        <%= error_tag f, :spotify_song_url %></p>
+
+                </div>
+                <% end %>
 
 
 
-                <h5 class="font-bold text-lg mt-4">Settings</h5>
+
+                <%# Settings %>
+                <h5 class="font-bold text-lg mt-16">Settings</h5>
                 <hr class="my-4">
 
                 <div>

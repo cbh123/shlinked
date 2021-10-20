@@ -58,6 +58,7 @@ defmodule Shlinkedin.Profiles.Profile do
 
     field :joined_discord, :boolean, default: false
     field :show_sold_ads, :boolean, default: false
+    field :spotify_song_url, :string
     timestamps()
   end
 
@@ -87,7 +88,8 @@ defmodule Shlinkedin.Profiles.Profile do
       :feed_type,
       :feed_time,
       :joined_discord,
-      :show_sold_ads
+      :show_sold_ads,
+      :spotify_song_url
     ])
     |> validate_required([:user_id, :persona_name, :slug, :username])
     |> downcase_username()

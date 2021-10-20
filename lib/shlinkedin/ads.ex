@@ -156,8 +156,14 @@ defmodule Shlinkedin.Ads do
   @doc """
   Get all stuff that profile owns.
   """
-  def list_owned_ads(%Profile{id: profile_id}) do
-    Repo.all(from(a in Ad, where: a.owner_id == ^profile_id, order_by: [desc: a.updated_at]))
+  def list_owned_ads(%Profile{id: profile_id}, limit \\ 5) do
+    Repo.all(
+      from(a in Ad,
+        where: a.owner_id == ^profile_id,
+        order_by: [desc: a.updated_at],
+        limit: ^limit
+      )
+    )
   end
 
   @doc """
