@@ -3,7 +3,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   alias Shlinkedin.Timeline
   alias Shlinkedin.Timeline.Comment
   alias Shlinkedin.Profiles
-  alias Shlinkedin.Profiles.{Endorsement, Testimonial}
+  alias Shlinkedin.Profiles.{Endorsement, Testimonial, Profile}
   alias Shlinkedin.Points.Transaction
   alias Shlinkedin.Ads
   alias Shlinkedin.{Chat, Chat.Conversation}
@@ -46,14 +46,12 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(connections: Profiles.get_connections(show_profile))
      |> assign(friend_status: check_between_friend_status(socket.assigns.profile, show_profile))
      |> assign(endorsements: list_endorsements(show_profile.id))
-     |> assign(mutual_friends: get_mutual_friends(socket.assigns.profile, show_profile))
      |> assign(reviews_recieved: true)
      |> assign(number_testimonials: Profiles.get_number_testimonials(show_profile.id))
      |> assign(number_given_testimonials: Profiles.get_number_given_testimonials(show_profile.id))
      |> assign(num_show_testimonials: 2)
      |> assign(checklist: Shlinkedin.Levels.get_current_checklist(show_profile, socket))
      |> assign(num_profile_views: Profiles.get_profile_views_not_yourself(show_profile))
-     |> assign(wealth_ranking: Profiles.get_ranking(show_profile, 50, "Wealth"))
      |> assign(stuff: Ads.list_owned_ads(show_profile))
      |> assign(testimonials: list_testimonials(show_profile.id)),
      temporary_assigns: [
@@ -415,5 +413,18 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
 
   defp calc_max_pages(profile, per_page) do
     trunc(Timeline.num_posts(profile) / per_page)
+  end
+
+  defp parse_spotify_url(%Profile{spotify_song_url: nil}), do: nil
+
+  defp parse_spotify_url(%Profile{spotify_song_url: url}) do
+    id =
+      url
+      |> String.split("https://open.spotify.com/track/")
+      |> List.to_string()
+      |> String.split("?")
+      |> Enum.at(0)
+
+    {:ok, "https://open.spotify.com/embed/track/#{id}?theme=0"}
   end
 end
