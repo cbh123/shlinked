@@ -389,6 +389,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
 
   @impl true
   def handle_info({:article_updated, article}, socket) do
+    socket = assign(socket, headline_update_action: "append")
     {:noreply, update(socket, :articles, fn articles -> [article | articles] end)}
   end
 
