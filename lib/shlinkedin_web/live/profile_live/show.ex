@@ -344,10 +344,6 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     Profiles.list_given_testimonials(id)
   end
 
-  defp get_mutual_friends(from, to) do
-    Profiles.get_mutual_friends(from, to)
-  end
-
   defp list_unique_ad_clicks(profile) do
     Shlinkedin.Ads.list_unique_ad_clicks(profile)
   end

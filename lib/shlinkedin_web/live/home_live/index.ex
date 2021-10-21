@@ -26,8 +26,8 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     }
 
     headline_options = %{
-      type: "new",
-      time: "all_time"
+      type: socket.assigns.profile.headline_type,
+      time: socket.assigns.profile.headline_time
     }
 
     {:ok,
@@ -145,6 +145,9 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   end
 
   def handle_params(%{"headline_type" => type, "headline_time" => time} = params, _url, socket) do
+    {:ok, _profile} =
+      Profiles.update_profile(socket.assigns.profile, %{headline_type: type, headline_time: time})
+
     socket =
       socket
       |> assign(
@@ -280,8 +283,6 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   end
 
   def handle_event("sort-headlines", %{"type" => type, "time" => time}, socket) do
-    IO.inspect(binding())
-
     {:noreply,
      socket
      |> push_patch(

@@ -43,14 +43,6 @@ defmodule Shlinkedin.News do
     |> parse_results(headline_options)
   end
 
-  def list_articles(_) do
-    query =
-      from(h in Article, order_by: [desc: h.inserted_at], preload: :votes)
-      |> viewable_articles_query()
-
-    Repo.all(query)
-  end
-
   defp parse_results(articles, %{type: "reactions"}) do
     Enum.map(articles, fn {_likes, article} -> article end)
   end
