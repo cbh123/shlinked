@@ -33,12 +33,14 @@ defmodule Shlinkedin.News do
       [%Article{}, ...]
 
   """
-  def list_articles(criteria) when is_list(criteria) do
-    query = from(h in Article, order_by: [desc: h.id]) |> viewable_articles_query()
+  def list_articles(criteria, headline_options) when is_list(criteria) do
+    query = headline_options |> get_headline_query() |> viewable_articles_query()
 
     paged_query = paginate(query, criteria)
 
-    from(p in paged_query, preload: :votes) |> Repo.all()
+    from(p in paged_query, preload: :votes)
+    |> Repo.all()
+    |> parse_results(headline_options)
   end
 
   def list_articles(_) do
@@ -47,6 +49,35 @@ defmodule Shlinkedin.News do
       |> viewable_articles_query()
 
     Repo.all(query)
+  end
+
+  defp parse_results(articles, %{type: "reactions"}) do
+    Enum.map(articles, fn {_likes, article} -> article end)
+  end
+
+  defp parse_results(articles, _), do: articles
+
+  defp get_headline_query(%{type: type, time: time}) do
+    time_in_seconds = Shlinkedin.Helpers.parse_time(time)
+
+    case type do
+      "new" ->
+        from(h in Article, order_by: [desc: h.id])
+
+      "reactions" ->
+        time =
+          NaiveDateTime.utc_now()
+          |> NaiveDateTime.add(time_in_seconds, :second)
+
+        from(h in Article,
+          where: h.inserted_at >= ^time,
+          left_join: l in assoc(h, :votes),
+          group_by: h.id,
+          order_by: fragment("count DESC"),
+          order_by: [desc: h.id],
+          select: {count(l.profile_id, :distinct), h}
+        )
+    end
   end
 
   defp viewable_articles_query(query) do

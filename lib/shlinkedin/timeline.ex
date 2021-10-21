@@ -9,6 +9,7 @@ defmodule Shlinkedin.Timeline do
   alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Profiles.ProfileNotifier
   alias Shlinkedin.Groups.Group
+  alias Shlinkedin.Helpers
 
   def create_story(%Profile{} = profile, %Story{} = story, attrs \\ %{}, after_save \\ &{:ok, &1}) do
     story = %{story | profile_id: profile.id}
@@ -206,14 +207,8 @@ defmodule Shlinkedin.Timeline do
 
   defp parse_results(posts, _), do: posts
 
-  def parse_time("hour"), do: -60 * 60
-  def parse_time("today"), do: -60 * 60 * 24
-  def parse_time("week"), do: parse_time("today") * 7
-  def parse_time("month"), do: parse_time("today") * 31
-  def parse_time("all_time"), do: parse_time("today") * 31 * 100
-
   def get_feed_query(object, %{type: type, time: time}) do
-    time_in_seconds = parse_time(time)
+    time_in_seconds = Helpers.parse_time(time)
 
     case type do
       "new" ->

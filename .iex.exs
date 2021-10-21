@@ -18,3 +18,5 @@ alias Shlinkedin.Profiles.{
 
 alias Shlinkedin.Accounts.User
 alias Shlinkedin.Points
+alias Shlinkedin.News
+alias Shlinkedin.News.{Article, Vote}

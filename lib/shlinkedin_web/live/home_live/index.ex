@@ -25,10 +25,16 @@ defmodule ShlinkedinWeb.HomeLive.Index do
       time: socket.assigns.profile.feed_time
     }
 
+    headline_options = %{
+      type: "new",
+      time: "all_time"
+    }
+
     {:ok,
      socket
      |> assign(
        update_action: "append",
+       headline_update_action: "append",
        feed_options: feed_options,
        page: 1,
        per_page: 8,
@@ -36,6 +42,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
        stories: Timeline.list_stories(),
        headline_page: 1,
        headline_per_page: 15,
+       headline_options: headline_options,
        like_map: Timeline.like_map(),
        comment_like_map: Timeline.comment_like_map(),
        num_show_comments: 1
@@ -108,8 +115,16 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     )
   end
 
-  defp fetch_headlines(%{assigns: %{headline_page: page, headline_per_page: per_page}} = socket) do
-    articles = News.list_articles(paginate: %{page: page, per_page: per_page})
+  defp fetch_headlines(
+         %{
+           assigns: %{
+             headline_page: page,
+             headline_per_page: per_page,
+             headline_options: headline_options
+           }
+         } = socket
+       ) do
+    articles = News.list_articles([paginate: %{page: page, per_page: per_page}], headline_options)
     assign(socket, articles: articles)
   end
 
@@ -125,6 +140,19 @@ defmodule ShlinkedinWeb.HomeLive.Index do
       socket
       |> assign(update_action: "replace", page: 1, feed_options: %{type: type, time: time})
       |> fetch_posts()
+
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  end
+
+  def handle_params(%{"headline_type" => type, "headline_time" => time} = params, _url, socket) do
+    socket =
+      socket
+      |> assign(
+        headline_update_action: "replace",
+        headline_page: 1,
+        headline_options: %{type: type, time: time}
+      )
+      |> fetch_headlines()
 
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
@@ -251,13 +279,25 @@ defmodule ShlinkedinWeb.HomeLive.Index do
      socket |> push_patch(to: Routes.home_index_path(socket, :index, type: type, time: time))}
   end
 
+  def handle_event("sort-headlines", %{"type" => type, "time" => time}, socket) do
+    IO.inspect(binding())
+
+    {:noreply,
+     socket
+     |> push_patch(
+       to: Routes.home_index_path(socket, :index, headline_type: type, headline_time: time)
+     )}
+  end
+
   def handle_event("load-more", _, %{assigns: assigns} = socket) do
     {:noreply, socket |> assign(update_action: "append", page: assigns.page + 1) |> fetch_posts()}
   end
 
   def handle_event("more-headlines", _, socket) do
     {:noreply,
-     socket |> assign(headline_page: socket.assigns.headline_page + 1) |> fetch_headlines()}
+     socket
+     |> assign(headline_update_action: "append", headline_page: socket.assigns.headline_page + 1)
+     |> fetch_headlines()}
   end
 
   def handle_event("delete", %{"id" => id}, socket) do

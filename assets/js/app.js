@@ -13,13 +13,16 @@ import "../css/app.scss";
 //     import socket from "./socket"
 //
 import "phoenix_html";
-import "alpinejs";
+import Alpine from "alpinejs";
 import { Socket } from "phoenix";
 import NProgress from "nprogress";
 import { LiveSocket } from "phoenix_live_view";
 
 let Uploaders = {};
 let Hooks = {};
+
+window.Alpine = Alpine;
+Alpine.start();
 
 Uploaders.S3 = function (entries, onViewError) {
   entries.forEach((entry) => {
@@ -308,8 +311,8 @@ let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
   dom: {
     onBeforeElUpdated(from, to) {
-      if (from.__x) {
-        window.Alpine.clone(from.__x, to);
+      if (from._x_dataStack) {
+        window.Alpine.clone(from, to);
       }
     },
   },
