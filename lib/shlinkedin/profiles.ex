@@ -54,7 +54,7 @@ defmodule Shlinkedin.Profiles do
   Num profiles in given time range, used in stats. Uses Timeline.parse_time() function.
   """
   def num_new_profiles(time_range \\ "today") do
-    time_in_seconds = Shlinkedin.Timeline.parse_time(time_range)
+    time_in_seconds = Shlinkedin.Helpers.parse_time(time_range)
     time = NaiveDateTime.utc_now() |> NaiveDateTime.add(time_in_seconds, :second)
 
     query = from p in Profile, where: p.inserted_at >= ^time

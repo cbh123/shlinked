@@ -24,14 +24,15 @@ defmodule Shlinkedin.NewsTest do
 
     test "check headline ordering first page" do
       headlines =
-        News.list_articles(@criteria) |> Enum.map(fn a -> String.to_integer(a.headline) end)
+        News.list_articles(@criteria, %{type: "new", time: "all_time"})
+        |> Enum.map(fn a -> String.to_integer(a.headline) end)
 
       assert headlines == [10, 9, 8, 7, 6]
     end
 
     test "check headline ordering second page" do
       headlines =
-        News.list_articles(paginate: %{page: 2, per_page: 5})
+        News.list_articles([paginate: %{page: 2, per_page: 5}], %{type: "new", time: "all_time"})
         |> Enum.map(fn a -> String.to_integer(a.headline) end)
 
       assert headlines == [5, 4, 3, 2, 1]
