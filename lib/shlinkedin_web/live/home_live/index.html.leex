@@ -389,7 +389,6 @@
                                         <div>
                                             <button type="button"
                                                 @click="open = !open"
-                                                @click.away="open = false"
                                                 class="hover:bg-gray-200 flex p-1 text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                                                 id="headline-sorter-button"
                                                 aria-expanded="false"
@@ -672,7 +671,7 @@
 
                     <section aria-labelledby="shlink-news">
                         <div class="bg-white rounded-lg shadow">
-                            <!-- News  -->
+                            <!-- Desktop News  -->
 
                             <%# Headline sorter button %>
                             <div class="flex justify-between px-5 pt-5 pb-2">
@@ -680,12 +679,12 @@
                                     <div x-data="{open: false}"
                                         class="inline-flex justify-end items-center pr-2 static inset-auto">
 
+
                                         <!-- Headline sorter options -->
                                         <div class="relative">
                                             <div>
                                                 <button type="button"
                                                     @click="open = !open"
-                                                    @click.away="open = false"
                                                     class="hover:bg-gray-200 flex p-1 text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                                                     id="headline-sorter-button"
                                                     aria-expanded="false"
@@ -756,7 +755,7 @@
                                                     <div
                                                         class="text-right mt-4">
                                                         <button
-                                                            @click="open= false"
+                                                            @click="open = false"
                                                             class="text-sm px-2 py-0.5 rounded-lg hover:bg-blue-600 bg-blue-500 w-full text-white">Done</button>
                                                     </div>
 
