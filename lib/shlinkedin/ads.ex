@@ -20,20 +20,31 @@ defmodule Shlinkedin.Ads do
   Gets total count of ads
   """
   def get_num_ads(show_sold: show_sold) do
-    query = viewable_ads_query(show_sold)
+    Ad
+    |> viewable_ads_query(show_sold)
+    |> Repo.aggregate(:count)
+  end
 
-    Repo.aggregate(query, :count)
+  @doc """
+  Gets number of profile ads.
+  """
+  def get_num_owned_ads(%Profile{} = profile) do
+    Ad
+    |> viewable_ads_query(true)
+    |> where(owner_id: ^profile.id)
+    |> Repo.aggregate(:count)
   end
 
   @doc """
   Lists ads given criteria
   """
   def list_ads(criteria) do
-    query = viewable_ads_query(criteria[:sort][:show_sold])
+    query =
+      Ad
+      |> viewable_ads_query(criteria[:sort][:show_sold])
+      |> paginate(criteria)
 
-    paged_query = paginate(query, criteria)
-
-    from(p in paged_query)
+    from(p in query)
     |> Repo.all()
   end
 
@@ -47,9 +58,9 @@ defmodule Shlinkedin.Ads do
     end)
   end
 
-  defp viewable_ads_query(show_sold) do
-    query = from(a in Ad, where: a.removed == false)
-    include_sold_ads_query(query, show_sold)
+  defp viewable_ads_query(query, show_sold) do
+    from(a in query, where: a.removed == false)
+    |> include_sold_ads_query(show_sold)
   end
 
   defp include_sold_ads_query(query, false) do
@@ -156,14 +167,14 @@ defmodule Shlinkedin.Ads do
   @doc """
   Get all stuff that profile owns.
   """
-  def list_owned_ads(%Profile{id: profile_id}, limit \\ 5) do
-    Repo.all(
-      from(a in Ad,
-        where: a.owner_id == ^profile_id,
-        order_by: [desc: a.updated_at],
-        limit: ^limit
-      )
+  def list_owned_ads(%Profile{id: profile_id}, criteria) do
+    query = viewable_ads_query(Ad, true) |> paginate(criteria)
+
+    from(a in query,
+      where: a.owner_id == ^profile_id,
+      order_by: [desc: a.updated_at]
     )
+    |> Repo.all()
   end
 
   @doc """
@@ -231,7 +242,14 @@ defmodule Shlinkedin.Ads do
   end
 
   def list_profile_ads(%Profile{} = profile) do
-    Repo.all(from(a in Ad, where: a.profile_id == ^profile.id, preload: [:adlikes, :profile]))
+    Ad
+    |> profile_ads_query(profile)
+    |> Repo.all()
+    |> Repo.preload([:adlikes, :profile])
+  end
+
+  defp profile_ads_query(query, %Profile{} = profile) do
+    from a in query, where: a.profile_id == ^profile.id
   end
 
   @doc """

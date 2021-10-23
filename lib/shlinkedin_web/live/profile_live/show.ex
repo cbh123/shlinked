@@ -9,6 +9,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   alias Shlinkedin.{Chat, Chat.Conversation}
 
   @per_page 5
+  @gallery_per_page 4
 
   @impl true
   def mount(%{"slug" => slug}, session, socket) do
@@ -16,12 +17,12 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
       Timeline.subscribe()
     end
 
-    show_profile = Shlinkedin.Profiles.get_profile_by_slug(slug)
-
     socket = is_user(session, socket)
 
+    show_profile = Shlinkedin.Profiles.get_profile_by_slug(slug)
+
     # store profile view
-    Profiles.create_profile_view(socket.assigns.profile, show_profile)
+    {:ok, _view} = Profiles.create_profile_view(socket.assigns.profile, show_profile)
 
     {:ok,
      socket
@@ -31,7 +32,10 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
        comment_like_map: Timeline.comment_like_map(),
        page: 1,
        per_page: @per_page,
-       num_show_comments: 1
+       gallery_page: 1,
+       gallery_per_page: @gallery_per_page,
+       num_show_comments: 1,
+       total_gallery_pages: calc_max_gallery_pages(show_profile, @gallery_per_page)
      )
      |> assign(live_action: socket.assigns.live_action || :show)
      |> assign(page_title: "ShlinkedIn - " <> show_profile.persona_name)
@@ -40,7 +44,6 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(current_awards: list_active_awards(show_profile))
      |> assign(award_types: Shlinkedin.Awards.list_award_types())
      |> assign(ad_clicks: list_unique_ad_clicks(show_profile))
-     |> fetch_posts()
      |> assign(from_profile: socket.assigns.profile)
      |> assign(to_profile: show_profile)
      |> assign(connections: Profiles.get_connections(show_profile))
@@ -52,10 +55,12 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(num_show_testimonials: 2)
      |> assign(checklist: Shlinkedin.Levels.get_current_checklist(show_profile, socket))
      |> assign(num_profile_views: Profiles.get_profile_views_not_yourself(show_profile))
-     |> assign(stuff: Ads.list_owned_ads(show_profile))
-     |> assign(testimonials: list_testimonials(show_profile.id)),
+     |> assign(testimonials: list_testimonials(show_profile.id))
+     |> fetch_posts()
+     |> fetch_gallery(),
      temporary_assigns: [
        posts: [],
+       gallery: [],
        total_pages: calc_max_pages(show_profile, @per_page),
        profile_post_count: Timeline.num_posts(show_profile)
      ]}
@@ -68,6 +73,15 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
           type: "profile",
           time: "all_time"
         })
+    )
+  end
+
+  defp fetch_gallery(
+         %{assigns: %{show_profile: show_profile, gallery_page: page, gallery_per_page: per}} =
+           socket
+       ) do
+    assign(socket,
+      gallery: Ads.list_owned_ads(show_profile, paginate: %{page: page, per_page: per})
     )
   end
 
@@ -308,6 +322,10 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     {:noreply, socket |> assign(page: assigns.page + 1) |> fetch_posts()}
   end
 
+  def handle_event("load-more-ads", _, %{assigns: assigns} = socket) do
+    {:noreply, socket |> assign(gallery_page: assigns.gallery_page + 1) |> fetch_gallery()}
+  end
+
   def handle_event("show-received", _, socket) do
     socket =
       assign(socket,
@@ -409,6 +427,11 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
 
   defp calc_max_pages(profile, per_page) do
     trunc(Timeline.num_posts(profile) / per_page)
+  end
+
+  defp calc_max_gallery_pages(profile, per_page) do
+    total_ads = Ads.get_num_owned_ads(profile) |> IO.inspect(label: "total ads")
+    trunc(total_ads / per_page)
   end
 
   defp parse_spotify_url(%Profile{spotify_song_url: nil}), do: nil
