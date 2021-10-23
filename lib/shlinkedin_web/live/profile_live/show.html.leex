@@ -246,9 +246,9 @@
         <div class=" mt-2 rounded-lg overflow-hidden shadow px-5 py-5 bg-white">
             <h5 class="text-gray-500 text-xl">Soundtrack</h5>
 
-            <iframe class="rounded-lg mt-2 w-full" src="<%= link %>" height="80"
-                width="300" frameBorder="0" allowtransparency="true"
-                allow="encrypted-media"></iframe>
+            <iframe id="soundtrack" class="rounded-lg mt-2 w-full"
+                src="<%= link %>" height="80" width="300" frameBorder="0"
+                allowtransparency="true" allow="encrypted-media"></iframe>
         </div>
         <% end %>
 
@@ -273,14 +273,12 @@
         </div>
 
         <%# Stuff %>
-        <div class="mt-2 rounded-lg overflow-hidden shadow p-5 bg-white">
+        <div id="gallery"
+            class="mt-2 rounded-lg overflow-hidden shadow p-5 bg-white">
 
             <div class="flex justify-between">
                 <h5 class="text-gray-900 font-bold text-xl pb-3">
-                    Gallery <span
-                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                        NEW
-                    </span>
+                    Gallery
                 </h5>
 
                 <%= if @show_profile.id != @profile.id do %>
@@ -319,7 +317,7 @@
 
 
             <%# Empty State %>
-            <%= if @stuff == [] do %>
+            <%= if @gallery == [] do %>
             <div class="text-center">
                 <p class="font-semibold text-gray-600  my-4">Nothing yet. 😔</p>
                 <p class="text-xs text-gray-600 italic">To buy stuff, check out
@@ -331,11 +329,10 @@
 
 
 
-            <ul role="list"
-                class="mt-4 max-h-64 overflow-x-scroll grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+            <ul role="list" phx-update="append" id="gallery-list"
+                class="mt-4 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
 
-                <%= for ad <- @stuff do %>
-
+                <%= for ad <- @gallery do %>
                 <%= live_component @socket, ShlinkedinWeb.AdLive.NewAdComponent,
                             ad: ad,
                             id: "ad-#{ad.id}",
@@ -344,8 +341,15 @@
                         %>
 
                 <% end %>
-
             </ul>
+
+            <%= if @gallery_page < @total_gallery_pages do  %>
+            <button id="load-more-ads" phx-click="load-more-ads"
+                class="mx-auto text-xs text-gray-800 font-semibold bg-gray-100 px-2 py-1 rounded-lg hover:bg-gray-200 flex">
+                See More </button>
+            <% end %>
+
+
             <% end %>
         </div>
 
