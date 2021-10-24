@@ -40,6 +40,7 @@ defmodule Shlinkedin.Profiles do
   end
 
   def is_platinum?(%Profile{id: nil}), do: false
+  def is_platinum?(nil), do: false
 
   def is_platinum?(%Profile{} = profile) do
     list_awards(profile)
@@ -741,6 +742,8 @@ defmodule Shlinkedin.Profiles do
 
     Repo.all(from(p in Profile, where: p.id in ^mutual_ids, select: p))
   end
+
+  def check_between_friend_status(nil, %Profile{}), do: nil
 
   def check_between_friend_status(%Profile{} = from, %Profile{} = to) do
     if from.id == to.id do

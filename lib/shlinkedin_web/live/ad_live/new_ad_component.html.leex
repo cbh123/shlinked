@@ -96,7 +96,7 @@
 
 
             <%# you're the creator and there is no owner yet %>
-            <% @ad.profile_id == @profile.id and not is_sold?(@ad) -> %>
+            <% is_creator?(@ad, @profile) and not is_sold?(@ad) -> %>
             <button type="button" phx-target="<%= @myself %>"
                 data-confirm="Sadly, you cannot buy something you've created. Nice try, you launderer."
                 class="bg-gray-100 text-gray-600 w-full items-center px-4 py-2 shadow-sm text-base font-medium rounded-md   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -105,7 +105,7 @@
 
 
             <%# there is an owner and it's not you %>
-            <% is_sold?(@ad) and @ad.owner_id != @profile.id -> %>
+            <% is_sold?(@ad) and not is_owner?(@ad, @profile) -> %>
             <button type="button" phx-value-owner-id="<%=@ad.owner_id%>"
                 phx-target="<%= @myself %>" phx-click="view"
                 class="truncate bg-white border border-gray-200 shadow-sm text-gray-500 w-full items-center px-4 py-2 text-sm font-medium rounded-full hover:bg-gray-50">

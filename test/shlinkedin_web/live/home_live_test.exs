@@ -6,21 +6,49 @@ defmodule ShlinkedinWeb.HomeLiveTest do
   alias Shlinkedin.Timeline
   alias Shlinkedin.Points
 
-  setup :register_user_and_profile
-
   @create_attrs %{
     body: "some body"
   }
 
-  test "initial render with user and profile", %{conn: conn} do
-    {:ok, view, _html} =
-      conn
-      |> live("/home")
+  describe "home page as ANONYMOUS" do
+    test "initial render with anon user", %{conn: conn} do
+      {:ok, view, _html} =
+        conn
+        |> live("/home")
 
-    assert render(view) =~ "Start a post"
+      assert render(view) =~ "Start a post"
+    end
+
+    test "like post as anon user", %{conn: conn, profile: profile} do
+      {:ok, view, _html} = live(conn, Routes.home_index_path(conn, :index))
+
+      {:ok, post} = Timeline.create_post(profile, %{body: "test"}, %Timeline.Post{})
+
+      assert view |> element("#post-#{post.id}-like-Invest") |> render_click()
+
+      assert_patch(view, Routes.home_index_path(conn, :index))
+      assert view |> render() =~ "You must join"
+
+      view
+      |> element("#post-likes-#{post.id}")
+      |> render_click() =~
+        "Reactions"
+
+      assert view |> render() =~ "You must join"
+    end
   end
 
-  describe "Index" do
+  describe "registered user home page" do
+    setup :register_user_and_profile
+
+    test "initial render with user and profile", %{conn: conn} do
+      {:ok, view, _html} =
+        conn
+        |> live("/home")
+
+      assert render(view) =~ "Start a post"
+    end
+
     test "create new post and lists them", %{conn: conn, profile: profile} do
       {:ok, post} = Timeline.create_post(profile, @create_attrs, %Timeline.Post{})
 

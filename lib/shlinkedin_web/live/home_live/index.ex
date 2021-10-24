@@ -3,6 +3,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
 
   alias Shlinkedin.Timeline
   alias Shlinkedin.Profiles
+  alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Groups
   alias Shlinkedin.Timeline.{Post, Comment, Story}
   alias Shlinkedin.News
@@ -20,35 +21,22 @@ defmodule ShlinkedinWeb.HomeLive.Index do
       News.subscribe()
     end
 
-    feed_options = %{
-      type: socket.assigns.profile.feed_type,
-      time: socket.assigns.profile.feed_time
-    }
-
-    headline_options = %{
-      type: socket.assigns.profile.headline_type,
-      time: socket.assigns.profile.headline_time
-    }
-
     {:ok,
      socket
      |> assign(
        update_action: "append",
        headline_update_action: "append",
-       feed_options: feed_options,
        page: 1,
        per_page: 8,
        recent_activity: Timeline.list_unique_notifications(40),
-       stories: Timeline.list_stories(),
        headline_page: 1,
        headline_per_page: 15,
-       headline_options: headline_options,
        like_map: Timeline.like_map(),
-       comment_like_map: Timeline.comment_like_map(),
-       num_show_comments: 1
+       num_show_comments: 1,
+       comment_like_map: Timeline.comment_like_map()
      )
-     |> fetch_headlines()
      |> fetch_profile_related_data()
+     |> fetch_headlines()
      |> fetch_posts(), temporary_assigns: [posts: [], articles: []]}
   end
 
@@ -57,7 +45,9 @@ defmodule ShlinkedinWeb.HomeLive.Index do
       socket,
       checklist: nil,
       my_groups: [],
-      show_discord_alert: false
+      show_discord_alert: false,
+      feed_options: get_feed_options(nil),
+      headline_options: get_headline_options(nil)
     )
   end
 
@@ -66,14 +56,16 @@ defmodule ShlinkedinWeb.HomeLive.Index do
       socket,
       checklist: Shlinkedin.Levels.get_current_checklist(profile, socket),
       my_groups: Groups.list_profile_groups(profile),
-      show_discord_alert: !profile.joined_discord
+      show_discord_alert: !profile.joined_discord,
+      feed_options: get_feed_options(profile),
+      headline_options: get_headline_options(profile)
     )
   end
 
   defp fetch_posts(
          %{
            assigns: %{
-             profile: %{ad_frequency: ad_frequency} = profile,
+             profile: profile,
              feed_options: feed_options,
              page: page,
              per_page: per
@@ -84,6 +76,8 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     posts =
       Timeline.list_posts(profile, [paginate: %{page: page, per_page: per}], feed_options)
       |> Enum.map(fn c -> %{type: "post", content: c} end)
+
+    ad_frequency = ad_frequency(profile)
 
     content =
       Enum.with_index(posts)
@@ -110,9 +104,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
       end)
       |> List.flatten()
 
-    assign(socket,
-      posts: content
-    )
+    assign(socket, posts: content)
   end
 
   defp fetch_headlines(
@@ -405,4 +397,36 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   def handle_info(_, socket) do
     {:noreply, socket}
   end
+
+  defp get_feed_options(%Profile{} = profile) do
+    %{
+      type: profile.feed_type,
+      time: profile.feed_time
+    }
+  end
+
+  defp get_feed_options(nil) do
+    %{
+      type: "featured",
+      time: "week"
+    }
+  end
+
+  defp get_headline_options(%Profile{} = profile) do
+    %{
+      type: profile.headline_type,
+      time: profile.headline_time
+    }
+  end
+
+  defp get_headline_options(nil) do
+    %{
+      type: "reactions",
+      time: "week"
+    }
+  end
+
+  defp ad_frequency(%Profile{} = profile), do: profile.ad_frequency
+
+  defp ad_frequency(nil), do: 3
 end

@@ -131,7 +131,12 @@ defmodule ShlinkedinWeb.AdLive.NewAdComponent do
 
   defp count_unique_ad_clicks(ad), do: Ads.count_unique_ad_clicks_for_ad(ad)
 
+  defp is_owner?(%Ad{}, nil), do: false
   defp is_owner?(%Ad{} = ad, %Profile{} = profile), do: ad.owner_id == profile.id
+
+  defp is_creator?(%Ad{} = ad, %Profile{} = profile), do: ad.profile_id == profile
+  defp is_creator?(%Ad{}, nil), do: false
+
   defp is_sold?(%Ad{} = ad), do: not is_nil(ad.owner_id)
 
   defp is_moderator?(profile), do: Shlinkedin.Profiles.is_moderator?(profile)

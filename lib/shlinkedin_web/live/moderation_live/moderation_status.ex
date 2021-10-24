@@ -1,8 +1,6 @@
 defmodule ShlinkedinWeb.ModerationLive.ModerationStatus do
   use ShlinkedinWeb, :live_component
 
-  alias Shlinkedin.Moderation
-
   defp list_actions(content) do
     Shlinkedin.Moderation.list_actions(content)
   end
