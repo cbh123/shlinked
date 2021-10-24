@@ -9,10 +9,6 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     {:ok, socket |> assign(prompt: get_prompt())}
   end
 
-  def is_moderator?(profile) do
-    Shlinkedin.Profiles.is_moderator?(profile)
-  end
-
   @impl true
   def handle_event(_action, _params, %{assigns: %{profile: %Profile{id: nil}}} = socket) do
     {:noreply,
@@ -231,5 +227,32 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
 
   defp is_admin?(profile) do
     Shlinkedin.Profiles.is_admin?(profile)
+  end
+
+  defp is_moderator?(profile) do
+    Shlinkedin.Profiles.is_moderator?(profile)
+  end
+
+  defp get_num_reaction_likes(
+         nil,
+         %Timeline.Post{},
+         _like
+       ) do
+    0
+  end
+
+  defp get_num_reaction_likes(
+         %Profile{} = profile,
+         %Timeline.Post{} = post,
+         like
+       ) do
+    if Ecto.assoc_loaded?(post.likes) do
+      Enum.filter(post.likes, fn l ->
+        l.profile_id == profile.id && l.like_type == like.like_type
+      end)
+      |> length()
+    else
+      0
+    end
   end
 end

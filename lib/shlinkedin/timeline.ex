@@ -23,6 +23,12 @@ defmodule Shlinkedin.Timeline do
     post.profile_id == profile.id or profile.admin
   end
 
+  def profile_allowed_to_delete_comment?(nil, %Comment{}), do: false
+
+  def profile_allowed_to_delete_comment?(%Profile{} = profile, %Comment{} = comment) do
+    comment.profile_id == profile.id or profile.admin
+  end
+
   def create_story(%Profile{} = profile, %Story{} = story, attrs \\ %{}, after_save \\ &{:ok, &1}) do
     story = %{story | profile_id: profile.id}
 

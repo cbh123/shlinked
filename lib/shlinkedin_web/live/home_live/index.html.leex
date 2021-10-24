@@ -681,7 +681,7 @@
                     </section>
 
 
-                    <%= if not Profiles.is_platinum?(@profile) do %>
+                    <%= if not Profiles.is_platinum?(@profile) and not is_nil(@profile) do %>
                     <div
                         class="bg-white relative overflow-hidden rounded-lg shadow py-4">
                         <!-- Decorative background image and gradient -->

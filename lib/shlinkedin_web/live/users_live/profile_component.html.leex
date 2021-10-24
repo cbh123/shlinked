@@ -22,14 +22,7 @@
          <dt class="sr-only">Title</dt>
 
 
-         <% mutual_friends = get_mutual_friends(@profile, @show_profile)  %>
-         <p class="text-gray-500 font-semibold">
-             <%= length(mutual_friends) %> Mutual Shlinks
-         </p>
-
-
-
-         <%= if @show_profile.id != @profile.id do %>
+         <%= if not same_profile?(@show_profile, @profile) do %>
          <div class="my-4" phx-update="replace">
              <%= case @friend_status do %>
              <% nil -> %>

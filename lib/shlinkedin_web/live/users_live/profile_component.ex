@@ -1,6 +1,7 @@
 defmodule ShlinkedinWeb.UsersLive.ProfileComponent do
   use ShlinkedinWeb, :live_component
   alias Shlinkedin.Profiles
+  alias Shlinkedin.Profiles.Profile
 
   def check_between_friend_status(from, to) do
     Profiles.check_between_friend_status(from, to)
@@ -33,4 +34,10 @@ defmodule ShlinkedinWeb.UsersLive.ProfileComponent do
 
     {:noreply, socket}
   end
+
+  defp same_profile?(%Profile{} = profile1, %Profile{} = profile2) do
+    profile1 == profile2
+  end
+
+  defp same_profile?(%Profile{}, nil), do: false
 end

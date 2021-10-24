@@ -86,9 +86,6 @@ defmodule ShlinkedinWeb.HomeLive.Index do
           rem(index, ad_frequency) == 0 and page != 1 ->
             [get_ad(), post]
 
-          index == 1 and not Profiles.is_platinum?(profile) ->
-            [%{type: "platinum_ad"}, post]
-
           index == 3 ->
             [%{type: "featured_profiles", content: Profiles.list_random_profiles(3)}, post]
 
@@ -125,8 +122,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   end
 
   def handle_params(%{"type" => type, "time" => time} = params, _url, socket) do
-    {:ok, _profile} =
-      Profiles.update_profile(socket.assigns.profile, %{feed_type: type, feed_time: time})
+    {:ok, _profile} = update_profile_feed_options(socket.assigns.profile, type, time)
 
     socket =
       socket
@@ -137,8 +133,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   end
 
   def handle_params(%{"headline_type" => type, "headline_time" => time} = params, _url, socket) do
-    {:ok, _profile} =
-      Profiles.update_profile(socket.assigns.profile, %{headline_type: type, headline_time: time})
+    {:ok, _profile} = update_profile_headline_options(socket.assigns.profile, type, time)
 
     socket =
       socket
@@ -429,4 +424,20 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   defp ad_frequency(%Profile{} = profile), do: profile.ad_frequency
 
   defp ad_frequency(nil), do: 3
+
+  defp update_profile_feed_options(%Profile{} = profile, type, time) do
+    Profiles.update_profile(profile, %{feed_type: type, feed_time: time})
+  end
+
+  defp update_profile_feed_options(nil, _type, _time) do
+    {:ok, "ANON"}
+  end
+
+  defp update_profile_headline_options(%Profile{} = profile, type, time) do
+    Profiles.update_profile(profile, %{headline_type: type, headline_time: time})
+  end
+
+  defp update_profile_headline_options(nil, _type, _time) do
+    {:ok, "ANON"}
+  end
 end

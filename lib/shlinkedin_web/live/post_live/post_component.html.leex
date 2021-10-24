@@ -44,9 +44,11 @@
                             aria-orientation="vertical"
                             aria-labelledby="options-menu">
                             <%= live_redirect to: Routes.home_show_path(@socket, :show, @post.id), do: raw("View post &rarr;"), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
+
                             <%= if is_moderator?(@profile) do %>
                             <%= link "Moderator Panel", to: Routes.home_show_path(@socket, :new_action, @post.id), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"%>
                             <% end %>
+
                             <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                                 href="<%= tweet_intent(@prompt, Routes.home_show_url(@socket,:show, @post.id)) %>">Tweet</a>
 
@@ -147,13 +149,12 @@
                 <%# Left Side: Reactions and Comment %>
                 <div>
                     <%= for like <- like_map_list(@like_map) do %>
-                    <% num_likes = if Ecto.assoc_loaded?(@post.likes), do: Enum.filter(@post.likes, fn l -> l.profile_id == @profile.id && l.like_type == like.like_type end) |> length(), else: 0  %>
 
                     <button type="button" phx-target="<%= @myself %>"
                         phx-click="like-selected"
                         id="post-<%=@post.id%>-like-<%=like.like_type%>"
                         phx-value-like-type="<%=like.like_type%>"
-                        class="<%= if num_likes > 0, do: like.color, else: "text-gray-500" %> active:text-white active:<%=like.bg%> tooltip inline-flex items-center
+                        class="<%= if get_num_reaction_likes(@profile, @post, like) > 0, do: like.color, else: "text-gray-500" %> active:text-white active:<%=like.bg%> tooltip inline-flex items-center
                     mr-0.5 px-1 py-1 rounded-full border border-transparent text-xs font-medium bg-white hover:bg-gray-100
                     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 relative">
 
@@ -163,9 +164,9 @@
                         </span>
                         <% end %>
 
-                        <%= if num_likes > 0 do %>
+                        <%= if get_num_reaction_likes(@profile, @post, like) > 0 do %>
                         <span
-                            class="absolute top-0 -right-0.5 text-xs text-gray-500"><%= num_likes %></span>
+                            class="absolute top-0 -right-0.5 text-xs text-gray-500"><%= get_num_reaction_likes(@profile, @post, like)  %></span>
                         <% end %>
                         <span
                             class="tooltip-text -mt-12"><%=like.like_type%></span>
