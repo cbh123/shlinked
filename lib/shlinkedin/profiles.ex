@@ -27,6 +27,7 @@ defmodule Shlinkedin.Profiles do
   @doc """
   Checks whether profile is moderator.
   """
+  def is_moderator?(nil), do: false
   def is_moderator?(%Profile{admin: true}), do: true
   def is_moderator?(%Profile{id: nil}), do: false
 
