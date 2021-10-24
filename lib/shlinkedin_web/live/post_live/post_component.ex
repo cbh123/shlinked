@@ -220,4 +220,16 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
   defp tweet_intent(prompt, url) do
     "https://twitter.com/intent/tweet?text=#{prompt.text}&url=#{url}&hashtags=#{prompt.hashtags}"
   end
+
+  defp profile_allowed_to_delete_post?(profile, post) do
+    Timeline.profile_allowed_to_delete_post?(profile, post)
+  end
+
+  defp profile_allowed_to_edit_post?(profile, post) do
+    Timeline.profile_allowed_to_edit_post?(profile, post)
+  end
+
+  defp is_admin?(profile) do
+    Shlinkedin.Profiles.is_admin?(profile)
+  end
 end

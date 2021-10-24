@@ -49,11 +49,16 @@
                             <% end %>
                             <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                                 href="<%= tweet_intent(@prompt, Routes.home_show_url(@socket,:show, @post.id)) %>">Tweet</a>
-                            <%= if @profile != nil and @post.profile_id == @profile.id or @profile.admin do %>
+
+                            <%= if profile_allowed_to_edit_post?(@profile, @post) do %>
                             <%= live_patch to: Routes.home_index_path(@socket, :edit, @post.id), do: "Edit", class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
+                            <% end %>
+
+                            <%= if profile_allowed_to_delete_post?(@profile, @post) do %>
                             <%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @post.id, data: [confirm: "Are you sure?"], class: "block px-4 py-2 text-sm text-red-700 hover:bg-gray-100"%>
                             <% end %>
-                            <%= if @profile != nil and @profile.admin do %>
+
+                            <%= if is_admin?(@profile) do %>
                             <%= if @post.featured do %>
                             <button
                                 class="w-full text-left px-4 py-2 text-sm text-red-700 hover:bg-gray-100"
