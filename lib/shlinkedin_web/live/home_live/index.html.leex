@@ -767,6 +767,24 @@
 
 
 
+<%= if is_nil(@current_user) do %>
+<div class="bg-blue-500 text-white -mb-6 fixed h-24 bottom-0 w-full">
+    <div class="flex justify-between px-6 py-2 items-center">
+        <h2
+            class="inline-flex text-lg font-extrabold tracking-tight sm:text-4xl">
+            <span class="">Join Shlinkedin.</span>
+        </h2>
+        <div class="inline-flex justify-center">
+            <div class="inline-flex rounded-md shadow">
+                <%= live_redirect raw("Become a Thought Leader &rarr;"), to: Routes.user_registration_path(@socket, :new), class: "ml-2 inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-blue-100"  %>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<% end %>
 
 
 

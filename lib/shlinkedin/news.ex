@@ -139,7 +139,7 @@ defmodule Shlinkedin.News do
   end
 
   def is_first_vote_on_article?(nil, %Article{}) do
-    true
+    false
   end
 
   def is_first_vote_on_article?(%Profile{} = profile, %Article{} = article) do

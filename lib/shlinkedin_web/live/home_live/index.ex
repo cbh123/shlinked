@@ -27,7 +27,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
        update_action: "append",
        headline_update_action: "append",
        page: 1,
-       per_page: 8,
+       per_page: 5,
        recent_activity: Timeline.list_unique_notifications(40),
        headline_page: 1,
        headline_per_page: 15,
