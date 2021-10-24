@@ -147,8 +147,8 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
-  def handle_params(_params, _url, %{assigns: %{profile: nil}} = socket)
-      when socket.assigns.live_action != :index do
+  def handle_params(_params, _url, %{assigns: %{profile: nil, live_action: live_action}} = socket)
+      when live_action != :index do
     {:noreply,
      socket
      |> put_flash(:info, "You must join ShlinkedIn to do that :)")
