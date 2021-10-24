@@ -140,4 +140,7 @@ defmodule ShlinkedinWeb.AdLive.NewAdComponent do
   defp is_sold?(%Ad{} = ad), do: not is_nil(ad.owner_id)
 
   defp is_moderator?(profile), do: Shlinkedin.Profiles.is_moderator?(profile)
+
+  defp profile_can_afford?(%Profile{} = profile, %Ad{} = ad), do: profile.points >= ad.price
+  defp profile_can_afford?(nil, %Ad{}), do: false
 end

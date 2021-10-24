@@ -132,6 +132,10 @@ defmodule Shlinkedin.News do
     broadcast({:ok, article}, :article_updated)
   end
 
+  def is_first_vote_on_article?(nil, %Article{}) do
+    true
+  end
+
   def is_first_vote_on_article?(%Profile{} = profile, %Article{} = article) do
     Repo.one(
       from(v in Vote,

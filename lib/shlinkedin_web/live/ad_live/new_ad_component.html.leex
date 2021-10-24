@@ -83,8 +83,8 @@
 
 
             <%= cond do  %>
-            <% is_owner?(@ad, @profile) -> %>
 
+            <% is_owner?(@ad, @profile) -> %>
             <button type="button" data-confirm="Auction feature coming soon"
                 class="truncate hover:bg-gray-50 border border-gray-200 shadow-sm text-gray-500 rounded-full w-1/2 items-center px-4 py-2 text-sm font-medium   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 💰 Auction
@@ -118,12 +118,11 @@
             </button>
 
 
-
             <%# otherwise, you can buy %>
             <% true -> %>
             <button type="button" phx-click="buy-ad"
                 id="ad-<%=@ad.id%>-like-buy" phx-target="<%= @myself %>"
-                data-confirm="<%= if @profile.points >= @ad.price, do: "Buy '#{@ad.product}' for #{@ad.price}?", else: "You are too poor to buy this." %>"
+                data-confirm="<%= if profile_can_afford?(@profile, @ad), do: "Buy '#{@ad.product}' for #{@ad.price}?", else: "You are too poor to buy this." %>"
                 class="<%= if @spin, do: "animate-spin" %> bg-blue-100 text-blue-600 hover:bg-blue-200 w-full items-center px-4 py-2 shadow-sm text-sm font-medium rounded-full   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 <%= @ad.price %>
             </button>
