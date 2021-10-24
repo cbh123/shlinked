@@ -735,25 +735,17 @@
                     <% else %>
                     <section aria-labelledby="activity-heading">
                         <div class="bg-white p-5 rounded-lg shadow">
-
                             <h5 class=" font-bold mb-3">Recent Activity</h5>
-
                             <div class="max-h-56 overflow-y-scroll">
                                 <ul class="-mb-8">
                                     <%= for activity <- @recent_activity do %>
                                     <%= live_component @socket, ShlinkedinWeb.ActivityLive.ActivityComponent,
                                 id: "activity-#{activity.id}",
                                 profile: @profile,
-                                activity: activity
-                            %>
+                                activity: activity %>
                                     <% end %>
-
-
                             </div>
                         </div>
-
-
-
                     </section>
                     <% end %>
 

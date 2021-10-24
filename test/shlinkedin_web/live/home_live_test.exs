@@ -43,17 +43,28 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       assert view |> render() =~ "You must join"
     end
 
-    test "start group as non user", %{conn: conn} do
+    test "start group as anon user", %{conn: conn} do
       {:ok, view, _html} = live(conn, Routes.home_index_path(conn, :index))
 
       assert view |> element("a", "Start group") |> render_click()
       assert view |> render() =~ "You must join"
     end
 
-    test "create headlines as non user", %{conn: conn} do
+    test "write headlines as anon user", %{conn: conn} do
       {:ok, view, _html} = live(conn, Routes.home_index_path(conn, :index))
 
-      assert view |> element("a", "Sort headlines") |> render_click()
+      assert view |> element("a", "Write headline") |> render_click()
+      assert view |> render() =~ "You must join"
+    end
+
+    test "clap headline as anon user", %{conn: conn} do
+      headline = headline_fixture()
+
+      {:ok, view, _html} = live(conn, Routes.home_index_path(conn, :index))
+
+      assert view |> render() =~ "👏"
+
+      view |> element("#article-#{headline.id}-clap") |> render_click()
       assert view |> render() =~ "You must join"
     end
   end

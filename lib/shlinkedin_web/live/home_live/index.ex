@@ -147,9 +147,22 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
+  def handle_params(_params, _url, %{assigns: %{profile: nil}} = socket)
+      when socket.assigns.live_action != :index do
+    {:noreply,
+     socket
+     |> put_flash(:info, "You must join ShlinkedIn to do that :)")
+     |> push_patch(to: Routes.home_index_path(socket, :index))}
+  end
+
   @impl true
   def handle_params(params, _url, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  end
+
+  defp apply_action(socket, :index, _params) do
+    socket
+    |> assign(:post, nil)
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
@@ -257,11 +270,6 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     socket
     |> assign(:feedback, %Shlinkedin.Feedback.Feedback{})
     |> assign(:page_title, "Feedback")
-  end
-
-  defp apply_action(socket, :index, _params) do
-    socket
-    |> assign(:post, nil)
   end
 
   def handle_event("sort-feed", %{"type" => type, "time" => time}, socket) do
