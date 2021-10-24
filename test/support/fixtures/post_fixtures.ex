@@ -22,6 +22,22 @@ defmodule Shlinkedin.TimelineFixtures do
     add_likes({3, post})
   end
 
+  def headline_fixture(attrs \\ %{}) do
+    profile = Shlinkedin.ProfilesFixtures.profile_fixture()
+
+    {:ok, headline} =
+      Shlinkedin.News.create_article(
+        profile,
+        %Shlinkedin.News.Article{},
+        attrs
+        |> Enum.into(%{
+          headline: "this just in"
+        })
+      )
+
+    headline
+  end
+
   defp add_likes({num_likes, post}) do
     Enum.each(
       1..num_likes,

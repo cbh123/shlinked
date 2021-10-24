@@ -430,7 +430,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   end
 
   defp calc_max_gallery_pages(profile, per_page) do
-    total_ads = Ads.get_num_owned_ads(profile) |> IO.inspect(label: "total ads")
+    total_ads = Ads.get_num_owned_ads(profile)
     trunc(total_ads / per_page)
   end
 

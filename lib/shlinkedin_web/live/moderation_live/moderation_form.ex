@@ -4,7 +4,7 @@ defmodule ShlinkedinWeb.ModerationLive.ModerationForm do
   alias Shlinkedin.Moderation
 
   @impl true
-  def update(%{action: action, content: content} = assigns, socket) do
+  def update(%{action: action} = assigns, socket) do
     changeset = Moderation.change_action(action)
 
     {:ok,

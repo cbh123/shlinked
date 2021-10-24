@@ -2,25 +2,77 @@ defmodule ShlinkedinWeb.HomeLiveTest do
   use ShlinkedinWeb.ConnCase
 
   import Phoenix.LiveViewTest
+  import Shlinkedin.TimelineFixtures
 
   alias Shlinkedin.Timeline
   alias Shlinkedin.Points
-
-  setup :register_user_and_profile
 
   @create_attrs %{
     body: "some body"
   }
 
-  test "initial render with user and profile", %{conn: conn} do
-    {:ok, view, _html} =
-      conn
-      |> live("/home")
+  describe "home page as ANONYMOUS" do
+    test "initial render with anon user", %{conn: conn} do
+      {:ok, view, _html} = conn |> live("/home")
 
-    assert render(view) =~ "Start a post"
+      assert render(view) =~ "Start a post"
+    end
+
+    test "like post as anon user", %{conn: conn} do
+      {:ok, view, _html} = live(conn, Routes.home_index_path(conn, :index))
+
+      post = post_fixture()
+
+      assert view |> element("#post-#{post.id}-like-Invest") |> render_click()
+
+      assert_patch(view, Routes.home_index_path(conn, :index))
+      assert view |> render() =~ "You must join"
+    end
+
+    test "start a post as anon user", %{conn: conn} do
+      {:ok, view, _html} = live(conn, Routes.home_index_path(conn, :index))
+
+      assert view |> element("a", "Start a post") |> render_click()
+      assert view |> render() =~ "You must join"
+    end
+
+    test "create ad as anon user", %{conn: conn} do
+      {:ok, view, _html} = live(conn, Routes.home_index_path(conn, :index))
+
+      assert view |> element("a", "Create Ad") |> render_click()
+      assert view |> render() =~ "You must join"
+    end
+
+    test "write headlines as anon user", %{conn: conn} do
+      {:ok, view, _html} = live(conn, Routes.home_index_path(conn, :index))
+
+      assert view |> element("a", "Write Headline") |> render_click()
+      assert view |> render() =~ "You must join"
+    end
+
+    test "clap headline as anon user", %{conn: conn} do
+      headline = headline_fixture()
+
+      {:ok, view, _html} = live(conn, Routes.home_index_path(conn, :index))
+
+      assert view |> render() =~ "👏"
+
+      view |> element("#article-#{headline.id}-clap") |> render_click()
+      assert view |> render() =~ "You must join"
+    end
   end
 
-  describe "Index" do
+  describe "registered user home page" do
+    setup :register_user_and_profile
+
+    test "initial render with user and profile", %{conn: conn} do
+      {:ok, view, _html} =
+        conn
+        |> live("/home")
+
+      assert render(view) =~ "Start a post"
+    end
+
     test "create new post and lists them", %{conn: conn, profile: profile} do
       {:ok, post} = Timeline.create_post(profile, @create_attrs, %Timeline.Post{})
 
@@ -355,6 +407,8 @@ defmodule ShlinkedinWeb.HomeLiveTest do
   end
 
   describe "discord alerts" do
+    setup :register_user_and_profile
+
     test "close alert", %{conn: conn, profile: _profile} do
       {:ok, view, _html} = conn |> live(Routes.home_index_path(conn, :index))
 

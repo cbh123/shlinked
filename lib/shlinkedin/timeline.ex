@@ -11,6 +11,24 @@ defmodule Shlinkedin.Timeline do
   alias Shlinkedin.Groups.Group
   alias Shlinkedin.Helpers
 
+  def profile_allowed_to_edit_post?(nil, %Post{}), do: false
+
+  def profile_allowed_to_edit_post?(%Profile{} = profile, %Post{} = post) do
+    post.profile_id == profile.id or profile.admin
+  end
+
+  def profile_allowed_to_delete_post?(nil, %Post{}), do: false
+
+  def profile_allowed_to_delete_post?(%Profile{} = profile, %Post{} = post) do
+    post.profile_id == profile.id or profile.admin
+  end
+
+  def profile_allowed_to_delete_comment?(nil, %Comment{}), do: false
+
+  def profile_allowed_to_delete_comment?(%Profile{} = profile, %Comment{} = comment) do
+    comment.profile_id == profile.id or profile.admin
+  end
+
   def create_story(%Profile{} = profile, %Story{} = story, attrs \\ %{}, after_save \\ &{:ok, &1}) do
     story = %{story | profile_id: profile.id}
 

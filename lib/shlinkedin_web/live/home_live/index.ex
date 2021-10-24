@@ -3,6 +3,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
 
   alias Shlinkedin.Timeline
   alias Shlinkedin.Profiles
+  alias Shlinkedin.Profiles.Profile
   alias Shlinkedin.Groups
   alias Shlinkedin.Timeline.{Post, Comment, Story}
   alias Shlinkedin.News
@@ -20,35 +21,22 @@ defmodule ShlinkedinWeb.HomeLive.Index do
       News.subscribe()
     end
 
-    feed_options = %{
-      type: socket.assigns.profile.feed_type,
-      time: socket.assigns.profile.feed_time
-    }
-
-    headline_options = %{
-      type: socket.assigns.profile.headline_type,
-      time: socket.assigns.profile.headline_time
-    }
-
     {:ok,
      socket
      |> assign(
        update_action: "append",
        headline_update_action: "append",
-       feed_options: feed_options,
        page: 1,
-       per_page: 8,
+       per_page: 5,
        recent_activity: Timeline.list_unique_notifications(40),
-       stories: Timeline.list_stories(),
        headline_page: 1,
        headline_per_page: 15,
-       headline_options: headline_options,
        like_map: Timeline.like_map(),
-       comment_like_map: Timeline.comment_like_map(),
-       num_show_comments: 1
+       num_show_comments: 1,
+       comment_like_map: Timeline.comment_like_map()
      )
-     |> fetch_headlines()
      |> fetch_profile_related_data()
+     |> fetch_headlines()
      |> fetch_posts(), temporary_assigns: [posts: [], articles: []]}
   end
 
@@ -57,7 +45,9 @@ defmodule ShlinkedinWeb.HomeLive.Index do
       socket,
       checklist: nil,
       my_groups: [],
-      show_discord_alert: false
+      show_discord_alert: false,
+      feed_options: get_feed_options(nil),
+      headline_options: get_headline_options(nil)
     )
   end
 
@@ -66,14 +56,16 @@ defmodule ShlinkedinWeb.HomeLive.Index do
       socket,
       checklist: Shlinkedin.Levels.get_current_checklist(profile, socket),
       my_groups: Groups.list_profile_groups(profile),
-      show_discord_alert: !profile.joined_discord
+      show_discord_alert: !profile.joined_discord,
+      feed_options: get_feed_options(profile),
+      headline_options: get_headline_options(profile)
     )
   end
 
   defp fetch_posts(
          %{
            assigns: %{
-             profile: %{ad_frequency: ad_frequency} = profile,
+             profile: profile,
              feed_options: feed_options,
              page: page,
              per_page: per
@@ -85,15 +77,14 @@ defmodule ShlinkedinWeb.HomeLive.Index do
       Timeline.list_posts(profile, [paginate: %{page: page, per_page: per}], feed_options)
       |> Enum.map(fn c -> %{type: "post", content: c} end)
 
+    ad_frequency = ad_frequency(profile)
+
     content =
       Enum.with_index(posts)
       |> Enum.map(fn {post, index} ->
         cond do
           rem(index, ad_frequency) == 0 and page != 1 ->
             [get_ad(), post]
-
-          index == 1 and not Profiles.is_platinum?(profile) ->
-            [%{type: "platinum_ad"}, post]
 
           index == 3 ->
             [%{type: "featured_profiles", content: Profiles.list_random_profiles(3)}, post]
@@ -110,9 +101,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
       end)
       |> List.flatten()
 
-    assign(socket,
-      posts: content
-    )
+    assign(socket, posts: content)
   end
 
   defp fetch_headlines(
@@ -133,8 +122,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   end
 
   def handle_params(%{"type" => type, "time" => time} = params, _url, socket) do
-    {:ok, _profile} =
-      Profiles.update_profile(socket.assigns.profile, %{feed_type: type, feed_time: time})
+    {:ok, _profile} = update_profile_feed_options(socket.assigns.profile, type, time)
 
     socket =
       socket
@@ -145,8 +133,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   end
 
   def handle_params(%{"headline_type" => type, "headline_time" => time} = params, _url, socket) do
-    {:ok, _profile} =
-      Profiles.update_profile(socket.assigns.profile, %{headline_type: type, headline_time: time})
+    {:ok, _profile} = update_profile_headline_options(socket.assigns.profile, type, time)
 
     socket =
       socket
@@ -160,9 +147,22 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
+  def handle_params(_params, _url, %{assigns: %{profile: nil}} = socket)
+      when socket.assigns.live_action != :index do
+    {:noreply,
+     socket
+     |> put_flash(:info, "You must join ShlinkedIn to do that :)")
+     |> push_patch(to: Routes.home_index_path(socket, :index))}
+  end
+
   @impl true
   def handle_params(params, _url, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  end
+
+  defp apply_action(socket, :index, _params) do
+    socket
+    |> assign(:post, nil)
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
@@ -270,11 +270,6 @@ defmodule ShlinkedinWeb.HomeLive.Index do
     socket
     |> assign(:feedback, %Shlinkedin.Feedback.Feedback{})
     |> assign(:page_title, "Feedback")
-  end
-
-  defp apply_action(socket, :index, _params) do
-    socket
-    |> assign(:post, nil)
   end
 
   def handle_event("sort-feed", %{"type" => type, "time" => time}, socket) do
@@ -404,5 +399,53 @@ defmodule ShlinkedinWeb.HomeLive.Index do
 
   def handle_info(_, socket) do
     {:noreply, socket}
+  end
+
+  defp get_feed_options(%Profile{} = profile) do
+    %{
+      type: profile.feed_type,
+      time: profile.feed_time
+    }
+  end
+
+  defp get_feed_options(nil) do
+    %{
+      type: "featured",
+      time: "week"
+    }
+  end
+
+  defp get_headline_options(%Profile{} = profile) do
+    %{
+      type: profile.headline_type,
+      time: profile.headline_time
+    }
+  end
+
+  defp get_headline_options(nil) do
+    %{
+      type: "reactions",
+      time: "week"
+    }
+  end
+
+  defp ad_frequency(%Profile{} = profile), do: profile.ad_frequency
+
+  defp ad_frequency(nil), do: 3
+
+  defp update_profile_feed_options(%Profile{} = profile, type, time) do
+    Profiles.update_profile(profile, %{feed_type: type, feed_time: time})
+  end
+
+  defp update_profile_feed_options(nil, _type, _time) do
+    {:ok, "ANON"}
+  end
+
+  defp update_profile_headline_options(%Profile{} = profile, type, time) do
+    Profiles.update_profile(profile, %{headline_type: type, headline_time: time})
+  end
+
+  defp update_profile_headline_options(nil, _type, _time) do
+    {:ok, "ANON"}
   end
 end

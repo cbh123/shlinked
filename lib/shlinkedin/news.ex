@@ -12,6 +12,12 @@ defmodule Shlinkedin.News do
   alias Shlinkedin.Profiles.ProfileNotifier
   alias Shlinkedin.Points
 
+  def profile_allowed_to_delete?(%Profile{} = profile, %Article{} = article) do
+    article.profile_id == profile.id or profile.admin
+  end
+
+  def profile_allowed_to_delete?(nil, %Article{}), do: false
+
   def censor_article(%Article{} = article) do
     article
     |> Article.changeset(%{removed: true})
@@ -130,6 +136,10 @@ defmodule Shlinkedin.News do
     # could be optimized
     article = get_article_preload_votes!(article.id)
     broadcast({:ok, article}, :article_updated)
+  end
+
+  def is_first_vote_on_article?(nil, %Article{}) do
+    false
   end
 
   def is_first_vote_on_article?(%Profile{} = profile, %Article{} = article) do

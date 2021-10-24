@@ -27,6 +27,7 @@ defmodule Shlinkedin.Profiles do
   @doc """
   Checks whether profile is moderator.
   """
+  def is_moderator?(nil), do: false
   def is_moderator?(%Profile{admin: true}), do: true
   def is_moderator?(%Profile{id: nil}), do: false
 
@@ -40,6 +41,7 @@ defmodule Shlinkedin.Profiles do
   end
 
   def is_platinum?(%Profile{id: nil}), do: false
+  def is_platinum?(nil), do: false
 
   def is_platinum?(%Profile{} = profile) do
     list_awards(profile)
@@ -345,6 +347,8 @@ defmodule Shlinkedin.Profiles do
       from(p in Profile, where: p.featured == true, order_by: fragment("RANDOM()"), limit: ^count)
     )
   end
+
+  def is_admin?(nil), do: false
 
   def is_admin?(%Profile{} = profile) do
     Repo.one(from(p in Profile, where: p.id == ^profile.id, select: p.admin))
@@ -742,6 +746,8 @@ defmodule Shlinkedin.Profiles do
     Repo.all(from(p in Profile, where: p.id in ^mutual_ids, select: p))
   end
 
+  def check_between_friend_status(nil, %Profile{}), do: nil
+
   def check_between_friend_status(%Profile{} = from, %Profile{} = to) do
     if from.id == to.id do
       "me"
@@ -876,7 +882,13 @@ defmodule Shlinkedin.Profiles do
     from(p in Profile, where: p.slug == ^slug, select: p, preload: [:posts]) |> Repo.one()
   end
 
-  def change_profile(%Profile{} = profile, %User{id: user_id}, attrs \\ %{}) do
+  def change_profile(profile, user, attrs \\ %{})
+
+  def change_profile(nil, %User{id: user_id}, attrs) do
+    Profile.changeset(%Profile{}, attrs |> Map.put("user_id", user_id))
+  end
+
+  def change_profile(%Profile{} = profile, %User{id: user_id}, attrs) do
     Profile.changeset(profile, attrs |> Map.put("user_id", user_id))
   end
 

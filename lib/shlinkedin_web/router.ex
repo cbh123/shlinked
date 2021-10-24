@@ -88,11 +88,9 @@ defmodule ShlinkedinWeb.Router do
     live "/home/show:id/moderate/:action_id", HomeLive.Show, :edit_action
 
     # view and show posts
-    live "/home?type=:type", HomeLive.Index, :index
-    live "/", HomeLive.Index, :index
+
     live "/invite", HomeLive.Index, :new_invite
     live "/feedback", HomeLive.Index, :new_feedback
-    live "/home", HomeLive.Index, :index
     live "/home/invite", HomeLive.Index, :new_invite
     live "/home/posts/new", HomeLive.Index, :new
     live "/home/posts/:id/edit", HomeLive.Index, :edit
@@ -223,6 +221,11 @@ defmodule ShlinkedinWeb.Router do
 
     # platinum
     live "/platinum", PlatinumLive.Index, :index
+
+    # home page
+    live "/", HomeLive.Index, :index
+    live "/home?type=:type", HomeLive.Index, :index
+    live "/home", HomeLive.Index, :index
 
     # see post
     live "/home/show/posts/:id", HomeLive.Show, :show
