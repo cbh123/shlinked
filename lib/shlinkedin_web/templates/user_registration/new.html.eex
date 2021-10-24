@@ -55,6 +55,32 @@
                 <% end %>
             </div>
         </form>
+
+
+        <script async src="https://platform.twitter.com/widgets.js"
+            charset="utf-8">
+        </script>
+
+
+        <div class="">
+            <blockquote class="twitter-tweet">
+                <p lang="en" dir="ltr">I love making fun of this God-forsaken
+                    social
+                    media network, but <a
+                        href="https://twitter.com/ShlinkedIn?ref_src=twsrc%5Etfw">@ShlinkedIn</a>
+                    takes it a gigantic step further<br><br>Introducing a fully
+                    functioning satirical social network👇🏻<a
+                        href="https://t.co/kKgrnKy0IL">https://t.co/kKgrnKy0IL</a><br><br>Big
+                    names on the platform already include Beff Jezos, Tony Stark
+                    and
+                    God <a
+                        href="https://t.co/Lsimd2fU5F">pic.twitter.com/Lsimd2fU5F</a>
+                </p>&mdash; The Best of Linkedin (@BestofLinkedin) <a
+                    href="https://twitter.com/BestofLinkedin/status/1395444630217314304?ref_src=twsrc%5Etfw">May
+                    20, 2021</a>
+            </blockquote>
+        </div>
+
     </div>
 </div>
 <% end %>

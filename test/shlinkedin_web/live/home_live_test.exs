@@ -39,21 +39,14 @@ defmodule ShlinkedinWeb.HomeLiveTest do
     test "create ad as anon user", %{conn: conn} do
       {:ok, view, _html} = live(conn, Routes.home_index_path(conn, :index))
 
-      assert view |> element("a", "Create ad") |> render_click()
-      assert view |> render() =~ "You must join"
-    end
-
-    test "start group as anon user", %{conn: conn} do
-      {:ok, view, _html} = live(conn, Routes.home_index_path(conn, :index))
-
-      assert view |> element("a", "Start group") |> render_click()
+      assert view |> element("a", "Create Ad") |> render_click()
       assert view |> render() =~ "You must join"
     end
 
     test "write headlines as anon user", %{conn: conn} do
       {:ok, view, _html} = live(conn, Routes.home_index_path(conn, :index))
 
-      assert view |> element("a", "Write headline") |> render_click()
+      assert view |> element("a", "Write Headline") |> render_click()
       assert view |> render() =~ "You must join"
     end
 

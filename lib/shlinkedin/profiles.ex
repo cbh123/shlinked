@@ -882,7 +882,13 @@ defmodule Shlinkedin.Profiles do
     from(p in Profile, where: p.slug == ^slug, select: p, preload: [:posts]) |> Repo.one()
   end
 
-  def change_profile(%Profile{} = profile, %User{id: user_id}, attrs \\ %{}) do
+  def change_profile(profile, user, attrs \\ %{})
+
+  def change_profile(nil, %User{id: user_id}, attrs) do
+    Profile.changeset(%Profile{}, attrs |> Map.put("user_id", user_id))
+  end
+
+  def change_profile(%Profile{} = profile, %User{id: user_id}, attrs) do
     Profile.changeset(profile, attrs |> Map.put("user_id", user_id))
   end
 
