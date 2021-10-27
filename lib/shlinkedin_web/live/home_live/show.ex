@@ -5,10 +5,6 @@ defmodule ShlinkedinWeb.HomeLive.Show do
 
   @impl true
   def mount(%{"id" => id}, session, socket) do
-    if connected?(socket) do
-      Timeline.subscribe()
-    end
-
     post = Timeline.get_post_preload_all(id)
 
     socket = is_user(session, socket)
