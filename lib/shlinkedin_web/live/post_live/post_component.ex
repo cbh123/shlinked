@@ -233,19 +233,11 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     Shlinkedin.Profiles.is_moderator?(profile)
   end
 
-  defp get_num_reaction_likes(
-         nil,
-         %Timeline.Post{},
-         _like
-       ) do
+  defp get_num_reaction_likes(nil, %Timeline.Post{}, _like) do
     0
   end
 
-  defp get_num_reaction_likes(
-         %Profile{} = profile,
-         %Timeline.Post{} = post,
-         like
-       ) do
+  defp get_num_reaction_likes(%Profile{} = profile, %Timeline.Post{} = post, like) do
     if Ecto.assoc_loaded?(post.likes) do
       Enum.filter(post.likes, fn l ->
         l.profile_id == profile.id && l.like_type == like.like_type
