@@ -27,7 +27,6 @@ defmodule Shlinkedin.Badges do
     <%= if award.award_type.profile_badge and profile_badge_active(award) do %>
     <div class="inline-flex <%= award.award_type.color %>">
 
-
     <%= cond do %>
     <% award.award_type.name == "Platinum" or award.award_type.name == "Shplatinum" -> %>
     <span class="tooltip">

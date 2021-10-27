@@ -41,7 +41,10 @@
 
                     <div>
                         <%= link "ShlinkedIn", to: (if @current_user, do: "/home", else: "/join"), class: "text-xs text-blue-700 font-bold hidden sm:inline-flex" %>
-
+                        <%= if Shlinkedin.Profiles.is_platinum?(@profile) do %>
+                        <span
+                            class="font-bold text-xs inline-flex text-transparent bg-clip-text bg-gradient-to-tr from-blue-500 via-teal-400 to-green-300">Platinum</span>
+                        <% end %>
                         <p
                             class="text-xs italic text-gray-500 font-windows hidden sm:block">
                             <%= unless is_nil(Shlinkedin.Timeline.get_random_tagline) do %>
