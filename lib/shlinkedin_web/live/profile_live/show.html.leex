@@ -669,7 +669,7 @@
                     <div class="inline-block <%= award.award_type.color %>">
 
                         <%= cond do %>
-                        <% award.award_type.name == "Platinum" -> %>
+                        <% award.award_type.name == "Platinum" or award.award_type.name == "Shplatinum" -> %>
                         <img class="h-8 w-8"
                             src="<%= ShlinkedinWeb.Router.Helpers.static_path(@socket, "/images/platinum_png.png") %>">
 

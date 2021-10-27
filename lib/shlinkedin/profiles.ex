@@ -45,7 +45,7 @@ defmodule Shlinkedin.Profiles do
 
   def is_platinum?(%Profile{} = profile) do
     list_awards(profile)
-    |> Enum.find(&(&1.award_type.name == "Platinum"))
+    |> Enum.find(&(&1.award_type.name == "Platinum" or &1.award_type.name == "Shplatinum"))
     |> case do
       nil -> false
       _ -> true
