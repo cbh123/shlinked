@@ -267,17 +267,39 @@
                                                 <span class="sr-only">Open
                                                     headline
                                                     options</span>
+
                                                 <%= if @headline_options.type == "new" do %>
-                                                <span class="text-xs">🆕</span>
+                                                <div class="tooltip">
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="h-4 w-4 text-gray-500"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        stroke="currentColor">
+                                                        <path
+                                                            stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>
+                                                    <span
+                                                        class="tooltip-text">New
+                                                        Headlines</span>
+                                                </div>
                                                 <% else %>
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="h-4 w-4 text-gray-500"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor">
-                                                    <path fill-rule="evenodd"
-                                                        d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
-                                                        clip-rule="evenodd" />
-                                                </svg>
+                                                <div class="tooltip">
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="h-4 w-4 text-gray-500"
+                                                        viewBox="0 0 20 20"
+                                                        fill="currentColor">
+                                                        <path
+                                                            fill-rule="evenodd"
+                                                            d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
+                                                            clip-rule="evenodd" />
+                                                    </svg>
+                                                    <span class="tooltip-text">
+                                                        Most Clapped
+                                                        Headlines</span>
+                                                </div>
                                                 <% end %>
                                             </button>
                                         </div>
@@ -557,18 +579,38 @@
                                                         options</span>
 
                                                     <%= if @headline_options.type == "new" do %>
-                                                    <span
-                                                        class="text-xs">🆕</span>
+                                                    <div class="tooltip">
+                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                            class="h-4 w-4 text-gray-500"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            stroke="currentColor">
+                                                            <path
+                                                                stroke-linecap="round"
+                                                                stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                        </svg>
+                                                        <span
+                                                            class="tooltip-text">New
+                                                            Headlines</span>
+                                                    </div>
                                                     <% else %>
-                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                        class="h-4 w-4 text-gray-500"
-                                                        viewBox="0 0 20 20"
-                                                        fill="currentColor">
-                                                        <path
-                                                            fill-rule="evenodd"
-                                                            d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
-                                                            clip-rule="evenodd" />
-                                                    </svg>
+                                                    <div class="tooltip">
+                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                            class="h-4 w-4 text-gray-500"
+                                                            viewBox="0 0 20 20"
+                                                            fill="currentColor">
+                                                            <path
+                                                                fill-rule="evenodd"
+                                                                d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
+                                                                clip-rule="evenodd" />
+                                                        </svg>
+                                                        <span
+                                                            class="tooltip-text">
+                                                            Most Clapped
+                                                            Headlines</span>
+                                                    </div>
                                                     <% end %>
                                                 </button>
                                             </div>
