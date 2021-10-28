@@ -16,12 +16,6 @@ defmodule Shlinkedin.ProfilesTest do
     }
     @invalid_attrs %{body: nil, emoji: nil, gif_url: nil}
 
-    def endorsement_fixture(from, to, attrs \\ %{}) do
-      {:ok, endorsement} = Profiles.create_endorsement(from, to, attrs |> Enum.into(@valid_attrs))
-
-      endorsement
-    end
-
     setup do
       from = profile_fixture()
       to = profile_fixture()
@@ -104,6 +98,19 @@ defmodule Shlinkedin.ProfilesTest do
     test "change_endorsement/1 returns a endorsement changeset", %{from: from, to: to} do
       endorsement = endorsement_fixture(from, to)
       assert %Ecto.Changeset{} = Profiles.change_endorsement(endorsement)
+    end
+
+    test "delete user", %{user: user, to: to} do
+      profile = profile_fixture_user(user)
+      _endorsement = endorsement_fixture(profile, to)
+      _testimonial = testimonial_fixture(profile, to)
+      _view = profile_view_fixture(to, profile)
+
+      {:ok, _user} = Shlinkedin.Accounts.delete_user(user)
+
+      assert Profiles.get_profile_by_profile_id(profile.id)
+             |> Repo.preload(:user)
+             |> Map.get(:email) == nil
     end
   end
 end

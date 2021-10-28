@@ -33,6 +33,11 @@ defmodule Shlinkedin.Profiles.Profile do
       on_delete: :delete_all
     )
 
+    has_many(:endorsements, Shlinkedin.Profiles.Endorsement,
+      foreign_key: :from_profile_id,
+      on_delete: :delete_all
+    )
+
     field(:life_score, :string, default: "B+")
     field(:points, Money.Ecto.Amount.Type, default: Money.new(100, :SHLINK))
 

@@ -2,6 +2,7 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
   use ShlinkedinWeb, :live_view
   alias Shlinkedin.Profiles
   alias Shlinkedin.Profiles.Profile
+  alias Shlinkedin.Accounts
 
   @bio_placeholders [
     "My approach to business is simple: work hard at something everyday of your life and when you die you will have worked very hard and are a good boy! Then you get to eat all the marzipan your precious little heart could ever desire. Also, my cousin was on a flight next to Richard Branson once.",
@@ -39,8 +40,21 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
     {:ok,
      socket
      |> assign(changeset: changeset)
+     |> assign(token: session["user_token"])
+     |> assign(session: session)
      |> assign(bio_placeholder: @bio_placeholders |> Enum.random())
      |> assign(title_placeholder: @title_placeholders |> Enum.random())}
+  end
+
+  def handle_event("delete-account", _, socket) do
+    {:ok, _user} = Shlinkedin.Accounts.delete_user(socket.assigns.current_user)
+
+    Accounts.delete_session_token(socket.assigns.token)
+
+    {:noreply,
+     socket
+     |> put_flash(:info, "Deleted successfully")
+     |> push_redirect(to: "/join")}
   end
 
   def handle_event("save", %{"profile" => profile_params}, socket) do
