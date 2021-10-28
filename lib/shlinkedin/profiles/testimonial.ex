@@ -5,7 +5,7 @@ defmodule Shlinkedin.Profiles.Testimonial do
   schema "testimonials" do
     field :body, :string
     field :rating, :integer
-    field :from_profile_id, :id
+    belongs_to :profile, Shlinkedin.Profiles.Profile, foreign_key: :from_profile_id
     field :to_profile_id, :id
     field :relation, :string
     timestamps()

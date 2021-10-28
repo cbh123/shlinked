@@ -942,6 +942,21 @@ defmodule Shlinkedin.Profiles do
     |> Repo.update()
   end
 
+  def nullify_profile(%Profile{} = profile) do
+    profile
+    |> Profile.changeset(%{
+      persona_name: "deleted",
+      photo_url: nil,
+      cover_photo_url: nil,
+      life_score: nil,
+      point: 0,
+      verified: false,
+      spotify_song_url: nil,
+      summary: nil
+    })
+    |> Repo.update()
+  end
+
   defp after_save({:ok, profile}, func) do
     {:ok, _profile} = func.(profile)
   end

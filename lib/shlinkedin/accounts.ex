@@ -346,4 +346,35 @@ defmodule Shlinkedin.Accounts do
       {:error, :user, changeset, _} -> {:error, changeset}
     end
   end
+
+  @doc """
+  Nullify user email / password.
+  """
+  def nullify_user(%User{} = user) do
+    user
+    |> User.nullify_changeset(%{"email" => "null#{user.id}", "password" => "null"})
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a user and all associated data.
+  """
+  def delete_user(%User{} = user) do
+    try do
+      Repo.delete(user)
+    rescue
+      Postgrex.Error ->
+        user = Repo.preload(user, :profile)
+        {:ok, user} = nullify_user(user)
+        {:ok, _profile} = Shlinkedin.Profiles.nullify_profile(user.profile)
+
+        Shlinkedin.Email.new_email(
+          ["charlie@shlinkedin.com", "sam@shlinkedin.com"],
+          "User Deleted",
+          "User #{user.id} has been deleted. Make sure Profile is deleted too."
+        )
+
+        {:ok, user}
+    end
+  end
 end

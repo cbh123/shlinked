@@ -405,7 +405,6 @@
 
 
                 <div class="">
-
                     <%= number_input f, :ad_frequency, class: "focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md w-16"%>
                     <label for="ad_frequency"
                         class="text-sm font-medium text-gray-700 mt-4">Fake ad
@@ -415,12 +414,25 @@
                             before a fake ad?</span>
                     </label>
 
-
-
-
                     <p class="text-xs"><%= error_tag f, :ad_frequency %></p>
-
                 </div>
+
+
+
+                <%# Danger Zone %>
+                <div>
+                    <h5 class="font-bold text-lg mt-16 text-red-500">Danger Zone
+                    </h5>
+                    <hr class="my-4">
+                    <button type="button"
+                        data-confirm="This will delete all your data and cannot be undone. Are you sure?"
+                        phx-click="delete-account"
+                        class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-red-500 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Delete Account
+                    </button>
+                </div>
+
+
             </div>
             <div class="flex justify-end p-5">
                 <%= live_patch "Cancel", to: Routes.profile_show_path(@socket, :show, @profile.slug), class: "ml-3 mt-6 inline-flex justify-center py-2 px-4 border border-blue-600 shadow-sm text-sm font-medium rounded-full text-blue-600 bg-white hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>

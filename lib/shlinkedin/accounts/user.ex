@@ -8,7 +8,7 @@ defmodule Shlinkedin.Accounts.User do
     field :password, :string, virtual: true
     field :hashed_password, :string
     field :confirmed_at, :naive_datetime
-    has_one :profile, Shlinkedin.Profiles.Profile
+    has_one :profile, Shlinkedin.Profiles.Profile, on_delete: :delete_all
     timestamps()
   end
 
@@ -34,6 +34,11 @@ defmodule Shlinkedin.Accounts.User do
     |> cast(attrs, [:email, :password])
     |> validate_email()
     |> validate_password(opts)
+  end
+
+  def nullify_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:email, :password])
   end
 
   defp validate_email(changeset) do
