@@ -49,7 +49,7 @@ defmodule ShlinkedinWeb.EditProfileLiveTest do
     {:error, :nosession} =
       view
       |> render_click("delete-account")
-      |> follow_redirect(conn, "/join")
+      |> follow_redirect(conn)
 
     assert Profiles.get_profile_by_profile_id(profile.id)
            |> Repo.preload(:user) == nil
