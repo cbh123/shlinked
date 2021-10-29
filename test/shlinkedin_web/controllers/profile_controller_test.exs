@@ -9,9 +9,9 @@ defmodule ShlinkedinWeb.ProfileControllerTest do
   end
 
   describe "show_profile" do
-    test "shows profile data", %{conn: conn, profile: %Profile{slug: slug} = profile} do
-      conn = get(conn, Routes.profile_path(conn, :show, profile.slug))
-      assert %{"slug" => ^slug} = json_response(conn, 200)["data"]
+    test "shows profile data", %{conn: conn, profile: %Profile{slug: slug, id: id} = profile} do
+      conn = get(conn, Routes.profile_path(conn, :show, slug))
+      assert %{"id" => ^id} = json_response(conn, 200)["data"]
     end
   end
 end
