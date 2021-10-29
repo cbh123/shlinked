@@ -1,6 +1,6 @@
 defmodule ShlinkedinWeb.ProfileView do
   use ShlinkedinWeb, :view
-  alias ShlinkedinWeb.{EndorsementView, TestimonialView, ProfileView, PostView}
+  alias ShlinkedinWeb.{EndorsementView, TestimonialView, ProfileView, PostView, AdView}
   alias Shlinkedin.Profiles
   alias Shlinkedin.Ads
 
@@ -12,10 +12,14 @@ defmodule ShlinkedinWeb.ProfileView do
     %{data: render_one(profile, ProfileView, "profile_all.json")}
   end
 
+  def render("gallery.json", %{ads: ads}) do
+    %{data: render_many(ads, AdView, "ad.json")}
+  end
+
   def render("profile_all.json", %{profile: profile}) do
     endorsements = Profiles.list_endorsements(profile.id)
     reviews = Profiles.list_testimonials(profile.id)
-    ads = Ads.list_owned_ads(profile.id, page: 1, per_page: 10000)
+    ads = Ads.list_owned_ads(profile, paginate: %{page: 1, per_page: 10000})
 
     %{
       id: profile.id,
@@ -27,7 +31,7 @@ defmodule ShlinkedinWeb.ProfileView do
       posts: render_many(profile.posts, PostView, "post.json"),
       endorsements: render_many(endorsements, EndorsementView, "endorsement.json"),
       reviews: render_many(reviews, TestimonialView, "testimonial.json"),
-      gallery: render_many(ads, TestimonialView, "testimonial.json")
+      gallery: render_many(ads, AdView, "ad.json")
     }
   end
 
