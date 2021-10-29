@@ -13,7 +13,7 @@ defmodule ShlinkedinWeb.EndorsementView do
     %{
       body: endorsement.body,
       from_profile: from_profile_name,
-      created_at: endorsement.created_at
+      updated_at: endorsement.updated_at
     }
   end
 end

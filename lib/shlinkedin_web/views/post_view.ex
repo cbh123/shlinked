@@ -13,7 +13,7 @@ defmodule ShlinkedinWeb.PostView do
       gif_url: post.gif_url,
       featured: post.featured,
       pinned: post.pinned,
-      created_at: post.created_at
+      updated_at: post.updated_at
     }
   end
 end

@@ -1,16 +1,21 @@
 defmodule ShlinkedinWeb.ProfileView do
   use ShlinkedinWeb, :view
-  alias ShlinkedinWeb.ProfileView
-  alias ShlinkedinWeb.EndorsementView
-  alias ShlinkedinWeb.PostView
+  alias ShlinkedinWeb.{EndorsementView, TestimonialView, ProfileView, PostView}
   alias Shlinkedin.Profiles
+  alias Shlinkedin.Ads
 
   def render("show.json", %{profile: profile}) do
-    %{data: render_one(profile, ProfileView, "profile_with_post.json")}
+    %{data: render_one(profile, ProfileView, "profile.json")}
   end
 
-  def render("profile_with_post.json", %{profile: profile}) do
-    profile = Shlinkedin.Repo.preload(profile, :posts)
+  def render("show_all.json", %{profile: profile}) do
+    %{data: render_one(profile, ProfileView, "profile_all.json")}
+  end
+
+  def render("profile_all.json", %{profile: profile}) do
+    endorsements = Profiles.list_endorsements(profile.id)
+    reviews = Profiles.list_testimonials(profile.id)
+    ads = Ads.list_owned_ads(profile.id, page: 1, per_page: 10000)
 
     %{
       id: profile.id,
@@ -20,7 +25,9 @@ defmodule ShlinkedinWeb.ProfileView do
       isPlatinum: Profiles.is_platinum?(profile),
       isModerator: Profiles.is_moderator?(profile),
       posts: render_many(profile.posts, PostView, "post.json"),
-      endorsements: render_many(profile.endorsements, EndorsementView, "endorsement.json")
+      endorsements: render_many(endorsements, EndorsementView, "endorsement.json"),
+      reviews: render_many(reviews, TestimonialView, "testimonial.json"),
+      gallery: render_many(ads, TestimonialView, "testimonial.json")
     }
   end
 
@@ -33,10 +40,5 @@ defmodule ShlinkedinWeb.ProfileView do
       isPlatinum: Profiles.is_platinum?(profile),
       isModerator: Profiles.is_moderator?(profile)
     }
-  end
-
-  def render_posts(posts) do
-    posts |> Enum.slice(0..3) |> IO.inspect(label: "")
-    %{data: render_many(posts, ProfileView, "post.json")}
   end
 end
