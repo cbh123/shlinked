@@ -866,7 +866,7 @@ defmodule Shlinkedin.Profiles do
   Returns profile | nil
   """
   def get_profile_by_profile_id(profile_id) do
-    from(p in Profile, where: p.id == ^profile_id, select: p) |> Repo.one()
+    from(p in Profile, where: p.id == ^profile_id) |> Repo.one()
   end
 
   def get_profile_by_profile_id_preload_user(profile_id) do
@@ -879,7 +879,11 @@ defmodule Shlinkedin.Profiles do
   end
 
   def get_profile_by_slug(slug) do
-    from(p in Profile, where: p.slug == ^slug, select: p, preload: [:posts]) |> Repo.one()
+    Repo.get_by(Profile, slug: slug)
+  end
+
+  def get_profile_by_slug!(slug) do
+    Repo.get_by!(Profile, slug: slug)
   end
 
   def change_profile(profile, user, attrs \\ %{})
