@@ -48,7 +48,7 @@ defmodule Shlinkedin.Moderation do
   defp uncensor(%Post{} = post), do: Timeline.uncensor_post(post)
   defp uncensor(%Ad{} = ad), do: Ads.uncensor_ad(ad)
   defp uncensor(%Article{} = article), do: News.uncensor_article(article)
-  defp uncensor(%Comment{} = post), do: Timeline.uncensor_post(post)
+  defp uncensor(%Comment{} = comment), do: Timeline.uncensor_comment(comment)
 
   @doc """
   Returns the list of mod_actions.

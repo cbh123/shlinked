@@ -19,6 +19,8 @@ defmodule ShlinkedinWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+
+    get "/v1/sh/:slug", ShlinkedinWeb.ProfileController, :show
   end
 
   pipeline :admins_only do
