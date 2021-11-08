@@ -264,7 +264,7 @@ defmodule Shlinkedin.Profiles do
 
   defp get_god_profile(nil) do
     {:ok, user} =
-      Shlinkedin.Accounts.register_user(%{email: "god@shlinkedin.com", password: "god"})
+      Shlinkedin.Accounts.register_user(%{email: "god@shlinkedin.com", password: "bloop"})
 
     {:ok, profile} =
       create_profile(user, %{
