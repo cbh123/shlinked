@@ -6,8 +6,6 @@
 @import "tailwindcss/utilities";
 /* This file is for your main application css. */
 
-@import "../node_modules/nprogress/nprogress.css";
-
 
 @layer components {
     .tooltip .tooltip-text {
