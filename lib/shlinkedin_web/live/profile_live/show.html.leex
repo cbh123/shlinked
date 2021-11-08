@@ -1,7 +1,4 @@
 <div class="relative">
-
-
-
     <%= if @from_notifications do %>
     <div class=" max-w-2xl mx-auto font-windows z-10">
         <%= live_redirect raw("&larr; Back to Dinks"), to: Routes.notification_index_path(@socket, :index),

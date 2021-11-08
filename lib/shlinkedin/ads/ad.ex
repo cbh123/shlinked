@@ -52,7 +52,7 @@ defmodule Shlinkedin.Ads.Ad do
     |> validate_length(:overlay, max: 50)
     |> validate_money(:price)
   end
-  
+
   defp validate_money(changeset, field) do
     validate_change(changeset, field, fn
       _, %Money{amount: amount} when amount > 0 -> []
