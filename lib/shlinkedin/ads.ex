@@ -14,7 +14,7 @@ defmodule Shlinkedin.Ads do
 
   @ad_cooldown_in_seconds -3600
   @ad_cost_pct 0.25
-  @max_ads_per_hour 30
+  @max_ads_per_hour 3
 
   @doc """
   Gets total count of ads
