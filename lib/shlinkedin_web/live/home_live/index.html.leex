@@ -248,107 +248,33 @@
 
                     <div class="block sm:w-72 w-full">
 
-                        <div class="flex justify-between px-5 pb-3">
-
-
-                            <div class="inline-flex">
-                                <div x-data="{open: false}"
-                                    class="inline-flex justify-end items-center pr-2 static inset-auto">
-
-                                    <!-- Headline sorter options -->
-                                    <div class="relative">
-                                        <div>
-                                            <button type="button"
-                                                @click="open = !open"
-                                                class="hover:bg-gray-200 flex p-1 text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                                                id="headline-sorter-button"
-                                                aria-expanded="false"
-                                                aria-haspopup="true">
-                                                <span class="sr-only">Open
-                                                    headline
-                                                    options</span>
-
-                                                <%= if @headline_options.type == "new" do %>
-                                                <div class="tooltip">
-                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                        class="h-4 w-4 text-gray-500"
-                                                        fill="none"
-                                                        viewBox="0 0 24 24"
-                                                        stroke="currentColor">
-                                                        <path
-                                                            stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                    </svg>
-                                                    <span
-                                                        class="tooltip-text">New
-                                                        Headlines</span>
-                                                </div>
-                                                <% else %>
-                                                <div class="tooltip">
-                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                        class="h-4 w-4 text-gray-500"
-                                                        viewBox="0 0 20 20"
-                                                        fill="currentColor">
-                                                        <path
-                                                            fill-rule="evenodd"
-                                                            d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
-                                                            clip-rule="evenodd" />
-                                                    </svg>
-                                                    <span class="tooltip-text">
-                                                        Most Clapped
-                                                        Headlines</span>
-                                                </div>
-                                                <% end %>
-                                            </button>
-                                        </div>
-                                        <div x-show="open" x-transition
-                                            class="origin-top-left absolute p-5 left-0 mt-2 w-72 z-10 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
-                                            role="menu"
-                                            aria-orientation="vertical"
-                                            aria-labelledby="headline-sorter-button"
-                                            tabindex="-1">
-                                            <%# Headline sorter  %>
-                                            <div class="py-3">
-                                                <h5
-                                                    class="text-sm font-semibold pl-2 pb-2">
-                                                    Sort Headlines by...
-                                                </h5>
-                                                <form
-                                                    phx-change="sort-headlines"
-                                                    id="sort-headlines"
-                                                    class="mx-auto text-gray-500 text-xs flex">
-                                                    <div class="mr-3">
-                                                        <select
-                                                            id="select-headline-type"
-                                                            name="type"
-                                                            class="text-sm bg-gray-100 px-2 py-1 pr-8 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
-                                                            <%= options_for_select(["New": "new", "Most Claps": "reactions"], @headline_options.type) %>
-                                                        </select>
-                                                    </div>
-                                                    <div>
-                                                        <select
-                                                            id="select-headline-time"
-                                                            name="time"
-                                                            class="<%= unless @headline_options.type == "reactions", do: "hidden" %> bg-gray-100 text-sm px-2 py-1 pr-6 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
-
-                                                            <%= options_for_select(["Hour": "hour", "Today": "today", "This Week": "week", "This Month": "month", "All Time": "all_time"], @headline_options.time) %>
-                                                        </select>
-                                                    </div>
-                                                </form>
-                                                <div class="text-right mt-4">
-                                                    <button @click="open= false"
-                                                        class="text-sm px-2 py-0.5 rounded-lg hover:bg-blue-600 bg-blue-500 w-full text-white">Done</button>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="flex justify-between px-5">
+                            <p class="font-bold">ShlinkNews </p>
+                            <div class="text-right">
+                              <form phx-change="sort-headlines"
+                                id="sort-headlines"
+                                class="mx-auto text-gray-500 text-xs flex">
+                                <div class="mr-3">
+                                    <select
+                                        id="select-headline-type"
+                                        name="type"
+                                        class="text-sm bg-gray-100 px-2 py-1 pr-8 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
+                                        <%= options_for_select(["New": "new", "Claps": "reactions"], @headline_options.type) %>
+                                    </select>
                                 </div>
-                                <p class="font-bold">ShlinkNews </p>
-                            </div>
+                                <div>
+                                    <select
+                                        id="select-headline-time"
+                                        name="time"
+                                        class="<%= unless @headline_options.type == "reactions", do: "hidden" %> bg-gray-100 text-sm px-2 py-1 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
 
+                                        <%= options_for_select(["Hour": "hour", "Today": "today", "This Week": "week", "This Month": "month", "All Time": "all_time"], @headline_options.time) %>
+                                    </select>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                        <div class="px-5 py-2">
 
                         </div>
 
@@ -559,111 +485,33 @@
                             <!-- Desktop News  -->
 
                             <%# Headline sorter button %>
-                            <div class="flex justify-between px-5 pt-5 pb-2">
-                                <div class="inline-flex">
-                                    <div x-data="{open: false}"
-                                        class="inline-flex justify-end items-center pr-2 static inset-auto">
-
-
-                                        <!-- Headline sorter options -->
-                                        <div class="relative">
-                                            <div>
-                                                <button type="button"
-                                                    @click="open = !open"
-                                                    class="hover:bg-gray-200 flex p-1 text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                                                    id="headline-sorter-button"
-                                                    aria-expanded="false"
-                                                    aria-haspopup="true">
-                                                    <span class="sr-only">Open
-                                                        headline
-                                                        options</span>
-
-                                                    <%= if @headline_options.type == "new" do %>
-                                                    <div class="tooltip">
-                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                            class="h-4 w-4 text-gray-500"
-                                                            fill="none"
-                                                            viewBox="0 0 24 24"
-                                                            stroke="currentColor">
-                                                            <path
-                                                                stroke-linecap="round"
-                                                                stroke-linejoin="round"
-                                                                stroke-width="2"
-                                                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                        </svg>
-                                                        <span
-                                                            class="tooltip-text">New
-                                                            Headlines</span>
-                                                    </div>
-                                                    <% else %>
-                                                    <div class="tooltip">
-                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                            class="h-4 w-4 text-gray-500"
-                                                            viewBox="0 0 20 20"
-                                                            fill="currentColor">
-                                                            <path
-                                                                fill-rule="evenodd"
-                                                                d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
-                                                                clip-rule="evenodd" />
-                                                        </svg>
-                                                        <span
-                                                            class="tooltip-text">
-                                                            Most Clapped
-                                                            Headlines</span>
-                                                    </div>
-                                                    <% end %>
-                                                </button>
-                                            </div>
-                                            <div x-show="open" x-transition
-                                                class="origin-top-left absolute p-5 left-0 mt-2 w-72 z-10 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
-                                                role="menu"
-                                                aria-orientation="vertical"
-                                                aria-labelledby="headline-sorter-button"
-                                                tabindex="-1">
-                                                <%# Headline sorter  %>
-                                                <div class="py-3">
-                                                    <h5
-                                                        class="text-sm font-semibold pl-2 pb-2">
-                                                        Sort Headlines by...
-                                                    </h5>
-                                                    <form
-                                                        phx-change="sort-headlines"
-                                                        id="sort-headlines"
-                                                        class="mx-auto text-gray-500 text-xs flex">
-                                                        <div class="mr-3">
-                                                            <select
-                                                                id="select-headline-type"
-                                                                name="type"
-                                                                class="text-sm bg-gray-100 px-2 py-1 pr-8 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
-                                                                <%= options_for_select(["New": "new", "Most Claps": "reactions"], @headline_options.type) %>
-                                                            </select>
-                                                        </div>
-                                                        <div>
-                                                            <select
-                                                                id="select-headline-time"
-                                                                name="time"
-                                                                class="<%= unless @headline_options.type == "reactions", do: "hidden" %> bg-gray-100 text-sm px-2 py-1 pr-6 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
-
-                                                                <%= options_for_select(["Hour": "hour", "Today": "today", "This Week": "week", "This Month": "month", "All Time": "all_time"], @headline_options.time) %>
-                                                            </select>
-                                                        </div>
-                                                    </form>
-                                                    <div
-                                                        class="text-right mt-4">
-                                                        <button
-                                                            @click="open = false"
-                                                            class="text-sm px-2 py-0.5 rounded-lg hover:bg-blue-600 bg-blue-500 w-full text-white">Done</button>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p class="font-bold">ShlinkNews </p>
-                                </div>
-
+                            <div class="flex justify-between px-5 pt-5">
+                                <p class="font-bold">ShlinkNews </p>
                                 <%= live_patch "+ Headline", to: Routes.home_index_path(@socket, :new_article), class: "text-xs text-green-800 font-semibold bg-green-100 px-2 py-1 rounded-lg hover:bg-green-200"  %>
+                            </div>
 
+                            <div class="px-5 py-2">
+                             <form phx-change="sort-headlines"
+                                id="sort-headlines"
+                                class="mx-auto text-gray-500 text-xs flex">
+                                <div class="mr-3">
+                                    <select
+                                        id="select-headline-type"
+                                        name="type"
+                                        class="text-sm bg-gray-100 px-2 py-1 pr-8 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
+                                        <%= options_for_select(["New": "new", "Claps": "reactions"], @headline_options.type) %>
+                                    </select>
+                                </div>
+                                <div>
+                                    <select
+                                        id="select-headline-time"
+                                        name="time"
+                                        class="<%= unless @headline_options.type == "reactions", do: "hidden" %> bg-gray-100 text-sm px-2 py-1 pr-6 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
+
+                                        <%= options_for_select(["Hour": "hour", "Today": "today", "This Week": "week", "This Month": "month", "All Time": "all_time"], @headline_options.time) %>
+                                    </select>
+                                </div>
+                            </form>
                             </div>
 
 
@@ -727,7 +575,7 @@
 
                         <!-- Callout -->
                         <section aria-labelledby="sale-heading"
-                            class="relative -mt-20 mx-auto pt-24 px-4 flex flex-col items-center text-center sm:px-6 lg:px-8">
+                            class="relative -mt-20 mx-auto py-24 px-4 flex flex-col items-center text-center sm:px-6 lg:px-8">
                             <div class="max-w-2xl mx-auto lg:max-w-none">
                                 <span
                                     class="block text-sm font-semibold uppercase tracking-wide text-gray-500 sm:text-base lg:text-sm xl:text-base">Support

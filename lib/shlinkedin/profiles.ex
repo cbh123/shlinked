@@ -262,9 +262,20 @@ defmodule Shlinkedin.Profiles do
     |> get_god_profile()
   end
 
-  defp get_god_profile(nil),
-    do:
-      Shlinkedin.ProfilesFixtures.profile_fixture(%{"username" => "god", "points" => 10_000_000})
+  defp get_god_profile(nil) do
+    {:ok, user} =
+      Shlinkedin.Accounts.register_user(%{email: "god@shlinkedin.com", password: "bloop"})
+
+    {:ok, profile} =
+      create_profile(user, %{
+        "persona_name" => "god",
+        "slug" => "god",
+        "title" => "god",
+        "username" => "god"
+      })
+
+    profile
+  end
 
   defp get_god_profile(god), do: god
 

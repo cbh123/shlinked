@@ -38,21 +38,22 @@ defmodule Shlinkedin.MixProject do
   defp deps do
     [
       {:bcrypt_elixir, "~> 2.0"},
-      {:phoenix, "~> 1.5.4"},
-      {:phoenix_ecto, "~> 4.1"},
-      {:ecto_sql, "~> 3.4"},
+      {:phoenix, "~> 1.6.2"},
+      {:phoenix_ecto, "~> 4.4"},
+      {:ecto_sql, "~> 3.6"},
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_live_view, "~> 0.15.3"},
-      {:floki, ">= 0.27.0", only: :test},
-      {:phoenix_html, "~> 2.11"},
+      {:phoenix_html, "~> 3.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_dashboard, "~> 0.2"},
-      {:telemetry_metrics, "~> 0.4"},
-      {:telemetry_poller, "~> 0.4"},
-      {:gettext, "~> 0.11"},
-      {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"},
-      {:phx_gen_auth, "~> 0.6", only: [:dev], runtime: false},
+      {:phoenix_live_view, "~> 0.16.0"},
+      {:floki, ">= 0.30.0", only: :test},
+      {:phoenix_live_dashboard, "~> 0.5"},
+      {:esbuild, "~> 0.2", runtime: Mix.env() == :dev},
+      {:swoosh, "~> 1.3"},
+      {:telemetry_metrics, "~> 0.6"},
+      {:telemetry_poller, "~> 1.0"},
+      {:gettext, "~> 0.18"},
+      {:jason, "~> 1.2"},
+      {:plug_cowboy, "~> 2.5"},
       {:timex, "~> 3.5"},
       {:ordinal, "~> 0.1.0"},
       {:httpoison, "~> 1.7"},
@@ -73,10 +74,15 @@ defmodule Shlinkedin.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get", "ecto.setup", "cmd npm install --prefix assets"],
+      setup: ["deps.get", "ecto.setup", "cmd --cd assets npm install"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      "assets.deploy": [
+        "cmd --cd assets npm run deploy-tailwind",
+        "esbuild default --minify",
+        "phx.digest"
+      ]
     ]
   end
 end
