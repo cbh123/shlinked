@@ -144,7 +144,7 @@ defmodule ShlinkedinWeb.UserAuthTest do
         |> UserAuth.require_authenticated_user([])
 
       assert halted_conn.halted
-      assert get_session(halted_conn, :user_return_to) == "/foo"
+      assert get_session(halted_conn, :user_return_to) == "/"
 
       halted_conn =
         %{conn | request_path: "/foo", query_string: "bar=baz"}
@@ -152,7 +152,7 @@ defmodule ShlinkedinWeb.UserAuthTest do
         |> UserAuth.require_authenticated_user([])
 
       assert halted_conn.halted
-      assert get_session(halted_conn, :user_return_to) == "/foo?bar=baz"
+      assert get_session(halted_conn, :user_return_to) == "/?bar=baz"
 
       halted_conn =
         %{conn | request_path: "/foo?bar", method: "POST"}
