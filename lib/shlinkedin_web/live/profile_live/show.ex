@@ -431,7 +431,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
 
   defp calc_max_gallery_pages(profile, per_page) do
     total_ads = Ads.get_num_owned_ads(profile)
-    trunc(total_ads / per_page)
+    Float.ceil(total_ads / per_page)
   end
 
   defp parse_spotify_url(%Profile{spotify_song_url: nil}), do: nil
