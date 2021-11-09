@@ -95,7 +95,7 @@ defmodule ShlinkedinWeb.OnboardLiveTest do
     {:ok, conn} =
       view
       |> form("#profile-form",
-        profile: %{}
+        profile: %{persona_name: "Charlie B", username: "charlie"}
       )
       |> render_submit()
       |> follow_redirect(conn, "/home%3Ftype%3Dfeatured")
