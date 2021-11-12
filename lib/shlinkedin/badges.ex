@@ -30,8 +30,9 @@ defmodule Shlinkedin.Badges do
     <%= cond do %>
     <% award.award_type.name == "Platinum" or award.award_type.name == "Shplatinum" -> %>
     <span class="tooltip">
-    <img class="h-4 w-4 my-0.5"
-    src="<%= ShlinkedinWeb.Router.Helpers.static_path(assigns, "/images/platinum_png.png") %>">
+    <span style="padding: 1px; --tw-gradient-to: #19f2a3" class="w-4 h-4 my-0.5 rounded text-xs text-white font-medium bg-gradient-to-tr from-blue-400 to-green-400 ">
+     sh
+    </span>
     <span class="tooltip-text">
       ShlinkedIn Platinum
     </span>
