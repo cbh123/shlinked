@@ -667,8 +667,11 @@
 
                         <%= cond do %>
                         <% award.award_type.name == "Platinum" or award.award_type.name == "Shplatinum" -> %>
-                        <img class="h-8 w-8"
-                            src="<%= ShlinkedinWeb.Router.Helpers.static_path(@socket, "/images/platinum_png.png") %>">
+                            <div class="text-lg">
+                            <span style="padding: 1px; --tw-gradient-to: #19f2a3" class="rounded text-white font-medium bg-gradient-to-tr from-blue-400 to-green-400 ">
+                            sh
+                            </span>
+                            </div>
 
 
                         <% award.award_type.image_format == "svg" ->  %>
