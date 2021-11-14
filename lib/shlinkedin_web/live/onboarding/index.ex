@@ -28,16 +28,32 @@ defmodule ShlinkedinWeb.OnboardingLive.Index do
         external: &presign_entry/2
       )
 
-    changeset = Profiles.change_profile_no_user(%Profile{})
+    profile = %Profile{}
+    changeset = Profiles.change_profile(profile)
 
     {:ok,
      socket
      |> assign(
-       step: 1,
+       step: 3,
        changeset: changeset,
+       profile: profile,
        bio_placeholder: @bio_placeholders |> Enum.random(),
        title_placeholder: @title_placeholders |> Enum.random()
      )}
+  end
+
+  def handle_event("inspire", _params, socket) do
+    persona_name = Shlinkedin.Timeline.Generators.full_name()
+    photo = Shlinkedin.Timeline.Generators.profile_photo()
+    username = persona_name |> Shlinkedin.Timeline.Generators.slugify()
+
+    changeset =
+      socket.assigns.changeset
+      |> Ecto.Changeset.put_change(:persona_name, persona_name)
+      |> Ecto.Changeset.put_change(:photo_url, photo)
+      |> Ecto.Changeset.put_change(:username, username)
+
+    {:noreply, assign(socket, :changeset, changeset)}
   end
 
   def handle_event("prev-step", _value, socket) do
@@ -64,7 +80,7 @@ defmodule ShlinkedinWeb.OnboardingLive.Index do
 
   def handle_event("validate", params, socket) do
     changeset =
-      Profiles.change_profile_no_user(
+      Profiles.change_profile(
         socket.assigns.profile,
         params["profile"]
       )
