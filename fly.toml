@@ -1,4 +1,6 @@
-app = "fly-elixir"
+# fly.toml file generated for lingering-grass-5592 on 2021-11-23T17:01:22-07:00
+
+app = "lingering-grass-5592"
 
 kill_signal = "SIGTERM"
 kill_timeout = 5
@@ -34,7 +36,7 @@ processes = []
     port = 443
 
   [[services.tcp_checks]]
-    grace_period = "30s"  # allow some time for startup
+    grace_period = "30s"
     interval = "15s"
     restart_limit = 0
     timeout = "2s"
