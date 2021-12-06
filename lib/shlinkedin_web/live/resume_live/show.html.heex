@@ -1,4 +1,11 @@
-   <%= live_component ShlinkedinWeb.ResumeLive.ResumeComponent,
+<div class="text-center my-3 mb-10">
+    <%= live_redirect raw("&larr; Try the resume generator"), to: Routes.resume_index_path(@socket, :index), class: "inline-flex items-center px-6 py-3 text-base font-medium rounded-md text-blue-700  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+
+    <h5 class="text-xl italic font-semibold"><%= @name %>'s Brand New Resume! </h5>
+</div>
+
+
+<%= live_component ShlinkedinWeb.ResumeLive.ResumeComponent,
             id: "resume",
             name: @name,
             address: @address,
@@ -19,27 +26,31 @@
             reference: @reference
         %>
 
+<div class="text-center mt-10">
+    <%= live_redirect raw("&larr; Try the resume generator"), to: Routes.resume_index_path(@socket, :index), class: "inline-flex items-center px-6 py-3 text-base font-medium rounded-md text-blue-700  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+</div>
 
-   <div class="max-w-prose mx-auto text-center">
-       <div class="mx-auto py-16 mb-30 pb-36 px-4 sm:px-6 lg:px-8 text-center">
-           <div class="bg-blue-700 rounded-lg shadow-xl overflow-hidden">
-               <div class="pt-10 pb-12 px-6 sm:pt-16 sm:px-16 lg:py-16">
-                   <div class="self-center">
-                       <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
-                           <span class="">Start Shlinkin'</span>
-                       </h2>
-                       <p class="mt-4 text-lg leading-6 text-indigo-200">
-                           Join ShlinkedIn to post your content, earn some
-                           ShlinkPoints, and get
-                           #inspired.
-                       </p>
 
-                       <%= live_redirect "Join for free", to: Routes.user_registration_path(@socket, :new), class: "mt-8 bg-white border border-transparent rounded-md shadow px-5 py-3 inline-flex items-center text-base font-medium text-blue-600 hover:bg-indigo-50" %>
-                       <%= live_redirect "Explore", to: Routes.home_index_path(@socket, :index), class: "ml-2 mt-8 bg-blue-400 border border-transparent rounded-md shadow px-5 py-3 inline-flex items-center text-base font-medium text-white hover:bg-blue-500" %>
+<div class="max-w-prose mx-auto text-center">
+    <div class="mx-auto py-16 mb-30 pb-36 px-4 sm:px-6 lg:px-8 text-center">
+        <div class="bg-blue-700 rounded-lg shadow-xl overflow-hidden">
+            <div class="pt-10 pb-12 px-6 sm:pt-16 sm:px-16 lg:py-16">
+                <div class="self-center">
+                    <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                        <span class="">Start Shlinkin'</span>
+                    </h2>
+                    <p class="mt-4 text-lg leading-6 text-indigo-200">
+                        Join ShlinkedIn to post your content, earn some
+                        ShlinkPoints, and get
+                        #inspired.
+                    </p>
 
-                   </div>
-               </div>
+                    <%= live_redirect "Join for free", to: Routes.user_registration_path(@socket, :new), class: "mt-8 bg-white border border-transparent rounded-md shadow px-5 py-3 inline-flex items-center text-base font-medium text-blue-600 hover:bg-indigo-50" %>
+                    <%= live_redirect "Explore", to: Routes.home_index_path(@socket, :index), class: "ml-2 mt-8 bg-blue-400 border border-transparent rounded-md shadow px-5 py-3 inline-flex items-center text-base font-medium text-white hover:bg-blue-500" %>
 
-           </div>
-       </div>
-   </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

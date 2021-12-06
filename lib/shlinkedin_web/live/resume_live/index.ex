@@ -10,7 +10,8 @@ defmodule ShlinkedinWeb.ResumeLive.Index do
        page_title: "Try the ShlinkedIn Resume Generator",
        created: false,
        spin: false,
-       confetti: false
+       confetti: false,
+       name: ""
      )}
   end
 
@@ -50,6 +51,12 @@ defmodule ShlinkedinWeb.ResumeLive.Index do
   end
 
   @impl true
+  def handle_event("change-name", %{"name" => name}, socket) do
+    socket = assign(socket, name: name)
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_event("create-resume", _, socket) do
     company_name1 = Generators.company_name()
     company_name2 = Generators.company_name()
@@ -61,7 +68,7 @@ defmodule ShlinkedinWeb.ResumeLive.Index do
       socket
       |> assign(spin: true, confetti: false, created: true)
       |> assign(
-        name: Generators.full_name(),
+        name: socket.assigns.name,
         photo: Generators.profile_photo(),
         address: Generators.address(),
         education: Generators.institution(),

@@ -4,30 +4,38 @@
             ShlinkedIn Resume Assistant Platinum Ultra 2.0™
         </h3>
 
-        <p class="text-gray-500 max-w-sm mx-auto">We've developed a new AI that utilizes a blockchain vertically
-            integrated solution for
-            creating your
-            next resume.</p>
+        <p class="text-gray-500 max-w-sm mx-auto">Looking for a new role? Our AI-driven resume generator, build on
+            blockchain technology, can help.</p>
 
         <div class="text-center mt-3">
-            <button type="button" phx-click="create-resume"
-                class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                Create a new resume
-            </button>
+            <form id="resume-form" phx-submit="create-resume" phx-change="change-name" class="text-center">
+                <input required autofocus="true" id="name-value" type="text" name="name" value={@name}
+                    placeholder="Your Name"
+                    class="my-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 block border-gray-300 rounded-md px-3 mx-auto">
 
-            <%= if @created and not @spin do %>
-            <button type="button" phx-click="share-resume"
-                class="inline-flex items-center px-6 py-3 border-2 text-base font-medium rounded-md shadow-sm text-blue-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                Share my resume &rarr;
-            </button>
-            <% end %>
+                <button phx-disable-with="Generating..." type=" submit" class={"items-center px-6 py-3 border
+                    border-transparent text-base font-medium rounded-md shadow-sm text-white #{if @spin,
+                    do: "bg-gray-500" , else: "bg-blue-600  hover:bg-blue-700" } focus:outline-none focus:ring-2
+                    focus:ring-offset-2 focus:ring-blue-500"}>
+                    <%= if @spin do %>
+                    <%= ["Generating...", "Co-agulating...", "Mining Bitcoin...", "Foraging...", "Scheming...", "Finding new identity...", "Bleep bloop...", "Initializing Blockchain..."] |> Enum.random() %>
+                    <% else  %>
+                    Create <%= if @created and not @spin, do: "new" %> resume
+                    <% end %>
+                </button>
+                <%= if @created and not @spin do %>
+                <button type="button" phx-click="share-resume"
+                    class="inline-flex items-center px-6 py-3 border-2 text-base font-medium rounded-md shadow-sm text-blue-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Share &rarr;
+                </button>
+                <% end %>
+            </form>
 
             <%= if @confetti do %>
             <div id="confetti" phx-hook="Confetti"></div>
             <% end %>
         </div>
     </div>
-
 
     <%= if @created do %>
     <div class={if @spin, do: "animate-spin" }>
@@ -52,6 +60,16 @@
             reference: @reference
         %>
 
+    </div>
+
+
+    <div class="text-center mt-10">
+        <%= if @created and not @spin do %>
+        <button type="button" phx-click="share-resume"
+            class="inline-flex items-center px-6 py-3 border-2 text-base font-medium rounded-md shadow-sm text-blue-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            Share Resume &rarr;
+        </button>
+        <% end %>
     </div>
 
 
