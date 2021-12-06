@@ -1930,8 +1930,124 @@ defmodule Shlinkedin.Timeline.Generators do
     "#{surprising_aggressor()}"
   end
 
-  def company_summary(company_name) do
-    "#{verbs()} #{thing_product()}"
+  def weird_physical_characteristic() do
+    [
+      "Two hearts",
+      "Multiple bypass surgeries ",
+      "Heart of gold",
+      "No spinal cord ",
+      "A love of laughter",
+      "Dark secrets ",
+      "Despair in my soul ",
+      "Bushy eyebrows ",
+      "A toothy grin",
+      "The sharpest teeth you’ve ever seen",
+      "6 toes ",
+      "3 eyes ",
+      "A snout instead of a nose",
+      "Decent posture",
+      "Incredible dexterity",
+      "Great bedside manner",
+      "A slender profile ",
+      "Long, long, nails",
+      "The haunches of a horse ",
+      "The ability to shriek like a goat ",
+      "A desire to learn",
+      "A pocketful of dreams",
+      "A love for drones",
+      "A bellyful of soup",
+      "A tummy full of hope",
+      "A full belly",
+      "A hungry heart",
+      "A song in my heart",
+      "A bad attitude ",
+      "A Mysterious past",
+      "Gloomy vibes",
+      "Very little acumen",
+      "many friends",
+      "no friends",
+      "A half-full can of Fresca",
+      "A spoonful of sugar",
+      "Terrible bedside manner",
+      "A great sense of humor",
+      "A terrible sense of humor",
+      "Not a lot going for me",
+      "Weird ankles",
+      "No regard for the law",
+      "Gusto",
+      "A diverse crypto portfolio",
+      "A very poorly performing stock portfolio",
+      "Binders full of… nevermind uh",
+      "A 2.7 rating on Uber",
+      "A bunch of pet birds",
+      "A pet snake",
+      "A pet goat",
+      "A pet spider",
+      "A podcast",
+      "A blog",
+      "A weird vibe",
+      "A Rash ",
+      "A rash that doctors have described as both ‘persistent’ and ‘very offputting’",
+      "A good work ethic",
+      "A bad work ethic",
+      "A zest for life",
+      "A Good beard"
+    ]
+    |> Enum.random()
+    |> String.downcase()
+  end
+
+  def job_modifier() do
+    [
+      "Financial",
+      "Software",
+      "Consulting ",
+      "Culture",
+      "Change",
+      "Business",
+      "Innovation",
+      "Content",
+      "Engineering",
+      "Executive",
+      "Honored",
+      "Flustered",
+      "Concept",
+      "Design",
+      "Creative",
+      "Artistic",
+      "Criminal",
+      "Crotchety",
+      "Very sleepy",
+      "Medium-motivated",
+      "Decent",
+      "Somewhat interesting"
+    ]
+    |> Enum.random()
+  end
+
+  def job_title2() do
+    [
+      "Engineer",
+      "Director",
+      "Marketer",
+      "Technologist",
+      "Entrepreneur",
+      "Hustler",
+      "Problem Solver",
+      "Whisperer",
+      "Analyst",
+      "Intern",
+      "Shark"
+    ]
+    |> Enum.random()
+  end
+
+  def time() do
+    ["days", "hours", "minutes", "seconds", "decades", "picoseconds"] |> Enum.random()
+  end
+
+  def summary() do
+    "#{job_modifier()} #{job_title2()} with #{weird_physical_characteristic()} and #{Enum.random(0..15)} #{time()} of experience. #{hashtags()}"
   end
 
   def address() do

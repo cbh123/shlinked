@@ -1,54 +1,88 @@
-<div class="h-full bg-gradient-to-r from-blue-300 to-green-100 pt-3 sm:pt-8 -mb-44">
+<div x-data="{open: false}" class="h-full pt-3 sm:pt-8 -mb-44 max-w-3xl mx-auto">
+    <div class="px-4 py-4 text-center border-gray-200 sm:px-6 rounded-t-lg">
+        <h3 class="text-lg leading-6 font-medium text-gray-700 pt-2">
+            ShlinkedIn Resume Assistant Platinum Ultra 2.0™
+        </h3>
+        <p class="max-w-md mx-auto mt-2 text-gray-600">We've developed a new state of the art resume generator that will
+            help you
+            build a
+            professional looking resume in no time –– guaranteed to get an extra look from a hiring manager.</p>
 
+        <div class="text-center mt-5">
+            <button @click="open = true" type="button" phx-click="create-resume"
+                class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Create a new resume
+            </button>
 
-
-    <div class="max-w-xl bg-white rounded-lg shadow m-3 sm:mx-auto">
-
-        <div class="px-4 py-4 border-b bg-white border-gray-200 sm:px-6 rounded-t-lg">
-            <h3 class="text-lg leading-6 font-medium text-gray-700 pt-2">
-                ShlinkedIn Resume Assistant Platinum Ultra 2.0™
-            </h3>
-            <p class="text-xs text-gray-500 py-2">After scouring hundreds of
-                thousands of LinkedIn posts, we can now utilize state of the art
-                AI to
-                generate <span class="italic">thought leadership</span>.
-                This one of the many
-                tools ShlinkedIn is
-                developing to make it easier to create
-                cliche and irrelevant content.</p>
-            <button phx-click="create-resume">Create Resume</button>
+            <%= if @created do %>
+            <button type="button"
+                class="inline-flex items-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Share Resume
+            </button><% end %>
         </div>
-        <div class="mt-1 p-5 font-windows">
-            <p>Name: <%= @name %></p>
-            <p>Address: <%= @address %></p>
-            <p>Contact: <%= @contact %></p>
+    </div>
 
-            <p>Education: <%= @education %></p>
-            <p>Major: <%= @major %></p>
-            <p>GPA: <%= @gpa %></p>
+    <%= if @created do %>
+    <div class={if @spin, do: "animate-spin" }>
+        <div class="bg-white shadow-xl border-1 mt-3 p-5">
 
-            <h5 class="font-bold mt-4">Work Experience</h5>
-            <div class="space-y-4">
-                <div>
-                    <p><%= @company1_name %></p>
-                    <p>Role: <%= @company1_title%></p>
-                    <p>• <%= @company1_job %></p>
-                </div>
-                <div>
-                    <p><%= @company2_name %></p>
-                    <p>Role: <%= @company2_title%></p>
-                    <p>• <%= @company2_job %></p>
-                </div>
-                <div>
-                    <p><%= @company3_name %></p>
-                    <p>Role: <%= @company3_title%></p>
-                    <p>• <%= @company3_job %></p>
-                </div>
-            </div>
 
-            <div class="mt-4">
-                <h5><span class="font-bold">Hobbies: </span> <%= @hobbies %></h5>
-                <h5><span class="font-bold">Reference: </span> <%= @reference %></h5>
+            <div class="mt-1 p-5 font-mono">
+                <div class="text-center">
+                    <p class="font-bold text-4xl mb-2"><%= @name %></p>
+                    <hr>
+                    <hr>
+                    <%= @address %> • ShlinkedIn.com
+                </div>
+
+                <div class="mt-7">
+                    <h5 class="uppercase text-gray-500 mb-2">Summary</h5>
+                    <p class="font-semibold"><%= @summary %></p>
+                </div>
+
+
+                <div class="mt-7">
+                    <h5 class="uppercase text-gray-500 mb-2">Work Experience</h5>
+                    <hr class="mb-2">
+
+                    <div class="space-y-4">
+                        <div>
+                            <p class="font-bold"><%= @company1_name %></p>
+                            <p><%= @company1_title%></p>
+                            <p>• <%= @company1_job %></p>
+                        </div>
+                        <div>
+                            <p class="font-bold"><%= @company2_name %></p>
+                            <p><%= @company2_title%></p>
+                            <p>• <%= @company2_job %></p>
+                        </div>
+                        <div>
+                            <p class="font-bold"><%= @company3_name %></p>
+                            <p><%= @company3_title%></p>
+                            <p>• <%= @company3_job %></p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="mt-7">
+                    <h5 class="uppercase text-gray-500 mb-2">Education</h5>
+                    <hr class="mb-2">
+                    <p>BS from <%= @education %></p>
+                    <p>Major: <%= @major %></p>
+                    <p>GPA: <%= @gpa %></p>
+                </div>
+
+                <div class="mt-7">
+                    <h5 class="uppercase text-groay-500 mb-2">Hobbies</h5>
+                    <hr class="mb-2">
+                    <p><%= @hobbies %></p>
+                </div>
+                <div class="mt-7">
+                    <h5 class="uppercase text-gray-500 mb-2">References</h5>
+                    <hr class="mb-2">
+                    <p><%= @reference %></p>
+                </div>
             </div>
         </div>
     </div>
@@ -78,4 +112,5 @@
             </div>
         </div>
     </div>
+    <% end %>
 </div>
