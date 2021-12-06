@@ -249,6 +249,7 @@ defmodule ShlinkedinWeb.Router do
 
     # resume generator
     live "/resume", ResumeLive.Index, :index
+    live "/resume/show", ResumeLive.Show, :show
 
     # error
     get "/error", ErrorController, :index
