@@ -7,8 +7,7 @@
         <%= pinned_post_header(@socket, @post) %>
 
         <%# Post Header and Options %>
-        <div
-            class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap ">
+        <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap ">
 
             <%# Post Header: Image, Name, Title, Time, and Business Jab %>
             <%= live_component @socket, ShlinkedinWeb.PostLive.PostHeader,
@@ -18,17 +17,13 @@
             <div class="sm:block text-xs text-gray-500 text-right">
                 <div class="relative inline-block text-left ">
                     <div>
-                        <button type="button" phx-click="toggle-post-options"
-                            phx-target="<%= @myself %>"
+                        <button type="button" phx-click="toggle-post-options" phx-target="<%= @myself %>"
                             class=" py-2 text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
-                            id="<%= "options-menu-#{@post.id}" %>"
-                            aria-haspopup="true" aria-expanded="true">
+                            id="<%= "options-menu-#{@post.id}" %>" aria-haspopup="true" aria-expanded="true">
 
-                            <svg class="w-4 h-4" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24"
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="2"
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z">
                                 </path>
                             </svg>
@@ -40,9 +35,7 @@
                     <%# Options Menu %>
                     <div
                         class="<%= if @show_post_options != true, do: "hidden" %> origin-top-right z-10 absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                        <div class="py-1" role="menu"
-                            aria-orientation="vertical"
-                            aria-labelledby="options-menu">
+                        <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                             <%= live_redirect to: Routes.home_show_path(@socket, :show, @post.id), do: raw("View post &rarr;"), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
 
                             <%= if is_moderator?(@profile) do %>
@@ -62,34 +55,26 @@
 
                             <%= if is_admin?(@profile) do %>
                             <%= if @post.featured do %>
-                            <button
-                                class="w-full text-left px-4 py-2 text-sm text-red-700 hover:bg-gray-100"
-                                data-confirm="Are you sure you want to unfeature post? "
-                                phx-click="unfeature-post"
+                            <button class="w-full text-left px-4 py-2 text-sm text-red-700 hover:bg-gray-100"
+                                data-confirm="Are you sure you want to unfeature post? " phx-click="unfeature-post"
                                 phx-target="<%= @myself %>">Unfeature post
                             </button>
                             <% else %>
 
-                            <button
-                                class="w-full text-left px-4 py-2 text-sm text-green-700 hover:bg-gray-100"
+                            <button class="w-full text-left px-4 py-2 text-sm text-green-700 hover:bg-gray-100"
                                 data-confirm="Are you sure you want to feature post? Writer will be notified."
-                                phx-click="feature-post"
-                                phx-target="<%= @myself %>">Feature
+                                phx-click="feature-post" phx-target="<%= @myself %>">Feature
                                 Post</button>
                             <% end %>
 
                             <%= if @post.pinned do %>
-                            <button
-                                class="w-full text-left px-4 py-2 text-sm text-red-700 hover:bg-gray-100"
-                                phx-click="unpin-post"
-                                phx-target="<%= @myself %>">Unpin post
+                            <button class="w-full text-left px-4 py-2 text-sm text-red-700 hover:bg-gray-100"
+                                phx-click="unpin-post" phx-target="<%= @myself %>">Unpin post
                             </button>
                             <% else %>
 
-                            <button
-                                class="w-full text-left px-4 py-2 text-sm text-green-700 hover:bg-gray-100"
-                                data-confirm="Are you sure you want to pin post?"
-                                phx-click="pin-post"
+                            <button class="w-full text-left px-4 py-2 text-sm text-green-700 hover:bg-gray-100"
+                                data-confirm="Are you sure you want to pin post?" phx-click="pin-post"
                                 phx-target="<%= @myself %>">Pin</button>
                             <% end %>
 
@@ -133,8 +118,7 @@
 
             <%#  "1 Comment" %>
             <%= if Ecto.assoc_loaded?(@post.comments) and length(@post.comments) > 0 do %>
-            <span
-                class=" <%= if @comment_spin == true, do: " animate-spin" %> py-2  my-2">
+            <span class=" <%= if @comment_spin == true, do: " animate-spin" %> py-2  my-2">
                 <%= length(@post.comments) %>
                 Comment<%= if length(@post.comments) > 1, do: "s" %></span>
             <% end %>
@@ -150,17 +134,14 @@
                 <div>
                     <%= for like <- like_map_list(@like_map) do %>
 
-                    <button type="button" phx-target="<%= @myself %>"
-                        phx-click="like-selected"
-                        id="post-<%=@post.id%>-like-<%=like.like_type%>"
-                        phx-value-like-type="<%=like.like_type%>"
+                    <button type="button" phx-target="<%= @myself %>" phx-click="like-selected"
+                        id="post-<%=@post.id%>-like-<%=like.like_type%>" phx-value-like-type="<%=like.like_type%>"
                         class="<%= if get_num_reaction_likes(@profile, @post, like) > 0, do: like.color, else: "text-gray-500" %> active:text-white active:<%=like.bg%> tooltip inline-flex items-center
                     mr-0.5 px-1 py-1 rounded-full border border-transparent text-xs font-medium bg-white hover:bg-gray-100
                     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 relative">
 
                         <%= if like.is_emoji do %>
-                        <span class="mx-auto text-sm"
-                            viewBox="0 0 20 20"><%= like.emoji %>
+                        <span class="mx-auto text-sm" viewBox="0 0 20 20"><%= like.emoji %>
                         </span>
                         <% end %>
 
@@ -168,17 +149,14 @@
                         <span
                             class="absolute top-0 -right-0.5 text-xs text-gray-500"><%= get_num_reaction_likes(@profile, @post, like)  %></span>
                         <% end %>
-                        <span
-                            class="tooltip-text -mt-12"><%=like.like_type%></span>
+                        <span class="tooltip-text -mt-12"><%=like.like_type%></span>
                     </button>
 
                     <% end %>
 
 
-                    <button type="button" phx-click="new-comment"
-                        id="new-comment-<%=@post.id%>"
-                        phx-target="<%= @myself %>"
-                        phx-value-id="<%= @post.id %>"
+                    <button type="button" phx-click="new-comment" id="new-comment-<%=@post.id%>"
+                        phx-target="<%= @myself %>" phx-value-id="<%= @post.id %>"
                         class="ml-1 active:bg-yellow-100 active:text-yellow-600 inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                         💬 Comment
                     </button>
@@ -192,8 +170,7 @@
                             <%# Right Side: Share Button %>
                             <a href="<%= tweet_intent(@prompt, Routes.home_show_url(@socket,:show, @post.id)) %>"
                                 class="ml-1 inline-flex rounded-full items-center px-3 py-1 border border-transparent text-xs font-medium text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                                <svg class="mr-1  h-4 w-4 sm:h-5 sm:w-5"
-                                    viewBox="328 355 335 276"
+                                <svg class="mr-1  h-4 w-4 sm:h-5 sm:w-5" viewBox="328 355 335 276"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="
                                         M 630, 425

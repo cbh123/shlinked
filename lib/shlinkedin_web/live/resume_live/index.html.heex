@@ -1,0 +1,139 @@
+<div x-data="{open: false}" class="h-full pt-3 sm:pt-8 -mb-44 max-w-3xl mx-auto">
+    <div class="px-4 py-4 text-center border-gray-200 sm:px-6 rounded-t-lg">
+        <h3 class="text-lg leading-6 font-medium text-gray-700 pt-2">
+            ShlinkedIn Resume Assistant Platinum Ultra 2.0™
+        </h3>
+
+        <div class="text-center mt-3">
+            <button @click="open = true" type="button" phx-click="create-resume"
+                class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Create a new resume
+            </button>
+
+
+            <%= if @confetti do%>
+            <div id="confetti" phx-hook="Confetti"></div>
+            <% end %>
+        </div>
+    </div>
+
+
+    <%= if @created do %>
+    <div class={if @spin, do: "animate-spin" }>
+        <div class="bg-white shadow-xl border-1 mt-3 p-5">
+
+
+            <div class="mt-1 p-5 font-mono">
+                <div class="text-center">
+                    <p class="font-bold text-4xl mb-2"><%= @name %>
+
+                        <a href="https://twitter.com/intent/tweet?text=Behold... the ShlinkedIn Resume Generator&url=https://www.shlinkedin.com/resume"
+                            class="inline-flex rounded-full items-center pt-3 py-1 border border-transparent text-xs font-medium text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            <svg class="mr-1  h-4 w-4 sm:h-5 sm:w-5" viewBox="328 355 335 276"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="
+                                        M 630, 425
+                                        A 195, 195 0 0 1 331, 600
+                                        A 142, 142 0 0 0 428, 570
+                                        A  70,  70 0 0 1 370, 523
+                                        A  70,  70 0 0 0 401, 521
+                                        A  70,  70 0 0 1 344, 455
+                                        A  70,  70 0 0 0 372, 460
+                                        A  70,  70 0 0 1 354, 370
+                                        A 195, 195 0 0 0 495, 442
+                                        A  67,  67 0 0 1 611, 380
+                                        A 117, 117 0 0 0 654, 363
+                                        A  65,  65 0 0 1 623, 401
+                                        A 117, 117 0 0 0 662, 390
+                                        A  65,  65 0 0 1 630, 425
+                                        Z" style="fill:#3BA9EE;" />
+                            </svg>
+
+                        </a>
+                    </p>
+                    <hr>
+                    <hr>
+                    <%= @address %> • ShlinkedIn.com  <div class="inline-flex">
+
+                    </div>
+                </div>
+
+                <div class="mt-7">
+                    <h5 class="uppercase text-gray-500 mb-2">Summary</h5>
+                    <p class="font-semibold"><%= @summary %></p>
+                </div>
+
+
+                <div class="mt-7">
+                    <h5 class="uppercase text-gray-500 mb-2">Work Experience</h5>
+                    <hr class="mb-2">
+
+                    <div class="space-y-4">
+                        <div>
+                            <p class="font-bold"><%= @company1_name %></p>
+                            <p><%= @company1_title%></p>
+                            <p>• <%= @company1_job %></p>
+                        </div>
+                        <div>
+                            <p class="font-bold"><%= @company2_name %></p>
+                            <p><%= @company2_title%></p>
+                            <p>• <%= @company2_job %></p>
+                        </div>
+                        <div>
+                            <p class="font-bold"><%= @company3_name %></p>
+                            <p><%= @company3_title%></p>
+                            <p>• <%= @company3_job %></p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="mt-7">
+                    <h5 class="uppercase text-gray-500 mb-2">Education</h5>
+                    <hr class="mb-2">
+                    <p>BS from <%= @education %></p>
+                    <p>Major: <%= @major %></p>
+                    <p>GPA: <%= @gpa %></p>
+                </div>
+
+                <div class="mt-7">
+                    <h5 class="uppercase text-groay-500 mb-2">Hobbies</h5>
+                    <hr class="mb-2">
+                    <p><%= @hobbies %></p>
+                </div>
+                <div class="mt-7">
+                    <h5 class="uppercase text-gray-500 mb-2">References</h5>
+                    <hr class="mb-2">
+                    <p><%= @reference %></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="max-w-prose mx-auto text-center">
+        <div class="mx-auto py-16 mb-30 pb-36 px-4 sm:px-6 lg:px-8 text-center">
+            <div class="bg-blue-700 rounded-lg shadow-xl overflow-hidden">
+                <div class="pt-10 pb-12 px-6 sm:pt-16 sm:px-16 lg:py-16">
+                    <div class="self-center">
+                        <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                            <span class="">Start Shlinkin'</span>
+                        </h2>
+                        <p class="mt-4 text-lg leading-6 text-indigo-200">
+                            Join ShlinkedIn to post your content, earn some
+                            ShlinkPoints, and get
+                            #inspired.
+                        </p>
+
+                        <%= live_redirect "Join for free", to: Routes.user_registration_path(@socket, :new), class: "mt-8 bg-white border border-transparent rounded-md shadow px-5 py-3 inline-flex items-center text-base font-medium text-blue-600 hover:bg-indigo-50" %>
+                        <%= live_redirect "Explore", to: Routes.home_index_path(@socket, :index), class: "ml-2 mt-8 bg-blue-400 border border-transparent rounded-md shadow px-5 py-3 inline-flex items-center text-base font-medium text-white hover:bg-blue-500" %>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <% end %>
+</div>
