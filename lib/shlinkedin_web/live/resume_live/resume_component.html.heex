@@ -1,0 +1,68 @@
+<div id={@id} class="max-w-3xl mx-auto">
+    <div class="bg-white shadow-xl border-1 mt-3 p-5">
+
+
+        <div class="mt-1 p-5 font-mono">
+            <div class="text-center">
+                <p class="font-bold text-4xl mb-2"><%= @name %>
+
+
+                </p>
+                <hr>
+                <hr>
+                <%= @address %> • ShlinkedIn.com  <div class="inline-flex">
+
+                </div>
+            </div>
+
+            <div class="mt-7">
+                <h5 class="uppercase text-gray-500 mb-2">Summary</h5>
+                <p class="font-semibold"><%= @summary %></p>
+            </div>
+
+
+            <div class="mt-7">
+                <h5 class="uppercase text-gray-500 mb-2">Work Experience</h5>
+                <hr class="mb-2">
+
+                <div class="space-y-4">
+                    <div>
+                        <p class="font-bold"><%= @company1_name %></p>
+                        <p><%= @company1_title%></p>
+                        <p>• <%= @company1_job %></p>
+                    </div>
+                    <div>
+                        <p class="font-bold"><%= @company2_name %></p>
+                        <p><%= @company2_title%></p>
+                        <p>• <%= @company2_job %></p>
+                    </div>
+                    <div>
+                        <p class="font-bold"><%= @company3_name %></p>
+                        <p><%= @company3_title%></p>
+                        <p>• <%= @company3_job %></p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="mt-7">
+                <h5 class="uppercase text-gray-500 mb-2">Education</h5>
+                <hr class="mb-2">
+                <p>BS from <%= @education %></p>
+                <p>Major: <%= @major %></p>
+                <p>GPA: <%= @gpa %></p>
+            </div>
+
+            <div class="mt-7">
+                <h5 class="uppercase text-groay-500 mb-2">Hobbies</h5>
+                <hr class="mb-2">
+                <p><%= @hobbies %></p>
+            </div>
+            <div class="mt-7">
+                <h5 class="uppercase text-gray-500 mb-2">References</h5>
+                <hr class="mb-2">
+                <p><%= @reference %></p>
+            </div>
+        </div>
+    </div>
+</div>
