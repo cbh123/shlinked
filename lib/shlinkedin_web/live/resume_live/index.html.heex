@@ -3,24 +3,20 @@
         <h3 class="text-lg leading-6 font-medium text-gray-700 pt-2">
             ShlinkedIn Resume Assistant Platinum Ultra 2.0™
         </h3>
-        <p class="max-w-md mx-auto mt-2 text-gray-600">We've developed a new state of the art resume generator that will
-            help you
-            build a
-            professional looking resume in no time –– guaranteed to get an extra look from a hiring manager.</p>
 
-        <div class="text-center mt-5">
+        <div class="text-center mt-3">
             <button @click="open = true" type="button" phx-click="create-resume"
                 class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 Create a new resume
             </button>
 
-            <%= if @created do %>
-            <button type="button"
-                class="inline-flex items-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Share Resume
-            </button><% end %>
+
+            <%= if @confetti do%>
+            <div id="confetti" phx-hook="Confetti"></div>
+            <% end %>
         </div>
     </div>
+
 
     <%= if @created do %>
     <div class={if @spin, do: "animate-spin" }>
@@ -29,10 +25,37 @@
 
             <div class="mt-1 p-5 font-mono">
                 <div class="text-center">
-                    <p class="font-bold text-4xl mb-2"><%= @name %></p>
+                    <p class="font-bold text-4xl mb-2"><%= @name %>
+
+                        <a href="https://twitter.com/intent/tweet?text=Behold... the ShlinkedIn Resume Generator&url=https://www.shlinkedin.com/resume"
+                            class="inline-flex rounded-full items-center pt-3 py-1 border border-transparent text-xs font-medium text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            <svg class="mr-1  h-4 w-4 sm:h-5 sm:w-5" viewBox="328 355 335 276"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="
+                                        M 630, 425
+                                        A 195, 195 0 0 1 331, 600
+                                        A 142, 142 0 0 0 428, 570
+                                        A  70,  70 0 0 1 370, 523
+                                        A  70,  70 0 0 0 401, 521
+                                        A  70,  70 0 0 1 344, 455
+                                        A  70,  70 0 0 0 372, 460
+                                        A  70,  70 0 0 1 354, 370
+                                        A 195, 195 0 0 0 495, 442
+                                        A  67,  67 0 0 1 611, 380
+                                        A 117, 117 0 0 0 654, 363
+                                        A  65,  65 0 0 1 623, 401
+                                        A 117, 117 0 0 0 662, 390
+                                        A  65,  65 0 0 1 630, 425
+                                        Z" style="fill:#3BA9EE;" />
+                            </svg>
+
+                        </a>
+                    </p>
                     <hr>
                     <hr>
-                    <%= @address %> • ShlinkedIn.com
+                    <%= @address %> • ShlinkedIn.com  <div class="inline-flex">
+
+                    </div>
                 </div>
 
                 <div class="mt-7">

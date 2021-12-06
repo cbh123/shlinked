@@ -14,6 +14,7 @@
   "dependencies": {
     "@tailwindcss/aspect-ratio": "^0.3.0",
     "@tailwindcss/forms": "^0.3.4",
-    "alpinejs": "^3.5.0"
+    "alpinejs": "^3.5.0",
+    "canvas-confetti": "^1.4.0"
   }
 }

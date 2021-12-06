@@ -5,7 +5,13 @@ defmodule ShlinkedinWeb.ResumeLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     {:ok,
-     socket |> assign(page_title: "ShlinkedIn Resume Generator", created: false, spin: false)}
+     socket
+     |> assign(
+       page_title: "Try the ShlinkedIn Resume Generator",
+       created: false,
+       spin: false,
+       confetti: false
+     )}
   end
 
   @impl true
@@ -42,7 +48,7 @@ defmodule ShlinkedinWeb.ResumeLive.Index do
   end
 
   def handle_info(:stop_spin, socket) do
-    {:noreply, socket |> assign(spin: false)}
+    {:noreply, socket |> assign(spin: false, confetti: true)}
   end
 
   @impl true
@@ -55,7 +61,7 @@ defmodule ShlinkedinWeb.ResumeLive.Index do
 
     socket =
       socket
-      |> assign(spin: true)
+      |> assign(spin: true, confetti: false)
       |> push_patch(
         to:
           Routes.resume_index_path(socket, :index,
