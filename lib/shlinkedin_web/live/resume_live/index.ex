@@ -6,6 +6,7 @@ defmodule ShlinkedinWeb.ResumeLive.Index do
   def mount(_params, _session, socket) do
     {:ok,
      socket
+     |> assign(meta_attrs: meta_attrs())
      |> assign(
        page_title: "Try the ShlinkedIn Resume Generator",
        created: false,
@@ -13,6 +14,27 @@ defmodule ShlinkedinWeb.ResumeLive.Index do
        confetti: false,
        name: ""
      )}
+  end
+
+  defp meta_attrs() do
+    [
+      %{
+        property: "og:image",
+        content: "https://media.istockphoto.com/photos/resume-picture-id1227223328"
+      },
+      %{
+        name: "twitter:image:src",
+        content: "https://media.istockphoto.com/photos/resume-picture-id1227223328"
+      },
+      %{
+        property: "og:image:height",
+        content: "630"
+      },
+      %{
+        property: "og:image:width",
+        content: "1200"
+      }
+    ]
   end
 
   @impl true
