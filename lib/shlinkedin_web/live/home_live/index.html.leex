@@ -2,17 +2,14 @@
 
     <%# Discord Alert %>
     <%= if @show_discord_alert do %>
-    <div
-        class="bg-gradient-to-tr from-blue-400 to-green-400  p-2 mb-2 text-center ">
+    <div class="bg-gradient-to-tr from-blue-400 to-green-400  p-2 mb-2 text-center ">
 
-        <button class="absolute left-2" id="close-discord"
-            phx-click="close-discord">
+        <button class="absolute left-2" id="close-discord" phx-click="close-discord">
             <span class="text-white hover:text-gray-300">&times;</span>
         </button>
 
         <div class="">
-            <h5
-                class="text-xs uppercase leading-3 tracking-tight text-white font-windows">
+            <h5 class="text-xs uppercase leading-3 tracking-tight text-white font-windows">
                 +100 SP REWARD</h5>
             <div class="space-x-3 mt-1">
                 <button id="join-discord" phx-click="join-discord"
@@ -31,12 +28,10 @@
 
     <div class="py-10 pt-0">
 
-        <div
-            class="max-w-3xl mx-auto sm:max-w-7xl sm:px-8 sm:grid sm:grid-cols-12 sm:gap-8">
+        <div class="max-w-3xl mx-auto sm:max-w-7xl sm:px-8 sm:grid sm:grid-cols-12 sm:gap-8">
             <%# Side Nav %>
             <div class="hidden sm:block sm:col-span-3 md:col-span-2">
-                <nav aria-label="Sidebar"
-                    class="sticky top-20 divide-y divide-gray-300">
+                <nav aria-label="Sidebar" class="sticky top-20 divide-y divide-gray-300">
                     <div class="pb-8 space-y-1">
 
                         <%= live_redirect to: Routes.home_index_path(@socket, :index) do %>
@@ -44,11 +39,9 @@
                             aria-current="page">
                             <!-- Heroicon name: outline/home -->
                             <svg class="text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
-                                xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                                 aria-hidden="true">
-                                <path stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="2"
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                             </svg>
                             <span class="truncate">
@@ -63,8 +56,7 @@
                             aria-current="false">
                             <!-- Heroicon name: outline/user-group -->
                             <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
-                                fill="currentColor" viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg">
+                                fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z">
                                 </path>
@@ -83,11 +75,9 @@
                             aria-current="false">
                             <!-- Heroicon name: outline/user-group -->
                             <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
-                                xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                                 aria-hidden="true">
-                                <path stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="2"
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
                             <span class="truncate">
@@ -104,11 +94,9 @@
                             aria-current="false">
                             <!-- Heroicon name: outline/trending-up -->
                             <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
-                                xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                                 aria-hidden="true">
-                                <path stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="2"
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                             </svg>
                             <span class="truncate">
@@ -121,13 +109,10 @@
                         <div class="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
                             aria-current="false">
                             <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
-                                fill="currentColor" viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z">
+                                fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z">
                                 </path>
-                                <path
-                                    d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z">
+                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z">
                                 </path>
                             </svg>
                             <span class="truncate">
@@ -140,8 +125,7 @@
                             class="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
                             aria-current="false">
                             <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 w-6 h-6"
-                                width="71" height="55" viewBox="0 0 71 55"
-                                fill="currentColor"
+                                width="71" height="55" viewBox="0 0 71 55" fill="currentColor"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <g clip-path="url(#clip0)">
                                     <path
@@ -150,8 +134,7 @@
                                 </g>
                                 <defs>
                                     <clipPath id="clip0">
-                                        <rect width="71" height="55"
-                                            fill="white" />
+                                        <rect width="71" height="55" fill="white" />
                                     </clipPath>
                                 </defs>
                             </svg>
@@ -164,8 +147,7 @@
                             class="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
                             aria-current="false">
                             <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 w-6 h-6"
-                                fill="currentColor" viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg">
+                                fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
                                     d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z"
                                     clip-rule="evenodd"></path>
@@ -182,8 +164,7 @@
                             id="communities-headline">
                             My Groups
                         </p>
-                        <div class="mt-3 space-y-2"
-                            aria-labelledby="groups-headline">
+                        <div class="mt-3 space-y-2" aria-labelledby="groups-headline">
                             <%= for member <- @my_groups do %>
                             <%= if !is_nil(member.group) do %>
                             <%= live_redirect to: Routes.group_show_path(@socket, :show, member.group.id) do %>
@@ -212,18 +193,20 @@
                     profile: @profile,
                     checklist: @checklist %>
 
+
+                <div class="my-2 text-center">
+                    <%= live_redirect raw("Try the new resume generator! &rarr;"), to: Routes.resume_index_path(@socket, :index), class: "text-white font-semibold text-xs hover:bg-blue-700 bg-blue-600 rounded-xl py-1 px-2" %>
+                </div>
+
                 <%# Start a Post %>
-                <div
-                    class="mx-auto p-5 pb-3 bg-white sm:rounded-lg border block mb-2">
+                <div class="mx-auto p-5 pb-3 bg-white sm:rounded-lg border block mb-2">
 
                     <%= live_patch to: Routes.home_index_path(@socket, :new) do %>
                     <button type="button"
                         class="w-full flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-full text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        <svg class="-ml-1 mr-3 h-5 w-5" fill="currentColor"
-                            viewBox="0 0 20 20"
+                        <svg class="-ml-1 mr-3 h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z">
+                            <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z">
                             </path>
                             <path fill-rule="evenodd"
                                 d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
@@ -243,35 +226,29 @@
 
 
                 <%# Mobile News %>
-                <div id="mobile-news"
-                    class="sm:hidden mx-auto w-screen bg-white sm:rounded-lg border-b my-2 py-5">
+                <div id="mobile-news" class="sm:hidden mx-auto w-screen bg-white sm:rounded-lg border-b my-2 py-5">
 
                     <div class="block sm:w-72 w-full">
 
                         <div class="flex justify-between px-5">
                             <p class="font-bold">ShlinkNews </p>
                             <div class="text-right">
-                              <form phx-change="sort-headlines"
-                                id="sort-headlines"
-                                class="mx-auto text-gray-500 text-xs flex">
-                                <div class="mr-3">
-                                    <select
-                                        id="select-headline-type"
-                                        name="type"
-                                        class="text-sm bg-gray-100 px-2 py-1 pr-8 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
-                                        <%= options_for_select(["New": "new", "Claps": "reactions"], @headline_options.type) %>
-                                    </select>
-                                </div>
-                                <div>
-                                    <select
-                                        id="select-headline-time"
-                                        name="time"
-                                        class="<%= unless @headline_options.type == "reactions", do: "hidden" %> bg-gray-100 text-sm px-2 py-1 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
+                                <form phx-change="sort-headlines" id="sort-headlines"
+                                    class="mx-auto text-gray-500 text-xs flex">
+                                    <div class="mr-3">
+                                        <select id="select-headline-type" name="type"
+                                            class="text-sm bg-gray-100 px-2 py-1 pr-8 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
+                                            <%= options_for_select(["New": "new", "Claps": "reactions"], @headline_options.type) %>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <select id="select-headline-time" name="time"
+                                            class="<%= unless @headline_options.type == "reactions", do: "hidden" %> bg-gray-100 text-sm px-2 py-1 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
 
-                                        <%= options_for_select(["Hour": "hour", "Today": "today", "This Week": "week", "This Month": "month", "All Time": "all_time"], @headline_options.time) %>
-                                    </select>
-                                </div>
-                            </form>
+                                            <%= options_for_select(["Hour": "hour", "Today": "today", "This Week": "week", "This Month": "month", "All Time": "all_time"], @headline_options.time) %>
+                                        </select>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         <div class="px-5 py-2">
@@ -279,9 +256,7 @@
                         </div>
 
                         <div class="h-32 overflow-y-scroll">
-                            <div class="space-y-3 px-2"
-                                phx-update="<%=@headline_update_action%>"
-                                id="news-box">
+                            <div class="space-y-3 px-2" phx-update="<%=@headline_update_action%>" id="news-box">
                                 <%= for a <- @articles do %>
                                 <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
                                     id: "mobile-article-#{a.id}",
@@ -296,8 +271,7 @@
                                 <button phx-click="more-headlines"
                                     class="mx-auto text-xs text-gray-800 font-semibold bg-gray-100 px-2 py-1 rounded-lg hover:bg-gray-200 flex">
 
-                                    <svg class="w-3 h-3 place-self-center mr-2"
-                                        fill="currentColor" viewBox="0 0 20 20"
+                                    <svg class="w-3 h-3 place-self-center mr-2" fill="currentColor" viewBox="0 0 20 20"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd"
                                             d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
@@ -310,10 +284,10 @@
                     </div>
                 </div>
 
+
                 <%# Feed Picker %>
                 <div class="">
-                    <form phx-change="sort-feed" id="sort-feed"
-                        class="mx-auto text-gray-500 text-xs flex">
+                    <form phx-change="sort-feed" id="sort-feed" class="mx-auto text-gray-500 text-xs flex">
                         <div class="mr-3">
 
                             <select id="select-feed-type" name="type"
@@ -331,11 +305,11 @@
                     </form>
                 </div>
 
+
                 <div class="mt-2">
                     <%# Posts %>
 
-                    <div id="posts" phx-update="<%=@update_action%>"
-                        data-page="<%= @page %>">
+                    <div id="posts" phx-update="<%=@update_action%>" data-page="<%= @page %>">
 
 
                         <%= for {entity, _idx} <- Enum.with_index(@posts) do %>
@@ -366,17 +340,13 @@
                             class="bg-white relative overflow-hidden rounded-lg shadow py-4 my-2 block md:hidden">
                             <!-- Decorative background image and gradient -->
                             <div aria-hidden="true" class="absolute inset-0">
-                                <div
-                                    class="absolute inset-0 max-w-7xl mx-auto overflow-hidden">
+                                <div class="absolute inset-0 max-w-7xl mx-auto overflow-hidden">
                                     <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80"
-                                        alt=""
-                                        class="w-full h-full object-center object-cover">
+                                        alt="" class="w-full h-full object-center object-cover">
                                 </div>
-                                <div
-                                    class="absolute inset-0 bg-white bg-opacity-75">
+                                <div class="absolute inset-0 bg-white bg-opacity-75">
                                 </div>
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-t from-white via-white">
+                                <div class="absolute inset-0 bg-gradient-to-t from-white via-white">
                                 </div>
                             </div>
 
@@ -392,8 +362,7 @@
                                         ShlinkedIn <span
                                             class="text-transparent bg-clip-text bg-gradient-to-tr from-blue-500 via-teal-400 to-green-300">Platinum</span>
                                     </h2>
-                                    <p
-                                        class="mt-4 max-w-xl mx-auto text-sm text-gray-600 mb-4">
+                                    <p class="mt-4 max-w-xl mx-auto text-sm text-gray-600 mb-4">
                                         An exclusive
                                         new trophy on your profile. Stickers.
                                         Unlimited
@@ -413,8 +382,7 @@
                         <% "featured_profiles" -> %>
 
                         <%# Featured profiles %>
-                        <div id="featured-profiles"
-                            class="mx-auto p-5 bg-white my-2 sm:rounded-lg">
+                        <div id="featured-profiles" class="mx-auto p-5 bg-white my-2 sm:rounded-lg">
 
                             <div class="flex justify-between mb-2">
                                 <h5 class=" font-bold ">Shlinkers you may know
@@ -438,8 +406,7 @@
 
                         <% "featured_groups" -> %>
                         <%# Featured Groups %>
-                        <div id="featured-groups"
-                            class="mx-auto p-5 bg-white my-2 sm:rounded-lg ">
+                        <div id="featured-groups" class="mx-auto p-5 bg-white my-2 sm:rounded-lg ">
 
                             <div class="flex justify-between mb-2">
                                 <h5 class=" font-bold ">Featured Groups</h5>
@@ -466,8 +433,7 @@
                         <% end %>
                     </div>
 
-                    <footer id="footer" phx-hook="InfiniteScroll"
-                        class="mt-8 text-center text-6xl font-bold">
+                    <footer id="footer" phx-hook="InfiniteScroll" class="mt-8 text-center text-6xl font-bold">
                         <span class="animate-pulse font-windows">💵
                             Loading...</span>
                     </footer>
@@ -491,27 +457,22 @@
                             </div>
 
                             <div class="px-5 py-2">
-                             <form phx-change="sort-headlines"
-                                id="sort-headlines"
-                                class="mx-auto text-gray-500 text-xs flex">
-                                <div class="mr-3">
-                                    <select
-                                        id="select-headline-type"
-                                        name="type"
-                                        class="text-sm bg-gray-100 px-2 py-1 pr-8 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
-                                        <%= options_for_select(["New": "new", "Claps": "reactions"], @headline_options.type) %>
-                                    </select>
-                                </div>
-                                <div>
-                                    <select
-                                        id="select-headline-time"
-                                        name="time"
-                                        class="<%= unless @headline_options.type == "reactions", do: "hidden" %> bg-gray-100 text-sm px-2 py-1 pr-6 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
+                                <form phx-change="sort-headlines" id="sort-headlines"
+                                    class="mx-auto text-gray-500 text-xs flex">
+                                    <div class="mr-3">
+                                        <select id="select-headline-type" name="type"
+                                            class="text-sm bg-gray-100 px-2 py-1 pr-8 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
+                                            <%= options_for_select(["New": "new", "Claps": "reactions"], @headline_options.type) %>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <select id="select-headline-time" name="time"
+                                            class="<%= unless @headline_options.type == "reactions", do: "hidden" %> bg-gray-100 text-sm px-2 py-1 pr-6 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
 
-                                        <%= options_for_select(["Hour": "hour", "Today": "today", "This Week": "week", "This Month": "month", "All Time": "all_time"], @headline_options.time) %>
-                                    </select>
-                                </div>
-                            </form>
+                                            <%= options_for_select(["Hour": "hour", "Today": "today", "This Week": "week", "This Month": "month", "All Time": "all_time"], @headline_options.time) %>
+                                        </select>
+                                    </div>
+                                </form>
                             </div>
 
 
@@ -520,8 +481,7 @@
 
 
                             <div class="h-56 overflow-y-scroll">
-                                <div class="space-y-3 px-2"
-                                    phx-update="<%=@headline_update_action%>"
+                                <div class="space-y-3 px-2" phx-update="<%=@headline_update_action%>"
                                     id="desktop-news-box">
                                     <%= for a <- @articles do %>
                                     <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
@@ -535,10 +495,8 @@
                                     <button phx-click="more-headlines"
                                         class="mx-auto text-xs text-gray-800 font-semibold bg-gray-100 px-2 py-1 rounded-lg hover:bg-gray-200 flex">
 
-                                        <svg class="w-3 h-3 place-self-center mr-2"
-                                            fill="currentColor"
-                                            viewBox="0 0 20 20"
-                                            xmlns="http://www.w3.org/2000/svg">
+                                        <svg class="w-3 h-3 place-self-center mr-2" fill="currentColor"
+                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd"
                                                 d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
                                                 clip-rule="evenodd"></path>
@@ -555,21 +513,16 @@
 
 
                     <%= if not Profiles.is_platinum?(@profile) and not is_nil(@profile) do %>
-                    <div
-                        class="bg-white relative overflow-hidden rounded-lg shadow py-4">
+                    <div class="bg-white relative overflow-hidden rounded-lg shadow py-4">
                         <!-- Decorative background image and gradient -->
                         <div aria-hidden="true" class="absolute inset-0">
-                            <div
-                                class="absolute inset-0 max-w-7xl mx-auto overflow-hidden">
+                            <div class="absolute inset-0 max-w-7xl mx-auto overflow-hidden">
                                 <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80"
-                                    alt=""
-                                    class="w-full h-full object-center object-cover">
+                                    alt="" class="w-full h-full object-center object-cover">
                             </div>
-                            <div
-                                class="absolute inset-0 bg-white bg-opacity-75">
+                            <div class="absolute inset-0 bg-white bg-opacity-75">
                             </div>
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-white via-white">
+                            <div class="absolute inset-0 bg-gradient-to-t from-white via-white">
                             </div>
                         </div>
 
@@ -585,8 +538,7 @@
                                     ShlinkedIn <span
                                         class="text-transparent bg-clip-text bg-gradient-to-tr from-blue-500 via-teal-400 to-green-300">Platinum</span>
                                 </h2>
-                                <p
-                                    class="mt-4 max-w-xl mx-auto text-sm text-gray-600 mb-4">
+                                <p class="mt-4 max-w-xl mx-auto text-sm text-gray-600 mb-4">
                                     An exclusive
                                     new trophy on your profile. Stickers.
                                     Unlimited
@@ -635,8 +587,7 @@
 <%= if is_nil(@current_user) do %>
 <div class="bg-blue-500 text-white -mb-6 fixed h-24 bottom-0 w-full">
     <div class="flex justify-between px-6 py-2 items-center">
-        <h2
-            class="inline-flex text-lg font-extrabold tracking-tight sm:text-4xl">
+        <h2 class="inline-flex text-lg font-extrabold tracking-tight sm:text-4xl">
             <span class="">Join Shlinkedin.</span>
         </h2>
         <div class="inline-flex justify-center">

@@ -4,7 +4,8 @@ defmodule ShlinkedinWeb.ResumeLive.Show do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    {:ok,
+     socket |> assign(meta_attrs: meta_attrs()) |> assign(page_title: "Check out my new resume!")}
   end
 
   @impl true
@@ -44,5 +45,26 @@ defmodule ShlinkedinWeb.ResumeLive.Show do
 
   def handle_params(_params, _url, socket) do
     {:noreply, socket}
+  end
+
+  defp meta_attrs() do
+    [
+      %{
+        property: "og:image",
+        content: "https://media.istockphoto.com/photos/resume-picture-id1227223328"
+      },
+      %{
+        name: "twitter:image:src",
+        content: "https://media.istockphoto.com/photos/resume-picture-id1227223328"
+      },
+      %{
+        property: "og:image:height",
+        content: "630"
+      },
+      %{
+        property: "og:image:width",
+        content: "1200"
+      }
+    ]
   end
 end
