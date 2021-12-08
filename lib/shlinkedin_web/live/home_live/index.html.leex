@@ -1,31 +1,4 @@
 <div class="min-h-screen bg-gray-100">
-
-    <%# Discord Alert %>
-    <%= if @show_discord_alert do %>
-    <div class="bg-gradient-to-tr from-blue-400 to-green-400  p-2 mb-2 text-center ">
-
-        <button class="absolute left-2" id="close-discord" phx-click="close-discord">
-            <span class="text-white hover:text-gray-300">&times;</span>
-        </button>
-
-        <div class="">
-            <h5 class="text-xs uppercase leading-3 tracking-tight text-white font-windows">
-                +100 SP REWARD</h5>
-            <div class="space-x-3 mt-1">
-                <button id="join-discord" phx-click="join-discord"
-                    class="text-white font-semibold text-xs hover:bg-blue-700 bg-blue-600 rounded-xl py-1 px-2">
-                    Join the Discord &rarr;
-                </button>
-                <button id="already-discord" phx-click="already-discord"
-                    class="text-blue-600 font-semibold text-xs hover:bg-gray-100 bg-white rounded-xl py-1 px-2">I'm
-                    on the
-                    Discord!</button>
-            </div>
-        </div>
-
-    </div>
-    <% end %>
-
     <div class="py-10 pt-0">
 
         <div class="max-w-3xl mx-auto sm:max-w-7xl sm:px-8 sm:grid sm:grid-cols-12 sm:gap-8">
@@ -186,7 +159,6 @@
             </div>
             <main class="sm:col-span-9 md:col-span-6">
 
-
                 <%# Checklist Component %>
                 <%= live_component @socket, ShlinkedinWeb.ProfileLive.ChecklistComponent,
                     id: "checkbox",
@@ -195,7 +167,7 @@
 
 
                 <div class="my-2 text-center">
-                    <%= live_redirect raw("Try the new resume generator! &rarr;"), to: Routes.resume_index_path(@socket, :index), class: "text-white font-semibold text-xs hover:bg-blue-700 bg-blue-600 rounded-xl py-1 px-2" %>
+                    <%= live_redirect raw("New! Try new resume generator! &rarr;"), to: Routes.resume_index_path(@socket, :index), class: "font-semibold text-xs hover:bg-blue-700 bg-gray-200 text-gray-700 rounded-xl py-1 px-2" %>
                 </div>
 
                 <%# Start a Post %>

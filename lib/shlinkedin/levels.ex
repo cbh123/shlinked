@@ -43,6 +43,11 @@ defmodule Shlinkedin.Levels do
           name: "Write your first post",
           route: Routes.home_index_path(socket, :new),
           done: Shlinkedin.Timeline.num_posts(profile) > 0
+        },
+        %{
+          name: "Join the Discord",
+          route: "https://discord.gg/BkQGryuGjn",
+          done: profile.joined_discord
         }
       ],
       1 => [
