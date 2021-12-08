@@ -7,10 +7,8 @@
 
 
     <div class="">
-        <div
-            class=" text-center pt-12 pb-24 px-8  bg-gradient-to-r from-green-400 to-blue-500 border-b-4 border-white">
-            <h1
-                class="font-windows italic text-white font-extrabold  text-5xl ">
+        <div class=" text-center pt-12 pb-24 px-8  bg-gradient-to-r from-green-400 to-blue-500 border-b-4 border-white">
+            <h1 class="font-windows italic text-white font-extrabold  text-5xl ">
                 Welcome to ShlinkedIn!</h1>
             <p class="text-base text-white font-windows">Now it's time to create
                 your profile!
@@ -42,8 +40,7 @@
 
                 <%# Name %>
                 <div class="">
-                    <label for="name"
-                        class="text-lg font-medium text-gray-700 mt-4">Who is
+                    <label for="name" class="text-lg font-medium text-gray-700 mt-4">Who is
                         your alter ego?</label>
 
                     <p class="text-xs text-gray-600 mt-1 mb-2">
@@ -74,8 +71,7 @@
 
                 <%# Username %>
                 <div class="">
-                    <label for="name"
-                        class="text-lg font-medium text-gray-700 mt-4">What's
+                    <label for="name" class="text-lg font-medium text-gray-700 mt-4">What's
                         your username?</label>
 
                     <p class="text-xs text-gray-600 mt-1 mb-2">
@@ -135,8 +131,7 @@
 
         <div
             class=" text-center py-4  bg-gradient-to-r from-green-400 to-blue-500 sm:rounded-t-lg border-b-4 border-white">
-            <h1
-                class="font-windows italic text-white font-extrabold  text-5xl ">
+            <h1 class="font-windows italic text-white font-extrabold  text-5xl ">
                 Profile
                 <%= if @live_action == :edit, do: "Editor", else: "Creator" %>
                 3000</h1>
@@ -192,15 +187,13 @@
             <p class="alert alert-danger"><%= Phoenix.Naming.humanize(msg) %>
             </p>
             <% end %>
-            <button phx-click="cancel-entry"
-                phx-value-ref="<%= (@uploads.photo.entries |> Enum.at(0)).ref %>"
+            <button phx-click="cancel-entry" phx-value-ref="<%= (@uploads.photo.entries |> Enum.at(0)).ref %>"
                 phx-value-category="profile" type="button"
                 class="ml-8 mt-6 inline-block items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Remove
                 photo</button>
 
             <div class="ml-8">
-                <label for="summary"
-                    class="ml-8 block text-sm font-medium text-gray-700 mt-4">Publish
+                <label for="summary" class="ml-8 block text-sm font-medium text-gray-700 mt-4">Publish
                     Prof Pic
                     Change?</label>
                 <div class="mt-1 relative">
@@ -221,8 +214,7 @@
             <p class="alert alert-danger"><%= Phoenix.Naming.humanize(msg) %>
             </p>
             <% end %>
-            <button phx-click="cancel-entry"
-                phx-value-ref="<%= (@uploads.cover_photo.entries |> Enum.at(0)).ref %>"
+            <button phx-click="cancel-entry" phx-value-ref="<%= (@uploads.cover_photo.entries |> Enum.at(0)).ref %>"
                 phx-value-category="cover" type="button"
                 class="ml-8 mt-6 inline-block items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Remove
                 cover photo</button>
@@ -238,8 +230,7 @@
 
 
                 <div class="inline-block ">
-                    <label for="name"
-                        class="block text-sm font-medium text-gray-700 mt-4">Change
+                    <label for="name" class="block text-sm font-medium text-gray-700 mt-4">Change
                         Profile
                         Photo</label>
                     <label for="file-upload"
@@ -250,8 +241,7 @@
                 </div>
 
                 <div class="inline-block ">
-                    <label for="name"
-                        class="block text-sm font-medium text-gray-700 mt-4">Change
+                    <label for="name" class="block text-sm font-medium text-gray-700 mt-4">Change
                         Cover
                         Photo</label>
                     <label for="file-upload"
@@ -267,8 +257,7 @@
 
                 <%# Name %>
                 <div class="inline-block">
-                    <label for="name"
-                        class="block text-sm font-medium text-gray-700 mt-4">Name</label>
+                    <label for="name" class="block text-sm font-medium text-gray-700 mt-4">Name</label>
                     <div class="mt-1 relative rounded-md shadow-sm">
                         <%= text_input f, :persona_name, class: "focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 sm:text-sm border-gray-300 rounded-md",
                                     placeholder: "Name" %>
@@ -281,8 +270,7 @@
 
                 <%# Title %>
                 <div class="mb-6">
-                    <label for="title"
-                        class="block text-sm font-medium text-gray-700 mt-4">Headline</label>
+                    <label for="title" class="block text-sm font-medium text-gray-700 mt-4">Headline</label>
                     <div class="mt-1 relative rounded-md shadow-sm">
                         <%= text_input f, :persona_title, class: "focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 sm:text-sm border-gray-300 rounded-md",
                                     placeholder:  @title_placeholder  %>
@@ -295,8 +283,7 @@
 
                 <%# Bio %>
                 <div>
-                    <label for="summary"
-                        class="block text-sm font-medium text-gray-700 mt-4">Bio</label>
+                    <label for="summary" class="block text-sm font-medium text-gray-700 mt-4">Bio</label>
                     <div class="mt-1 relative rounded-md shadow-sm">
                         <%= textarea f, :summary, class: "focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 sm:text-sm border-gray-300 rounded-md",
                                     placeholder: @bio_placeholder, rows: 5 %>
@@ -309,8 +296,7 @@
 
 
                 <div>
-                    <label for="life_score"
-                        class="text-sm font-medium text-gray-700 mt-4">How would
+                    <label for="life_score" class="text-sm font-medium text-gray-700 mt-4">How would
                         you grade your life
                         so far?</label>
                     <div class="mt-1">
@@ -324,8 +310,7 @@
 
                 <%# Username %>
                 <div class="">
-                    <label for="url"
-                        class="text-sm font-medium text-gray-700 mt-4">Change
+                    <label for="url" class="text-sm font-medium text-gray-700 mt-4">Change
                         your username</label>
 
 
@@ -349,8 +334,7 @@
                 <hr class="my-4">
                 <%= if Profiles.is_platinum?(@profile) do %>
                 <div>
-                    <label for="url"
-                        class="text-sm font-medium text-gray-700 mt-4 block">Add
+                    <label for="url" class="text-sm font-medium text-gray-700 mt-4 block">Add
                         Soundtrack</label>
 
                     <%= text_input f, :spotify_song_url, placeholder: "https://open.spotify.com/track/09uV1Sli9wapcKQmmyaG4E?si=119936a4e9fd4bfd", class: "focus:ring-blue-500 focus:border-blue-500 w-full sm:text-sm border-gray-300 rounded-md" %>
@@ -367,8 +351,7 @@
                 <%= live_redirect "Go Platinum - $6.66 / mo", to: Routes.platinum_index_path(@socket, :index), class: "mt-2 inline-block bg-gradient-to-tr from-blue-500 via-teal-400 to-green-300 rounded-md py-3 px-8 font-medium text-white hover:from-blue-600 hover:to-green-400 w-auto" %>
 
                 <div>
-                    <label for="url"
-                        class="text-sm font-medium text-gray-300 mt-4 block">Add
+                    <label for="url" class="text-sm font-medium text-gray-300 mt-4 block">Add
                         Soundtrack</label>
 
                     <%= text_input f, :spotify_song_url, disabled: true, placeholder: "https://open.spotify.com/track/09uV1Sli9wapcKQmmyaG4E?si=119936a4e9fd4bfd", class: "focus:ring-blue-500 focus:border-blue-500 w-full sm:text-sm border-gray-300 rounded-md" %>
@@ -390,10 +373,8 @@
 
                 <div>
                     <%= checkbox f, :unsubscribed, class: "h-4 w-4 text-blue-400 focus:ring-blue-400 border-gray-300 rounded" %>
-                    <label for="unsubscribed"
-                        class="text-sm font-medium text-gray-700 mt-4">Seckler
-                        Mode? <span
-                            class="text-sm font-medium text-gray-500">Turns off
+                    <label for="unsubscribed" class="text-sm font-medium text-gray-700 mt-4">Seckler
+                        Mode? <span class="text-sm font-medium text-gray-500">Turns off
                             email notifications.</span></label>
 
 
@@ -406,8 +387,7 @@
 
                 <div class="">
                     <%= number_input f, :ad_frequency, class: "focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md w-16"%>
-                    <label for="ad_frequency"
-                        class="text-sm font-medium text-gray-700 mt-4">Fake ad
+                    <label for="ad_frequency" class="text-sm font-medium text-gray-700 mt-4">Fake ad
                         Frequency:
                         <span class="text-sm font-medium text-gray-500">How many
                             posts do you want to see
@@ -435,7 +415,7 @@
 
             </div>
             <div class="flex justify-end p-5">
-                <%= live_patch "Cancel", to: Routes.profile_show_path(@socket, :show, @profile.slug), class: "ml-3 mt-6 inline-flex justify-center py-2 px-4 border border-blue-600 shadow-sm text-sm font-medium rounded-full text-blue-600 bg-white hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+                <%= live_redirect "Cancel", to: Routes.profile_show_path(@socket, :show, @profile.slug), class: "ml-3 mt-6 inline-flex justify-center py-2 px-4 border border-blue-600 shadow-sm text-sm font-medium rounded-full text-blue-600 bg-white hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
                 <%= submit "Save", class: "ml-3 mt-6 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
             </div>
         </div>

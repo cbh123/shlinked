@@ -9,9 +9,16 @@
 
         <div class="text-center mt-3">
             <form id="resume-form" phx-submit="create-resume" phx-change="change-name" class="text-center">
+                <%= if @profile do %>
+
+                <input disabled required autofocus="true" id="name-value" type="text" name="name" value={@name}
+                    placeholder="Your Name"
+                    class="my-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 block border-gray-300 rounded-md px-3 mx-auto">
+                <% else %>
                 <input required autofocus="true" id="name-value" type="text" name="name" value={@name}
                     placeholder="Your Name"
                     class="my-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 block border-gray-300 rounded-md px-3 mx-auto">
+                <% end %>
 
                 <button phx-disable-with="Generating..." type=" submit" class={"items-center px-6 py-3 border
                     border-transparent text-base font-medium rounded-md shadow-sm text-white #{if @spin,
@@ -26,7 +33,7 @@
                 <%= if @created and not @spin do %>
                 <button type="button" phx-click="share-resume"
                     class="inline-flex items-center px-6 py-3 border-2 text-base font-medium rounded-md shadow-sm text-blue-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    Share &rarr;
+                    <%= if @profile, do: "Save to profile", else: "Share" %> &rarr;
                 </button>
                 <% end %>
             </form>
@@ -57,23 +64,25 @@
             company3_job: @company3_job,
             company3_title: @company3_title,
             hobbies: @hobbies,
-            reference: @reference
+            reference: @reference,
+            profile: @profile || nil
         %>
 
     </div>
 
 
-    <div class="text-center mt-10">
+    <div class="text-center my-10">
         <%= if @created and not @spin do %>
         <button type="button" phx-click="share-resume"
             class="inline-flex items-center px-6 py-3 border-2 text-base font-medium rounded-md shadow-sm text-blue-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-            Share Resume &rarr;
+            <%= if @profile, do: "Save to profile", else: "Share" %> &rarr;
         </button>
         <% end %>
     </div>
 
 
 
+    <%= if is_nil(@profile) do %>
     <div class="max-w-prose mx-auto text-center">
         <div class="mx-auto py-16 mb-30 pb-36 px-4 sm:px-6 lg:px-8 text-center">
             <div class="bg-blue-700 rounded-lg shadow-xl overflow-hidden">
@@ -97,5 +106,6 @@
             </div>
         </div>
     </div>
+    <% end %>
     <% end %>
 </div>

@@ -3,9 +3,25 @@ defmodule ShlinkedinWeb.ResumeLive.Show do
   alias Shlinkedin.Timeline.Generators
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, session, socket) do
+    socket = is_user(session, socket)
+
     {:ok,
-     socket |> assign(meta_attrs: meta_attrs()) |> assign(page_title: "Check out my new resume!")}
+     socket
+     |> assign(meta_attrs: meta_attrs())
+     |> assign(page_title: "Check out my new resume!")}
+  end
+
+  def handle_event("save-to-profile", _, socket) do
+    {:ok, profile} =
+      Shlinkedin.Profiles.update_profile(socket.assigns.profile, %{
+        resume_link: socket.assigns.url
+      })
+
+    {:noreply,
+     socket
+     |> put_flash(:info, "Saved new resume")
+     |> push_redirect(to: Routes.profile_show_path(socket, :show, profile.slug))}
   end
 
   @impl true
@@ -29,7 +45,7 @@ defmodule ShlinkedinWeb.ResumeLive.Show do
           "hobbies" => _hobbies,
           "reference" => _references
         } = params,
-        _url,
+        url,
         socket
       ) do
     params = params |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
@@ -37,6 +53,7 @@ defmodule ShlinkedinWeb.ResumeLive.Show do
     socket =
       socket
       |> assign(params)
+      |> assign(url: url)
       |> assign(created: true)
       |> assign(page_title: "Check out #{name}'s resume")
 
