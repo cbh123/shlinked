@@ -1,8 +1,29 @@
-<div class="text-center my-3 mb-10">
-    <%= live_redirect raw("&larr; Try the resume generator"), to: Routes.resume_index_path(@socket, :index), class: "inline-flex items-center px-6 py-3 text-base font-medium rounded-md text-blue-700  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+<div class="text-center my-3">
 
-    <h5 class="text-xl italic font-semibold"><%= @name %>'s Brand New Resume! </h5>
+    <%= if not is_nil(@profile) and @profile.persona_name == @name do %>
+    <%= live_redirect raw("&larr; Back to resume generator"), to: Routes.resume_index_path(@socket, :index), class: "inline-flex items-center px-6 py-2 text-base font-medium rounded-md text-blue-700  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+    <div class="mb-8">
+
+        <button phx-click="save-to-profile" class="mt-2 inline-flex items-center px-6 py-3 border border-transparent
+        text-base font-medium rounded-md shadow-sm text-white bg-blue-600  hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2
+        focus:ring-blue-500">
+
+            <span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                </svg>
+            </span>
+            Save
+        </button>
+    </div>
+    <% else %>
+
+    <%= live_redirect raw("Create my own resume"), to: Routes.resume_index_path(@socket, :index), class: "inline-flex items-center px-6 py-2 text-base font-medium rounded-md text-blue-700 hover:bg-blue-100  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+    <% end %>
 </div>
+
 
 
 <%= live_component ShlinkedinWeb.ResumeLive.ResumeComponent,
@@ -26,11 +47,8 @@
             reference: @reference
         %>
 
-<div class="text-center mt-10">
-    <%= live_redirect raw("&larr; Try the resume generator"), to: Routes.resume_index_path(@socket, :index), class: "inline-flex items-center px-6 py-3 text-base font-medium rounded-md text-blue-700  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
-</div>
 
-
+<%= if is_nil(@profile) do %>
 <div class="max-w-prose mx-auto text-center">
     <div class="mx-auto py-16 mb-30 pb-36 px-4 sm:px-6 lg:px-8 text-center">
         <div class="bg-blue-700 rounded-lg shadow-xl overflow-hidden">
@@ -54,3 +72,4 @@
         </div>
     </div>
 </div>
+<% end %>

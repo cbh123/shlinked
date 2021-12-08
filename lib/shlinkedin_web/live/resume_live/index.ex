@@ -3,7 +3,9 @@ defmodule ShlinkedinWeb.ResumeLive.Index do
   alias Shlinkedin.Timeline.Generators
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, session, socket) do
+    socket = is_user(session, socket)
+
     {:ok,
      socket
      |> assign(meta_attrs: meta_attrs())
@@ -12,9 +14,12 @@ defmodule ShlinkedinWeb.ResumeLive.Index do
        created: false,
        spin: false,
        confetti: false,
-       name: ""
+       name: name(socket.assigns.profile)
      )}
   end
+
+  defp name(nil), do: ""
+  defp name(profile), do: profile.persona_name
 
   defp meta_attrs() do
     [
