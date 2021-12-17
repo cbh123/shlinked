@@ -6,17 +6,14 @@
 
 
     <%# Form %>
-    <%= @step %>
-
-    <div class="mt-2 px-5 max-w-md mx-auto">
+    <div x-data="{step: 1}" class="mt-2 px-5 max-w-md mx-auto">
+        <p x-text="step"></p>
 
         <%# Section 1 -- Introduction %>
-        <div class="flex mb-8">
+        <div x-show="step == 1" class="flex mb-8">
             <div class="mr-4 flex-shrink-0 self-center">
-                <img class="h-full w-24 object-cover "
-                    style="filter: drop-shadow(1px 2px 2px black)"
-                    src="<%= Routes.static_path(@socket, "/images/businessman.png") %>"
-                    alt="">
+                <img class="h-full w-24 object-cover " style="filter: drop-shadow(1px 2px 2px black)"
+                    src="<%= Routes.static_path(@socket, "/images/businessman.png") %>" alt="">
             </div>
             <div>
                 <div id="prompt1-text" class="mt-1">
@@ -24,53 +21,71 @@
                         Jeff Business, your new boss.
                         Welcome to your new role at ShlinkedIn. You'll fit right in here.
                     </p>
-                    <%= if @step == 1 do %>
-                      <button
-                            class="mt-4 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            type="button" id="prompt2-btn" phx-click="next-step"
-                            phx-value-step="2">Shake Hands 🤝
-                        </button>
-                    <% end %>
+                    <button x-show="step == 1" @click="step = step + 1"
+                        class="mt-4 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        type="button" id="prompt2-btn" phx-click="next-step" phx-value-step="2">Shake Hands 🤝
+                    </button>
                 </div>
             </div>
         </div>
 
 
-
         <%# Section 2 -- Name %>
-        <div class="<%= unless @step >= 2, do: "hidden" %>">
-            <div id="prompt2-text">
-                <p>Wow, that's a hell of a handshake. Now let's get to business. What should we call you here? </p>
+        <div x-show="step >= 2">
+            <div class="text-center">
+                <p>Wow, that's a hell of a handshake. Now let's get to business — do you have your card on you?</p>
             </div>
 
-             <div class="mt-2">
-                    <div class="rounded-md shadow-sm">
-                        <%= text_input f, :persona_name, class: "focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 text-sm border-gray-300 rounded-md",
+
+            <%# Business Card %>
+            <div class="relative border-1 border border-gray-300 rounded-md shadow-lg px-10 mt-4">
+
+                <%# Logo  %>
+                <div class="absolute bottom-0.5 left-2">
+                    <p class="font-bold text-blue-600">Sh</p>
+                </div>
+
+                <%# Name  %>
+                <div class="mt-6 text-center">
+                    <%= text_input f, :persona_name, class: "font-bold py-0.5 text-center focus:border-gray-800 text-xl border-gray-400 border-dashed rounded-md",
                                     placeholder: "Dave Business", autofocus: "true" %>
-                    </div>
+                    <%= text_input f, :persona_title, class: "mt-1 py-0.5 text-center italic border-gray-400 border-dashed text-sm rounded-md",
+                                    placeholder: "Business Magician" %>
+                </div>
 
-                    <p class="mt-2 text-xs"><%= error_tag f, :persona_name %></p>
+                <%# Summary %>
+                <div class="mt-2 pb-6">
 
-                    <div class="flex justify-between">
-                        <button type="button" phx-click="inspire" id="inspire" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        💡 Inspire Me
-                        </button>
+                    <%= textarea f, :summary, class: "focus:ring-blue-500 focus:border-blue-500 text-center sm:text-sm  border-gray-400 border-dashed  rounded-md",
+                                    placeholder: "Accomplished data engineer with a knack for small talk. Proficient with Excel, Teeth cleaning, and various other practices.", rows: 4 %>
+                </div>
 
-                        <%# Probably should check for errors here too %>
-                        <%= if Map.has_key?(@changeset.changes, :persona_name) do %>
-                        <button type="button" phx-click="next-step" class="inline-flex items-center px-4 py-2 shadow-sm text-sm font-medium rounded-md bg-blue-600 text-white hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        Hand Business Card
-                        </button>
-                        <% end %>
-                    </div>
+
             </div>
+
+            <div class="text-center mt-4">
+                <button type="button" phx-click="inspire" id="inspire"
+                    class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    💡 Fill this in for me</button>
+            </div>
+
+            <%= if Map.has_key?(@changeset.changes, :persona_name) do %>
+            <div class="text-center mt-4">
+                <button type="button" @click="step += 1"
+                    class="inline-flex items-center px-4 py-2 shadow-sm text-sm font-medium rounded-md bg-blue-600 text-white hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Hand Business Card
+                </button>
+            </div>
+            <% end %>
+
         </div>
 
 
 
 
 
-        <div class="w-full pb-16 pt-8">
+
+        <div x-show="step == 3" class="w-full pb-16 pt-8">
 
 
 
