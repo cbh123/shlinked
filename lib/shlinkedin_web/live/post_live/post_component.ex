@@ -37,15 +37,6 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     end
   end
 
-  def handle_event("toggle-post-options", _, socket) do
-    send_update(PostComponent,
-      id: socket.assigns.post.id,
-      show_post_options: !socket.assigns.show_post_options
-    )
-
-    {:noreply, socket}
-  end
-
   def handle_event("pin-post", _params, socket) do
     post = Timeline.get_post!(socket.assigns.post.id)
 
