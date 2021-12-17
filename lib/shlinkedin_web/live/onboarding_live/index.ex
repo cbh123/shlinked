@@ -2,6 +2,7 @@ defmodule ShlinkedinWeb.OnboardingLive.Index do
   use ShlinkedinWeb, :live_view
   alias Shlinkedin.Profiles
   alias Shlinkedin.Profiles.Profile
+  alias Shlinkedin.Timeline.Generators
 
   @bio_placeholders [
     "My approach to business is simple: work hard at something everyday of your life and when you die you will have worked very hard and are a good boy! Then you get to eat all the marzipan your precious little heart could ever desire. Also, my cousin was on a flight next to Richard Branson once.",
@@ -19,16 +20,11 @@ defmodule ShlinkedinWeb.OnboardingLive.Index do
   ]
 
   def mount(_params, session, socket) do
-    socket =
-      is_user(session, socket)
-      |> allow_upload(:photo,
-        accept: ~w(.png .jpeg .jpg .gif .webp),
-        max_entries: 1,
-        max_file_size: 12_000_000,
-        external: &presign_entry/2
-      )
-
-    profile = %Profile{}
+    socket = is_user(session, socket)
+    persona_name = Shlinkedin.Timeline.Generators.full_name()
+    title = @title_placeholders |> Enum.random()
+    bio = @bio_placeholders |> Enum.random()
+    profile = %Profile{persona_name: persona_name, persona_title: title, summary: bio}
     changeset = Profiles.change_profile(profile)
 
     {:ok,
@@ -36,46 +32,22 @@ defmodule ShlinkedinWeb.OnboardingLive.Index do
      |> assign(
        step: 3,
        changeset: changeset,
-       profile: profile,
-       bio_placeholder: @bio_placeholders |> Enum.random(),
-       title_placeholder: @title_placeholders |> Enum.random()
+       profile: profile
      )}
   end
 
   def handle_event("inspire", _params, socket) do
     persona_name = Shlinkedin.Timeline.Generators.full_name()
-    photo = Shlinkedin.Timeline.Generators.profile_photo()
-    username = persona_name |> Shlinkedin.Timeline.Generators.slugify()
+    title = @title_placeholders |> Enum.random()
+    bio = @bio_placeholders |> Enum.random()
 
     changeset =
       socket.assigns.changeset
       |> Ecto.Changeset.put_change(:persona_name, persona_name)
-      |> Ecto.Changeset.put_change(:photo_url, photo)
-      |> Ecto.Changeset.put_change(:username, username)
+      |> Ecto.Changeset.put_change(:persona_title, title)
+      |> Ecto.Changeset.put_change(:summary, bio)
 
     {:noreply, assign(socket, :changeset, changeset)}
-  end
-
-  def handle_event("prev-step", _value, socket) do
-    new_step = max(socket.assigns.step - 1, 1)
-    {:noreply, assign(socket, :step, new_step)}
-  end
-
-  def handle_event("next-step", _value, socket) do
-    step = socket.assigns.step
-    changeset = socket.assigns.changeset
-
-    step_invalid =
-      case step do
-        1 -> Enum.any?(Keyword.keys(changeset.errors), fn k -> k in [:name] end)
-        2 -> Enum.any?(Keyword.keys(changeset.errors), fn k -> k in [:headline] end)
-        3 -> Enum.any?(Keyword.keys(changeset.errors), fn k -> k in [:photo] end)
-        4 -> Enum.any?(Keyword.keys(changeset.errors), fn k -> k in [:url] end)
-        _ -> true
-      end
-
-    new_step = if step_invalid, do: step, else: step + 1
-    {:noreply, assign(socket, :step, new_step)}
   end
 
   def handle_event("validate", params, socket) do
@@ -89,42 +61,27 @@ defmodule ShlinkedinWeb.OnboardingLive.Index do
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
-  @bucket "shlinked"
-  defp s3_host, do: "//#{@bucket}.s3.amazonaws.com"
-  defp s3_key(entry), do: "#{entry.uuid}.#{ext(entry)}"
+  def handle_event("save", %{"profile" => profile_params}, socket) do
+    save_profile(socket, :new, profile_params)
+  end
 
-  defp presign_entry(entry, socket) do
-    uploads = socket.assigns.uploads
-    key = s3_key(entry)
-
-    config = %{
-      scheme: "https://",
-      host: "s3.amazonaws.com",
-      region: "us-east-1",
-      access_key_id: System.fetch_env!("AWS_ACCESS_KEY_ID"),
-      secret_access_key: System.fetch_env!("AWS_SECRET_ACCESS_KEY")
-    }
-
-    {:ok, fields} =
-      Shlinkedin.SimpleS3Upload.sign_form_upload(config, @bucket,
-        key: key,
-        content_type: entry.client_type,
-        max_file_size: uploads.photo.max_file_size,
-        expires_in: :timer.minutes(2)
+  defp save_profile(socket, :new, profile_params) do
+    case(
+      Profiles.create_profile(
+        socket.assigns.profile,
+        profile_params
       )
+    ) do
+      {:ok, profile} ->
+        {:noreply,
+         socket
+         |> assign(:profile, profile)
+         |> put_flash(:info, "Welcome to ShlinkedIn, #{profile.persona_name}!")
+         |> redirect(to: Routes.home_index_path(socket, :index, "featured"))}
 
-    meta = %{uploader: "S3", key: key, url: s3_host(), fields: fields}
-    {:ok, meta, socket}
-  end
-
-  def consume_photos(socket, %Profile{} = profile) do
-    consume_uploaded_entries(socket, :photo, fn _meta, _entry -> :ok end)
-
-    {:ok, profile}
-  end
-
-  def ext(entry) do
-    [ext | _] = MIME.extensions(entry.client_type)
-    ext
+      {:error, %Ecto.Changeset{} = changeset} ->
+        IO.inspect(changeset, label: "changeset")
+        {:noreply, assign(socket, :changeset, changeset)}
+    end
   end
 end

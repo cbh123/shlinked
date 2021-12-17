@@ -10,24 +10,31 @@
         <p x-text="step"></p>
 
         <%# Section 1 -- Introduction %>
-        <div x-show="step == 1" class="flex mb-8">
-            <div class="mr-4 flex-shrink-0 self-center">
-                <img class="h-full w-24 object-cover " style="filter: drop-shadow(1px 2px 2px black)"
-                    src="<%= Routes.static_path(@socket, "/images/businessman.png") %>" alt="">
-            </div>
-            <div>
-                <div id="prompt1-text" class="mt-1">
-                    <p><span class="font-bold">Hello! </span> My name is
-                        Jeff Business, your new boss.
-                        Welcome to your new role at ShlinkedIn. You'll fit right in here.
-                    </p>
-                    <button x-show="step == 1" @click="step = step + 1"
-                        class="mt-4 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        type="button" id="prompt2-btn" phx-click="next-step" phx-value-step="2">Shake Hands 🤝
-                    </button>
+        <div x-show="step == 1">
+            <div class="flex mb-8">
+                <div class="mr-4 flex-shrink-0 self-center">
+                    <img class="h-full w-24 object-cover " style="filter: drop-shadow(1px 2px 2px black)"
+                        src="<%= Routes.static_path(@socket, "/images/businessman.png") %>" alt="">
+                </div>
+                <div>
+                    <div id="prompt1-text" class="mt-1">
+                        <p><span class="font-bold">Hello! </span> My name is
+                            Jeff Business, your new boss.
+                            Welcome to your new role at ShlinkedIn. You'll fit right in here.
+                        </p>
+
+                    </div>
+
                 </div>
             </div>
+
+            <div class="text-center">
+                <button @click="step = 2" class="text-8xl hover:rotate-12 hover:bg-gray-100 p-5 rounded-full"
+                    type="button" id="prompt2-btn">🤝</button>
+                <p class="mt-2 text-gray-500 text-sm">Click to shake hands</p>
+            </div>
         </div>
+
 
 
         <%# Section 2 -- Name %>
@@ -49,15 +56,15 @@
                 <div class="mt-6 text-center">
                     <%= text_input f, :persona_name, class: "font-bold py-0.5 text-center focus:border-gray-800 text-xl border-gray-400 border-dashed rounded-md",
                                     placeholder: "Dave Business", autofocus: "true" %>
-                    <%= text_input f, :persona_title, class: "mt-1 py-0.5 text-center italic border-gray-400 border-dashed text-sm rounded-md",
+                    <%= text_input f, :persona_title, class: "mt-1 py-0.5 text-center italic border-gray-400 border-dashed text-xs rounded-md",
                                     placeholder: "Business Magician" %>
                 </div>
 
                 <%# Summary %>
                 <div class="mt-2 pb-6">
 
-                    <%= textarea f, :summary, class: "focus:ring-blue-500 focus:border-blue-500 text-center sm:text-sm  border-gray-400 border-dashed  rounded-md",
-                                    placeholder: "Accomplished data engineer with a knack for small talk. Proficient with Excel, Teeth cleaning, and various other practices.", rows: 4 %>
+                    <%= textarea f, :summary, class: "focus:ring-blue-500 focus:border-blue-500 text-center text-xs  border-gray-400 border-dashed  rounded-md",
+                                    placeholder: "Accomplished data engineer with a knack for small talk. Proficient with Excel, teeth cleaning, and AGILE methodologies.", rows: 4 %>
                 </div>
 
 
@@ -66,35 +73,22 @@
             <div class="text-center mt-4">
                 <button type="button" phx-click="inspire" id="inspire"
                     class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    💡 Fill this in for me</button>
+                    💡 Find a new card</button>
             </div>
 
             <%= if Map.has_key?(@changeset.changes, :persona_name) do %>
             <div class="text-center mt-4">
-                <button type="button" @click="step += 1"
+                <button type="submit" @click="step = 3"
                     class="inline-flex items-center px-4 py-2 shadow-sm text-sm font-medium rounded-md bg-blue-600 text-white hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                     Hand Business Card
                 </button>
             </div>
             <% end %>
-
         </div>
 
 
-
-
-
-
         <div x-show="step == 3" class="w-full pb-16 pt-8">
-
-
-
-            <%= submit raw("Enter Shlinkedin &rarr;"), class: "w-full -mx-2 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
-
-
-
-
-
+            <%= submit raw("Final step &rarr;"), class: "w-full -mx-2 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
         </div>
 
     </div>

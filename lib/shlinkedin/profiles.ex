@@ -902,6 +902,15 @@ defmodule Shlinkedin.Profiles do
   end
 
   @doc """
+  Creates a profile without a user.
+  """
+  def create_profile(%Profile{} = profile, attrs) do
+    profile
+    |> Profile.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
   Creates a profile given a username.
   """
   def create_profile(
