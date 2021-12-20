@@ -897,18 +897,17 @@ defmodule Shlinkedin.Profiles do
     Repo.get_by!(Profile, slug: slug)
   end
 
-  def change_profile(profile, user, attrs \\ %{})
-
-  def change_profile(nil, %User{id: user_id}, attrs) do
-    Profile.changeset(%Profile{}, attrs |> Map.put("user_id", user_id))
-  end
-
-  def change_profile(%Profile{} = profile, %User{id: user_id}, attrs) do
-    Profile.changeset(profile, attrs |> Map.put("user_id", user_id))
-  end
-
-  def change_profile_no_user(%Profile{} = profile, attrs \\ %{}) do
+  def change_profile(%Profile{} = profile, attrs \\ %{}) do
     Profile.changeset(profile, attrs)
+  end
+
+  @doc """
+  Creates a profile without a user.
+  """
+  def create_profile(%Profile{} = profile, attrs) do
+    profile
+    |> Profile.changeset(attrs)
+    |> Repo.insert()
   end
 
   @doc """

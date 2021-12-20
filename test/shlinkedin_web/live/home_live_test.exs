@@ -103,20 +103,6 @@ defmodule ShlinkedinWeb.HomeLiveTest do
       assert html =~ "some body"
     end
 
-    test "deletes post", %{conn: conn, profile: profile} do
-      {:ok, view, _html} = live(conn, Routes.home_index_path(conn, :index))
-
-      {:ok, post} = Timeline.create_post(profile, %{body: "test"}, %Timeline.Post{})
-
-      assert view |> element("#options-menu-#{post.id}") |> render_click()
-
-      assert view |> element("#post-#{post.id} a", "Delete") |> render_click()
-
-      refute view
-             |> element("#post-#{post.id} a", "Delete")
-             |> has_element?()
-    end
-
     test "like post", %{conn: conn, profile: profile} do
       {:ok, view, _html} = live(conn, Routes.home_index_path(conn, :index))
 

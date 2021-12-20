@@ -119,28 +119,38 @@
                     </p>
                 </button>
                 <% end %>
-                <%= link to: "/updates" do %>
-                <button
-                    class="hover:bg-gray-100 px-2 mx-1 h-full relative <%= if @conn.request_path == "/updates", do: "border-gray-700 text-gray-700 "%> border-b-2 border-white  px-1 pt-1 font-base">
+                <div x-data="{post_options: false}" class="relative">
+                    <button @click.away="post_option=false" @click="post_options= !post_options"
+                        class="hover:bg-gray-100 px-2 mx-1 h-full relative <%= if @conn.request_path == "/updates", do: "border-gray-700 text-gray-700 "%> border-b-2 border-white  px-1 pt-1 font-base">
 
-                    <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z">
-                        </path>
-                    </svg>
+                        <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z">
+                            </path>
+                        </svg>
 
 
-                    <%= if Shlinkedin.Profiles.get_last_read_notification_time(@profile) > @profile.last_checked_notifications do %>
-                    <span
-                        class="text-xs absolute top-3 right-2 block h-4 w-4 rounded-full ring-2 ring-white bg-red-600 text-white">
-                        <%= Shlinkedin.Profiles.get_unread_notification_count(@profile) %>
-                    </span>
+                        <%= if Shlinkedin.Profiles.get_last_read_notification_time(@profile) > @profile.last_checked_notifications do %>
+                        <span
+                            class="text-xs absolute top-3 right-2 block h-4 w-4 rounded-full ring-2 ring-white bg-red-600 text-white">
+                            <%= Shlinkedin.Profiles.get_unread_notification_count(@profile) %>
+                        </span>
 
-                    <% end %>
-                    <p class=" pt-0.5 text-xs hidden md:inline-block">Dinks</p>
-                </button>
-                <% end %>
+                        <% end %>
+                        <p class=" pt-0.5 text-xs hidden md:inline-block">Dinks</p>
+                    </button>
+                    <%# Options Menu %>
+                    <div x-show="post_options" x-transition
+                        class="origin-top-right z-10 top-12 absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                        <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                            <%= live_render @conn, ShlinkedinWeb.NotificationLive.NotificationComponent %>
+
+                            <%= live_redirect to: Routes.notification_index_path(@conn, :index), do: raw("All dinks &rarr;"), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
+                        </div>
+                    </div>
+                </div>
+
 
                 <%= link to: "/dms" do %>
                 <button

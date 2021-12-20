@@ -14,10 +14,10 @@
                 post: @post %>
 
             <%# Post Options %>
-            <div class="sm:block text-xs text-gray-500 text-right">
+            <div x-data="{post_options: false}" class="sm:block text-xs text-gray-500 text-right">
                 <div class="relative inline-block text-left ">
                     <div>
-                        <button type="button" phx-click="toggle-post-options" phx-target="<%= @myself %>"
+                        <button @click.away="post_options=false" @click="post_options = !post_options" type="button"
                             class=" py-2 text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
                             id="<%= "options-menu-#{@post.id}" %>" aria-haspopup="true" aria-expanded="true">
 
@@ -33,8 +33,8 @@
 
 
                     <%# Options Menu %>
-                    <div
-                        class="<%= if @show_post_options != true, do: "hidden" %> origin-top-right z-10 absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                    <div x-show="post_options"
+                        class="origin-top-right z-10 absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                         <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                             <%= live_redirect to: Routes.home_show_path(@socket, :show, @post.id), do: raw("View post &rarr;"), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
 
