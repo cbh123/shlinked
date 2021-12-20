@@ -79,4 +79,4 @@ config :phoenix, :plug_init_mode, :runtime
 
 config :shlinkedin, Shlinkedin.Mailer, adapter: Bamboo.LocalAdapter
 
-config :appsignal, :config, active: false
+config :appsignal, :config, active: true

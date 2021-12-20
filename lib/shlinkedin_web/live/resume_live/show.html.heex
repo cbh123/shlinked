@@ -1,0 +1,75 @@
+<div class="text-center my-3">
+
+    <%= if not is_nil(@profile) and @profile.persona_name == @name do %>
+    <%= live_redirect raw("&larr; Back to resume generator"), to: Routes.resume_index_path(@socket, :index), class: "inline-flex items-center px-6 py-2 text-base font-medium rounded-md text-blue-700  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+    <div class="mb-8">
+
+        <button phx-click="save-to-profile" class="mt-2 inline-flex items-center px-6 py-3 border border-transparent
+        text-base font-medium rounded-md shadow-sm text-white bg-blue-600  hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2
+        focus:ring-blue-500">
+
+            <span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                </svg>
+            </span>
+            Save
+        </button>
+    </div>
+    <% else %>
+
+    <%= live_redirect raw("Create my own resume"), to: Routes.resume_index_path(@socket, :index), class: "inline-flex items-center px-6 py-2 text-base font-medium rounded-md text-blue-700 hover:bg-blue-100  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+    <% end %>
+</div>
+
+
+
+<%= live_component ShlinkedinWeb.ResumeLive.ResumeComponent,
+            id: "resume",
+            name: @name,
+            address: @address,
+            education: @education,
+            major: @major,
+            gpa: @gpa,
+            summary: @summary,
+            company1_name: @company1_name,
+            company1_job: @company1_job,
+            company1_title: @company1_title,
+            company2_name: @company2_name,
+            company2_job: @company2_job,
+            company2_title: @company2_title,
+            company3_name: @company3_name,
+            company3_job: @company3_job,
+            company3_title: @company3_title,
+            hobbies: @hobbies,
+            reference: @reference
+        %>
+
+
+<%= if is_nil(@profile) do %>
+<div class="max-w-prose mx-auto text-center">
+    <div class="mx-auto py-16 mb-30 pb-36 px-4 sm:px-6 lg:px-8 text-center">
+        <div class="bg-blue-700 rounded-lg shadow-xl overflow-hidden">
+            <div class="pt-10 pb-12 px-6 sm:pt-16 sm:px-16 lg:py-16">
+                <div class="self-center">
+                    <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                        <span class="">Start Shlinkin'</span>
+                    </h2>
+                    <p class="mt-4 text-lg leading-6 text-indigo-200">
+                        Join ShlinkedIn to post your content, earn some
+                        ShlinkPoints, and get
+                        #inspired.
+                    </p>
+
+                    <%= live_redirect "Join for free", to: Routes.user_registration_path(@socket, :new), class: "mt-8 bg-white border border-transparent rounded-md shadow px-5 py-3 inline-flex items-center text-base font-medium text-blue-600 hover:bg-indigo-50" %>
+                    <%= live_redirect "Explore", to: Routes.home_index_path(@socket, :index), class: "ml-2 mt-8 bg-blue-400 border border-transparent rounded-md shadow px-5 py-3 inline-flex items-center text-base font-medium text-white hover:bg-blue-500" %>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<% end %>

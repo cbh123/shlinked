@@ -9,6 +9,7 @@ import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
 import topbar from "../vendor/topbar";
 import Alpine from "alpinejs";
+const confetti = require("canvas-confetti");
 
 let Uploaders = {};
 let Hooks = {};
@@ -43,6 +44,14 @@ function scrollDown(document, num_messages) {
     window.scrollTo(0, document.body.scrollHeight);
   }
 }
+
+Hooks.Confetti = {
+  mounted() {
+    confetti({
+      spread: 180,
+    });
+  },
+};
 
 Hooks.SendMessage = {
   mounted() {

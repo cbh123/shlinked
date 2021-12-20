@@ -68,6 +68,7 @@ defmodule Shlinkedin.Profiles.Profile do
     field(:joined_discord, :boolean, default: false)
     field(:show_sold_ads, :boolean, default: false)
     field(:spotify_song_url, :string)
+    field :resume_link, :string
     timestamps()
   end
 
@@ -100,7 +101,8 @@ defmodule Shlinkedin.Profiles.Profile do
       :headline_time,
       :joined_discord,
       :show_sold_ads,
-      :spotify_song_url
+      :spotify_song_url,
+      :resume_link
     ])
     |> validate_required([:user_id, :persona_name, :slug, :username])
     |> downcase_username()
