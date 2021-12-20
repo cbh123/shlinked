@@ -146,7 +146,7 @@
                         <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                             <%= live_render @conn, ShlinkedinWeb.NotificationLive.NotificationComponent %>
 
-                            <%= live_redirect to: Routes.home_index_path(@conn, :index), do: raw("View post &rarr;"), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
+                            <%= live_redirect to: Routes.notification_index_path(@conn, :index), do: raw("All dinks &rarr;"), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
                         </div>
                     </div>
                 </div>

@@ -21,7 +21,6 @@ defmodule ShlinkedinWeb.NotificationLive.NotificationComponent do
     Profiles.change_notification_to_read(id |> String.to_integer())
     my_slug = socket.assigns.profile.slug
     n_slug = Shlinkedin.Repo.preload(n, :profile).profile.slug
-    IO.inspect(binding())
 
     case n.type do
       "endorsement" ->
