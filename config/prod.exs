@@ -56,4 +56,4 @@ config :logger, level: :info
 # and configuration from environment variables.
 import_config "prod.secret.exs"
 
-config :appsignal, :config, active: true
+config :appsignal, :config, active: false
