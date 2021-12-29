@@ -6,39 +6,42 @@
 
 
     <%# Form %>
-    <div x-data="{step: 1}" class="mt-2 px-5 max-w-md mx-auto">
-        <p x-text="step"></p>
+    <div x-data="{step: 1}" class="mt-2 px-5 max-w-3xl h-full mx-auto">
+
 
         <%# Section 1 -- Introduction %>
-        <div x-show="step == 1">
-            <div class="flex mb-8">
-                <div class="mr-4 flex-shrink-0 self-center">
-                    <img class="h-full w-24 object-cover " style="filter: drop-shadow(1px 2px 2px black)"
-                        src="<%= Routes.static_path(@socket, "/images/businessman.png") %>" alt="">
+        <div x-show="step == 1" class="text-center">
+            <div class="inline-flex mb-8 relative">
+                <div class="">
+                    <img class="object-cover " style="filter: drop-shadow(1px 2px 2px black)"
+                        src="<%= Routes.static_path(@socket, "/images/handshake2.png") %>" alt="">
                 </div>
-                <div>
-                    <div id="prompt1-text" class="mt-1">
-                        <p><span class="font-bold">Hello! </span> My name is
+                <div class="absolute right-24">
+                    <div class="mt-1 text-lg  w-56  rounded-3xl p-2 rounded-bl-none">
+                        <p><span class="font-bold">"Hello! </span> My name is
                             Jeff Business, your new boss.
-                            Welcome to your new role at ShlinkedIn. You'll fit right in here.
+                            Welcome to your first day at ShlinkedIn."
                         </p>
+                    </div>
 
+                    <div class=" top-40 mt-4">
+                        <button @click="step = 2" class="text-8xl hover:rotate-12 hover:bg-gray-100 p-5 rounded-full"
+                            type="button" id="prompt2-btn">🤝</button>
+                        <p class="mt-2 text-gray-500 text-sm animate-pulse italic">Click to shake hands</p>
                     </div>
 
                 </div>
             </div>
 
-            <div class="text-center">
-                <button @click="step = 2" class="text-8xl hover:rotate-12 hover:bg-gray-100 p-5 rounded-full"
-                    type="button" id="prompt2-btn">🤝</button>
-                <p class="mt-2 text-gray-500 text-sm">Click to shake hands</p>
-            </div>
+
+
+
         </div>
 
 
 
         <%# Section 2 -- Name %>
-        <div x-show="step <= 2">
+        <div x-show="step == 2" class="max-w-sm mx-auto" x-transition>
             <div class="text-center">
                 <p>Wow, that's a hell of a handshake. Now let's get to business — do you have your card on you?</p>
             </div>
