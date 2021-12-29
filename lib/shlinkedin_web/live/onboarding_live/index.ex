@@ -20,7 +20,7 @@ defmodule ShlinkedinWeb.OnboardingLive.Index do
   ]
 
   def mount(_params, session, socket) do
-    socket = is_user(session, socket)
+    # socket = is_user(session, socket)
     persona_name = Shlinkedin.Timeline.Generators.full_name()
     title = @title_placeholders |> Enum.random()
     bio = @bio_placeholders |> Enum.random()
@@ -39,13 +39,11 @@ defmodule ShlinkedinWeb.OnboardingLive.Index do
   def handle_event("inspire", _params, socket) do
     persona_name = Shlinkedin.Timeline.Generators.full_name()
     title = @title_placeholders |> Enum.random()
-    bio = @bio_placeholders |> Enum.random()
 
     changeset =
       socket.assigns.changeset
       |> Ecto.Changeset.put_change(:persona_name, persona_name)
       |> Ecto.Changeset.put_change(:persona_title, title)
-      |> Ecto.Changeset.put_change(:summary, bio)
 
     {:noreply, assign(socket, :changeset, changeset)}
   end

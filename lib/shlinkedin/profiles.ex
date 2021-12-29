@@ -393,6 +393,8 @@ defmodule Shlinkedin.Profiles do
     )
   end
 
+  def get_last_read_notification_time(%Profile{id: nil}), do: nil
+
   def get_last_read_notification_time(%Profile{} = profile) do
     Repo.one(
       from(n in Notification,
@@ -656,6 +658,10 @@ defmodule Shlinkedin.Profiles do
     |> Friend.changeset(%{status: "accepted"})
     |> Repo.update()
     |> ProfileNotifier.observer(:accepted_friend_request, from, to)
+  end
+
+  def get_pending_requests(%Profile{id: nil}) do
+    []
   end
 
   def get_pending_requests(%Profile{} = to) do

@@ -255,7 +255,7 @@ defmodule ShlinkedinWeb.Router do
     get "/error", ErrorController, :index
 
     # onboarding
-    live "/onboarding/:id", OnboardingLive.Index, :index
+    live "/onboarding", OnboardingLive.Index, :index
 
     # join
     get "/join", UserRegistrationController, :join

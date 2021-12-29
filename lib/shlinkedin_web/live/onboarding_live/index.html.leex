@@ -38,14 +38,14 @@
 
 
         <%# Section 2 -- Name %>
-        <div x-show="step >= 2">
+        <div x-show="step <= 2">
             <div class="text-center">
                 <p>Wow, that's a hell of a handshake. Now let's get to business — do you have your card on you?</p>
             </div>
 
 
             <%# Business Card %>
-            <div class="relative border-1 border border-gray-300 rounded-md shadow-lg px-10 mt-4">
+            <div class="h-48 relative border-1 border border-gray-300 rounded-md shadow-lg px-10 mt-4">
 
                 <%# Logo  %>
                 <div class="absolute bottom-0.5 left-2">
@@ -53,20 +53,12 @@
                 </div>
 
                 <%# Name  %>
-                <div class="mt-6 text-center">
+                <div class="mt-12 text-center">
                     <%= text_input f, :persona_name, class: "font-bold py-0.5 text-center focus:border-gray-800 text-xl border-gray-400 border-dashed rounded-md",
                                     placeholder: "Dave Business", autofocus: "true" %>
-                    <%= text_input f, :persona_title, class: "mt-1 py-0.5 text-center italic border-gray-400 border-dashed text-xs rounded-md",
+                    <%= textarea f, :persona_title, class: "mt-1 py-0.5 w-full text-center italic border-gray-400 border-dashed text-xs rounded-md",
                                     placeholder: "Business Magician" %>
                 </div>
-
-                <%# Summary %>
-                <div class="mt-2 pb-6">
-
-                    <%= textarea f, :summary, class: "focus:ring-blue-500 focus:border-blue-500 text-center text-xs  border-gray-400 border-dashed  rounded-md",
-                                    placeholder: "Accomplished data engineer with a knack for small talk. Proficient with Excel, teeth cleaning, and AGILE methodologies.", rows: 4 %>
-                </div>
-
 
             </div>
 
