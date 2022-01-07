@@ -19,7 +19,8 @@ Alpine.start();
 
 let bindTrix = function () {
   let trix = document.querySelector("trix-editor");
-  console.log(trix);
+  console.log("trix is", trix);
+  console.log("trix != null?", trix != null);
   if (trix != null) {
     trix.addEventListener("trix-change", function () {
       trix.inputElement.dispatchEvent(new Event("change", { bubbles: true }));
