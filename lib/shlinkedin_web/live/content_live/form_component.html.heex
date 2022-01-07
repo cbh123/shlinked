@@ -1,0 +1,59 @@
+<div class="p-5">
+    <h2><%= @title %></h2>
+
+    <.form let={f} for={@changeset} id="content-form" phx-target={@myself} phx-change="validate" phx-submit="save">
+
+        <div>
+            <%= label f, :author %>
+            <%= text_input f, :author %>
+            <%= error_tag f, :author %>
+        </div>
+
+        <div>
+            <%= label f, :title %>
+            <%= text_input f, :title %>
+            <%= error_tag f, :title %>
+        </div>
+
+        <div>
+            <%= label f, :subtitle %>
+            <%= text_input f, :subtitle %>
+            <%= error_tag f, :subtitle %>
+        </div>
+
+        <div>
+            <%= label f, :tags %>
+            <%= text_input f, :tags %>
+            <%= error_tag f, :tags %>
+        </div>
+
+
+        <div class="form-group">
+            <%= label f, :content %>
+            <%= hidden_input f, :content, rows: 9, phx_hook: "Trix", class: "form-control" %>
+
+            <div id="source_content-editor" phx-update="ignore">
+                <trix-editor input="source_content_description"></trix-editor>
+            </div>
+            <%= error_tag f, :content %>
+        </div>
+
+
+        <div>
+            <%= label f, "Image url" %>
+            <%= text_input f, :header_image %>
+            <%= error_tag f, :header_image %>
+        </div>
+
+        <div>
+            <%= label f, :twitter %>
+            <%= text_input f, :twitter %>
+            <%= error_tag f, :twitter %>
+        </div>
+
+
+        <div class="mt-5 text-right">
+            <%= submit "Save", phx_disable_with: "Saving...", class: "btn-primary" %>
+        </div>
+    </.form>
+</div>

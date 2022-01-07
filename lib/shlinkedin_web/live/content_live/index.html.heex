@@ -1,0 +1,37 @@
+<h1>Listing Content</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+<%= live_modal @socket, ShlinkedinWeb.ContentLive.FormComponent,
+    id: @content.id || :new,
+    title: @page_title,
+    action: @live_action,
+    content: @content,
+    return_to: Routes.content_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+    <thead>
+        <tr>
+            <th>Author</th>
+            <th>Content</th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="content">
+        <%= for content <- @content_collection do %>
+        <tr id={"content-#{content.id}"}>
+            <td><%= content.author %></td>
+            <td><%= content.content %></td>
+
+            <td>
+                <span><%= live_redirect "Show", to: Routes.content_show_path(@socket, :show, content) %></span>
+                <span><%= live_patch "Edit", to: Routes.content_index_path(@socket, :edit, content) %></span>
+                <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: content.id, data: [confirm: "Are you sure?"] %></span>
+            </td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>
+
+<span><%= live_patch "New Content", to: Routes.content_index_path(@socket, :new) %></span>

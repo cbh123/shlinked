@@ -171,12 +171,16 @@ defmodule ShlinkedinWeb.Router do
     live "/profiles", UsersLive.Index, :index
 
     # news
-    live "/news", ArticleLive.Index, :index
     live "/new_article", HomeLive.Index, :new_article
     live "/news/:id/votes/", HomeLive.Index, :show_votes
     live "/news/:id/show_votes/", ArticleLive.Index, :show_votes
     live "/news/new", ArticleLive.Index, :new_article
     live "/news/:id", ArticleLive.Show, :show
+
+    # content
+    live "/content/new", ContentLive.Index, :new
+    live "/content/:id/edit", ContentLive.Index, :edit
+    live "/content/:id/show/edit", ContentLive.Show, :edit
 
     # ads
     live "/ads/new", HomeLive.Index, :new_ad
@@ -229,6 +233,10 @@ defmodule ShlinkedinWeb.Router do
 
   scope "/", ShlinkedinWeb do
     pipe_through [:browser]
+
+    # news
+    live "/news", ContentLive.Index, :index
+    live "/content/:id", ContentLive.Show, :show
 
     # platinum
     live "/platinum", PlatinumLive.Index, :index

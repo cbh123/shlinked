@@ -1,0 +1,28 @@
+<h1>Show Content</h1>
+
+<%= if @live_action in [:edit] do %>
+<%= live_modal @socket, ShlinkedinWeb.ContentLive.FormComponent,
+    id: @content.id,
+    title: @page_title,
+    profile: @profile,
+    action: @live_action,
+    notification: @notification,
+    return_to: Routes.content_show_path(@socket, :show, @content) %>
+<% end %>
+
+<ul>
+
+    <li>
+        <strong>Author:</strong>
+        <%= @content.author %>
+    </li>
+
+    <li>
+        <strong>Content:</strong>
+        <%= @content.content %>
+    </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.content_show_path(@socket, :edit, @content), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.content_index_path(@socket, :index) %></span>
