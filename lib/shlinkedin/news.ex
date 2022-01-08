@@ -9,6 +9,7 @@ defmodule Shlinkedin.News do
   alias Shlinkedin.News.Article
   alias Shlinkedin.News.Vote
   alias Shlinkedin.Profiles.Profile
+  alias Shlinkedin.Profiles
   alias Shlinkedin.Profiles.ProfileNotifier
   alias Shlinkedin.Points
 
@@ -338,9 +339,11 @@ defmodule Shlinkedin.News do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_content(attrs \\ %{}) do
+  def create_content(%Profile{} = profile, attrs \\ %{}) do
     %Content{}
     |> Content.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:profile, profile)
+    |> Content.validate_allowed(profile)
     |> Repo.insert()
   end
 
@@ -356,9 +359,10 @@ defmodule Shlinkedin.News do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_content(%Content{} = content, attrs) do
+  def update_content(profile, %Content{} = content, attrs) do
     content
     |> Content.changeset(attrs)
+    |> Content.validate_allowed(profile)
     |> Repo.update()
   end
 
@@ -374,8 +378,12 @@ defmodule Shlinkedin.News do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_content(%Content{} = content) do
-    Repo.delete(content)
+  def delete_content(profile, %Content{} = content) do
+    if Profiles.is_admin?(profile) do
+      Repo.delete(content)
+    else
+      {:error, "You can't do that"}
+    end
   end
 
   @doc """

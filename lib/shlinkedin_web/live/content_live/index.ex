@@ -19,6 +19,7 @@ defmodule ShlinkedinWeb.ContentLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
+    |> check_access(Routes.content_index_path(socket, :index))
     |> assign(:page_title, "Edit Content")
     |> assign(:content, News.get_content!(id))
   end
@@ -32,14 +33,16 @@ defmodule ShlinkedinWeb.ContentLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Content")
+    |> assign(:page_title, "Shlinkedin News")
     |> assign(:content, nil)
   end
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
+    socket = check_access(socket, Routes.content_index_path(socket, :index))
+
     content = News.get_content!(id)
-    {:ok, _} = News.delete_content(content)
+    News.delete_content(socket.assigns.profile, content)
 
     {:noreply, assign(socket, :content_collection, list_content())}
   end

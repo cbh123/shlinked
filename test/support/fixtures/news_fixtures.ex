@@ -8,13 +8,20 @@ defmodule Shlinkedin.NewsFixtures do
   Generate a content.
   """
   def content_fixture(attrs \\ %{}) do
+    profile = Shlinkedin.ProfilesFixtures.profile_fixture(%{"admin" => true})
+
     {:ok, content} =
-      attrs
-      |> Enum.into(%{
-        author: "some author",
-        content: "some content"
-      })
-      |> Shlinkedin.News.create_content()
+      Shlinkedin.News.create_content(
+        profile,
+        attrs
+        |> Enum.into(%{
+          author: "some author",
+          content: "some content",
+          header_image: "some header image",
+          twitter: "some twitter",
+          title: "some title"
+        })
+      )
 
     content
   end

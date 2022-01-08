@@ -4,7 +4,8 @@ defmodule ShlinkedinWeb.ContentLive.Show do
   alias Shlinkedin.News
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, session, socket) do
+    socket = is_user(session, socket)
     {:ok, socket}
   end
 
@@ -18,4 +19,8 @@ defmodule ShlinkedinWeb.ContentLive.Show do
 
   defp page_title(:show), do: "Show Content"
   defp page_title(:edit), do: "Edit Content"
+
+  def is_allowed?(profile) do
+    Shlinkedin.Profiles.is_admin?(profile)
+  end
 end

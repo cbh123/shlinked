@@ -52,14 +52,14 @@ defmodule ShlinkedinWeb.LiveHelpers do
   end
 
   def check_access(socket, route \\ "/home") do
-    case socket.assigns.profile.admin do
-      false ->
+    case socket.assigns.profile do
+      %Profile{admin: true} ->
+        socket
+
+      _ ->
         socket
         |> put_flash(:danger, "ACCESS DENIED")
         |> push_redirect(to: route)
-
-      true ->
-        socket
     end
   end
 end

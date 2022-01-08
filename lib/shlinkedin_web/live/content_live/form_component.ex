@@ -28,7 +28,7 @@ defmodule ShlinkedinWeb.ContentLive.FormComponent do
   end
 
   defp save_content(socket, :edit, content_params) do
-    case News.update_content(socket.assigns.content, content_params) do
+    case News.update_content(socket.assigns.profile, socket.assigns.content, content_params) do
       {:ok, _content} ->
         {:noreply,
          socket
@@ -41,7 +41,7 @@ defmodule ShlinkedinWeb.ContentLive.FormComponent do
   end
 
   defp save_content(socket, :new, content_params) do
-    case News.create_content(content_params) do
+    case News.create_content(socket.assigns.profile, content_params) do
       {:ok, _content} ->
         {:noreply,
          socket
