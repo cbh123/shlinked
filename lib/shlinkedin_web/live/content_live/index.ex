@@ -3,9 +3,12 @@ defmodule ShlinkedinWeb.ContentLive.Index do
 
   alias Shlinkedin.News
   alias Shlinkedin.News.Content
+  alias Shlinkedin.Profiles
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, session, socket) do
+    socket = is_user(session, socket)
+
     {:ok, assign(socket, :content_collection, list_content())}
   end
 
@@ -22,6 +25,7 @@ defmodule ShlinkedinWeb.ContentLive.Index do
 
   defp apply_action(socket, :new, _params) do
     socket
+    |> check_access(Routes.content_index_path(socket, :index))
     |> assign(:page_title, "New Content")
     |> assign(:content, %Content{})
   end
