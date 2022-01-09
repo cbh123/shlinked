@@ -375,7 +375,7 @@
                         </dt>
                         <dd class="mt-1 text-3xl font-semibold text-gray-900">
 
-                            <%= @show_profile.points %>
+                            <span class="text-gray-900"><%= @show_profile.points %></span>
 
                             <%= live_redirect to: Routes.leaderboard_index_path(@socket, :index, curr_category: "Wealth") do  %>
                             <div class="inline-flex items-baseline text-sm font-semibold text-green-600">

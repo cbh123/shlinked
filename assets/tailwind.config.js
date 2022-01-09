@@ -1,9 +1,9 @@
-const colors = require("tailwindcss/colors");
+// const colors = require("tailwindcss/colors");
 
 module.exports = {
   mode: "jit",
-  purge: ["./js/**/*.js", "../lib/*_web/**/*.*ex"],
-  darkMode: false, // or 'media' or 'class'
+  content: ["./js/**/*.js", "../lib/*_web/**/*.*ex"],
+  darkMode: "media", // or 'media' or 'class'
   theme: {
     fontFamily: {
       times: ["Times New Roman"],
@@ -16,8 +16,8 @@ module.exports = {
     },
     extend: {
       colors: {
-        teal: colors.teal,
-        gray: colors.slate,
+        // teal: colors.teal,
+        // gray: colors.slate,
       },
     },
   },

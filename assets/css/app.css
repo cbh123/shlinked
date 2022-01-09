@@ -1,16 +1,19 @@
 @import "tailwindcss/base";
-
 @import "tailwindcss/components";
-
-
 @import "tailwindcss/utilities";
 /* This file is for your main application css. */
 
+/* @layer base {
+    a {
+      @apply text-inherit;
+    }
+  }
+ */
 
 @layer components {
-    .news a {
+    /* .news a {
         @apply text-blue-500 hover:text-blue-600;
-    }
+    } */
     blockquote {
         @apply italic border-l-4 p-4;
     }
