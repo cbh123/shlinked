@@ -12,14 +12,23 @@ defmodule Shlinkedin.News.Content do
     field :subtitle, :string
     field :tags, {:array, :string}
     belongs_to :profile, Shlinkedin.Profiles.Profile
-
+    field :header_image_subtitle, :string
     timestamps()
   end
 
   @doc false
   def changeset(content, attrs) do
     content
-    |> cast(attrs, [:author, :content, :twitter, :header_image, :title, :subtitle, :tags])
+    |> cast(attrs, [
+      :author,
+      :content,
+      :twitter,
+      :header_image,
+      :title,
+      :subtitle,
+      :tags,
+      :header_image_subtitle
+    ])
     |> validate_required([:author, :content, :header_image, :title])
   end
 

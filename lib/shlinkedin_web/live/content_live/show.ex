@@ -23,4 +23,17 @@ defmodule ShlinkedinWeb.ContentLive.Show do
   def is_allowed?(profile) do
     Shlinkedin.Profiles.is_admin?(profile)
   end
+
+  @impl true
+  def handle_event("delete", %{"id" => id}, socket) do
+    socket = check_access(socket, Routes.content_index_path(socket, :index))
+
+    content = News.get_content!(id)
+    News.delete_content(socket.assigns.profile, content)
+
+    {:noreply,
+     socket
+     |> push_redirect(to: Routes.content_index_path(socket, :index))
+     |> put_flash(:info, "Successfully deleted")}
+  end
 end

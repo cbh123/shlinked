@@ -1,32 +1,19 @@
-<!--
-  This example requires Tailwind CSS v2.0+
-
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/typography'),
-    ],
-  }
-  ```
--->
-
-
-
-<div class="relative pb-16 bg-white overflow-hidden">
+<div class="relative pb-16 bg-white overflow-hidden max-w-4xl mx-auto m-4 rounded-lg shadow">
     <figure>
         <img class="object-cover w-full sm:h-60 h-64" src={@content.header_image} alt="">
         <figcaption class="italic text-sm text-gray-500 text-center">Optional header image subtitle</figcaption>
     </figure>
 
     <%= if is_allowed?(@profile) do %>
-    <div class="hidden">
+    <div class="ml-2">
         <span><%= live_patch "Edit", to: Routes.content_show_path(@socket, :edit, @content), class: "button" %></span> |
+        <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @content.id, data: [confirm: "Are you sure?"] %></span>
+        |
         <span><%= live_redirect "Back", to: Routes.content_index_path(@socket, :index) %></span>
+    </div>
+    <% else %>
+    <div class="ml-4">
+        <span><%= live_redirect raw("&larr; Back"), to: Routes.content_index_path(@socket, :index), class: "text-gray-900 hover:text-gray-700" %></span>
     </div>
     <% end %>
 

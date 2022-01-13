@@ -1,45 +1,5 @@
-<h1>Listing Content</h1>
-
-<%= if @live_action in [:new, :edit] do %>
-<%= live_modal @socket, ShlinkedinWeb.ContentLive.FormComponent,
-    id: @content.id || :new,
-    title: @page_title,
-    profile: @profile,
-    action: @live_action,
-    content: @content,
-    return_to: Routes.content_index_path(@socket, :index) %>
-<% end %>
-
-<table>
-    <thead>
-        <tr>
-            <th>Author</th>
-            <th>Content</th>
-
-            <th></th>
-        </tr>
-    </thead>
-    <tbody id="content">
-        <%= for content <- @content_collection do %>
-        <tr id={"content-#{content.id}"}>
-            <td><%= content.author %></td>
-            <td><%= raw content.content %></td>
-
-            <td>
-                <span><%= live_redirect "Show", to: Routes.content_show_path(@socket, :show, content) %></span>
-                <span><%= live_patch "Edit", to: Routes.content_index_path(@socket, :edit, content) %></span>
-                <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: content.id, data: [confirm: "Are you sure?"] %></span>
-            </td>
-        </tr>
-        <% end %>
-    </tbody>
-</table>
-
-<span><%= live_patch "New Content", to: Routes.content_index_path(@socket, :new) %></span>
-
-
 <!-- This example requires Tailwind CSS v2.0+ -->
-<div class="relative bg-gray-50 pt-16 pb-20 px-4 sm:px-6 lg:pt-24 lg:pb-28 lg:px-8">
+<div class="relative bg-gray-50 pt-12 pb-20 px-4 sm:px-6 lg:pb-28 lg:px-8">
     <div class="absolute inset-0">
         <div class="bg-white h-1/3 sm:h-2/3"></div>
     </div>
@@ -51,7 +11,81 @@
             <p class="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa libero labore natus atque, ducimus sed.
             </p>
+            <%= if !is_allowed?(@profile) do %>
+            <span
+                class="mt-4"><%= live_patch "New Article", to: Routes.content_index_path(@socket, :new), class: "btn-primary mt-4" %></span>
+            <% else %>
+
+            <a href="mailto:charlie@shlinkedin.com,sam@shlinkedin.com?subject=ShlinkedIn Editorial Submission"
+                class="btn-primary mt-4">Submit Article</a>
+            <p class="text-xs text-gray-500 max-w-sm mx-auto mt-2">Submit an article to be featured on ShlinkedIn
+                Editorial
+                and get
+                featured
+                on our twitter and
+                newsletter (5000+ subscribers)! New selections every week.</p>
+            <% end %>
+
         </div>
+
+        <section aria-labelledby="shlink-news">
+            <div class="bg-white rounded-lg shadow">
+                <!-- Desktop News  -->
+
+                <%# Headline sorter button %>
+                <div class="flex justify-between px-5 pt-5">
+                    <p class="font-bold">ShlinkNews </p>
+                    <%= live_patch "+ Headline", to: Routes.home_index_path(@socket, :new_article), class: "text-xs text-green-800 font-semibold bg-green-100 px-2 py-1 rounded-lg hover:bg-green-200"  %>
+                </div>
+
+                <div class="px-5 py-2">
+                    <form phx-change="sort-headlines" id="sort-headlines" class="mx-auto text-gray-500 text-xs flex">
+                        <div class="mr-3">
+                            <select id="select-headline-type" name="type"
+                                class="text-sm bg-gray-100 px-2 py-1 pr-8 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
+                                <%= options_for_select(["New": "new", "Claps": "reactions"], @headline_options.type) %>
+                            </select>
+                        </div>
+                        <div>
+                            <select id="select-headline-time" name="time"
+                                class="bg-gray-100 text-sm px-2 py-1 pr-6 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
+
+                                <%= options_for_select(["Hour": "hour", "Today": "today", "This Week": "week", "This Month": "month", "All Time": "all_time"], @headline_options.time) %>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="h-56 overflow-y-scroll">
+                    <div class="space-y-3 px-2" phx-update={@headline_update_action} id="desktop-news-box">
+                        <%= for a <- @articles do %>
+                        <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
+                                        id: "article-#{a.id}",
+                                        profile: @profile,
+                                        spin: false,
+                                        article: a %>
+                        <% end %>
+                    </div>
+                    <div class="p-5 justify-center">
+                        <button phx-click="more-headlines"
+                            class="mx-auto text-xs text-gray-800 font-semibold bg-gray-100 px-2 py-1 rounded-lg hover:bg-gray-200 flex">
+
+                            <svg class="w-3 h-3 place-self-center mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            More Headlines </button>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
         <div class="mt-12 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
             <%= for content <- @content_collection do %>
             <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
@@ -61,7 +95,7 @@
                 <div class="flex-1 bg-white p-6 flex flex-col justify-between">
                     <div class="flex-1">
                         <p class="text-sm font-medium text-indigo-600">
-                            <a href="#" class="hover:underline">
+                            <a href="#" class="hover:underline text-indigo-600">
                                 Tags go here
                             </a>
                         </p>
@@ -70,9 +104,9 @@
                             <p class="text-xl font-semibold text-gray-900">
                                 <%= content.title %>
                             </p>
-                            <p class="mt-3 text-base text-gray-500">
-                                <div class="news">
-                                    <%= raw(content.content) %>
+                            <p class="mt-3 text-base">
+                                <div class="news text-gray-500">
+                                    <%= content.subtitle %>
                                 </div>
                             </p>
                         </div>
@@ -116,3 +150,12 @@
         </div>
     </div>
 </div>
+<%= if @live_action in [:new, :edit] do %>
+<%= live_modal @socket, ShlinkedinWeb.ContentLive.FormComponent,
+    id: @content.id || :new,
+    title: @page_title,
+    profile: @profile,
+    action: @live_action,
+    content: @content,
+    return_to: Routes.content_index_path(@socket, :index) %>
+<% end %>
