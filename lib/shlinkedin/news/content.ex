@@ -10,7 +10,7 @@ defmodule Shlinkedin.News.Content do
     field :header_image, :string
     field :title, :string
     field :subtitle, :string
-    field :tags, {:array, :string}
+    field :topic, :string
     belongs_to :profile, Shlinkedin.Profiles.Profile
     field :header_image_subtitle, :string
     timestamps()
@@ -26,10 +26,10 @@ defmodule Shlinkedin.News.Content do
       :header_image,
       :title,
       :subtitle,
-      :tags,
+      :topic,
       :header_image_subtitle
     ])
-    |> validate_required([:author, :content, :header_image, :title])
+    |> validate_required([:author, :content, :header_image, :title, :topic])
   end
 
   def validate_allowed(changeset, profile) do

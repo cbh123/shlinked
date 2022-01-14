@@ -6,16 +6,14 @@
     <div class="relative max-w-7xl mx-auto">
         <div class="text-center">
             <h2 class="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl">
-                ShlinkedIn News
+                The ShlinkedIn Tribune
             </h2>
-            <p class="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa libero labore natus atque, ducimus sed.
-            </p>
-            <%= if !is_allowed?(@profile) do %>
+            <p class="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">Weekly articles about the latest in
+                Business, Tech, and BizTech.</p>
+            <%= if is_allowed?(@profile) do %>
             <span
                 class="mt-4"><%= live_patch "New Article", to: Routes.content_index_path(@socket, :new), class: "btn-primary mt-4" %></span>
             <% else %>
-
             <a href="mailto:charlie@shlinkedin.com,sam@shlinkedin.com?subject=ShlinkedIn Editorial Submission"
                 class="btn-primary mt-4">Submit Article</a>
             <p class="text-xs text-gray-500 max-w-sm mx-auto mt-2">Submit an article to be featured on ShlinkedIn
@@ -40,7 +38,7 @@
                     <div class="flex-1">
                         <p class="text-sm font-medium text-indigo-600">
                             <a href="#" class="hover:underline text-indigo-600">
-                                Tags go here
+                                <%= content.topic %>
                             </a>
                         </p>
                         <%= live_redirect to: Routes.content_show_path(@socket, :show, content.id) do %>
