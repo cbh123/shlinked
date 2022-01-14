@@ -41,6 +41,7 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
     {:ok,
      socket
      |> assign(changeset: changeset)
+     |> assign(profile: profile)
      |> assign(token: session["user_token"])
      |> assign(session: session)
      |> assign(bio_placeholder: @bio_placeholders |> Enum.random())

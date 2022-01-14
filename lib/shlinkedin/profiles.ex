@@ -575,7 +575,11 @@ defmodule Shlinkedin.Profiles do
   Creates a profile view under two criteria: it's not from yourself, and it's more than
   1hr ago.
   """
-  def create_profile_view(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
+  def create_profile_view(from, to, attrs \\ %{})
+
+  def create_profile_view(%Profile{id: nil}, _profile, _attrs), do: {:ok, nil}
+
+  def create_profile_view(%Profile{} = from, %Profile{} = to, attrs) do
     if from.id != to.id and count_profile_views_in_timeframe(from, to, -3600) == 0 do
       {:ok, _txn} = Points.generate_wealth(to, :profile_view)
     end
@@ -764,6 +768,7 @@ defmodule Shlinkedin.Profiles do
   end
 
   def check_between_friend_status(nil, %Profile{}), do: nil
+  def check_between_friend_status(%Profile{id: nil}, %Profile{}), do: nil
 
   def check_between_friend_status(%Profile{} = from, %Profile{} = to) do
     if from.id == to.id do
