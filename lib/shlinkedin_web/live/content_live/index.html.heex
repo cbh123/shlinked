@@ -1,0 +1,100 @@
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="relative bg-gray-50 pt-12 pb-20 px-4 sm:px-6 lg:pb-28 lg:px-8">
+    <div class="absolute inset-0">
+        <div class="bg-white h-1/3 sm:h-2/3"></div>
+    </div>
+    <div class="relative max-w-7xl mx-auto">
+        <div class="text-center">
+            <h2 class="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl">
+                The ShlinkedIn Tribune
+            </h2>
+            <p class="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">Weekly articles about the latest in
+                Business, Tech, and BizTech.</p>
+            <%= if is_allowed?(@profile) do %>
+            <span
+                class="mt-4"><%= live_patch "New Article", to: Routes.content_index_path(@socket, :new), class: "btn-primary mt-4" %></span>
+            <% else %>
+            <a href="mailto:charlie@shlinkedin.com,sam@shlinkedin.com?subject=ShlinkedIn Editorial Submission"
+                class="btn-primary mt-4">Submit Article</a>
+            <p class="text-xs text-gray-500 max-w-sm mx-auto mt-2">Submit an article to be featured on ShlinkedIn
+                Editorial
+                and get
+                featured
+                on our twitter and
+                newsletter (5000+ subscribers)! New selections every week.</p>
+            <% end %>
+
+        </div>
+
+
+
+        <div class="mt-12 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
+            <%= for content <- @content_collection do %>
+
+            <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
+                <%= live_redirect to: Routes.content_show_path(@socket, :show, content.id) do %>
+                <div class="flex-shrink-0">
+                    <img class="h-48 w-full object-cover" src={content.header_image} alt="">
+                </div>
+                <div class="flex-1 bg-white p-6 flex flex-col justify-between">
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-indigo-600">
+                            <%= content.topic %>
+                        </p>
+                        <%= live_redirect to: Routes.content_show_path(@socket, :show, content.id) do %>
+                        <div class="block mt-2">
+                            <p class="text-xl font-semibold text-gray-900">
+                                <%= content.title %>
+                            </p>
+                            <p class="mt-3 text-base">
+                                <div class="news text-gray-500">
+                                    <%= content.subtitle %>
+                                </div>
+                            </p>
+                        </div>
+                        <% end %>
+                    </div>
+                    <div class="mt-6 flex items-center">
+                        <div class="flex-shrink-0">
+                            <span class="sr-only"><%= content.author %></span>
+                            <img class="h-10 w-10 rounded-full"
+                                src="https://pbs.twimg.com/profile_images/1190392410511216643/xPyZ6UUv_400x400.jpg"
+                                alt="">
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-gray-900">
+                                <%= content.author %>
+                            </p>
+                            <div class="flex space-x-1 text-sm text-gray-500">
+                                <time datetime={Timex.format!(content.inserted_at, "{Mshort}. {D}, {YYYY}" )}>
+                                    <%= Timex.format!(content.inserted_at, "{Mshort}. {D}, {YYYY}") %>
+                                </time>
+                                <span aria-hidden="true">
+                                    &middot;
+                                </span>
+                                <span>
+                                    Featured Article
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% end %>
+            </div>
+            <% end %>
+
+
+
+
+        </div>
+    </div>
+</div>
+<%= if @live_action in [:new, :edit] do %>
+<%= live_modal @socket, ShlinkedinWeb.ContentLive.FormComponent,
+    id: @content.id || :new,
+    title: @page_title,
+    profile: @profile,
+    action: @live_action,
+    content: @content,
+    return_to: Routes.content_index_path(@socket, :index) %>
+<% end %>

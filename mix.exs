@@ -60,6 +60,7 @@ defmodule Shlinkedin.MixProject do
       {:bamboo, "~> 1.6"},
       {:ecto_psql_extras, "~> 0.2"},
       {:money, "~> 1.4"},
+      {:appsignal, "~> 2.0"},
       {:appsignal_phoenix, "~> 2.0.0"},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.24", only: :dev, runtime: false}

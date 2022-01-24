@@ -393,6 +393,8 @@ defmodule Shlinkedin.Profiles do
     )
   end
 
+  def get_last_read_notification_time(%Profile{id: nil}), do: nil
+
   def get_last_read_notification_time(%Profile{} = profile) do
     Repo.one(
       from(n in Notification,
@@ -573,7 +575,11 @@ defmodule Shlinkedin.Profiles do
   Creates a profile view under two criteria: it's not from yourself, and it's more than
   1hr ago.
   """
-  def create_profile_view(%Profile{} = from, %Profile{} = to, attrs \\ %{}) do
+  def create_profile_view(from, to, attrs \\ %{})
+
+  def create_profile_view(%Profile{id: nil}, _profile, _attrs), do: {:ok, nil}
+
+  def create_profile_view(%Profile{} = from, %Profile{} = to, attrs) do
     if from.id != to.id and count_profile_views_in_timeframe(from, to, -3600) == 0 do
       {:ok, _txn} = Points.generate_wealth(to, :profile_view)
     end
@@ -656,6 +662,10 @@ defmodule Shlinkedin.Profiles do
     |> Friend.changeset(%{status: "accepted"})
     |> Repo.update()
     |> ProfileNotifier.observer(:accepted_friend_request, from, to)
+  end
+
+  def get_pending_requests(%Profile{id: nil}) do
+    []
   end
 
   def get_pending_requests(%Profile{} = to) do
@@ -758,6 +768,7 @@ defmodule Shlinkedin.Profiles do
   end
 
   def check_between_friend_status(nil, %Profile{}), do: nil
+  def check_between_friend_status(%Profile{id: nil}, %Profile{}), do: nil
 
   def check_between_friend_status(%Profile{} = from, %Profile{} = to) do
     if from.id == to.id do
@@ -897,18 +908,17 @@ defmodule Shlinkedin.Profiles do
     Repo.get_by!(Profile, slug: slug)
   end
 
-  def change_profile(profile, user, attrs \\ %{})
-
-  def change_profile(nil, %User{id: user_id}, attrs) do
-    Profile.changeset(%Profile{}, attrs |> Map.put("user_id", user_id))
-  end
-
-  def change_profile(%Profile{} = profile, %User{id: user_id}, attrs) do
-    Profile.changeset(profile, attrs |> Map.put("user_id", user_id))
-  end
-
-  def change_profile_no_user(%Profile{} = profile, attrs \\ %{}) do
+  def change_profile(%Profile{} = profile, attrs \\ %{}) do
     Profile.changeset(profile, attrs)
+  end
+
+  @doc """
+  Creates a profile without a user.
+  """
+  def create_profile(%Profile{} = profile, attrs) do
+    profile
+    |> Profile.changeset(attrs)
+    |> Repo.insert()
   end
 
   @doc """

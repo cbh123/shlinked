@@ -17,20 +17,20 @@ defmodule ShlinkedinWeb.Router do
     plug :put_meta_attrs
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
+  # pipeline :api do
+  #   plug :accepts, ["json"]
 
-    # profile
-    get "/v1/sh/:slug", ShlinkedinWeb.ProfileController, :show
-    get "/v1/sh/:slug/all", ShlinkedinWeb.ProfileController, :show_all
-    get "/v1/sh/:slug/gallery", ShlinkedinWeb.ProfileController, :gallery
+  #   # profile
+  #   get "/v1/sh/:slug", ShlinkedinWeb.ProfileController, :show
+  #   get "/v1/sh/:slug/all", ShlinkedinWeb.ProfileController, :show_all
+  #   get "/v1/sh/:slug/gallery", ShlinkedinWeb.ProfileController, :gallery
 
-    # headlines
-    get "/v1/headlines", ShlinkedinWeb.HeadlineController, :index
+  #   # headlines
+  #   get "/v1/headlines", ShlinkedinWeb.HeadlineController, :index
 
-    # posts
-    get "/v1/posts", ShlinkedinWeb.PostController, :index
-  end
+  #   # posts
+  #   get "/v1/posts", ShlinkedinWeb.PostController, :index
+  # end
 
   pipeline :admins_only do
     plug :basic_auth,
@@ -171,12 +171,16 @@ defmodule ShlinkedinWeb.Router do
     live "/profiles", UsersLive.Index, :index
 
     # news
-    live "/news", ArticleLive.Index, :index
     live "/new_article", HomeLive.Index, :new_article
     live "/news/:id/votes/", HomeLive.Index, :show_votes
     live "/news/:id/show_votes/", ArticleLive.Index, :show_votes
     live "/news/new", ArticleLive.Index, :new_article
     live "/news/:id", ArticleLive.Show, :show
+
+    # content
+    live "/content/new", ContentLive.Index, :new
+    live "/content/:id/edit", ContentLive.Index, :edit
+    live "/content/:id/show/edit", ContentLive.Show, :edit
 
     # ads
     live "/ads/new", HomeLive.Index, :new_ad
@@ -230,6 +234,10 @@ defmodule ShlinkedinWeb.Router do
   scope "/", ShlinkedinWeb do
     pipe_through [:browser]
 
+    # news
+    live "/news", ContentLive.Index, :index
+    live "/content/:id", ContentLive.Show, :show
+
     # platinum
     live "/platinum", PlatinumLive.Index, :index
 
@@ -247,11 +255,15 @@ defmodule ShlinkedinWeb.Router do
     # generator
     live "/generator", PostLive.Generator, :index
 
+    # resume generator
+    live "/resume", ResumeLive.Index, :index
+    live "/resume/show", ResumeLive.Show, :show
+
     # error
     get "/error", ErrorController, :index
 
     # onboarding
-    live "/onboarding/:id", OnboardingLive.Index, :index
+    live "/onboarding", OnboardingLive.Index, :index
 
     # join
     get "/join", UserRegistrationController, :join

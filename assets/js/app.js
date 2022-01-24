@@ -9,12 +9,34 @@ import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
 import topbar from "../vendor/topbar";
 import Alpine from "alpinejs";
+const confetti = require("canvas-confetti");
 
 let Uploaders = {};
 let Hooks = {};
 
 window.Alpine = Alpine;
 Alpine.start();
+
+let bindTrix = function () {
+  let trix = document.querySelector("trix-editor");
+  console.log("trix is", trix);
+  console.log("trix != null?", trix != null);
+  if (trix != null) {
+    trix.addEventListener("trix-change", function () {
+      trix.inputElement.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+  }
+};
+
+Hooks.Trix = {
+  mounted() {
+    bindTrix();
+  },
+
+  updated() {
+    bindTrix();
+  },
+};
 
 Uploaders.S3 = function (entries, onViewError) {
   entries.forEach((entry) => {
@@ -43,6 +65,14 @@ function scrollDown(document, num_messages) {
     window.scrollTo(0, document.body.scrollHeight);
   }
 }
+
+Hooks.Confetti = {
+  mounted() {
+    confetti({
+      spread: 180,
+    });
+  },
+};
 
 Hooks.SendMessage = {
   mounted() {

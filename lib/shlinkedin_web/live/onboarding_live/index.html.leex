@@ -1,0 +1,91 @@
+<div class="bg-white mb-8 pt-8 h-screen">
+    <%= f = form_for @changeset, "#",
+  id: "profile-form",
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+
+    <%# Form %>
+    <div x-data="{step: 1}" class="mt-2 px-5 max-w-3xl h-full mx-auto">
+
+
+        <%# Section 1 -- Introduction %>
+        <div x-show="step == 1" class="text-center">
+            <div class="inline-flex mb-8 relative">
+                <div class="">
+                    <img class="object-cover " style="filter: drop-shadow(1px 2px 2px black)"
+                        src="<%= Routes.static_path(@socket, "/images/handshake2.png") %>" alt="">
+                </div>
+                <div class="absolute right-24">
+                    <div class="mt-1 text-lg  w-56  rounded-3xl p-2 rounded-bl-none">
+                        <p><span class="font-bold">"Hello! </span> My name is
+                            Jeff Business, your new boss.
+                            Welcome to your first day at ShlinkedIn."
+                        </p>
+                    </div>
+
+                    <div class=" top-40 mt-4">
+                        <button @click="step = 2" class="text-8xl hover:rotate-12 hover:bg-gray-100 p-5 rounded-full"
+                            type="button" id="prompt2-btn">🤝</button>
+                        <p class="mt-2 text-gray-500 text-sm animate-pulse italic">Click to shake hands</p>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+
+
+        <%# Section 2 -- Name %>
+        <div x-show="step == 2" class="max-w-sm mx-auto" x-transition>
+            <div class="text-center">
+                <p>Wow, that's a hell of a handshake. Now let's get to business — do you have your card on you?</p>
+            </div>
+
+
+            <%# Business Card %>
+            <div class="h-48 relative border-1 border border-gray-300 rounded-md shadow-lg px-10 mt-4">
+
+                <%# Logo  %>
+                <div class="absolute bottom-0.5 left-2">
+                    <p class="font-bold text-blue-600">Sh</p>
+                </div>
+
+                <%# Name  %>
+                <div class="mt-12 text-center">
+                    <%= text_input f, :persona_name, class: "font-bold py-0.5 text-center focus:border-gray-800 text-xl border-gray-400 border-dashed rounded-md",
+                                    placeholder: "Dave Business", autofocus: "true" %>
+                    <%= textarea f, :persona_title, class: "mt-1 py-0.5 w-full text-center italic border-gray-400 border-dashed text-xs rounded-md",
+                                    placeholder: "Business Magician" %>
+                </div>
+
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="button" phx-click="inspire" id="inspire"
+                    class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    💡 Find a new card</button>
+            </div>
+
+            <%= if Map.has_key?(@changeset.changes, :persona_name) do %>
+            <div class="text-center mt-4">
+                <button type="submit" @click="step = 3"
+                    class="inline-flex items-center px-4 py-2 shadow-sm text-sm font-medium rounded-md bg-blue-600 text-white hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Hand Business Card
+                </button>
+            </div>
+            <% end %>
+        </div>
+
+
+        <div x-show="step == 3" class="w-full pb-16 pt-8">
+            <%= submit raw("Final step &rarr;"), class: "w-full -mx-2 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
+        </div>
+
+    </div>
+
+</div>

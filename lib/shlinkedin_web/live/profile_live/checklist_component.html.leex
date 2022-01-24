@@ -17,8 +17,7 @@
                 to help you excel in your new role. Feel free to
                 explore. To get special tips, insights, and
                 more,
-                <a href="https://discord.gg/BkQGryuGjn"
-                    class="underline hover:font-medium font-bold">join
+                <a href="https://discord.gg/BkQGryuGjn" class="underline font-bold">join
                     our discord.</a>
             </p>
         </div>
@@ -28,11 +27,9 @@
         <nav aria-label="Progress">
             <ol class="space-y-3">
 
-                <div
-                    class="uppercase text-gray-400 tracking-wide text-xs flex justify-between">
+                <div class="uppercase text-gray-400 tracking-wide text-xs flex justify-between">
                     <h1>
-                        <span
-                            class="font-medium text-gray-800"><%= @checklist.current_level %></span>
+                        <span class="font-medium text-gray-800"><%= @checklist.current_level %></span>
 
                         <%= unless @checklist.level_number == 5 do %>
                         <h1>
@@ -44,8 +41,7 @@
                 </div>
 
                 <div class="relative mb-8">
-                    <div
-                        class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
+                    <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
                         <div style="width:<%=(@checklist.level_number) * 20%>%"
                             class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-indigo-700 to-green-500">
                         </div>
@@ -56,36 +52,61 @@
                 <%= for step <- @checklist.steps do %>
                 <li>
                     <!-- Upcoming Step -->
+                    <%= if step.name != "Join the Discord" do %>
                     <%= live_redirect to: step.route do %>
                     <div class="group">
                         <div class="flex items-start">
+
+
                             <div class="flex-shrink-0 h-5 w-5 relative flex items-center justify-center"
                                 aria-hidden="true">
 
                                 <%= if step.done do %>
                                 <svg class="h-full w-full text-blue-600 group-hover:text-blue-800"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20" fill="currentColor"
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                     aria-hidden="true">
                                     <path fill-rule="evenodd"
                                         d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                         clip-rule="evenodd" />
                                 </svg>
                                 <% else %>
-                                <div
-                                    class="h-2 w-2 bg-gray-300 rounded-full group-hover:bg-gray-400">
+                                <div class="h-2 w-2 bg-gray-300 rounded-full group-hover:bg-gray-400">
                                 </div>
                                 <% end %>
-
-
                             </div>
-
-
-                            <p
-                                class="ml-3 text-sm font-medium text-gray-500 group-hover:text-gray-900">
+                            <p class="ml-3 text-sm font-medium text-gray-500 group-hover:text-gray-900">
                                 <%= step.name %></p>
                         </div>
                     </div>
+                    <% end %>
+                    <% else %>
+                    <button id="join-discord" phx-click="join-discord">
+                        <div class="group">
+                            <div class="flex items-start">
+
+
+                                <div class="flex-shrink-0 h-5 w-5 relative flex items-center justify-center"
+                                    aria-hidden="true">
+
+                                    <%= if step.done do %>
+                                    <svg class="h-full w-full text-blue-600 group-hover:text-blue-800"
+                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                        aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    <% else %>
+                                    <div class="h-2 w-2 bg-gray-300 rounded-full group-hover:bg-gray-400">
+                                    </div>
+                                    <% end %>
+                                </div>
+                                <p class="ml-3 text-sm font-medium text-gray-500 group-hover:text-gray-900">
+                                    <%= step.name %></p>
+                            </div>
+                        </div>
+                    </button>
+
                     <% end %>
                 </li>
                 <% end %>
@@ -105,16 +126,14 @@
             class="inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded-md text-gray-500 <%= if @profile.show_levels, do: "bg-white hover:bg-gray-100", else: "bg-gray-100 hover:bg-white" %>  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
 
             <%= if @profile.show_levels do %>
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
                     d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
                     clip-rule="evenodd"></path>
             </svg>
             Hide
             <% else %>
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
                     d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                     clip-rule="evenodd"></path>

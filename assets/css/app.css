@@ -1,17 +1,47 @@
 @import "tailwindcss/base";
-
 @import "tailwindcss/components";
-
-
 @import "tailwindcss/utilities";
 /* This file is for your main application css. */
 
+/* @layer base {
+    input[type=text] {
+        @apply appearance-none py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm;
+    }
+  } */
+
 
 @layer components {
+    /* .news a {
+        @apply text-blue-500 hover:text-blue-600;
+    } */
+    input[type=text] {
+        @apply appearance-none py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm;
+    }
+    input[type=email] {
+        @apply appearance-none px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm;
+    }
+    input[type=password] {
+        @apply appearance-none px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm;
+    }
+    input[type=number] {
+        @apply shadow-sm focus:ring-blue-500 focus:border-blue-500 inline-block sm:text-sm border-gray-300 rounded-md;
+    }
+    input[type=checkbox] {
+        @apply focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded;
+    }
+    select[multiple] {
+        @apply shadow-sm focus:ring-blue-500 focus:border-blue-500 inline-block sm:text-sm border-gray-300 rounded-md;
+    }
+    label {
+        @apply block text-sm font-medium text-gray-700 mb-1;
+    }
+    blockquote {
+        @apply italic border-l-4 p-4;
+    }
     .tooltip .tooltip-text {
         @apply invisible px-3 py-2 absolute z-50 text-xs rounded-lg bg-gray-700 shadow text-white;
-      }
-      .tooltip:hover .tooltip-text {
+    }
+    .tooltip:hover .tooltip-text {
         @apply visible;
     }
     select {
@@ -21,7 +51,7 @@
         @apply max-w-lg shadow-sm block w-full focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md;
     }
     .btn-primary {
-        @apply inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500;
+        @apply inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white hover:text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500;
     }
     .btn-gradient {
         @apply bg-gradient-to-r from-purple-600 to-blue-600 inline-flex items-center px-4 py-2 text-sm border font-medium rounded-md shadow-sm text-white hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500;
@@ -55,6 +85,16 @@
     }
 
   }
+
+  /* Trix Stuff */
+/* .trix-button--icon-strike { display: none; } */
+/* .trix-button--icon-quote { display: none; } */
+/* .trix-button--icon-code { display: none; } */
+.trix-button--icon-number-list { display: none; }
+.trix-button--icon-bullet-list { display: none; }
+.trix-button--icon-decrease-nesting-level { display: none; }
+.trix-button--icon-increase-nesting-level { display: none; }
+.trix-button-group--file-tools { display: none !important; }
 
 /* LiveView specific classes for your customizations */
 .phx-no-feedback.invalid-feedback,

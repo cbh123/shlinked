@@ -4,15 +4,13 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport"
-        content="initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+    <meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
 
     <%= live_title_tag assigns[:page_title] || "LinkedIn Humor with Business Satire, Memes and More | ShlinkedIn.com" %>
-    <meta property="og:title"
-        content="<%= assigns[:page_title] || "ShlinkedIn.com"%>">
+    <meta property="og:title" content="<%= assigns[:page_title] || "ShlinkedIn.com"%>">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
 
-    <meta property="og:description"
-        content="Tomorrow's Thought Leadership, Today">
+    <meta property="og:description" content="Tomorrow's Thought Leadership, Today">
 
     <meta name="description"
         content="ShlinkedIn is a fully-functioning satirical social network poking fun at LinkedIn. Find business humor, jokes, original memes and more.">
@@ -26,14 +24,18 @@
     <%= meta_tags(@meta_attrs) %>
     <% else %>
 
-    <meta property="og:image"
-        content="https://shlinked.s3.amazonaws.com/social.png">
-    <meta property="twitter:image"
-        content="https://shlinked.s3.amazonaws.com/social.png">
+    <meta property="og:image" content="https://shlinked.s3.amazonaws.com/social.png">
+    <meta property="twitter:image" content="https://shlinked.s3.amazonaws.com/social.png">
 
     <% end %>
 
-
+    <%# Trix %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.css"
+        integrity="sha512-CWdvnJD7uGtuypLLe5rLU3eUAkbzBR3Bm1SFPEaRfvXXI2v2H5Y0057EMTzNuGGRIznt8+128QIDQ8RqmHbAdg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.js"
+        integrity="sha512-/1nVu72YEESEbcmhE/EvjH/RxTg62EKvYWLG3NdeZibTCuEtW5M4z3aypcvsoZw03FAopi94y04GhuqRU9p+CQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="manifest" href="./manifest.json">
@@ -44,8 +46,7 @@
         rel="stylesheet">
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async
-        src="https://www.googletagmanager.com/gtag/js?id=G-WGM0S4FM7Z"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WGM0S4FM7Z"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -59,15 +60,15 @@
 
     <%= if Mix.env() != :dev do %>
     <script type="text/javascript">
-        window.heap = window.heap || [], heap.load = function(e, t) {
+        window.heap = window.heap || [], heap.load = function (e, t) {
             window.heap.appid = e, window.heap.config = t = t || {};
             var r = document.createElement("script");
             r.type = "text/javascript", r.async = !0, r.src =
                 "https://cdn.heapanalytics.com/js/heap-" + e + ".js";
             var a = document.getElementsByTagName("script")[0];
             a.parentNode.insertBefore(r, a);
-            for (var n = function(e) {
-                    return function() {
+            for (var n = function (e) {
+                    return function () {
                         heap.push([e].concat(Array.prototype.slice
                             .call(arguments, 0)))
                     }
@@ -81,14 +82,14 @@
     </script>
 
     <script>
-        ! function(t, e) {
+        ! function (t, e) {
             var o, n, p, r;
-            e.__SV || (window.posthog = e, e._i = [], e.init = function(i, s,
+            e.__SV || (window.posthog = e, e._i = [], e.init = function (i, s,
                 a) {
                 function g(t, e) {
                     var o = e.split(".");
                     2 == o.length && (t = t[o[0]], e = o[1]), t[e] =
-                        function() {
+                        function () {
                             t.push([e].concat(Array.prototype.slice
                                 .call(arguments, 0)))
                         }
@@ -99,11 +100,11 @@
                     .insertBefore(p, r);
                 var u = e;
                 for (void 0 !== a ? u = e[a] = [] : a = "posthog", u
-                    .people = u.people || [], u.toString = function(t) {
+                    .people = u.people || [], u.toString = function (t) {
                         var e = "posthog";
                         return "posthog" !== a && (e += "." + a), t || (
                             e += " (stub)"), e
-                    }, u.people.toString = function() {
+                    }, u.people.toString = function () {
                         return u.toString(1) + ".people (stub)"
                     }, o =
                     "capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags"
@@ -117,10 +118,9 @@
     </script>
     <% end %>
     <%= csrf_meta_tag() %>
-    <link phx-track-static rel="stylesheet"
-        href="<%= Routes.static_path(@conn, "/assets/app.css") %>" />
-    <script defer phx-track-static type="text/javascript"
-        src="<%= Routes.static_path(@conn, "/assets/app.js") %>"></script>
+    <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/assets/app.css") %>" />
+    <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/assets/app.js") %>">
+    </script>
 
 </head>
 
@@ -137,8 +137,7 @@
 
     <%# Bottom footer %>
     <%= if @current_user do %>
-    <nav
-        class="sm:hidden bg-white border-t text-gray-500 text-base bottom-0 fixed w-full z-10">
+    <nav class="sm:hidden bg-white border-t text-gray-500 text-base bottom-0 fixed w-full z-10">
         <div class="flex justify-around h-20 items-top space-x-3  text-xs">
             <%= if @profile != nil and @profile != %Shlinkedin.Profiles.Profile{} do %>
             <%= render "_footer_nav.html", assigns %>

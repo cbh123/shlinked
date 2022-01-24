@@ -9,6 +9,7 @@ defmodule Shlinkedin.News do
   alias Shlinkedin.News.Article
   alias Shlinkedin.News.Vote
   alias Shlinkedin.Profiles.Profile
+  alias Shlinkedin.Profiles
   alias Shlinkedin.Profiles.ProfileNotifier
   alias Shlinkedin.Points
 
@@ -293,5 +294,108 @@ defmodule Shlinkedin.News do
   defp broadcast({:ok, article}, event) do
     Phoenix.PubSub.broadcast(Shlinkedin.PubSub, "articles", {event, article})
     {:ok, article}
+  end
+
+  alias Shlinkedin.News.Content
+
+  @doc """
+  Returns the list of content.
+
+  ## Examples
+
+      iex> list_content()
+      [%Content{}, ...]
+
+  """
+  def list_content do
+    Repo.all(Content)
+  end
+
+  @doc """
+  Gets a single content.
+
+  Raises `Ecto.NoResultsError` if the Content does not exist.
+
+  ## Examples
+
+      iex> get_content!(123)
+      %Content{}
+
+      iex> get_content!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_content!(id), do: Repo.get!(Content, id)
+
+  @doc """
+  Creates a content.
+
+  ## Examples
+
+      iex> create_content(%{field: value})
+      {:ok, %Content{}}
+
+      iex> create_content(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_content(%Profile{} = profile, attrs \\ %{}) do
+    %Content{}
+    |> Content.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:profile, profile)
+    |> Content.validate_allowed(profile)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a content.
+
+  ## Examples
+
+      iex> update_content(content, %{field: new_value})
+      {:ok, %Content{}}
+
+      iex> update_content(content, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_content(profile, %Content{} = content, attrs) do
+    content
+    |> Content.changeset(attrs)
+    |> Content.validate_allowed(profile)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a content.
+
+  ## Examples
+
+      iex> delete_content(content)
+      {:ok, %Content{}}
+
+      iex> delete_content(content)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_content(profile, %Content{} = content) do
+    if Profiles.is_admin?(profile) do
+      Repo.delete(content)
+    else
+      {:error, "You can't do that"}
+    end
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking content changes.
+
+  ## Examples
+
+      iex> change_content(content)
+      %Ecto.Changeset{data: %Content{}}
+
+  """
+  def change_content(%Content{} = content, attrs \\ %{}) do
+    Content.changeset(content, attrs)
   end
 end

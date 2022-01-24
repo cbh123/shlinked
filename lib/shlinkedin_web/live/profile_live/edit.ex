@@ -35,11 +35,13 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
         external: &presign_entry/2
       )
 
-    changeset = Profiles.change_profile(socket.assigns.profile, socket.assigns.current_user)
+    profile = if is_nil(socket.assigns.profile), do: %Profile{}, else: socket.assigns.profile
+    changeset = Profiles.change_profile(profile)
 
     {:ok,
      socket
      |> assign(changeset: changeset)
+     |> assign(profile: profile)
      |> assign(token: session["user_token"])
      |> assign(session: session)
      |> assign(bio_placeholder: @bio_placeholders |> Enum.random())
@@ -72,7 +74,6 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
     changeset =
       Profiles.change_profile(
         socket.assigns.profile,
-        socket.assigns.current_user,
         params["profile"]
       )
       |> Map.put(:action, :validate)

@@ -21,18 +21,14 @@
     <ul class="divide-y divide-gray-200 " phx-update="append">
         <%= for n <- @notifications do %>
 
-        <li id="<%= n.id %>" phx-click="notification-click"
-            phx-value-id="<%= n.id %>" phx-value-slug="<%= n.profile.slug %>"
-            phx-value-type="<%= n.type %>" phx-value-link="<%= n.link %>"
-            phx-value-post-id="<%= n.post_id %>"
-            phx-value-article-id="<%= n.article_id %>"
-            phx-value-group-id="<%= n.group_id %>"
-            phx-value-ad-ad="<%= n.ad_id %>"
+        <li id="<%= n.id %>" phx-click="notification-click" phx-value-id="<%= n.id %>"
+            phx-value-slug="<%= n.profile.slug %>" phx-value-type="<%= n.type %>" phx-value-link="<%= n.link %>"
+            phx-value-post-id="<%= n.post_id %>" phx-value-article-id="<%= n.article_id %>"
+            phx-value-group-id="<%= n.group_id %>" phx-value-ad-ad="<%= n.ad_id %>"
             class="<%= if n.read == false, do: "bg-blue-100 hover:bg-blue-200", else: "bg-white hover:bg-gray-100" %>  cursor-pointer">
             <button class="w-full flex justify-between p-4">
                 <div class="flex text-left">
-                    <img class="h-10 w-10 rounded-full object-cover"
-                        src="<%= n.profile.photo_url %>" alt="">
+                    <img class="h-10 w-10 rounded-full object-cover" src="<%= n.profile.photo_url %>" alt="">
                     <div class="ml-3">
                         <p class="text-sm text-gray-900 inline-block">
                             <%= if n.type == "admin_message" do%>
@@ -44,15 +40,13 @@
 
 
                                 <%= Shlinkedin.Badges.profile_badges(@socket, n.profile, 3) %>
-                            </span> <span
-                                class="font-bold text-sm"><%= n.action %></span>
+                            </span> <span class="font-bold text-sm"><%= n.action %></span>
                             <span class="text-sm"><%= n.body %></span>
                             <% end %>
 
                     </div>
                 </div>
-                <span
-                    class="flex text-right ml-2 text-xs text-gray-500"><%= Timex.from_now(n.inserted_at) %></span>
+                <span class="flex text-right ml-2 text-xs text-gray-500"><%= Timex.from_now(n.inserted_at) %></span>
             </button>
         </li>
         <% end %>

@@ -1,0 +1,26 @@
+<ul class="divide-y divide-gray-200">
+    <%= for n <- Shlinkedin.Profiles.list_notifications(@profile.id, 5) do %>
+    <li id={n.id} phx-click="notification-click" phx-value-id={n.id} class="bg-white hover:bg-gray-100 cursor-pointer">
+        <button class="w-full flex justify-between p-2">
+            <div class="flex text-left">
+                <div class="ml-3">
+                    <p class="text-sm text-gray-900 inline-block">
+                        <%= if n.type == "admin_message" do%>
+                        <span class="font-bold"><%= n.action %></span>
+                        <span><%= n.body %></span>
+                        <% else  %>
+                        <span class="text-xs text-gray-500"><%= n.profile.persona_name %></span>
+                        <span class="text-xs">
+                            <%= Shlinkedin.Badges.profile_badges(@socket, n.profile, 3) %>
+                        </span> <span class="text-xs"><%= n.action %></span>
+                        <span class="text-sm"><%= n.body %></span>
+                        <% end %>
+
+                    </p>
+                </div>
+                <span class="flex text-right ml-2 text-xs text-gray-400"><%= Timex.from_now(n.inserted_at) %></span>
+            </div>
+        </button>
+    </li>
+    <% end %>
+</ul>
