@@ -36,7 +36,7 @@ defmodule ShlinkedinWeb.ContentLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Shlinkedin News")
+    |> assign(:page_title, "ShlinkedIn Tribune")
     |> assign(:content, nil)
   end
 

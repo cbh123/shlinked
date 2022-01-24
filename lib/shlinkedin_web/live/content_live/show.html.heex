@@ -2,7 +2,8 @@
     <figure>
         <img class="object-cover w-full sm:h-60 h-64" src={@content.header_image} alt="">
         <%= if @content.subtitle do %>
-        <figcaption class="italic text-sm text-gray-500 text-center">Optional header image subtitle</figcaption>
+        <figcaption class="italic text-sm text-gray-500 text-center"><%= @content.subtitle %></figcaption>
+
         <% end %>
     </figure>
 
