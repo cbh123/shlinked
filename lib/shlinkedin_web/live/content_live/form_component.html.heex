@@ -1,0 +1,70 @@
+<div class="p-5">
+    <h2 class="font-bold"><%= @title %></h2>
+
+    <.form let={f} for={@changeset} id="content-form" phx-target={@myself} class="space-y-4" phx-change="validate"
+        phx-submit="save">
+
+        <div>
+            <%= label f, "Title*" %>
+            <%= text_input f, :title, class: "inline-block" %>
+            <%= error_tag f, :title %>
+        </div>
+
+        <div>
+            <%= label f, :subtitle %>
+            <%= text_input f, :subtitle, class: "inline-block" %>
+            <%= error_tag f, :subtitle %>
+        </div>
+
+
+        <div>
+            <%= label f, "Image url* -- pls paste a full URL" %>
+            <%= text_input f, :header_image %>
+            <%= error_tag f, :header_image %>
+        </div>
+
+        <div>
+            <%= label f, "Image subtitle" %>
+            <%= text_input f, :header_image_subtitle %>
+            <%= error_tag f, :header_image_subtitle %>
+        </div>
+
+        <div>
+            <%= label f, "Author*" %>
+            <%= text_input f, :author %>
+            <%= error_tag f, :author %>
+        </div>
+
+        <div>
+            <%= label f, "Topic*" %>
+            <%= text_input f, :topic %>
+            <%= error_tag f, :topic %>
+        </div>
+
+        <div>
+            <%= label f, "Twitter handle*" %>
+            <%= text_input f, :twitter, default: "https://twitter.com/ShlinkedIn" %>
+            <%= error_tag f, :twitter %>
+        </div>
+
+
+        <div class="form-group">
+            <%= label f, "content*" %>
+            <%= hidden_input f, :content, rows: 20, class: "form-control" %>
+
+            <div id="source_content-editor" phx-update="ignore">
+                <trix-editor input="content-form_content"></trix-editor>
+            </div>
+            <%= error_tag f, :content %>
+        </div>
+
+
+
+
+        <div class="mt-5 text-right">
+            <%= submit "Save", phx_disable_with: "Saving...", class: "btn-primary" %>
+        </div>
+    </.form>
+
+
+</div>

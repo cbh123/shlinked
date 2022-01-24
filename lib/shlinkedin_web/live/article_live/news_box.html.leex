@@ -1,40 +1,37 @@
  <div id="<%= @id %>" class="px-5 leading-none relative">
 
-     <span
-         class="absolute left-2 top-1.5 h-1.5 w-1.5 rounded-full ring-2 ring-white bg-blue-400 mr-1.5"></span>
+     <span class="absolute left-2 top-1.5 h-1.5 w-1.5 rounded-full ring-2 ring-white bg-blue-400 mr-1.5"></span>
 
      <%# Top row: headline and clap and dot %>
      <div class="flex justify-between">
          <div>
-             <p class=" font-semibold text-xs hover:underline">
+             <p class=" font-semibold  hover:underline">
                  <%= live_patch to: Routes.home_index_path(@socket, :show_votes, @article.id) do %>
-                 <%= @article.headline %>
+                 <span class="text-gray-900 text-xs"> <%= @article.headline %></span>
                  <% end %>
              </p>
          </div>
          <div class="">
-             <button phx-click="clap" id="<%=@id%>-clap"
-                 phx-target="<%= @myself %>" type="button"
+             <button phx-click="clap" id="<%=@id%>-clap" phx-target="<%= @myself %>" type="button"
                  phx-value-id="<%= @article.id %>" class="  cursor-pointer ">
                  <span class="h-5 w-5 hover:bg-gray-100 rounded-full px-1.5 py-1
 "> <%= if Shlinkedin.News.is_first_vote_on_article?(@profile, @article), do: "✖", else: "👏" %>
-
-
                  </span></button>
          </div>
      </div>
      <%# second row: time and upvotes %>
      <div class=" inline-flex text-gray-500 text-xs">
-         <span>
-             <%= Timex.from_now(@article.inserted_at)%> • </span>
+         <p>
+             <span>
+                 <%= Timex.from_now(@article.inserted_at)%> • </span>
 
 
-         <%= live_patch to: Routes.home_index_path(@socket, :show_votes, @article.id) do %>
+             <%= live_patch to: Routes.home_index_path(@socket, :show_votes, @article.id) do %>
 
-         <span class="pl-1 <%= if @spin == true, do: "animate-spin" %> ">
-             <%= length(@article.votes)%>
-             claps </span>
-         <span><%= if Shlinkedin.News.profile_allowed_to_delete?(@profile, @article), do: link "• Delete", id: "#{@id}-delete",  to: "#", phx_click: "delete-article", class: "hover:text-gray-600", phx_value_id: @article.id, data: [confirm: "Are you sure?"] %></span>
+             <span
+                 class="pl-1 text-xs text-gray-500 font-medium <%= if @spin == true, do: "animate-spin" %> "><%= length(@article.votes)%>
+                 claps </span>
+             <span><%= if Shlinkedin.News.profile_allowed_to_delete?(@profile, @article), do: link "• Delete", id: "#{@id}-delete",  to: "#", phx_click: "delete-article", class: "hover:text-gray-600 text-gray-500 text-xs", phx_value_id: @article.id, data: [confirm: "Are you sure?"] %></span>
          </p>
 
          <% end %>

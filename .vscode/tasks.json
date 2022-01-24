@@ -1,0 +1,58 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Run mix credo",
+        "type": "shell",
+        "command": "mix credo",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared",
+          "showReuseMessage": true,
+          "clear": false
+        }
+      },
+      {
+        "label": "Run test suite",
+        "type": "shell",
+        "command": "source .env && mix test",
+        "group": "test",
+        "presentation": {
+          "reveal": "always",
+          "panel": "shared"
+        }
+      },
+      {
+        "label": "Run test file",
+        "type": "shell",
+        "command": "source .env && mix test ${relativeFile}",
+        "group": "test",
+        "presentation": {
+          "reveal": "always",
+          "panel": "shared"
+        }
+      },
+      {
+        "label": "Run test case",
+        "type": "shell",
+        "command": "source .env && mix test ${relativeFile}:${lineNumber}",
+        "group": "test",
+        "presentation": {
+          "reveal": "always",
+          "panel": "shared"
+        }
+      },
+      {
+        "label": "Run last test as pry",
+        "type": "shell",
+        "command": "source ~/.zshrc && repry",
+        "group": "test",
+        "presentation": {
+          "reveal": "always",
+          "panel": "shared"
+        }
+      }
+    ]
+  }

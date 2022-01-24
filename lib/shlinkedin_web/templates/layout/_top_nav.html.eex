@@ -72,7 +72,7 @@
 
                 <%= link to: "/home" do %>
                 <button
-                    class="hover:bg-gray-100 px-2 mx-1 h-full  <%= if @conn.request_path == "/home", do: "border-gray-700 text-gray-700 "%>border-b-2 border-white  px-1 pt-1 basent-light">
+                    class="text-gray-500 hover:bg-gray-100 px-2 mx-1 h-full  <%= if @conn.request_path == "/home", do: "border-gray-700 text-gray-700 "%> border-b-2 border-white  px-1 pt-1 basent-light">
                     <svg class="mx-auto w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -83,7 +83,8 @@
                 </button>
                 <% end %>
                 <%= live_patch to: "/feedback" do %>
-                <button class="hover:bg-gray-100 px-2 mx-1 h-full relative border-b-2 border-white pt-1 font-base">
+                <button
+                    class="text-gray-500 hover:bg-gray-100 px-2 mx-1 h-full relative border-b-2 border-white pt-1 font-base">
                     <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
@@ -98,7 +99,7 @@
 
                 <%= link to: "/shlinks" do %>
                 <button
-                    class="hover:bg-gray-100 px-2 mx-1 h-full relative <%= if @conn.request_path == "/shlinks", do: "border-gray-700 text-gray-700 "%>border-b-2 border-white  px-1 pt-1 font-base">
+                    class="text-gray-500 hover:bg-gray-100 px-2 mx-1 h-full relative <%= if @conn.request_path == "/shlinks", do: "border-gray-700 text-gray-700 "%>border-b-2 border-white  px-1 pt-1 font-base">
 
 
                     <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20"
@@ -122,7 +123,7 @@
                 <%= link to: "/updates" do %>
 
                 <button
-                    class="hover:bg-gray-100 px-2 mx-1 h-full relative <%= if @conn.request_path == "/updates", do: "border-gray-700 text-gray-700 "%> border-b-2 border-white  px-1 pt-1 font-base">
+                    class="text-gray-500 hover:bg-gray-100 px-2 mx-1 h-full relative <%= if @conn.request_path == "/updates", do: "border-gray-700 text-gray-700 "%> border-b-2 border-white  px-1 pt-1 font-base">
 
                     <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
@@ -147,7 +148,7 @@
 
                 <%= link to: "/dms" do %>
                 <button
-                    class="hover:bg-gray-100 px-2 mx-1 h-full relative <%= if @conn.request_path == "/dms", do: "border-gray-700 text-gray-700 "%>border-b-2 border-white  px-1 pt-1 font-base">
+                    class="text-gray-500 hover:bg-gray-100 px-2 mx-1 h-full relative <%= if @conn.request_path == "/dms", do: "border-gray-700 text-gray-700 "%>border-b-2 border-white  px-1 pt-1 font-base">
                     <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
