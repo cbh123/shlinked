@@ -42,8 +42,8 @@
         </div>
 
         <div>
-            <%= label f, "Twitter handle" %>
-            <%= text_input f, :twitter %>
+            <%= label f, "Twitter handle*" %>
+            <%= text_input f, :twitter, default: "https://twitter.com/ShlinkedIn" %>
             <%= error_tag f, :twitter %>
         </div>
 

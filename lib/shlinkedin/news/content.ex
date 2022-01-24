@@ -6,7 +6,7 @@ defmodule Shlinkedin.News.Content do
   schema "content" do
     field :author, :string
     field :content, :string
-    field :twitter, :string
+    field :twitter, :string, default: "https://twitter.com/ShlinkedIn"
     field :header_image, :string
     field :title, :string
     field :subtitle, :string
@@ -29,7 +29,7 @@ defmodule Shlinkedin.News.Content do
       :topic,
       :header_image_subtitle
     ])
-    |> validate_required([:author, :content, :header_image, :title, :topic])
+    |> validate_required([:author, :content, :header_image, :title, :topic, :twitter])
   end
 
   def validate_allowed(changeset, profile) do

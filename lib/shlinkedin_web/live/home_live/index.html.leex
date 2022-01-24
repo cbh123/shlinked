@@ -24,7 +24,7 @@
                         <% end %>
 
                         <%= live_redirect to: Routes.content_index_path(@socket, :index) do %>
-                        <div class="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+                        <div class="hidden text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
                             aria-current="false">
                             <!-- Heroicon name: outline/user-group -->
 
@@ -170,7 +170,7 @@
                     checklist: @checklist %>
 
 
-                <div class="my-2 text-center">
+                <div class="my-2 text-center hidden">
                     <%= live_redirect raw("New! Check out the ShlinkedIn Tribune &rarr;"), to: Routes.content_index_path(@socket, :index), class: "font-semibold text-xs hover:bg-gray-300 bg-gray-200 text-gray-700 rounded-xl py-1 px-2" %>
                 </div>
 
