@@ -19,7 +19,8 @@ defmodule Shlinkedin.NewsFixtures do
           content: "some content",
           header_image: "some header image",
           twitter: "some twitter",
-          title: "some title"
+          title: "some title",
+          topic: "hi"
         })
       )
 
