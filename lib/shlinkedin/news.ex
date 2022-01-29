@@ -308,7 +308,7 @@ defmodule Shlinkedin.News do
 
   """
   def list_content do
-    Repo.all(Content)
+    Repo.all(from c in Content, order_by: [desc: c.priority])
   end
 
   @doc """

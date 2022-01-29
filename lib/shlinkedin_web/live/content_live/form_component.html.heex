@@ -46,6 +46,11 @@
             <%= text_input f, :twitter, default: "https://twitter.com/ShlinkedIn" %>
             <%= error_tag f, :twitter %>
         </div>
+        <div>
+            <%= label f, "Priority (higher the better)" %>
+            <%= number_input f, :priority, default: 1 %>
+            <%= error_tag f, :priority %>
+        </div>
 
 
         <div class="form-group">

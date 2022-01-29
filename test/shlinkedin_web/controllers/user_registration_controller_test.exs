@@ -8,8 +8,7 @@ defmodule ShlinkedinWeb.UserRegistrationControllerTest do
       conn = get(conn, Routes.user_registration_path(conn, :new))
       response = html_response(conn, 200)
       assert response =~ "Create an account"
-      assert response =~ "Log in</a>"
-      assert response =~ "Join</a>"
+      assert response =~ "Join"
     end
 
     test "redirects if already logged in", %{conn: conn} do

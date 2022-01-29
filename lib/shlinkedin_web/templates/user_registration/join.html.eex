@@ -19,7 +19,7 @@
 
 
                         <p class="mt-6 text-xl text-gray-500">
-                            ShlinkedIn is an <a class="font-semibold hover:underline"
+                            ShlinkedIn is an <a class="font-semibold hover:underline text-gray-500 text-xl"
                                 href="https://github.com/cbh123/shlinked">open
                                 source</a> social network where you can be
                             anyone or anything. Rise the ranks from unpaid
@@ -29,8 +29,8 @@
                     </div>
 
                     <div class="mt-8">
-                        <%= link raw("Explore &rarr;"), to: "/", class: "rounded-md border border-transparent px-5 py-3 bg-blue-600 text-base font-medium text-white shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:px-10" %>
-                        <%= link "Generate Content", to: "/generator", class: "rounded-md border border-transparent px-5 py-3 ml-3 bg-blue-100 text-base font-medium text-blue-600 shadow hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:px-10" %>
+                        <%= link raw("Explore &rarr;"), to: "/", class: "inline-flex rounded-md border border-transparent px-5 py-3 bg-blue-600 hover:text-white text-base font-medium text-white shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:px-10" %>
+                        <%= link "Generate Content", to: "/generator", class: "inline-flex rounded-md border border-transparent px-5 py-3 ml-3 bg-blue-100 text-base font-medium text-blue-600 shadow hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:px-10" %>
                     </div>
 
                     <div class="mt-10">

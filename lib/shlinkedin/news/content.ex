@@ -13,6 +13,7 @@ defmodule Shlinkedin.News.Content do
     field :topic, :string
     belongs_to :profile, Shlinkedin.Profiles.Profile
     field :header_image_subtitle, :string
+    field :priority, :integer, default: 1
     timestamps()
   end
 
@@ -27,7 +28,8 @@ defmodule Shlinkedin.News.Content do
       :title,
       :subtitle,
       :topic,
-      :header_image_subtitle
+      :header_image_subtitle,
+      :priority
     ])
     |> validate_required([:author, :content, :header_image, :title, :topic, :twitter])
   end

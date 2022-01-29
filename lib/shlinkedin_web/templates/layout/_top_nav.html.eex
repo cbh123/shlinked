@@ -284,15 +284,20 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <div class="flex-shrink-0 flex items-center">
-                    <%= link "ShlinkedIn", to: "/join", class: "text-lg text-blue-700 font-bold inline-flex" %>
+                    <%= link "ShlinkedIn", to: "/", class: "text-lg text-blue-700 font-bold inline-flex" %>
+                    <p class="text-sm italic text-gray-500 font-windows hidden sm:block ml-4">
+                        <%= unless is_nil(Shlinkedin.Timeline.get_random_tagline) do %>
+
+                        <%= Shlinkedin.Timeline.get_random_tagline.text %>
+                        <%  end %>
+                    </p>
                 </div>
                 <div class="hidden md:ml-6 md:flex md:space-x-8">
                 </div>
             </div>
             <div class="flex items-center">
-
-                <%= link "Log in", to: "/log_in",  class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
-                <%= link "Join", to: "/register", class: "ml-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+                <%= link "What is this?", to: "/join",  class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+                <%= link raw("Join &rarr;"), to: "/register", class: "ml-2 sm:inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
             </div>
         </div>
     </div>
