@@ -14,12 +14,19 @@
 #
 ARG BUILDER_IMAGE="hexpm/elixir:1.12.3-erlang-24.1.4-debian-bullseye-20210902-slim"
 ARG RUNNER_IMAGE="debian:bullseye-20210902-slim"
+ARG NODEJS_VERSION=16.x
 
 FROM ${BUILDER_IMAGE} as builder
 
+RUN curl -sL https://deb.nodesource.com/setup_${NODEJS_VERSION} | bash
+
 # install build dependencies
 RUN apt-get update -y && apt-get install -y build-essential git \
+    && apt-get install nodejs \ nodejs-npm \
     && apt-get clean && rm -f /var/lib/apt/lists/*_*
+
+RUN npm install npm -g --no-progress
+
 
 # prepare build dir
 WORKDIR /app
@@ -73,7 +80,7 @@ RUN mix release
 FROM ${RUNNER_IMAGE}
 
 RUN apt-get update -y && apt-get install -y libstdc++6 openssl libncurses5 locales \
-  && apt-get clean && rm -f /var/lib/apt/lists/*_*
+    && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
 # Set the locale
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
@@ -93,6 +100,6 @@ USER nobody
 # Create a symlink to the application directory by extracting the directory name. This is required
 # since the release directory will be named after the application, and we don't know that name.
 RUN set -eux; \
-  ln -nfs /app/$(basename *)/bin/$(basename *) /app/entry
+    ln -nfs /app/$(basename *)/bin/$(basename *) /app/entry
 
 CMD /app/entry start

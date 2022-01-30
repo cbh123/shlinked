@@ -360,7 +360,9 @@ defmodule Shlinkedin.Timeline do
     api =
       "https://api.giphy.com/v1/gifs/translate?api_key=#{System.get_env("GIPHY_API_KEY")}&s=#{text}&weirdness=10"
 
-    gif_response = HTTPoison.get!(api)
+    gif_response = HTTPoison.get!(api) |> IO.inspect(label: "GIF response")
+
+    Jason.decode!(gif_response.body) |> IO.inspect(label: "fig response")
 
     Jason.decode!(gif_response.body)["data"]["images"]["original"]["url"]
   end
