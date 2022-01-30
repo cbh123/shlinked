@@ -362,7 +362,7 @@ defmodule Shlinkedin.Timeline do
 
     gif_response = HTTPoison.get!(api)
 
-    Jason.decode!(gif_response.body)["data"]["images"]["original"]["url"]
+    Jason.decode!(gif_response.body)["data"]["images"]["fixed_width_downsampled"]["webp"]
   end
 
   defp after_save({:ok, post}, func) do
