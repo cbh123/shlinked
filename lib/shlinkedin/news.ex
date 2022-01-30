@@ -311,6 +311,11 @@ defmodule Shlinkedin.News do
     Repo.all(from c in Content, order_by: [desc: c.priority])
   end
 
+  def get_random_content do
+    query = from(c in Content, order_by: fragment("RANDOM()"), limit: 1)
+    Repo.one(query)
+  end
+
   @doc """
   Gets a single content.
 
