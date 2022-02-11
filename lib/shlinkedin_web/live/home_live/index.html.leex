@@ -355,6 +355,25 @@
                             </section>
                         </div>
 
+                        <% "tribune" -> %>
+                        <div id="tribune-<%=@random_tribune.id%>" class="my-2">
+                            <%= live_redirect to: Routes.content_show_path(@socket, :show, @random_tribune.id) do %>
+                            <div class="bg-white hover:bg-gray-50 rounded-lg shadow">
+                                <div class="p-5">
+                                    <h5 class="mb-2 text-sm font-medium text-indigo-600">SHLINKEDIN TRIBUNE</h5>
+                                    <h5 class="font-bold mb-3"><%= @random_tribune.title %> &rarr;</h5>
+
+                                    <p class="text-sm font-medium text-gray-900"><%= @random_tribune.author %></p>
+                                </div>
+                                <div class="">
+                                    <img class="mx-auto bg-cover rounded-b-lg" src="<%= @random_tribune.header_image %>"
+                                        alt="">
+                                </div>
+                            </div>
+                            <% end %>
+                        </div>
+
+
                         <% "featured_profiles" -> %>
 
                         <%# Featured profiles %>
@@ -483,67 +502,23 @@
                     </section>
 
 
-                    <%= if not Profiles.is_platinum?(@profile) and not is_nil(@profile) do %>
-                    <div class="bg-white relative overflow-hidden rounded-lg shadow py-4">
-                        <!-- Decorative background image and gradient -->
-                        <div aria-hidden="true" class="absolute inset-0">
-                            <div class="absolute inset-0 max-w-7xl mx-auto overflow-hidden">
-                                <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80"
-                                    alt="" class="w-full h-full object-center object-cover">
-                            </div>
-                            <div class="absolute inset-0 bg-white bg-opacity-75">
-                            </div>
-                            <div class="absolute inset-0 bg-gradient-to-t from-white via-white">
-                            </div>
-                        </div>
-
-                        <!-- Callout -->
-                        <section aria-labelledby="sale-heading"
-                            class="relative -mt-20 mx-auto py-24 px-4 flex flex-col items-center text-center sm:px-6 lg:px-8">
-                            <div class="max-w-2xl mx-auto lg:max-w-none">
-                                <span
-                                    class="block text-sm font-semibold uppercase tracking-wide text-gray-500 sm:text-base lg:text-sm xl:text-base">Support
-                                    ShlinkedIn</span>
-                                <h2 id="sale-heading"
-                                    class="text-4xl font-extrabold text-gray-800 tracking-tight sm:text-5xl">
-                                    ShlinkedIn <span
-                                        class="text-transparent bg-clip-text bg-gradient-to-tr from-blue-500 via-teal-400 to-green-300">Platinum</span>
-                                </h2>
-                                <p class="mt-4 max-w-xl mx-auto text-sm text-gray-600 mb-4">
-                                    An exclusive
-                                    new trophy on your profile. Stickers.
-                                    Unlimited
-                                    business jabs. No ad cooldown. Access to
-                                    an exclusive
-                                    platinum-only community and new
-                                    features. Support us directly
-                                    and recieve a lifetime of honor.
-                                </p>
-
-                                <%= live_redirect "Support ShlinkedIn", to: Routes.platinum_index_path(@socket, :index), class: "inline-block bg-gradient-to-tr from-blue-500 via-teal-400 to-green-300 rounded-md py-3 px-8 font-medium text-white hover:from-blue-600 hover:to-green-400 w-auto" %>
-
-                            </div>
-                        </section>
-                    </div>
-
-
-
-                    <% else %>
                     <section aria-labelledby="activity-heading">
-                        <div class="bg-white p-5 rounded-lg shadow">
-                            <h5 class=" font-bold mb-3">Recent Activity</h5>
-                            <div class="max-h-56 overflow-y-scroll">
-                                <ul class="-mb-8">
-                                    <%= for activity <- @recent_activity do %>
-                                    <%= live_component @socket, ShlinkedinWeb.ActivityLive.ActivityComponent,
-                                id: "activity-#{activity.id}",
-                                profile: @profile,
-                                activity: activity %>
-                                    <% end %>
+                        <%= live_redirect to: Routes.content_show_path(@socket, :show, @random_tribune.id) do %>
+                        <div class="bg-white hover:bg-gray-50 rounded-lg shadow">
+                            <div class="p-5">
+                                <h5 class="mb-2 text-sm font-medium text-indigo-600">SHLINKEDIN TRIBUNE</h5>
+                                <h5 class="font-bold mb-3"><%= @random_tribune.title %> &rarr;</h5>
+
+                                <p class="text-sm font-medium text-gray-900"><%= @random_tribune.author %></p>
+                            </div>
+                            <div class="">
+                                <img class="mx-auto bg-cover rounded-b-lg" src="<%= @random_tribune.header_image %>"
+                                    alt="">
                             </div>
                         </div>
+                        <% end %>
                     </section>
-                    <% end %>
+
 
 
 

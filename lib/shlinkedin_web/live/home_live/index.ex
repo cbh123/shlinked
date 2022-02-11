@@ -33,7 +33,8 @@ defmodule ShlinkedinWeb.HomeLive.Index do
        headline_per_page: 15,
        like_map: Timeline.like_map(),
        num_show_comments: 1,
-       comment_like_map: Timeline.comment_like_map()
+       comment_like_map: Timeline.comment_like_map(),
+       random_tribune: News.get_random_content()
      )
      |> fetch_profile_related_data()
      |> fetch_headlines()
@@ -68,7 +69,8 @@ defmodule ShlinkedinWeb.HomeLive.Index do
              profile: profile,
              feed_options: feed_options,
              page: page,
-             per_page: per
+             per_page: per,
+             random_tribune: random_tribune
            }
          } = socket
        ) do
@@ -86,8 +88,11 @@ defmodule ShlinkedinWeb.HomeLive.Index do
           rem(index, ad_frequency) == 0 and page != 1 ->
             [get_ad(), post]
 
-          index == 3 ->
+          index == 4 ->
             [%{type: "featured_profiles", content: Profiles.list_random_profiles(3)}, post]
+
+          index == 3 ->
+            [%{type: "tribune", content: random_tribune}, post]
 
           index == 5 ->
             [%{type: "featured_groups", content: Groups.list_random_groups(5)}, post]

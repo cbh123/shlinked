@@ -233,6 +233,7 @@
             <%= link "Admin", to: "/admin", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
             <% end %>
             <%= link "Home", to: "/home?featured", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
+            <%= link "Tribune", to: "/news", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
             <%= link "ShlinkMail", to: "/dms", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
             <%= link "ShlinkRequests", to: "/shlinks", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
             <%= link "ShlinkPoints", to: "/points", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>

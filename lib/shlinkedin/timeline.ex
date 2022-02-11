@@ -364,7 +364,7 @@ defmodule Shlinkedin.Timeline do
 
     Jason.decode!(gif_response.body) |> IO.inspect(label: "fig response")
 
-    Jason.decode!(gif_response.body)["data"]["images"]["original"]["url"]
+    Jason.decode!(gif_response.body)["data"]["images"]["fixed_width_downsampled"]["webp"]
   end
 
   defp after_save({:ok, post}, func) do
