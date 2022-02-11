@@ -822,7 +822,10 @@ defmodule Shlinkedin.Timeline.Generators do
       "Sweet",
       "Jamba",
       "Beastmaster",
-      "Edward"
+      "Edward",
+      "Sam",
+      "Charlie",
+      "Gilad"
     ]
     |> Enum.random()
   end
