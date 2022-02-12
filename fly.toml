@@ -1,20 +1,25 @@
-# fly.toml file generated for hidden-feather-6009 on 2022-02-12T09:27:35-05:00
+# fly.toml file generated for green-wildflower-1270 on 2022-02-12T14:02:17-05:00
 
-app = "hidden-feather-6009"
+app = "green-wildflower-1270"
 
-kill_signal = "SIGINT"
+kill_signal = "SIGTERM"
 kill_timeout = 5
 processes = []
+
+[deploy]
+  release_command = "/app/entry eval Shlinkedin.Release.migrate"
 
 [env]
 
 [experimental]
   allowed_public_ports = []
   auto_rollback = true
+  private_network=true
+
 
 [[services]]
   http_checks = []
-  internal_port = 8080
+  internal_port = 4000
   processes = ["app"]
   protocol = "tcp"
   script_checks = []
@@ -33,7 +38,7 @@ processes = []
     port = 443
 
   [[services.tcp_checks]]
-    grace_period = "1s"
+    grace_period = "30s"  # allow some time for startup
     interval = "15s"
     restart_limit = 0
     timeout = "2s"

@@ -1,93 +1,70 @@
-# Find eligible builder and runner images on Docker Hub. We use Ubuntu/Debian instead of
-# Alpine to avoid DNS resolution issues in production.
-#
-# https://hub.docker.com/r/hexpm/elixir/tags?page=1&name=ubuntu
-# https://hub.docker.com/_/ubuntu?tab=tags
-#
-#
-# This file is based on these images:
-#
-#   - https://hub.docker.com/r/hexpm/elixir/tags - for the build image
-#   - https://hub.docker.com/_/debian?tab=tags&page=1&name=bullseye-20210902-slim - for the release image
-#   - https://pkgs.org/ - resource for finding needed packages
-#   - Ex: hexpm/elixir:1.12.0-erlang-24.0.1-debian-bullseye-20210902-slim
-#
-ARG BUILDER_IMAGE="hexpm/elixir:1.13.3-erlang-22.3.4.10-debian-bullseye-20210902"
-ARG RUNNER_IMAGE="debian:bullseye-20210902-slim"
+# Stage 1: Build a Mix.Release of the application (image size: ~750mb)
+FROM bitwalker/alpine-elixir-phoenix:latest AS phx-builder
 
-FROM ${BUILDER_IMAGE} as builder
-
-# install build dependencies
-RUN apt-get update -y && apt-get install -y build-essential git \
-    && apt-get clean && rm -f /var/lib/apt/lists/*_*
-
-# prepare build dir
 WORKDIR /app
 
-# install hex + rebar
-RUN mix local.hex --force && \
-    mix local.rebar --force
+# These two environment variables will be overwritten when the application is started.
+# They are needed here to satisfy the env-variable checks in `prod.secret.exs`
+ENV SECRET_KEY_BASE=nokey
+ENV DATABASE_URL=nodb
 
-# set build ENV
-ENV MIX_ENV="prod"
+# If you set the PORT to 4000, you need to change it in the fly.toml as well.
+ENV PORT=4000
+ENV MIX_ENV=prod
 
-# install mix dependencies
-COPY mix.exs mix.lock ./
-RUN mix deps.get --only $MIX_ENV
-RUN mkdir config
+# Cache elixir deps
+ADD mix.exs mix.lock ./
+RUN mix do deps.get --only prod, deps.compile
 
-# copy compile-time config files before we compile dependencies
-# to ensure any relevant config change will trigger the dependencies
-# to be re-compiled.
-COPY config/config.exs config/${MIX_ENV}.exs config/
-RUN mix deps.compile
+# Cache npm deps
+ADD assets/package.json assets/
+RUN npm install --prefix assets
 
-COPY priv priv
+# Copy all local files to the build context
+# Ignores the ones specified in .dockerignore
+ADD . .
 
-# Compile the release
-COPY lib lib
+# Run frontend build, compile, and digest assets
+RUN npm run --prefix assets deploy
+RUN mix do compile, phx.digest
 
-# note: if your project uses a tool like https://purgecss.com/,
-# which customizes asset compilation based on what it finds in
-# your Elixir templates, you will need to move the asset compilation
-# step down so that `lib` is available.
-COPY assets assets
-
-# compile assets
-RUN mix assets.deploy
-
-RUN mix compile
-
-# Changes to config/runtime.exs don't require recompiling the code
-COPY config/runtime.exs config/
-
-COPY rel rel
+# Create a Mix.Release of the application
 RUN mix release
 
-# start a new build stage so that the final image will only contain
-# the compiled release and other runtime necessities
-FROM ${RUNNER_IMAGE}
+# Stage 2: Create a smaller deployment image (image size: ~98mb)
+FROM bitwalker/alpine-elixir:latest
 
-RUN apt-get update -y && apt-get install -y libstdc++6 openssl libncurses5 locales \
-    && apt-get clean && rm -f /var/lib/apt/lists/*_*
+# Make sure that this PORT is equal to the one above
+# and to the one in fly.toml
+ENV PORT=4000
+ENV MIX_ENV=prod
 
-# Set the locale
-RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
+WORKDIR /app
 
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
+# Create a unprivileged user to run the app
+#
+# This is a common security practice to avoid
+# giving root permissions to the application which attackers
+# could potentially abuse if they gain access to the application.
+ENV USER="phoenix"
+ENV HOME=/home/"${USER}"
+ENV APP_DIR="${HOME}/app"
+RUN \
+    addgroup \
+    -g 1000 \
+    -S "${USER}" && \
+    adduser \
+    -s /bin/sh \
+    -u 1000 \
+    -G "${USER}" \
+    -h "${HOME}" \
+    -D "${USER}" && \
+    su "${USER}" sh -c "mkdir ${APP_DIR}"
 
-WORKDIR "/app"
-RUN chown nobody /app
+# Copy the files necessary to run the application
+COPY --from=phx-builder --chown="${USER}":"${USER}" /app/_build/prod/rel/my_app ./
+COPY --from=phx-builder --chown="${USER}":"${USER}" /app/entrypoint.sh ./
 
-# Only copy the final release from the build stage
-COPY --from=builder --chown=nobody:root /app/_build/prod/rel ./
-
-USER nobody
-
-# Set the runtime ENV
-ENV ECTO_IPV6="true"
-ENV ERL_AFLAGS="-proto_dist inet6_tcp"
-
-CMD /app/bin/server
+# Define the entrypoint and the command it should execute
+ENTRYPOINT ["/app/entrypoint.sh"]
+CMD ["bin/my_app", "start"]
