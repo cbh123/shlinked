@@ -14,7 +14,7 @@ if config_env() == :prod do
       For example: ecto://USER:PASS@HOST/DATABASE
       """
 
-  config :shlinkedin, HelloElixir.Repo,
+  config :shlinkedin, Shlinkedin.Repo,
     # ssl: true,
     # IMPORTANT: Or it won't find the DB server
     socket_options: [:inet6],
@@ -37,7 +37,7 @@ if config_env() == :prod do
     System.get_env("FLY_APP_NAME") ||
       raise "FLY_APP_NAME not available"
 
-  config :shlinkedin, HelloElixirWeb.Endpoint,
+  config :shlinkedin, Shlinkedin.Endpoint,
     url: [host: "#{app_name}.fly.dev", port: 80],
     http: [
       # Enable IPv6 and bind on all interfaces.
@@ -54,7 +54,7 @@ if config_env() == :prod do
   # If you are doing OTP releases, you need to instruct Phoenix
   # to start each relevant endpoint:
   #
-  config :shlinkedin, HelloElixirWeb.Endpoint, server: true
+  config :shlinkedin, ShlinkedinWeb.Endpoint, server: true
 
   # ## Configuring the mailer
   #

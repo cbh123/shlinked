@@ -6,15 +6,10 @@ kill_signal = "SIGTERM"
 kill_timeout = 5
 processes = []
 
-[deploy]
-  release_command = "/app/entry eval Shlinkedin.Release.migrate"
-
 [env]
 
-[experimental]
-  allowed_public_ports = []
-  auto_rollback = true
-  private_network=true
+[deploy]
+  release_command = "/app/entry eval Shlinkedin.Release.migrate"
 
 
 [[services]]
@@ -40,5 +35,5 @@ processes = []
   [[services.tcp_checks]]
     grace_period = "30s"  # allow some time for startup
     interval = "15s"
-    restart_limit = 0
+    restart_limit = 1
     timeout = "2s"
