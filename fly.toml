@@ -1,13 +1,10 @@
-# fly.toml file generated for nameless-sea-915 on 2022-01-25T11:22:36-05:00
+# fly.toml file generated for hidden-feather-6009 on 2022-02-12T09:27:35-05:00
 
-app = "nameless-sea-915"
+app = "hidden-feather-6009"
 
-kill_signal = "SIGTERM"
+kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
-
-[deploy]
-  release_command = "/app/entry eval Shlinkedin.Release.migrate"
 
 [env]
 
@@ -17,7 +14,7 @@ processes = []
 
 [[services]]
   http_checks = []
-  internal_port = 4000
+  internal_port = 8080
   processes = ["app"]
   protocol = "tcp"
   script_checks = []
@@ -36,7 +33,7 @@ processes = []
     port = 443
 
   [[services.tcp_checks]]
-    grace_period = "30s"
+    grace_period = "1s"
     interval = "15s"
     restart_limit = 0
     timeout = "2s"

@@ -8,14 +8,13 @@ import "phoenix_html";
 import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
 import topbar from "../vendor/topbar";
-import Alpine from "alpinejs";
-const confetti = require("canvas-confetti");
+// import Alpine from "alpinejs";
 
 let Uploaders = {};
 let Hooks = {};
 
-window.Alpine = Alpine;
-Alpine.start();
+// window.Alpine = Alpine;
+// Alpine.start();
 
 let bindTrix = function () {
   let trix = document.querySelector("trix-editor");
