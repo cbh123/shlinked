@@ -6,6 +6,11 @@ import Config
 # and secrets from environment variables or elsewhere. Do not define
 # any compile-time configuration in here, as it won't be applied.
 # The block below contains prod specific runtime configuration.
+# if System.get_env("PHX_SERVER") && System.get_env("RELEASE_NAME") do
+#   config :shlinkedin, ShlinkedinWeb.Endpoint, server: true
+# end
+
+maybe_ipv6 = if System.get_env("ECTO_IPV6"), do: [:inet6], else: []
 
 if config_env() == :prod do
   database_url =
