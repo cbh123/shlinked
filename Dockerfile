@@ -10,9 +10,9 @@
 #   - https://hub.docker.com/r/hexpm/elixir/tags - for the build image
 #   - https://hub.docker.com/_/debian?tab=tags&page=1&name=bullseye-20210902-slim - for the release image
 #   - https://pkgs.org/ - resource for finding needed packages
-#   - Ex: hexpm/elixir:1.12.0-erlang-24.0.1-debian-bullseye-20210902-slim
+#   - Ex: hexpm/elixir:1.12.3-erlang-24.1.4-debian-bullseye-20210902-slim
 #
-ARG BUILDER_IMAGE="hexpm/elixir:1.13.3-erlang-22.3.4.10-debian-bullseye-20210902"
+ARG BUILDER_IMAGE="hexpm/elixir:1.12.3-erlang-24.1.4-debian-bullseye-20210902-slim"
 ARG RUNNER_IMAGE="debian:bullseye-20210902-slim"
 
 FROM ${BUILDER_IMAGE} as builder
@@ -44,17 +44,21 @@ RUN mix deps.compile
 
 COPY priv priv
 
-# Compile the release
-COPY lib lib
-
 # note: if your project uses a tool like https://purgecss.com/,
 # which customizes asset compilation based on what it finds in
 # your Elixir templates, you will need to move the asset compilation
 # step down so that `lib` is available.
 COPY assets assets
 
-# compile assets
+# For Phoenix 1.6 and later, compile assets using esbuild
 RUN mix assets.deploy
+
+# For Phoenix versions earlier than 1.6, compile assets npm
+# RUN cd assets && yarn install && yarn run webpack --mode production
+# RUN mix phx.digest
+
+# Compile the release
+COPY lib lib
 
 RUN mix compile
 
@@ -86,8 +90,10 @@ COPY --from=builder --chown=nobody:root /app/_build/prod/rel ./
 
 USER nobody
 
-# Set the runtime ENV
-ENV ECTO_IPV6="true"
-ENV ERL_AFLAGS="-proto_dist inet6_tcp"
+# Create a symlink to the command that starts your application. This is required
+# since the release directory and start up script are named after the
+# application, and we don't know that name.
+RUN set -eux; \
+    ln -nfs /app/$(basename *)/bin/$(basename *) /app/entry
 
-CMD /app/bin/server
+CMD /app/entry start

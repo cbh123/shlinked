@@ -6,6 +6,7 @@ import Config
 # and secrets from environment variables or elsewhere. Do not define
 # any compile-time configuration in here, as it won't be applied.
 # The block below contains prod specific runtime configuration.
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||
@@ -37,7 +38,7 @@ if config_env() == :prod do
     System.get_env("FLY_APP_NAME") ||
       raise "FLY_APP_NAME not available"
 
-  config :shlinkedin, Shlinkedin.Endpoint,
+  config :shlinkedin, ShlinkedinWeb.Endpoint,
     url: [host: "#{app_name}.fly.dev", port: 80],
     http: [
       # Enable IPv6 and bind on all interfaces.
