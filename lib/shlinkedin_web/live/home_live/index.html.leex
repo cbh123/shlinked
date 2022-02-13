@@ -356,6 +356,7 @@
                         </div>
 
                         <% "tribune" -> %>
+                        <%= unless is_nil(@random_tribune) do %>
                         <div id="tribune-<%=@random_tribune.id%>" class="my-2">
                             <%= live_redirect to: Routes.content_show_path(@socket, :show, @random_tribune.id) do %>
                             <div class="bg-white hover:bg-gray-50 rounded-lg shadow">
@@ -372,6 +373,7 @@
                             </div>
                             <% end %>
                         </div>
+                        <% end %>
 
 
                         <% "featured_profiles" -> %>
@@ -502,6 +504,7 @@
                     </section>
 
 
+                    <%= unless is_nil(@random_tribune) do %>
                     <section aria-labelledby="activity-heading">
                         <%= live_redirect to: Routes.content_show_path(@socket, :show, @random_tribune.id) do %>
                         <div class="bg-white hover:bg-gray-50 rounded-lg shadow">
@@ -518,6 +521,7 @@
                         </div>
                         <% end %>
                     </section>
+                    <% end %>
 
 
 
