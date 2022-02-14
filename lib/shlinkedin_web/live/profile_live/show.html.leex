@@ -27,7 +27,7 @@
                     </div>
 
 
-                    <%= if @profile.id == @show_profile.id do %>
+                    <%= if is_my_profile?(@profile, @show_profile) do %>
                     <%= live_patch to: Routes.profile_edit_path(@socket, :edit) do %>
                     <button type="button"
                         class="absolute top-2 right-0 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
@@ -45,7 +45,7 @@
                     <% end %>
                     <% end %>
 
-                    <%= if @profile.admin do %>
+                    <%= if is_admin?(@profile) do %>
                     <%= live_patch "Grant Awards", to: Routes.profile_show_path(@socket, :edit_awards, @to_profile.slug), class: "absolute top-12 right-0 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-yellow-700 bg-yellow-100 hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" %></span>
                     <% end %>
                 </div>
@@ -63,7 +63,7 @@
                         </div>
 
                         <%# Title %>
-                        <%= if @profile.id == @show_profile.id and is_nil(@profile.persona_title) do%>
+                        <%= if is_my_profile?(@profile, @show_profile) and is_nil(@show_profile.persona_title) do%>
                         <%= live_patch to: Routes.profile_edit_path(@socket, :edit) do %>
                         <button type="button"
                             class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-yellow-700 bg-yellow-100 hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
@@ -86,7 +86,7 @@
                         </div>
                         <% end %>
 
-                        <%= if @profile.id == @show_profile.id and @show_profile.life_score == "B+" do%>
+                        <%= if is_my_profile?(@profile, @show_profile) and @show_profile.life_score == "B+" do%>
                         <%= live_patch to: Routes.profile_edit_path(@socket, :edit) do %>
                         <button type="button"
                             class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
@@ -122,7 +122,7 @@
 
             <%# summary %>
             <div class="px-5 mt-1 mb-6 ml-3 max-w-lg text-xs sm:text-sm text-center sm:text-left">
-                <%= if @profile.id == @show_profile.id and is_nil(@profile.summary) do%>
+                <%= if is_my_profile?(@profile, @show_profile) and is_nil(@show_profile.summary) do%>
                 <%= live_patch to: Routes.profile_edit_path(@socket, :edit) do %>
                 <button type="button"
                     class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
@@ -148,7 +148,7 @@
 
 
 
-                <%= if @profile.id == @show_profile.id and is_nil(@profile.resume_link) do%>
+                <%= if is_my_profile?(@profile, @show_profile)and is_nil(@show_profile.resume_link) do%>
                 <%= live_redirect to: Routes.resume_index_path(@socket, :index) do %>
                 <button type="button"
                     class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
@@ -198,7 +198,7 @@
             </div>
 
 
-            <%= if @profile.id != @show_profile.id do %>
+            <%= if not is_my_profile?(@profile, @show_profile) do %>
             <div class="px-5 ml-3 pb-6">
 
                 <%= live_component @socket, ShlinkedinWeb.ProfileLive.FriendButton,
@@ -288,7 +288,7 @@
                     Gallery
                 </h5>
 
-                <%= if @show_profile.id != @profile.id do %>
+                <%= if not is_my_profile?(@profile, @show_profile) do %>
                 <%= live_patch to: Routes.profile_show_path(@socket, :new_transaction, @to_profile.slug) do %>
                 <button type="button"
                     class="bg-green-500 hover:bg-green-600 text-white inline-flex items-center px-4 py-2 shadow-sm font-semibold rounded-full">
@@ -495,7 +495,7 @@
             <p class="font-semibold text-gray-600 text-center my-8">No reviews
                 yet 😔</p>
 
-            <%= if @from_profile.id == @show_profile.id do %>
+            <%= if is_my_profile?(@profile, @show_profile) do %>
             <div class="align-middle mb-4">
                 <%= live_patch to: Routes.home_index_path(@socket, :new_invite) do %>
                 <button type="button"

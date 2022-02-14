@@ -23,10 +23,10 @@
     <%= if @meta_attrs != [] do %>
     <%= meta_tags(@meta_attrs) %>
     <% else %>
-
     <meta property="og:image" content="https://shlinked.s3.amazonaws.com/social.png">
     <meta property="twitter:image" content="https://shlinked.s3.amazonaws.com/social.png">
-
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="./manifest.json">
     <% end %>
 
     <%# Trix %>
@@ -37,8 +37,6 @@
         integrity="sha512-/1nVu72YEESEbcmhE/EvjH/RxTg62EKvYWLG3NdeZibTCuEtW5M4z3aypcvsoZw03FAopi94y04GhuqRU9p+CQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="manifest" href="./manifest.json">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link
@@ -128,8 +126,6 @@
     <header>
         <%= render "_top_nav.html", assigns %>
     </header>
-
-
 
     <div class="pt-16 pb-6">
         <%= @inner_content %>
