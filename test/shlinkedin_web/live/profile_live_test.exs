@@ -9,6 +9,19 @@ defmodule ShlinkedinWeb.ProfileLiveTest do
     %{to_profile: profile_fixture()}
   end
 
+  describe "View profile as anon user" do
+    test "view profile", %{conn: conn, to_profile: to_profile} do
+      {:ok, view, _html} = live(conn, Routes.profile_show_path(conn, :show, to_profile.slug))
+
+      assert view
+             |> element("#review", "+ Review")
+             |> render_click() =~
+               "Write a review for #{to_profile.persona_name}"
+
+      assert_patch(view, Routes.profile_show_path(conn, :new_testimonial, to_profile.slug))
+    end
+  end
+
   describe "View profile as signed in user" do
     setup :register_user_and_profile
 

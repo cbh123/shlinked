@@ -22,7 +22,8 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     show_profile = Shlinkedin.Profiles.get_profile_by_slug(slug)
 
     # store profile view
-    {:ok, _view} = Profiles.create_profile_view(socket.assigns.profile, show_profile)
+    if socket.assigns.profile != nil and socket.assigns.profile != %Profile{id: nil},
+      do: {:ok, _view} = Profiles.create_profile_view(socket.assigns.profile, show_profile)
 
     {:ok,
      socket
@@ -38,7 +39,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
        total_gallery_pages: calc_max_gallery_pages(show_profile, @gallery_per_page)
      )
      |> assign(live_action: socket.assigns.live_action || :show)
-     |> assign(page_title: "ShlinkedIn - " <> show_profile.persona_name)
+     |> assign(page_title: page_title(show_profile.persona_name, show_profile.persona_title))
      |> assign(content_selection: "about")
      |> assign(from_notifications: false)
      |> assign(current_awards: list_active_awards(show_profile))
@@ -56,6 +57,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(checklist: Shlinkedin.Levels.get_current_checklist(show_profile, socket))
      |> assign(num_profile_views: Profiles.get_profile_views_not_yourself(show_profile))
      |> assign(testimonials: list_testimonials(show_profile.id))
+     |> assign(meta_attrs: meta_attrs(show_profile.persona_name, show_profile.photo_url))
      |> fetch_posts()
      |> fetch_gallery(),
      temporary_assigns: [
@@ -445,5 +447,50 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
       |> Enum.at(0)
 
     {:ok, "https://open.spotify.com/embed/track/#{id}?theme=0"}
+  end
+
+  defp is_my_profile?(nil, show_profile), do: false
+  defp is_my_profile?(%Profile{id: nil}, show_profile), do: false
+  defp is_my_profile?(%Profile{} = me, %Profile{} = show), do: me.id == show.id
+
+  defp is_admin?(profile), do: Profiles.is_admin?(profile)
+
+  defp page_title(name, title), do: "#{name} | #{title} | Very Professional Profile on ShlinkedIn"
+  defp page_title(name), do: "#{name} | ShlinkedIn"
+
+  defp tweet_intent(name, url) do
+    text = page_title(name)
+    "https://twitter.com/intent/tweet?text=#{text}&url=#{url}"
+  end
+
+  defp linkedin_intent(slug) do
+    "https://www.linkedin.com/sharing/share-offsite/?url=https://shlinkedin.com/sh/#{slug}"
+  end
+
+  defp meta_attrs(name, image) do
+    text = page_title(name)
+
+    [
+      %{
+        property: "og:image",
+        content: image
+      },
+      %{
+        property: "og:description",
+        content: text
+      },
+      %{
+        name: "twitter:image:src",
+        content: image
+      },
+      %{
+        property: "og:image:height",
+        content: "1200"
+      },
+      %{
+        property: "og:image:width",
+        content: "1200"
+      }
+    ]
   end
 end

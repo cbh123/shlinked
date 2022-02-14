@@ -53,7 +53,7 @@ defmodule ShlinkedinWeb.ContentLive.Show do
         content: image
       },
       %{
-        propoert: "og:description",
+        property: "og:description",
         content: "A ShlinkedIn article by #{name}"
       },
       %{

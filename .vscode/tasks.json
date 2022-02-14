@@ -45,9 +45,9 @@
         }
       },
       {
-        "label": "Run last test as pry",
+        "label": "Run test case as pry",
         "type": "shell",
-        "command": "source ~/.zshrc && repry",
+        "command": "source .env && iex -S mix test ${relativeFile}:${lineNumber}",
         "group": "test",
         "presentation": {
           "reveal": "always",
