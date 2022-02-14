@@ -121,7 +121,7 @@
                 </button>
                 <% end %>
                 <div x-data="{post_options: false}" class="relative">
-                    <button @click.away="post_option=false" @click="post_options= !post_options"
+                    <button @click.away="post_options=false" @click="post_options= !post_options"
                         class="hover:bg-gray-100 px-2 mx-1 h-full relative <%= if @conn.request_path == "/updates", do: "border-gray-700 text-gray-700 "%> border-b-2 border-white  px-1 pt-1 font-base">
 
                         <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20"
