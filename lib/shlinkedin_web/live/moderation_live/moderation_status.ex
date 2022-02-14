@@ -12,8 +12,9 @@ defmodule ShlinkedinWeb.ModerationLive.ModerationStatus do
 
   def render(assigns) do
     ~L"""
+
+    <div id={@id} class="mx-auto max-w-lg">
     <%= if @content.removed and Shlinkedin.Profiles.is_moderator?(@profile) do %>
-    <div class="mx-auto max-w-lg">
 
 
     <!-- This example requires Tailwind CSS v2.0+ -->
@@ -47,8 +48,8 @@ defmodule ShlinkedinWeb.ModerationLive.ModerationStatus do
     Undo All Moderation
     </button>
     </div>
-    </div>
     <% end %>
+    </div>
     """
   end
 end

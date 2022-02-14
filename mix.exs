@@ -63,7 +63,8 @@ defmodule Shlinkedin.MixProject do
       {:appsignal, "~> 2.0"},
       {:appsignal_phoenix, "~> 2.0.0"},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
-      {:ex_doc, "~> 0.24", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.24", only: :dev, runtime: false},
+      {:tailwind, "~> 0.1", runtime: Mix.env() == :dev}
     ]
   end
 
@@ -80,7 +81,7 @@ defmodule Shlinkedin.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.deploy": [
-        "cmd --cd assets npm run deploy-tailwind",
+        "tailwind default --minify",
         "esbuild default --minify",
         "phx.digest"
       ]
