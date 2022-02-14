@@ -536,7 +536,7 @@
                                         <%= testimonial.relation %>
                                     </p>
 
-                                    <%= if @from_profile.id == testimonial.from_profile_id do %>
+                                    <%= if not is_nil(@from_profile) and @from_profile.id == testimonial.from_profile_id do %>
                                     <div class=>
                                         <span><%= live_patch "Edit", to: Routes.profile_show_path(@socket, :edit_testimonial, @to_profile.slug, testimonial), class: "text-xs text-gray-700" %></span>
                                         •
@@ -727,7 +727,7 @@
                         <%= live_redirect e_profile.persona_name, to: Routes.profile_show_path(@socket, :show, e_profile.slug), class: "italic  #{"text-#{color}-700"} hover:underline"  %>
 
 
-                        <%= if @from_profile.id == endorsement.from_profile_id do %>
+                        <%= if not is_nil(@from_profile) and @from_profile.id == endorsement.from_profile_id do %>
                         <div class="ml-4">
                             <span><%= live_patch "Edit", to: Routes.profile_show_path(@socket, :edit_endorsement, @to_profile.slug, endorsement), class: "text-#{color}-700" %></span>
                             •
@@ -778,7 +778,7 @@
 
         <%= if @profile_post_count == 0 do %>
         <div>
-            <%= if @from_profile.id == @show_profile.id do %>
+            <%= if is_ @from_profile.id == @show_profile.id do %>
             <div>
                 <%= live_patch to: Routes.home_index_path(@socket, :new) do %>
                 <button type="button"
