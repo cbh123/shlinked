@@ -778,7 +778,7 @@
 
         <%= if @profile_post_count == 0 do %>
         <div>
-            <%= if is_ @from_profile.id == @show_profile.id do %>
+            <%= if is_my_profile?(@profile, @show_profile) do %>
             <div>
                 <%= live_patch to: Routes.home_index_path(@socket, :new) do %>
                 <button type="button"
@@ -812,7 +812,7 @@
         <%# Created Ads %>
         <%= if @content_selection == "ads" do %>
 
-        <%= if @from_profile.id == @show_profile.id do %>
+        <%= if is_my_profile?(@from_profile, @show_profile) do %>
         <div class="align-middle">
             <%= live_patch to: Routes.home_index_path(@socket, :new_ad) do %>
             <button type="button"
