@@ -91,7 +91,8 @@
                 </div>
                 <div class="relative mx-4 sm:mx-auto max-w-none lg:h-full lg:pl-12">
                     <img class=" w-full rounded-md shadow-xl ring-1 ring-black ring-opacity-5  lg:h-full lg:w-auto lg:max-w-none"
-                        src="<%= Routes.static_path(@conn, "/images/landing1.png") %>" alt="">
+                        src="https://media.discordapp.net/attachments/802619197934927922/942869605423149086/Screen_Shot_2022-02-14_at_2.47.08_PM.png"
+                        alt="">
                 </div>
             </div>
         </div>
@@ -263,8 +264,9 @@
                     </defs>
                     <rect width="784" height="404" fill="url(#ca9667ae-9f92-4be7-abcb-9e3d727f2941)" />
                 </svg>
-                <img class="relative mx-auto rounded-lg shadow" width="490" x-show="activeSlide === slide"
-                    src="<%= Routes.static_path(@conn, "/images/beast.png") %>" alt="">
+                <img class="relative mx-auto rounded-lg shadow" width="490"
+                    src="https://media.discordapp.net/attachments/802619197934927922/942869992695795762/Screen_Shot_2022-02-14_at_2.48.40_PM.png?width=908&height=1370"
+                    alt="">
 
 
 
@@ -309,7 +311,8 @@
                         <rect width="784" height="404" fill="url(#e80155a9-dfde-425a-b5ea-1f6fadd20131)" />
                     </svg>
                     <img class="relative mx-auto shadow-lg rounded-lg" width="490"
-                        src="<%= Routes.static_path(@conn, "/images/axel.png") %>" alt="">
+                        src="https://cdn.discordapp.com/attachments/802619197934927922/942870397672636436/Screen_Shot_2022-02-14_at_2.50.14_PM.png"
+                        alt="">
                 </div>
             </div>
         </div>
@@ -341,7 +344,8 @@
                     <rect width="784" height="404" fill="url(#ca9667ae-9f92-4be7-abcb-9e3d727f2941)" />
                 </svg>
                 <img class="relative mx-auto rounded-lg shadow" width="490" x-show="activeSlide === slide"
-                    src="<%= Routes.static_path(@conn, "/images/news.png") %>" alt="">
+                    src="https://cdn.discordapp.com/attachments/802619197934927922/942870517961076776/Screen_Shot_2022-02-14_at_2.50.42_PM.png"
+                    alt="">
 
 
 
@@ -380,11 +384,14 @@
                     </svg>
                     <div class="grid grid-cols-3">
                         <img class="relative mx-auto shadow-lg rounded-lg w-40" width="360"
-                            src="<%= Routes.static_path(@conn, "/images/forum.png") %>" alt="">
+                            src="https://cdn.discordapp.com/attachments/802619197934927922/942870637901385809/Screen_Shot_2022-02-14_at_2.51.13_PM.png"
+                            alt="">
                         <img class="relative mx-auto shadow-lg rounded-lg w-40" width="360"
-                            src="<%= Routes.static_path(@conn, "/images/poem.png") %>" alt="">
+                            src="https://cdn.discordapp.com/attachments/802619197934927922/942870746500329522/Screen_Shot_2022-02-14_at_2.51.41_PM.png"
+                            alt="">
                         <img class="relative mx-auto shadow-lg rounded-lg w-40" width="360"
-                            src="<%= Routes.static_path(@conn, "/images/beings.png") %>" alt="">
+                            src="https://cdn.discordapp.com/attachments/802619197934927922/942870831560802364/Screen_Shot_2022-02-14_at_2.52.01_PM.png"
+                            alt="">
                     </div>
                 </div>
             </div>
@@ -432,7 +439,8 @@
                     <div class="space-y-4">
                         <div class="p-4">
                             <img class="object-cover shadow-lg rounded-lg"
-                                src="<%= Routes.static_path(@conn, "/images/twinder.png")%>" alt="">
+                                src="https://cdn.discordapp.com/attachments/802619197934927922/942871026314924042/Screen_Shot_2022-02-14_at_2.52.46_PM.png"
+                                alt="">
                         </div>
                     </div>
                 </li>
@@ -440,7 +448,8 @@
                     <div class="space-y-4">
                         <div class="p-4">
                             <img class="object-cover shadow-lg rounded-lg"
-                                src="<%= Routes.static_path(@conn, "/images/hr.png")%>" alt="">
+                                src="https://cdn.discordapp.com/attachments/802619197934927922/942871066513141820/Screen_Shot_2022-02-14_at_2.52.57_PM.png"
+                                alt="">
                         </div>
                     </div>
                 </li>
@@ -448,7 +457,8 @@
                     <div class="space-y-4">
                         <div class="p-4">
                             <img class="object-cover shadow-lg rounded-lg"
-                                src="<%= Routes.static_path(@conn, "/images/spitting.png")%>" alt="">
+                                src="https://cdn.discordapp.com/attachments/802619197934927922/942871116979007488/Screen_Shot_2022-02-14_at_2.53.08_PM.png"
+                                alt="">
                         </div>
                     </div>
                 </li>
@@ -680,7 +690,8 @@
             </div>
             <div class="-mt-6 aspect-w-5 aspect-h-3 md:aspect-w-2 md:aspect-h-1">
                 <img class="transform translate-x-6 translate-y-6 rounded-md object-cover object-left-top sm:translate-x-16 lg:translate-y-20"
-                    src="<%= Routes.static_path(@conn, "/images/quip.png") %>" alt="App screenshot">
+                    src="https://cdn.discordapp.com/attachments/802619197934927922/942871426845773874/Screen_Shot_2022-02-14_at_2.54.21_PM.png"
+                    alt="App screenshot">
             </div>
         </div>
     </div>

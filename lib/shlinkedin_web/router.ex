@@ -99,7 +99,6 @@ defmodule ShlinkedinWeb.Router do
     live "/home/show:id/moderate/:action_id", HomeLive.Show, :edit_action
 
     # view and show posts
-
     live "/invite", HomeLive.Index, :new_invite
     live "/feedback", HomeLive.Index, :new_feedback
     live "/home/invite", HomeLive.Index, :new_invite
@@ -111,7 +110,6 @@ defmodule ShlinkedinWeb.Router do
     live "/home/posts/:comment_id/comment_likes", HomeLive.Index, :show_comment_likes
 
     ### profile
-    live "/sh/:slug", ProfileLive.Show, :show
     live "/sh/:slug/shlinks", ProfileLive.Show, :show_friends
     live "/sh/:slug/ad_clicks", ProfileLive.Show, :show_ad_clicks
     live "/sh/:slug/endorsements/new", ProfileLive.Show, :new_endorsement
@@ -233,6 +231,9 @@ defmodule ShlinkedinWeb.Router do
 
   scope "/", ShlinkedinWeb do
     pipe_through [:browser]
+
+    # show profile
+    live "/sh/:slug", ProfileLive.Show, :show
 
     # news
     live "/news", ContentLive.Index, :index
