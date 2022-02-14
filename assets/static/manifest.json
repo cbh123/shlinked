@@ -1,8 +1,8 @@
 {
-    "name": "ShlinkedIn",
-    "short_name": "ShlinkedIn",
-    "start_url": "./",
-    "display": "standalone",
-    "background-color": "white",
-    "description": "A social network for satire."
+  "name": "ShlinkedIn",
+  "short_name": "ShlinkedIn",
+  "start_url": "./",
+  "display": "standalone",
+  "background-color": "white",
+  "description": "A social network for satire."
 }
