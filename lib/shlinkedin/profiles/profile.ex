@@ -69,6 +69,7 @@ defmodule Shlinkedin.Profiles.Profile do
     field(:show_sold_ads, :boolean, default: false)
     field(:spotify_song_url, :string)
     field :resume_link, :string
+    field :confetti_emoji, :string
     timestamps()
   end
 
@@ -102,7 +103,8 @@ defmodule Shlinkedin.Profiles.Profile do
       :joined_discord,
       :show_sold_ads,
       :spotify_song_url,
-      :resume_link
+      :resume_link,
+      :confetti_emoji
     ])
     |> validate_required([:user_id, :persona_name, :slug, :username])
     |> downcase_username()
@@ -113,6 +115,7 @@ defmodule Shlinkedin.Profiles.Profile do
     |> validate_length(:summary, max: 500)
     |> validate_length(:life_score, max: 7)
     |> validate_number(:ad_frequency, greater_than: 0)
+    |> validate_length(:confetti_emoji, max: 10)
     |> validate_slug()
   end
 

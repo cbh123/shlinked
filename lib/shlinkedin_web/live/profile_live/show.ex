@@ -21,6 +21,9 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
 
     show_profile = Shlinkedin.Profiles.get_profile_by_slug(slug)
 
+    # send confetti emoji if it exists
+    if show_profile.confetti_emoji, do: send(self(), {:profile_load, show_profile.confetti_emoji})
+
     # store profile view
     if socket.assigns.profile != nil and socket.assigns.profile != %Profile{id: nil},
       do: {:ok, _view} = Profiles.create_profile_view(socket.assigns.profile, show_profile)
@@ -370,6 +373,10 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
 
   defp list_active_awards(profile) do
     Profiles.list_awards(profile) |> Enum.filter(fn award -> award.active end) |> Enum.reverse()
+  end
+
+  def handle_info({:profile_load, emoji}, socket) do
+    {:noreply, push_event(socket, "confetti-cannon", %{emoji: emoji})}
   end
 
   @impl true

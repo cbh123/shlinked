@@ -22,7 +22,10 @@ config :shlinkedin, ShlinkedinWeb.Endpoint,
   check_origin: false,
   watchers: [
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
+    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]},
+    npx: [
+      "--watch"
+    ]
   ]
 
 # ## SSL Support
