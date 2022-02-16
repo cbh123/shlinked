@@ -32,9 +32,6 @@
 
 
 
-
-
-
             <%# Form %>
             <div class="mt-2 px-5 max-w-md mx-auto space-y-12">
 
@@ -344,6 +341,18 @@
                     <p class=" mt-4 text-xs">
                         <%= error_tag f, :spotify_song_url %></p>
 
+
+                    <label for="url" class="text-sm font-medium text-gray-700 mt-4 block">Add
+                        Confetti Cannon</label>
+
+                    <%= text_input f, :confetti_emoji %>
+                    <p class="text-xs text-gray-500">Choose your confetti to congratulate users on seeing your profile.
+                        We recommend emojis but text works too.
+                    </p>
+                    <p class=" mt-4 text-xs">
+                        <%= error_tag f, :confetti_emoji %></p>
+
+
                 </div>
                 <% else %>
                 <p>Looks like you don't have platinum, so these are disabled!
@@ -360,6 +369,17 @@
                     </p>
                     <p class=" mt-4 text-xs">
                         <%= error_tag f, :spotify_song_url %></p>
+
+
+
+                    <label for="url" class="text-sm font-medium text-gray-500 mt-4 block">Add
+                        Confetti Cannon</label>
+
+                    <%= text_input f, :confetti_emoji, disabled: true %>
+                    <p class="text-xs text-gray-500">Choose your confetti to congratulate users on seeing your profile.
+                    </p>
+                    <p class=" mt-4 text-xs">
+                        <%= error_tag f, :confetti_emoji %></p>
 
                 </div>
                 <% end %>
