@@ -13,6 +13,11 @@ defmodule Shlinkedin.News do
   alias Shlinkedin.Profiles.ProfileNotifier
   alias Shlinkedin.Points
 
+  def get_allowed_change_article(%Profile{} = profile, article_id) do
+    article = get_article!(article_id)
+    if profile_allowed_to_delete?(profile, article), do: {:ok, article}
+  end
+
   def profile_allowed_to_delete?(%Profile{} = profile, %Article{} = article) do
     article.profile_id == profile.id or profile.admin
   end

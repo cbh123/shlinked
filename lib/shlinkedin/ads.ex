@@ -16,6 +16,11 @@ defmodule Shlinkedin.Ads do
   @ad_cost_pct 0.25
   @max_ads_per_hour 3
 
+  def get_allowed_change_ad(%Profile{} = profile, ad_id) do
+    ad = get_ad!(ad_id)
+    if Profiles.is_admin?(profile) or profile.id == ad.profile_id, do: {:ok, ad}
+  end
+
   @doc """
   Gets total count of ads
   """

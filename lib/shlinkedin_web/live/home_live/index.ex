@@ -302,14 +302,14 @@ defmodule ShlinkedinWeb.HomeLive.Index do
   end
 
   def handle_event("delete", %{"id" => id}, socket) do
-    post = Timeline.get_post!(id)
+    {:ok, post} = Timeline.get_allowed_change_post(socket.assigns.profile, id)
     {:ok, _} = Timeline.delete_post(post)
 
     {:noreply, socket |> fetch_posts()}
   end
 
   def handle_event("delete-comment", %{"id" => id}, socket) do
-    comment = Timeline.get_comment!(id)
+    {:ok, comment} = Timeline.get_allowed_change_comment(socket.assigns.profile, id)
     {:ok, _} = Timeline.delete_comment(comment)
 
     {:noreply,
@@ -320,7 +320,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
 
   @impl true
   def handle_event("delete-article", %{"id" => id}, socket) do
-    article = News.get_article!(id)
+    {:ok, article} = News.get_allowed_change_article(socket.assigns.profile, id)
     {:ok, _} = News.delete_article(article)
 
     {:noreply,
@@ -331,7 +331,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
 
   @impl true
   def handle_event("delete-ad", %{"id" => id}, socket) do
-    ad = Ads.get_ad!(id)
+    {:ok, ad} = Ads.get_allowed_change_ad(socket.assigns.profile, id)
     {:ok, _} = Ads.delete_ad(ad)
 
     {:noreply,
