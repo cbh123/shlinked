@@ -101,7 +101,7 @@ defmodule ShlinkedinWeb.HomeLive.Show do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    post = Timeline.get_post!(id)
+    {:ok, post} = Timeline.get_allowed_change_post(socket.assigns.profile, id)
     {:ok, _} = Timeline.delete_post(post)
 
     {:noreply,
@@ -112,7 +112,7 @@ defmodule ShlinkedinWeb.HomeLive.Show do
 
   @impl true
   def handle_event("delete-comment", %{"id" => id}, socket) do
-    comment = Timeline.get_comment!(id)
+    {:ok, comment} = Timeline.get_allowed_change_comment(socket.assigns.profile, id)
     {:ok, _} = Timeline.delete_comment(comment)
 
     {:noreply,

@@ -11,6 +11,22 @@ defmodule Shlinkedin.Timeline do
   alias Shlinkedin.Groups.Group
   alias Shlinkedin.Helpers
 
+  @doc """
+  Gets post if user is allowed to edit it.
+  """
+  def get_allowed_change_post(%Profile{} = profile, post_id) do
+    post = get_post!(post_id)
+    if profile_allowed_to_delete_post?(profile, post), do: {:ok, post}
+  end
+
+  @doc """
+  Gets comment if user is allowed to edit it.
+  """
+  def get_allowed_change_comment(%Profile{} = profile, comment_id) do
+    comment = get_comment!(comment_id)
+    if profile_allowed_to_delete_comment?(profile, comment), do: {:ok, comment}
+  end
+
   def profile_allowed_to_edit_post?(nil, %Post{}), do: false
 
   def profile_allowed_to_edit_post?(%Profile{} = profile, %Post{} = post) do
