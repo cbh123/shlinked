@@ -37,7 +37,7 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     end
   end
 
-  def handle_event("pin-post", _params, %{assigns: %{profile: %{admin: true}}} = socket) do
+  def handle_event("pin-post", _params, %{assigns: %{profile: %Profile{admin: true}}} = socket) do
     post = Timeline.get_post!(socket.assigns.post.id)
 
     {:ok, _post} =
@@ -53,7 +53,7 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     {:noreply, socket}
   end
 
-  def handle_event("unpin-post", _params, %{assigns: %{profile: %{admin: true}}} = socket) do
+  def handle_event("unpin-post", _params, %{assigns: %{profile: %Profile{admin: true}}} = socket) do
     post = Timeline.get_post!(socket.assigns.post.id)
 
     {:ok, _post} =
@@ -69,7 +69,11 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     {:noreply, socket}
   end
 
-  def handle_event("feature-post", _params, %{assigns: %{profile: %{admin: true}}} = socket) do
+  def handle_event(
+        "feature-post",
+        _params,
+        %{assigns: %{profile: %Profile{admin: true}}} = socket
+      ) do
     post = Timeline.get_post!(socket.assigns.post.id)
     poster = Shlinkedin.Profiles.get_profile_by_profile_id(socket.assigns.post.profile_id)
 
@@ -88,7 +92,7 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
     {:noreply, socket}
   end
 
-  def handle_event("unfeature-post", _, %{assigns: %{profile: %{admin: true}}} = socket) do
+  def handle_event("unfeature-post", _, %{assigns: %{profile: %Profile{admin: true}}} = socket) do
     post = Timeline.get_post!(socket.assigns.post.id)
 
     {:ok, _post} =
