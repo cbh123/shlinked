@@ -1,8 +1,7 @@
 // const colors = require("tailwindcss/colors");
 
 module.exports = {
-  mode: "jit",
-  content: ["./js/**/*.js", "../lib/*_web/**/*.*ex"],
+  content: ["./js/**/*.js", "../lib/*_web.ex", "../lib/*_web/**/*.*ex"],
   darkMode: "media", // or 'media' or 'class'
   theme: {
     fontFamily: {

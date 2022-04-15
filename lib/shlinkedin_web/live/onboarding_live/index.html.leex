@@ -5,31 +5,26 @@
   phx_submit: "save" %>
 
 
+
     <%# Form %>
-    <div x-data="{step: 1}" class="mt-2 px-5 max-w-3xl h-full mx-auto">
-
-
+    <div x-data="{step: 1}" class="mt-2 px-5 mx-auto">
         <%# Section 1 -- Introduction %>
-        <div x-show="step == 1" class="text-center">
-            <div class="inline-flex mb-8 relative">
-                <div class="">
-                    <img class="object-cover " style="filter: drop-shadow(1px 2px 2px black)"
+        <div x-show="step >= 1" class="text-center">
+            <div class="grid grid-cols-3">
+                <div class="col-span-2 text-center">
+                    <img class="" style="filter: drop-shadow(1px 2px 2px black)"
                         src="<%= Routes.static_path(@socket, "/images/handshake2.png") %>" alt="">
                 </div>
-                <div class="absolute right-24">
-                    <div class="mt-1 text-lg  w-56  rounded-3xl p-2 rounded-bl-none">
-                        <p><span class="font-bold">"Hello! </span> My name is
-                            Jeff Business, your new boss.
-                            Welcome to your first day at ShlinkedIn."
-                        </p>
-                    </div>
-
-                    <div class=" top-40 mt-4">
+                <div class="col-span-1">
+                    <p><span class="font-bold">"Hello! </span> My name is
+                        Dave Business, your new boss.
+                        Welcome to your first day at ShlinkedIn."
+                    </p>
+                    <div class="mt-4">
                         <button @click="step = 2" class="text-8xl hover:rotate-12 hover:bg-gray-100 p-5 rounded-full"
                             type="button" id="prompt2-btn">🤝</button>
                         <p class="mt-2 text-gray-500 text-sm animate-pulse italic">Click to shake hands</p>
                     </div>
-
                 </div>
             </div>
 
@@ -39,9 +34,8 @@
         </div>
 
 
-
         <%# Section 2 -- Name %>
-        <div x-show="step == 2" class="max-w-sm mx-auto" x-transition>
+        <div x-show="step >= 2" class="max-w-sm mx-auto" x-transition.duration.500ms>
             <div class="text-center">
                 <p>Wow, that's a hell of a handshake. Now let's get to business — do you have your card on you?</p>
             </div>
@@ -65,6 +59,26 @@
 
             </div>
 
+            <div class="text-center mt-4">
+                <button type="button" phx-click="inspire" id="inspire"
+                    class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    💡 Find a new card</button>
+            </div>
+
+            <%= if Map.has_key?(@changeset.changes, :persona_name) do %>
+            <div class="text-center mt-4">
+                <button type="submit" @click="step = 3"
+                    class="inline-flex items-center px-4 py-2 shadow-sm text-sm font-medium rounded-md bg-blue-600 text-white hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Hand Business Card
+                </button>
+            </div>
+            <% end %>
+        </div>
+
+        <div x-show="step >= 1" class="max-w-sm mx-auto mt-10" x-transition>
+            <div class="text-center">
+                <p>Wow, that's a hell of a handshake. Now let's get to business — what is your greatest weakness?</p>
+            </div>
             <div class="text-center mt-4">
                 <button type="button" phx-click="inspire" id="inspire"
                     class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
