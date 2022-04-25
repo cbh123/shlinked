@@ -32,18 +32,22 @@ defmodule ShlinkedinWeb.LiveHelpers do
   def is_user(%{"user_token" => token}, %{view: view} = socket) do
     current_user = Accounts.get_user_by_session_token(token)
 
-    case Profiles.get_profile_by_user_id(current_user.id) do
-      nil when not is_profile_view(view) ->
-        socket
-        |> assign(current_user: current_user, profile: %Profile{})
-        |> redirect(to: "/profile/welcome")
+    if is_nil(current_user) do
+      assign(socket, current_user: nil, profile: nil)
+    else
+      case Profiles.get_profile_by_user_id(current_user.id) do
+        nil when not is_profile_view(view) ->
+          socket
+          |> assign(current_user: current_user, profile: %Profile{})
+          |> redirect(to: "/profile/welcome")
 
-      nil ->
-        socket
-        |> assign(current_user: current_user, profile: nil)
+        nil ->
+          socket
+          |> assign(current_user: current_user, profile: nil)
 
-      profile ->
-        assign(socket, current_user: current_user, profile: profile)
+        profile ->
+          assign(socket, current_user: current_user, profile: profile)
+      end
     end
   end
 
