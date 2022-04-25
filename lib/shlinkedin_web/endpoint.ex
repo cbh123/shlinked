@@ -25,7 +25,7 @@ defmodule ShlinkedinWeb.Endpoint do
   plug(Plug.Static,
     at: "/",
     from: :shlinkedin,
-    gzip: true,
+    gzip: false,
     only:
       ~w(assets fonts images favicon.ico robots.txt apple-touch-icon.png manifest.json uploads)
   )

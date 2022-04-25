@@ -1,5 +1,3 @@
-// const colors = require("tailwindcss/colors");
-
 module.exports = {
   content: ["./js/**/*.js", "../lib/*_web.ex", "../lib/*_web/**/*.*ex"],
   darkMode: "media", // or 'media' or 'class'
@@ -14,9 +12,24 @@ module.exports = {
       marker: ["Permanent Marker"],
     },
     extend: {
-      colors: {
-        // teal: colors.teal,
-        // gray: colors.slate,
+      animation: {
+        fadeDown: "fadeDown 0.5s ease-out",
+      },
+      keyframes: {
+        wiggle: {
+          "0%, 100%": { transform: "rotate(-3deg)" },
+          "50%": { transform: "rotate(3deg)" },
+        },
+        fadeDown: {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(-250px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
       },
     },
   },

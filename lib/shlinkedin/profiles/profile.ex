@@ -106,12 +106,12 @@ defmodule Shlinkedin.Profiles.Profile do
       :resume_link,
       :confetti_emoji
     ])
-    |> validate_required([:user_id, :persona_name, :slug, :username])
+    |> validate_required([:persona_name, :slug, :username])
     |> downcase_username()
     |> validate_username()
     |> unique_constraint([:username])
     |> validate_length(:persona_name, min: 1, max: 80)
-    |> validate_length(:persona_title, min: 3, max: 100)
+    |> validate_length(:persona_title, min: 3, max: 200)
     |> validate_length(:summary, max: 500)
     |> validate_length(:life_score, max: 7)
     |> validate_number(:ad_frequency, greater_than: 0)
