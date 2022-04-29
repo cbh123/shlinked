@@ -15,7 +15,7 @@ defmodule ShlinkedinWeb.OnboardingLive.Index do
      |> assign(
        changeset: changeset,
        profile: profile,
-       profile_created: false
+       profile_created: true
      )}
   end
 

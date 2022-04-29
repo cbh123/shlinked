@@ -82,7 +82,7 @@ Hooks.ConfettiButtonPause = {
       setTimeout(() => {
         jsConfetti.addConfetti({ emojis: [...this.el.id] });
         document.getElementById("claimedButton").classList.remove("hidden");
-      }, 1000);
+      }, 1200);
     });
   },
 };

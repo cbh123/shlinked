@@ -113,7 +113,7 @@
 
     <%# PHASE 2 -- AFTER YOU ENTERED YOUR PROFILE INFO %>
     <% else %>
-    <div x-data="{step: 1}" class="text-center">
+    <div x-data="{step: 4, reduce: false}" class="text-center">
         <div class=" grid grid-cols-3 mx-auto h-screen animate-fadeDown">
             <div class="col-span-1 relative">
                 <img class="max-w-screen-lg mx-auto style=" filter: drop-shadow(1px 2px 2px black)"
@@ -168,9 +168,9 @@
 
                     </p>
                     <p x-show="claimed" class="text-4xl max-w-md mx-auto font-windows">You just earned your first
-                        ShlinkPoint! You can
+                        ShlinkPoints! You can
                         earn ShlinkPoints by getting likes, profile
-                        views, and more. These are meaningless but the richest Shlinkers are very happy.
+                        views, and more.
                     </p>
 
                     <button x-show="!claimed" @click="claimed = true" phx-hook="ConfettiButtonPause" id="💰🤑"
@@ -184,11 +184,11 @@
                                 💰 Net Worth
                             </dt>
                             <dd class="mt-1 text-3xl font-semibold text-gray-900">
-                                <span x-data="{ current: 0, target: 10000, time: 2000}" x-init="() => {
+                                <span x-data="{ current: 0, target: 10000, time: 900}" x-init="$watch('claimed', value => {
                                     start = current;
                                     const interval = Math.max(time / (target - start), 5);
                                     const nstep = (target - start) /  (time / interval);
-                                    console.log(step);
+                                    console.log('caleimd')
                                     const handle = setInterval(() => {
                                         if(current < target)
                                             current += nstep;
@@ -197,7 +197,7 @@
                                             current = target;
                                         }
                                         }, interval)
-                                }" class="text-gray-900 font-mono" x-text="Math.round(current).toLocaleString('en-US')
+                                })" class="text-gray-900 font-mono" x-text="Math.round(current).toLocaleString('en-US')
                                     + 'SP'"></span>
                             </dd>
                         </div>
@@ -210,17 +210,60 @@
                 </div>
 
                 <div x-show="step == 4">
-                    <p class="text-4xl max-w-md mx-auto font-windows">Great question, <%= @profile.persona_name %> ! You
-                        mostly use ShlinkPoints to flex on other
-                        Shlinkers, but there's fun things to do with them too, like buy Ads. You'll figure it out once
-                        you get to the
-                        office. Now, I just need to process some paperwork and you'll get the points wired to you...
-                    </p>
+                    <div class="text-4xl max-w-md mx-auto font-windows">
+                        <p class="">Great question! With ShlinkPoints, you can:
+                        </p>
+                        <ul class="py-4">
+                            <li>- Flex on other Shlinkers</li>
+                            <li>- Buy Ads</li>
+                            <li>- Create Headlines</li>
+                            <li>- And much more...</li>
+                        </ul>
+                        <p>Now, I just need to process some paperwork and you'll get the points wired to you...</p>
+                    </div>
+                    <div class="mt-4">
+                        <button @click="step = 5; reduce = true"
+                            class="btn-outline hover:bg-green-500 border-green-500 text-green-500">Pay 9,999 SP
+                            Fee</button>
+                        <button class="btn-outline hover:bg-red-500 border-red-500 text-red-500">Refuse Fee</button>
+                    </div>
+                </div>
+
+                <div x-show="step == 5">
+                    <div class="text-4xl max-w-md mx-auto font-windows">
+                        <p class="">Great. Thanks for understanding. Now we're onto the final step...</p>
+                        <div class="w-60 mt-6 mx-auto shadow-lg border-2 rounded-lg animate-fadeDown">
+                            <div class="px-4 py-5 sm:p-6">
+                                <dt class="text-sm font-medium text-gray-500 truncate">
+                                    💰 Net Worth
+                                </dt>
+                                <dd class="mt-1 text-3xl font-semibold text-gray-900">
+                                    <span x-data="{ current: 10000, target: 1, time: 900}" x-init="$watch('reduce', value => {
+                                    start = current;
+                                    const interval = Math.max(time / (target - start), 5);
+                                    const nstep = (target - start) /  (time / interval);
+                                    console.log(current);
+                                    const handle = setInterval(() => {
+                                        if(current < target)
+                                            current -= nstep;
+                                        else {
+                                            clearInterval(handle);
+                                            current = target;
+                                        }
+                                        }, interval)
+                                })" class="text-gray-900 font-mono" x-text="Math.round(current).toLocaleString('en-US')
+                                    + 'SP'"></span>
+                                </dd>
+                            </div>
+                        </div>
+                    </div>
                     <div class="mt-4">
                         <button class="btn-outline">Pay 9,999 SP Fee</button>
                         <button class="btn-outline">Refuse Fee</button>
                     </div>
                 </div>
+
+
 
 
 
