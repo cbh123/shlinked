@@ -1,4 +1,4 @@
-<div class="bg-white mb-8 h-screen">
+<div class="bg-white mb-8 pt-2 h-screen">
 
 
 
@@ -16,17 +16,18 @@
                 <div class="">
                     <img class="max-w-md mx-auto rounded-lg shadow-2xl"
                         src="https://hqhire.com/wp-content/uploads/2021/09/How-to-Respond-graciously-to-a-Job-Rejection-Email-with-Examples.jpg"
-                        alt="">IKMO < </div> <div class="mt-6 p-5">
-                        <p class="text-4xl max-w-md mx-auto font-windows">"Ugh... This is awkward, but I just don't
-                            think you're a good fit for ShlinkedIn HQ. Best of luck elsewhere.""
-                        </p>
-                        <div class="mt-4 text-center">
-                            <%= live_redirect to: Routes.onboarding_index_path(@socket, :index) do %>
-                            <button class="text-8xl hover:rotate-12 hover:bg-gray-100 p-5 rounded-full"
-                                type="button">🔄</button>
-                            <p class="mt-2 text-gray-500 text-sm animate-pulse italic">I'm sorry.</p>
-                            <% end %>
-                        </div>
+                        alt=""></div>
+                <div class="mt-6 p-5">
+                    <p class="text-4xl max-w-md mx-auto font-windows">"Ugh... This is awkward, but I just don't
+                        think you're a good fit for ShlinkedIn HQ. Best of luck elsewhere.""
+                    </p>
+                    <div class="mt-4 text-center">
+                        <%= live_redirect to: Routes.onboarding_index_path(@socket, :index) do %>
+                        <button class="text-8xl hover:rotate-12 hover:bg-gray-100 p-5 rounded-full"
+                            type="button">🔄</button>
+                        <p class="mt-2 text-gray-500 text-sm animate-pulse italic">I'm sorry.</p>
+                        <% end %>
+                    </div>
                 </div>
             </div>
         </div>

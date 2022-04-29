@@ -15,7 +15,7 @@ defmodule ShlinkedinWeb.OnboardingLive.Index do
      |> assign(
        changeset: changeset,
        profile: profile,
-       profile_created: true,
+       profile_created: false,
        body: "",
        gif_url: nil
      )}
@@ -75,8 +75,6 @@ defmodule ShlinkedinWeb.OnboardingLive.Index do
     username =
       "#{persona_name |> String.slice(0..5)}#{:rand.uniform(100_000)}" |> String.downcase()
 
-    require IEx
-    IEx.pry()
     {:noreply, socket |> assign(username: username)}
   end
 
