@@ -1,4 +1,4 @@
-<div class="bg-white mb-8 pt-8 h-screen">
+<div class="bg-white mb-8 h-screen">
 
 
 
@@ -16,19 +16,17 @@
                 <div class="">
                     <img class="max-w-md mx-auto rounded-lg shadow-2xl"
                         src="https://hqhire.com/wp-content/uploads/2021/09/How-to-Respond-graciously-to-a-Job-Rejection-Email-with-Examples.jpg"
-                        alt="">
-                </div>
-                <div class="mt-6 p-5">
-                    <p class="text-4xl max-w-md mx-auto font-windows">"Ugh... This is awkward, but I just don't
-                        think you're a good fit for ShlinkedIn HQ. Best of luck elsewhere.""
-                    </p>
-                    <div class="mt-4 text-center">
-                        <%= live_redirect to: Routes.onboarding_index_path(@socket, :index) do %>
-                        <button class="text-8xl hover:rotate-12 hover:bg-gray-100 p-5 rounded-full"
-                            type="button">🔄</button>
-                        <p class="mt-2 text-gray-500 text-sm animate-pulse italic">I'm sorry.</p>
-                        <% end %>
-                    </div>
+                        alt="">IKMO < </div> <div class="mt-6 p-5">
+                        <p class="text-4xl max-w-md mx-auto font-windows">"Ugh... This is awkward, but I just don't
+                            think you're a good fit for ShlinkedIn HQ. Best of luck elsewhere.""
+                        </p>
+                        <div class="mt-4 text-center">
+                            <%= live_redirect to: Routes.onboarding_index_path(@socket, :index) do %>
+                            <button class="text-8xl hover:rotate-12 hover:bg-gray-100 p-5 rounded-full"
+                                type="button">🔄</button>
+                            <p class="mt-2 text-gray-500 text-sm animate-pulse italic">I'm sorry.</p>
+                            <% end %>
+                        </div>
                 </div>
             </div>
         </div>
@@ -113,11 +111,19 @@
 
     <%# PHASE 2 -- AFTER YOU ENTERED YOUR PROFILE INFO %>
     <% else %>
-    <div x-data="{step: 4, reduce: false}" class="text-center">
+    <div x-data="{step: 1, reduce: false, stubborn: false}"
+        :class="step == 'refuse' || step == 'stubborn' ? 'bg-gray-800 text-red-500 text-center' : 'text-center' ">
+        <%# <button @click="step -= 1">Back</button> %>
         <div class=" grid grid-cols-3 mx-auto h-screen animate-fadeDown">
             <div class="col-span-1 relative">
-                <img class="max-w-screen-lg mx-auto style=" filter: drop-shadow(1px 2px 2px black)"
+                <%# Regular Dave %>
+                <img x-show="step != 'refuse' && step != 'stubborn'" class="max-w-screen-lg mx-auto"
+                    style="filter: drop-shadow(1px 2px 2px black)"
                     src="https://shlinked.s3.amazonaws.com/2bea3359-2626-4c45-ba9c-2fd4fd4f518a.png" alt="">
+                <%# Scary Dave %>
+                <img x-show="step == 'refuse' || step == 'stubborn'" class="max-w-screen-lg mx-auto animate-fadeDown"
+                    style="filter: drop-shadow(1px 2px 2px black)"
+                    src="https://shlinked.s3.amazonaws.com/bloodydave.png" alt="">
             </div>
             <div class="col-span-2 p-5">
 
@@ -188,7 +194,6 @@
                                     start = current;
                                     const interval = Math.max(time / (target - start), 5);
                                     const nstep = (target - start) /  (time / interval);
-                                    console.log('caleimd')
                                     const handle = setInterval(() => {
                                         if(current < target)
                                             current += nstep;
@@ -225,41 +230,181 @@
                         <button @click="step = 5; reduce = true"
                             class="btn-outline hover:bg-green-500 border-green-500 text-green-500">Pay 9,999 SP
                             Fee</button>
-                        <button class="btn-outline hover:bg-red-500 border-red-500 text-red-500">Refuse Fee</button>
+                        <button @click="step = 'refuse'"
+                            class="btn-outline hover:bg-red-500 border-red-500 text-red-500">Refuse
+                            Fee</button>
+                    </div>
+                </div>
+
+                <div x-show="step == 'refuse'">
+                    <div class="text-4xl max-w-md mx-auto font-creepster animate-shake"
+                        style="animation-iteration-count: infinite; ">
+                        <p class="mt-4">DAVE NO LIKEY</p>
+                        <p class="mt-4"> Are you sure you want to refuse the fee?</p>
+                    </div>
+                    <div class="mt-8">
+                        <button @click="step = 'stubborn'" class="btn-outline text-white border-white">Yes, I
+                            REFUSE.</button>
+                        <button @click="step = 5, reduce = true" class="btn-outline text-white border-white">No, uhh
+                            nevermind, I'll
+                            pay it.</button>
+                    </div>
+                </div>
+
+                <div x-show="step == 'stubborn'">
+                    <div class="text-4xl max-w-md mx-auto font-creepster" style="animation-iteration-count: infinite; ">
+                        <p class="mt-4">We appreciate your initiative and have heard your complaints about the
+                            exorbitant fees. We’ve applied a discount to your fee.</p>
+                    </div>
+                    <div class="mt-8">
+                        <button @click="step = 5, reduce = true, stubborn = true"
+                            class="btn-outline text-white border-white">Pay 9,998
+                            Fee</button>
                     </div>
                 </div>
 
                 <div x-show="step == 5">
                     <div class="text-4xl max-w-md mx-auto font-windows">
-                        <p class="">Great. Thanks for understanding. Now we're onto the final step...</p>
                         <div class="w-60 mt-6 mx-auto shadow-lg border-2 rounded-lg animate-fadeDown">
                             <div class="px-4 py-5 sm:p-6">
                                 <dt class="text-sm font-medium text-gray-500 truncate">
                                     💰 Net Worth
                                 </dt>
                                 <dd class="mt-1 text-3xl font-semibold text-gray-900">
-                                    <span x-data="{ current: 10000, target: 1, time: 900}" x-init="$watch('reduce', value => {
-                                    start = current;
-                                    const interval = Math.max(time / (target - start), 5);
-                                    const nstep = (target - start) /  (time / interval);
-                                    console.log(current);
-                                    const handle = setInterval(() => {
-                                        if(current < target)
-                                            current -= nstep;
-                                        else {
-                                            clearInterval(handle);
-                                            current = target;
-                                        }
-                                        }, interval)
+                                    <span x-data="{ current: 10000, target: 'stubborn' ? 2 : 1, time: 1000}" x-init="$watch('reduce', value => {
+                                        setTimeout(function () {
+                                            start = current;
+                                            const interval = Math.max(time / (target - start), 5);
+                                            const nstep = (target - start) /  (time / interval);
+                                            console.log(target);
+                                            const handle = setInterval(() => {
+                                                if(current > target)
+                                                    current += nstep;
+                                                else {
+                                                    clearInterval(handle);
+                                                    current = target;
+                                                }
+                                                }, interval)
+
+                                        }, 500);
                                 })" class="text-gray-900 font-mono" x-text="Math.round(current).toLocaleString('en-US')
                                     + 'SP'"></span>
                                 </dd>
                             </div>
                         </div>
+
+                        <p class="mt-4">Great. Thanks for understanding. Now we're onto the final step...</p>
+
+
+
+
                     </div>
                     <div class="mt-4">
-                        <button class="btn-outline">Pay 9,999 SP Fee</button>
-                        <button class="btn-outline">Refuse Fee</button>
+                        <button @click="step = 6" class="btn-outline">PLEASE JUST HELP ME BECOME A THOUGHT
+                            LEADER...</button>
+                    </div>
+                </div>
+
+
+                <div x-show="step == 6">
+                    <div class="text-4xl max-w-md mx-auto font-windows">
+                        <p class="mt-4">Your final test: generate some thought leadership, and post it to ShlinkedIn.
+                        </p>
+                    </div>
+
+
+                    <form class="max-w-xl bg-white rounded-lg border border-gray-100 shadow-lg m-3 sm:mx-auto">
+
+                        <div class="mt-1 p-5">
+
+                            <div class="mb-8">
+                                <p class="text-xs text-gray-500">Choose a theme</p>
+                                <button type="button" phx-click="adversity" class="inline-flex items-center px-3 py-2 border border-transparent text-sm
+    leading-4 font-medium rounded-full shadow-sm text-yellow-700 bg-yellow-100
+    hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-offset-2
+    focus:ring-indigo-500">
+                                    Adversity Lesson
+                                </button>
+                                <button type="button" phx-click="job"
+                                    class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-blue-100 text-blue-700 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Job Update
+                                </button>
+                                <button type="button" phx-click="challenge"
+                                    class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-green-100 text-green-700 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Business Challenge
+                                </button>
+                                <button type="button" phx-click="strange"
+                                    class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-red-200 text-red-700 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Strange Observation
+                                </button>
+                                <button type="button" phx-click="guilt"
+                                    class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-indigo-100 text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Guilt Trip
+                                </button>
+                                <button type="button" phx-click="hashtags"
+                                    class="inline-flex mt-2 font-medium items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-full shadow-sm bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Hashtags
+                                </button>
+
+                            </div>
+
+                            <%# Enter Body Text %>
+                            <div class="my-4">
+
+
+
+                                <textarea id="post-form_body"
+                                    class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-3"
+                                    rows=10 placeholder="What do you want to talk about?"><%= @body %></textarea>
+
+
+                            </div>
+                            <div class="mx-auto">
+                                <%# If there's a gif, show it %>
+                                <%= if @gif_url != nil do %>
+                                <img src="<%= @gif_url %>"
+                                    class="max-h-96 w-full h-full rounded-lg shadow mt-6 overflow-hidden object-cover align-middle object-center " />
+                                <% end %>
+                            </div>
+
+                            <!-- This example requires Tailwind CSS v2.0+ -->
+                            <div class="relative mt-8">
+                                <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                                    <div class="w-full border-t border-gray-300"></div>
+                                </div>
+                                <div class="relative flex justify-start">
+                                    <span class="pr-2 bg-white text-sm text-gray-500">
+                                        Advanced features
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="mt-2">
+
+
+                                <button type="button" phx-hook="Clappify" id="clap-mode" value="post-form_body"
+                                    class="inline-flex mt-2 items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                    👏
+                                    Add claps</button>
+
+
+                                <button type="button" phx-hook="Space" id="space-mode" value="post-form_body"
+                                    class="inline-flex mt-2 items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+
+                                    ↕️
+                                    Excessive spacing</button>
+
+
+                                <button type="button" phx-hook="Bizarro" id="bizarro-mode" value="post-form_body"
+                                    class="inline-flex mt-2 items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                    🧩
+                                    bIzArRo</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="mt-4">
+                        <button class="btn-primary">Post to ShlinkedIn</button>
                     </div>
                 </div>
 

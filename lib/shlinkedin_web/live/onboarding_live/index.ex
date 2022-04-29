@@ -15,8 +15,30 @@ defmodule ShlinkedinWeb.OnboardingLive.Index do
      |> assign(
        changeset: changeset,
        profile: profile,
-       profile_created: true
+       profile_created: true,
+       body: "",
+       gif_url: nil
      )}
+  end
+
+  def handle_event("adversity", _, socket) do
+    {:noreply, assign(socket, body: Generators.adversity())}
+  end
+
+  def handle_event("job", _, socket) do
+    {:noreply, assign(socket, body: Generators.job())}
+  end
+
+  def handle_event("challenge", _, socket) do
+    {:noreply, assign(socket, body: Generators.business_challenge())}
+  end
+
+  def handle_event("strange", _, socket) do
+    {:noreply, assign(socket, body: Generators.strange_observation())}
+  end
+
+  def handle_event("guilt", _, socket) do
+    {:noreply, assign(socket, body: Generators.guilt_trip())}
   end
 
   def handle_event("inspire", _params, socket) do
@@ -29,6 +51,11 @@ defmodule ShlinkedinWeb.OnboardingLive.Index do
       |> Ecto.Changeset.put_change(:persona_title, title)
 
     {:noreply, assign(socket, :changeset, changeset)}
+  end
+
+  def handle_event("hashtags", _, socket) do
+    socket = assign(socket, body: socket.assigns.body <> Generators.hashtags())
+    {:noreply, socket}
   end
 
   def handle_event("validate", params, socket) do
