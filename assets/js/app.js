@@ -68,6 +68,25 @@ function scrollDown(document, num_messages) {
   }
 }
 
+Hooks.ConfettiButton = {
+  mounted() {
+    this.el.addEventListener("click", ({}) => {
+      jsConfetti.addConfetti({ emojis: [...this.el.id] });
+    });
+  },
+};
+
+Hooks.ConfettiButtonPause = {
+  mounted() {
+    this.el.addEventListener("click", ({}) => {
+      setTimeout(() => {
+        jsConfetti.addConfetti({ emojis: [...this.el.id] });
+        document.getElementById("claimedButton").classList.remove("hidden");
+      }, 1200);
+    });
+  },
+};
+
 Hooks.Confetti = {
   mounted() {
     this.handleEvent("confetti-cannon", ({ emoji }) => {
