@@ -86,6 +86,9 @@
     .btn-outline {
         @apply border-2 border-blue-700 text-blue-700 font-semibold px-4 py-2 rounded-md inline-block hover:text-white hover:bg-blue-600;
     }
+    .onboarding-prompt {
+        @apply text-3xl md:text-4xl max-w-xs sm:max-w-md mx-auto font-windows;
+    }
 
   }
 

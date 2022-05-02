@@ -9,7 +9,7 @@
   phx_change: "validate",
   phx_submit: "save" %>
     <%# Form %>
-    <div x-data="{step: 1}" class="mt-2 px-5 mx-auto">
+    <div x-data="{step: 2}" class="mt-2 px-5 mx-auto">
         <%# WEAK page  %>
         <div x-show="step == 'weak'" x-transition>
             <div class="">
@@ -34,15 +34,14 @@
 
         <%# Section 1 -- Introduction %>
         <div x-show="step >= 1" class="text-center  animate-fadeDown"" x-cloak>
-            <div class=" grid grid-cols-3 mx-auto h-screen">
-            <div class="col-span-1 relative">
-                <img class="max-w-screen-lg mx-auto style=" filter: drop-shadow(1px 2px 2px black)"
-                    src="https://shlinked.s3.amazonaws.com/handshake2.png" alt="">
+            <div class=" grid md:grid-cols-3 mx-auto h-screen">
+            <div class="order-last md:order-first md:col-span-1 relative">
+                <img class="lg:max-w-screen-lg mx-auto" src="https://shlinked.s3.amazonaws.com/handshake2.png" alt="">
             </div>
-            <div class="col-span-2 p-5">
-
+            <div class="order-first md:col-span-2 p-5">
                 <div x-show="step == 1">
-                    <p class="text-4xl max-w-md mx-auto font-windows"><span class="font-bold">"Hello! </span> My
+                    <p class="onboarding-prompt"><span class="font-bold">"Hello!
+                        </span> My
                         name
                         is
                         Dave Business, your new boss.
@@ -51,14 +50,14 @@
                     <div class="mt-4">
                         <div class="inline-block">
                             <button @click="step = 'weak'"
-                                class="text-8xl hover:rotate-12 hover:bg-gray-100 p-5 rounded-full opacity-50"
+                                class="text-8xl hover:rotate-12 hover:bg-gray-200 p-5 rounded-full opacity-50"
                                 type="button">🤝</button>
                             <p class="mt-2 text-gray-500 text-sm animate-pulse italic">Click to <br /> Weak
                                 Handshake</p>
                         </div>
                         <div class="inline-block">
                             <button @click="step = 2"
-                                class="text-8xl hover:rotate-12 hover:bg-gray-100 p-5 rounded-full"
+                                class="text-8xl hover:rotate-12 hover:bg-gray-200 p-5 rounded-full"
                                 type="button">🤝</button>
                             <p class="mt-2 text-gray-500 text-sm animate-pulse italic">Click to <br /> Firm
                                 Handshake</p>
@@ -69,14 +68,13 @@
 
                 <%# Section 2 -- Name %>
                 <div x-show="step >= 2" class="max-w-sm mx-auto" x-transition.duration.500ms>
-                    <div class="text-center font-windows text-2xl">
+                    <div class="onboarding-prompt">
                         <p>"Wow, that's a hell of a handshake. Now let's get to business — do you have your card on
                             you?"</p>
                     </div>
 
-
                     <%# Business Card %>
-                    <div class="h-48 relative border-1 border border-gray-300 rounded-md shadow-lg px-10 mt-6">
+                    <div class="h-48 px-2 md:px-10 relative border-1 border border-gray-300 rounded-md shadow-lg  mt-6">
 
                         <%# Logo  %>
                         <div class="absolute bottom-0.5 left-2">
@@ -86,7 +84,7 @@
                         <%# Name  %>
                         <div class="mt-4 text-center">
                             <label for="persona_name" class="text-xs uppercase font-light">Name</label>
-                            <%= text_input f, :persona_name, class: "font-bold py-0.5 text-center focus:border-gray-800 text-xl border-gray-400 border-dashed rounded-md",
+                            <%= text_input f, :persona_name, class: "font-bold py-0.5 text-center focus:border-gray-800 text-lg md:text-xl border-gray-400 border-dashed rounded-md",
                                     placeholder: "Dave Business", autofocus: "true" %>
 
                             <label for="persona_title" class="text-xs uppercase font-light mt-2">Title</label>
@@ -112,27 +110,27 @@
 
     <%# PHASE 2 -- AFTER YOU ENTERED YOUR PROFILE INFO %>
     <% else %>
-    <div x-data="{step: 1, reduce: false, stubborn: false}"
+    <div x-data="{step: 3, reduce: false, stubborn: false}"
         :class="step == 'refuse' || step == 'stubborn' ? 'bg-gray-800 text-red-500 text-center' : 'text-center' ">
         <%# <button @click="step -= 1">Back</button> %>
-        <div class=" grid grid-cols-3 mx-auto h-screen animate-fadeDown">
-            <div class="col-span-1 relative">
+        <div class="grid md:grid-cols-3 mx-auto h-screen animate-fadeDown">
+            <div class="order-last md:order-first md:col-span-1 relative">
                 <%# Regular Dave %>
-                <img x-show="step != 'refuse' && step != 'stubborn'" class="max-w-screen-lg mx-auto"
+                <img x-show="step != 'refuse' && step != 'stubborn'" class="lg:max-w-screen-lg mx-auto"
                     style="filter: drop-shadow(1px 2px 2px black)"
                     src="https://shlinked.s3.amazonaws.com/2bea3359-2626-4c45-ba9c-2fd4fd4f518a.png" alt="">
                 <%# Scary Dave %>
-                <img x-show="step == 'refuse' || step == 'stubborn'" class="max-w-screen-lg mx-auto animate-fadeDown"
+                <img x-show="step == 'refuse' || step == 'stubborn'" class="lg:max-w-screen-lg mx-auto animate-fadeDown"
                     style="filter: drop-shadow(1px 2px 2px black)"
                     src="https://shlinked.s3.amazonaws.com/bloodydave.png" alt="">
             </div>
-            <div class="col-span-2 p-5">
+            <div class="order-first md:col-span-2 p-5">
 
                 <div x-show="step == 1">
-                    <p class="text-4xl max-w-md mx-auto font-windows">Great to meet you,
+                    <p class="onboarding-prompt">Great to meet you,
                         <%= @profile.persona_name %>. As a CEO
-                        of a mega-conglomerate, I like to mentor young scrappy upstarts like you. In fact, I'm so
-                        impressed with your je-ne-sais-quio that I'd like to offer you a position.
+                        of a mega-conglomerate, I like to mentor scrappy upstarts like you. In fact, I'm so
+                        impressed that I'd like to offer you a position.
                     </p>
 
                     <div class="grid max-w-sm mx-auto space-y-5 mt-4">
@@ -143,7 +141,7 @@
                 </div>
 
                 <div x-show="step == 2">
-                    <p class="text-4xl max-w-md mx-auto font-windows">SILENCE! And congratulations!
+                    <p class="onboarding-prompt">SILENCE! And congratulations!
                         Your
                         new title is...
                     </p>
@@ -153,8 +151,7 @@
                         UNPAID INTERN!
                     </h1>
 
-                    <p class="text-4xl max-w-md mx-auto font-windows">As you complete various tasks on ShlinkedIn and
-                        earn more ShlinkPoints, you can rise the ranks
+                    <p class="onboarding-prompt">As you complete various tasks on ShlinkedIn you can rise the ranks
                         and ultimately become a ThoughtLeader like myself.
                     </p>
 
@@ -169,19 +166,19 @@
 
 
                 <div x-show="step == 3" x-data="{claimed: false, claimedButton: false}">
-                    <p x-show="!claimed" class="mt-4 text-4xl max-w-md mx-auto font-windows">
+                    <p x-show="!claimed" class="mt-4 onboarding-prompt">
                         Great to hear! You'll fit right in. Normally I don't pay interns, but you've got that X factor -
                         so here's your sign on bonus.
 
                     </p>
-                    <p x-show="claimed" class="text-4xl max-w-md mx-auto font-windows">You just earned your first
+                    <p x-show="claimed" class="onboarding-prompt">You just earned your first
                         ShlinkPoints! You can
                         earn ShlinkPoints by getting likes, profile
                         views, and more.
                     </p>
 
                     <button x-show="!claimed" @click="claimed = true" phx-hook="ConfettiButtonPause" id="💰🤑"
-                        type="button" class="btn-primary mt-6 shadow-blue-200 shadow-lg hover:shadow-green-200 ">
+                        type="button" class="btn-primary mt-6 shadow-blue-200 shadow-lg hover:shadow-green-200">
                         Claim 10,000 SP
                     </button>
 
@@ -216,7 +213,7 @@
                 </div>
 
                 <div x-show="step == 4">
-                    <div class="text-4xl max-w-md mx-auto font-windows">
+                    <div class="onboarding-prompt">
                         <p class="">Great question! With ShlinkPoints, you can:
                         </p>
                         <ul class="py-4">
@@ -232,7 +229,7 @@
                             class="btn-outline hover:bg-green-500 border-green-500 text-green-500">Pay 9,999 SP
                             Fee</button>
                         <button @click="step = 'refuse'"
-                            class="btn-outline hover:bg-red-500 border-red-500 text-red-500">Refuse
+                            class=" btn-outline hover:bg-red-500 border-red-500 text-red-500">Refuse
                             Fee</button>
                     </div>
                 </div>
@@ -246,7 +243,8 @@
                     <div class="mt-8">
                         <button @click="step = 'stubborn'" class="btn-outline text-white border-white">Yes, I
                             REFUSE.</button>
-                        <button @click="step = 5, reduce = true" class="btn-outline text-white border-white">No, uhh
+                        <button @click="step = 5, reduce = true"
+                            class="mt-2 sm:mt-0 btn-outline text-white border-white">No, uhh
                             nevermind, I'll
                             pay it.</button>
                     </div>
@@ -265,25 +263,27 @@
                 </div>
 
                 <div x-show="step == 5">
-                    <div class="text-4xl max-w-md mx-auto font-windows">
+                    <div class="onboarding-prompt">
                         <div class="w-60 mt-6 mx-auto shadow-lg border-2 rounded-lg animate-fadeDown">
                             <div class="px-4 py-5 sm:p-6">
                                 <dt class="text-sm font-medium text-gray-500 truncate">
                                     💰 Net Worth
                                 </dt>
                                 <dd class="mt-1 text-3xl font-semibold text-gray-900">
-                                    <span x-data="{ current: 10000, target: 'stubborn' ? 2 : 1, time: 1000}" x-init="$watch('reduce', value => {
+                                    <span
+                                        x-data="{ current: 10000, get getTarget() {return stubborn ? 2 : 1}, target: 1, time: 1000}"
+                                        x-init="$watch('reduce', value => {
                                         setTimeout(function () {
                                             start = current;
-                                            const interval = Math.max(time / (target - start), 5);
-                                            const nstep = (target - start) /  (time / interval);
-                                            console.log(target);
+                                            const interval = Math.max(time / (getTarget - start), 5);
+                                            const nstep = (getTarget - start) /  (time / interval);
+                                            console.log(getTarget);
                                             const handle = setInterval(() => {
-                                                if(current > target)
+                                                if(current > getTarget)
                                                     current += nstep;
                                                 else {
                                                     clearInterval(handle);
-                                                    current = target;
+                                                    current = getTarget;
                                                 }
                                                 }, interval)
 
@@ -419,22 +419,5 @@
 
             </div>
 
-        </div>
-
-
-        <div class="mt-4 space-y-5">
-            <div><button
-                    class="border-2 border-blue-700 text-blue-700 font-semibold px-4 py-2 rounded-md inline-block">Can
-                    you
-                    endorse
-                    me?</button></div>
-            <div><button
-                    class="border-2 border-blue-700 text-blue-700 font-semibold px-4 py-2 rounded-md inline-block">What's
-                    your advice for a ShlinkedIn newbie?</button>
-            </div>
-            <div><button
-                    class="border-2 border-blue-700 text-blue-700 font-semibold px-4 py-2 rounded-md inline-block">Enough
-                    jibber-jabbering! Take me to
-                    ShlinkedIn.</button></div>
         </div>
         <% end %>
