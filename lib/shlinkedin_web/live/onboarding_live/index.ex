@@ -15,7 +15,7 @@ defmodule ShlinkedinWeb.OnboardingLive.Index do
      |> assign(
        changeset: changeset,
        profile: profile,
-       profile_created: true,
+       profile_created: false,
        body: "",
        gif_url: nil
      )}

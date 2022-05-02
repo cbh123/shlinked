@@ -9,7 +9,7 @@
   phx_change: "validate",
   phx_submit: "save" %>
     <%# Form %>
-    <div x-data="{step: 2}" class="mt-2 px-5 mx-auto">
+    <div x-data="{step: 1}" class="mt-2 px-5 mx-auto">
         <%# WEAK page  %>
         <div x-show="step == 'weak'" x-transition>
             <div class="">
@@ -110,7 +110,7 @@
 
     <%# PHASE 2 -- AFTER YOU ENTERED YOUR PROFILE INFO %>
     <% else %>
-    <div x-data="{step: 3, reduce: false, stubborn: false}"
+    <div x-data="{step: 1, reduce: false, stubborn: false}"
         :class="step == 'refuse' || step == 'stubborn' ? 'bg-gray-800 text-red-500 text-center' : 'text-center' ">
         <%# <button @click="step -= 1">Back</button> %>
         <div class="grid md:grid-cols-3 mx-auto h-screen animate-fadeDown">
