@@ -4,7 +4,7 @@ defmodule ShlinkedinWeb.PostLive.PostHeader do
 
   def render(assigns) do
     ~L"""
-    <div class="ml-2 sm:ml-4 mt-2 sm:mt-3" style="width: 100%; overflow-x: hidden;">
+    <div class="ml-2 sm:ml-4 mt-2 sm:mt-3">
     <div class="flex items-center">
         <div class="flex-shrink-0">
             <span class="inline-block relative">
