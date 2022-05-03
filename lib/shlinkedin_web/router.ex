@@ -249,6 +249,7 @@ defmodule ShlinkedinWeb.Router do
 
     # see post
     live "/home/show/posts/:id", HomeLive.Show, :show
+    live "/home/show/posts/:id/comment/:comment_id", HomeLive.Show, :show
 
     # sitemap
     get "/sitemap.xml", SitemapController, :sitemap

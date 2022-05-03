@@ -25,6 +25,7 @@
         show_post_options: false,
         num_show_comments: 5,
         return_to: Routes.home_show_path(@socket, :show, @post.id),
+        comment_highlight: @comment_highlight,
         spin: false  %>
     <div class="text-center">
         <%= if Shlinkedin.Profiles.is_moderator?(@profile) do %>

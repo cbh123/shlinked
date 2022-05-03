@@ -29,6 +29,20 @@ defmodule ShlinkedinWeb.HomeLive.Show do
   end
 
   @impl true
+  def handle_params(%{"id" => id, "comment_id" => comment_id} = params, _url, socket) do
+    case socket.assigns.current_user do
+      nil ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "You must join ShlinkedIn to do that :)")
+         |> push_patch(to: Routes.home_show_path(socket, :show, id, :comment_id, comment_id))}
+
+      _user ->
+        {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+    end
+  end
+
+  @impl true
   def handle_params(%{"id" => id} = params, _url, socket) do
     case socket.assigns.current_user do
       nil ->
@@ -43,8 +57,18 @@ defmodule ShlinkedinWeb.HomeLive.Show do
   end
 
   defp apply_action(socket, :show, params) do
+    comment_highlight =
+      Map.get(params, "comment_id", nil)
+      |> case do
+        nil -> nil
+        int -> String.to_integer(int)
+      end
+
     socket
-    |> assign(:from_notifications, Map.has_key?(params, "notifications"))
+    |> assign(
+      from_notifications: Map.has_key?(params, "notifications"),
+      comment_highlight: comment_highlight
+    )
   end
 
   defp apply_action(socket, :show_comment_likes, %{"comment_id" => comment_id}) do
