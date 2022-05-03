@@ -1,6 +1,6 @@
 <div id="comments-<%=@id%>" class="mt-2 block">
     <div>
-        <%= for comment <- @post.comments |> Enum.slice(0, @num_show_comments) do %>
+        <%= for comment <- @post.comments |> Enum.slice(0, max_show_comments(@post, @num_show_comments, @comment_highlight)) do %>
         <%= live_component @socket, ShlinkedinWeb.PostLive.CommentBubbleComponent,
         id: comment.id,
         post: @post,
@@ -9,6 +9,7 @@
         like_map: Shlinkedin.Timeline.comment_like_map,
         return_to: @return_to,
         num_show_comments: @num_show_comments,
+        comment_highlight: @comment_highlight,
         comment: comment %>
         <% end %>
     </div>
@@ -18,7 +19,7 @@
     to: Routes.home_index_path(@socket, :new_comment, @post.id) %>
     <% end %>
 
-    <%= if @num_show_comments < length(@post.comments) do %>
+    <%= if max_show_comments(@post, @num_show_comments, @comment_highlight) < length(@post.comments) do %>
     <button id="load-more-comments-btn-<%=@post.id%>"
         class="text-gray-600 font-semibold mb-0 text-xs hover:bg-gray-100 px-2 py-1 rounded mt-2"
         phx-click="expand-comments" phx-target="<%= @myself %>">
