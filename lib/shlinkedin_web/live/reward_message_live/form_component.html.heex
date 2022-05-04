@@ -1,0 +1,15 @@
+<div class="p-5">
+    <h2><%= @title %></h2>
+
+    <.form let={f} for={@changeset} id="reward_message-form" phx-target={@myself} phx-change="validate"
+        phx-submit="save">
+
+        <%= label f, :text %>
+        <%= text_input f, :text %>
+        <%= error_tag f, :text %>
+
+        <div>
+            <%= submit "Save", phx_disable_with: "Saving..." %>
+        </div>
+    </.form>
+</div>

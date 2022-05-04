@@ -154,6 +154,11 @@ defmodule ShlinkedinWeb.Router do
     live "/templates/new", MessageTemplateLive.Index, :new
     live "/templates/:id/edit", MessageTemplateLive.Index, :edit
 
+    # reward messages
+    live "/reward_messages", RewardMessageLive.Index, :index
+    live "/reward_messages/new", RewardMessageLive.Index, :new
+    live "/reward_messages/:id/edit", RewardMessageLive.Index, :edit
+
     # taglines
     live "/taglines", TaglineLive.Index, :index
     live "/taglines/new", TaglineLive.Index, :new

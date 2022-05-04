@@ -1,0 +1,28 @@
+<div class="rounded-lg shadow-lg p-5 my-3 bg-white text-gray-800">
+    <div class="flex justify-between">
+        <h5 class="font-bold">Cubicle</h5>
+        <h2 class="font-windows"><%= if @has_worked, do: "3", else: "2" %></h2>
+
+    </div>
+
+    <div class="mt-2 text-right">
+
+        <div class="w-full bg-gray-200 h-1 mt-2">
+            <div class="bg-gray-800 h-1" style={"width: #{if @has_worked, do: "3" , else: "2" }0%"}></div>
+
+        </div>
+
+    </div>
+
+    <%= if @has_worked do %>
+    <marquee behavior="" direction="" class="font-windows mt-2"> <%= @reward_message %></marquee>
+    <% else %>
+    <div class="pt-4 flex justify-between space-x-2 font-windows text-xl">
+        <button phx-click="work" phx-target={@myself} phx-hook="ConfettiButton" id="💼📊📈"
+            class="w-1/2 font-windows bg-green-300 text-gray-800 px-2 py-1 hover:text-white hover:bg-green-400">WORK</button>
+        <button class="w-1/2 uppercase bg-gray-300 text-gray-800 px-2 py-1 hover:text-white hover:bg-gray-400"
+            data-confirm="REQUEST DENIED. REASON: TENURE NOT LONG ENOUGH.">Request day
+            off</button>
+    </div>
+    <% end %>
+</div>

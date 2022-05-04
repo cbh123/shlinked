@@ -211,4 +211,58 @@ defmodule Shlinkedin.TimelineTest do
       assert {:ok, _post} = Timeline.create_like(profile, post, "hey")
     end
   end
+
+  describe "reward_messages" do
+    alias Shlinkedin.Timeline.RewardMessage
+
+    import Shlinkedin.TimelineFixtures
+
+    @invalid_attrs %{text: nil}
+
+    test "list_reward_messages/0 returns all reward_messages" do
+      reward_message = reward_message_fixture()
+      assert Timeline.list_reward_messages() == [reward_message]
+    end
+
+    test "get_reward_message!/1 returns the reward_message with given id" do
+      reward_message = reward_message_fixture()
+      assert Timeline.get_reward_message!(reward_message.id) == reward_message
+    end
+
+    test "create_reward_message/1 with valid data creates a reward_message" do
+      valid_attrs = %{text: "some text"}
+
+      assert {:ok, %RewardMessage{} = reward_message} = Timeline.create_reward_message(valid_attrs)
+      assert reward_message.text == "some text"
+    end
+
+    test "create_reward_message/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Timeline.create_reward_message(@invalid_attrs)
+    end
+
+    test "update_reward_message/2 with valid data updates the reward_message" do
+      reward_message = reward_message_fixture()
+      update_attrs = %{text: "some updated text"}
+
+      assert {:ok, %RewardMessage{} = reward_message} = Timeline.update_reward_message(reward_message, update_attrs)
+      assert reward_message.text == "some updated text"
+    end
+
+    test "update_reward_message/2 with invalid data returns error changeset" do
+      reward_message = reward_message_fixture()
+      assert {:error, %Ecto.Changeset{}} = Timeline.update_reward_message(reward_message, @invalid_attrs)
+      assert reward_message == Timeline.get_reward_message!(reward_message.id)
+    end
+
+    test "delete_reward_message/1 deletes the reward_message" do
+      reward_message = reward_message_fixture()
+      assert {:ok, %RewardMessage{}} = Timeline.delete_reward_message(reward_message)
+      assert_raise Ecto.NoResultsError, fn -> Timeline.get_reward_message!(reward_message.id) end
+    end
+
+    test "change_reward_message/1 returns a reward_message changeset" do
+      reward_message = reward_message_fixture()
+      assert %Ecto.Changeset{} = Timeline.change_reward_message(reward_message)
+    end
+  end
 end
