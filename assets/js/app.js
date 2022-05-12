@@ -10,6 +10,7 @@ import { LiveSocket } from "phoenix_live_view";
 import topbar from "../vendor/topbar";
 import Alpine from "alpinejs";
 import JSConfetti from "js-confetti";
+import Typed from "typed.js";
 
 const jsConfetti = new JSConfetti();
 
@@ -181,6 +182,14 @@ Hooks.ShareVia = {
         .share(shareData)
         .then(() => console.log("Successful share"))
         .catch((error) => console.log("Error sharing"));
+    });
+  },
+};
+
+Hooks.Typed = {
+  mounted() {
+    var typed = new Typed("#typed", {
+      stringsElement: "#typed-strings",
     });
   },
 };

@@ -1242,6 +1242,25 @@ defmodule Shlinkedin.Timeline do
     Repo.all(RewardMessage)
   end
 
+  def get_random_reward_message() do
+    Repo.one(
+      from(t in RewardMessage,
+        order_by: fragment("RANDOM()"),
+        limit: 1
+      )
+    )
+    |> create_reward_message_if_nil()
+  end
+
+  defp create_reward_message_if_nil(nil) do
+    {:ok, prompt} =
+      create_reward_message(%{text: "Keep it up and you’ll get a promotion, maybe!"})
+
+    prompt
+  end
+
+  defp create_reward_message_if_nil(message), do: message
+
   @doc """
   Gets a single reward_message.
 
