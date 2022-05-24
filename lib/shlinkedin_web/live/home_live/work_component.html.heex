@@ -1,10 +1,15 @@
 <div class="rounded-lg shadow-lg p-5 my-3 bg-white text-gray-800">
     <div class="flex justify-between">
-        <h5 class="font-bold">Cubicle</h5>
+        <h5 class="font-bold">Cubicle
+            <span class="italic text-xs font-windows font-base">
+                <%= if has_worked_today?(@profile) == true or @just_worked == true, do: "• See you tomorrow!" %></span>
+        </h5>
         <h2 class="font-windows"><%= @work_streak %></h2>
     </div>
 
-    <%= if @has_worked do %>
+
+
+    <%= if @just_worked do %>
     <div id={"modal"} phx-target={@id} x-data="{ open: true }" x-init="() => {
         setTimeout(() => open = true, 100);
         $watch('open', isOpen => $dispatch('modal-change', { open: isOpen, id: '{@id}' }))
@@ -37,14 +42,8 @@
                     </button>
                 </div>
                 <!-- MODAL BODY -->
-                <div class="p-5 rounded-b-lg font-windows bg-white" x-data="
-                    {
-                        text: '',
-                        textArray: ['Good work. You can keep your job. For now...'],
-                        textIndex: 0,
-                        charIndex: 0,
-                        typeSpeed: 50,
-                    }" x-init="setInterval(function(){
+                <div class="p-5 rounded-b-lg font-windows bg-white" x-data={"{ text: '' , textArray:
+                    ['#{@reward_message}'], textIndex: 0, charIndex: 0, typeSpeed: 50, }"} x-init="setInterval(function(){
                     let current = $data.textArray[ $data.textIndex ];
                     $data.text = current.substring(0, $data.charIndex);
                     $data.charIndex += 1;
@@ -57,7 +56,8 @@
                     <div class="text-center">
                         <p class="text-8xl text-center"><%= @work_streak %></p>
 
-                        <p>Leaderboard &rarr;</p>
+                        <%= live_redirect raw("Leaderboard &rarr;"), to: Routes.leaderboard_index_path(@socket, :index, curr_category: "Work", weekly: false  ), class: "hover:bg-gray-200 p-2" %>
+                        <p></p>
                     </div>
 
                 </div>
@@ -67,7 +67,7 @@
     </div>
     <% end %>
 
-    <%= unless @has_worked do %>
+    <%= if has_worked_today?(@profile) == false and @just_worked == false  do %>
     <div class="pt-4 flex justify-between space-x-2 text-xl font-windows">
         <button phx-click="work" phx-target={@myself} phx-hook="ConfettiButton" id="💼📊📈"
             class="w-1/2 bg-blue-600 text-white rounded-lg px-2 py-1 hover:text-white hover:bg-blue-800">WORK</button>
@@ -77,6 +77,7 @@
             off</button>
     </div>
     <% end %>
+
 
 
 

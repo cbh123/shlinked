@@ -1065,6 +1065,15 @@ defmodule Shlinkedin.Profiles do
     |> get_streak_as_of_today()
   end
 
+  def has_worked_today?(%Profile{id: profile_id}) do
+    today = NaiveDateTime.utc_now() |> NaiveDateTime.to_date()
+
+    from(w in Work,
+      where: w.profile_id == ^profile_id and fragment("?::date", w.inserted_at) == ^today
+    )
+    |> Repo.one() != nil
+  end
+
   @doc """
   Returns work streak as of today - so even if there was a long date streak
   in the past, it only matters what the streak is starting with today and working backwards.
@@ -1083,7 +1092,6 @@ defmodule Shlinkedin.Profiles do
 
   def get_streak_as_of_today([last | _] = dates) do
     today = NaiveDateTime.utc_now() |> NaiveDateTime.to_date()
-    Date.diff(today, last) |> IO.inspect(label: "diff")
 
     if today == last or Date.diff(today, last) == 1 do
       get_streak(dates)

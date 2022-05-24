@@ -175,7 +175,6 @@
                 <% end %>
                 <% end %>
 
-
             </div>
 
 
@@ -362,7 +361,7 @@
 
         <%# Stats %>
         <div class="mt-2">
-            <dl class="grid grid-cols-1 gap-2 sm:grid-cols-3">
+            <dl class="grid grid-cols-1 gap-2 sm:grid-cols-4">
 
 
                 <div class="bg-white overflow-hidden shadow rounded-lg hover:bg-gray-100">
@@ -375,7 +374,7 @@
                         </dt>
                         <dd class="mt-1 text-3xl font-semibold text-gray-900">
 
-                            <span class="text-gray-900"><%= @show_profile.points %></span>
+                            <span class="text-gray-900 text-base"><%= @show_profile.points %></span>
 
                             <%= live_redirect to: Routes.leaderboard_index_path(@socket, :index, curr_category: "Wealth") do  %>
                             <div class="inline-flex items-baseline text-sm font-semibold text-green-600">
@@ -396,8 +395,21 @@
                 </div>
 
 
+                <%= live_redirect to: Routes.leaderboard_index_path(@socket, :index, curr_category: "Work", weekly: false  ) do %>
+                <div class="bg-white overflow-hidden shadow rounded-lg hover:bg-gray-100">
+                    <div class="px-4 py-5 sm:p-6">
 
+                        <dt class="text-sm font-medium text-gray-500 truncate">
+                            💼 Work
+                        </dt>
+                        <dd class="mt-1 text-3xl font-semibold text-gray-900">
+                            <%= @profile.work_streak %>
+                        </dd>
 
+                    </div>
+
+                </div>
+                <% end %>
 
                 <%= live_patch to: Routes.profile_show_path(@socket, :show_friends, @show_profile.id) do %>
 
@@ -415,6 +427,8 @@
 
                 </div>
                 <% end %>
+
+
 
                 <%= live_redirect to: Routes.leaderboard_index_path(@socket, :index, curr_category: "Hottest") do  %>
 
