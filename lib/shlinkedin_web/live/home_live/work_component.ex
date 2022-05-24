@@ -10,6 +10,13 @@ defmodule ShlinkedinWeb.HomeLive.WorkComponent do
 
   def has_worked_today?(profile), do: Profiles.has_worked_today?(profile)
 
+  def handle_event("work", _, socket) when is_nil(socket.assigns.profile) do
+    {:noreply,
+     socket
+     |> put_flash(:info, "Sorry, you must make a profile to WORK")
+     |> push_patch(to: Routes.home_index_path(socket, :index))}
+  end
+
   def handle_event("work", _, socket) do
     reward_message = Shlinkedin.Timeline.get_random_reward_message()
     {:ok, _work} = Profiles.create_work(socket.assigns.profile)

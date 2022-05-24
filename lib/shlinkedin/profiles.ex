@@ -1065,6 +1065,10 @@ defmodule Shlinkedin.Profiles do
     |> get_streak_as_of_today()
   end
 
+  def get_work_streak(nil) do
+    0
+  end
+
   def has_worked_today?(%Profile{id: profile_id}) do
     today = NaiveDateTime.utc_now() |> NaiveDateTime.to_date()
 
@@ -1072,6 +1076,10 @@ defmodule Shlinkedin.Profiles do
       where: w.profile_id == ^profile_id and fragment("?::date", w.inserted_at) == ^today
     )
     |> Repo.one() != nil
+  end
+
+  def has_worked_today?(nil) do
+    false
   end
 
   @doc """
