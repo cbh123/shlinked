@@ -10,7 +10,7 @@ defmodule ShlinkedinWeb.HomeLive.WorkComponent do
 
   def has_worked_today?(profile), do: Profiles.has_worked_today?(profile)
 
-  def handle_event("work", _, socket) when is_nil(socket.assigns.profile) do
+  def handle_event("work", _, %{assigns: %{profile: nil}} = socket) do
     {:noreply,
      socket
      |> put_flash(:info, "Sorry, you must make a profile to WORK")
