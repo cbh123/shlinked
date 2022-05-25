@@ -63,4 +63,18 @@ defmodule Shlinkedin.ProfilesFixtures do
 
     profile_view
   end
+
+  @doc """
+  Generate a work.
+  """
+  def work_fixture(attrs \\ %{}) do
+    {:ok, work} =
+      attrs
+      |> Enum.into(%{
+
+      })
+      |> Shlinkedin.Profiles.create_work()
+
+    work
+  end
 end

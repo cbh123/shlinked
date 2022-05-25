@@ -9,7 +9,8 @@ defmodule ShlinkedinWeb.ModalComponent do
       phx-window-keydown="close"
       phx-key="escape"
       phx-target="#<%= @id %>"
-      phx-page-loading>
+      phx-page-loading
+      >
 
       <div class="phx-modal-content bg-white max-w-xl m-5 mx-2 mt-8 sm:mx-auto rounded-lg  ">
         <%= live_patch raw("&times;"), to: @return_to, class: "phx-modal-close pr-3" %>

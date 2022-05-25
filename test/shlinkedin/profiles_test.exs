@@ -113,4 +113,17 @@ defmodule Shlinkedin.ProfilesTest do
              |> Map.get(:email) == nil
     end
   end
+
+  describe "work" do
+    test "test date streaks", %{} do
+      dates = [~D[2022-05-07], ~D[2022-05-06], ~D[2022-05-05], ~D[2022-05-04]]
+      assert Profiles.get_streak(dates) == 4
+
+      dates = [~D[2022-05-07], ~D[2022-05-06], ~D[2022-05-03], ~D[2022-05-02], ~D[2022-05-01]]
+      assert Profiles.get_streak(dates) == 2
+
+      dates = [~D[2022-05-07], ~D[2022-05-05], ~D[2022-05-03], ~D[2022-05-02], ~D[2022-05-01]]
+      assert Profiles.get_streak(dates) == 1
+    end
+  end
 end

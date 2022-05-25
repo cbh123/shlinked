@@ -1,0 +1,84 @@
+<div class="rounded-lg shadow-lg p-5 my-3 bg-white text-gray-800">
+    <div class="flex justify-between">
+        <h5 class="font-bold">Cubicle
+            <span class="italic text-xs font-windows font-base">
+                <%= if has_worked_today?(@profile) == true or @just_worked == true, do: "• See you tomorrow!" %></span>
+        </h5>
+        <h2 class="font-windows"><%= @work_streak %></h2>
+    </div>
+
+
+
+    <%= if @just_worked do %>
+    <div id={"modal"} phx-target={@id} x-data="{ open: true }" x-init="() => {
+        setTimeout(() => open = true, 100);
+        $watch('open', isOpen => $dispatch('modal-change', { open: isOpen, id: '{@id}' }))
+        }" x-on:close-now="open = false" x-show="open" class="fixed inset-x-0 bottom-0 z-50 px-4 pb-4 sm:inset-0">
+
+        <!-- BACKDROP -->
+        <div x-show="open" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200"
+            x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+            class="fixed inset-0 transition-opacity">
+            <div class="absolute inset-0 bg-gray-900 opacity-50"></div>
+        </div>
+
+        <!-- MODAL DIALOG -->
+        <div x-show="open" x-transition:enter="ease-out duration-300"
+            x-transition:enter-start="opacity-0 mb-2 sm:mb-8 sm:mt-2 sm:scale-95"
+            x-transition:enter-end="opacity-100 mb-8 sm:mt-8 sm:scale-100" x-transition:leave="ease-in duration-200"
+            x-transition:leave-start="opacity-100  mb-8 sm:mt-8  sm:scale-100"
+            x-transition:leave-end="opacity-0  mb-2 sm:mb-8 sm:mt-2  sm:scale-95"
+            class="relative w-full max-w-lg px-4 mx-auto my-8 shadow-lg sm:px-0">
+
+            <div @click.away="open = false" @keydown.escape.window="open = false"
+                class="relative flex flex-col bg-white rounded-lg">
+                <!-- MODAL HEADER -->
+                <div class="flex items-center justify-between p-4 rounded-t bg-gray-100">
+                    <h5 class="mb-0 text-base font-semibold bg-gray-100 font-windows">Work Station</h5>
+                    <button type="button" @click="open = false"
+                        class="text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500 transition ease-in-out duration-150">
+                        &times;
+                    </button>
+                </div>
+                <!-- MODAL BODY -->
+                <div class="p-5 rounded-b-lg font-windows bg-white" x-data={"{ text: '' , textArray:
+                    ['#{@reward_message}'], textIndex: 0, charIndex: 0, typeSpeed: 50, }"} x-init="setInterval(function(){
+                    let current = $data.textArray[ $data.textIndex ];
+                    $data.text = current.substring(0, $data.charIndex);
+                    $data.charIndex += 1;
+                 }, $data.typeSpeed);">
+
+                    <p x-text="text" class=""></p>
+
+                    <p class="italic">- ShlinkedIn HQ</p>
+
+                    <div class="text-center">
+                        <p class="text-8xl text-center"><%= @work_streak %></p>
+
+                        <%= live_redirect raw("Leaderboard &rarr;"), to: Routes.leaderboard_index_path(@socket, :index, curr_category: "Work", weekly: false  ), class: "hover:bg-gray-200 p-2" %>
+                        <p></p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <% end %>
+
+    <%= if has_worked_today?(@profile) == false and @just_worked == false  do %>
+    <div class="pt-4 flex justify-between space-x-2 text-xl font-windows">
+        <button phx-click="work" phx-target={@myself} phx-hook="ConfettiButton" id="💼📊📈"
+            class="w-1/2 bg-blue-600 text-white rounded-lg px-2 py-1 hover:text-white hover:bg-blue-800">WORK</button>
+        <button
+            class="w-1/2 uppercase bg-gray-300 rounded-lg text-gray-800 px-2 py-1 hover:text-white hover:bg-gray-400"
+            data-confirm="NO">Request day
+            off</button>
+    </div>
+    <% end %>
+
+
+
+
+</div>

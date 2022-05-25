@@ -1226,4 +1226,119 @@ defmodule Shlinkedin.Timeline do
   def og_image_url() do
     System.get_env("OG_IMAGE_URL")
   end
+
+  alias Shlinkedin.Timeline.RewardMessage
+
+  @doc """
+  Returns the list of reward_messages.
+
+  ## Examples
+
+      iex> list_reward_messages()
+      [%RewardMessage{}, ...]
+
+  """
+  def list_reward_messages do
+    Repo.all(RewardMessage)
+  end
+
+  def get_random_reward_message() do
+    Repo.one(
+      from(t in RewardMessage,
+        order_by: fragment("RANDOM()"),
+        limit: 1
+      )
+    )
+    |> create_reward_message_if_nil()
+  end
+
+  defp create_reward_message_if_nil(nil) do
+    {:ok, prompt} =
+      create_reward_message(%{text: "Keep it up and you’ll get a promotion, maybe!"})
+
+    prompt
+  end
+
+  defp create_reward_message_if_nil(message), do: message
+
+  @doc """
+  Gets a single reward_message.
+
+  Raises `Ecto.NoResultsError` if the Reward message does not exist.
+
+  ## Examples
+
+      iex> get_reward_message!(123)
+      %RewardMessage{}
+
+      iex> get_reward_message!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_reward_message!(id), do: Repo.get!(RewardMessage, id)
+
+  @doc """
+  Creates a reward_message.
+
+  ## Examples
+
+      iex> create_reward_message(%{field: value})
+      {:ok, %RewardMessage{}}
+
+      iex> create_reward_message(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_reward_message(attrs \\ %{}) do
+    %RewardMessage{}
+    |> RewardMessage.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a reward_message.
+
+  ## Examples
+
+      iex> update_reward_message(reward_message, %{field: new_value})
+      {:ok, %RewardMessage{}}
+
+      iex> update_reward_message(reward_message, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_reward_message(%RewardMessage{} = reward_message, attrs) do
+    reward_message
+    |> RewardMessage.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a reward_message.
+
+  ## Examples
+
+      iex> delete_reward_message(reward_message)
+      {:ok, %RewardMessage{}}
+
+      iex> delete_reward_message(reward_message)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_reward_message(%RewardMessage{} = reward_message) do
+    Repo.delete(reward_message)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking reward_message changes.
+
+  ## Examples
+
+      iex> change_reward_message(reward_message)
+      %Ecto.Changeset{data: %RewardMessage{}}
+
+  """
+  def change_reward_message(%RewardMessage{} = reward_message, attrs \\ %{}) do
+    RewardMessage.changeset(reward_message, attrs)
+  end
 end

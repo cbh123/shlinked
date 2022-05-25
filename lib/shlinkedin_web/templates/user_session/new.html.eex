@@ -8,8 +8,8 @@
     class="bg-gradient-to-r from-blue-500 to-blue-900 flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-8">
         <div>
-            <svg class="mx-auto w-12 h-12 text-blue-200" fill="currentColor"
-                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <svg class="mx-auto w-12 h-12 text-blue-200" fill="currentColor" viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z">
                 </path>
@@ -35,7 +35,7 @@
                 </div>
                 <div>
                     <%= label f, :password, class: "sr-only" %>
-                    <%= password_input f, :password, required: true, class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-200 focus:border-blue-200 focus:z-10 sm:text-sm",
+                    <%= password_input f, :password, required: true, class: "mt-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-200 focus:border-blue-200 focus:z-10 sm:text-sm",
                         placeholder: "Password"  %>
                 </div>
             </div>
@@ -58,9 +58,8 @@
                 <%= submit class: "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-semibold rounded-md text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" do %>
                 <span class="absolute left-0 inset-y-0 flex items-center pl-3">
                     <!-- Heroicon name: lock-closed -->
-                    <svg class="h-5 w-5 text-green-200 group-hover:text-green-300"
-                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                        fill="currentColor" aria-hidden="true">
+                    <svg class="h-5 w-5 text-green-200 group-hover:text-green-300" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                         <path fill-rule="evenodd"
                             d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
                             clip-rule="evenodd" />

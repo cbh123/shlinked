@@ -70,6 +70,7 @@ defmodule Shlinkedin.Profiles.Profile do
     field(:spotify_song_url, :string)
     field :resume_link, :string
     field :confetti_emoji, :string
+    field :work_streak, :integer, default: 0
     timestamps()
   end
 
@@ -104,7 +105,8 @@ defmodule Shlinkedin.Profiles.Profile do
       :show_sold_ads,
       :spotify_song_url,
       :resume_link,
-      :confetti_emoji
+      :confetti_emoji,
+      :work_streak
     ])
     |> validate_required([:persona_name, :slug, :username])
     |> downcase_username()

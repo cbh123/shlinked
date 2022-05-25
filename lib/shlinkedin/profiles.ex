@@ -231,6 +231,16 @@ defmodule Shlinkedin.Profiles do
     )
   end
 
+  def list_profiles_by_work_streak(count) do
+    Repo.all(
+      from(p in Profile,
+        select: %{profile: p, number: p.work_streak},
+        order_by: [desc: p.work_streak],
+        limit: ^count
+      )
+    )
+  end
+
   def list_profiles_by_points(count) do
     Repo.all(
       from(p in Profile,
@@ -321,6 +331,7 @@ defmodule Shlinkedin.Profiles do
       "Ads" -> list_profiles_by_ad_clicks(count, start_date)
       "Hottest" -> list_profiles_by_profile_views(count, start_date)
       "Wealth" -> list_profiles_by_points(count)
+      "Work" -> list_profiles_by_work_streak(count)
     end
   end
 
@@ -990,6 +1001,11 @@ defmodule Shlinkedin.Profiles do
 
   def categories do
     %{
+      Work: %{
+        title: "Streak",
+        desc: "Best Employee",
+        emoji: "💼"
+      },
       Shlinks: %{
         title: "count",
         desc: "Total number of shlinked connections.",
@@ -1022,5 +1038,167 @@ defmodule Shlinkedin.Profiles do
         emoji: "🔥"
       }
     }
+  end
+
+  alias Shlinkedin.Profiles.Work
+
+  @doc """
+  Returns the list of work.
+
+  ## Examples
+
+      iex> list_work()
+      [%Work{}, ...]
+
+  """
+  def list_work(%Profile{id: profile_id}) do
+    from(w in Work, where: w.profile_id == ^profile_id)
+    |> Repo.all()
+  end
+
+  def get_work_streak(%Profile{id: profile_id}) do
+    from(w in Work, where: w.profile_id == ^profile_id)
+    |> Repo.all()
+    |> Enum.map(fn w -> w.inserted_at end)
+    |> Enum.map(fn d -> NaiveDateTime.to_date(d) end)
+    |> Enum.sort(:desc)
+    |> get_streak_as_of_today()
+  end
+
+  def get_work_streak(nil) do
+    0
+  end
+
+  def has_worked_today?(%Profile{id: profile_id}) do
+    today = NaiveDateTime.utc_now() |> NaiveDateTime.to_date()
+
+    from(w in Work,
+      where: w.profile_id == ^profile_id and fragment("?::date", w.inserted_at) == ^today
+    )
+    |> Repo.one() != nil
+  end
+
+  def has_worked_today?(nil) do
+    false
+  end
+
+  @doc """
+  Returns work streak as of today - so even if there was a long date streak
+  in the past, it only matters what the streak is starting with today and working backwards.
+
+  # When today is 2022-05-07:
+  iex> get_streak_as_of_today([~D[2022-05-07], ~D[2022-05-06], ~D[2022-05-04]])
+  2
+  # When today is 2022-05-08:
+  iex> get_streak_as_of_today([~D[2022-05-07], ~D[2022-05-06], ~D[2022-05-04]])
+  2
+  # When today is 2022-05-09:
+  iex> get_streak_as_of_today([~D[2022-05-07], ~D[2022-05-06], ~D[2022-05-04]])
+  0
+  """
+  def get_streak_as_of_today([]), do: 0
+
+  def get_streak_as_of_today([last | _] = dates) do
+    today = NaiveDateTime.utc_now() |> NaiveDateTime.to_date()
+
+    if today == last or Date.diff(today, last) == 1 do
+      get_streak(dates)
+    else
+      0
+    end
+  end
+
+  def get_streak(dates), do: _get_streak(dates, 1)
+
+  defp _get_streak([curr | [prev | _] = tail], acc) do
+    if Date.diff(curr, prev) == 1 do
+      _get_streak(tail, acc + 1)
+    else
+      _get_streak([], acc)
+    end
+  end
+
+  defp _get_streak(_, acc), do: acc
+
+  @doc """
+  Gets a single work.
+
+  Raises `Ecto.NoResultsError` if the Work does not exist.
+
+  ## Examples
+
+      iex> get_work!(123)
+      %Work{}
+
+      iex> get_work!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_work!(id), do: Repo.get!(Work, id)
+
+  @doc """
+  Creates a work.
+
+  ## Examples
+
+      iex> create_work(%{field: value})
+      {:ok, %Work{}}
+
+      iex> create_work(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_work(%Profile{} = profile, attrs \\ %{}) do
+    %Work{}
+    |> Work.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:profile, profile)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a work.
+
+  ## Examples
+
+      iex> update_work(work, %{field: new_value})
+      {:ok, %Work{}}
+
+      iex> update_work(work, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_work(%Work{} = work, attrs) do
+    work
+    |> Work.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a work.
+
+  ## Examples
+
+      iex> delete_work(work)
+      {:ok, %Work{}}
+
+      iex> delete_work(work)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_work(%Work{} = work) do
+    Repo.delete(work)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking work changes.
+
+  ## Examples
+
+      iex> change_work(work)
+      %Ecto.Changeset{data: %Work{}}
+
+  """
+  def change_work(%Work{} = work, attrs \\ %{}) do
+    Work.changeset(work, attrs)
   end
 end

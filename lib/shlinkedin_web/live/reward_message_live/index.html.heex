@@ -1,0 +1,40 @@
+<%= if @live_action in [:new, :edit] do %>
+<%= live_modal @socket, ShlinkedinWeb.RewardMessageLive.FormComponent,
+    id: @reward_message.id || :new,
+    title: @page_title,
+    action: @live_action,
+    reward_message: @reward_message,
+    return_to: Routes.reward_message_index_path(@socket, :index) %>
+<% end %>
+
+
+<div class="max-w-2xl mx-auto mt-4">
+    <div class="flex justify-between mb-4">
+        <h1 class="font-semibold text-lg">Reward Messages</h1>
+        <span><%= live_patch "New Reward Message", to: Routes.reward_message_index_path(@socket, :new), class: "btn-white" %></span>
+    </div>
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>Text</th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="templates">
+            <%= for reward_message <- @reward_messages do %>
+            <tr id={reward_message.id}>
+                <td><%= reward_message.text %></td>
+
+                <td>
+                    <span><%= live_patch "Edit", to: Routes.reward_message_index_path(@socket, :edit, reward_message) %></span>
+                    <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: reward_message.id, data: [confirm: "Are you sure?"] %></span>
+                </td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+
+</div>

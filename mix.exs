@@ -64,7 +64,8 @@ defmodule Shlinkedin.MixProject do
       {:appsignal_phoenix, "~> 2.0.0"},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.24", only: :dev, runtime: false},
-      {:tailwind, "~> 0.1", runtime: Mix.env() == :dev}
+      {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
+      {:openai, "~> 0.1.1"}
     ]
   end
 

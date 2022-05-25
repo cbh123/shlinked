@@ -257,6 +257,7 @@
                     </div>
                 </div>
 
+                <%= live_component @socket, ShlinkedinWeb.HomeLive.WorkComponent, id: "work-component", profile: @profile  %>
 
                 <%# Feed Picker %>
                 <div class="">
@@ -549,17 +550,6 @@
 </div>
 
 <% end %>
-
-
-
-
-
-
-
-
-
-
-
 
 
 <%= if @live_action in [:new_comment] do %>
