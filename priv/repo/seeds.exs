@@ -15,7 +15,7 @@ alias Shlinkedin.Timeline
 {:ok, user} = Shlinkedin.Accounts.register_user(%{email: "god@shlinkedin.com", password: "bloop"})
 
 {:ok, profile} =
-  create_profile(user, %{
+  Shlinkedin.Profiles.create_profile(user, %{
     "persona_name" => "god",
     "slug" => "god",
     "title" => "god",
@@ -24,8 +24,6 @@ alias Shlinkedin.Timeline
 
 # create a post
 {:ok, _post} = Timeline.create_post(profile, %{body: "first"}, %Timeline.Post{})
-
-_post = create_post(3) |> add_likes()
 
 # helper for adding likes
 defp add_likes(profile, num_likes) do
@@ -38,3 +36,5 @@ defp add_likes(profile, num_likes) do
 
   post
 end
+
+_post = add_likes(profile, 3)

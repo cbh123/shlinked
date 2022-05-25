@@ -17,18 +17,26 @@ defmodule ShlinkedinWeb.HomeLive.WorkComponent do
      |> push_patch(to: Routes.home_index_path(socket, :index))}
   end
 
-  def handle_event("work", _, socket) do
+  def handle_event("work", _, %{assigns: %{profile: profile}} = socket) do
     reward_message = Shlinkedin.Timeline.get_random_reward_message()
-    {:ok, _work} = Profiles.create_work(socket.assigns.profile)
-    work_streak = Profiles.get_work_streak(socket.assigns.profile)
-    {:ok, _profile} = Profiles.update_profile(socket.assigns.profile, %{work_streak: work_streak})
 
-    {:noreply,
-     assign(socket,
-       just_worked: true,
-       has_worked_today: true,
-       reward_message: reward_message.text,
-       work_streak: work_streak
-     )}
+    if not has_worked_today?(profile) do
+      {:ok, _work} = Profiles.create_work(profile)
+      work_streak = Profiles.get_work_streak(profile)
+      {:ok, _profile} = Profiles.update_profile(profile, %{work_streak: work_streak})
+
+      {:noreply,
+       assign(socket,
+         just_worked: true,
+         has_worked_today: true,
+         reward_message: reward_message.text,
+         work_streak: work_streak
+       )}
+    else
+      {:noreply,
+       socket
+       |> put_flash(:info, "Sorry, you must make a profile to WORK")
+       |> push_patch(to: Routes.home_index_path(socket, :index))}
+    end
   end
 end
