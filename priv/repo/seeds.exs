@@ -26,15 +26,15 @@ alias Shlinkedin.Timeline
 {:ok, _post} = Timeline.create_post(profile, %{body: "first"}, %Timeline.Post{})
 
 # helper for adding likes
-defp add_likes(profile, num_likes) do
-  Enum.each(
-    1..num_likes,
-    fn _num ->
-      Timeline.create_like(Shlinkedin.ProfilesFixtures.profile_fixture(), post, "nice")
-    end
-  )
+# defp add_likes(profile, num_likes) do
+#   Enum.each(
+#     1..num_likes,
+#     fn _num ->
+#       Timeline.create_like(Shlinkedin.ProfilesFixtures.profile_fixture(), post, "nice")
+#     end
+#   )
 
-  post
-end
+#   post
+# end
 
-_post = add_likes(profile, 3)
+# _post = add_likes(profile, 3)

@@ -3,7 +3,7 @@ defmodule Shlinkedin.Moderation.Action do
   import Ecto.Changeset
 
   schema "mod_actions" do
-    field :action, :string, null: false
+    field :action, :string
     field :reason, :string
     belongs_to :profile, Shlinkedin.Profiles.Profile
     field :post_id, :id

@@ -8,7 +8,7 @@ defmodule Shlinkedin.Chat.Conversation do
     has_many :conversation_members, ConversationMember
     has_many :conversations, through: [:conversation_members, :conversation]
     has_many :messages, Message
-    field :profile_ids, {:array, :integer}, unique: true, null: false
+    field :profile_ids, {:array, :integer}
     field :last_message_sent, :naive_datetime
     field :slug, :string
     timestamps()

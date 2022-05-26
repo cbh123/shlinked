@@ -135,7 +135,7 @@
     <%# Bottom footer %>
     <%= if @current_user do %>
     <nav class="sm:hidden bg-white border-t text-gray-500 text-base bottom-0 fixed w-full z-10">
-        <div class="flex justify-around h-20 items-top space-x-3  text-xs">
+        <div class="flex h-20 items-top text-xs">
             <%= if @profile != nil and @profile != %Shlinkedin.Profiles.Profile{} do %>
             <%= render "_footer_nav.html", assigns %>
             <% end %>

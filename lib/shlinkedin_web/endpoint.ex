@@ -27,7 +27,7 @@ defmodule ShlinkedinWeb.Endpoint do
     from: :shlinkedin,
     gzip: false,
     only:
-      ~w(assets fonts images favicon.ico robots.txt apple-touch-icon.png manifest.json uploads)
+      ~w(css assets fonts images favicon.ico robots.txt apple-touch-icon.png manifest.json uploads)
   )
 
   # Code reloading can be explicitly enabled under the
