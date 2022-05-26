@@ -22,7 +22,8 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     show_profile = Shlinkedin.Profiles.get_profile_by_slug(slug)
 
     # send confetti emoji if it exists
-    if show_profile.confetti_emoji, do: send(self(), {:profile_load, show_profile.confetti_emoji})
+    if not is_nil(show_profile) and show_profile.confetti_emoji,
+      do: send(self(), {:profile_load, show_profile.confetti_emoji})
 
     # store profile view
     if socket.assigns.profile != nil and socket.assigns.profile != %Profile{id: nil},
