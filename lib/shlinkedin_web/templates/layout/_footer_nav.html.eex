@@ -15,7 +15,7 @@
 <% end %>
 <%= link to: "/market" do %>
 <button
-    class=" p-4 relative <%= if @conn.request_path == "/shlinks", do: "text-blue-500 italic"%>"">
+    class=" p-4 <%= if @conn.request_path == "/market", do: "text-blue-500 italic"%>"">
     <span class=" sr-only">Market</span>
     <svg class="w-6 h-6 mx-5" fill="currentColor" viewBox="0 0 20 20"
         xmlns="http://www.w3.org/2000/svg">
@@ -32,7 +32,7 @@
 
 <%= link to: "/home/posts/new" do %>
 <button
-    class="p-4 <%= if @conn.request_path == "/posts/new", do: "text-blue-500 italic"%>"">
+    class="p-4 <%= if @conn.request_path == "/home/posts/new", do: "text-blue-500 italic"%>"">
        <span class=" sr-only">Post</span>
 
     <!-- Heroicon name: Profile -->
