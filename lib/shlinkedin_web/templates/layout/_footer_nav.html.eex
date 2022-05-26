@@ -17,7 +17,7 @@
 <button
     class=" p-4 <%= if @conn.request_path == "/market", do: "text-blue-500 italic"%>"">
     <span class=" sr-only">Market</span>
-    <svg class="w-6 h-6 mx-5" fill="currentColor" viewBox="0 0 20 20"
+    <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20"
         xmlns="http://www.w3.org/2000/svg">
         <path
             d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z">
@@ -54,10 +54,6 @@
 <button
     class="relative p-4 <%= if @conn.request_path == "/updates", do: "text-blue-500 italic"%>"">
        <span class=" sr-only">Updates</span>
-
-
-
-
     <%= if Shlinkedin.Profiles.get_last_read_notification_time(@profile) > @profile.last_checked_notifications do %>
     <span
         class="text-xs absolute top-2 right-2 block h-4 w-4 rounded-full ring-2 ring-white bg-red-600 text-white">
@@ -81,7 +77,7 @@
 
     <!-- Heroicon name: Profile -->
 
-    <img class="mx-auto h-6 w-6 object-cover rounded-full <%= if @conn.request_path == "/sh/#{@profile.slug}", do: "border-2 border-blue-500"%>""
+    <img class="h-6 w-6 mx-auto object-cover rounded-full <%= if @conn.request_path == "/sh/#{@profile.slug}", do: "border-2 border-blue-500"%>""
            src=" <%= @profile.photo_url %>" alt="">
 
     <p class=" pt-0.5">Me</p>
