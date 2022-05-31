@@ -49,7 +49,7 @@
 <% end %>
 <%= link to: "/updates", class: "w-1/5 flex justify-center" do %>
 <button
-    class="p-4<%= if @conn.request_path == "/updates", do: " text-blue-500 italic"%>">
+    class="p-4 relative<%= if @conn.request_path == "/updates", do: " text-blue-500 italic"%>">
     <span class=" sr-only">Updates</span>
     <%= if Shlinkedin.Profiles.get_last_read_notification_time(@profile) > @profile.last_checked_notifications do %>
     <span
