@@ -4,7 +4,7 @@ defmodule ShlinkedinWeb.PostLive.PostHeader do
 
   def render(assigns) do
     ~L"""
-    <div class="ml-2 sm:ml-4 mt-2 sm:mt-3">
+    <div class="ml-2 sm:ml-4 mt-2 sm:mt-3 mr-2 sm:mr-4 w-11/12">
     <div class="flex items-center">
         <div class="flex-shrink-0">
             <span class="inline-block relative">
@@ -14,25 +14,13 @@ defmodule ShlinkedinWeb.PostLive.PostHeader do
                     class="absolute bottom-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-green-400"></span>
             </span>
         </div>
-        <div class="ml-3 sm:ml-4 cursor-pointer text-gray-500 truncate overflow-hidden">
-
-
-
+        <div class="ml-3 sm:ml-4 relative w-11/12 cursor-pointer text-gray-500 truncate overflow-hidden">
             <span class="text-gray-900 ">
-
                 <%= live_redirect @post.profile.persona_name, to: Routes.profile_show_path(@socket, :show, @post.profile.slug), class: "text-sm font-semibold text-gray-900 hover:underline"  %>
                 <%= Shlinkedin.Badges.profile_badges(@socket, @post.profile, 3) %>
-
-
             </span>
-
-
-
-            <span
-            class="text-gray-500 font-normal <%= if @post.profile_update, do: "text-sm", else: "text-xs"%>">
-            <%= if @post.profile_update == true, do: "updated their #{@post.update_type}", else: @post.profile.persona_title  %>
-
-
+            <span class="text-gray-500 font-normal <%= if @post.profile_update, do: "text-sm", else: "text-xs text-ellipsis whitespace-nowrap overflow-hidden"%>">
+            <%= if @post.profile_update == true, do: "updated their #{@post.update_type}", else: @post.profile.persona_title %>
         </span>
 
 
