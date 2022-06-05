@@ -7,7 +7,7 @@
         <%= pinned_post_header(@socket, @post) %>
 
         <%# Post Header and Options %>
-        <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap ">
+        <div class="sm:-ml-4 -mt-4 flex items-center flex-nowrap w-full">
 
             <%# Post Header: Image, Name, Title, Time, and Business Jab %>
             <%= live_component @socket, ShlinkedinWeb.PostLive.PostHeader,
