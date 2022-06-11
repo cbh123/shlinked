@@ -1099,8 +1099,6 @@ defmodule Shlinkedin.Profiles do
   def get_streak_as_of_today([]), do: 0
 
   def get_streak_as_of_today([last | _] = dates) do
-    require IEx
-    IEx.pry()
     today = NaiveDateTime.utc_now() |> NaiveDateTime.to_date()
 
     if today == last or Date.diff(today, last) == 1 do
