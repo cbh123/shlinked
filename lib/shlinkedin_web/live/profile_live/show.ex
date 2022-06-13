@@ -52,7 +52,6 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(from_profile: socket.assigns.profile)
      |> assign(to_profile: show_profile)
      |> assign(connections: Profiles.get_connections(show_profile))
-     |> assign(friend_status: check_between_friend_status(socket.assigns.profile, show_profile))
      |> assign(endorsements: list_endorsements(show_profile.id))
      |> assign(reviews_recieved: true)
      |> assign(number_testimonials: Profiles.get_number_testimonials(show_profile.id))
@@ -360,6 +359,10 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
 
   defp check_between_friend_status(from, to) do
     Profiles.check_between_friend_status(from, to)
+  end
+
+  defp is_following?(from, to) do
+    Profiles.is_following?(from, to)
   end
 
   defp list_testimonials(id) do

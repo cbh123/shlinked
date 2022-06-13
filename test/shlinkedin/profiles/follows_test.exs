@@ -8,7 +8,7 @@ defmodule Shlinkedin.Profiles.FollowsTest do
     alias Shlinkedin.Profiles.Follow
     import Shlinkedin.ProfilesFixtures
 
-    test "get shlinks for profile (to convert to followers)" do
+    test "script to get shlinks for profile (to convert to followers)" do
       p1 = profile_fixture()
       p2 = profile_fixture()
       p3 = profile_fixture()

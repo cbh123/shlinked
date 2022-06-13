@@ -1239,6 +1239,16 @@ defmodule Shlinkedin.Profiles do
   end
 
   @doc """
+  Returns following status. True if already following, else False.
+  """
+  def is_following?(%Profile{id: from_profile_id}, %Profile{id: to_profile_id}) do
+    case Repo.get_by(Follow, from_profile_id: from_profile_id, to_profile_id: to_profile_id) do
+      nil -> False
+      _ -> True
+    end
+  end
+
+  @doc """
   Creates a follow.
 
   ## Examples

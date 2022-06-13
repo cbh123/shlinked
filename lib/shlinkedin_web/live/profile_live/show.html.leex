@@ -207,6 +207,14 @@
                         to_profile: @show_profile
                         %>
 
+                <%= live_component @socket, ShlinkedinWeb.ProfileLive.FollowButton,
+                        id: "#{@show_profile.id}",
+                        follow_status: is_following?(@profile, @show_profile),
+                        profile: @profile,
+                        to_profile: @show_profile
+                        %>
+
+
 
                 <button type="button" phx-click="message"
                     class="bg-blue-100 hover:bg-blue-200 inline-flex items-center px-3 py-2 shadow-sm text-xs font-semibold rounded-full text-blue-600">
