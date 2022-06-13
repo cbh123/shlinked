@@ -60,6 +60,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(checklist: Shlinkedin.Levels.get_current_checklist(show_profile, socket))
      |> assign(num_profile_views: Profiles.get_profile_views_not_yourself(show_profile))
      |> assign(testimonials: list_testimonials(show_profile.id))
+     |> assign(count_followers: Profiles.count_followers(show_profile))
      |> assign(meta_attrs: meta_attrs(show_profile.persona_name, show_profile.photo_url))
      |> fetch_posts()
      |> fetch_gallery(),
@@ -197,11 +198,11 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   end
 
   defp apply_action(socket, :show_friends, _) do
-    friends = Profiles.list_friends(socket.assigns.show_profile)
+    followers = Profiles.list_followers(socket.assigns.show_profile)
 
     socket
-    |> assign(:page_title, "#{socket.assigns.show_profile.persona_name}'s Shlinks")
-    |> assign(:friends, friends)
+    |> assign(:page_title, "#{socket.assigns.show_profile.persona_name}'s Stalkers")
+    |> assign(:friends, followers)
   end
 
   defp apply_action(socket, :show_ad_clicks, _) do

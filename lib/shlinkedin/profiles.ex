@@ -1206,6 +1206,16 @@ defmodule Shlinkedin.Profiles do
   alias Shlinkedin.Profiles.Follow
 
   @doc """
+  Counts the number of profiles that follow given profile.
+  """
+  def count_followers(%Profile{id: id}) do
+    from(f in Follow,
+      where: f.to_profile_id == ^id
+    )
+    |> Repo.aggregate(:count)
+  end
+
+  @doc """
   Returns the list of profiles that follow given profile.
 
   ## Examples
@@ -1241,6 +1251,11 @@ defmodule Shlinkedin.Profiles do
   @doc """
   Returns following status. True if already following, else nil.
   """
+  def is_following?(%Profile{id: from_profile_id}, %Profile{id: to_profile_id})
+      when from_profile_id == to_profile_id do
+    "me"
+  end
+
   def is_following?(%Profile{id: from_profile_id}, %Profile{id: to_profile_id}) do
     Repo.get_by(Follow, from_profile_id: from_profile_id, to_profile_id: to_profile_id)
   end
