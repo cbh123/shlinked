@@ -48,8 +48,8 @@ defmodule ShlinkedinWeb.ProfileLive.FollowButton do
         Stalk
     </button>
 
-    <% "following" ->  %>
-    <button type="button" phx-click="unfriend" data-confirm="Are you sure you want to unshlink?" phx-target="<%= @myself %>" phx-value-id="<%= @to_profile.id %>"
+    <% _ ->  %>
+    <button type="button" phx-click="unfollow" data-confirm="Are you sure you want to unstalk?" phx-target="<%= @myself %>" phx-value-id="<%= @to_profile.id %>"
         class="inline-flex items-center px-3 py-2 border border-green-600 shadow-sm text-xs font-semibold rounded-full text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
         <!-- Heroicon name: mail -->
 
