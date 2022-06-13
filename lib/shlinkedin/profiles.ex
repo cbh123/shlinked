@@ -1201,4 +1201,98 @@ defmodule Shlinkedin.Profiles do
   def change_work(%Work{} = work, attrs \\ %{}) do
     Work.changeset(work, attrs)
   end
+
+  # Follows
+  alias Shlinkedin.Profiles.Follow
+
+  @doc """
+  Returns the list of profiles that follow given profile.
+
+  ## Examples
+
+      iex> list_follows(Profiles)
+      [%Follow{}, ...]
+
+  """
+  def list_followers(%Profile{id: id}) do
+    from(f in Follow,
+      preload: :profile,
+      where: f.to_profile_id == ^id
+    )
+    |> Repo.all()
+    |> Enum.map(fn w -> w.profile end)
+  end
+
+  @doc """
+  Returns the list of profiles following given profile.
+
+  TODO.
+  """
+  def list_following(%Profile{id: id}) do
+    from(f in Follow,
+      where: f.from_profile_id == ^id
+    )
+    |> Repo.all()
+    |> Enum.map(fn w -> w.profile end)
+
+    raise "Not Implemented"
+  end
+
+  @doc """
+  Creates a follow.
+
+  ## Examples
+
+      iex> create_follow(%{from_profile_id: 1, to_profile_id: 3})
+      {:ok, %Follow{}}
+
+  """
+  def create_follow(%Profile{id: from_profile_id} = from, %Profile{id: to_profile_id} = to)
+      when from_profile_id != to_profile_id do
+    %Follow{from_profile_id: from_profile_id, to_profile_id: to_profile_id}
+    |> Follow.changeset(%{})
+    |> Repo.insert()
+    |> ProfileNotifier.observer(:new_follower, from, to)
+  end
+
+  def create_follow(_, _), do: {:error, "You cannot follow yourself"}
+
+  def get_follow!(from_profile_id, to_profile_id) do
+    Repo.get_by!(Follow, from_profile_id: from_profile_id, to_profile_id: to_profile_id)
+  end
+
+  def unfollow(%Profile{id: from_profile_id}, %Profile{id: to_profile_id}) do
+    {:ok, _follow} =
+      get_follow!(from_profile_id, to_profile_id)
+      |> delete_follow()
+  end
+
+  @doc """
+  Deletes a follow.
+
+  ## Examples
+
+      iex> delete_follow(follow)
+      {:ok, %Follow{}}
+
+      iex> delete_follow(follow)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_follow(%Follow{} = follow) do
+    Repo.delete(follow)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking follow changes.
+
+  ## Examples
+
+      iex> change_follow(follow)
+      %Ecto.Changeset{data: %Follow{}}
+
+  """
+  def change_follow(%Follow{} = follow, attrs \\ %{}) do
+    Follow.changeset(follow, attrs)
+  end
 end

@@ -72,6 +72,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
       :ad_buy ->
         notify_ad_buy(from_profile, to_profile, res, type)
+
+      :new_follower ->
+        notify_new_follower(from_profile, to_profile, type)
     end
 
     {:ok, res}
@@ -316,6 +319,55 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       Shlinkedin.Email.new_email(
         to_profile.user.email,
         "#{from_profile.persona_name} has sent you ShlinkPoints!",
+        body
+      )
+      |> Shlinkedin.Mailer.deliver_later()
+    end
+  end
+
+  def notify_new_follower(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile,
+        _type
+      ) do
+    Shlinkedin.Profiles.create_notification(%Notification{
+      from_profile_id: from_profile.id,
+      to_profile_id: to_profile.id,
+      type: "new_follower",
+      action: "has started following you!",
+      body: ""
+    })
+
+    body = """
+
+    Hi #{to_profile.persona_name},
+
+    <br/>
+    <br/>
+
+    <p>Your Thought Leadership empire is growing! </p>
+
+    <p><a href="https://www.shlinkedin.com/sh/#{from_profile.slug}">#{from_profile.persona_name}</a> has started following you.
+
+    Time to think of some ice-breakers, like:</p>
+
+    <ul>
+    #{for line <- friend_request_text(), do: "<li>#{line}</li>"}
+    </ul>
+
+    <p>Happy shlinking!</p>
+
+    <br/>
+    <br/>
+    Thanks, <br/>
+    ShlinkTeam
+
+    """
+
+    if to_profile.unsubscribed == false do
+      Shlinkedin.Email.new_email(
+        to_profile.user.email,
+        "#{from_profile.persona_name} has sent you a shlink request!",
         body
       )
       |> Shlinkedin.Mailer.deliver_later()
