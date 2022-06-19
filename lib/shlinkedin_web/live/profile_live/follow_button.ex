@@ -132,10 +132,10 @@ defmodule ShlinkedinWeb.ProfileLive.FollowButton do
 
                     <p class="italic">- ShlinkedIn HQ</p>
 
-                    <div class="text-center">
+                    <div class="text-center animate-fadeDown">
                         <p class="text-8xl text-center">🤝</p>
+                        <p>Your new Networking Virginity award has been added to your <%= live_redirect "Trophy Case", to: Routes.profile_show_path(@socket, :show, @profile.slug), class: "text-blue-500 underline hover:text-blue-600" %></p>
 
-                        <%= live_redirect raw("Leaderboard &rarr;"), to: Routes.leaderboard_index_path(@socket, :index, curr_category: "Shlinks", weekly: false  ), class: "hover:bg-gray-200 p-2" %>
                         <p></p>
                     </div>
 

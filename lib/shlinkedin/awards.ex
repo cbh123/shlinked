@@ -36,7 +36,7 @@ defmodule Shlinkedin.Awards do
   Gets a single award_type by name. Returns nil if not found
 
   """
-  def get_award_type_by_name(name), do: Repo.get_by(AwardType, :name, name)
+  def get_award_type_by_name(name), do: Repo.get_by(AwardType, name: name)
 
   @doc """
   Gets a single award_type.
