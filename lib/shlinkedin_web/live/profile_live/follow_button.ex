@@ -28,7 +28,7 @@ defmodule ShlinkedinWeb.ProfileLive.FollowButton do
           "description" => "I just lost my Networking Virginity!"
         })
 
-      Profiles.grant_award(god, profile, award_type)
+      {:ok, _award} = Profiles.grant_award(god, profile, award_type)
     end
 
     random_emoji = ["🎉", "🤝", "💉", "HUSTLE", "🧨"] |> Enum.random()
