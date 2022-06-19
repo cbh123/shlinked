@@ -41,10 +41,6 @@ defmodule Shlinkedin.Points do
         amount: Money.new(10),
         desc: "For each profile view (from someone other than you)"
       },
-      :accepted_friend_request => %{
-        amount: Money.new(0),
-        desc: "When someone accepts your Shlink Request"
-      },
       # :sent_friend_request => %{
       #   amount: Money.new(-250),
       #   desc: "The cost of sending a Shlink Request"

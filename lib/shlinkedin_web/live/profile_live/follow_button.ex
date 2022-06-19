@@ -17,6 +17,7 @@ defmodule ShlinkedinWeb.ProfileLive.FollowButton do
       {:ok, _profile} = Profiles.update_profile(profile, %{has_sent_one_shlink: true})
     end
 
+    # send networking virginity award and SPs
     if first_ever_shlink?(profile) do
       god = Profiles.get_god()
 
@@ -127,7 +128,7 @@ defmodule ShlinkedinWeb.ProfileLive.FollowButton do
                 <!-- MODAL BODY -->
                 <div class="p-5 rounded-b-lg font-windows bg-white">
 
-                    <p class="">You just lost your Networking Virginity! As a reward we've given you a trophy on your profile and some ShlinkPoints. Keep it up!</p>
+                    <p class="">You just lost your Networking Virginity! This is your reward. Keep it up!</p>
 
 
                     <p class="italic">- ShlinkedIn HQ</p>

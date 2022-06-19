@@ -52,9 +52,9 @@ defmodule Shlinkedin.Levels do
       ],
       1 => [
         %{
-          done: length(Profiles.list_friends(profile)) > 0,
+          done: profile.has_sent_one_shlink,
           route: Routes.users_index_path(socket, :index),
-          name: "Make 1 connection"
+          name: "Shlink with someone"
         },
         %{
           done: Shlinkedin.Points.get_balance(profile) |> Money.compare(Money.new(10000)) == 1,
