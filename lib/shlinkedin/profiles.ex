@@ -323,22 +323,21 @@ defmodule Shlinkedin.Profiles do
     end)
   end
 
+  @doc """
+  Matches leaderboard category and returns list of profiles and a number value, in the format:
+
+  %{number: number, profile: %Profile{}}
+  """
+
   def match_cat(category, count, start_date) do
     case category do
-      "Shlinks" -> list_profiles_by_shlink_count(count, start_date)
       "Post Reactions" -> list_profiles_by_unique_post_reactions(count, start_date)
       "Claps" -> list_profiles_by_article_votes(count, start_date)
       "Ads" -> list_profiles_by_ad_clicks(count, start_date)
+      "Shlinks" -> list_profiles_by_followers(count, start_date)
       "Hottest" -> list_profiles_by_profile_views(count, start_date)
       "Wealth" -> list_profiles_by_points(count)
       "Work" -> list_profiles_by_work_streak(count)
-    end
-  end
-
-  def match_emoji(category) do
-    case category do
-      "Shlinks" -> "hi"
-      _ -> "hi"
     end
   end
 
@@ -1008,7 +1007,7 @@ defmodule Shlinkedin.Profiles do
       },
       Shlinks: %{
         title: "count",
-        desc: "Total number of shlinked connections.",
+        desc: "How many people have shlinked you? (How popular are you?)",
         emoji: "🤝"
       },
       Wealth: %{
@@ -1245,6 +1244,27 @@ defmodule Shlinkedin.Profiles do
     )
     |> Repo.all()
     |> Enum.map(fn w -> w.profile end)
+  end
+
+  @doc """
+  List all profiles by how many followers (shlinks) they have.
+  Count is how many of the top profiles to include, and start_date is starting date.
+
+  Returns list of [%{number: followers, profile: %Profile}] in the order of followers.
+
+  [%{number: 2, profile: Profile}]
+  """
+  def list_profiles_by_followers(count, start_date) do
+    from(f in Follow,
+      join: p in Profile,
+      on: f.to_profile_id == p.id,
+      group_by: p.id,
+      order_by: [desc: count(f.to_profile_id)],
+      where: f.inserted_at >= ^start_date,
+      limit: ^count,
+      select: %{number: count(f.to_profile_id), profile: p}
+    )
+    |> Repo.all()
   end
 
   @doc """
