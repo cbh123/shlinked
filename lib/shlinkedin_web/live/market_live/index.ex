@@ -123,6 +123,10 @@ defmodule ShlinkedinWeb.MarketLive.Index do
     trunc(total_ads / per_page)
   end
 
+  defp show_sold?(nil) do
+    []
+  end
+
   defp show_sold?(profile) do
     profile.show_sold_ads
   end

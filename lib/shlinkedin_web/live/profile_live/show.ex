@@ -52,7 +52,6 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(from_profile: socket.assigns.profile)
      |> assign(to_profile: show_profile)
      |> assign(connections: Profiles.get_connections(show_profile))
-     |> assign(friend_status: check_between_friend_status(socket.assigns.profile, show_profile))
      |> assign(endorsements: list_endorsements(show_profile.id))
      |> assign(reviews_recieved: true)
      |> assign(number_testimonials: Profiles.get_number_testimonials(show_profile.id))
@@ -61,6 +60,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(checklist: Shlinkedin.Levels.get_current_checklist(show_profile, socket))
      |> assign(num_profile_views: Profiles.get_profile_views_not_yourself(show_profile))
      |> assign(testimonials: list_testimonials(show_profile.id))
+     |> assign(count_followers: Profiles.count_followers(show_profile))
      |> assign(meta_attrs: meta_attrs(show_profile.persona_name, show_profile.photo_url))
      |> fetch_posts()
      |> fetch_gallery(),
@@ -198,16 +198,22 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
   end
 
   defp apply_action(socket, :show_friends, _) do
-    friends = Profiles.list_friends(socket.assigns.show_profile)
+    followers = Profiles.list_followers(socket.assigns.show_profile)
 
     socket
-    |> assign(:page_title, "#{socket.assigns.show_profile.persona_name}'s Shlinks")
-    |> assign(:friends, friends)
+    |> assign(:page_title, "#{socket.assigns.show_profile.persona_name}'s Shfollowers")
+    |> assign(:friends, followers)
   end
 
   defp apply_action(socket, :show_ad_clicks, _) do
     socket
     |> assign(:page_title, "#{socket.assigns.show_profile.persona_name}'s Ad Clicks")
+  end
+
+  def handle_event(_event, _params, %{assigns: %{profile: nil}} = socket) do
+    {:noreply,
+     socket
+     |> push_redirect(to: Routes.user_registration_path(socket, :new))}
   end
 
   def handle_event("message", _, socket) do
@@ -360,6 +366,10 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
 
   defp check_between_friend_status(from, to) do
     Profiles.check_between_friend_status(from, to)
+  end
+
+  defp is_following?(from, to) do
+    Profiles.is_following?(from, to)
   end
 
   defp list_testimonials(id) do

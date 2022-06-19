@@ -1,10 +1,8 @@
- <li id="<%= @id %>"
-     class="col-span-1 flex flex-col text-center bg-white shadow rounded-lg text-xs">
+ <li id="<%= @id %>" class="col-span-1 flex flex-col text-center bg-white shadow rounded-lg text-xs">
 
 
      <img src="<%= if @show_profile.cover_photo_url == nil, do: "//shlinked.s3.amazonaws.com/0fbc9143-b559-480e-9b44-4363c437ff7c.png", else: @show_profile.cover_photo_url %>"
-         alt=""
-         class="object-cover w-full overflow-hidden rounded-t-lg max-h-12 sm:max-h-18">
+         alt="" class="object-cover w-full overflow-hidden rounded-t-lg max-h-12 sm:max-h-18">
 
      <%= live_redirect to: Routes.profile_show_path(@socket, :show, @show_profile.slug) do %>
      <div class="inline-block relative">
@@ -23,49 +21,14 @@
 
 
          <%= if not same_profile?(@show_profile, @profile) do %>
-         <div class="my-4" phx-update="replace">
-             <%= case @friend_status do %>
-             <% nil -> %>
-             <button type="button" phx-click="send-friend-request"
-                 phx-value-to-profile="<%= @show_profile.id %>"
-                 phx-target="<%= @myself %>"
-                 class="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-xs font-semibold rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                 <!-- Heroicon name: mail -->
-                 <svg class="-ml-1 mr-2 h-3 w-3" fill="currentColor"
-                     viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                     <path
-                         d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z">
-                     </path>
-                 </svg>
-                 Shlink
-             </button>
-
-
-             <% "pending" ->  %>
-
-             <button type="button" phx-click="unfriend"
-                 phx-value-to-profile="<%= @show_profile.id %>"
-                 phx-target="<%= @myself %>"
-                 data-confirm="Are you sure you want to destroy your request?"
-                 class="inline-flex items-center px-3 py-2 border border-gray-600 shadow-sm text-xs font-semibold rounded-full text-gray-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                 <!-- Heroicon name: mail -->
-                 <svg class="-ml-1 mr-2 h-3 w-3 animate-spin" fill="none"
-                     stroke="currentColor" viewBox="0 0 24 24"
-                     xmlns="http://www.w3.org/2000/svg">
-                     <path stroke-linecap="round" stroke-linejoin="round"
-                         stroke-width="2"
-                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                 </svg>
-                 Pending
-             </button>
-
-             <% "accepted" ->  %>
-
-
-             <%= live_patch raw("Visit &rarr;"), to: Routes.profile_show_path(@socket, :show, @show_profile.slug), class: "inline-flex items-center px-3 py-2 border border-green-600 shadow-sm text-xs font-semibold rounded-full text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" %>
-
-
-             <% end %>
+         <div class="my-4">
+             <%= live_component @socket, ShlinkedinWeb.ProfileLive.FollowButton,
+                        id: "#{@show_profile.id}",
+                        follow_status: Shlinkedin.Profiles.is_following?(@profile, @show_profile),
+                        profile: @profile,
+                        to_profile: @show_profile,
+                        return_to: Routes.profile_show_path(@socket, :show, @show_profile.slug)
+                        %>
          </div>
          <% end %>
 

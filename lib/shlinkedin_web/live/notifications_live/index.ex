@@ -53,6 +53,9 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
       "new_profile" ->
         {:noreply, push_redirect(socket, to: "/sh/#{slug}/notifications")}
 
+      "new_follower" ->
+        {:noreply, push_redirect(socket, to: "/sh/#{slug}/notifications")}
+
       "pending_shlink" ->
         {:noreply, push_redirect(socket, to: "/shlinks/notifications")}
 

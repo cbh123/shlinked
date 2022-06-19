@@ -323,22 +323,21 @@ defmodule Shlinkedin.Profiles do
     end)
   end
 
+  @doc """
+  Matches leaderboard category and returns list of profiles and a number value, in the format:
+
+  %{number: number, profile: %Profile{}}
+  """
+
   def match_cat(category, count, start_date) do
     case category do
-      "Shlinks" -> list_profiles_by_shlink_count(count, start_date)
       "Post Reactions" -> list_profiles_by_unique_post_reactions(count, start_date)
       "Claps" -> list_profiles_by_article_votes(count, start_date)
       "Ads" -> list_profiles_by_ad_clicks(count, start_date)
+      "Shlinks" -> list_profiles_by_followers(count, start_date)
       "Hottest" -> list_profiles_by_profile_views(count, start_date)
       "Wealth" -> list_profiles_by_points(count)
       "Work" -> list_profiles_by_work_streak(count)
-    end
-  end
-
-  def match_emoji(category) do
-    case category do
-      "Shlinks" -> "hi"
-      _ -> "hi"
     end
   end
 
@@ -1008,7 +1007,7 @@ defmodule Shlinkedin.Profiles do
       },
       Shlinks: %{
         title: "count",
-        desc: "Total number of shlinked connections.",
+        desc: "How many people have shlinked you? (How popular are you?)",
         emoji: "🤝"
       },
       Wealth: %{
@@ -1200,5 +1199,158 @@ defmodule Shlinkedin.Profiles do
   """
   def change_work(%Work{} = work, attrs \\ %{}) do
     Work.changeset(work, attrs)
+  end
+
+  # Follows
+  alias Shlinkedin.Profiles.Follow
+
+  @doc """
+  Counts the number of profiles that follow given profile.
+  """
+  def count_followers(%Profile{id: id}) do
+    from(f in Follow,
+      where: f.to_profile_id == ^id
+    )
+    |> Repo.aggregate(:count)
+  end
+
+  def count_followers(nil), do: 0
+
+  @doc """
+  Counts number of profiles that profile follows
+  """
+  def count_following(%Profile{id: id}) do
+    from(f in Follow,
+      where: f.from_profile_id == ^id
+    )
+    |> Repo.aggregate(:count)
+  end
+
+  def count_following(nil), do: 0
+
+  @doc """
+  Returns the list of profiles that follow given profile.
+
+  ## Examples
+
+      iex> list_follows(Profiles)
+      [%Follow{}, ...]
+
+  """
+  def list_followers(%Profile{id: id}) do
+    from(f in Follow,
+      preload: :profile,
+      where: f.to_profile_id == ^id
+    )
+    |> Repo.all()
+    |> Enum.map(fn w -> w.profile end)
+  end
+
+  @doc """
+  List all profiles by how many followers (shlinks) they have.
+  Count is how many of the top profiles to include, and start_date is starting date.
+
+  Returns list of [%{number: followers, profile: %Profile}] in the order of followers.
+
+  [%{number: 2, profile: Profile}]
+  """
+  def list_profiles_by_followers(count, start_date) do
+    from(f in Follow,
+      join: p in Profile,
+      on: f.to_profile_id == p.id,
+      group_by: p.id,
+      order_by: [desc: count(f.to_profile_id)],
+      where: f.inserted_at >= ^start_date,
+      limit: ^count,
+      select: %{number: count(f.to_profile_id), profile: p}
+    )
+    |> Repo.all()
+  end
+
+  @doc """
+  Returns the list of profiles following given profile.
+
+  TODO.
+  """
+  def list_following(%Profile{id: id}) do
+    from(f in Follow,
+      where: f.from_profile_id == ^id
+    )
+    |> Repo.all()
+    |> Enum.map(fn w -> w.profile end)
+
+    raise "Not Implemented"
+  end
+
+  @doc """
+  Returns following status. True if already following, else nil.
+  """
+  def is_following?(%Profile{id: from_profile_id}, %Profile{id: to_profile_id})
+      when from_profile_id == to_profile_id do
+    "me"
+  end
+
+  def is_following?(%Profile{id: from_profile_id}, %Profile{id: to_profile_id}) do
+    Repo.get_by(Follow, from_profile_id: from_profile_id, to_profile_id: to_profile_id)
+  end
+
+  def is_following?(nil, _to_profile), do: nil
+
+  @doc """
+  Creates a follow.
+
+  ## Examples
+
+      iex> create_follow(%{from_profile_id: 1, to_profile_id: 3})
+      {:ok, %Follow{}}
+
+  """
+  def create_follow(%Profile{id: from_profile_id} = from, %Profile{id: to_profile_id} = to)
+      when from_profile_id != to_profile_id do
+    %Follow{from_profile_id: from_profile_id, to_profile_id: to_profile_id}
+    |> Follow.changeset(%{})
+    |> Repo.insert()
+    |> ProfileNotifier.observer(:new_follower, from, to)
+  end
+
+  def create_follow(_, _), do: {:error, "You cannot follow yourself"}
+
+  def get_follow!(from_profile_id, to_profile_id) do
+    Repo.get_by!(Follow, from_profile_id: from_profile_id, to_profile_id: to_profile_id)
+  end
+
+  def unfollow(%Profile{id: from_profile_id}, %Profile{id: to_profile_id}) do
+    {:ok, _follow} =
+      get_follow!(from_profile_id, to_profile_id)
+      |> delete_follow()
+  end
+
+  @doc """
+  Deletes a follow.
+
+  ## Examples
+
+      iex> delete_follow(follow)
+      {:ok, %Follow{}}
+
+      iex> delete_follow(follow)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_follow(%Follow{} = follow) do
+    Repo.delete(follow)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking follow changes.
+
+  ## Examples
+
+      iex> change_follow(follow)
+      %Ecto.Changeset{data: %Follow{}}
+
+  """
+  def change_follow(%Follow{} = follow, attrs \\ %{}) do
+    Follow.changeset(follow, attrs)
   end
 end
