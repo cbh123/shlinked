@@ -1215,6 +1215,20 @@ defmodule Shlinkedin.Profiles do
     |> Repo.aggregate(:count)
   end
 
+  def count_followers(nil), do: 0
+
+  @doc """
+  Counts number of profiles that profile follows
+  """
+  def count_following(%Profile{id: id}) do
+    from(f in Follow,
+      where: f.from_profile_id == ^id
+    )
+    |> Repo.aggregate(:count)
+  end
+
+  def count_following(nil), do: 0
+
   @doc """
   Returns the list of profiles that follow given profile.
 
@@ -1259,6 +1273,8 @@ defmodule Shlinkedin.Profiles do
   def is_following?(%Profile{id: from_profile_id}, %Profile{id: to_profile_id}) do
     Repo.get_by(Follow, from_profile_id: from_profile_id, to_profile_id: to_profile_id)
   end
+
+  def is_following?(nil, _to_profile), do: nil
 
   @doc """
   Creates a follow.

@@ -8,6 +8,17 @@ defmodule Shlinkedin.Awards do
 
   alias Shlinkedin.Awards.AwardType
 
+  def get_or_create_award_type(%{"name" => name} = attrs) do
+    case get_award_type_by_name(name) do
+      nil ->
+        {:ok, award_type} = create_award_type(attrs)
+        award_type
+
+      award_type ->
+        award_type
+    end
+  end
+
   @doc """
   Returns the list of award_types.
 
@@ -20,6 +31,12 @@ defmodule Shlinkedin.Awards do
   def list_award_types do
     Repo.all(AwardType)
   end
+
+  @doc """
+  Gets a single award_type by name. Returns nil if not found
+
+  """
+  def get_award_type_by_name(name), do: Repo.get_by(AwardType, :name, name)
 
   @doc """
   Gets a single award_type.

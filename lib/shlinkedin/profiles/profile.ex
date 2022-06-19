@@ -71,6 +71,7 @@ defmodule Shlinkedin.Profiles.Profile do
     field :resume_link, :string
     field :confetti_emoji, :string
     field :work_streak, :integer, default: 0
+    field :has_sent_one_shlink, :boolean, default: false
     timestamps()
   end
 
@@ -106,7 +107,8 @@ defmodule Shlinkedin.Profiles.Profile do
       :spotify_song_url,
       :resume_link,
       :confetti_emoji,
-      :work_streak
+      :work_streak,
+      :has_sent_one_shlink
     ])
     |> validate_required([:persona_name, :slug, :username])
     |> downcase_username()

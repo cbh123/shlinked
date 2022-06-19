@@ -204,7 +204,8 @@
                         id: "#{@show_profile.id}",
                         follow_status: is_following?(@profile, @show_profile),
                         profile: @profile,
-                        to_profile: @show_profile
+                        to_profile: @show_profile,
+                        return_to: Routes.profile_show_path(@socket, :show, @show_profile.slug)
                         %>
 
 
@@ -417,7 +418,7 @@
                     <div class="px-4 py-5 sm:p-6">
 
                         <dt class="text-sm font-medium text-gray-500 truncate">
-                            🤝 Stalkers
+                            🤝 Shfollowers
                         </dt>
                         <dd class="mt-1 text-3xl font-semibold text-gray-900">
                             <%= @count_followers %>

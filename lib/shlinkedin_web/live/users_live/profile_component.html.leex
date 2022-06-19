@@ -26,7 +26,8 @@
                         id: "#{@show_profile.id}",
                         follow_status: Shlinkedin.Profiles.is_following?(@profile, @show_profile),
                         profile: @profile,
-                        to_profile: @show_profile
+                        to_profile: @show_profile,
+                        return_to: Routes.profile_show_path(@socket, :show, @show_profile.slug)
                         %>
          </div>
          <% end %>

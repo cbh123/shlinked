@@ -9,6 +9,10 @@ defmodule Shlinkedin.Repo.Migrations.CreateFollows do
       timestamps()
     end
 
+    alter table(:profiles) do
+      add :has_sent_one_shlink, :boolean, default: false
+    end
+
     create index(:follows, [:from_profile_id])
     create index(:follows, [:to_profile_id])
     create unique_index(:follows, [:from_profile_id, :to_profile_id])

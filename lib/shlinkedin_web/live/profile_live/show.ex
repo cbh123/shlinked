@@ -201,13 +201,19 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     followers = Profiles.list_followers(socket.assigns.show_profile)
 
     socket
-    |> assign(:page_title, "#{socket.assigns.show_profile.persona_name}'s Stalkers")
+    |> assign(:page_title, "#{socket.assigns.show_profile.persona_name}'s Shfollowers")
     |> assign(:friends, followers)
   end
 
   defp apply_action(socket, :show_ad_clicks, _) do
     socket
     |> assign(:page_title, "#{socket.assigns.show_profile.persona_name}'s Ad Clicks")
+  end
+
+  def handle_event(_event, _params, %{assigns: %{profile: nil}} = socket) do
+    {:noreply,
+     socket
+     |> push_redirect(to: Routes.user_registration_path(socket, :new))}
   end
 
   def handle_event("message", _, socket) do
