@@ -8,21 +8,21 @@ defmodule Shlinkedin.Profiles.FollowsTest do
     alias Shlinkedin.Profiles.Follow
     import Shlinkedin.ProfilesFixtures
 
-    test "script to get shlinks for profile (to convert to followers)" do
-      p1 = profile_fixture()
-      p2 = profile_fixture()
-      p3 = profile_fixture()
+    # test "script to get shlinks for profile (to convert to followers)" do
+    #   p1 = profile_fixture()
+    #   p2 = profile_fixture()
+    #   p3 = profile_fixture()
 
-      {:ok, _} = Profiles.send_friend_request(p1, p2)
-      {:ok, _} = Profiles.send_friend_request(p1, p3)
+    #   {:ok, _} = Profiles.send_friend_request(p1, p2)
+    #   {:ok, _} = Profiles.send_friend_request(p1, p3)
 
-      {:ok, _} = Profiles.accept_friend_request(p2, p1)
-      {:ok, _} = Profiles.accept_friend_request(p3, p1)
+    #   {:ok, _} = Profiles.accept_friend_request(p2, p1)
+    #   {:ok, _} = Profiles.accept_friend_request(p3, p1)
 
-      Profiles.get_connections(p1)
-      |> Enum.map(fn connection -> Profiles.create_follow(p1, connection))
-      |> IO.inspect(label: "connections")
-    end
+    #   Profiles.get_connections(p1)
+    #   |> Enum.map(fn connection -> Profiles.create_follow(p1, connection))
+    #   |> IO.inspect(label: "connections")
+    # end
 
     test "create_follow/0 works" do
       p1 = profile_fixture()
@@ -71,19 +71,5 @@ defmodule Shlinkedin.Profiles.FollowsTest do
       assert {:ok, _follow} = Profiles.unfollow(from, to)
       assert Profiles.list_followers(to) |> Enum.map(& &1.id) == []
     end
-
-    # test "list_following/1 returns all following" do
-    #   from = profile_fixture()
-    #   another_from = profile_fixture()
-    #   to = profile_fixture()
-
-    #   {:ok, _follow} = Profiles.create_follow(from, to)
-    #   assert Profiles.list_following(to) |> Enum.map(& &1.id) == []
-    #   assert Profiles.list_following(from) |> Enum.map(& &1.id) == [to.id]
-
-    #   {:ok, _follow} = Profiles.create_follow(another_from, to)
-    #   assert Profiles.list_following(to) |> Enum.map(& &1.id) == []
-    #   assert Profiles.list_following(another_from) |> Enum.map(& &1.id) == [to.id]
-    # end
   end
 end
