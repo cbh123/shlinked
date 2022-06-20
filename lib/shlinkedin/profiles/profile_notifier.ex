@@ -367,7 +367,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     if to_profile.unsubscribed == false do
       Shlinkedin.Email.new_email(
         to_profile.user.email,
-        "#{from_profile.persona_name} has sent you a shlink request!",
+        "#{from_profile.persona_name} has followed you!",
         body
       )
       |> Shlinkedin.Mailer.deliver_later()

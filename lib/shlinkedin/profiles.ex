@@ -281,7 +281,8 @@ defmodule Shlinkedin.Profiles do
         "persona_name" => "god",
         "slug" => "god",
         "title" => "god",
-        "username" => "god"
+        "username" => "god",
+        "admin" => "true"
       })
 
     profile
