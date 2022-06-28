@@ -216,7 +216,7 @@ defmodule Shlinkedin.Timeline.Generators do
       "doing “private” stuff",
       "teaching Jeff Bezos how to read",
       "helping small business learn how to better use Salesforce",
-      "inventing penicillin ",
+      "inventing penicillin",
       "teaching entrepreneurs how to network",
       "teaching entrepreneurship to networkers",
       "juggling to entertain orphan veterans",
@@ -228,7 +228,11 @@ defmodule Shlinkedin.Timeline.Generators do
       "getting my 4th vaccine",
       "pondering my philosophy books",
       "admiring my library of classic literature",
-      "telling everyone that they are beautiful no matter what shape their head is"
+      "telling everyone that they are beautiful no matter what shape their head is",
+      "spoon-feeding rainforest turtles",
+      "getting on my hands and knees and donating a day trip on my January yacht to a poor",
+      "investing in the future of dog karate",
+      "inventing which way is Weast"
     ]
     |> Enum.random()
   end
@@ -284,7 +288,10 @@ defmodule Shlinkedin.Timeline.Generators do
       "a pack of wild interns",
       "HR",
       "a toaster that was made conscious by a kind wizard’s spell",
-      "a hard-boiled private detective"
+      "a hard-boiled private detective",
+      "a very tiny baby caterpillar",
+      "an itty bitty microscopic infant",
+      "a sweet old lady wearing a cape and bloomers"
     ]
     |> Enum.random()
   end
@@ -333,7 +340,9 @@ defmodule Shlinkedin.Timeline.Generators do
       "Crunch all my fingers in their mouth",
       "Pierce me with their pointy teeth",
       "Give me rabies with a single bite",
-      "Douse me in toxic mystery liquids"
+      "Douse me in toxic mystery liquids",
+      "Squish me into itty bitty pieces then light me on fire",
+      "Reverse my skin on my bones"
     ]
     |> Enum.random()
     |> String.downcase()
@@ -373,7 +382,9 @@ defmodule Shlinkedin.Timeline.Generators do
       "Frustrated with the tangled webs that we weave",
       "Greasy",
       "Damp",
-      "Ticklish "
+      "Ticklish",
+      "Squeamish",
+      "Approaching absolute 0 IQ"
     ]
     |> Enum.random()
     |> String.downcase()
@@ -401,7 +412,8 @@ defmodule Shlinkedin.Timeline.Generators do
       "ask my pediatrician for help",
       "keel over in agony like a lesser human would",
       "look up at the cloudy skies and cry out, “Why, God? Why hast thou forsaken me?”",
-      "fight back. Though I could have—you see, I’m a black belt in Krav Maga and in my spare time I teach it to children who don’t have teeth for free. Krav Maga isn’t about attacking, it’s about self-defense. But sometimes, self-defense is about attacking, so naturally, I didn’t fight back like I said earlier. I definitely know Krav Maga please stop asking for demonstrations I can’t right now because I'm BUSY"
+      "fight back. Though I could have—you see, I’m a black belt in Krav Maga and in my spare time I teach it to children who don’t have teeth for free. Krav Maga isn’t about attacking, it’s about self-defense. But sometimes, self-defense is about attacking, so naturally, I didn’t fight back like I said earlier. I definitely know Krav Maga please stop asking for demonstrations I can’t right now because I'm BUSY",
+      "count my fingers and toes"
     ]
     |> Enum.random()
   end
@@ -425,7 +437,8 @@ defmodule Shlinkedin.Timeline.Generators do
       "“Who is your Chief Revenue Officer? Has your C-Suite been fully integrated with the cloud?”",
       "“Where is the cloud?”",
       "“Do you have actionable insights to make data-driven decisions?”",
-      "“Are you tired of manual processes slowing down your sales process?”"
+      "“Are you tired of manual processes slowing down your sales process?”",
+      "“Can we jump on a quick 20 minute call?”"
     ]
     |> Enum.random()
   end
