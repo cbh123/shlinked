@@ -3,7 +3,7 @@ defmodule Shlinkedin.Timeline.Generators do
     surprising_aggressor = surprising_aggressor()
 
     """
-    Storytime... When I was #{young_identifier()}, I lived #{poor_condition()}. We had to fight to survive — I once #{weird_brutal_action()}. #{question_quote()}
+    Storytime... When I was #{young_identifier()}, I lived #{poor_condition()}. We had to #{survival_requirement()} to survive — I once #{weird_brutal_action()}. #{question_quote()}
 
     Well, something even worse happened to me. One day, when I was #{blatantly_self_aggrandizing_charitable_action()}, a #{surprising_aggressor} managed to #{crime()}. I was left extremely #{adjective()}.
 
@@ -84,7 +84,32 @@ defmodule Shlinkedin.Timeline.Generators do
       "so small that my legs didn’t touch the ground when I sat on a chair",
       "so young that I didn’t even know what business meant",
       "young and reckless",
-      "young and beautiful"
+      "young and beautiful",
+      "young and useless"
+    ]
+    |> Enum.random()
+  end
+
+  @doc """
+  Returns a survival requirement for template generator
+  """
+  def survival_requirement() do
+    [
+      "fight",
+      "eat the weak",
+      "eat soil and tin can lids",
+      "dig a big, big hole",
+      "sell grandpappy's dentures",
+      "move into uncle Shlem's house",
+      "plug our ears and close our eyes",
+      "sell all our cousins' kidneys",
+      "squeeze our tippy toes and fingers together",
+      "bend our legs backwards like aliens",
+      "infiltrate a wild pack of puppy dogs",
+      "trick our friends",
+      "poke our belly buttons 3 times",
+      "split up",
+      "wiggle around in a tiny circle"
     ]
     |> Enum.random()
   end
