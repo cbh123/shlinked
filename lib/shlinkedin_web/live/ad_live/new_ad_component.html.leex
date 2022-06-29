@@ -1,22 +1,20 @@
+<%= unless is_nil(@ad) do %>
 <div class="shadow-lg relative rounded-lg my-3" id="ad-component-<%=@ad.id%>">
 
-    <button id="ad-image-<%=@ad.id%>" phx-click="ad-click"
-        phx-value-id="<%=@ad.id%>" phx-target="<%=@myself%>"
+    <button id="ad-image-<%=@ad.id%>" phx-click="ad-click" phx-value-id="<%=@ad.id%>" phx-target="<%=@myself%>"
         class="relative group block w-full aspect-w-10 aspect-h-7  rounded-t-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
 
-        <img src="<%= if  is_nil(@ad.media_url), do: @ad.gif_url, else: @ad.media_url %>"
-            alt=""
+        <img src="<%= if  is_nil(@ad.media_url), do: @ad.gif_url, else: @ad.media_url %>" alt=""
             class="<%= if @type == :market and is_sold?(@ad) and not is_owner?(@ad, @profile), do: "filter blur-sm" %> object-cover pointer-events-none group-hover:opacity-75">
 
         <div
             class="flex items-end w-full h-full rounded-t-lg bg-black bg-opacity-20 text-white text-sm font-bold  p-4 ">
             <div class="w-1/2 flex items-center">
-                <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
-                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="2"
+                <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                 </svg>
                 <span><%= count_unique_ad_clicks(@ad) %></span>
@@ -40,8 +38,7 @@
 
         <%= if is_sold?(@ad) and not is_owner?(@ad, @profile) do %>
         <div class="">
-            <div
-                class="absolute transform rotate-45 top-6 -right-6 text-red-500 bg-white h-6 w-32 text-center">
+            <div class="absolute transform rotate-45 top-6 -right-6 text-red-500 bg-white h-6 w-32 text-center">
                 <span class="text-red-600 font-semibold">
                     SOLD </span>
             </div>
@@ -59,8 +56,7 @@
 
     <div class="pt-2 px-3 pb-3 bg-white rounded-b-lg">
         <div>
-            <p
-                class="block text-sm font-medium text-gray-900 truncate pointer-events-none">
+            <p class="block text-sm font-medium text-gray-900 truncate pointer-events-none">
                 <%= @ad.product %></p>
 
 
@@ -106,13 +102,11 @@
 
             <%# there is an owner and it's not you %>
             <% is_sold?(@ad) and not is_owner?(@ad, @profile) -> %>
-            <button type="button" phx-value-owner-id="<%=@ad.owner_id%>"
-                phx-target="<%= @myself %>" phx-click="view"
+            <button type="button" phx-value-owner-id="<%=@ad.owner_id%>" phx-target="<%= @myself %>" phx-click="view"
                 class="truncate bg-white border border-gray-200 shadow-sm text-gray-500 w-full items-center px-4 py-2 text-sm font-medium rounded-full hover:bg-gray-50">
                 Visit
             </button>
-            <button type="button" phx-value-owner-id="<%=@ad.owner_id%>"
-                phx-target="<%= @myself %>" phx-click="message"
+            <button type="button" phx-value-owner-id="<%=@ad.owner_id%>" phx-target="<%= @myself %>" phx-click="message"
                 class="truncate bg-white border border-gray-200 shadow-sm text-gray-500 w-full items-center px-4 py-2 text-sm font-medium rounded-full hover:bg-gray-50">
                 Message
             </button>
@@ -120,8 +114,7 @@
 
             <%# otherwise, you can buy %>
             <% true -> %>
-            <button type="button" phx-click="buy-ad"
-                id="ad-<%=@ad.id%>-like-buy" phx-target="<%= @myself %>"
+            <button type="button" phx-click="buy-ad" id="ad-<%=@ad.id%>-like-buy" phx-target="<%= @myself %>"
                 data-confirm="<%= if profile_can_afford?(@profile, @ad), do: "Buy '#{@ad.product}' for #{@ad.price}?", else: "You are too poor to buy this." %>"
                 class="<%= if @spin, do: "animate-spin" %> bg-blue-100 text-blue-600 hover:bg-blue-200 w-full items-center px-4 py-2 shadow-sm text-sm font-medium rounded-full   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 <%= @ad.price %>
@@ -160,4 +153,5 @@
                             parent_id: "ad-component-#{@ad.id}",
                             profile: @profile
                         %>
+<% end %>
 <% end %>

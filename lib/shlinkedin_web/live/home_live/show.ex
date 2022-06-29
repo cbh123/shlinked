@@ -151,8 +151,14 @@ defmodule ShlinkedinWeb.HomeLive.Show do
   end
 
   @impl true
-  def handle_info({:post_updated, post}, socket) do
+  def handle_info({:post_updated, post}, %{assigns: %{post: %{id: id}}} = socket)
+      when id == post.id do
     {:noreply, socket |> assign(post: post)}
+  end
+
+  @impl true
+  def handle_info({:post_updated, _post}, socket) do
+    {:noreply, socket}
   end
 
   @impl true
