@@ -23,6 +23,9 @@ defmodule ShlinkedinWeb.NotificationLive.NotificationComponent do
     n_slug = Shlinkedin.Repo.preload(n, :profile).profile.slug
 
     case n.type do
+      "new_follower" ->
+        {:noreply, redirect(socket, to: "/sh/#{n_slug}/notifications")}
+
       "endorsement" ->
         {:noreply, redirect(socket, to: "/sh/#{my_slug}/notifications")}
 
