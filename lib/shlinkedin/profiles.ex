@@ -59,7 +59,7 @@ defmodule Shlinkedin.Profiles do
     time_in_seconds = Shlinkedin.Helpers.parse_time(time_range)
     time = NaiveDateTime.utc_now() |> NaiveDateTime.add(time_in_seconds, :second)
 
-    query = from p in Profile, where: p.inserted_at >= ^time
+    query = from(p in Profile, where: p.inserted_at >= ^time)
 
     Repo.aggregate(query, :count)
   end
@@ -267,6 +267,7 @@ defmodule Shlinkedin.Profiles do
   If no username is "god", returns new profile fixture. So in prod,
   it always returns god. In dev it returns new god fixture.
   """
+
   def get_god do
     get_profile_by_username("god")
     |> get_god_profile()

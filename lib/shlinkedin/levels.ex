@@ -48,6 +48,11 @@ defmodule Shlinkedin.Levels do
           name: "Join the Discord",
           route: "https://discord.gg/BkQGryuGjn",
           done: profile.joined_discord
+        },
+        %{
+          name: "Work",
+          route: Routes.home_index_path(socket, :index),
+          done: Profiles.get_work_streak(profile) >= 1
         }
       ],
       1 => [
@@ -66,6 +71,16 @@ defmodule Shlinkedin.Levels do
           done: Profiles.count_jabs(profile) >= 1,
           route: Routes.users_index_path(socket, :index),
           name: "Business Jab someone"
+        },
+        %{
+          name: "Get one Shfollower",
+          route: Routes.profile_show_path(socket, :show_friends, profile.slug),
+          done: Profiles.count_followers(profile) >= 1
+        },
+        %{
+          name: "Work Streak: 3 days",
+          route: Routes.home_index_path(socket, :index),
+          done: Profiles.get_work_streak(profile) >= 3
         }
       ],
       2 => [
@@ -83,6 +98,16 @@ defmodule Shlinkedin.Levels do
           name: "Join 1 group",
           done: length(Shlinkedin.Groups.list_profile_groups(profile)) >= 1,
           route: Routes.group_index_path(socket, :index)
+        },
+        %{
+          name: "Get 5 Shfollowers",
+          route: Routes.profile_show_path(socket, :show_friends, profile.slug),
+          done: Profiles.count_followers(profile) >= 5
+        },
+        %{
+          name: "Work Streak: 1 week",
+          route: Routes.home_index_path(socket, :index),
+          done: Profiles.get_work_streak(profile) >= 7
         }
       ],
       3 => [
@@ -100,6 +125,16 @@ defmodule Shlinkedin.Levels do
           name: "Receive a review",
           done: length(Profiles.list_testimonials(profile.id)) >= 1,
           route: Routes.profile_show_path(socket, :show, profile.slug)
+        },
+        %{
+          name: "Get 50 Shfollowers",
+          route: Routes.profile_show_path(socket, :show_friends, profile.slug),
+          done: Profiles.count_followers(profile) >= 50
+        },
+        %{
+          name: "Work Streak: 1 fortnight",
+          route: Routes.home_index_path(socket, :index),
+          done: Profiles.get_work_streak(profile) >= 14
         }
       ],
       4 => [
@@ -118,6 +153,16 @@ defmodule Shlinkedin.Levels do
           name: "Win 1 Trophy",
           done: length(Profiles.list_awards(profile)) >= 1,
           route: Routes.profile_show_path(socket, :show, profile.slug)
+        },
+        %{
+          name: "Get 100 Shfollowers",
+          route: Routes.profile_show_path(socket, :show_friends, profile.slug),
+          done: Profiles.count_followers(profile) >= 100
+        },
+        %{
+          name: "Work Streak: 1 month",
+          route: Routes.home_index_path(socket, :index),
+          done: Profiles.get_work_streak(profile) >= 30
         }
       ]
     }
