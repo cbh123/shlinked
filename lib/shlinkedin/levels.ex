@@ -48,11 +48,6 @@ defmodule Shlinkedin.Levels do
           name: "Join the Discord",
           route: "https://discord.gg/BkQGryuGjn",
           done: profile.joined_discord
-        },
-        %{
-          name: "Work",
-          route: Routes.home_index_path(socket, :index),
-          done: Profiles.get_work_streak(profile) >= 1
         }
       ],
       1 => [
@@ -76,11 +71,6 @@ defmodule Shlinkedin.Levels do
           name: "Get one Shfollower",
           route: Routes.profile_show_path(socket, :show_friends, profile.slug),
           done: Profiles.count_followers(profile) >= 1
-        },
-        %{
-          name: "Work Streak: 3 days",
-          route: Routes.home_index_path(socket, :index),
-          done: Profiles.get_work_streak(profile) >= 3
         }
       ],
       2 => [
@@ -103,11 +93,6 @@ defmodule Shlinkedin.Levels do
           name: "Get 5 Shfollowers",
           route: Routes.profile_show_path(socket, :show_friends, profile.slug),
           done: Profiles.count_followers(profile) >= 5
-        },
-        %{
-          name: "Work Streak: 1 week",
-          route: Routes.home_index_path(socket, :index),
-          done: Profiles.get_work_streak(profile) >= 7
         }
       ],
       3 => [
@@ -130,11 +115,6 @@ defmodule Shlinkedin.Levels do
           name: "Get 50 Shfollowers",
           route: Routes.profile_show_path(socket, :show_friends, profile.slug),
           done: Profiles.count_followers(profile) >= 50
-        },
-        %{
-          name: "Work Streak: 1 fortnight",
-          route: Routes.home_index_path(socket, :index),
-          done: Profiles.get_work_streak(profile) >= 14
         }
       ],
       4 => [
@@ -158,11 +138,6 @@ defmodule Shlinkedin.Levels do
           name: "Get 100 Shfollowers",
           route: Routes.profile_show_path(socket, :show_friends, profile.slug),
           done: Profiles.count_followers(profile) >= 100
-        },
-        %{
-          name: "Work Streak: 1 month",
-          route: Routes.home_index_path(socket, :index),
-          done: Profiles.get_work_streak(profile) >= 30
         }
       ]
     }
