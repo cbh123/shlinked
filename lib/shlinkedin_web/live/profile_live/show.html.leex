@@ -140,8 +140,9 @@
                 <% end %>
                 <% else  %>
                 <div class="sm:flex items-start sm:text-left text-center text-sm">
-                    <span class="text-gray-700 italic"><%= @show_profile.summary  %></span>
-
+                  <p class="text-gray-700 italic">
+                    <%= @show_profile.summary |> String.split("\n", trim: false) |> Enum.intersperse(Phoenix.HTML.Tag.tag(:br)) %>
+                  </p>
                 </div>
                 <% end %>
 
