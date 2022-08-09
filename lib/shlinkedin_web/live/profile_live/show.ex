@@ -513,4 +513,10 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
       }
     ]
   end
+
+  defp show_summary(%Profile{summary: nil}), do: ""
+
+  defp show_summary(%Profile{summary: summary}) do
+    summary |> String.split("\n", trim: false) |> Enum.intersperse(Phoenix.HTML.Tag.tag(:br))
+  end
 end
