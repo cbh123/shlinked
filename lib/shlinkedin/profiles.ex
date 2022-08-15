@@ -24,6 +24,17 @@ defmodule Shlinkedin.Profiles do
   alias Shlinkedin.Accounts.User
   alias Shlinkedin.Points
 
+  def recently_awarded_profiles(limit \\ 10) do
+    from(a in Award,
+      distinct: a.profile_id,
+      order_by: [desc: a.inserted_at],
+      limit: ^limit,
+      preload: :profile
+    )
+    |> Repo.all()
+    |> Enum.map(fn a -> a.profile end)
+  end
+
   @doc """
   Checks whether profile is moderator.
   """
