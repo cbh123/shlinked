@@ -15,8 +15,10 @@ defmodule ShlinkedinWeb.ProfileLive.RecommendedComponent do
     <section aria-labelledby="who-to-follow-heading">
     <div class="bg-white rounded-lg shadow">
         <div class="p-6">
-            <h2 id="who-to-follow-heading" class="text-base font-medium text-gray-900">Who to follow
+            <h2 id="who-to-follow-heading" class="text-base font-bold text-gray-900">Notable Shlinkers
             </h2>
+
+
             <div class="mt-6 flow-root">
                 <ul role="list" class="-my-4 divide-y divide-gray-200">
                 <%= for profile <- @profiles do %>
