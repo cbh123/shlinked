@@ -23,7 +23,7 @@
          <%= if not same_profile?(@show_profile, @profile) do %>
          <div class="my-4">
              <%= live_component @socket, ShlinkedinWeb.ProfileLive.FollowButton,
-                        id: "#{@show_profile.id}",
+                        id: "follow-#{@show_profile.id}",
                         follow_status: Shlinkedin.Profiles.is_following?(@profile, @show_profile),
                         profile: @profile,
                         to_profile: @show_profile,

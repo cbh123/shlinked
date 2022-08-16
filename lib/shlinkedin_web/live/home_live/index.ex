@@ -89,7 +89,7 @@ defmodule ShlinkedinWeb.HomeLive.Index do
             [get_ad(), post]
 
           index == 4 ->
-            [%{type: "featured_profiles", content: Profiles.list_featured_profiles(3)}, post]
+            [%{type: "featured_profiles", content: Profiles.recently_awarded_profiles(3)}, post]
 
           index == 3 ->
             [%{type: "tribune", content: random_tribune}, post]

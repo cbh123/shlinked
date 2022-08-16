@@ -61,6 +61,7 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
      |> assign(num_profile_views: Profiles.get_profile_views_not_yourself(show_profile))
      |> assign(testimonials: list_testimonials(show_profile.id))
      |> assign(count_followers: Profiles.count_followers(show_profile))
+     |> assign(recommended: Profiles.recently_awarded_profiles(5))
      |> assign(meta_attrs: meta_attrs(show_profile.persona_name, show_profile.photo_url))
      |> fetch_posts()
      |> fetch_gallery(),

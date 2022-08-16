@@ -34,7 +34,7 @@ defmodule ShlinkedinWeb.ProfileLive.FollowButton do
     random_emoji = ["🎉", "🤝", "💉", "HUSTLE", "🧨"] |> Enum.random()
 
     send_update(ShlinkedinWeb.ProfileLive.FollowButton,
-      id: id,
+      id: "follow-#{id}",
       follow_status: "following"
     )
 
@@ -46,7 +46,7 @@ defmodule ShlinkedinWeb.ProfileLive.FollowButton do
     Profiles.unfollow(socket.assigns.profile, to_profile)
 
     send_update(ShlinkedinWeb.ProfileLive.FollowButton,
-      id: id,
+      id: "follow-#{id}",
       follow_status: nil
     )
 
