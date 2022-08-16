@@ -15,8 +15,7 @@ defmodule ShlinkedinWeb.ProfileLive.RecommendedComponent do
     <section aria-labelledby="who-to-follow-heading">
     <div class="bg-white rounded-lg shadow">
         <div class="p-6">
-            <h2 id="who-to-follow-heading" class="text-base font-bold text-gray-900">Notable Shlinkers
-            </h2>
+            <h2 id="who-to-follow-heading" class="text-base font-bold text-gray-900"><%= if @title, do: @title, else: "Notable Shlinkers" %></h2>
 
 
             <div class="mt-6 flow-root">
@@ -38,7 +37,7 @@ defmodule ShlinkedinWeb.ProfileLive.RecommendedComponent do
                         </div>
                         <div class="flex-shrink-0">
                           <%= live_component ShlinkedinWeb.ProfileLive.FollowButton,
-                          id: "rec-follow-#{profile.id}",
+                          id: "follow-#{profile.id}",
                           follow_status: Shlinkedin.Profiles.is_following?(@profile, profile),
                           profile: @profile,
                           to_profile: profile
