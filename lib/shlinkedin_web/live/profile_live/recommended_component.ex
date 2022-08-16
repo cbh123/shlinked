@@ -51,9 +51,7 @@ defmodule ShlinkedinWeb.ProfileLive.RecommendedComponent do
                     <!-- More people... -->
                 </ul>
             </div>
-            <div class="mt-6">
-            <%= live_redirect "View All", to: Routes.users_index_path(@socket, :index), class: "w-full block text-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" %>
-            </div>
+
         </div>
     </div>
     </section>
