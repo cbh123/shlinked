@@ -25,11 +25,12 @@ defmodule Shlinkedin.Profiles do
   alias Shlinkedin.Points
 
   def recently_awarded_profiles(limit \\ 10) do
-    from(a in Award,
-      distinct: a.profile_id,
-      order_by: [desc: a.inserted_at],
-      limit: ^limit,
-      preload: :profile
+    query = from a in Award, order_by: [desc: a.inserted_at], limit: 20
+
+    from(q in query,
+      distinct: [q.profile_id],
+      preload: :profile,
+      limit: ^limit
     )
     |> Repo.all()
     |> Enum.map(fn a -> a.profile end)
