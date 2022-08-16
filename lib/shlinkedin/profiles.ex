@@ -30,6 +30,7 @@ defmodule Shlinkedin.Profiles do
     from(q in query,
       distinct: [q.profile_id],
       preload: :profile,
+      order_by: fragment("RANDOM()"),
       limit: ^limit
     )
     |> Repo.all()
