@@ -37,7 +37,7 @@ defmodule ShlinkedinWeb.ProfileLive.RecommendedComponent do
                         </div>
                         <div class="flex-shrink-0">
                           <%= live_component ShlinkedinWeb.ProfileLive.FollowButton,
-                          id: "follow-#{profile.id}",
+                          id: "rec-follow-#{profile.id}",
                           follow_status: Shlinkedin.Profiles.is_following?(@profile, profile),
                           profile: @profile,
                           to_profile: profile
