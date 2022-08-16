@@ -41,7 +41,7 @@ defmodule ShlinkedinWeb.ProfileLive.ProfilesModal do
 
             <div class="block">
                 <%= live_component @socket, ShlinkedinWeb.ProfileLive.FollowButton,
-                        id: "#{profile.id}",
+                        id: "modal-#{profile.id}",
                         follow_status: Shlinkedin.Profiles.is_following?(@profile, profile),
                         profile: @profile,
                         to_profile: profile

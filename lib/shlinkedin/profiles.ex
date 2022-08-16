@@ -27,7 +27,7 @@ defmodule Shlinkedin.Profiles do
   def recently_awarded_profiles(limit \\ 10) do
     from(a in Award,
       distinct: a.profile_id,
-      order_by: [asc: a.inserted_at],
+      order_by: [desc: a.inserted_at],
       limit: ^limit,
       preload: :profile
     )

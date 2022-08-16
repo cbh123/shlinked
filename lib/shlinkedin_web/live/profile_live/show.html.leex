@@ -246,12 +246,12 @@
                                 <div class="px-5 ml-3 pb-6">
 
                                     <%= live_component @socket, ShlinkedinWeb.ProfileLive.FollowButton,
-                        id: "follow-#{@show_profile.id}",
-                        follow_status: is_following?(@profile, @show_profile),
-                        profile: @profile,
-                        to_profile: @show_profile,
-                        return_to: Routes.profile_show_path(@socket, :show, @show_profile.slug)
-                        %>
+                                        id: "prof-follow-#{@show_profile.id}",
+                                        follow_status: is_following?(@profile, @show_profile),
+                                        profile: @profile,
+                                        to_profile: @show_profile,
+                                        return_to: Routes.profile_show_path(@socket, :show, @show_profile.slug)
+                                        %>
 
 
                                     <button type="button" phx-click="message"
