@@ -24,14 +24,20 @@ defmodule Shlinkedin.Profiles do
   alias Shlinkedin.Accounts.User
   alias Shlinkedin.Points
 
-  def recently_awarded_profiles(limit \\ 10) do
-    query = from a in Award, order_by: [desc: a.inserted_at], limit: 20
+  def recently_awarded_profiles(num_profiles, award_limit \\ 20) do
+    # get unique profiles awarded within the past award limit
+    profile_ids =
+      from(a in Award, order_by: [desc: a.inserted_at], limit: ^award_limit)
+      |> Repo.all()
+      |> Enum.map(fn p -> p.profile_id end)
+      |> Enum.uniq()
+      |> Enum.shuffle()
+      |> Enum.take(num_profiles)
 
-    from(q in query,
-      distinct: [q.profile_id],
+    from(a in Award,
       preload: :profile,
-      # order_by: fragment("RANDOM()"),
-      limit: ^limit
+      distinct: [a.profile_id],
+      where: a.profile_id in ^profile_ids
     )
     |> Repo.all()
     |> Enum.map(fn a -> a.profile end)
