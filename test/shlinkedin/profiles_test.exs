@@ -117,7 +117,7 @@ defmodule Shlinkedin.ProfilesTest do
   describe "work" do
     test "test date streaks", %{} do
       dates = [{~D[2022-05-07], 1}, {~D[2022-05-06], 1}, {~D[2022-05-05], 1}, {~D[2022-05-04], 1}]
-      assert Profiles.get_streak(dates) == 4
+      assert Profiles.get_streak(dates, 1) == 4
 
       dates = [
         {~D[2022-05-07], 1},
@@ -127,7 +127,7 @@ defmodule Shlinkedin.ProfilesTest do
         {~D[2022-05-01], 1}
       ]
 
-      assert Profiles.get_streak(dates) == 2
+      assert Profiles.get_streak(dates, 1) == 2
 
       dates = [
         {~D[2022-05-07], 1},
@@ -137,7 +137,7 @@ defmodule Shlinkedin.ProfilesTest do
         {~D[2022-05-01], 1}
       ]
 
-      assert Profiles.get_streak(dates) == 1
+      assert Profiles.get_streak(dates, 1) == 1
     end
   end
 end

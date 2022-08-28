@@ -1146,13 +1146,13 @@ defmodule Shlinkedin.Profiles do
     today = NaiveDateTime.utc_now() |> NaiveDateTime.to_date()
 
     if today == last or Date.diff(today, last) == 1 do
-      get_streak(dates) + last_weight
+      get_streak(dates, last_weight)
     else
       0
     end
   end
 
-  def get_streak(dates), do: _get_streak(dates, 0)
+  def get_streak(dates, last_weight), do: _get_streak(dates, 0) + last_weight
 
   defp _get_streak([{curr, _weight} | [{prev, prev_weight} | _] = tail], acc) do
     if Date.diff(curr, prev) == 1 do
