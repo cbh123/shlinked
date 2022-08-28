@@ -4,7 +4,18 @@
             <span class="italic text-xs font-windows font-base">
                 <%= if has_worked_today?(@profile) == true or @just_worked == true, do: "• See you tomorrow!" %></span>
         </h5>
-        <h2 class="font-windows"><%= @work_streak %></h2>
+        <div>
+            <h2 class="font-windows"><%= @work_streak %> <span class="text-xs"> 💼</span>
+
+
+            </h2>
+            <h2 class="font-windows">
+                <%= Shlinkedin.Profiles.get_interns(@profile) %>
+                <img class="h-4 w-4 inline-flex"
+                    src="https://cdn.discordapp.com/attachments/802619197934927922/1013542008696086649/intern2.png"
+                    alt="">
+            </h2>
+        </div>
     </div>
 
 
@@ -53,7 +64,11 @@
 
                     <p class="italic">- ShlinkedIn HQ</p>
 
+
                     <div class="text-center">
+                        <span class="text-green-500 text-lg">TODAY:
+                            +<%= Shlinkedin.Profiles.get_interns(@profile) %></span>
+                        <span>(you have <%= Shlinkedin.Profiles.get_interns(@profile) %> interns)</span>
                         <p class="text-8xl text-center"><%= @work_streak %></p>
 
                         <%= live_redirect raw("Leaderboard &rarr;"), to: Routes.leaderboard_index_path(@socket, :index, curr_category: "Work", weekly: false  ), class: "hover:bg-gray-200 p-2" %>
@@ -71,6 +86,10 @@
     <div class="pt-4 flex justify-between space-x-2 text-xl font-windows">
         <button phx-click="work" phx-target={@myself} phx-hook="ConfettiButton" id="💼📊📈"
             class="w-1/2 bg-blue-600 text-white rounded-lg px-2 py-1 hover:text-white hover:bg-blue-800">WORK</button>
+        <button phx-click="work" phx-target={@myself} phx-hook="ConfettiButton" id="💼📊📈"
+            class="w-1/2 bg-green-500 text-white rounded-lg px-2 py-1 hover:text-white hover:bg-green-800">HIRE
+            INTERN</button>
+
         <button
             class="w-1/2 uppercase bg-gray-300 rounded-lg text-gray-800 px-2 py-1 hover:text-white hover:bg-gray-400"
             data-confirm="NO">Request day off</button>

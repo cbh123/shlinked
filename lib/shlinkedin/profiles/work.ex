@@ -4,6 +4,7 @@ defmodule Shlinkedin.Profiles.Work do
 
   schema "work" do
     belongs_to(:profile, Shlinkedin.Profiles.Profile)
+    field :weight, :integer, default: 1
 
     timestamps()
   end
@@ -11,7 +12,7 @@ defmodule Shlinkedin.Profiles.Work do
   @doc false
   def changeset(work, attrs) do
     work
-    |> cast(attrs, [])
+    |> cast(attrs, [:weight])
     |> validate_required([])
   end
 end

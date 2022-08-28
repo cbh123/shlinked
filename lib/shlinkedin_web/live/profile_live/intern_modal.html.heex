@@ -1,0 +1,73 @@
+  <div class="">
+
+
+      <div class="bg-white px-4 py-4 border-b border-gray-200 sm:px-6 rounded-t-lg">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+              <%= @title %>
+          </h3>
+      </div>
+
+
+      <div class="p-5 text-center">
+          <h5 class="font-bold text-lg">Intern Actions</h5>
+          <div class="mt-2">
+              <button type="button" phx-hook="ConfettiButton" id="🍔" phx-click="feed" id={@intern.id}
+                  phx-value-intern={@intern.id} phx-target={@myself}
+                  class="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 shadow-sm font-semibold rounded-full">
+                  FEED
+              </button>
+
+
+              <button type="button" phx-hook="ConfettiButton" id="🕷️" phx-click="devour" id={@intern.id}
+                  phx-value-intern={@intern.id} phx-target={@myself}
+                  data-confirm="Are you sure you want this intern to be devoured by Office Spider?"
+                  class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 shadow-sm font-semibold rounded-full">
+                  DEVOUR
+              </button>
+          </div>
+      </div>
+
+      <div class="p-5">
+          <div class="font-windows text-center text-xl">
+              <p>Hunger: <%= Interns.get_intern_hunger(@intern) %></p>
+              <p>Last fed: <%= Timex.from_now(@intern.last_fed) %></p>
+              <p>Mood: <%= Interns.get_intern_mood(@intern) %></p>
+              <p>Born: <%= Timex.from_now(@intern.inserted_at) %></p>
+              <p>Work Output: +1</p>
+              <p>Status: <%= @intern.status %></p>
+          </div>
+
+
+          <%= live_component ShlinkedinWeb.ResumeLive.ResumeComponent,
+        id: "resume",
+        name: @intern.name,
+        address: @intern.address,
+        education: @intern.education,
+        major: @intern.major,
+        gpa: @intern.gpa,
+        summary: @intern.summary,
+        company1_name: @intern.company1_name,
+        company1_job: @intern.company1_job,
+        company1_title: @intern.company1_title,
+        company2_name: @intern.company2_name,
+        company2_job: @intern.company2_job,
+        company2_title: @intern.company2_title,
+        company3_name: @intern.company3_name,
+        company3_job: @intern.company3_job,
+        company3_title: @intern.company3_title,
+        hobbies: @intern.hobbies,
+        reference: @intern.reference,
+        profile: nil
+        %>
+
+          <div class="flex justify-end mt-8 bg-gray-100 -m-5 p-5 rounded-b-lg">
+
+              <%= live_patch "Done", to: @return_to, class: "ml-3 inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-full text-gray-600  bg-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"%>
+          </div>
+
+
+
+
+      </div>
+
+  </div>

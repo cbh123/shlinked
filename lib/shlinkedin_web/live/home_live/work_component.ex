@@ -5,7 +5,15 @@ defmodule ShlinkedinWeb.HomeLive.WorkComponent do
   def update(assigns, socket) do
     socket = socket |> assign(assigns)
     work_streak = Profiles.get_work_streak(socket.assigns.profile)
-    {:ok, assign(socket, just_worked: false, reward_message: nil, work_streak: work_streak)}
+    interns = Profiles.get_interns(socket.assigns.profile)
+
+    {:ok,
+     assign(socket,
+       just_worked: false,
+       reward_message: nil,
+       work_streak: work_streak,
+       interns: interns
+     )}
   end
 
   def has_worked_today?(profile), do: Profiles.has_worked_today?(profile)
@@ -21,7 +29,7 @@ defmodule ShlinkedinWeb.HomeLive.WorkComponent do
     reward_message = Shlinkedin.Timeline.get_random_reward_message()
 
     if not has_worked_today?(profile) do
-      {:ok, _work} = Profiles.create_work(profile)
+      {:ok, _work} = Profiles.create_work(profile, %{"weight" => profile.interns})
       work_streak = Profiles.get_work_streak(profile)
       {:ok, _profile} = Profiles.update_profile(profile, %{work_streak: work_streak})
 

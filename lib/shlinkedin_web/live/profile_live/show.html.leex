@@ -322,8 +322,65 @@
                                     </div>
                                 </div>
 
+                            </div>
+
+                            <%# Intern Pen %>
+                            <div class=" mt-2 rounded-lg overflow-hidden shadow px-5 py-5 bg-white">
+                                <div class="flex justify-between">
+                                    <h5 class="text-gray-900 font-bold text-xl pb-3 inline-block">
+                                        Intern Pen
+                                    </h5>
+
+                                    <%= live_patch to: Routes.market_index_path(@socket, :index, curr_category: "Upgrades") do %>
+                                    <button type="button"
+                                        class="bg-teal-500 hover:bg-teal-600 text-white inline-flex items-center px-4 py-2 shadow-sm font-semibold rounded-full">
+                                        + Intern
+                                    </button>
+                                    <% end %>
+                                </div>
+
+                                <%= for intern <- Profiles.list_interns(@show_profile) do %>
+
+
+                                <%= live_patch to: Routes.profile_show_path(@socket, :show_intern, @show_profile.slug, intern.id) do %>
+                                <div id="<%= intern.id %>" phx-value-intern="<%=intern.id%>"
+                                    class="inline-block text-center mx-1 hover:bg-gray-100 p-2">
+                                    <img class="w-6 h-6 mx-auto"
+                                        src="https://cdn.discordapp.com/attachments/802619197934927922/1013542008696086649/intern2.png"
+                                        alt="">
+                                    <p class="text-xs text-gray-500"><%= intern.name %></p>
+                                    <p class="text-xs text-gray-500">Last fed <%= Timex.from_now(intern.last_fed) %></p>
+                                </div>
+                                <% end %>
+                                <% end %>
+
 
                             </div>
+
+
+                            <%= if @show_profile.slug == "officespider" do %>
+                            <div class=" mt-2 rounded-lg overflow-hidden shadow px-5 py-5 bg-gray-900">
+                                <div class="flex justify-between">
+                                    <h5 class="text-red-500 font-bold text-xl pb-3 inline-block font-creepster">
+                                        DEVOURED INTERNS
+                                    </h5>
+                                </div>
+
+                                <%= for intern <- Profiles.list_devoured_interns() do %>
+                                <button class="inline-block text-center mx-1 hover:bg-gray-100 p-2">
+                                    <img class="w-6 h-6 mx-auto"
+                                        src="https://cdn.discordapp.com/attachments/802619197934927922/1013542008696086649/intern2.png"
+                                        alt="">
+                                    <p class="text-xs text-red-500 font-creepster"><%= intern.name %></p>
+                                    <p class="text-xs text-red-500">
+                                        <%= Shlinkedin.Interns.get_intern_birthyear(intern) %>-<%=intern.inserted_at.year%>
+                                    </p>
+                                </button>
+                                <% end %>
+
+
+                            </div>
+                            <% end %>
 
                             <%# Stuff %>
                             <div id="gallery" class="mt-2 rounded-lg overflow-hidden shadow p-5 bg-white">
@@ -860,6 +917,15 @@
 </div>
 
 
+<%= if @live_action in [:show_intern] do %>
+<%= live_modal @socket, ShlinkedinWeb.ProfileLive.InternModal,
+    id: @show_profile.id,
+    title: @intern.name,
+    intern: @intern,
+    action: @live_action,
+    profile: @profile,
+    return_to: Routes.profile_show_path(@socket, :show, @show_profile.slug) %>
+<% end %>
 
 
 <%= if @live_action in [:edit_awards] do %>

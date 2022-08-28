@@ -10,6 +10,8 @@ defmodule Shlinkedin.Profiles.Profile do
     field(:persona_name, :string)
     field(:persona_title, :string)
     field(:summary, :string)
+    field :interns, :integer, default: 0
+    field :intern_names, {:array, :string}, default: []
 
     field(:admin, :boolean)
     field(:unsubscribed, :boolean, default: false)
@@ -108,7 +110,9 @@ defmodule Shlinkedin.Profiles.Profile do
       :resume_link,
       :confetti_emoji,
       :work_streak,
-      :has_sent_one_shlink
+      :has_sent_one_shlink,
+      :interns,
+      :intern_names
     ])
     |> validate_required([:persona_name, :slug, :username])
     |> downcase_username()

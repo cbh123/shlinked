@@ -23,6 +23,30 @@ defmodule Shlinkedin.Profiles do
 
   alias Shlinkedin.Accounts.User
   alias Shlinkedin.Points
+  alias Shlinkedin.Interns.Intern
+
+  def get_interns(nil), do: 0
+
+  def get_interns(%Profile{id: id}) do
+    from(i in Intern,
+      where: i.profile_id == ^id and i.status == "ALIVE"
+    )
+    |> Repo.aggregate(:count)
+  end
+
+  def list_interns(%Profile{id: id}) do
+    from(i in Intern,
+      where: i.profile_id == ^id and i.status == "ALIVE"
+    )
+    |> Repo.all()
+  end
+
+  def list_devoured_interns() do
+    from(i in Intern,
+      where: i.status == "DEVOURED"
+    )
+    |> Repo.all()
+  end
 
   def recently_awarded_profiles(num_profiles, award_limit \\ 20) do
     # get unique profiles awarded within the past award limit
@@ -1079,9 +1103,9 @@ defmodule Shlinkedin.Profiles do
   def get_work_streak(%Profile{id: profile_id}) do
     from(w in Work, where: w.profile_id == ^profile_id)
     |> Repo.all()
-    |> Enum.map(fn w -> w.inserted_at end)
-    |> Enum.map(fn d -> NaiveDateTime.to_date(d) end)
-    |> Enum.sort({:desc, Date})
+    |> Enum.map(fn w -> {w.inserted_at, w.weight} end)
+    |> Enum.map(fn {date, weight} -> {NaiveDateTime.to_date(date), weight} end)
+    |> Enum.sort_by(&elem(&1, 0), {:desc, Date})
     |> get_streak_as_of_today()
   end
 
@@ -1118,21 +1142,21 @@ defmodule Shlinkedin.Profiles do
   """
   def get_streak_as_of_today([]), do: 0
 
-  def get_streak_as_of_today([last | _] = dates) do
+  def get_streak_as_of_today([{last, last_weight} | _] = dates) do
     today = NaiveDateTime.utc_now() |> NaiveDateTime.to_date()
 
     if today == last or Date.diff(today, last) == 1 do
-      get_streak(dates)
+      get_streak(dates) + last_weight
     else
       0
     end
   end
 
-  def get_streak(dates), do: _get_streak(dates, 1)
+  def get_streak(dates), do: _get_streak(dates, 0)
 
-  defp _get_streak([curr | [prev | _] = tail], acc) do
+  defp _get_streak([{curr, _weight} | [{prev, prev_weight} | _] = tail], acc) do
     if Date.diff(curr, prev) == 1 do
-      _get_streak(tail, acc + 1)
+      _get_streak(tail, acc + prev_weight)
     else
       _get_streak([], acc)
     end
