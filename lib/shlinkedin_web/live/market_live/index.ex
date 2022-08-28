@@ -193,7 +193,7 @@ defmodule ShlinkedinWeb.MarketLive.Index do
   defp calc_intern_cost(nil), do: Money.new(5000)
 
   defp calc_intern_cost(%Profile{} = profile) do
-    Money.new(5000 * 2 ** Profiles.get_interns(profile))
+    Money.new(5000 * :math.pow(2, Profiles.get_interns(profile)))
   end
 
   defp check_money(cost, %Profile{points: points} = profile) do
