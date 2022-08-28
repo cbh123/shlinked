@@ -10,6 +10,7 @@ defmodule Shlinkedin.Profiles.Profile do
     field(:persona_name, :string)
     field(:persona_title, :string)
     field(:summary, :string)
+    field :interns, :integer, default: 0
 
     field(:admin, :boolean)
     field(:unsubscribed, :boolean, default: false)
