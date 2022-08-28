@@ -3,6 +3,10 @@ defmodule ShlinkedinWeb.MarketLive.Index do
   alias Shlinkedin.Ads
   alias Shlinkedin.Ads.Ad
   alias Shlinkedin.Points
+  alias Shlinkedin.Profiles.Profile
+  alias Shlinkedin.Profiles
+  alias Shlinkedin.Interns
+  alias Shlinkedin.Timeline.Generators
 
   @impl true
   def mount(_params, session, socket) do
@@ -79,6 +83,52 @@ defmodule ShlinkedinWeb.MarketLive.Index do
      |> fetch_ads()}
   end
 
+  def handle_event("buy-intern", _, socket) do
+    with {:ok, interns} <-
+           calc_intern_cost(socket.assigns.profile) |> check_money(socket.assigns.profile) do
+      company_name1 = Generators.company_name()
+      company_name2 = Generators.company_name()
+      company_name3 = Generators.company_name()
+
+      {:ok, intern} =
+        Interns.create_intern(socket.assigns.profile, %{
+          name: Interns.get_random_intern_name(),
+          age: Enum.random(0..100),
+          last_fed: NaiveDateTime.utc_now(),
+          address: Generators.address(),
+          education: Generators.institution(),
+          major: Generators.major(),
+          gpa: Generators.gpa(),
+          summary: Generators.summary(),
+          company1_name: company_name1,
+          company1_title: Generators.job_title(),
+          company1_job: Generators.job_description(),
+          company2_name: company_name2,
+          company2_title: Generators.job_title(),
+          company2_job: Generators.job_description(),
+          company3_name: company_name3,
+          company3_title: Generators.job_title(),
+          company3_job: Generators.job_description(),
+          hobbies: Generators.hobbies(),
+          reference: Generators.reference()
+        })
+
+      {:noreply,
+       socket
+       |> put_flash(
+         :info,
+         "Congrats! You successfully hired #{intern.name}. You now have #{interns} interns."
+       )
+       |> push_redirect(to: Routes.profile_show_path(socket, :show, socket.assigns.profile.slug))}
+    else
+      {:error, error} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, error)
+         |> push_patch(to: Routes.market_index_path(socket, :index))}
+    end
+  end
+
   @impl true
   def handle_event("sort_ads", %{"sort-ads" => "Sort by Creation Date"}, socket) do
     sort_options = Map.replace(socket.assigns.sort_options, :sort_by, :inserted_at)
@@ -129,5 +179,19 @@ defmodule ShlinkedinWeb.MarketLive.Index do
 
   defp show_sold?(profile) do
     profile.show_sold_ads
+  end
+
+  defp calc_intern_cost(nil), do: Money.new(5000)
+
+  defp calc_intern_cost(%Profile{} = profile) do
+    Money.new(5000 * 2 ** Profiles.get_interns(profile))
+  end
+
+  defp check_money(cost, %Profile{points: points} = profile) do
+    if points.amount >= cost.amount do
+      {:ok, Profiles.get_interns(profile) + 1}
+    else
+      {:error, "You are too poor"}
+    end
   end
 end

@@ -5,10 +5,9 @@ defmodule ShlinkedinWeb.MarketLive.AdsListComponent do
     ~H"""
     <div class="flex justify-between mb-3">
     <div>
-    <div>
         <div class="inline-flex">
 
-            <%= _f =  form_for :category, "#", [phx_change: :sort_ads] %>
+            <.form let={f} for={:category}  phx-change="sort_ads">
 
             <select id="sort-ads" name="sort-ads"
                 class="mt-1 inline-block pl-3 pr-8 py-2 border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm rounded-md">
@@ -32,7 +31,7 @@ defmodule ShlinkedinWeb.MarketLive.AdsListComponent do
                 </span>
             </div>
 
-            </div>
+            </.form>
 
 
         </div>
@@ -55,9 +54,8 @@ defmodule ShlinkedinWeb.MarketLive.AdsListComponent do
     <ul role="list" id="ads" phx-update={@update_action} data-page={@page}
     class=" grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 xl:gap-x-8">
 
-
     <%= for ad <- @ads do %>
-    <%= live_component @socket, ShlinkedinWeb.AdLive.NewAdComponent, ad: ad,
+    <%= live_component ShlinkedinWeb.AdLive.NewAdComponent, ad: ad,
             id: "ad-#{ad.id}",
             profile: @profile,
             type: :market

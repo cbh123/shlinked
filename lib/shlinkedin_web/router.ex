@@ -239,6 +239,7 @@ defmodule ShlinkedinWeb.Router do
 
     # show profile
     live "/sh/:slug", ProfileLive.Show, :show
+    live "/sh/:slug/intern/:id", ProfileLive.Show, :show_intern
 
     # news
     live "/news", ContentLive.Index, :index

@@ -649,7 +649,7 @@ defmodule Shlinkedin.Timeline.Generators do
     "#{first_name()} #{middle_name()} #{last_name()}"
   end
 
-  defp first_name() do
+  def first_name() do
     [
       "Mr.",
       "Professor",

@@ -53,7 +53,8 @@
             <div class="px-4 py-6 sm:px-0">
 
                 <%= case @curr_category do %>
-                <%= "Ads" -> %>
+                <% "Ads" -> %>
+
                 <%= live_component ShlinkedinWeb.MarketLive.AdsListComponent,
                                     sort_options: @sort_options,
                                     update_action: @update_action,
@@ -62,12 +63,39 @@
                                     profile: @profile,
                                     total_pages: @total_pages
                                      %>
+                <% "Upgrades" -> %>
+
+                <ul role="list" id="ads"
+                    class=" grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 xl:gap-x-8">
+
+
+                    <li class="relative">
+                        <div
+                            class="group block w-full aspect-w-7 aspect-h-5 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
+                            <img src="https://cdn.discordapp.com/attachments/802619197934927922/1013542008696086649/intern2.png"
+                                alt="" class="object-contain pointer-events-none group-hover:opacity-75">
+                            <button phx-click="buy-intern" data-confirm={"Are you sure you want to hire ONE INTERN for
+                                #{calc_intern_cost(@profile)}?"} type="button"
+                                class="absolute inset-0 focus:outline-none">
+                                <span class="sr-only">Hire Intern</span>
+                            </button>
+                        </div>
+                        <p class="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">Intern
+                            • <%= calc_intern_cost(@profile) %>
+                        </p>
+                        <p class="block text-sm font-medium text-gray-500 pointer-events-none">Too busy to work? Hire an
+                            intern! If you miss a day, they'll work for you.
+                        </p>
+                    </li>
+
+                </ul>
+
                 <% _ -> %>
                 <div class="text-center">
                     <h5 class="text-4xl my-3 font-extrabold font-windows text-blue-700 animate-pulse">
                         Coming
                         Soon</h5>
-                    <img src="<%= Routes.static_path(@socket, "/images/404.gif") %>" alt="" class="w-96 mx-auto">
+                    <img src={Routes.static_path(@socket, "/images/404.gif" )} alt="" class="w-96 mx-auto">
                 </div>
                 <% end %>
 
