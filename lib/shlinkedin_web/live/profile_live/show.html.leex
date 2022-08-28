@@ -924,6 +924,7 @@
     intern: @intern,
     action: @live_action,
     profile: @profile,
+    status: @status || nil,
     return_to: Routes.profile_show_path(@socket, :show, @show_profile.slug) %>
 <% end %>
 

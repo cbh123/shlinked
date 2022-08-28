@@ -119,7 +119,16 @@ defmodule ShlinkedinWeb.MarketLive.Index do
          :info,
          "Congrats! You successfully hired #{intern.name}. You now have #{interns} interns."
        )
-       |> push_redirect(to: Routes.profile_show_path(socket, :show, socket.assigns.profile.slug))}
+       |> push_redirect(
+         to:
+           Routes.profile_show_path(
+             socket,
+             :show_intern,
+             socket.assigns.profile.slug,
+             intern.id,
+             status: :new_intern
+           )
+       )}
     else
       {:error, error} ->
         {:noreply,

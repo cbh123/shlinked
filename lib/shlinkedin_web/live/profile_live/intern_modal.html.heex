@@ -7,6 +7,14 @@
           </h3>
       </div>
 
+      <%= if @status == "new_intern" do %>
+      <p class="p-5 text-center bg-yellow-200 font-windows">
+          Say hi to your new intern, <%= @intern.name %>! They'll increase your work streak output +1 (as long as
+          they're alive). Don't forget to
+          feed
+          them!</p>
+      <% end %>
+
 
       <div class="p-5 text-center">
           <h5 class="font-bold text-lg">Intern Actions</h5>

@@ -211,11 +211,18 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
     |> assign(:page_title, "#{socket.assigns.show_profile.persona_name}'s Ad Clicks")
   end
 
+  defp apply_action(socket, :show_intern, %{"id" => id, "status" => status}) do
+    intern = Shlinkedin.Interns.get_intern!(id)
+
+    socket
+    |> assign(intern: intern, status: status)
+  end
+
   defp apply_action(socket, :show_intern, %{"id" => id}) do
     intern = Shlinkedin.Interns.get_intern!(id)
 
     socket
-    |> assign(intern: intern)
+    |> assign(intern: intern, status: nil)
   end
 
   def handle_event(_event, _params, %{assigns: %{profile: nil}} = socket) do
