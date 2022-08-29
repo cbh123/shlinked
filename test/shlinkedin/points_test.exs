@@ -8,7 +8,7 @@ defmodule Shlinkedin.PointsTest do
     %{profile: profile}
   end
 
-  test "total profile points", %{} do
+  test "total profile points?", %{} do
     %Money{amount: 200} = Points.get_total_points()
   end
 
