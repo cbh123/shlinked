@@ -9,7 +9,7 @@ defmodule Shlinkedin.PointsTest do
   end
 
   test "total profile points?", %{} do
-    %Money{amount: 200} = Points.get_total_points()
+    %Money{amount: 300} = Points.get_total_points()
   end
 
   test "add statistic", %{} do
@@ -20,6 +20,6 @@ defmodule Shlinkedin.PointsTest do
         total_points: total_points
       })
 
-    assert stat.total_points.amount == 200
+    assert stat.total_points.amount == 300
   end
 end
