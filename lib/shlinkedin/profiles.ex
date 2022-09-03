@@ -34,9 +34,9 @@ defmodule Shlinkedin.Profiles do
     |> Repo.aggregate(:count)
   end
 
-  def list_interns(%Profile{id: id}) do
+  def list_interns(%Profile{id: id}, status \\ "ALIVE") do
     from(i in Intern,
-      where: i.profile_id == ^id and i.status == "ALIVE"
+      where: i.profile_id == ^id and i.status == ^status
     )
     |> Repo.all()
   end
