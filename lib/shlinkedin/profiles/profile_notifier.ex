@@ -11,6 +11,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
   alias Shlinkedin.Points
   alias Shlinkedin.Ads.{AdLike, Ad}
   alias Shlinkedin.Ads
+  alias Shlinkedin.Interns.Intern
 
   @doc """
   Deliver instructions to confirm account.
@@ -75,9 +76,27 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
       :new_follower ->
         notify_new_follower(from_profile, to_profile, type)
+
+      :devoured_intern ->
+        notify_devoured_intern(from_profile, to_profile, res, type)
     end
 
     {:ok, res}
+  end
+
+  def notify_devoured_intern(
+        %Profile{} = from_profile,
+        %Profile{} = to_profile,
+        %Intern{name: name},
+        _type
+      ) do
+    Shlinkedin.Profiles.create_notification(%Notification{
+      from_profile_id: from_profile.id,
+      to_profile_id: to_profile.id,
+      type: "devoured_intern",
+      action: "devoured your intern, #{name}. We're sorry for your loss.",
+      body: ""
+    })
   end
 
   def notify({:error, changeset}, _type, _from, _to), do: {:error, changeset}
