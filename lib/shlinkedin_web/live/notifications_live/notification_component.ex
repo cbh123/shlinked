@@ -83,6 +83,9 @@ defmodule ShlinkedinWeb.NotificationLive.NotificationComponent do
 
       "ad_buy" ->
         {:noreply, redirect(socket, to: "/ads/#{n.ad_id}")}
+
+      "devoured_intern" ->
+        {:noreply, redirect(socket, to: "/sh/#{n_slug}")}
     end
   end
 end

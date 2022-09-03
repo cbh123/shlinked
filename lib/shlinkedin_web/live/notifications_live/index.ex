@@ -33,7 +33,7 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
         },
         socket
       ) do
-    n = Profiles.get_notification!(id)
+    n = Profiles.get_notification!(id) |> IO.inspect(label: "notifcation")
     Profiles.change_notification_to_read(id |> String.to_integer())
     my_slug = socket.assigns.profile.slug
 
@@ -98,6 +98,9 @@ defmodule ShlinkedinWeb.NotificationLive.Index do
 
       "ad_buy" ->
         {:noreply, push_redirect(socket, to: "/ads/#{n.ad_id}")}
+
+      "devoured_intern" ->
+        {:noreply, redirect(socket, to: "/sh/#{slug}")}
     end
   end
 
