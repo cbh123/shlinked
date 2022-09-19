@@ -1,22 +1,18 @@
 <%= link to: "/home", class: "w-1/5 flex justify-center" do %>
-<button
-    class="p-4<%= if @conn.request_path == "/home", do: " text-blue-500 italic italic"%>">
+<button class="p-4<%= if @conn.request_path == "/home", do: " text-blue-500 italic italic"%>">
     <span class=" sr-only">Home</span>
-    <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg">
+    <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
         <path
             d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
         </path>
     </svg>
-    <p class="pt-0.5">Home</p>
+    <p class="pt-0.5">Office</p>
 </button>
 <% end %>
 <%= link to: "/market", class: "w-1/5 flex justify-center" do %>
-<button
-    class="p-4<%= if @conn.request_path == "/market", do: " text-blue-500 italic"%>">
+<button class="p-4<%= if @conn.request_path == "/market", do: " text-blue-500 italic"%>">
     <span class=" sr-only">Market</span>
-    <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg">
+    <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
         <path
             d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z">
         </path>
@@ -30,14 +26,11 @@
 <% end %>
 
 <%= link to: "/home/posts/new", class: "w-1/5 flex justify-center" do %>
-<button
-    class="p-4<%= if @conn.request_path == "/home/posts/new", do: " text-blue-500 italic"%>">
+<button class="p-4<%= if @conn.request_path == "/home/posts/new", do: " text-blue-500 italic"%>">
     <span class=" sr-only">Post</span>
     <!-- Heroicon name: Profile -->
-    <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg">
-        <path
-            d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z">
+    <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z">
         </path>
         <path fill-rule="evenodd"
             d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
@@ -48,17 +41,14 @@
 </button>
 <% end %>
 <%= link to: "/updates", class: "w-1/5 flex justify-center" do %>
-<button
-    class="p-4 relative<%= if @conn.request_path == "/updates", do: " text-blue-500 italic"%>">
+<button class="p-4 relative<%= if @conn.request_path == "/updates", do: " text-blue-500 italic"%>">
     <span class=" sr-only">Updates</span>
     <%= if Shlinkedin.Profiles.get_last_read_notification_time(@profile) > @profile.last_checked_notifications do %>
-    <span
-        class="text-xs absolute top-2 right-2 block h-4 w-4 rounded-full ring-2 ring-white bg-red-600 text-white">
+    <span class="text-xs absolute top-2 right-2 block h-4 w-4 rounded-full ring-2 ring-white bg-red-600 text-white">
         <%= Shlinkedin.Profiles.get_unread_notification_count(@profile) %>
     </span>
     <% end %>
-    <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg">
+    <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
         <path
             d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z">
         </path>
