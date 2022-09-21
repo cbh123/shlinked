@@ -298,6 +298,11 @@ Hooks.Space = {
     this.el.addEventListener("click", (e) => {
       const id = e.target.value;
       const textarea = document.getElementById(id);
+      //https://stackoverflow.com/questions/15131072/check-whether-string-contains-a-line-break
+      var match = /\r|\n/.exec(textarea.value);
+      if (!match) {
+        alert('Must contain paragraph breaks to add excessive spaces'); 
+      } 
       textarea.value = textarea.value.replace(/\n/g, "\n\n");
     });
   },
