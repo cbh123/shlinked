@@ -82,8 +82,8 @@ in order to craft an excellent pull request:
 2. If you cloned a while ago, get the latest changes from upstream, and update your fork:
 
    ```bash
-   git checkout master
-   git pull upstream master
+   git checkout main
+   git pull upstream main
    git push
    ```
 
