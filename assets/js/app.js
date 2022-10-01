@@ -296,7 +296,7 @@ Hooks.Emojify = {
 Hooks.Space = {
   mounted() {
     this.el.addEventListener("click", (e) => {
-      const id = e.target.value; 
+      const id = e.target.value;
       const textarea = document.getElementById(id);
       //https://stackoverflow.com/questions/15131072/check-whether-string-contains-a-line-break
       var match = /\r|\n/.exec(textarea.value);
