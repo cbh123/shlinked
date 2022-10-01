@@ -300,18 +300,23 @@ Hooks.Space = {
       const id = e.target.value; //id is post-form_body 
       let textarea = document.getElementById(id);
       
-      let mySpecialThingy = document.getElementById('space-mode');
+      
+      var match = /\r|\n/.exec(textarea.value);
+      if (!match) {
+        let mySpecialThingy = document.getElementById('advancedFeatureErrorBox');
       console.log('print my special thingy');
       console.log(mySpecialThingy); //just says undefined
+      console.log('value of the innter text is ', mySpecialThingy.innerText);
+      mySpecialThingy.innerText = 'blah dee blah blah blah ';
+      document.getElementById('advancedFeatureErrorBox').innerText = 'Must include paragraph breaks to add excessive spaces';
+      console.log('okay should have changed it. now inner text is', mySpecialThingy.innerText);
       let printAllIds = document.querySelectorAll('*[id]');
       console.log(printAllIds);
       //https://stackoverflow.com/questions/15131072/check-whether-string-contains-a-line-break
-      var match = /\r|\n/.exec(textarea.value);
-      if (!match) {
         //alert('Must contain paragraph breaks to add excessive spaces'); 
         //textarea.value =`<span
         //class="text-red-500 font-semibold italic text-xs">blahblah</span>`;
-        alert(printAllIds);
+        //alert(printAllIds);
       } 
       
       textarea.value = textarea.value.replace(/\n/g, "\n\n");
