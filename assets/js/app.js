@@ -137,7 +137,6 @@ Hooks.ScrollDown = {
 Hooks.CopyToClipboard = {
   mounted() {
     this.el.addEventListener("click", (e) => {
-      alert('inside the copy to clipboard message');
       // @link https://css-tricks.com/copy-paste-the-web/
       // Select the email link anchor text
       const link = this.el.getAttribute("phx-value-link");
