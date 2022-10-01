@@ -137,6 +137,7 @@ Hooks.ScrollDown = {
 Hooks.CopyToClipboard = {
   mounted() {
     this.el.addEventListener("click", (e) => {
+      alert('inside the copy to clipboard message');
       // @link https://css-tricks.com/copy-paste-the-web/
       // Select the email link anchor text
       const link = this.el.getAttribute("phx-value-link");
@@ -296,13 +297,23 @@ Hooks.Emojify = {
 Hooks.Space = {
   mounted() {
     this.el.addEventListener("click", (e) => {
-      const id = e.target.value;
-      const textarea = document.getElementById(id);
+      const id = e.target.value; //id is post-form_body 
+      let textarea = document.getElementById(id);
+      
+      let mySpecialThingy = document.getElementById('space-mode');
+      console.log('print my special thingy');
+      console.log(mySpecialThingy); //just says undefined
+      let printAllIds = document.querySelectorAll('*[id]');
+      console.log(printAllIds);
       //https://stackoverflow.com/questions/15131072/check-whether-string-contains-a-line-break
       var match = /\r|\n/.exec(textarea.value);
       if (!match) {
-        alert('Must contain paragraph breaks to add excessive spaces'); 
+        //alert('Must contain paragraph breaks to add excessive spaces'); 
+        //textarea.value =`<span
+        //class="text-red-500 font-semibold italic text-xs">blahblah</span>`;
+        alert(printAllIds);
       } 
+      
       textarea.value = textarea.value.replace(/\n/g, "\n\n");
     });
   },
