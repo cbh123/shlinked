@@ -34,7 +34,8 @@ npm-debug.log
 /priv/static/
 
 .env
-
+.env.**
 **/.DS_Store
 
 /.elixir_ls/
+config/prod.secret.exs

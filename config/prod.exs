@@ -11,9 +11,14 @@ use Mix.Config
 # before starting your production server.
 config :shlinkedin, ShlinkedinWeb.Endpoint,
   http: [port: {:system, "PORT"}],
-  url: [scheme: "https", host: "www.shlinkedin.com", port: 443],
+  url: [scheme: "https", host: "shlinkedin.com", port: 443],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  cache_static_manifest: "priv/static/cache_manifest.json",
+  check_origin: [
+    "https://shlinkedin.com",
+    "https://shlinkedin.fly.dev",
+    "https://www.shlinkedin.com"
+  ]
 
 # Do not print debug messages in production
 config :logger, level: :info
@@ -54,5 +59,4 @@ config :logger, level: :info
 
 # Finally import the config/prod.secret.exs which loads secrets
 # and configuration from environment variables.
-import_config "prod.secret.exs"
-config :appsignal, :config, active: true
+# import_config "prod.secret.exs"
