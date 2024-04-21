@@ -74,5 +74,3 @@ config :phoenix, :stacktrace_depth, 20
 config :phoenix, :plug_init_mode, :runtime
 
 config :shlinkedin, Shlinkedin.Mailer, adapter: Bamboo.LocalAdapter
-
-config :appsignal, :config, active: true
