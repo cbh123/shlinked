@@ -11,11 +11,13 @@ use Mix.Config
 # before starting your production server.
 config :shlinkedin, ShlinkedinWeb.Endpoint,
   http: [port: {:system, "PORT"}],
-  url: [scheme: "https", host: "www.shlinkedin.com", port: 443],
+  url: [scheme: "https", host: "shlinkedin.com", port: 443],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json",
   check_origin: [
-    "https://shlinkedin.fly.dev"
+    "https://shlinkedin.com",
+    "https://shlinkedin.fly.dev",
+    "https://www.shlinkedin.com"
   ]
 
 # Do not print debug messages in production

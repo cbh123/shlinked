@@ -11,7 +11,7 @@ kill_signal = 'SIGTERM'
   release_command = "/app/bin/migrate"
 
 [env]
-  PHX_HOST = 'shlinkedin.fly.dev'
+  PHX_HOST = 'shlinkedin.com'
   PORT = '8080'
 
 [experimental]
